@@ -1,0 +1,15 @@
+# ---- Build outputs / generated files (regenerable) ----
+build/
+managed_components/
+sdkconfig.old
+compile_commands.json
+
+# ---- IDE / editor ----
+.cache/
+.idea/
+*.swp
+
+# ---- OS junk ----
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,19 @@
+{
+    "cmake.sourceDirectory": "C:/Users/jack/OneDrive/桌面/smart_trash_can/xiaozhi-esp32",
+    "idf.currentSetup": "C:\\esp\\v6.0.2\\esp-idf",
+    "idf.flashType": "JTAG",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-builtin.cfg"
+    ],
+    "idf.customExtraVars": {
+        "ADF_PATH": "C:\\Espressif\\tools",
+        "OPENOCD_USB_ADAPTER_LOCATION": "2-2"
+    },
+    "clangd.path": "C:\\Espressif\\tools\\esp-clang\\esp-20.1.1_20250829\\esp-clang\\bin\\clangd.exe",
+    "clangd.arguments": [
+      "--background-index",
+      "--query-driver=**",
+      "--compile-commands-dir=c:\\Users\\jack\\OneDrive\\桌面\\smart_trash_can\\build"
+    ],
+    "idf.port": "COM8"
+}
