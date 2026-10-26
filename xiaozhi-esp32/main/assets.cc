@@ -285,7 +285,9 @@ bool Assets::LvglStrategy::Apply(Assets* assets, bool refresh_display_theme) {
     auto dark_theme = theme_manager.GetTheme("dark");
 
     cJSON* font = cJSON_GetObjectItem(root.get(), "text_font");
-    if (cJSON_IsString(font)) {
+    // 板子没有可用显示（例如未接 OLED，display 降级为 NoDisplay）时，LVGL 从未执行
+    // lv_init()，此时创建 LvglCBinFont 会走到未初始化的 TLSF 分配器并崩溃，因此先做判断。
+    if (cJSON_IsString(font) && lv_is_initialized()) {
         std::string fonts_text_file = font->valuestring;
         if (assets->GetAssetData(fonts_text_file, ptr, size)) {
             auto text_font = std::make_shared<LvglCBinFont>(ptr);
