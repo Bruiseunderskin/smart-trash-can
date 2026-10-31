@@ -53,3 +53,4 @@ jobs:
             ui/lvgl/preview/render/*.json
             ui/lvgl/preview/render/native-tests.log
             ui/lvgl/preview/.lvgl-preview/render-eval.json
+            ui/lvgl/preview/.lvgl-preview/logs/*.log
