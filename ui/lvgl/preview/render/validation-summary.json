@@ -1,7 +1,7 @@
 {
   "status": "Completed",
   "native_build": "PASS",
-  "ctest_scenarios": 48,
+  "ctest_scenarios": 49,
   "text_contrast_checks": 75,
   "touch_targets": 13,
   "spacing_navigation_checks": 27,
@@ -23,6 +23,6 @@
   "backend_integration": "NOT_TESTED",
   "learning_efficacy": "NOT_TESTED",
   "render_evaluation": "PASS",
-  "skill_unit_tests": 21,
+  "skill_unit_tests": 22,
   "native_frames": 17
 }

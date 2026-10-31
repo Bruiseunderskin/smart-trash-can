@@ -42,7 +42,7 @@ ui/lvgl/tools/.venv/bin/python tools/skills/lvgl-preview/scripts/evaluate_render
   --project-root "$PWD/ui/lvgl/preview" --manifest render/render-manifest.json
 ```
 
-`prepare_eval.py` 產生 fresh 原生測試、實際 glyph／文字邊界檢查、17 個 framebuffer 及 manifest。視覺檢視在截圖後獨立記錄於 `render/visual-review.json`，不能由截圖腳本自動填 PASS。已記錄的檢視只可重用完全相同的檔案或完整 RGBA 像素。
+`prepare_eval.py` 產生 fresh 原生測試、實際 glyph／文字邊界檢查、17 個 framebuffer 及 manifest。視覺檢視在截圖後獨立記錄於 `render/visual-review.json`，不能由截圖腳本自動填 PASS。已記錄的檢視只可重用完全相同的檔案或完整 RGBA 像素。Linux CI 明確使用 `--visual-review render/visual-review-linux.json`；已檢視的 Linux 基準圖保存在 `render/baselines/linux/`。它與 macOS 畫面的差異每個 RGB channel 最多為 1，屬色彩展開差異。兩個平台各自要求完整像素 hash 相同，不使用寬鬆差異門檻。
 
 結果為 `PASS`、`FAIL` 或 `INSUFFICIENT_EVIDENCE`。PASS 直接完成 native UI 評估；視窗可繼續顯示，不影響完成狀態。工具不會向舊紀錄中的 PID 發送終止訊號。build／runtime 失敗仍會還原備份。人手回饋屬可選的獨立記錄，不是交付閘門。
 

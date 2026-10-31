@@ -39,7 +39,7 @@ jobs:
       - name: Check the real UI and capture every required variant
         run: |
           ctest --test-dir ui/lvgl/preview/build --output-on-failure
-          python ui/lvgl/tools/prepare_eval.py
+          python ui/lvgl/tools/prepare_eval.py --visual-review render/visual-review-linux.json
       - name: Evaluate captures against recorded visual evidence
         run: |
           python tools/skills/lvgl-preview/scripts/evaluate_render.py --project-root "$PWD/ui/lvgl/preview" --manifest render/render-manifest.json

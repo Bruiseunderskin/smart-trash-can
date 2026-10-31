@@ -163,7 +163,15 @@ stc_ui_t *stc_ui_create(lv_obj_t *parent,stc_retry_cb retry,void *user) {
     lv_obj_add_event_cb(ui->container,container_deleted,LV_EVENT_DELETE,ui);render(ui,STC_IDLE);
     lv_label_set_text(find(ui,"score"),"0");return ui;
 }
-void stc_ui_destroy(stc_ui_t *ui) { if(ui){if(ui->scan)lv_anim_delete(ui->scan,scan_opacity);if(ui->container)lv_obj_delete(ui->container);lv_free(ui);} }
+void stc_ui_destroy(stc_ui_t *ui) {
+    if(!ui)return;
+    if(ui->scan)lv_anim_delete(ui->scan,scan_opacity);
+    if(ui->container)lv_obj_delete(ui->container);
+    /* Caller may release descriptors/pixels immediately after destroy. */
+    if(ui->original)lv_image_cache_drop(ui->original);
+    if(ui->cutout)lv_image_cache_drop(ui->cutout);
+    lv_free(ui);
+}
 static bool valid_category(int id) {return id>=0 && id<STC_CATEGORY_COUNT;}
 static bool probability(float v) {return isfinite(v)&&v>=0.0f&&v<=1.0f;}
 static bool transition(stc_ui_t *ui,stc_state_t to) {

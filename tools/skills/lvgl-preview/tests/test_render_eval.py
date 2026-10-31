@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import shutil
 import unittest
 from unittest.mock import patch, Mock
 from contextlib import redirect_stdout
@@ -12,6 +13,7 @@ import io
 from PIL import Image
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from evaluate_render import evaluate,digest
+from validate_skill import validate
 from preview import patch_main,archive_recorded,PreviewError,main as preview_main
 
 class RenderEvalTests(unittest.TestCase):
@@ -78,6 +80,11 @@ class RenderEvalTests(unittest.TestCase):
         script=Path(__file__).resolve().parents[1]/'scripts/record_decision.py'
         result=subprocess.run([sys.executable,str(script),'--project-root',str(self.root),'--decision','NO-GO'],capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr);self.assertEqual((self.root/'main.c').read_bytes(),b'before-preview');self.assertEqual(json.loads((directory/'state.json').read_text())['user_feedback'],'NO-GO')
+    def test_validator_reports_missing_runner_without_crashing(self):
+        skill=self.root/'skill'
+        shutil.copytree(Path(__file__).resolve().parents[1],skill,ignore=shutil.ignore_patterns('__pycache__'))
+        (skill/'scripts/preview.py').unlink()
+        self.assertIn('missing scripts/preview.py',validate(skill))
     def test_first_build_does_not_require_existing_executable(self):
         (self.root/'bin/main').unlink()
         (self.root/'CMakeLists.txt').write_text('project(fixture C)\n')

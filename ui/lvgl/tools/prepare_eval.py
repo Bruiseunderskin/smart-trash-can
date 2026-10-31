@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 """Collect fresh native checks/captures; visual review is deliberately separate."""
-import hashlib,json,os,re,subprocess,sys,tempfile,shutil
+import argparse,hashlib,json,os,re,subprocess,sys,tempfile,shutil
 from pathlib import Path
 UI=Path(__file__).resolve().parents[1];ROOT=UI.parents[1];PROJECT=UI/'preview';RENDER=PROJECT/'render'
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--visual-review',default='render/visual-review.json',help='reviewed baseline evidence relative to native preview root')
+args=parser.parse_args()
+review_path=(PROJECT/args.visual_review).resolve()
+if not review_path.is_relative_to(PROJECT.resolve()):raise SystemExit('Visual evidence must stay in preview root')
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def run(args,**kw):return subprocess.run([str(a)for a in args],capture_output=True,text=True,check=False,**kw)
 state=json.loads((PROJECT/'.lvgl-preview/state.json').read_text());exe=PROJECT/'bin/main';exehash=sha(exe)
@@ -36,8 +41,8 @@ for name in names:
  path=RENDER/(name+'.png');frames.append({'id':name,'state':frame_state,'path':str(path.relative_to(PROJECT)),'sha256':sha(path),'evidence_kind':'framebuffer'})
 checks={}
 for name in ['build','layout','glyphs','interaction','contrast_touch','visual_review']:
- path=RENDER/('native-checks.json'if name in ['build','layout','glyphs','interaction']else'design-checks.json'if name=='contrast_touch'else'visual-review.json')
+ path=RENDER/'native-checks.json'if name in ['build','layout','glyphs','interaction']else RENDER/'design-checks.json'if name=='contrast_touch'else review_path
  if path.is_file():checks[name]={'evidence':str(path.relative_to(PROJECT)),'sha256':sha(path)}
 manifest={'display':state['display'],'required_states':states,'required_frames':names,'frames':frames,'checks':checks}
 (RENDER/'render-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
-print(f'Prepared {len(frames)} native captures and {native["scenario_count"]} scenarios. Inspect images and record render/visual-review.json before evaluation.')
+print(f'Prepared {len(frames)} native captures and {native["scenario_count"]} scenarios. Inspect images and record the selected visual review before evaluation.')

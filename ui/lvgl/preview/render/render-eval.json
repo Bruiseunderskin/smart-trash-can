@@ -248,7 +248,7 @@
     },
     "interaction": {
       "status": "PASS",
-      "details": "48 native scenarios; state/actions, post-completion navigation, counters and lifecycle"
+      "details": "49 native scenarios; state/actions, post-completion navigation, counters and lifecycle"
     },
     "visual_review": {
       "status": "PASS",
@@ -264,5 +264,5 @@
     "Visual review is agent evidence, not human approval or hardware proof."
   ],
   "preview_window": "lifecycle independent of evaluation; no persisted PID signalled",
-  "run_id": "20261031T162917Z-69991"
+  "run_id": "20261031T163642Z-75080"
 }

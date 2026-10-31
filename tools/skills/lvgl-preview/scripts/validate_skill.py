@@ -23,8 +23,10 @@ def validate(root: Path) -> list[str]:
     for phrase in ['hardware', '--project-root', 'evaluate_render.py', 'INSUFFICIENT_EVIDENCE']:
         if phrase not in text:
             failures.append(f'missing evaluation contract: {phrase}')
+    preview = skill/'scripts/preview.py'
+    preview_text = preview.read_text() if preview.is_file() else ''
     for forbidden in ['Leaves the preview pending until', 'record a decision first']:
-        if forbidden in text or forbidden in (skill/'scripts/preview.py').read_text():
+        if forbidden in text or forbidden in preview_text:
             failures.append(f'obsolete mandatory approval gate: {forbidden}')
     for name in ['scripts/preview.py','scripts/evaluate_render.py','scripts/record_decision.py','references/project-detection.md','references/render-evaluation.md','evals/evals.json','requirements.txt']:
         if not (skill/name).is_file():
@@ -52,7 +54,11 @@ def validate(root: Path) -> list[str]:
     except (OSError,ValueError) as exc:
         failures.append(str(exc))
     for name in ['preview.py','evaluate_render.py','record_decision.py','validate_skill.py']:
-        if not (skill/'scripts'/name).stat().st_mode & 0o111:
+        script = skill/'scripts'/name
+        if not script.is_file():
+            failures.append(f'missing scripts/{name}')
+            continue
+        if not script.stat().st_mode & 0o111:
             failures.append(f'not executable: {name}')
     return failures
 

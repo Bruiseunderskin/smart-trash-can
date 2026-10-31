@@ -1,0 +1,73 @@
+{
+  "reviewer": "agent_visual_inspection",
+  "human_approval": false,
+  "checks": {
+    "visual_review": {
+      "status": "PASS",
+      "details": "Inspected CI native nine-state overview, all four result/lesson variants, retry separation, padded cards and maximum-counter frames. No clipping, overlap or missing glyphs. All 17 Linux frames differ from inspected macOS frames by at most 1 per RGB channel; separate exact Linux hashes preserve strict comparison."
+    }
+  },
+  "frame_hashes": {
+    "idle": "cf898ccdfaf7e2f22a8e4ce96ca16e711137721c238c157a7e6e46f2cde177ec",
+    "capturing": "9fc8f457047837fa01421227bff11ae217f02915b14f793eaad85a3231b2b4b2",
+    "classifying": "e6e2c230c3a4218ce2fb3728ae07fa3d5f2d510cd6555253618689a70ec1e82e",
+    "result_ok": "07969ad82e3f3a439efd91310ba2592b48b3077cbe6c32abeaa91cca50c13c62",
+    "result_retry": "3192286d2022d35882113f5f9dcfbd72dacf5c59ee752b1ad66532ba47d41a0d",
+    "error": "7df19ceb422ea12a94a46ba4116d31dc6f404843cdaf306ba54cea8493af08cc",
+    "category_guide": "3a1dcb1c5384cb4040d7abe66278050923e1b008c25825273daf17e2bb407cc2",
+    "learning": "4b4ccf4c4597aa0362cb92fdc642ef4d7626edc8c71e4349dcd45580838abbdc",
+    "summary": "f3feb1ac2884ef4b8e868560cb97e05bbed987be8f68a2ab514e61694a3e5fcd",
+    "result-cat-1": "7a5f46a4d6fecccaaddda5550bc9b00db24d949b7075995bffa4591f0a1fbd93",
+    "result-cat-2": "958d6838c612537ab549b8a08975df8778c651e74035e6460dd4483b798b08ae",
+    "result-cat-3": "98fcea1fc2cc4fe9c617a73d3219459fe4885011e9a2df9a4cc4d76b687bb66e",
+    "learning-cat-1": "09ab3e414f72cf066e6f2fac8031f6b50bcc694de8d98626fb701a79c216c5eb",
+    "learning-cat-2": "715c8be14fb3fa51655832c26866584c9665f926c3f9e69d03ed73992697fbf3",
+    "learning-cat-3": "19bb829e3df08008f945b69561588627e9ffc483374c723e2969289abe61fedd",
+    "result-max": "c3ca26508abe52516bd7c1f3a10e3523a78c3726645f2b968d8c45dcc46262b2",
+    "summary-max": "0bde3f43f1a5a31a5da8ea52db1c38a85ce6275bcafe21cc1655f8d1b8af9deb"
+  },
+  "frame_pixel_hashes": {
+    "idle": "6c464941eea885b39609768164eb1cd554352d9374478fb14bf401a1afe35e1a",
+    "capturing": "1d0cbc3e5537b43083359a95872c5a1538e0f68df846b8e46ed38125a116c84f",
+    "classifying": "ac48fbf8bc057bb9dd0ca10b6fd508cc80d34b33f5b2631a4e7041b668fe3ef9",
+    "result_ok": "1a8d063f0afb40047f846117fa3857b8f5a44cd73a9901bcbd1cdefe619fbb2f",
+    "result_retry": "67444bc3e30a657b8c038a791f1b670cc41706728cf16f0a5375b2b0d58c9aa9",
+    "error": "e88dda194ef1d40ed9338c4712010691a188216d267d6b9697ad34b533224f83",
+    "category_guide": "49eb902a9a55ae9fa26ed58d92bec70a265bb160ff28a24ae42b07b60844a517",
+    "learning": "b860729935dff9e0c1c6f3ac83fbac3ca1f441f71c4f2352dbad6de32f4352b9",
+    "summary": "e3520d3abc8319947b4045ddd80e1c1a3334c18cfe2a7a33e67faa6681c6f22e",
+    "result-cat-1": "7172f519ee141ee7e597d9b395c01dc8ec83c850c78141a4faf947a8269dbff5",
+    "result-cat-2": "c7cde75ed03bd7dd08b2fc184a8032b5e7322264a9e4167d7fbddf1c0318feab",
+    "result-cat-3": "c707135ca51f81f5181f10fc3386f1a3e6fb712573d1a8a7d8846a0b73c429df",
+    "learning-cat-1": "63aa1f4763f1d16cf20ae54ca2828722b0a791f017247716b2eb9645c2f0f1d2",
+    "learning-cat-2": "bd9921f35e70c6665552ba2f970286412d402980e6d8f4c882e7fbf9fe114307",
+    "learning-cat-3": "bfdffe9a3425150d9936ba6331217d9b59e5d737a26a69c1e76672bfd3b97ff6",
+    "result-max": "43b89c5a95138d3a02e29f2536c5f15d9d932e68195ba406664da0600f5bff23",
+    "summary-max": "b72e60d3ff745d49ca2c4cf19c86ff452c49c4a6e7a8cab1b0ab151a90e80b42"
+  },
+  "limitations": [
+    "Agent visual inspection, not human approval or measured child usability.",
+    "No physical display/touch/camera/AI/servo or ESP32 target validation."
+  ],
+  "platform": "Linux / SDL dummy software / RGB565",
+  "source_run": "https://github.com/Bruiseunderskin/smart-trash-can/actions/runs/41219979378",
+  "cross_platform_max_rgb_channel_delta": {
+    "idle": 1,
+    "capturing": 1,
+    "classifying": 1,
+    "result_ok": 1,
+    "result_retry": 1,
+    "error": 1,
+    "category_guide": 1,
+    "learning": 1,
+    "summary": 1,
+    "result-cat-1": 1,
+    "result-cat-2": 1,
+    "result-cat-3": 1,
+    "learning-cat-1": 1,
+    "learning-cat-2": 1,
+    "learning-cat-3": 1,
+    "result-max": 1,
+    "summary-max": 1
+  }
+}

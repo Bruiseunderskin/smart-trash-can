@@ -225,9 +225,9 @@
 - [x] 修正 retry 候選圖文重疊；統一圖文 24 px、卡片內距及 64 px 底列。
 - [x] 延伸學習只可完成後進入；小百科可返回主頁；禁止早期捷徑。
 - [x] 重用既有 MIT Tabler／OFL 字型，附來源及授權；數據與動作由 controller 管理。
-- [x] 48 native 情境、75 對比檢查、13 觸控目標及 27 間距／導覽檢查通過。
+- [x] 49 native 情境、75 對比檢查、13 觸控目標及 27 間距／導覽檢查通過。
 - [x] 九狀態及類別／最大計數共 17 個 framebuffer；版面、缺字及視覺檢視證據完整，render evaluation PASS。
-- [x] lvgl-preview 改用 PASS／FAIL／INSUFFICIENT_EVIDENCE；21 個 skill 測試通過，無強制人手 OK 閘門。
+- [x] lvgl-preview 改用 PASS／FAIL／INSUFFICIENT_EVIDENCE；22 個 skill 測試通過，無強制人手 OK 閘門。
 - [x] 提供 GitHub Actions 原生重建／截圖／評估 workflow；PR 需 CI 通過才可合併。
 
 本清單只確認 source component + native preview。ESP32 target build、實體觸控／相機／舵機、1080p、Sketch 及兒童學習成效由 #4 跟進，不是本次已通過項目。

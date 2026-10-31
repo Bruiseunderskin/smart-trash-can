@@ -1,4 +1,8 @@
 #include "stc_ui.h"
+#include "src/misc/cache/instance/lv_image_cache.h"
+#include "src/draw/lv_image_decoder_private.h"
+#include "src/misc/lv_iter.h"
+#include "src/misc/cache/lv_cache_entry.h"
 #include <SDL.h>
 #include <assert.h>
 #include <math.h>
@@ -78,6 +82,13 @@ static lv_obj_t *button_named(lv_obj_t *parent,const char *text){
     }return NULL;
 }
 static void press_button(const char *text){lv_obj_update_layout(lv_screen_active());lv_obj_t *button=button_named(lv_screen_active(),text);assert(button);lv_obj_send_event(button,LV_EVENT_CLICKED,NULL);}
+static bool image_cached(const void *source){
+    lv_iter_t *iter=lv_image_cache_iter_create();assert(iter);
+    /* Cache iteration copies data plus its entry metadata. */
+    void *entry=lv_malloc(lv_cache_entry_get_size(sizeof(lv_image_cache_data_t)));assert(entry);bool found=false;
+    while(lv_iter_next(iter,entry)==LV_RESULT_OK)if(((lv_image_cache_data_t *)entry)->src==source)found=true;
+    lv_free(entry);lv_iter_destroy(iter);return found;
+}
 static int self_test(void){
     unsigned cases=0;stc_ui_set_reduced_motion(ui,true);
     for(int s=0;s<9;s++){show((stc_state_t)s,0);assert(stc_ui_state(ui)==(stc_state_t)s);assert(stc_ui_check_layout(ui));cases++;}
@@ -111,6 +122,19 @@ static int self_test(void){
     show(STC_IDLE,0);lv_obj_t *missing=lv_label_create(lv_obj_get_child(lv_screen_active(),0));lv_label_set_text(missing,"🦄");
     assert(!stc_ui_check_layout(ui));lv_obj_delete(missing);assert(stc_ui_check_layout(ui));cases++;
     for(int i=0;i<150;i++){show(STC_RESULT_OK,i%4);show(STC_RESULT_RETRY,0);}cases++;
+    {
+        lv_image_cache_resize(8192,true);
+        lv_obj_t *image_parent=lv_obj_create(lv_screen_active());lv_obj_remove_style_all(image_parent);lv_obj_set_size(image_parent,800,480);
+        stc_ui_t *image_ui=stc_ui_create(image_parent,NULL,NULL);assert(image_ui);
+        static const uint32_t alpha_pixels[4]={0x80800000,0x80008000,0x80000080,0x80808080};
+        static const lv_image_dsc_t alpha_image={.header={.magic=LV_IMAGE_HEADER_MAGIC,.cf=LV_COLOR_FORMAT_ARGB8888,.w=2,.h=2,.stride=8},.data_size=sizeof(alpha_pixels),.data=(const uint8_t*)alpha_pixels};
+        stc_ui_set_images(image_ui,&alpha_image,NULL);
+        lv_image_decoder_dsc_t decoded;lv_image_decoder_args_t options={.premultiply=true};
+        assert(lv_image_decoder_open(&decoded,&alpha_image,&options)==LV_RESULT_OK);lv_image_decoder_close(&decoded);
+        assert(image_cached(&alpha_image));
+        stc_ui_destroy(image_ui);assert(!image_cached(&alpha_image));lv_obj_delete(image_parent);
+        lv_image_cache_resize(0,true);cases++;
+    }
     lv_obj_t *parent=lv_obj_create(lv_screen_active());lv_obj_remove_style_all(parent);lv_obj_set_size(parent,800,480);
     stc_ui_t *temporary=stc_ui_create(parent,NULL,NULL);assert(temporary);lv_obj_delete(parent);p=payload(STC_IDLE);assert(!stc_ui_apply(temporary,&p));stc_ui_destroy(temporary);cases++;
     printf("PASS %u state/data/layout/motion/image/lifecycle scenarios; nine states and four categories\n",cases);return 0;
