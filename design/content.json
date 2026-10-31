@@ -1,0 +1,13 @@
+{
+  "categories": [
+    {"id":0,"example":"膠樽、鋁罐","tip":"先清空，再沖洗\n乾淨回收再造","why":"減少雜質，方便再造","action":"先倒清飲品，再沖洗"},
+    {"id":1,"example":"果皮、剩飯","tip":"先瀝走多餘水分\n不要混入膠袋","why":"分開食物與包裝","action":"把膠袋及餐具分開"},
+    {"id":2,"example":"充電池","tip":"請交由大人處理\n送到專門回收點","why":"需要專門收集處理","action":"練習時使用圖片代替"},
+    {"id":3,"example":"用過的紙巾","tip":"紙巾不能當廢紙回收\n先減少使用更好","why":"紙巾不適合廢紙回收","action":"先看看能否減少使用"}
+  ],
+  "sources": [
+    "https://www.wastereduction.gov.hk/en-hk/recycling-faq/greencommunity-faq",
+    "https://www.wastereduction.gov.hk/sites/default/files/werecycleschool/Teaching_Resource_Pack_WRR_P6_Eng.pdf"
+  ],
+  "scope":"Prototype four-category teaching scheme from issue #3; match actual collection-point rules. Hazardous examples use images, not real waste."
+}

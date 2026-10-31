@@ -1,0 +1,23 @@
+{
+  "executable_sha256": "0d75db98f8dfe088b49caa54b7f6ea5d41b77414cbe9a2502891e0a861542e76",
+  "checks": {
+    "build": {
+      "status": "PASS",
+      "details": "native CMake build recorded by preview runner"
+    },
+    "layout": {
+      "status": "PASS",
+      "details": "actual LVGL object/text bounds and parent containment for required states and variants"
+    },
+    "glyphs": {
+      "status": "PASS",
+      "details": "actual LVGL label codepoints resolve without placeholder glyphs; deliberately missing glyph is rejected"
+    },
+    "interaction": {
+      "status": "PASS",
+      "details": "48 native scenarios; state/actions, post-completion navigation, counters and lifecycle"
+    }
+  },
+  "exit_code": 0,
+  "scenario_count": 48
+}

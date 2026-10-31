@@ -1,0 +1,17 @@
+{
+  "outer_x":24,
+  "card_padding":24,
+  "compact_padding":16,
+  "icon_text_gap":24,
+  "text_stack_gap":8,
+  "grid_gap":16,
+  "section_gap":16,
+  "footer_y":400,
+  "footer_height":64,
+  "footer_text_inset_x":24,
+  "footer_text_inset_y":8,
+  "metric_label_y":24,
+  "metric_value_y":72,
+  "metric_value_height":96,
+  "learning_access":"result_ok -> summary -> category_guide -> learning; learning -> idle"
+}

@@ -1,0 +1,55 @@
+name: LVGL native UI
+on:
+  push:
+    paths: ['ui/lvgl/**', 'design/**', 'tools/skills/lvgl-preview/**', '.github/workflows/lvgl-ui.yml']
+  pull_request:
+    paths: ['ui/lvgl/**', 'design/**', 'tools/skills/lvgl-preview/**', '.github/workflows/lvgl-ui.yml']
+permissions:
+  contents: read
+jobs:
+  native-render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SDL_VIDEODRIVER: dummy
+      SDL_RENDER_DRIVER: software
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install native build and evaluation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev ninja-build
+          python -m pip install -r ui/lvgl/tools/requirements.txt
+      - name: Fetch the exact LVGL 9.5.0 source
+        run: |
+          git clone --depth 1 --branch v9.5.0 https://github.com/lvgl/lvgl.git "$RUNNER_TEMP/lvgl"
+          test "$(git -C "$RUNNER_TEMP/lvgl" rev-parse HEAD)" = 85aa60d18b3d5e5588d7b247abf90198f07c8a63
+      - name: Validate the portable skill and its failure cases
+        run: |
+          python tools/skills/lvgl-preview/scripts/validate_skill.py
+          python -m unittest discover -s tools/skills/lvgl-preview/tests -v
+      - name: Configure and build the native renderer
+        run: |
+          cmake -S ui/lvgl/preview -B ui/lvgl/preview/build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DLVGL_DIR="$RUNNER_TEMP/lvgl"
+          python tools/skills/lvgl-preview/scripts/preview.py --project-root "$PWD/ui/lvgl/preview" --width 800 --height 480 --rotation 0 --color-depth 16 --dry-run
+          python tools/skills/lvgl-preview/scripts/preview.py --project-root "$PWD/ui/lvgl/preview" --width 800 --height 480 --rotation 0 --color-depth 16
+      - name: Check the real UI and capture every required variant
+        run: |
+          ctest --test-dir ui/lvgl/preview/build --output-on-failure
+          python ui/lvgl/tools/prepare_eval.py
+      - name: Evaluate captures against recorded visual evidence
+        run: |
+          python tools/skills/lvgl-preview/scripts/evaluate_render.py --project-root "$PWD/ui/lvgl/preview" --manifest render/render-manifest.json
+          cp ui/lvgl/preview/.lvgl-preview/render-eval.json ui/lvgl/preview/render/render-eval.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: lvgl-native-render-evidence
+          path: |
+            ui/lvgl/preview/render/*.png
+            ui/lvgl/preview/render/*.json
+            ui/lvgl/preview/render/native-tests.log
+            ui/lvgl/preview/.lvgl-preview/render-eval.json

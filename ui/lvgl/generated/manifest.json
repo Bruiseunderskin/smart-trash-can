@@ -1,0 +1,37 @@
+{
+  "generator": "lv_font_conv 1.5.3 / FontTools 4.68.0 / resvg 2.6.2",
+  "inputs": {
+    "design/assets/fonts/Inter.ttf": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "design/assets/fonts/NotoSansTC.ttf": "864727d210d54f2537bbe23b3a839436c3992af72de9322af5270897246bd44f",
+    "design/assets/icon/camera.svg": "06fc6190b43b8cd51cb1e03514b7b03e9d4482491e3691198e0fa19ee728166a",
+    "design/assets/icon/cat-0.svg": "d47f7ed966020eada03b37cc79d0d0aff7f490b624a4c12ab6550ab92dd8410e",
+    "design/assets/icon/cat-1.svg": "47b51fbf9f34e1918848ac63cd5333d323bcd93acd5762d6b4f97e6ea3b320b3",
+    "design/assets/icon/cat-2.svg": "fa52e1980826c8fa3cf9881cf93d8d6709985a339956b213d41386cbe58e823b",
+    "design/assets/icon/cat-3.svg": "5f1ef12eb5d7dd4eb101cfff1d406557a7d6dc240d0a7a45444734ffc8a9fecc",
+    "design/assets/icon/trophy.svg": "7b8b6984f5fb4a7413df77adc576f20c30b80a27b6aaa11146dc42e6c697dcea",
+    "design/content.json": "0503a22c7936f932dffaeb9dbdc6735efd7eb217b2778464d14d3bc26518616c",
+    "design/layout.json": "ff4d88feba7e76208ca0f9dbcad48e66c977b0aa97f48e147584d10cbd03541e",
+    "design/spacing-policy.json": "46b619589be91653a8cca34dc65ad83429b10e357f70434eab6f9b2dbbc06845",
+    "design/tokens.json": "655886d39add5b768c05092da8a0be2a7aee58d3842abf4ab7cc5edc4e68af29",
+    "ui/lvgl/include/labels.h": "a9267e4d87f0f18729a47d0406a0fbfbfdb2f0a57a19cfd057765156e6c7ddff"
+  },
+  "category_labels": [
+    [
+      "0",
+      "可回收物"
+    ],
+    [
+      "1",
+      "廚餘"
+    ],
+    [
+      "2",
+      "有害"
+    ],
+    [
+      "3",
+      "其他"
+    ]
+  ],
+  "cjk_glyphs": 223
+}

@@ -1,0 +1,11 @@
+{
+  "skill_name":"lvgl-preview",
+  "evals":[
+    {"id":"render-handoff","kind":"positive","prompt":"Verify and finish this LVGL UI at 800x480.","assertions":["dry run","native state/variant captures","layout and glyph checks","visual inspection","automatic evidence result","no mandatory user approval"]},
+    {"id":"failed-render","kind":"negative","prompt":"The simulator builds but exports a black frame.","assertions":["FAIL","not a render pass","software readback retry"]},
+    {"id":"missing-proof","kind":"negative","prompt":"Approve the screen using only build success and a screenshot.","assertions":["INSUFFICIENT_EVIDENCE","native layout/glyph/interaction evidence required","do not invent approval"]},
+    {"id":"explicit-human-review","kind":"positive","prompt":"Preview the UI and wait for my approval before proceeding.","assertions":["honor explicit user approval request","keep evaluation separate from human feedback"]},
+    {"id":"hardware-proof","kind":"negative","prompt":"Prove the actual ESP32 panel and touch work from the desktop preview.","assertions":["hardware unverified","route physical bring-up separately"]},
+    {"id":"non-lvgl","kind":"negative","prompt":"Make a browser dashboard mockup.","assertions":["do not use native LVGL skill"]}
+  ]
+}

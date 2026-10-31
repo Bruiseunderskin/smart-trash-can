@@ -1,0 +1,185 @@
+{
+  "display": {
+    "color_depth": 16,
+    "height": 480,
+    "rotation": 0,
+    "width": 800
+  },
+  "required_states": [
+    "idle",
+    "capturing",
+    "classifying",
+    "result_ok",
+    "result_retry",
+    "error",
+    "category_guide",
+    "learning",
+    "summary"
+  ],
+  "required_frames": [
+    "idle",
+    "capturing",
+    "classifying",
+    "result_ok",
+    "result_retry",
+    "error",
+    "category_guide",
+    "learning",
+    "summary",
+    "result-cat-1",
+    "result-cat-2",
+    "result-cat-3",
+    "learning-cat-1",
+    "learning-cat-2",
+    "learning-cat-3",
+    "result-max",
+    "summary-max"
+  ],
+  "frames": [
+    {
+      "id": "idle",
+      "state": "idle",
+      "path": "render/idle.png",
+      "sha256": "a1d3483bc0fe95e1b35627924f41a91f0c30d812fc120316542864617efa2b39",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "capturing",
+      "state": "capturing",
+      "path": "render/capturing.png",
+      "sha256": "b5811ba2c7823f67cc961e24c4530974d37a2dca292258fde8f84bd4d60f28d4",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "classifying",
+      "state": "classifying",
+      "path": "render/classifying.png",
+      "sha256": "466cf4eda2c16258bbf3e4105917275a94ea2af51deb2065f8374f7c43a5e007",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "result_ok",
+      "state": "result_ok",
+      "path": "render/result_ok.png",
+      "sha256": "49f7fbc435cd8e20ce89a36f8dbf4f90f9e4e46edae8357684554374772c178b",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "result_retry",
+      "state": "result_retry",
+      "path": "render/result_retry.png",
+      "sha256": "8971cc9d57dc9b19c5de16cef7d3e5353a01176f71f702bce0191ecbf13a5be8",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "error",
+      "state": "error",
+      "path": "render/error.png",
+      "sha256": "0d7c37e6428b5e3007252d5d9703a890ae34439c0b02d566b6da0d0a1a9c6890",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "category_guide",
+      "state": "category_guide",
+      "path": "render/category_guide.png",
+      "sha256": "0d20aa7b02e0c8cf11f493a24924bcb4bd4afdd4a02ff1c2544c8d2764c24418",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "learning",
+      "state": "learning",
+      "path": "render/learning.png",
+      "sha256": "a41d0759ce9dc461405f66ded0d23afefe067b948e2437d4d1343bc03e6e8587",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "summary",
+      "state": "summary",
+      "path": "render/summary.png",
+      "sha256": "8619dd832520dbe5fcf87df623458f7b0e2a18891a28a8eaa56ac576a1efd84c",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "result-cat-1",
+      "state": "result_ok",
+      "path": "render/result-cat-1.png",
+      "sha256": "78c262544a4986eebe78228aec365ab6978cfcca3a39f832e3f769c862e8c997",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "result-cat-2",
+      "state": "result_ok",
+      "path": "render/result-cat-2.png",
+      "sha256": "847c2aa1b5b71248393ff7806b2b95a6b8bd53324ceb7851234a82dc7f3e6f82",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "result-cat-3",
+      "state": "result_ok",
+      "path": "render/result-cat-3.png",
+      "sha256": "30f1740f52ba24609dc16d59e042fcb726e09cfb41e938d7a13104b4a1eed228",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "learning-cat-1",
+      "state": "learning",
+      "path": "render/learning-cat-1.png",
+      "sha256": "188d995eb325c61dba2e8f91168e92f78ff0265ac211df1be477ee2f1b6a4c8c",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "learning-cat-2",
+      "state": "learning",
+      "path": "render/learning-cat-2.png",
+      "sha256": "44c83bac6195350df1e233fb6e2dde3660fd888ebb0947274618b6e1748bb289",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "learning-cat-3",
+      "state": "learning",
+      "path": "render/learning-cat-3.png",
+      "sha256": "0b6179046a4edf96867c7a19e106e0c782c1ee11d99ef1cc06bc672b5e585df5",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "result-max",
+      "state": "result_ok",
+      "path": "render/result-max.png",
+      "sha256": "c88dfdbb71516659e4cc227e8a6dca05e518e08043c2b6b6aa3bcf50bb38ae60",
+      "evidence_kind": "framebuffer"
+    },
+    {
+      "id": "summary-max",
+      "state": "summary",
+      "path": "render/summary-max.png",
+      "sha256": "65bfd53ad2ed808354cb21727dcc1306cd75532a942d287eb5cea54bf1832868",
+      "evidence_kind": "framebuffer"
+    }
+  ],
+  "checks": {
+    "build": {
+      "evidence": "render/native-checks.json",
+      "sha256": "1a34e4e8d4ce26c4ecef2c825bf38c295435b6fbade28710cf8962b1a10211c2"
+    },
+    "layout": {
+      "evidence": "render/native-checks.json",
+      "sha256": "1a34e4e8d4ce26c4ecef2c825bf38c295435b6fbade28710cf8962b1a10211c2"
+    },
+    "glyphs": {
+      "evidence": "render/native-checks.json",
+      "sha256": "1a34e4e8d4ce26c4ecef2c825bf38c295435b6fbade28710cf8962b1a10211c2"
+    },
+    "interaction": {
+      "evidence": "render/native-checks.json",
+      "sha256": "1a34e4e8d4ce26c4ecef2c825bf38c295435b6fbade28710cf8962b1a10211c2"
+    },
+    "contrast_touch": {
+      "evidence": "render/design-checks.json",
+      "sha256": "deafe64012b2a302a21a3924b5ba988e39d033d29d14ee07e1275bc32aed95fa"
+    },
+    "visual_review": {
+      "evidence": "render/visual-review.json",
+      "sha256": "826e87f456c1af7b7e790cac5de602d135e73ac6cb7f342ede66efe50e7c2181"
+    }
+  }
+}
