@@ -64,7 +64,8 @@ static bool screenshot(const char *path){
     SDL_Surface *surface=SDL_CreateRGBSurfaceWithFormat(0,w,h,32,SDL_PIXELFORMAT_ARGB8888);
     if(!surface)return false;
     bool ok=SDL_RenderReadPixels(renderer,NULL,surface->format->format,surface->pixels,surface->pitch)==0;
-    if(ok)ok=SDL_SaveBMP(surface,path)==0;SDL_FreeSurface(surface);return ok;
+    if(ok)ok=SDL_SaveBMP(surface,path)==0;
+    SDL_FreeSurface(surface);return ok;
 }
 static lv_obj_t *button_named(lv_obj_t *parent,const char *text){
     for(uint32_t i=0;i<lv_obj_get_child_count(parent);i++){
