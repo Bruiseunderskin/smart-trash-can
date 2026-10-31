@@ -6,11 +6,13 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock
+from contextlib import redirect_stdout
+import io
 from PIL import Image
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from evaluate_render import evaluate,digest
-from preview import patch_main,archive_recorded,PreviewError
+from preview import patch_main,archive_recorded,PreviewError,main as preview_main
 
 class RenderEvalTests(unittest.TestCase):
     def setUp(self):
@@ -76,6 +78,21 @@ class RenderEvalTests(unittest.TestCase):
         script=Path(__file__).resolve().parents[1]/'scripts/record_decision.py'
         result=subprocess.run([sys.executable,str(script),'--project-root',str(self.root),'--decision','NO-GO'],capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr);self.assertEqual((self.root/'main.c').read_bytes(),b'before-preview');self.assertEqual(json.loads((directory/'state.json').read_text())['user_feedback'],'NO-GO')
+    def test_first_build_does_not_require_existing_executable(self):
+        (self.root/'bin/main').unlink()
+        (self.root/'CMakeLists.txt').write_text('project(fixture C)\n')
+        (self.root/'main.c').write_text('sdl_hal_init(8, 8);\n')
+        (self.root/'lv_conf.h').write_text('#define LV_COLOR_DEPTH 16\n')
+        def build(*args, **kwargs):
+            (self.root/'bin/main').write_bytes(b'new native build')
+            return subprocess.CompletedProcess(args[0], 0, '', '')
+        process=Mock(pid=123);process.poll.return_value=None
+        argv=['preview.py','--project-root',str(self.root),'--width','8','--height','8']
+        with patch('sys.argv',argv),patch('preview.subprocess.run',side_effect=build)as compiler,patch('preview.subprocess.Popen',return_value=process)as launch,patch('preview.time.sleep'),redirect_stdout(io.StringIO()):
+            self.assertEqual(preview_main(),0)
+        compiler.assert_called_once();launch.assert_called_once()
+        state=json.loads((self.root/'.lvgl-preview/state.json').read_text())
+        self.assertEqual(state['build_gate'],'PASS');self.assertEqual(state['executable_sha256'],digest(self.root/'bin/main'))
     def test_failed_build_restores_source_and_config(self):
         (self.root/'CMakeLists.txt').write_text('cmake_minimum_required(VERSION 3.20)\nproject(fixture C)\n')
         source='sdl_hal_init(8, 8);\n';config='#define LV_COLOR_DEPTH 16\n';(self.root/'main.c').write_text(source);(self.root/'lv_conf.h').write_text(config)

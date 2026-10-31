@@ -23,6 +23,6 @@
   "backend_integration": "NOT_TESTED",
   "learning_efficacy": "NOT_TESTED",
   "render_evaluation": "PASS",
-  "skill_unit_tests": 20,
+  "skill_unit_tests": 21,
   "native_frames": 17
 }

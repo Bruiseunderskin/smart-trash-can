@@ -16,7 +16,7 @@ Scope: UI source component and desktop preview; 800×480, rotation 0, RGB565, LV
 | Deterministic regeneration | `regeneration-check.json`: all generated files identical | PASS |
 | Issue sync | `design/issue-3-sync.json`; nine-state issue update read back | PASS |
 | Runtime gate | `preview/.lvgl-preview/state.json`; process live after runner startup | PASS; evaluation owns completion |
-| Preview skill package validator | Standalone skill validation and 20 evaluator tests | PASS |
+| Preview skill package validator | Standalone skill validation and 21 evaluator tests | PASS |
 | Physical display/touch/camera/AI/servos | No physical tests or firmware flash | NOT_TESTED |
 | ESP32-S31 target build and memory headroom | No ESP-IDF target compilation of this new component | NOT_TESTED |
 | Real backend correlation | Controller must filter stale round_id before calling UI; no SSE/job scheduler in this component | NOT_TESTED |

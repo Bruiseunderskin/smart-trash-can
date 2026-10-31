@@ -214,7 +214,7 @@ def main() -> int:
         raise PreviewError(f"CMakeLists.txt not found in project root: {root}")
     main_file, config_file = find_files(root, args.main_file, args.config_file)
     build_dir = inside(root, root / args.build_dir)
-    executable = executable_path(root, args.executable) if args.no_build or not args.dry_run else inside(root, root / (args.executable or "bin/main"))
+    executable = executable_path(root, args.executable) if args.no_build else inside(root, root / (args.executable or "bin/main"))
     plan = {
         "project_root": str(root),
         "main_file": relative(root, main_file),
@@ -262,9 +262,11 @@ def main() -> int:
                 log.write_text(build.stdout + build.stderr, encoding="utf-8")
                 raise PreviewError(f"build failed; files restored. Read {relative(root, log)}")
         executable = executable_path(root, args.executable)
+        plan["executable"] = relative(root, executable)
         log = directory / "logs" / f"{run_id}.log"
         stream = log.open("w", encoding="utf-8")
         process = subprocess.Popen([str(executable)], cwd=root, stdout=stream, stderr=subprocess.STDOUT, start_new_session=True)
+        stream.close()  # The child owns its duplicated log descriptor.
         time.sleep(args.startup_timeout)
         if process.poll() is not None:
             stream.close()
