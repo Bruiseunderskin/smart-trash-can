@@ -159,19 +159,19 @@
   "checks": {
     "build": {
       "evidence": "render/native-checks.json",
-      "sha256": "1a34e4e8d4ce26c4ecef2c825bf38c295435b6fbade28710cf8962b1a10211c2"
+      "sha256": "f36523b926c652b168cdb5355c7b6cc3cf2202a2a1fdab43ed2ac0b980168f05"
     },
     "layout": {
       "evidence": "render/native-checks.json",
-      "sha256": "1a34e4e8d4ce26c4ecef2c825bf38c295435b6fbade28710cf8962b1a10211c2"
+      "sha256": "f36523b926c652b168cdb5355c7b6cc3cf2202a2a1fdab43ed2ac0b980168f05"
     },
     "glyphs": {
       "evidence": "render/native-checks.json",
-      "sha256": "1a34e4e8d4ce26c4ecef2c825bf38c295435b6fbade28710cf8962b1a10211c2"
+      "sha256": "f36523b926c652b168cdb5355c7b6cc3cf2202a2a1fdab43ed2ac0b980168f05"
     },
     "interaction": {
       "evidence": "render/native-checks.json",
-      "sha256": "1a34e4e8d4ce26c4ecef2c825bf38c295435b6fbade28710cf8962b1a10211c2"
+      "sha256": "f36523b926c652b168cdb5355c7b6cc3cf2202a2a1fdab43ed2ac0b980168f05"
     },
     "contrast_touch": {
       "evidence": "render/design-checks.json",

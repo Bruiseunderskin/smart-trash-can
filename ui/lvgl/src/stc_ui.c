@@ -153,7 +153,8 @@ static void render(stc_ui_t *ui,stc_state_t state) {
     image_update(ui);animate(ui);
 }
 stc_ui_t *stc_ui_create(lv_obj_t *parent,stc_retry_cb retry,void *user) {
-    if(!parent)return NULL;lv_obj_update_layout(parent);
+    if(!parent)return NULL;
+    lv_obj_update_layout(parent);
     if(lv_obj_get_content_width(parent)!=800 || lv_obj_get_content_height(parent)!=480)return NULL;
     stc_ui_t *ui=lv_malloc_zeroed(sizeof(*ui));if(!ui)return NULL;
     ui->retry=retry;ui->user=user;ui->previous_category=-1;
@@ -246,7 +247,8 @@ static bool check_rendered_text(lv_obj_t *obj) {
     return ok;
 }
 bool stc_ui_check_layout(stc_ui_t *ui) {
-    if(!ui || !ui->container)return false;lv_obj_update_layout(ui->container);bool ok=true;
+    if(!ui || !ui->container)return false;
+    lv_obj_update_layout(ui->container);bool ok=true;
     for(unsigned i=0;i<ui->layout->count;i++){
         lv_obj_t *obj=ui->objects[i];const stc_layout_node_t *n=&ui->layout->nodes[i];lv_area_t bounds;lv_obj_get_coords(obj,&bounds);
         if(bounds.x1<0 || bounds.y1<0 || bounds.x2>=800 || bounds.y2>=480){fprintf(stderr,"OUT_OF_FRAME %s [%ld,%ld,%ld,%ld]\n",n->name,(long)bounds.x1,(long)bounds.y1,(long)bounds.x2,(long)bounds.y2);ok=false;}
