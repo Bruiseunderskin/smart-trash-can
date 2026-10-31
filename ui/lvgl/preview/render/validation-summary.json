@@ -1,0 +1,28 @@
+{
+  "status": "Completed",
+  "native_build": "PASS",
+  "ctest_scenarios": 49,
+  "text_contrast_checks": 75,
+  "touch_targets": 13,
+  "spacing_navigation_checks": 27,
+  "post_completion_learning": "PASS",
+  "states": 9,
+  "category_results": 4,
+  "category_lessons": 4,
+  "runtime": {
+    "startup_liveness": "PASS",
+    "width": 800,
+    "height": 480,
+    "rotation": 0,
+    "color_depth": 16,
+    "completion": "evidence-based",
+    "human_feedback_required": false
+  },
+  "target_build": "NOT_TESTED",
+  "physical_hardware": "NOT_TESTED",
+  "backend_integration": "NOT_TESTED",
+  "learning_efficacy": "NOT_TESTED",
+  "render_evaluation": "PASS",
+  "skill_unit_tests": 22,
+  "native_frames": 17
+}

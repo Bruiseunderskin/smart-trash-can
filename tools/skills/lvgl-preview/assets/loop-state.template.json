@@ -1,0 +1,9 @@
+{
+  "goal":"Evaluate native LVGL renders and hand off verified UI code without requiring human approval or claiming hardware parity.",
+  "display":{"width":null,"height":null,"rotation":null,"color_depth":null},
+  "checks":["build","layout","glyphs","contrast_touch","interaction","visual_review"],
+  "evaluation":"NOT_RUN",
+  "completion_status":"ready_for_evaluation",
+  "hardware_verified":false,
+  "rollback":"Exact runner backup on build/runtime failure; optional restore after explicit user rejection."
+}

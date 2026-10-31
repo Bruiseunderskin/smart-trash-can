@@ -1,0 +1,544 @@
+{
+  "states": 9,
+  "text_contrast_checks": 75,
+  "touch_targets": 13,
+  "minimum_contrast": 4.51,
+  "input_hashes": "PASS",
+  "svg_embedded_raster": "none",
+  "physical_hardware": "NOT_TESTED",
+  "contrast": [
+    {
+      "state": "state/idle",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/idle",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/idle",
+      "node": "prompt",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/idle",
+      "node": "hint",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/idle",
+      "node": "score-label",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/idle",
+      "node": "score",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/idle",
+      "node": "action/start",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/capturing",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/capturing",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/capturing",
+      "node": "prompt",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/capturing",
+      "node": "hint",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/capturing",
+      "node": "instruction",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/classifying",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/classifying",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/classifying",
+      "node": "prompt",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/classifying",
+      "node": "hint",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/classifying",
+      "node": "previous",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
+    },
+    {
+      "state": "state/classifying",
+      "node": "instruction",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/result_ok",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/result_ok",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/result_ok",
+      "node": "category",
+      "fg": "cat0",
+      "bg": "bg",
+      "contrast": 6.03
+    },
+    {
+      "state": "state/result_ok",
+      "node": "confidence",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/result_ok",
+      "node": "score",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/result_ok",
+      "node": "tip",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/result_ok",
+      "node": "points",
+      "fg": "ok",
+      "bg": "bg",
+      "contrast": 4.51
+    },
+    {
+      "state": "state/result_ok",
+      "node": "instruction",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/result_ok",
+      "node": "action/finish",
+      "fg": "on_accent",
+      "bg": "accent",
+      "contrast": 10.81
+    },
+    {
+      "state": "state/result_retry",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/result_retry",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/result_retry",
+      "node": "prompt",
+      "fg": "warn",
+      "bg": "bg",
+      "contrast": 4.52
+    },
+    {
+      "state": "state/result_retry",
+      "node": "hint",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/result_retry",
+      "node": "category",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/result_retry",
+      "node": "probability",
+      "fg": "fg_muted",
+      "bg": "surface",
+      "contrast": 6.12
+    },
+    {
+      "state": "state/result_retry",
+      "node": "category",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/result_retry",
+      "node": "probability",
+      "fg": "fg_muted",
+      "bg": "surface",
+      "contrast": 6.12
+    },
+    {
+      "state": "state/result_retry",
+      "node": "instruction",
+      "fg": "warn",
+      "bg": "surface",
+      "contrast": 5.02
+    },
+    {
+      "state": "state/error",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/error",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/error",
+      "node": "prompt",
+      "fg": "error",
+      "bg": "bg",
+      "contrast": 5.82
+    },
+    {
+      "state": "state/error",
+      "node": "hint",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/error",
+      "node": "error-code",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
+    },
+    {
+      "state": "state/error",
+      "node": "action/retry",
+      "fg": "bg",
+      "bg": "brand",
+      "contrast": 11.15
+    },
+    {
+      "state": "state/category_guide",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/category_guide",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/category_guide",
+      "node": "prompt",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/category_guide",
+      "node": "action/learn-0",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/category_guide",
+      "node": "cat-label/0",
+      "fg": "cat0",
+      "bg": "surface",
+      "contrast": 6.7
+    },
+    {
+      "state": "state/category_guide",
+      "node": "example/0",
+      "fg": "fg_muted",
+      "bg": "surface",
+      "contrast": 6.12
+    },
+    {
+      "state": "state/category_guide",
+      "node": "action/learn-1",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/category_guide",
+      "node": "cat-label/1",
+      "fg": "cat1",
+      "bg": "surface",
+      "contrast": 5.02
+    },
+    {
+      "state": "state/category_guide",
+      "node": "example/1",
+      "fg": "fg_muted",
+      "bg": "surface",
+      "contrast": 6.12
+    },
+    {
+      "state": "state/category_guide",
+      "node": "action/learn-2",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/category_guide",
+      "node": "cat-label/2",
+      "fg": "cat2",
+      "bg": "surface",
+      "contrast": 6.47
+    },
+    {
+      "state": "state/category_guide",
+      "node": "example/2",
+      "fg": "fg_muted",
+      "bg": "surface",
+      "contrast": 6.12
+    },
+    {
+      "state": "state/category_guide",
+      "node": "action/learn-3",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/category_guide",
+      "node": "cat-label/3",
+      "fg": "cat3",
+      "bg": "surface",
+      "contrast": 7.56
+    },
+    {
+      "state": "state/category_guide",
+      "node": "example/3",
+      "fg": "fg_muted",
+      "bg": "surface",
+      "contrast": 6.12
+    },
+    {
+      "state": "state/category_guide",
+      "node": "action/finish",
+      "fg": "brand",
+      "bg": "surface",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/category_guide",
+      "node": "action/home",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/learning",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/learning",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/learning",
+      "node": "category",
+      "fg": "cat0",
+      "bg": "bg",
+      "contrast": 6.03
+    },
+    {
+      "state": "state/learning",
+      "node": "tip",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/learning",
+      "node": "example",
+      "fg": "fg_muted",
+      "bg": "surface",
+      "contrast": 6.12
+    },
+    {
+      "state": "state/learning",
+      "node": "action/guide",
+      "fg": "brand",
+      "bg": "surface",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/learning",
+      "node": "action/home",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/summary",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/summary",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/summary",
+      "node": "prompt",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/summary",
+      "node": "metric-label",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/summary",
+      "node": "score",
+      "fg": "brand",
+      "bg": "surface",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/summary",
+      "node": "metric-label",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/summary",
+      "node": "streak",
+      "fg": "brand",
+      "bg": "surface",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/summary",
+      "node": "action/home",
+      "fg": "brand",
+      "bg": "surface",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/summary",
+      "node": "action/guide",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    }
+  ],
+  "spacing_checks": 27,
+  "post_completion_learning": "PASS",
+  "checks": {
+    "contrast_touch": {
+      "status": "PASS",
+      "details": "75 contrast checks, 13 touch targets, 27 spacing/navigation assertions"
+    }
+  }
+}

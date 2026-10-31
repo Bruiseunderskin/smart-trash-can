@@ -1,0 +1,9 @@
+preview/build/
+preview/bin/
+preview/.lvgl-preview/
+tools/node_modules/
+tools/.venv/
+__pycache__/
+tools/.cache/
+preview/render/*.bmp
+preview/render/*.log

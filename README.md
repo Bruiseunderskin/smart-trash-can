@@ -10,6 +10,8 @@
 | `arduino/ESP32S3_Mic_Test/` | Arduino 示例：按小智板型 GPIO4/5/6 录音、统计电平和回放，用于检查 I2S 麦克风 |
 | `xiaozhi-esp32/` | 语音助手固件源码，来源为 [78/xiaozhi-esp32](https://github.com/78/xiaozhi-esp32) |
 | `xiaozhi-esp32/main/boards/smart-trash-can/` | 自定义板型「智能分类垃圾桶」：4 路舵机桶盖 + `self.trash_can.*` MCP 工具 |
+| `ui/lvgl/` | 分類小隊：ESP32-S31 4.3 吋 800×480 LVGL 9.5 UI、九種狀態、四類圖鑑、學習頁、完成總分及 SDL 預覽 |
+| `design/` | Figma 匯出 tokens／layout、教學文案、既有資產與授權、issue #3 修訂規格 |
 | `.vscode/`、`.clangd` | 编辑器 / 语言服务器配置 |
 
 ## 硬件接线
@@ -37,3 +39,9 @@ idf.py -p COM8 flash monitor
 - `xiaozhi-esp32/sdkconfig`、`xiaozhi-esp32/dependencies.lock` 等本地配置
 
 编译 `xiaozhi-esp32` 时，请参考上游仓库的说明安装 ESP-IDF 并运行 `idf.py build`。
+
+## 4.3 吋教學 UI（ESP32-S31）
+
+[Figma 可編輯設計](https://www.figma.com/design/g5J7a5DhDuX1UYucR6jitn) 與 [LVGL 使用／預覽說明](ui/lvgl/README.md)。
+
+桌面預覽支援九個狀態及四類學習卡。`ui/lvgl` 是可加入 ESP-IDF 的純 LVGL C component；本次沒有改動小智板型或燒錄硬體。桌面檢查不代表顯示、觸控、相機、AI 或舵機已在板上通過。

@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "generated_files": 10,
+  "sha256": {
+    "manifest.json": "8faf969e1a3f0e2e51647d9f1dcd4c55e1ff8f9301e837733cdaa1a03cfbade4",
+    "stc_assets.c": "f7d0fa958979878df190b2680e2f12a5bdb09f760f366ab3383a1bd7ee1a4d93",
+    "stc_font_num_32.c": "d4c35744538876ae0ff184d0ec18e2b2ac8087d47692c0f39fa919ac47be8b2c",
+    "stc_font_num_80.c": "4accdada2f39fd7c932ace7ef5f8894832d3e7e9a3b4075a55dbc6d04e32f840",
+    "stc_font_tc_112.c": "5751f9047b4e850d8fd08fa4e582953636b12afe07770aa6aa640df565a8417c",
+    "stc_font_tc_26.c": "8967feb0c44d9da91ff58ec54b6d8f96ea7ef9f7a63256fbb9f4039bdf4ff84e",
+    "stc_font_tc_32.c": "413ed4efe63567347779ec61e3099c13b3cd7c3cfcd519f9e42358c30546b99b",
+    "stc_font_tc_56.c": "71faa24d97d88a50a87a3828e86bd49f1b5ba1a058835f264f30795d4c3b697b",
+    "stc_layout.c": "424ecb304defcc14606898beee667c1b40256fc3f41daccf2ff5f31c9e8a27e8",
+    "stc_tokens.h": "5c92a7c1d7162399de73b71835772c9501ae19a6030a05cf4f2b3d75d6f3402d"
+  }
+}
