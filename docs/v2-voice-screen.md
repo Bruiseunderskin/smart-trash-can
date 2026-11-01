@@ -8,11 +8,13 @@ V2 必須具備小智式粵語自由對話、遊戲期間鼓勵說話及完成�
 
 ## `xiaozhi.me` 實際使用哪個 STT / TTS？
 
-公開的一手資料確認官方服務支援 Qwen Realtime，以及傳統 ASR → LLM → TTS 架構；也可在控制台選擇角色聲音。**公開文件沒有足夠證據確定目前所有角色／模式所用的 ASR 與 TTS 供應商或模型**。Realtime 模式也未必拆成可辨認的獨立 STT/TTS 供應商。不能把第三方自架服務的 FunASR、EdgeTTS 或其他預設誤認為 `xiaozhi.me` 官方後端。
+官方韌體 README 說個人帳號可在 `xiaozhi.me` 使用 Qwen Realtime；公開頁面也提供角色聲音設定。**公開資料仍不足以確認官方服務目前各角色與模式所用的 ASR/TTS 供應商或模型**，Realtime 也可能不是獨立 STT 和 TTS 供應商的組合。
+
+另一個公開的自架伺服器專案列出多種後端設定：入門組合含 FunASR、GLM-4-Flash、EdgeTTS；流式組合含訊飛 ASR、Qwen-Flash、火山 TTS。這些是自架伺服器的可選組合，不是 `xiaozhi.me` 官方服務使用它們的證據。
 
 實作選擇：優先試官方 Xiaozhi 相容對話與可用粵語音色；若粵語、兒童語音、成本或網絡不達標，再在可替換的服務端評估 SenseVoice／其他粵語 STT、LLM 及粵語 TTS。實際型號、授權和服務成本須於所選服務確認。若要求**完全無網絡的自由粵語對話**，須另備本地服務計算硬件與模型，不能只憑 ESP32 離線喚醒宣稱已達成。
 
-來源：[Xiaozhi firmware 官方 README](https://github.com/78/xiaozhi-esp32)、[Espressif Xiaozhi component](https://github.com/espressif/esp-iot-solution/tree/master/components/esp_xiaozhi)、[官方聲音設定 FAQ](https://xiaozhi.me/xz-docs/docs/help-doc/xiaozhi-ai-chatbot-q%26a/)、[第三方自架服務的可選提供者](https://github.com/xinnan-tech/xiaozhi-esp32-server)。
+來源：[Xiaozhi firmware 官方 README](https://github.com/78/xiaozhi-esp32)、[官方聲音設定 FAQ](https://xiaozhi.me/xz-docs/docs/help-doc/xiaozhi-ai-chatbot-q%26a/)、[Xiaozhi 自架伺服器支援的提供者](https://github.com/xinnan-tech/xiaozhi-esp32-server)、[Espressif Xiaozhi component](https://github.com/espressif/esp-iot-solution/tree/master/components/esp_xiaozhi)。
 
 ## 屏幕及語音事件
 

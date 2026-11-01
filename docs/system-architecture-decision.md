@@ -2,7 +2,7 @@
 
 ## 決定
 
-採用 ESP-IDF 作主控制框架，LVGL 9.5 作 4.3 吋介面，Edge Impulse MobileNetV2 int8 作首個影像分類原型，經 TFLite Micro / ESP-NN 在裝置執行。以本機狀態機決定開蓋、處理低信心及錯誤；Wi-Fi、語音服務與 LLM 不在拍照到開蓋的必要路徑。這是原型決策，未證明 3 秒目標、準確率或 S31 算子相容性。
+採用 ESP-IDF 作主控制框架，LVGL 9.5 作 4.3 吋介面，Edge Impulse MobileNetV2 int8 標準 `.tflite` 作首個影像分類原型，經 TFLite Micro / ESP-NN 在裝置執行。此 v1 模型已在 S3、IDF 6.0.2 以零輸入執行 Invoke；EON v2 生成 C++ 尚未與 Espressif runtime 整合。S31 的 ESP-NN 有官方支援，但目前 TFLM component 支援表未涵蓋 IDF 6.1；須先固定 S31 版本配對並 build。以本機狀態機決定開蓋、處理低信心及錯誤；Wi-Fi、語音服務與 LLM 不在拍照到開蓋的必要路徑。這是原型決策，未證明 3 秒目標、分類準確率或 S31 算子相容性。
 
 V2 必須提供粵語語音、鼓勵說話和小智式自由對話。沿用本倉庫 Xiaozhi 作語音介面原型；分類與安全控制由本機狀態機承擔。其已有音訊、傳輸和 MCP 工具；先驗證與現有 LVGL 畫面、S31 板型及資源的整合，再決定是否合併整份韌體或只用相容的語音協定。ESP-IDF 版本需按目標板核對：上游 Xiaozhi 說 S31 使用 IDF 6.1 以上；目前 S3 probe 用 6.0.2，兩者不可直接視作相容。
 
