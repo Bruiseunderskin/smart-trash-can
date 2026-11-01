@@ -1,0 +1,6 @@
+# 模型檔不入版控（可能幾 MB）
+*.tflite
+!main/models/README.md
+build/
+sdkconfig
+sdkconfig.old
