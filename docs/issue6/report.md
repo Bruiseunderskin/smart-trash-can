@@ -35,7 +35,7 @@ E tflite_probe: AllocateTensors failed; check PSRAM and model operators
 
 為了完成 A/B，改用 TensorFlow Lite Micro 官方**全 int8** 模型 `person_detect.tflite`（96×96×1 灰階、2 類，300,568 bytes，算子：CONV_2D / AVERAGE_POOL_2D / MAX_POOL_2D / RESHAPE / FULLY_CONNECTED）。這樣 on/off 兩邊跑的是同一份 int8 網絡，比較才有意義。
 
-結論：**舊式 uint8 TFLite 模型不能使用 ESP-NN 加速**；要吃 PIE/ESP-NN 必須先轉成 int8。這一點對 S31 路線同樣成立。
+結論：此特定 uint8 MobileNet 與測試中的 ESP-NN kernel 組合在 `AllocateTensors` 失敗；不可推廣到所有 uint8 模型或所有版本。S31 與其他模型須獨立驗證。
 
 ## 量測結果
 
@@ -45,9 +45,9 @@ E tflite_probe: AllocateTensors failed; check PSRAM and model operators
 | ESP-NN off | 5,073,248 | 5,073,236 | 5,073,260 | 82,300 |
 
 - p95 加速比：**48.21×**
-- 20 次連續推理的樣本非常集中（on 的 p95−p50 = 16 µs），代表量測受快取/排程噪音影響很小。
+- 20 次連續推理的樣本非常集中（on 的 p95−p50 = 16 µs），只說明這組觀察的分位數接近，不能據此排除快取或排程偏差。
 - ESP-NN on 的 arena 反而較大（120,988 vs 82,300），因為 ESP-NN 的 conv 需要額外 scratch buffer；預留 PSRAM 時要用 on 的數字。
-- ESP-NN off 時 20 次 reference 推理約 101.5 s，連續佔用 CPU0 會觸發非致命 task watchdog（`task_wdt: Task watchdog got triggered ... IDLE0`），但 20 次全部完成並印出 RESULT；不影響數字。若日後在產品中使用 reference kernel，需要讓出 CPU 或縮短單次推論。
+- ESP-NN off 時 20 次 reference 推理約 101.5 s，連續佔用 CPU0 會觸發非致命 task watchdog（`task_wdt: Task watchdog got triggered ... IDLE0`），先前記錄顯示 20 次完成；完整 off 序列日誌未保存，對計時的影響尚不能獨立核實。若日後在產品中使用 reference kernel，需要讓出 CPU 或縮短單次推論。
 
 原始輸出：
 
