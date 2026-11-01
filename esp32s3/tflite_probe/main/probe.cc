@@ -4,6 +4,7 @@
 #include <cinttypes>
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 
 #include "esp_heap_caps.h"
 #include "esp_idf_version.h"
@@ -78,6 +79,7 @@ extern "C" void app_main(void) {
                  static_cast<unsigned>(kArenaSize));
         return;
     }
+    std::unique_ptr<uint8_t, void (*)(void*)> arena_owner(arena_allocation, &heap_caps_free);
     auto* arena = reinterpret_cast<uint8_t*>(
         (reinterpret_cast<uintptr_t>(arena_allocation) + 15U) & ~static_cast<uintptr_t>(15U));
 
@@ -90,21 +92,18 @@ extern "C" void app_main(void) {
         resolver.AddMaxPool2D() != kTfLiteOk ||
         resolver.AddFullyConnected() != kTfLiteOk) {
         ESP_LOGE(kTag, "Failed to register model operators");
-        heap_caps_free(arena_allocation);
         return;
     }
 
     tflite::MicroInterpreter interpreter(model, resolver, arena, kArenaSize);
     if (interpreter.AllocateTensors() != kTfLiteOk) {
         ESP_LOGE(kTag, "AllocateTensors failed; check PSRAM and model operators");
-        heap_caps_free(arena_allocation);
         return;
     }
 
     TfLiteTensor* input = interpreter.input(0);
     if (input == nullptr) {
         ESP_LOGE(kTag, "Model has no input tensor");
-        heap_caps_free(arena_allocation);
         return;
     }
     std::fill_n(input->data.int8, input->bytes, static_cast<int8_t>(0));
@@ -114,8 +113,7 @@ extern "C" void app_main(void) {
         const int64_t start_us = esp_timer_get_time();
         if (interpreter.Invoke() != kTfLiteOk) {
             ESP_LOGE(kTag, "Invoke failed at run %u", static_cast<unsigned>(i + 1));
-            heap_caps_free(arena_allocation);
-            return;
+                return;
         }
         samples[i] = esp_timer_get_time() - start_us;
     }
@@ -129,5 +127,4 @@ extern "C" void app_main(void) {
              P95NearestRank(sorted),
              static_cast<unsigned>(interpreter.arena_used_bytes()));
 
-    heap_caps_free(arena_allocation);
 }

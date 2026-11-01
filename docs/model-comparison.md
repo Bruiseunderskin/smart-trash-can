@@ -14,7 +14,7 @@
 
 這些準確率不是公平的直接排名：測試數量、資料子集、模型精度與 EI 的 uncertain 拒絕規則不同。EI 的 int8 validation accuracy 83.8% 不能與 float32 test accuracy 混同。ESP-PPQ 結果是主機端量化模擬，不是 ESP32 推理結果。#6 使用另一個小模型，其加速比不可套用至垃圾分類模型。
 
-附件 C++ library 的 metadata 顯示 `EI_CLASSIFIER_COMPILED=0`、TFLite engine；它提供 .tflite 與 C++ 包裝。貼文記錄 Studio 對 ESP32-S3 的估算：EON 2124 ms / 548.6 KB RAM，TFLite 9708 ms / 1.9 MB RAM；這是估算，尚非實板測量。尚未取得可核對的 EON 匯出檔。
+附件 C++ library 的 metadata 顯示 `EI_CLASSIFIER_COMPILED=0`、TFLite engine；它提供 .tflite 與 C++ 包裝。貼文記錄 Studio 對 ESP32-S3 的估算：EON 2124 ms / 548.6 KB RAM，TFLite 9708 ms / 1.9 MB RAM；後者的精度選項未在貼文中完整保存，不能把兩個估算當作同模型的引擎比較。這些都是估算，尚非實板測量。尚未取得可核對的 EON 匯出檔。
 
 要判斷哪個更適合 ESP32，需把 EI int8 和 YOLO ESP-DL 放到同一目標板，以同一保留資料集、前處理及計時範圍測 accuracy、p50/p95、峰值 RAM 和 flash，並確認算子支援。詳見 `issue6/report.md`、`ei-baseline/model-testing.md`、`issue8/report.md`。
 
