@@ -1,7 +1,4 @@
-## 鎖定版本：
-## - esp-tflite-micro 1.4.1：提供 TFLM + ESP-NN kernel wrapper
-## - esp-nn >= 1.4.2：ESP32-S31（PIE/QACC）kernel 由此版本起提供
-## 目的：確保兩日後換 S31 時，加速算子已經在依賴樹內，而不是拉到舊版。
 dependencies:
+  idf: ">=5.1"
   espressif/esp-tflite-micro: "^1.4.1"
   espressif/esp-nn: ">=1.4.2"

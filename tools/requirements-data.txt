@@ -1,0 +1,5 @@
+addict
+datasets==3.6.0
+modelscope>=1.40,<2
+oss2
+pillow

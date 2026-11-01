@@ -4,6 +4,19 @@ managed_components/
 sdkconfig.old
 compile_commands.json
 
+# ---- Waste classification training data and outputs ----
+.venv-train/
+/data/garbage265/
+/data/modelscope_cache/
+/data/waste4/
+/data/waste4_ei*.zip
+/data/waste4_ei_train/
+/data/waste4_ei_test/
+/runs/waste4/
+/runs/classify/
+/yolo11n-cls.pt
+/tools/__pycache__/
+
 # ---- IDE / editor ----
 .cache/
 .idea/

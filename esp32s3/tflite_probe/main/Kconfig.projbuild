@@ -1,0 +1,10 @@
+menu "TFLite probe"
+
+config TFLITE_PROBE_USE_ESP_NN
+    bool "Enable ESP-NN optimized kernels"
+    default y
+    help
+        Compile the ESP-TFLite-Micro kernels with ESP-NN enabled. Disable this
+        option to run the portable reference kernels for the A/B comparison.
+
+endmenu
