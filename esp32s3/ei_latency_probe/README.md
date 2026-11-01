@@ -1,6 +1,6 @@
 # Edge Impulse TFLite invoke probe
 
-Measures 20 `MicroInterpreter::Invoke()` calls on an ESP32-S3 using the user's `Waste-Rec` 160×160 int8 TFLite model. Input is zero-filled. The measurement excludes capture, RGB preprocessing, display and lid movement, and does not measure classification quality. Do not infer end-to-end acceptance from this probe.
+Measures 20 `MicroInterpreter::Invoke()` calls on an ESP32-S3 using the user's `Waste-Rec` 160×160 int8 TFLite model. Input is zero-filled. A one-tick yield between invocations is outside the timed interval. The measurement excludes capture, RGB preprocessing, display and lid movement, and does not measure classification quality. Do not infer end-to-end acceptance from this probe.
 
 Provide the Edge Impulse model locally at `main/models/waste4_int8.tflite`; do not commit the export. The observed export contains six operators: ADD, CONV_2D, DEPTHWISE_CONV_2D, FULLY_CONNECTED, RESHAPE and SOFTMAX. The resolver also registers the person-probe pooling operators. Review the generated export's terms and applicable permissions before use.
 

@@ -118,3 +118,9 @@ PyTorch / ONNX          espdl int8
 - test set 只在最後評估使用，未用於調參；calibration 只取 train split。
 - `.pt` / `.onnx` / `.espdl` 均未 commit（`.gitignore` 已排除 `runs/classify/`）。
 - 尚未量測 espdl 在實機上的延遲；#6 的 105 ms 是另一個模型（person_detect int8）在 ESP-NN 下的數字，不可直接比較。
+
+## 後續：排除完全重複的測試圖
+
+固定原本的 `best.pt` / `best.onnx`，未根據測試結果調參。從原始來源以 SHA-256 去重，產生 980 張測試圖；再次核對這 980 張與原訓練及驗證圖的完全相同 SHA-256 數為 0。原模型仍曾在內含 train/val 重複圖的分割上選模；近重複與同場景來源亦未排除。
+
+這 980 張上 PyTorch 與 ONNX 預測一致率 100%，macro-F1 為 0.862707；逐類結果與混淆矩陣見 `../yolo-test-dedup.json`。這是排除已知完全重複後的補充評估，並非重新訓練、ESP-DL 量化評估或真實場景驗收。

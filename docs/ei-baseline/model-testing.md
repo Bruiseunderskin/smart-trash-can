@@ -44,4 +44,12 @@ Machine-readable copy: `confusion-matrix.csv`.
 
 ## C++ TFLite export
 
-使用者提供的 `waste-rec-cpp-mcu-v1-impulse-#1.zip` 含 `tflite-model/tflite_learn_1154067_2.tflite`，大小 1,087,200 bytes；metadata 為 160×160、4 類、`EI_CLASSIFIER_COMPILED=0`，TFLite arena 601,964 bytes。這證明匯出包含模型檔，尚未證明該檔可直接在本板上執行。EON 匯出內容仍待核對。
+使用者提供的 `waste-rec-cpp-mcu-v1-impulse-#1.zip` 含 `tflite-model/tflite_learn_1154067_2.tflite`，大小 1,087,200 bytes；metadata 為 160×160、4 類、`EI_CLASSIFIER_COMPILED=0`，TFLite arena 601,964 bytes。這證明匯出包含模型檔；其後已在 ESP32-S3 上以零輸入成功執行 Invoke，詳見下節。EON 匯出內容仍待核對。
+
+## ESP32-S3 模型 Invoke 實測
+
+實測 EI TFLite int8 模型（SHA-256 `a213846fc867f8e2e4a1a032ac79bea858cfc75668dcd02f6e8c55af2b26dd94`），ESP-IDF 6.0.2、ESP-NN on、160 MHz、8 MB PSRAM；零輸入連續 20 次：mean 864717 µs、p50 858466 µs、p95 899659 µs、arena used 507836 B。`s3-invoke-log.txt` 為原始序列輸出。期間觸發 task watchdog，但 20 次完成；現階段需修改排程再驗證穩定運作。本數字不含相機、預處理、屏幕與蓋子，不證明總流程 ≤3 秒，也不代表 S31 結果。
+
+### 加入排程讓出後重測
+
+每次計時結束後讓出一個 tick（不包含在 Invoke 時間內），再次執行 20 次：mean **858607 µs**、p50 **858582 µs**、p95 **858635 µs**、arena **507836 B**；`s3-invoke-yield-log.txt` 的捕獲輸出中沒有 task watchdog 訊息。第一輪原始輸出仍保留。這只證明該 probe 執行期間的情況，不代表產品整合無 watchdog。

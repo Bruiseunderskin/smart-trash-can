@@ -117,6 +117,7 @@ extern "C" void app_main(void) {
                 return;
         }
         samples[i] = esp_timer_get_time() - start_us;
+        vTaskDelay(1);  // Yield outside the timed interval.
     }
 
     std::array<int64_t, kRuns> sorted = samples;

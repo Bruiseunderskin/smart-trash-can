@@ -2,19 +2,19 @@
 
 ## 選擇
 
-先用 `esp-tflite-micro` + `ESP-NN` 試用 Edge Impulse 的 int8 `.tflite`。使用者提供的 C++ TFLite 匯出含 1,087,200-byte 模型、160×160 RGB、四類；metadata 指出 int8 輸入與輸出，以及 601,964-byte arena。這些是檔案內容，不是運行成功的證據。實板 probe 正在驗證算子、記憶體與 `Invoke` 時間。
+先用 `esp-tflite-micro` + `ESP-NN` 試用 Edge Impulse 的 int8 `.tflite`。使用者提供的 C++ TFLite 匯出含 1,087,200-byte 模型、160×160 RGB、四類；metadata 指出 int8 輸入與輸出，以及 601,964-byte arena。這些是檔案內容，不是運行成功的證據。ESP32-S3 實板已以這個模型執行 20 次；`Invoke` p95 858.635 ms、arena 507,836 B（每次推理後讓出一個 tick，讓出時間不計），記錄見 `ei-baseline/s3-invoke-yield-log.txt`。輸入是全零，未測影像正確率或端到端流程。
 
 | 技術 | 用途 | 這個 `.tflite` | 狀態 |
 |---|---|---|---|
 | ESP-IDF | 平台、RTOS、硬件驅動 | 由應用整合推理庫 | 專案採用 |
-| esp-tflite-micro | MCU 推理 runtime | 可讀 TFLite 格式；實際模型仍須確認所有算子、量化及記憶體 | S3 實板 probe 中 |
+| esp-tflite-micro | MCU 推理 runtime | 可讀 TFLite 格式；實際模型仍須確認所有算子、量化及記憶體 | S3 20 次 Invoke 成功；S31 未驗證 |
 | ESP-NN | TFLite Micro 的晶片最佳化 kernels | 不轉換模型；隨 runtime 支援的算子加速 | S3 / S31 支援不等於此模型已通過 |
 | ESP-DL | Espressif 推理 runtime | 不能直接把 `.tflite` 當 `.espdl` 載入；需轉換並確認算子 | YOLO 的 `.espdl` 主機模擬完成 |
 | ESP-PPQ | 量化及 `.espdl` 匯出工具 | 官方介面接受 ONNX／PyTorch；TFLite 可先嘗試轉 ONNX，再驗證轉換與量化 | 此 EI 模型轉換未驗證 |
 | ESP-VISION | 視覺應用／模型整合層 | 文件提供 TFLite 與 ESP-DL 兩條 runtime 路徑；官方板型表列 S3-EYE 與 S31-Korvo-1 | 本專案具體板型、映像與整合待驗證 |
-| ESP-SR | 喚醒與語音命令 | 不執行影像分類模型 | 語音可選，粵語和 S31 待驗證 |
+| ESP-SR | 喚醒與語音命令 | 不執行影像分類模型 | 離線命令引擎可選；V2 語音必要，粵語和 S31 待驗證 |
 | LVGL | 畫面與觸控框架 | 不執行模型 | 4.3 吋實屏整合待驗證 |
-| Xiaozhi | 語音互動韌體／協定 | 不能直接代替影像 runtime；可接本地分類結果 | 自由對話依賴服務端；離線分類須獨立 |
+| Xiaozhi | V2 必要語音互動候選韌體／協定 | 不能直接代替影像 runtime；可接本地分類結果 | 自由對話依賴服務端；離線分類須獨立 |
 
 Edge Impulse C++ library、`.tflite` 模型與 ESP-NN 並非同一層。保留圖像 resize、RGB 順序與 int8 量化前處理，否則模型能執行也不能保證正確分類。原始資料存在跨分割重複，現有 accuracy 不是乾淨的獨立測試成績。
 
