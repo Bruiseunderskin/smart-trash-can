@@ -53,3 +53,7 @@ Machine-readable copy: `confusion-matrix.csv`.
 ### 加入排程讓出後重測
 
 每次計時結束後讓出一個 tick（不包含在 Invoke 時間內），再次執行 20 次：mean **858607 µs**、p50 **858582 µs**、p95 **858635 µs**、arena **507836 B**；`s3-invoke-yield-log.txt` 的捕獲輸出中沒有 task watchdog 訊息。第一輪原始輸出仍保留。這只證明該 probe 執行期間的情況，不代表產品整合無 watchdog。
+
+## EON 匯出狀態
+
+Waste-Rec 的 C++ library 選用 EON Compiler / quantized int8 後已產生 `v2 (C++ library)` deployment。Brave 在下載步驟顯示 `ERR_BLOCKED_BY_CLIENT`，因此尚未取得並檢查該 archive。其 `.tflite` 有無、檔案數及實機性能仍未知；以上成功僅指平台建立了 deployment，不能視作 archive 驗證。

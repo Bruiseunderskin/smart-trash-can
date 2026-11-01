@@ -29,3 +29,5 @@
 同一份 EI 匯出 int8 模型在 ESP32-S3、160 MHz、8 MB PSRAM、ESP-NN on、零填充輸入下完成 20 次 `Invoke()`：mean 864.717 ms、p50 858.466 ms、p95 **899.659 ms**，arena used **507,836 B**；完整序列輸出見 `ei-baseline/s3-invoke-log.txt`。這是模型推理時間，尚未包含拍照、resize、UI 或蓋子動作，亦未驗證分類準確率或 S31。連續運行中觸發 task watchdog，因此產品需設計不阻塞任務及避免 watchdog 訊息的排程。此模型推理 p95 低於 3 秒，不能證明拍照至開蓋總 p95 或連續 10 次通過。
 
 在每次 Invoke 後讓出一個 tick 再測 20 次，ESP32-S3 模型 Invoke p95 為 **858.635 ms**（mean 858.607 ms；arena 507,836 B），捕獲日誌無 task watchdog 訊息。讓出時間不包括在 Invoke；本機完整流程仍待量測。
+
+對同一 980 張排除完全重複的測試圖，以 200 張原訓練圖重新校準的 S31 ESP-PPQ 量化圖，在主機模擬 macro-F1 **0.8585**；重做量化產物與舊產物不完全相同，近重複及 train/val 選模污染仍未排除。不是 S31 實機分數。

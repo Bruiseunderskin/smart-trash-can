@@ -124,3 +124,21 @@ PyTorch / ONNX          espdl int8
 固定原本的 `best.pt` / `best.onnx`，未根據測試結果調參。從原始來源以 SHA-256 去重，產生 980 張測試圖；再次核對這 980 張與原訓練及驗證圖的完全相同 SHA-256 數為 0。原模型仍曾在內含 train/val 重複圖的分割上選模；近重複與同場景來源亦未排除。
 
 這 980 張上 PyTorch 與 ONNX 預測一致率 100%，macro-F1 為 0.862707；逐類結果與混淆矩陣見 `../yolo-test-dedup.json`。這是排除已知完全重複後的補充評估，並非重新訓練、ESP-DL 量化評估或真實場景驗收。
+
+## 去重測試集上的重做量化評估
+
+使用相同 ONNX 權重及原始 train split，以 seed 42 選 200 張校準圖片，重新產生 S31 w8a8 量化圖；以 ESP-PPQ TorchExecutor 在 980 張完全重複已排除的測試圖評估，macro-F1 **0.858549**。各類 F1：其他 0.7967、可回收物 0.8473、廚餘 0.9307、有害 0.8595。逐類混淆矩陣見 `../yolo-espdl-dedup.json`。
+
+這次產物 1,796,768 B，SHA-256 `83bc961bc4dd1b7268393b250a53262b26d45b9b92fb9212d3af58f23289ed92`，與之前的產物雜湊不同；不可假設兩份二進位逐位相同。結果來自主機量化圖模擬，尚未在 S31 執行。測試集已於前次完整評估後再次檢視以修正已發現的洩漏；沒有以測試結果調參。近重複、同一場景與 train/val 的重複選模仍未排除。
+
+本次重算指令（路徑指向已保存的原始訓練影像與去重測試集）：
+
+```sh
+OMP_NUM_THREADS=2 .venv-train/bin/python tools/quantize_espdl.py \
+  --onnx runs/classify/runs/waste4/cls160/weights/best.onnx \
+  --calib data/waste4/train --test /path/to/waste4_clean/test \
+  --out /path/to/quant-eval-dedup/best.espdl --imgsz 160 \
+  --calib-images 200 --target esp32s31 --seed 42
+```
+
+選用的 200 張校準圖片和 980 張測試圖片各自的相對路徑與 SHA-256 保存於 `../yolo-evaluation-manifest.json`。兩者完全相同的 SHA-256 交集為零。
