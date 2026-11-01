@@ -1,104 +1,45 @@
 # Issue #6 — ESP32-S3 上 esp-tflite-micro int8 延遲（ESP-NN A/B）
 
-## 回報格式
+## 結果
 
-```
-board: ESP32-S3 (module marking not independently verified), 16 MB flash / 8 MB PSRAM detected
+```text
+board: ESP32-S3-CAM（Issue #6 / ROADMAP 的板型稱呼；晶片為 ESP32-S3 QFN56 rev v0.2；16 MB flash / 8 MB PSRAM detected；廠牌及模組標記未由實物獨立確認)
 idf: v6.0.2
-model: person_detect_int8, bytes=300568  (見下方「模型替換」)
-esp_nn=on : mean=105222us p50=105216us p95=105232us arena_used=120988
-esp_nn=off: mean=5073248us p50=5073236us p95=5073260us arena_used=82300
-ratio(p95): 48.21x  (5073260 / 105232)
-編譯改動: probe.cc 由 MobileNet 換成 person_detect 的算子表；量測邏輯未改（見 diff）
+model: TensorFlow Lite Micro person_detect.tflite, int8, 300,568 B, SHA-256 808cfdfc0cf3a6fa6f6fa26bfa379ea97c16d5db7334637766e39c3408502e9d
+input: [1,96,96,1], int8; zero-filled; runs=20; CPU=160 MHz
+esp_nn=on : mean=104.92 ms p50=104.91 ms p95=104.92 ms arena_used=120,996 B
+esp_nn=off: mean=5071.97 ms p50=5071.96 ms p95=5071.98 ms arena_used=82,292 B
+ratio(p95): 48.34x (5071.98 / 104.92)
+probe.cc diff from PR #9: 11 insertions / 7 deletions (18 changed lines); timed Invoke loop unchanged
 ```
 
-序列埠：`/dev/cu.usbmodem5C843268331`（燒錄 460800，console 115200）。
-CPU 160 MHz，PSRAM Octal 40 MHz，模型 300,568 bytes，runs=20。
+完整 ESP-IDF monitor serial capture（只遮蔽裝置 MAC）：
 
-## 模型替換（重要發現）
+- ESP-NN on: [`s3-person-detect-espnn-on.log`](s3-person-detect-espnn-on.log)
+- ESP-NN off: [`s3-person-detect-espnn-off.log`](s3-person-detect-espnn-off.log)
 
-Issue 指定下載的 `mobilenet_v1_1.0_224_quant.tflite` 是 **uint8** 模型（input/output tensor type = 3）。`esp-tflite-micro` 1.4.1 的 ESP-NN conv kernel 只接受：
+兩次都在同一塊 ESP32-S3 QFN56、同一 IDF 6.0.2、同一份全 int8 `person_detect.tflite` 上完成 20 次 `Invoke()`。兩個 build 都成功，刷寫後 flash hash 驗證成功；serial 輸出有 `runs=20` 的完整 RESULT。每次推理後 `vTaskDelay(10 ms)`，yield 不計入 Invoke 計時。ESP-NN on capture 沒有 watchdog 訊息；off capture 有 20 次 task-watchdog 訊息，但 20 次推理完成，輸出 RESULT 並正常由 `app_main()` 返回。
 
-- float32 input + float32 filter
-- int16 input + int8 filter
-- int8 input + int8/int4 filter
+ESP-NN on 的 arena 較大（120,996 vs 82,292 B），符合 optimized convolution 需要額外 scratch memory 的觀察；此數字只適用於這個模型和設定。
 
-因此燒錄後 `AllocateTensors()` 直接失敗：
+## 指定 MobileNet 測試及模型替換
 
-```
-conv.cc Hybrid models are not supported on TFLite Micro.
-Node CONV_2D (number 0) failed to prepare with status 1
-E tflite_probe: AllocateTensors failed; check PSRAM and model operators
-```
+Issue 指定的公開 `mobilenet_v1_1.0_224_quant.tflite` 是 uint8 模型。ESP-NN on 時它在 `AllocateTensors()` 階段因 convolution kernel 支援限制而失敗，沒有產生可比較的 latency。為完成純推理時間 A/B，改用 TensorFlow Lite Micro 公開的全 int8 `person_detect.tflite`（96×96×1 灰階、2 類）；這是 latency stand-in，不是四類垃圾分類模型。此失敗不能推廣成「所有 uint8 模型都不支援」，S31 和產品模型仍須獨立驗證。
 
-同一限制在 esp-tflite-micro **master** 的 `kernels/esp_nn/conv.cc` 仍然存在，不是版本舊的問題；也不是板子問題（同一塊板後續 ESP-NN on 正常跑完）。
+`person_detect.tflite` 下載來源及預期 SHA-256 已記在 [`README.md`](../../esp32s3/tflite_probe/README.md)。模型檔存於 Git 忽略路徑，沒有提交。
 
-為了完成 A/B，改用 TensorFlow Lite Micro 官方**全 int8** 模型 `person_detect.tflite`（96×96×1 灰階、2 類，300,568 bytes，算子：CONV_2D / AVERAGE_POOL_2D / MAX_POOL_2D / RESHAPE / FULLY_CONNECTED）。這樣 on/off 兩邊跑的是同一份 int8 網絡，比較才有意義。
+## Probe 修改範圍
 
-結論：此特定 uint8 MobileNet 與測試中的 ESP-NN kernel 組合在 `AllocateTensors` 失敗；不可推廣到所有 uint8 模型或所有版本。S31 與其他模型須獨立驗證。
+相對 PR #9 的 `esp32s3/tflite_probe/main/probe.cc` 是 11 行新增、7 行刪除，共 18 行變更，符合 issue 少於 30 行限制。修改只移除已不適用的 `MicroErrorReporter` 建構參數，並在輸出加入 IDF、ESP-NN 設定及 arena 數字；原有 20-run 計時迴圈、統計計算和固定輸入方式沒有改變。A/B build 開關位於同一 probe 專案的 Kconfig/CMake。
 
-## 量測結果
+## Issue #6 驗收
 
-| 設定 | mean (us) | p50 (us) | p95 (us) | arena_used (B) |
-|---|---:|---:|---:|---:|
-| ESP-NN on  | 105,222 | 105,216 | 105,232 | 120,988 |
-| ESP-NN off | 5,073,248 | 5,073,236 | 5,073,260 | 82,300 |
+| 驗收 | 狀態 | 證據 |
+|---|---|---|
+| ESP-IDF build 成功 | 通過 | on/off build 均完成 |
+| ESP-NN on/off 均燒錄，20 次完成 | 通過 | 兩份 monitor log；flash hash verified |
+| mean、p50、p95、ratio、arena 有記錄 | 通過 | 上表及兩份完整 serial log |
+| `probe.cc` 變更少於 30 行 | 通過 | 11 insertions / 7 deletions，相對 PR #9 |
+| 產品模型、實際圖片與 S31 延遲 | 未涵蓋 | 本 probe 是 `person_detect` 零輸入 S3 microbenchmark；須在模型及 S31 就緒後另測 |
 
-- p95 加速比：**48.21×**
-- 20 次連續推理的樣本非常集中（on 的 p95−p50 = 16 µs），只說明這組觀察的分位數接近，不能據此排除快取或排程偏差。
-- ESP-NN on 的 arena 反而較大（120,988 vs 82,300），因為 ESP-NN 的 conv 需要額外 scratch buffer；預留 PSRAM 時要用 on 的數字。
-- ESP-NN off 時 20 次 reference 推理約 101.5 s，連續佔用 CPU0 會觸發非致命 task watchdog（`task_wdt: Task watchdog got triggered ... IDLE0`），先前記錄顯示 20 次完成；完整 off 序列日誌未保存，對計時的影響尚不能獨立核實。若日後在產品中使用 reference kernel，需要讓出 CPU 或縮短單次推論。
-
-原始輸出：
-
-```
-I (1121) tflite_probe: target=esp32s3 idf=v6.0.2 model=person_detect_int8 bytes=300568 esp_nn=on runs=20 cpu_mhz=160 psram_bytes=8388608
-I (3271) tflite_probe: RESULT esp_nn=on runs=20 mean_us=105222 p50_us=105216 p95_us=105232 arena_used=120988
-```
-
-ESP-NN off 的完整原始 RESULT 行未保存；上表是先前記錄的摘要，因此該測量需要重跑並保存完整輸出。
-
-## 編譯改動與範圍
-
-`esp32s3/tflite_probe/main/probe.cc`：
-
-1. log 的 model 字串改為 `person_detect_int8`。
-2. `MicroMutableOpResolver<5>` → `<7>`。
-3. 新增 `resolver.AddMaxPool2D()`、`resolver.AddFullyConnected()`（person_detect 需要）。
-4. 錯誤訊息由 `Failed to register MobileNet operators` 改為 `Failed to register model operators`。
-
-相對 PR #9 的 probe 整體 diff 超過 30 行；包括 API 適配、PSRAM 配置及模型算子變更。因此原 issue 的少於 30 行限制未達成。20 次 run、mean/p50/p95 計算及 zero-fill 輸入用於本次量測。
-
-A/B 開關：`CONFIG_TFLITE_PROBE_USE_ESP_NN`（`main/Kconfig.projbuild`，預設 y）。關閉時 `main/CMakeLists.txt` 對 esp-tflite-micro 加 `-UESP_NN`，因為該版本無 menuconfig 開關。
-
-## 重現步驟
-
-```bash
-cd esp32s3/tflite_probe
-source ~/.espressif/v6.0.2/esp-idf/export.sh
-idf.py set-target esp32s3
-idf.py build
-idf.py -p /dev/cu.usbmodem5C843268331 -b 460800 flash
-
-# console 115200，等 RESULT
-python3 - <<'EOF'
-import serial, time
-s = serial.Serial('/dev/cu.usbmodem5C843268331', 115200, timeout=1)
-s.setDTR(False); s.setRTS(False); time.sleep(0.3); s.reset_input_buffer()
-end = time.time() + 180
-while time.time() < end:
-    d = s.read(4096)
-    if d: print(d.decode('utf-8', 'replace'), end='')
-s.close()
-EOF
-
-# ESP-NN off
-# 把 sdkconfig 的 CONFIG_TFLITE_PROBE_USE_ESP_NN 改成 n，再 build/flash/重複上面
-```
-
-## 對 S31 的含意
-
-- ESP-NN 的實際加速在此 workload 是 48×（p95），值得繼續走 esp-tflite-micro 路線。
-- 必須確保模型是 **int8**（input/output type 9）；uint8 模型在 ESP-NN 下直接 Prepare 失敗。
-- 120,988 B 只適用於此模型與本次設定；S31 和四類模型需要獨立量測。
-- 本次量的是 96×96 灰階小模型；换成 160×160 RGB 四分類模型後延遲會明顯上升，需在 S31 到手後用同一份 probe 重測。
+因此這組結果只描述 S3 上 `person_detect` 的 microbenchmark，不代表垃圾分類準確率、EI 模型速度、相機至開蓋 latency 或 S31 實測。

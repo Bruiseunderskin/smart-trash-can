@@ -3,13 +3,13 @@
 **資料洩漏限制：** 原資料有 14 組相同內容跨 train、validation 或 test（11 train/test、2 val/test、1 train/val）；EI 上傳資料另有 5 組 train/test 重複；下列數字是原始觀察，可能偏高，不能證明獨立測試門檻。重建去重資料並重新訓練和評估後才可作正式比較。
 
 
-狀態：#6–#8 的工程實驗與匯出證據已記錄；#6 A/B 使用的是通用 person-detection 模型，不是垃圾分類器，而且探測 diff 超過 issue 的 30 行上限。EI 標準 TFLite 已在 S3 做零輸入 Invoke，YOLO ESP-DL 只在主機模擬。模型選型仍是原型決定；兩個分類模型仍須在同一目標板量實圖、延遲和記憶體，才能決定產品方案。
+狀態：#6–#8 的工程實驗與匯出證據已記錄；#6 A/B 使用通用 person-detection latency stand-in，不是垃圾分類器；`probe.cc` 最小相容改動為 18 行，符合 issue 上限。off 模式有 20 次 watchdog 訊息但完整返回。EI 標準 TFLite 已在 S3 做零輸入 Invoke，YOLO ESP-DL 只在主機模擬。模型選型仍是原型決定；兩個分類模型仍須在同一目標板量實圖、延遲和記憶體，才能決定產品方案。
 
 | 項目 | #6 TFLM probe | #7 Edge Impulse | #8 YOLO11n-cls |
 |---|---|---|---|
 | 模型 | person_detect int8，96×96 灰階，2 類 | MobileNetV2 0.5，160×160 RGB，4 類 | YOLO11n-cls，160×160 RGB，4 類 |
-| 評估 | 實板 20 次，ESP-NN 開／關 p95 105.232／5073.260 ms | Studio float32 測試 788 張，accuracy 78.17%、macro-F1 0.800；TFLite 在 S3 零輸入 Invoke p95 858.635 ms | 去重後 980 張：PyTorch/ONNX macro-F1 0.8627；ESP-PPQ 主機模擬 int8 macro-F1 0.8585 |
-| 產物 | 300568 B 模型；arena 開／關 120988／82300 B | TFLite v1：1,087,200 B `.tflite`；EON v2：3,542,055 B compiled C++，沒有 `.tflite` | ONNX 6,162,676 B；ESP-DL 1,796,768 B + graph JSON |
+| 評估 | 實板 20 次，ESP-NN 開／關 p95 104.92／5071.98 ms | Studio float32 測試 788 張，accuracy 78.17%、macro-F1 0.800；TFLite 在 S3 零輸入 Invoke p95 858.635 ms | 去重後 980 張：PyTorch/ONNX macro-F1 0.8627；ESP-PPQ 主機模擬 int8 macro-F1 0.8585 |
+| 產物 | 300568 B 模型；arena 開／關 120996／82292 B | TFLite v1：1,087,200 B `.tflite`；EON v2：3,542,055 B compiled C++，沒有 `.tflite` | ONNX 6,162,676 B；ESP-DL 1,796,768 B + graph JSON |
 | 實板垃圾分類 | 不適用此模型 | v1 僅零輸入 Invoke；沒有驗證圖片分類；EON v2 未上板 | 未量測 |
 
 這些準確率不是公平的直接排名：測試數量、資料子集、模型精度與 EI 的 uncertain 拒絕規則不同。EI 的 int8 validation accuracy 83.8% 不能與 float32 test accuracy 混同。ESP-PPQ 結果是主機端量化模擬，不是 ESP32 推理結果。#6 使用另一個小模型，其加速比不可套用至垃圾分類模型。
