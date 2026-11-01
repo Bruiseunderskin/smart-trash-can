@@ -28,6 +28,22 @@ idf.py -p COM8 flash monitor
 
 详细接线、角度约定与 MCP 工具说明见 [`xiaozhi-esp32/main/boards/smart-trash-can/README.md`](xiaozhi-esp32/main/boards/smart-trash-can/README.md)。
 
+## 準備四類影像資料
+
+```bash
+python3.11 -m venv .venv-train
+. .venv-train/bin/activate
+pip install -r tools/requirements-train-macos-arm64.lock.txt
+python tools/build_dataset.py --src data/garbage265 --out data/waste4 \
+  --per-class-limit 2000 --test-per-class-limit 250 --seed 42
+```
+
+來源目錄須有 `train/`、`val/` 和 `classname.txt`。輸出包括四類 `train/val/test`、`dataset-report.json`、逐圖來源記錄 `labels.csv`、類別映射 `mapping.csv`，以及摘要 `report.md`。`--test-per-class-limit` 會限制每個目標類別的 held-out test 數量。
+
+`--download` 只會從 ModelScope OSS 分段讀取所選圖片。它不會建立空白 cache 或下載 metadata；`--src` 仍須先包含 ModelScope 的 `classname.txt`、`train.csv`、`val.csv`。缺少 metadata 時，工具會列出缺少的檔案並停止。安裝下載功能依賴時，執行 `pip install -r tools/requirements-data.txt`。
+
+鎖定檔固定本機報告使用的 Python 套件版本，並以 macOS arm64、Python 3.11 測試。重跑模型報告仍須提供相同資料集、權重和 Edge Impulse 匯出；這些大型檔案不納入版本控制。其他平台可使用固定主要套件版本的 `tools/requirements-train.txt`，但報告數字尚未在其他平台重現。
+
 ## 关于构建产物
 
 以下内容**未纳入版本控制**（可通过官方工具链重新生成）：

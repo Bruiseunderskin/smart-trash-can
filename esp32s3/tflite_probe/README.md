@@ -46,4 +46,4 @@ Capture the second `RESULT` line. The run count and model remain the same. `p95`
 
 Record the actual board/module and PSRAM size from its markings or vendor specification, the `idf` version, model byte size, both `RESULT` lines, the p95 ratio, and whether `probe.cc` needed any compatibility edits. Do not report timing as physical evidence unless it came from the connected board's serial log. Do not commit the `.tflite` model.
 
-The program logs the SoC target, IDF version, model size, CPU clock, available PSRAM, kernel setting, timing statistics, and arena bytes. It stops with an explicit error if PSRAM allocation, tensor allocation, or inference fails.
+The program logs the model size and IDF version, arena location (PSRAM with internal-RAM fallback), arena usage, input/output tensor details, and the 20-run timing summary. It stops with an explicit error if arena allocation, tensor allocation, or inference fails.

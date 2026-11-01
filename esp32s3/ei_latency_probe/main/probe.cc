@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <memory>
 
+#include "sdkconfig.h"
 #include "esp_heap_caps.h"
 #include "esp_idf_version.h"
 #include "esp_log.h"
@@ -57,9 +58,9 @@ int64_t P95NearestRank(const std::array<int64_t, kRuns>& sorted) {
 extern "C" void app_main(void) {
     const size_t model_bytes = static_cast<size_t>(model_end - model_start);
     ESP_LOGI(kTag,
-             "target=esp32s3 idf=%s model=waste_rec_ei_int8 bytes=%u "
+             "target=%s idf=%s model=waste_rec_ei_int8 bytes=%u "
              "esp_nn=%s runs=%u cpu_mhz=%u psram_bytes=%u",
-             esp_get_idf_version(), static_cast<unsigned>(model_bytes), KernelMode(),
+             CONFIG_IDF_TARGET, esp_get_idf_version(), static_cast<unsigned>(model_bytes), KernelMode(),
              static_cast<unsigned>(kRuns),
              static_cast<unsigned>(esp_clk_cpu_freq() / 1000000),
              static_cast<unsigned>(heap_caps_get_total_size(MALLOC_CAP_SPIRAM)));

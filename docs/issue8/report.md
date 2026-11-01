@@ -7,8 +7,9 @@
 
 - Python 3.11（`.venv-train`）
 - ultralytics 8.4.197、torch 2.15.0
-- esp-ppq 1.3.14
+- torchvision 0.29.2、onnx 1.19.1、onnxruntime 1.31.1、esp-ppq 1.3.14
 - macOS Apple Silicon（訓練用 MPS）
+- 完整 pip 版本鎖：[`../tools/requirements-train-macos-arm64.lock.txt`](../../tools/requirements-train-macos-arm64.lock.txt)（macOS arm64 / Python 3.11 專用）
 
 ## Step 2 — 訓練
 

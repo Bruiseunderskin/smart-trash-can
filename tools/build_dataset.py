@@ -42,7 +42,14 @@ CLASS_PREFIXES = (
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--src", type=Path, help="Garbage265 root with train/ and val/ directories")
-    parser.add_argument("--download", action="store_true", help="Download and extract the public ModelScope dataset with its SDK")
+    parser.add_argument(
+        "--download",
+        action="store_true",
+        help=(
+            "Range-extract selected images from ModelScope OSS. The --src directory "
+            "must already contain classname.txt, train.csv, and val.csv."
+        ),
+    )
     parser.add_argument("--out", type=Path, default=Path("data/waste4"), help="Output folder (default: data/waste4)")
     parser.add_argument("--per-class-limit", type=int, help="Maximum source-train images per mapped waste class")
     parser.add_argument("--ei-zip", type=Path, help="Also create a flat class-folder ZIP from the sampled source-train images")
@@ -72,7 +79,7 @@ def parse_args() -> argparse.Namespace:
     if not 0 < args.validation_fraction < 1:
         parser.error("--validation-fraction must be between 0 and 1")
     if args.src is None and not args.download:
-        parser.error("pass --src <garbage265-root> or use --download")
+        parser.error("pass --src <garbage265-root>; --download only extracts images from an existing metadata clone")
     return args
 
 
@@ -330,11 +337,107 @@ def unique_filename(label: str, path: Path) -> str:
     return f"{safe_label}--{path.name}"
 
 
-def copy_partition(files: list[tuple[str, Path]], destination: Path) -> int:
+def copy_partition(
+    files: list[tuple[str, Path]],
+    destination: Path,
+    split: str,
+    source_root: Path,
+    output_root: Path,
+    provenance: list[dict[str, str]],
+) -> int:
     destination.mkdir(parents=True, exist_ok=True)
     for label, source in files:
-        shutil.copy2(source, destination / unique_filename(label, source))
+        output = destination / unique_filename(label, source)
+        shutil.copy2(source, output)
+        provenance.append(
+            {
+                "output_path": output.relative_to(output_root).as_posix(),
+                "source_class": label,
+                "target_class": destination.name,
+                "split": split,
+                "source_path": source.relative_to(source_root).as_posix(),
+            }
+        )
     return len(files)
+
+
+def write_provenance(
+    output_root: Path,
+    source_root: Path,
+    provenance: list[dict[str, str]],
+    train_source: dict[str, list[tuple[str, Path]]],
+    test_source: dict[str, list[tuple[str, Path]]],
+    counts: dict[str, dict[str, int]],
+    duplicates_removed: int,
+    seed: int,
+) -> None:
+    with (output_root / "labels.csv").open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=("output_path", "source_class", "target_class", "split", "source_path"),
+        )
+        writer.writeheader()
+        writer.writerows(provenance)
+
+    source_counts: dict[str, dict[str, int]] = defaultdict(
+        lambda: {"source_images": 0, "output_images": 0}
+    )
+    source_targets: dict[str, str] = {}
+    for split_source in (train_source, test_source):
+        for target_class, files in split_source.items():
+            for source_class, _path in files:
+                previous_target = source_targets.setdefault(source_class, target_class)
+                if previous_target != target_class:
+                    raise ValueError(
+                        f"source class maps to multiple targets: {source_class}: "
+                        f"{previous_target}, {target_class}"
+                    )
+                source_counts[source_class]["source_images"] += 1
+    for row in provenance:
+        source_counts[row["source_class"]]["output_images"] += 1
+
+    with (output_root / "mapping.csv").open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(("source_class", "target_class", "source_images", "output_images", "status"))
+        for source_class in sorted(source_targets):
+            observed = source_counts[source_class]
+            writer.writerow(
+                (
+                    source_class,
+                    source_targets[source_class],
+                    observed["source_images"],
+                    observed["output_images"],
+                    "selected" if observed["output_images"] else "mapped_not_selected",
+                )
+            )
+
+    lines = [
+        "# 資料集建置報告",
+        "",
+        f"- 來源目錄：`{source_root.name or source_root}`",
+        f"- 隨機種子：`{seed}`",
+        f"- 完全重複圖片移除：{duplicates_removed} 張",
+        "- 未映射類別：0（發現未映射資料夾時程式會停止）",
+        "",
+        "## 每類 split 數量",
+        "",
+        "| 類別 | train | val | test |",
+        "|---|---:|---:|---:|",
+    ]
+    for target_class in CLASS_ORDER:
+        values = counts[target_class]
+        lines.append(
+            f"| {target_class} | {values['train']} | {values['val']} | {values['test']} |"
+        )
+    lines.extend(
+        (
+            "",
+            "`labels.csv` 對應每張輸出圖片與來源類別、來源路徑及 split。",
+            "`mapping.csv` 列出已映射來源類別及其來源與輸出數量。",
+            "",
+        )
+    )
+    (output_root / "report.md").write_text("\n".join(lines), encoding="utf-8")
 
 
 def deduplicate_sources(*sources: dict[str, list[tuple[str, Path]]]) -> int:
@@ -380,9 +483,14 @@ def main() -> int:
         if archive and (archive.resolve() == source_resolved or source_resolved in archive.resolve().parents):
             raise ValueError("EI ZIP must not be inside the source directory")
     if args.download:
+        metadata_paths = [source / name for name in ("classname.txt", "train.csv", "val.csv")]
+        missing = [path.name for path in metadata_paths if not path.is_file()]
+        if missing:
+            raise FileNotFoundError(
+                f"--download requires an existing ModelScope tany0699/garbage265 metadata clone "
+                f"under {source}; missing: {', '.join(missing)}. Clone the dataset metadata first."
+            )
         class_names = read_class_names(source)
-        if not class_names:
-            raise FileNotFoundError(f"expected classname.txt under {source}")
         selected_categories = download_dataset(
             source,
             class_names,
@@ -413,7 +521,10 @@ def main() -> int:
     test_source = collect_images(source_test_dir, class_names)
     duplicates_removed = deduplicate_sources(train_source, test_source)
     rng = random.Random(args.seed)
+    test_rng = random.Random(args.seed)
+    ei_test_rng = random.Random(args.seed + 1)
     selected: dict[str, list[tuple[str, Path]]] = {}
+    test_selected: dict[str, list[tuple[str, Path]]] = {}
     ei_selected: dict[str, list[tuple[str, Path]]] = {}
     ei_test_selected: dict[str, list[tuple[str, Path]]] = {}
     for major in CLASS_ORDER:
@@ -422,12 +533,14 @@ def main() -> int:
             raise ValueError(f"source training split has fewer than two images for {major}")
         if not test_source.get(major):
             raise ValueError(f"source validation split has no images for {major}")
+        test_selected[major] = choose(test_source[major], args.test_per_class_limit, test_rng)
         ei_selected[major] = []
         ei_test_selected[major] = choose(
-            test_source[major], args.ei_test_per_class_limit or 200, rng
+            test_source[major], args.ei_test_per_class_limit or 200, ei_test_rng
         ) if args.ei_test_zip else []
 
     counts: dict[str, dict[str, int]] = {major: {"train": 0, "val": 0, "test": 0, "ei_train_zip": 0, "ei_test_zip": 0} for major in CLASS_ORDER}
+    provenance: list[dict[str, str]] = []
     for major in CLASS_ORDER:
         files = list(selected[major])
         rng.shuffle(files)
@@ -438,9 +551,15 @@ def main() -> int:
         ei_selected[major] = choose(
             training_files, args.ei_per_class_limit, rng
         ) if args.ei_zip else []
-        counts[major]["train"] = copy_partition(training_files, args.out / "train" / major)
-        counts[major]["val"] = copy_partition(validation_files, args.out / "val" / major)
-        counts[major]["test"] = copy_partition(test_source[major], args.out / "test" / major)
+        counts[major]["train"] = copy_partition(
+            training_files, args.out / "train" / major, "train", source, args.out, provenance
+        )
+        counts[major]["val"] = copy_partition(
+            validation_files, args.out / "val" / major, "val", source, args.out, provenance
+        )
+        counts[major]["test"] = copy_partition(
+            test_selected[major], args.out / "test" / major, "test", source, args.out, provenance
+        )
         counts[major]["ei_train_zip"] = len(ei_selected[major])
         counts[major]["ei_test_zip"] = len(ei_test_selected[major])
 
@@ -458,7 +577,12 @@ def main() -> int:
                 "exact_duplicates_removed": duplicates_removed,
                 "ei_label_map": {EI_LABELS[name]: name for name in CLASS_ORDER},
                 "seed": args.seed,
-                "sample_method": "Choose the five fine-grained labels with the largest minimum count across source train/val, then extract archive-order prefixes up to the requested per-major-class limit.",
+                "sample_method": (
+                    "Choose fine-grained labels with the largest minimum count across source train/val, "
+                    "then extract archive-order prefixes up to the requested per-major-class limit."
+                    if selected_categories
+                    else "Seeded sampling from mapped source classes, followed by a deterministic train/val split."
+                ),
                 "validation_fraction": args.validation_fraction,
                 "per_class_limit_applies_to": "source train images before train/val split",
                 "ei_per_class_limit": args.ei_per_class_limit or args.per_class_limit,
@@ -473,6 +597,16 @@ def main() -> int:
         )
         + "\n",
         encoding="utf-8",
+    )
+    write_provenance(
+        args.out,
+        source,
+        provenance,
+        train_source,
+        test_source,
+        counts,
+        duplicates_removed,
+        args.seed,
     )
     print(json.dumps({"output": str(args.out), "ei_train_zip": str(args.ei_zip) if args.ei_zip else None, "ei_test_zip": str(args.ei_test_zip) if args.ei_test_zip else None, "counts": counts}, ensure_ascii=False, indent=2))
     return 0
