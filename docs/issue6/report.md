@@ -21,7 +21,7 @@ Node CONV_2D (number 0) failed to prepare with status 1
 AllocateTensors failed
 ```
 
-該錯誤字串是 kernel 的通用型別檢查訊息，單憑它不能證明模型必然是 hybrid：本次 component 的 `conv.cc` prepare 只接受 float32/float32、int16/int8 及 int8/int4 或 int8/int8 組合，並未列出 uint8 input/filter 組合。Issue 指定的模型為 uint8；模型各個 tensor 的實際型別仍須另行檢查，不能只憑錯誤文字斷定具體組合。
+該錯誤字串是 kernel 的通用型別檢查訊息，單憑它不能證明模型必然是 hybrid：本次 component 的 `conv.cc` prepare 只接受 float32/float32、int16/int8 及 int8/int4 或 int8/int8 組合，並未列出 uint8 input/filter 組合。重新從報告所列 Gitiles mirror 下載後，SHA-256 與實測檔一致。直接解析 FlatBuffer：第 0 個 operator 是 `CONV_2D`，輸入 tensor 88 為 `UINT8 [1,224,224,3]`，filter tensor 8 為 `UINT8 [32,3,3,3]`，bias tensor 6 為 `INT32 [32]`。因此本次第一層的 uint8/uint8 組合不在此 kernel 的允許清單；錯誤訊息本身不能證明它是 hybrid。
 
 ESP-NN off 的 build command 確認對 TFLM component 加上 `-UESP_NN`。因此這不是 A/B 開關失效、arena 配置失敗或缺少 resolver operator 的結果。兩次均未進入 `Invoke()`，沒有指定 MobileNet 的 mean、p50、p95 或 ratio。完整、已遮蔽 MAC 的 serial captures：
 
