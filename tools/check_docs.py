@@ -22,11 +22,11 @@ def check(root):
     errors = []
     for directory in sorted(directories):
         guide = root / directory / 'README.md'
-        if not guide.is_file():
+        if not guide.is_file() or directory / 'README.md' not in paths:
             errors.append(f'{directory}: missing README.md')
     # The imported tree is excluded; our board is a documented project entry.
     board = root / 'xiaozhi-esp32/main/boards/smart-trash-can/README.md'
-    if not board.is_file():
+    if not board.is_file() or board.relative_to(root) not in paths:
         errors.append('custom smart-trash-can board: missing README.md')
     markdown = [p for p in owned if p.suffix.lower() == '.md']
     tracked_targets = {str(p) for p in paths}

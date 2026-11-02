@@ -20,11 +20,13 @@
 
 ```mermaid
 flowchart LR
+  subgraph planned[待整合的目標設計]
   camera[相機與前處理] --> inference[本機模型推理]
   inference --> controller[本機遊戲狀態與信心判斷]
   controller --> ui[LVGL 畫面]
   controller --> actuator[桶蓋驅動]
   voice[V2 語音服務] -. 建議或互動事件 .-> controller
+  end
 ```
 
 - 相機層負責影像格式、尺寸與 buffer 生命週期。
