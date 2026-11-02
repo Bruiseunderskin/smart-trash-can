@@ -20,9 +20,10 @@
 |---|---:|---|
 | Edge Impulse MobileNetV2 0.5 int8 `.tflite` | **0.805371**（accuracy 0.807143） | LiteRT 2.3.0 host；EI FIT_SHORTEST RGB 前處理；980/980 測試檔 hash 已核對 |
 | YOLO11n-cls ONNX / PyTorch | **0.862707** | host；ONNX/PyTorch 預測一致率 100% |
-| YOLO11n-cls ESP-PPQ int8 simulation | **0.858549** | host TorchExecutor 模擬；不是 ESP32-S31 inference |
+| YOLO11n-cls ESP-PPQ int8，S31 目標 | **0.858549** | host TorchExecutor 模擬；不是 S31 實板 inference |
+| YOLO11n-cls ESP-PPQ int8，S3 目標 | **0.796771** | host TorchExecutor 模擬；不是 S3 實板完整測試 |
 
-在這組共同測試上，YOLO ONNX macro-F1 比 EI 高 5.73 個百分點；ESP-PPQ 模擬比 EI 高 5.32 個百分點。這使 YOLO 成為較強的準確率候選，但尚未證明它在 S31 上可維持此分數或達到時延要求。EI `.tflite` 的 20 次 S3 零輸入 Invoke p95 是 858.635 ms；它不含相機取像、前處理、顯示、語音或蓋子動作。
+在這組共同測試上，YOLO ONNX macro-F1 比 EI 高 5.73 個百分點；ESP-PPQ 模擬比 EI 高 5.32 個百分點。S31 目標的模擬使 YOLO 成為 S31 準確率候選，但尚未證明它在 S31 上可維持此分數或達到時延要求。S3 目標 YOLO 模擬結果比 EI 主機結果低 0.008600 macro-F1，不能將 S31 模擬排名套用至 S3。EI `.tflite` 的 20 次 S3 零輸入 Invoke p95 是 858.635 ms；它不含相機取像、前處理、顯示、語音或蓋子動作。
 
 可重跑 EI host 評估：`tools/evaluate_ei_tflite.py`，鎖定依賴見 `tools/requirements-tflite-eval.txt`，結果及混淆矩陣資料見 `docs/ei-baseline/shared-dedup-test.json`。小於 160 像素的來源圖共 18 張；Evaluator 對上採樣右／下鄰點採 edge clamp，這是為 host 評估定義的安全邊界行為，不能說成與 Edge Impulse 韌體逐像素相同。
 

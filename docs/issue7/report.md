@@ -69,7 +69,7 @@ v1 `.tflite` 曾在 ESP32-S3 以零輸入連續執行 20 次。ESP-NN 開啟、�
 
 Edge Impulse C++ library 是 SDK/模型封裝與部署選項，並非與 YOLO 對立的 CV 模型架構。當前兩個候選都是四類單張圖片分類器：EI MobileNetV2 0.5 與 YOLO11n-cls。就「一次放一件物品在固定相機前」而言，先做影像分類即可；只有需要同時定位多件物品/背景中目標時，才值得改成物件偵測。
 
-原 Studio 78.17%/macro-F1 0.800 與 YOLO 980 張數字仍不是同一測試集。新增的 980 張共享測試提供直接的 host accuracy 比較：EI LiteRT macro-F1 0.805371、YOLO ONNX 0.862707、YOLO ESP-PPQ simulation 0.858549。故目前準確率證據偏向 YOLO，但 near-duplicate、來源場景及 train/validation 選模污染尚未排除，18 張小原圖的 EI resize 邊界亦採 host edge clamp。量產選型仍要在目標板量 end-to-end latency、記憶體，並以現場相機影像確認分類指標。
+原 Studio 78.17%/macro-F1 0.800 與 YOLO 980 張數字仍不是同一測試集。新增的 980 張共享測試提供直接的 host accuracy 比較：EI LiteRT macro-F1 0.805371、YOLO ONNX 0.862707、YOLO ESP-PPQ S31 目標模擬 0.858549、S3 目標模擬 0.796771。故 S31 目標模擬偏向 YOLO，S3 目標模擬則略低於 EI，但 near-duplicate、來源場景及 train/validation 選模污染尚未排除，18 張小原圖的 EI resize 邊界亦採 host edge clamp。量產選型仍要在目標板量 end-to-end latency、記憶體，並以現場相機影像確認分類指標。
 
 ## V2 粵語語音決定
 
@@ -87,7 +87,7 @@ README 推薦的 `HuoshanDoubleStreamTTS` 可作低延遲方案候選，但其�
 
 ## 結論
 
-目前分類準確率排序偏向 YOLO11n-cls + ESP-PPQ：同一 980 張共享測試的 macro-F1 為 0.858549，EI int8 TFLite 為 0.805371；產品部署建議先在 S31 驗證 YOLO `.espdl`。EI v1 標準 int8 `.tflite` 有 ESP32-S3 零輸入 Invoke 證據，四張實圖 smoke test 通過；p95 858.635 ms；它不是整機時延。EON v2 是獨立的編譯 C++ SDK 產物，尚待在目標產品韌體整合。生成 SDK 的授權聲明要求符合有效 Edge Impulse 訂閱條款；產品部署前須核對適用方案。
+目前 S31 目標的分類準確率模擬偏向 YOLO11n-cls + ESP-PPQ：同一 980 張共享測試 macro-F1 為 0.858549，EI int8 TFLite 為 0.805371；S3 目標 YOLO 模擬為 0.796771，略低於 EI；產品部署建議先在 S31 驗證 YOLO `.espdl`。EI v1 標準 int8 `.tflite` 有 ESP32-S3 零輸入 Invoke 證據，四張實圖 smoke test 通過；p95 858.635 ms；它不是整機時延。EON v2 是獨立的編譯 C++ SDK 產物，尚待在目標產品韌體整合。生成 SDK 的授權聲明要求符合有效 Edge Impulse 訂閱條款；產品部署前須核對適用方案。
 
 ## 官方技術參考
 
