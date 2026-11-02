@@ -1,0 +1,49 @@
+name: Firmware compile
+on:
+  push:
+    paths: ['arduino/**', 'esp32s3/**', 'tools/dev.py', '.github/workflows/firmware.yml']
+  pull_request:
+    paths: ['arduino/**', 'esp32s3/**', 'tools/dev.py', '.github/workflows/firmware.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  arduino:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [ESP32S3_Mic_Test, MG90_LidServo_ESP32S3, PCA9685_4Servo_Test]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: arduino/setup-arduino-cli@v2
+        with:
+          version: '1.3.1'
+      - name: Install pinned board and library
+        run: |
+          arduino-cli core update-index --additional-urls https://espressif.github.io/arduino-esp32/package_esp32_index.json
+          arduino-cli core install esp32:esp32@3.3.12 --additional-urls https://espressif.github.io/arduino-esp32/package_esp32_index.json
+          arduino-cli lib install ESP32Servo@3.0.9
+      - run: python3 tools/dev.py compile --project ${{ matrix.project }}
+  esp-idf:
+    runs-on: ubuntu-latest
+    container: espressif/idf:v6.0.2
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [pca9685_servo_test, tflite_probe]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Prepare public latency model
+        if: matrix.project == 'tflite_probe'
+        shell: bash
+        run: |
+          curl --fail --location --retry 3 --output esp32s3/tflite_probe/main/models/waste4_int8.tflite https://raw.githubusercontent.com/tensorflow/tflite-micro/main/tensorflow/lite/micro/models/person_detect.tflite
+          echo '808cfdfc0cf3a6fa6f6fa26bfa379ea97c16d5db7334637766e39c3408502e9d  esp32s3/tflite_probe/main/models/waste4_int8.tflite' | sha256sum --check
+      - name: Compile
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          python tools/dev.py compile --project ${{ matrix.project }}
