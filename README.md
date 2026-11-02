@@ -8,6 +8,16 @@
 
 **影像辨識是主要分類方式**：系統擬拍攝物品、判斷分類、在屏幕提供回饋，並控制相應桶蓋。XiaoZhi AI 語音互動是 **V2 規劃**，用於進一步引導、問答和解說。教育成效、適用年齡及操作方式均屬設計假設，仍需學生與教師試用驗證。
 
+## 從這裡開始
+
+| 你想做甚麼 | 指南 |
+| --- | --- |
+| 找到程式入口與了解目前整合邊界 | [架構與依賴](docs/architecture.md) |
+| 測試 ESP32-S3 伺服或麥克風 | [Arduino](arduino/README.md)、[ESP-IDF](esp32s3/README.md) |
+| 預覽教學畫面 | [UI](ui/README.md) |
+| 準備資料、量化或評估模型 | [工具](tools/README.md)、[資料](data/README.md) |
+| 查閱實驗證據和待完成項目 | [文件索引](docs/README.md) |
+
 ## 系統架構
 
 ![智分桶 EDU 目標架構：影像資料與模型訓練，連接相機、本機推理、狀態機、屏幕和桶蓋；V2 粵語語音可連接對話服務](docs/images/edu-system-architecture.png)
