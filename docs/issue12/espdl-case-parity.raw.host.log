@@ -1,0 +1,275 @@
+
+    ___________ ____        ____  ____  ____
+   / ____/ ___// __ \      / __ \/ __ \/ __ \
+  / __/  \__ \/ /_/ /_____/ /_/ / /_/ / / / /
+ / /___ ___/ / ____/_____/ ____/ ____/ /_/ /
+/_____//____/_/         /_/   /_/    \___\_\
+
+
+[22:42:28] ConvTranspose Decomposition Pass Running ... Finished.
+[22:42:28] PPQ Quantization Fusion Pass Running ...       Finished.
+[22:42:29] PPQ Quantize Simplify Pass Running ...         Finished.
+[22:42:29] PPQ Parameter Quantization Pass Running ...    Finished.
+
+Calibration Progress(Phase 1):   0%|          | 0/200 [00:00<?, ?it/s]
+Calibration Progress(Phase 1):   3%|▎         | 6/200 [00:00<00:03, 57.24it/s]
+Calibration Progress(Phase 1):   6%|▌         | 12/200 [00:00<00:03, 54.22it/s]
+Calibration Progress(Phase 1):   9%|▉         | 18/200 [00:00<00:03, 53.15it/s]
+Calibration Progress(Phase 1):  12%|█▏        | 24/200 [00:00<00:03, 52.18it/s]
+Calibration Progress(Phase 1):  15%|█▌        | 30/200 [00:00<00:03, 53.78it/s]
+Calibration Progress(Phase 1):  18%|█▊        | 36/200 [00:00<00:03, 52.96it/s]
+Calibration Progress(Phase 1):  21%|██        | 42/200 [00:00<00:03, 52.48it/s]
+Calibration Progress(Phase 1):  24%|██▍       | 48/200 [00:00<00:02, 52.57it/s]
+Calibration Progress(Phase 1):  27%|██▋       | 54/200 [00:01<00:02, 48.98it/s]
+Calibration Progress(Phase 1):  30%|██▉       | 59/200 [00:01<00:02, 47.81it/s]
+Calibration Progress(Phase 1):  32%|███▏      | 64/200 [00:01<00:02, 47.15it/s]
+Calibration Progress(Phase 1):  34%|███▍      | 69/200 [00:01<00:02, 47.54it/s]
+Calibration Progress(Phase 1):  38%|███▊      | 75/200 [00:01<00:02, 50.84it/s]
+Calibration Progress(Phase 1):  40%|████      | 81/200 [00:01<00:02, 47.45it/s]
+Calibration Progress(Phase 1):  43%|████▎     | 86/200 [00:01<00:02, 44.33it/s]
+Calibration Progress(Phase 1):  46%|████▌     | 91/200 [00:01<00:02, 40.63it/s]
+Calibration Progress(Phase 1):  48%|████▊     | 96/200 [00:02<00:02, 39.61it/s]
+Calibration Progress(Phase 1):  50%|█████     | 101/200 [00:02<00:02, 40.07it/s]
+Calibration Progress(Phase 1):  53%|█████▎    | 106/200 [00:02<00:02, 37.87it/s]
+Calibration Progress(Phase 1):  56%|█████▌    | 112/200 [00:02<00:02, 42.26it/s]
+Calibration Progress(Phase 1):  59%|█████▉    | 118/200 [00:02<00:01, 46.24it/s]
+Calibration Progress(Phase 1):  62%|██████▎   | 125/200 [00:02<00:01, 49.64it/s]
+Calibration Progress(Phase 1):  66%|██████▌   | 131/200 [00:02<00:01, 47.87it/s]
+Calibration Progress(Phase 1):  68%|██████▊   | 136/200 [00:02<00:01, 47.98it/s]
+Calibration Progress(Phase 1):  70%|███████   | 141/200 [00:02<00:01, 46.18it/s]
+Calibration Progress(Phase 1):  74%|███████▍  | 148/200 [00:03<00:01, 50.91it/s]
+Calibration Progress(Phase 1):  77%|███████▋  | 154/200 [00:03<00:00, 52.65it/s]
+Calibration Progress(Phase 1):  80%|████████  | 160/200 [00:03<00:00, 53.88it/s]
+Calibration Progress(Phase 1):  83%|████████▎ | 166/200 [00:03<00:00, 53.57it/s]
+Calibration Progress(Phase 1):  86%|████████▌ | 172/200 [00:03<00:00, 52.31it/s]
+Calibration Progress(Phase 1):  89%|████████▉ | 178/200 [00:03<00:00, 51.83it/s]
+Calibration Progress(Phase 1):  92%|█████████▏| 184/200 [00:03<00:00, 52.08it/s]
+Calibration Progress(Phase 1):  95%|█████████▌| 190/200 [00:03<00:00, 50.84it/s]
+Calibration Progress(Phase 1):  98%|█████████▊| 196/200 [00:04<00:00, 45.75it/s]
+Calibration Progress(Phase 1): 100%|██████████| 200/200 [00:04<00:00, 47.74it/s]
+
+Calibration Progress(Phase 2):   0%|          | 0/200 [00:00<?, ?it/s]
+Calibration Progress(Phase 2):   2%|▏         | 4/200 [00:00<00:05, 36.17it/s]
+Calibration Progress(Phase 2):   4%|▍         | 9/200 [00:00<00:04, 40.00it/s]
+Calibration Progress(Phase 2):   6%|▋         | 13/200 [00:00<00:05, 37.11it/s]
+Calibration Progress(Phase 2):   8%|▊         | 17/200 [00:00<00:04, 37.79it/s]
+Calibration Progress(Phase 2):  11%|█         | 22/200 [00:00<00:04, 38.37it/s]
+Calibration Progress(Phase 2):  13%|█▎        | 26/200 [00:00<00:04, 36.27it/s]
+Calibration Progress(Phase 2):  15%|█▌        | 30/200 [00:00<00:04, 37.12it/s]
+Calibration Progress(Phase 2):  17%|█▋        | 34/200 [00:00<00:04, 36.84it/s]
+Calibration Progress(Phase 2):  20%|█▉        | 39/200 [00:01<00:04, 37.39it/s]
+Calibration Progress(Phase 2):  22%|██▏       | 43/200 [00:01<00:04, 34.26it/s]
+Calibration Progress(Phase 2):  24%|██▎       | 47/200 [00:01<00:04, 33.49it/s]
+Calibration Progress(Phase 2):  26%|██▌       | 51/200 [00:01<00:04, 33.85it/s]
+Calibration Progress(Phase 2):  28%|██▊       | 55/200 [00:01<00:04, 34.99it/s]
+Calibration Progress(Phase 2):  30%|███       | 60/200 [00:01<00:03, 36.87it/s]
+Calibration Progress(Phase 2):  32%|███▎      | 65/200 [00:01<00:03, 37.74it/s]
+Calibration Progress(Phase 2):  35%|███▌      | 70/200 [00:01<00:03, 40.02it/s]
+Calibration Progress(Phase 2):  38%|███▊      | 75/200 [00:02<00:03, 40.11it/s]
+Calibration Progress(Phase 2):  40%|████      | 80/200 [00:02<00:03, 38.34it/s]
+Calibration Progress(Phase 2):  42%|████▏     | 84/200 [00:02<00:03, 35.59it/s]
+Calibration Progress(Phase 2):  44%|████▍     | 88/200 [00:02<00:03, 34.23it/s]
+Calibration Progress(Phase 2):  46%|████▌     | 92/200 [00:02<00:03, 30.87it/s]
+Calibration Progress(Phase 2):  48%|████▊     | 96/200 [00:02<00:03, 30.83it/s]
+Calibration Progress(Phase 2):  50%|█████     | 100/200 [00:02<00:03, 31.94it/s]
+Calibration Progress(Phase 2):  52%|█████▏    | 104/200 [00:02<00:03, 30.93it/s]
+Calibration Progress(Phase 2):  54%|█████▍    | 108/200 [00:03<00:02, 30.82it/s]
+Calibration Progress(Phase 2):  56%|█████▌    | 112/200 [00:03<00:02, 32.89it/s]
+Calibration Progress(Phase 2):  58%|█████▊    | 117/200 [00:03<00:02, 36.45it/s]
+Calibration Progress(Phase 2):  61%|██████    | 122/200 [00:03<00:01, 39.86it/s]
+Calibration Progress(Phase 2):  64%|██████▎   | 127/200 [00:03<00:01, 41.97it/s]
+Calibration Progress(Phase 2):  66%|██████▌   | 132/200 [00:03<00:01, 41.91it/s]
+Calibration Progress(Phase 2):  68%|██████▊   | 137/200 [00:03<00:01, 42.31it/s]
+Calibration Progress(Phase 2):  71%|███████   | 142/200 [00:03<00:01, 42.50it/s]
+Calibration Progress(Phase 2):  74%|███████▎  | 147/200 [00:03<00:01, 42.11it/s]
+Calibration Progress(Phase 2):  76%|███████▌  | 152/200 [00:04<00:01, 40.25it/s]
+Calibration Progress(Phase 2):  78%|███████▊  | 157/200 [00:04<00:01, 38.21it/s]
+Calibration Progress(Phase 2):  80%|████████  | 161/200 [00:04<00:01, 38.55it/s]
+Calibration Progress(Phase 2):  82%|████████▎ | 165/200 [00:04<00:00, 37.66it/s]
+Calibration Progress(Phase 2):  84%|████████▍ | 169/200 [00:04<00:00, 37.54it/s]
+Calibration Progress(Phase 2):  86%|████████▋ | 173/200 [00:04<00:00, 37.25it/s]
+Calibration Progress(Phase 2):  88%|████████▊ | 177/200 [00:04<00:00, 37.05it/s]
+Calibration Progress(Phase 2):  91%|█████████ | 182/200 [00:04<00:00, 39.16it/s]
+Calibration Progress(Phase 2):  93%|█████████▎| 186/200 [00:05<00:00, 39.18it/s]
+Calibration Progress(Phase 2):  96%|█████████▌| 191/200 [00:05<00:00, 41.69it/s]
+Calibration Progress(Phase 2):  98%|█████████▊| 196/200 [00:05<00:00, 38.99it/s]
+Calibration Progress(Phase 2): 100%|██████████| 200/200 [00:05<00:00, 39.24it/s]
+Calibration Progress(Phase 2): 100%|██████████| 200/200 [00:05<00:00, 37.20it/s]
+[22:42:29] PPQ Runtime Calibration Pass Running ...       Finished.
+[22:42:39] PPQ Quantization Alignment Pass Running ...    Finished.
+[22:42:39] PPQ Passive Parameter Quantization Running ... Finished.
+--------- Network Snapshot ---------
+Num of Op:                    [109]
+Num of Quantized Op:          [109]
+Num of Variable:              [207]
+Num of Quantized Var:         [207]
+------- Quantization Snapshot ------
+Num of Quant Config:          [337]
+ACTIVATED:                    [120]
+OVERLAPPED:                   [112]
+PASSIVE:                      [94]
+FP32:                         [11]
+Network Quantization Finished.
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_90 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_110 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_130 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_2 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_3 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip /model.9/m/m.0/attn/Constant_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_221 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip /model.9/m/m.0/attn/Softmax_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_1 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip output0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_90 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_110 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_130 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_2 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_3 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip /model.9/m/m.0/attn/Constant_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_221 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip /model.9/m/m.0/attn/Softmax_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_1 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip output0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_90 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_110 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_130 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_2 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_3 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip /model.9/m/m.0/attn/Constant_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_221 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip /model.9/m/m.0/attn/Softmax_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_1 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip output0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_90 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_110 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_130 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mskip not QuantableOperation
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_2 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mskip not QuantableOperation
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_3 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mskip not QuantableOperation
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mskip not QuantableOperation
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip /model.9/m/m.0/attn/Constant_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip onnx::Split_221 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip /model.9/m/m.0/attn/Softmax_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mskip not QuantableOperation
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip PPQ_Variable_1 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 22:42:39]:  [mSkip output0 because it's not exportable
+{
+  "report": "C:\\smart_trash_can\\docs\\issue12\\espdl-on-device-cases.raw.host.json",
+  "cases": [
+    [
+      "case_00",
+      2,
+      0.8437342643737793
+    ],
+    [
+      "case_01",
+      0,
+      0.9489004015922546
+    ],
+    [
+      "case_02",
+      0,
+      0.9567614793777466
+    ],
+    [
+      "case_03",
+      2,
+      0.9847168922424316
+    ],
+    [
+      "case_04",
+      1,
+      0.781367838382721
+    ],
+    [
+      "case_05",
+      1,
+      0.9710120558738708
+    ],
+    [
+      "case_06",
+      1,
+      0.5397398471832275
+    ],
+    [
+      "case_07",
+      2,
+      0.9990261793136597
+    ],
+    [
+      "case_08",
+      2,
+      0.9985963702201843
+    ],
+    [
+      "case_09",
+      0,
+      0.6204306483268738
+    ],
+    [
+      "case_10",
+      3,
+      0.4915751516819
+    ],
+    [
+      "case_11",
+      3,
+      0.5615664720535278
+    ]
+  ]
+}

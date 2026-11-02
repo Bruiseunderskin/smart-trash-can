@@ -1,0 +1,195 @@
+{
+  "camera": "SC101IOT",
+  "board": "ESP32-S31-Korvo-1 V1.1",
+  "manifest_path": "C:\\smart_trash_can\\docs\\issue12\\live-camera\\captures.json",
+  "manifest_sha256": "9ca04fc373d016b173ca1655f0bdfecb592af781c1a452a698b0e5365308c362",
+  "onnx_path": "C:\\smart_trash_can\\runs\\issue12\\cls160-grouped\\weights\\best.onnx",
+  "onnx_sha256": "0447a566cdbf6f45a43245205e5667f592d0f6d86bc1c7067bf7e736e6e8177f",
+  "preprocessing": "Ultralytics classify_transforms: resize, center crop, RGB tensor, ImageNet normalization",
+  "provenance_verified": true,
+  "class_names": [
+    "其他",
+    "可回收物",
+    "廚餘",
+    "有害"
+  ],
+  "images": 4,
+  "closed_set": {
+    "accuracy": 0.25,
+    "macro_f1": 0.25,
+    "per_class": {
+      "其他": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1,
+        "true_positive": 0,
+        "false_positive": 2,
+        "false_negative": 1
+      },
+      "可回收物": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1,
+        "true_positive": 0,
+        "false_positive": 1,
+        "false_negative": 1
+      },
+      "廚餘": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 1,
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0
+      },
+      "有害": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 1
+      }
+    },
+    "confusion_matrix": [
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "low_confidence": {
+    "threshold": 0.7,
+    "abstained_count": 2,
+    "coverage": 0.5,
+    "accepted_accuracy": 0.0,
+    "abstained_by_true_class": {
+      "其他": 0,
+      "可回收物": 0,
+      "廚餘": 1,
+      "有害": 1
+    },
+    "per_class": {
+      "其他": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1,
+        "true_positive": 0,
+        "false_positive": 1,
+        "false_negative": 1
+      },
+      "可回收物": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1,
+        "true_positive": 0,
+        "false_positive": 1,
+        "false_negative": 1
+      },
+      "廚餘": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 1
+      },
+      "有害": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 1
+      }
+    },
+    "accepted_confusion_matrix": [
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "predictions": [
+    {
+      "file": "20261102T232824_247218_001_其他.jpg",
+      "sha256": "7a888d66616ae557697f0bf16d5e481316ee2a011afd1cc3847a0c12638cde32",
+      "truth": "其他",
+      "prediction": "可回收物",
+      "confidence": 0.8153994679450989,
+      "abstained": false
+    },
+    {
+      "file": "20261102T232635_606998_001_可回收物.jpg",
+      "sha256": "9616780132de60d38e6fb52a9c429c352d814adc683cb44092e8d378d281520d",
+      "truth": "可回收物",
+      "prediction": "其他",
+      "confidence": 0.8753980994224548,
+      "abstained": false
+    },
+    {
+      "file": "20261102T233104_436020_001_廚餘.jpg",
+      "sha256": "cd78e3a93cb1519542f8f338b1b82263ac625a7669dc0de313e82b8e88943574",
+      "truth": "廚餘",
+      "prediction": "廚餘",
+      "confidence": 0.5805216431617737,
+      "abstained": true
+    },
+    {
+      "file": "20261102T232946_084007_001_有害.jpg",
+      "sha256": "9ae36a3a5244a6181096d88b0e617f483dbd8003a89972b158d612c87243b7a3",
+      "truth": "有害",
+      "prediction": "其他",
+      "confidence": 0.488199383020401,
+      "abstained": true
+    }
+  ]
+}

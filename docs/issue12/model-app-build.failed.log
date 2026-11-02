@@ -1,0 +1,5 @@
+ninja: error: '/data_file_embed_asm_aligned.cmake', needed by 'waste4_grouped_int8.espdl.S', missing and no known rule to make it
+ninja failed with exit code 1, output of the command is in the C:\smart_trash_can\esp32s31\model_validation\build\log\idf_py_stderr_output_11576 and C:\smart_trash_can\esp32s31\model_validation\build\log\idf_py_stdout_output_11576
+Executing action: all (aliases: build)
+Running ninja in directory C:\smart_trash_can\esp32s31\model_validation\build
+Executing "ninja all"...

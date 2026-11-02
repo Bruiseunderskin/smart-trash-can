@@ -1,0 +1,319 @@
+--- WARNING: GDB cannot open serial ports accessed as COMx
+
+--- NOTE: Using \\.\COM5 instead...
+
+--- esp-idf-monitor 1.10.0 on \\.\COM5 115200
+
+--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H
+
+Executing action: monitor
+Running idf_monitor in directory C:\esp\esp-dev-kits\examples\esp32-s31-korvo\examples\factory_demo
+Executing "C:\Espressif\tools\python_env\idf6.1_py3.13_env\Scripts\python.exe C:\esp\v6.1\esp-idf\tools/idf_monitor.py -p COM5 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32s31 --revision 0 --decode-panic backtrace C:\esp\esp-dev-kits\examples\esp32-s31-korvo\examples\factory_demo\build\esp32_s31_korvo_factory_demo.elf C:\esp\esp-dev-kits\examples\esp32-s31-korvo\examples\factory_demo\build\bootloader\bootloader.elf --force-color -m 'C:\Espressif\tools\python_env\idf6.1_py3.13_env\Scripts\python.exe' 'C:\esp\v6.1\esp-idf\tools\idf.py' '--preview' '-p' 'COM5'"...
+ESP-ROM:esp32s31-20251218
+
+Build:Dec 18 2025
+
+rst:0x1 (POWERON),boot:0x78 (SPI_FAST_FLASH_BOOT)
+
+SPI mode:DIO, clock div:1
+
+load:0x2f0740c0,len:0x17e4
+
+load:0x2f06a2b0,len:0xde0
+
+--- 0x2f06a2b0: esp_bootloader_get_description at C:/esp/v6.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c:40
+
+load:0x2f06cfb0,len:0x3460
+
+--- 0x2f06cfb0: is_xmc_chip_strict at C:/esp/v6.1/esp-idf/components/bootloader_support/bootloader_flash/src/bootloader_flash.c:911
+
+entry 0x2f06a2ba
+
+--- 0x2f06a2ba: call_start_cpu0 at C:/esp/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c:27
+
+I (26) boot: ESP-IDF v6.1 2nd stage bootloader
+
+I (26) boot: compile time Nov  2 2026 18:25:45
+
+I (27) boot: Multicore bootloader
+
+I (29) boot: chip revision: v0.0
+
+I (29) boot: efuse block revision: v0.1
+
+I (33) qio_mode: Enabling default flash chip QIO
+
+I (37) boot.esp32s31: SPI Speed      : 80MHz
+
+I (41) boot.esp32s31: SPI Mode       : QIO
+
+I (45) boot.esp32s31: SPI Flash Size : 16MB
+
+I (49) boot: Enabling RNG early entropy source...
+
+I (53) boot: Partition Table:
+
+I (56) boot: ## Label            Usage          Type ST Offset   Length
+
+I (62) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+
+I (69) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+
+I (75) boot:  2 factory          factory app      00 00 00010000 00800000
+
+I (82) boot:  3 coffee_pjpg      Unknown data     01 82 00810000 00600000
+
+I (90) boot: End of partition table
+
+I (92) esp_image: segment 0: paddr=00010020 vaddr=50110020 size=79f70h (499568) map
+
+I (178) esp_image: segment 1: paddr=00089f98 vaddr=2e000000 size=00024h (    36) load
+
+I (180) esp_image: segment 2: paddr=00089fc4 vaddr=2f000000 size=06054h ( 24660) load
+
+I (187) esp_image: segment 3: paddr=00090020 vaddr=50000020 size=10abe0h (1092576) map
+
+I (359) esp_image: segment 4: paddr=0019ac08 vaddr=2f006054 size=0db44h ( 56132) load
+
+I (371) esp_image: segment 5: paddr=001a8754 vaddr=2f013c00 size=05fe8h ( 24552) load
+
+I (382) boot: Loaded app from partition at offset 0x10000
+
+I (383) boot: Disabling RNG early entropy source...
+
+I (394) oct_psram: vendor id    : 0x0d (AP)
+
+I (394) oct_psram: Latency      : 0x01 (Fixed)
+
+I (394) oct_psram: DriveStr.    : 0x00 (25 Ohm)
+
+I (395) oct_psram: dev id       : 0x03 (generation 4)
+
+I (400) oct_psram: density      : 0x05 (128 Mbit)
+
+I (404) oct_psram: good-die     : 0x06 (Pass)
+
+I (408) oct_psram: SRF          : 0x02 (Slow Refresh)
+
+I (413) oct_psram: BurstType    : 0x00 ( Wrap)
+
+I (417) oct_psram: BurstLen     : 0x03 (2048 Byte)
+
+I (421) oct_psram: BitMode      : 0x00 (X8 Mode)
+
+I (426) oct_psram: Readlatency  : 0x06 (18 cycles@Fixed)
+
+I (431) oct_psram: DriveStrength: 0x00 (1/1)
+
+I (435) MSPI Timing: Enter psram timing tuning
+
+I esp_psram: Found 16MB PSRAM device
+
+I esp_psram: Speed: 250MHz
+
+I (615) mmu_psram: .rodata xip on psram
+
+I (672) mmu_psram: .text xip on psram
+
+I (672) oct_psram: psram CS IO is dedicated
+
+I (673) cpu_start: Multicore app
+
+I (682) cpu_start: GPIO 59 and 58 are used as console UART I/O pins
+
+I (682) cpu_start: Pro cpu start user code
+
+I (683) cpu_start: cpu freq: 320000000 Hz
+
+I (684) app_init: Application information:
+
+I (688) app_init: Project name:     esp32_s31_korvo_factory_demo
+
+I (694) app_init: App version:      5c06bf1
+
+I (698) app_init: Compile time:     Nov  2 2026 18:22:53
+
+I (703) app_init: ELF file SHA256:  6078c3033...
+
+I (707) app_init: ESP-IDF:          v6.1
+
+I (711) efuse_init: Min chip rev:     v0.0
+
+I (715) efuse_init: Max chip rev:     v0.99 
+
+I (719) efuse_init: Chip rev:         v0.0
+
+I (723) heap_init: Initializing. RAM available for dynamic allocation:
+
+I (729) heap_init: At 2F01C410 len 0005EBA0 (378 KiB): RAM
+
+I (734) heap_init: At 2F07AFB0 len 000041C0 (16 KiB): RAM
+
+I (739) heap_init: At 2E000024 len 00007FC4 (31 KiB): RTCRAM
+
+I (745) esp_psram: Adding pool of 14784K of PSRAM memory to heap allocator
+
+I (751) esp_psram: Adding pool of 21K of PSRAM memory gap generated due to end address alignment of irom to the heap allocator
+
+I (762) esp_psram: Adding pool of 24K of PSRAM memory gap generated due to end address alignment of drom to the heap allocator
+
+I (774) spi_flash: detected chip: generic
+
+I (777) spi_flash: flash io: qio
+
+I (780) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+
+I (786) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+
+I (793) oct_psram: psram CS IO is dedicated
+
+I (797) coexist: coex firmware version: a830d28
+
+I (801) coexist: coexist rom version cdcf52b
+
+I (805) main_task: Started on CPU0
+
+I (808) esp_psram: Reserving pool of 12K of internal memory for DMA/internal allocations
+
+I (816) main_task: Calling app_main()
+
+I (819) factory_demo: Starting integrated factory demo
+
+I (824) factory_camera: Camera preview service initialized
+
+I (829) S31-Korvo: I2C bus initialized: SDA=0, SCL=1
+
+I (834) S31-Korvo: Initializing camera: dev=/dev/video2, shared_i2c=1, xclk=20000000
+
+I (841) factory_camera: Camera preview requested
+
+I (954) sc101iot: Detected Camera sensor PID=0xda4a
+
+I (1535) S31-Korvo: Camera format: 640x480, fourcc=UYVY, stride=0, size=0
+
+I (1535) S31-Korvo: Camera buffer[0]: ptr=0x501909c0, length=614400
+
+I (1537) S31-Korvo: Camera buffer[1]: ptr=0x50226a00, length=614400
+
+I (1542) factory_camera: BSP camera format: 640x480, fourcc=UYVY, stride=0, size=0
+
+I (1550) factory_camera: Camera preview pipeline: UYVY PPA
+
+I (1555) factory_camera: PPA SRM client registered
+
+I (1573) S31-Korvo: Camera stream started
+
+I (1599) S31-Korvo: Camera orientation control accepted: hflip=0, vflip=0
+
+I (1599) factory_camera: Waiting for first DVP frame...
+
+I (1646) S31-Korvo: Camera first frame: index=0, bytes=614400, length=0
+
+I (1646) factory_camera: First frame: data=0x501909c0 size=614400
+
+I (1661) factory_demo: Camera first frame ready before UI init
+
+I (1661) S31-Korvo: Initializing RGB LCD: 800x480 RGB565, pclk=26000000 Hz, fb_count=3
+
+I (1683) S31-Korvo: RGB LCD initialized
+
+I (1683) esp_lvgl:adapter: Decoder initialized successfully
+
+I (1683) esp_lvgl:adapter: LVGL adapter initialized successfully
+
+I (1688) esp_lvgl:bridge_v9: Initializing hardware resources
+
+I (1692) esp_lvgl:bridge_v9: Hardware resources initialized successfully
+
+I (1698) esp_lvgl:bridge: Initializing hardware resources
+
+I (1703) esp_lvgl:bridge: Hardware resources initialized successfully
+
+I (1710) gt1151: IC version: GT1158_000101(Patch)_0102(Mask)_00(SensorID)
+
+I (1716) S31-Korvo: GT1151 touch initialized
+
+W (1720) esp_lvgl:touch: LV_USE_GESTURE_RECOGNITION is disabled; only single-point pointer events are available
+
+I (1730) esp_lvgl:touch: Touch input device registered successfully (IRQ mode: disabled)
+
+I (1738) esp_lvgl:adapter: LVGL task started successfully
+
+I (1743) S31-Korvo: Display registered to esp_lvgl_adapter
+
+I (1748) mmap_assets: MMAP Assets [coffee_pjpg] mounted successfully. (Lib: v2.0.1, Bin: v1.0.0)
+
+I (1757) lv_fs: Drive 'C' successfully created, version: 1.0.1
+
+I (1762) esp_lvgl:adapter: File system mounted successfully
+
+I (1767) coffee_assets: Coffee assets partition mounted with 51 files
+
+I (1774) coffee_assets: Coffee assets are ready
+
+I (1778) S31-Korvo: WS2812 LED initialized on GPIO37
+
+I (2092) S31-ADC-CALI: Button ADC software calibration finished: w0_q=525745, w6_q=16352, w16_q=256
+
+I (2092) S31-Korvo: Button ADC initialized on ADC1_CH0 with S31 software calibration
+
+I (2097) S31-Korvo: Button 0 threshold: center=380 mV, range=160-600 mV
+
+I (2104) button: IoT Button Version: 4.2.3
+
+I (2108) S31-Korvo: Button 1 threshold: center=820 mV, range=600-1080 mV
+
+I (2114) S31-Korvo: Button 2 threshold: center=1340 mV, range=1080-1605 mV
+
+I (2121) S31-Korvo: Button 3 threshold: center=1870 mV, range=1605-1935 mV
+
+I (2127) factory_demo: Registered 4 board buttons
+
+W (2150) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+
+I (2151) S31-Korvo: Audio I2S initialized
+
+I (2182) ES8389: Work in Slave mode
+
+I (2187) ES8389: Set internal reference signal
+
+I (2189) ES8389: Codec already opened, reusing (open_count=2)
+
+I (2189) I2S_IF: Paired data: 0x2f06f9ec, current mode: record, paired in_enable: 0, paired out_enable: 0
+
+--- 0x2f06f9ec: cache_ll_l1_enable_bus at C:/esp/v6.1/esp-idf/components/hal/esp32s31/include/hal/cache_ll.h:957(inlined by) cache_hal_init at C:/esp/v6.1/esp-idf/components/hal/cache_hal.c:94
+
+I (2195) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: STEREO, slot_mask: 0x3
+
+I (2204) I2S_IF: STD: RX, sample_rate_hz: 48000, mclk_multiple: 256, clk_src: 16
+
+I (2211) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: STEREO, slot_mask: 0x3
+
+I (2220) I2S_IF: STD: TX, sample_rate_hz: 48000, mclk_multiple: 256, clk_src: 16
+
+I (2251) Adev_Codec: Open codec device OK
+
+I (2251) I2S_IF: Current mode(playback) and peer mode have same sample_rate 48000, channel 2, bits_per_sample 16
+
+I (2254) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: STEREO, slot_mask: 0x3
+
+I (2262) I2S_IF: STD: TX, sample_rate_hz: 48000, mclk_multiple: 256, clk_src: 16
+
+I (2292) Adev_Codec: Open codec device OK
+
+I (2295) factory_audio: Audio service initialized: 1152000 bytes buffer in PSRAM
+
+I (2297) factory_demo: LED set to Off (0,0,0)
+
+I (2321) factory_camera: Camera canvas attached: 240x240, stride=480
+
+I (2325) factory_usb_hid: USB host installed
+
+I (2325) factory_usb_hid: USB HID host initialized
+
+I (3225) factory_demo: Factory demo is ready
+
+I (3225) main_task: Returned from app_main()
+
+
+

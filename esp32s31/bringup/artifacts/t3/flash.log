@@ -1,0 +1,953 @@
+[1/4] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\smart_trash_can\esp32s31\bringup\t3_mic\build && C:\Espressif\tools\python_env\idf6.1_py3.13_env\Scripts\python.exe C:/esp/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/smart_trash_can/esp32s31/bringup/t3_mic/build/partition_table/partition-table.bin C:/smart_trash_can/esp32s31/bringup/t3_mic/build/s31_korvo_t3_mic.bin"
+s31_korvo_t3_mic.bin binary size 0x62500 bytes. Smallest app partition is 0x100000 bytes. 0x9db00 bytes (62%) free.
+
+[2/4] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\smart_trash_can\esp32s31\bringup\t3_mic\build\bootloader && C:\Espressif\tools\python_env\idf6.1_py3.13_env\Scripts\python.exe C:/esp/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x2000 C:/smart_trash_can/esp32s31/bringup/t3_mic/build/bootloader/bootloader.bin"
+
+Bootloader binary size 0x5a80 bytes. 0x580 bytes (6%) free.
+
+
+[3/4] No install step for 'bootloader'
+[4/4] Completed 'bootloader'
+Adding "flash"'s dependency "all" to list of commands with default set of options.
+Executing action: all (aliases: build)
+Running ninja in directory C:\smart_trash_can\esp32s31\bringup\t3_mic\build
+Executing "ninja all"...
+Executing action: flash
+Running ninja in directory C:\smart_trash_can\esp32s31\bringup\t3_mic\build
+Executing "ninja flash"...
+[1/5] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\smart_trash_can\esp32s31\bringup\t3_mic\build && C:\Espressif\tools\python_env\idf6.1_py3.13_env\Scripts\python.exe C:/esp/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/smart_trash_can/esp32s31/bringup/t3_mic/build/partition_table/partition-table.bin C:/smart_trash_can/esp32s31/bringup/t3_mic/build/s31_korvo_t3_mic.bin"
+
+s31_korvo_t3_mic.bin binary size 0x62500 bytes. Smallest app partition is 0x100000 bytes. 0x9db00 bytes (62%) free.
+
+
+[2/5] Performing build step for 'bootloader'
+
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\smart_trash_can\esp32s31\bringup\t3_mic\build\bootloader && C:\Espressif\tools\python_env\idf6.1_py3.13_env\Scripts\python.exe C:/esp/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x2000 C:/smart_trash_can/esp32s31/bringup/t3_mic/build/bootloader/bootloader.bin"
+
+
+Bootloader binary size 0x5a80 bytes. 0x580 bytes (6%) free.
+
+
+
+[3/5] No install step for 'bootloader'
+
+[4/5] Completed 'bootloader'
+
+[4/5] Running utility command for flash
+
+esptool --chip esp32s31 -p COM5 -b 460800 --before=default-reset --after=hard-reset --no-stub write-flash --flash-mode dio --flash-freq 80m --flash-size 16MB 0x2000 bootloader/bootloader.bin 0x8000 partition_table/partition-table.bin 0x10000 s31_korvo_t3_mic.bin --skip-flashed
+
+esptool v5.6.0
+
+Serial port COM5:
+
+Connecting....
+
+Connected to ESP32-S31 on COM5:
+
+Chip type:          ESP32-S31 (revision v0.0)
+
+Features:           Wi-Fi 6, BT 5.4 (LE), IEEE802.15.4, Dual Core + LP Core, 300MHz
+
+Crystal frequency:  40MHz
+
+MAC:                1c:29:04:d0:58:a0
+
+
+
+Changing baud rate to 460800...
+
+Changed.
+
+
+
+Enabling default SPI flash mode...
+
+Configuring flash size...
+
+
+
+Writing 'bootloader/bootloader.bin' at 0x00002000...
+
+SHA digest in image updated.
+
+Comparing flash contents against new data...
+
+Flash will be erased from 0x00002000 to 0x00007fff...
+
+Erasing flash...
+
+Took 0.10s to erase flash block.
+
+Writing at 0x00002400 =                                4.4% 1.00kB/22.62kB [0s] 
+
+Writing at 0x00002800 ==>                              8.8% 2.00kB/22.62kB [0s] 
+
+Writing at 0x00002c00 ===>                            13.3% 3.00kB/22.62kB [0s] 
+
+Writing at 0x00003000 =====                           17.7% 4.00kB/22.62kB [0s] 
+
+Writing at 0x00003400 ======>                         22.1% 5.00kB/22.62kB [0s] 
+
+Writing at 0x00003800 =======>                        26.5% 6.00kB/22.62kB [0s] 
+
+Writing at 0x00003c00 =========                       30.9% 7.00kB/22.62kB [0s] 
+
+Writing at 0x00004000 ==========>                     35.4% 8.00kB/22.62kB [0s] 
+
+Writing at 0x00004400 ===========>                    39.8% 9.00kB/22.62kB [0s] 
+
+Writing at 0x00004800 =============                   44.2% 10.00kB/22.62kB [0s] 
+
+Writing at 0x00004c00 ==============>                 48.6% 11.00kB/22.62kB [0s] 
+
+Writing at 0x00005000 ===============>                53.0% 12.00kB/22.62kB [0s] 
+
+Writing at 0x00005400 =================               57.5% 13.00kB/22.62kB [0s] 
+
+Writing at 0x00005800 ==================>             61.9% 14.00kB/22.62kB [0s] 
+
+Writing at 0x00005c00 ===================>            66.3% 15.00kB/22.62kB [0s] 
+
+Writing at 0x00006000 =====================           70.7% 16.00kB/22.62kB [0s] 
+
+Writing at 0x00006400 ======================>         75.1% 17.00kB/22.62kB [0s] 
+
+Writing at 0x00006800 =======================>        79.6% 18.00kB/22.62kB [0s] 
+
+Writing at 0x00006c00 =========================       84.0% 19.00kB/22.62kB [0s] 
+
+Writing at 0x00007000 ==========================>     88.4% 20.00kB/22.62kB [0s] 
+
+Writing at 0x00007400 ===========================>    92.8% 21.00kB/22.62kB [0s] 
+
+Writing at 0x00007800 =============================   97.2% 22.00kB/22.62kB [0s] 
+
+Writing at 0x00007a80 ============================== 100.0% 22.62kB/22.62kB [0s] 
+
+Wrote 23168 bytes at 0x00002000 in 0.8 seconds (240.6 kbit/s).
+
+Verifying written data...
+
+Hash of data verified.
+
+
+
+Writing 'partition_table/partition-table.bin' at 0x00008000...
+
+Comparing flash contents against new data...
+
+'partition_table/partition-table.bin' at 0x00008000 already in flash, skipping write.
+
+
+
+Writing 's31_korvo_t3_mic.bin' at 0x00010000...
+
+Comparing flash contents against new data...
+
+Flash will be erased from 0x00010000 to 0x00072fff...
+
+Erasing flash...
+
+Took 0.75s to erase flash block.
+
+Writing at 0x00010400                                  0.3% 1.00kB/393.25kB [0s] 
+
+Writing at 0x00010800                                  0.5% 2.00kB/393.25kB [0s] 
+
+Writing at 0x00010c00                                  0.8% 3.00kB/393.25kB [0s] 
+
+Writing at 0x00011000                                  1.0% 4.00kB/393.25kB [0s] 
+
+Writing at 0x00011400                                  1.3% 5.00kB/393.25kB [0s] 
+
+Writing at 0x00011800                                  1.5% 6.00kB/393.25kB [0s] 
+
+Writing at 0x00011c00 >                                1.8% 7.00kB/393.25kB [0s] 
+
+Writing at 0x00012000 >                                2.0% 8.00kB/393.25kB [0s] 
+
+Writing at 0x00012400 >                                2.3% 9.00kB/393.25kB [0s] 
+
+Writing at 0x00012800 >                                2.5% 10.00kB/393.25kB [0s] 
+
+Writing at 0x00012c00 >                                2.8% 11.00kB/393.25kB [0s] 
+
+Writing at 0x00013000 >                                3.1% 12.00kB/393.25kB [0s] 
+
+Writing at 0x00013400 >                                3.3% 13.00kB/393.25kB [0s] 
+
+Writing at 0x00013800 =                                3.6% 14.00kB/393.25kB [0s] 
+
+Writing at 0x00013c00 =                                3.8% 15.00kB/393.25kB [0s] 
+
+Writing at 0x00014000 =                                4.1% 16.00kB/393.25kB [0s] 
+
+Writing at 0x00014400 =                                4.3% 17.00kB/393.25kB [0s] 
+
+Writing at 0x00014800 =                                4.6% 18.00kB/393.25kB [0s] 
+
+Writing at 0x00014c00 =                                4.8% 19.00kB/393.25kB [0s] 
+
+Writing at 0x00015000 =>                               5.1% 20.00kB/393.25kB [0s] 
+
+Writing at 0x00015400 =>                               5.3% 21.00kB/393.25kB [0s] 
+
+Writing at 0x00015800 =>                               5.6% 22.00kB/393.25kB [0s] 
+
+Writing at 0x00015c00 =>                               5.8% 23.00kB/393.25kB [0s] 
+
+Writing at 0x00016000 =>                               6.1% 24.00kB/393.25kB [0s] 
+
+Writing at 0x00016400 =>                               6.4% 25.00kB/393.25kB [0s] 
+
+Writing at 0x00016800 =>                               6.6% 26.00kB/393.25kB [0s] 
+
+Writing at 0x00016c00 ==                               6.9% 27.00kB/393.25kB [0s] 
+
+Writing at 0x00017000 ==                               7.1% 28.00kB/393.25kB [0s] 
+
+Writing at 0x00017400 ==                               7.4% 29.00kB/393.25kB [0s] 
+
+Writing at 0x00017800 ==                               7.6% 30.00kB/393.25kB [1s] 
+
+Writing at 0x00017c00 ==                               7.9% 31.00kB/393.25kB [1s] 
+
+Writing at 0x00018000 ==                               8.1% 32.00kB/393.25kB [1s] 
+
+Writing at 0x00018400 ==>                              8.4% 33.00kB/393.25kB [1s] 
+
+Writing at 0x00018800 ==>                              8.6% 34.00kB/393.25kB [1s] 
+
+Writing at 0x00018c00 ==>                              8.9% 35.00kB/393.25kB [1s] 
+
+Writing at 0x00019000 ==>                              9.2% 36.00kB/393.25kB [1s] 
+
+Writing at 0x00019400 ==>                              9.4% 37.00kB/393.25kB [1s] 
+
+Writing at 0x00019800 ==>                              9.7% 38.00kB/393.25kB [1s] 
+
+Writing at 0x00019c00 ==>                              9.9% 39.00kB/393.25kB [1s] 
+
+Writing at 0x0001a000 ===                             10.2% 40.00kB/393.25kB [1s] 
+
+Writing at 0x0001a400 ===                             10.4% 41.00kB/393.25kB [1s] 
+
+Writing at 0x0001a800 ===                             10.7% 42.00kB/393.25kB [1s] 
+
+Writing at 0x0001ac00 ===                             10.9% 43.00kB/393.25kB [1s] 
+
+Writing at 0x0001b000 ===                             11.2% 44.00kB/393.25kB [1s] 
+
+Writing at 0x0001b400 ===                             11.4% 45.00kB/393.25kB [1s] 
+
+Writing at 0x0001b800 ===>                            11.7% 46.00kB/393.25kB [1s] 
+
+Writing at 0x0001bc00 ===>                            12.0% 47.00kB/393.25kB [1s] 
+
+Writing at 0x0001c000 ===>                            12.2% 48.00kB/393.25kB [1s] 
+
+Writing at 0x0001c400 ===>                            12.5% 49.00kB/393.25kB [1s] 
+
+Writing at 0x0001c800 ===>                            12.7% 50.00kB/393.25kB [1s] 
+
+Writing at 0x0001cc00 ===>                            13.0% 51.00kB/393.25kB [1s] 
+
+Writing at 0x0001d000 ===>                            13.2% 52.00kB/393.25kB [1s] 
+
+Writing at 0x0001d400 ====                            13.5% 53.00kB/393.25kB [1s] 
+
+Writing at 0x0001d800 ====                            13.7% 54.00kB/393.25kB [1s] 
+
+Writing at 0x0001dc00 ====                            14.0% 55.00kB/393.25kB [1s] 
+
+Writing at 0x0001e000 ====                            14.2% 56.00kB/393.25kB [1s] 
+
+Writing at 0x0001e400 ====                            14.5% 57.00kB/393.25kB [1s] 
+
+Writing at 0x0001e800 ====                            14.7% 58.00kB/393.25kB [1s] 
+
+Writing at 0x0001ec00 ====>                           15.0% 59.00kB/393.25kB [1s] 
+
+Writing at 0x0001f000 ====>                           15.3% 60.00kB/393.25kB [2s] 
+
+Writing at 0x0001f400 ====>                           15.5% 61.00kB/393.25kB [2s] 
+
+Writing at 0x0001f800 ====>                           15.8% 62.00kB/393.25kB [2s] 
+
+Writing at 0x0001fc00 ====>                           16.0% 63.00kB/393.25kB [2s] 
+
+Writing at 0x00020000 ====>                           16.3% 64.00kB/393.25kB [2s] 
+
+Writing at 0x00020400 ====>                           16.5% 65.00kB/393.25kB [2s] 
+
+Writing at 0x00020800 =====                           16.8% 66.00kB/393.25kB [2s] 
+
+Writing at 0x00020c00 =====                           17.0% 67.00kB/393.25kB [2s] 
+
+Writing at 0x00021000 =====                           17.3% 68.00kB/393.25kB [2s] 
+
+Writing at 0x00021400 =====                           17.5% 69.00kB/393.25kB [2s] 
+
+Writing at 0x00021800 =====                           17.8% 70.00kB/393.25kB [2s] 
+
+Writing at 0x00021c00 =====                           18.1% 71.00kB/393.25kB [2s] 
+
+Writing at 0x00022000 =====                           18.3% 72.00kB/393.25kB [2s] 
+
+Writing at 0x00022400 =====>                          18.6% 73.00kB/393.25kB [2s] 
+
+Writing at 0x00022800 =====>                          18.8% 74.00kB/393.25kB [2s] 
+
+Writing at 0x00022c00 =====>                          19.1% 75.00kB/393.25kB [2s] 
+
+Writing at 0x00023000 =====>                          19.3% 76.00kB/393.25kB [2s] 
+
+Writing at 0x00023400 =====>                          19.6% 77.00kB/393.25kB [2s] 
+
+Writing at 0x00023800 =====>                          19.8% 78.00kB/393.25kB [2s] 
+
+Writing at 0x00023c00 ======                          20.1% 79.00kB/393.25kB [2s] 
+
+Writing at 0x00024000 ======                          20.3% 80.00kB/393.25kB [2s] 
+
+Writing at 0x00024400 ======                          20.6% 81.00kB/393.25kB [2s] 
+
+Writing at 0x00024800 ======                          20.9% 82.00kB/393.25kB [2s] 
+
+Writing at 0x00024c00 ======                          21.1% 83.00kB/393.25kB [2s] 
+
+Writing at 0x00025000 ======                          21.4% 84.00kB/393.25kB [2s] 
+
+Writing at 0x00025400 ======                          21.6% 85.00kB/393.25kB [2s] 
+
+Writing at 0x00025800 ======>                         21.9% 86.00kB/393.25kB [2s] 
+
+Writing at 0x00025c00 ======>                         22.1% 87.00kB/393.25kB [2s] 
+
+Writing at 0x00026000 ======>                         22.4% 88.00kB/393.25kB [2s] 
+
+Writing at 0x00026400 ======>                         22.6% 89.00kB/393.25kB [2s] 
+
+Writing at 0x00026800 ======>                         22.9% 90.00kB/393.25kB [3s] 
+
+Writing at 0x00026c00 ======>                         23.1% 91.00kB/393.25kB [3s] 
+
+Writing at 0x00027000 =======                         23.4% 92.00kB/393.25kB [3s] 
+
+Writing at 0x00027400 =======                         23.6% 93.00kB/393.25kB [3s] 
+
+Writing at 0x00027800 =======                         23.9% 94.00kB/393.25kB [3s] 
+
+Writing at 0x00027c00 =======                         24.2% 95.00kB/393.25kB [3s] 
+
+Writing at 0x00028000 =======                         24.4% 96.00kB/393.25kB [3s] 
+
+Writing at 0x00028400 =======                         24.7% 97.00kB/393.25kB [3s] 
+
+Writing at 0x00028800 =======                         24.9% 98.00kB/393.25kB [3s] 
+
+Writing at 0x00028c00 =======>                        25.2% 99.00kB/393.25kB [3s] 
+
+Writing at 0x00029000 =======>                        25.4% 100.00kB/393.25kB [3s] 
+
+Writing at 0x00029400 =======>                        25.7% 101.00kB/393.25kB [3s] 
+
+Writing at 0x00029800 =======>                        25.9% 102.00kB/393.25kB [3s] 
+
+Writing at 0x00029c00 =======>                        26.2% 103.00kB/393.25kB [3s] 
+
+Writing at 0x0002a000 =======>                        26.4% 104.00kB/393.25kB [3s] 
+
+Writing at 0x0002a400 ========                        26.7% 105.00kB/393.25kB [3s] 
+
+Writing at 0x0002a800 ========                        27.0% 106.00kB/393.25kB [3s] 
+
+Writing at 0x0002ac00 ========                        27.2% 107.00kB/393.25kB [3s] 
+
+Writing at 0x0002b000 ========                        27.5% 108.00kB/393.25kB [3s] 
+
+Writing at 0x0002b400 ========                        27.7% 109.00kB/393.25kB [3s] 
+
+Writing at 0x0002b800 ========                        28.0% 110.00kB/393.25kB [3s] 
+
+Writing at 0x0002bc00 ========                        28.2% 111.00kB/393.25kB [3s] 
+
+Writing at 0x0002c000 ========>                       28.5% 112.00kB/393.25kB [3s] 
+
+Writing at 0x0002c400 ========>                       28.7% 113.00kB/393.25kB [3s] 
+
+Writing at 0x0002c800 ========>                       29.0% 114.00kB/393.25kB [3s] 
+
+Writing at 0x0002cc00 ========>                       29.2% 115.00kB/393.25kB [3s] 
+
+Writing at 0x0002d000 ========>                       29.5% 116.00kB/393.25kB [3s] 
+
+Writing at 0x0002d400 ========>                       29.8% 117.00kB/393.25kB [3s] 
+
+Writing at 0x0002d800 =========                       30.0% 118.00kB/393.25kB [3s] 
+
+Writing at 0x0002dc00 =========                       30.3% 119.00kB/393.25kB [3s] 
+
+Writing at 0x0002e000 =========                       30.5% 120.00kB/393.25kB [4s] 
+
+Writing at 0x0002e400 =========                       30.8% 121.00kB/393.25kB [4s] 
+
+Writing at 0x0002e800 =========                       31.0% 122.00kB/393.25kB [4s] 
+
+Writing at 0x0002ec00 =========                       31.3% 123.00kB/393.25kB [4s] 
+
+Writing at 0x0002f000 =========                       31.5% 124.00kB/393.25kB [4s] 
+
+Writing at 0x0002f400 =========>                      31.8% 125.00kB/393.25kB [4s] 
+
+Writing at 0x0002f800 =========>                      32.0% 126.00kB/393.25kB [4s] 
+
+Writing at 0x0002fc00 =========>                      32.3% 127.00kB/393.25kB [4s] 
+
+Writing at 0x00030000 =========>                      32.5% 128.00kB/393.25kB [4s] 
+
+Writing at 0x00030400 =========>                      32.8% 129.00kB/393.25kB [4s] 
+
+Writing at 0x00030800 =========>                      33.1% 130.00kB/393.25kB [4s] 
+
+Writing at 0x00030c00 =========>                      33.3% 131.00kB/393.25kB [4s] 
+
+Writing at 0x00031000 ==========                      33.6% 132.00kB/393.25kB [4s] 
+
+Writing at 0x00031400 ==========                      33.8% 133.00kB/393.25kB [4s] 
+
+Writing at 0x00031800 ==========                      34.1% 134.00kB/393.25kB [4s] 
+
+Writing at 0x00031c00 ==========                      34.3% 135.00kB/393.25kB [4s] 
+
+Writing at 0x00032000 ==========                      34.6% 136.00kB/393.25kB [4s] 
+
+Writing at 0x00032400 ==========                      34.8% 137.00kB/393.25kB [4s] 
+
+Writing at 0x00032800 ==========>                     35.1% 138.00kB/393.25kB [4s] 
+
+Writing at 0x00032c00 ==========>                     35.3% 139.00kB/393.25kB [4s] 
+
+Writing at 0x00033000 ==========>                     35.6% 140.00kB/393.25kB [4s] 
+
+Writing at 0x00033400 ==========>                     35.9% 141.00kB/393.25kB [4s] 
+
+Writing at 0x00033800 ==========>                     36.1% 142.00kB/393.25kB [4s] 
+
+Writing at 0x00033c00 ==========>                     36.4% 143.00kB/393.25kB [4s] 
+
+Writing at 0x00034000 ==========>                     36.6% 144.00kB/393.25kB [4s] 
+
+Writing at 0x00034400 ===========                     36.9% 145.00kB/393.25kB [4s] 
+
+Writing at 0x00034800 ===========                     37.1% 146.00kB/393.25kB [4s] 
+
+Writing at 0x00034c00 ===========                     37.4% 147.00kB/393.25kB [4s] 
+
+Writing at 0x00035000 ===========                     37.6% 148.00kB/393.25kB [4s] 
+
+Writing at 0x00035400 ===========                     37.9% 149.00kB/393.25kB [4s] 
+
+Writing at 0x00035800 ===========                     38.1% 150.00kB/393.25kB [5s] 
+
+Writing at 0x00035c00 ===========>                    38.4% 151.00kB/393.25kB [5s] 
+
+Writing at 0x00036000 ===========>                    38.7% 152.00kB/393.25kB [5s] 
+
+Writing at 0x00036400 ===========>                    38.9% 153.00kB/393.25kB [5s] 
+
+Writing at 0x00036800 ===========>                    39.2% 154.00kB/393.25kB [5s] 
+
+Writing at 0x00036c00 ===========>                    39.4% 155.00kB/393.25kB [5s] 
+
+Writing at 0x00037000 ===========>                    39.7% 156.00kB/393.25kB [5s] 
+
+Writing at 0x00037400 ===========>                    39.9% 157.00kB/393.25kB [5s] 
+
+Writing at 0x00037800 ============                    40.2% 158.00kB/393.25kB [5s] 
+
+Writing at 0x00037c00 ============                    40.4% 159.00kB/393.25kB [5s] 
+
+Writing at 0x00038000 ============                    40.7% 160.00kB/393.25kB [5s] 
+
+Writing at 0x00038400 ============                    40.9% 161.00kB/393.25kB [5s] 
+
+Writing at 0x00038800 ============                    41.2% 162.00kB/393.25kB [5s] 
+
+Writing at 0x00038c00 ============                    41.4% 163.00kB/393.25kB [5s] 
+
+Writing at 0x00039000 ============>                   41.7% 164.00kB/393.25kB [5s] 
+
+Writing at 0x00039400 ============>                   42.0% 165.00kB/393.25kB [5s] 
+
+Writing at 0x00039800 ============>                   42.2% 166.00kB/393.25kB [5s] 
+
+Writing at 0x00039c00 ============>                   42.5% 167.00kB/393.25kB [5s] 
+
+Writing at 0x0003a000 ============>                   42.7% 168.00kB/393.25kB [5s] 
+
+Writing at 0x0003a400 ============>                   43.0% 169.00kB/393.25kB [5s] 
+
+Writing at 0x0003a800 ============>                   43.2% 170.00kB/393.25kB [5s] 
+
+Writing at 0x0003ac00 =============                   43.5% 171.00kB/393.25kB [5s] 
+
+Writing at 0x0003b000 =============                   43.7% 172.00kB/393.25kB [5s] 
+
+Writing at 0x0003b400 =============                   44.0% 173.00kB/393.25kB [5s] 
+
+Writing at 0x0003b800 =============                   44.2% 174.00kB/393.25kB [5s] 
+
+Writing at 0x0003bc00 =============                   44.5% 175.00kB/393.25kB [5s] 
+
+Writing at 0x0003c000 =============                   44.8% 176.00kB/393.25kB [5s] 
+
+Writing at 0x0003c400 =============>                  45.0% 177.00kB/393.25kB [5s] 
+
+Writing at 0x0003c800 =============>                  45.3% 178.00kB/393.25kB [5s] 
+
+Writing at 0x0003cc00 =============>                  45.5% 179.00kB/393.25kB [6s] 
+
+Writing at 0x0003d000 =============>                  45.8% 180.00kB/393.25kB [6s] 
+
+Writing at 0x0003d400 =============>                  46.0% 181.00kB/393.25kB [6s] 
+
+Writing at 0x0003d800 =============>                  46.3% 182.00kB/393.25kB [6s] 
+
+Writing at 0x0003dc00 =============>                  46.5% 183.00kB/393.25kB [6s] 
+
+Writing at 0x0003e000 ==============                  46.8% 184.00kB/393.25kB [6s] 
+
+Writing at 0x0003e400 ==============                  47.0% 185.00kB/393.25kB [6s] 
+
+Writing at 0x0003e800 ==============                  47.3% 186.00kB/393.25kB [6s] 
+
+Writing at 0x0003ec00 ==============                  47.6% 187.00kB/393.25kB [6s] 
+
+Writing at 0x0003f000 ==============                  47.8% 188.00kB/393.25kB [6s] 
+
+Writing at 0x0003f400 ==============                  48.1% 189.00kB/393.25kB [6s] 
+
+Writing at 0x0003f800 ==============                  48.3% 190.00kB/393.25kB [6s] 
+
+Writing at 0x0003fc00 ==============>                 48.6% 191.00kB/393.25kB [6s] 
+
+Writing at 0x00040000 ==============>                 48.8% 192.00kB/393.25kB [6s] 
+
+Writing at 0x00040400 ==============>                 49.1% 193.00kB/393.25kB [6s] 
+
+Writing at 0x00040800 ==============>                 49.3% 194.00kB/393.25kB [6s] 
+
+Writing at 0x00040c00 ==============>                 49.6% 195.00kB/393.25kB [6s] 
+
+Writing at 0x00041000 ==============>                 49.8% 196.00kB/393.25kB [6s] 
+
+Writing at 0x00041400 ===============                 50.1% 197.00kB/393.25kB [6s] 
+
+Writing at 0x00041800 ===============                 50.3% 198.00kB/393.25kB [6s] 
+
+Writing at 0x00041c00 ===============                 50.6% 199.00kB/393.25kB [6s] 
+
+Writing at 0x00042000 ===============                 50.9% 200.00kB/393.25kB [6s] 
+
+Writing at 0x00042400 ===============                 51.1% 201.00kB/393.25kB [6s] 
+
+Writing at 0x00042800 ===============                 51.4% 202.00kB/393.25kB [6s] 
+
+Writing at 0x00042c00 ===============                 51.6% 203.00kB/393.25kB [6s] 
+
+Writing at 0x00043000 ===============>                51.9% 204.00kB/393.25kB [6s] 
+
+Writing at 0x00043400 ===============>                52.1% 205.00kB/393.25kB [6s] 
+
+Writing at 0x00043800 ===============>                52.4% 206.00kB/393.25kB [6s] 
+
+Writing at 0x00043c00 ===============>                52.6% 207.00kB/393.25kB [6s] 
+
+Writing at 0x00044000 ===============>                52.9% 208.00kB/393.25kB [6s] 
+
+Writing at 0x00044400 ===============>                53.1% 209.00kB/393.25kB [7s] 
+
+Writing at 0x00044800 ================                53.4% 210.00kB/393.25kB [7s] 
+
+Writing at 0x00044c00 ================                53.7% 211.00kB/393.25kB [7s] 
+
+Writing at 0x00045000 ================                53.9% 212.00kB/393.25kB [7s] 
+
+Writing at 0x00045400 ================                54.2% 213.00kB/393.25kB [7s] 
+
+Writing at 0x00045800 ================                54.4% 214.00kB/393.25kB [7s] 
+
+Writing at 0x00045c00 ================                54.7% 215.00kB/393.25kB [7s] 
+
+Writing at 0x00046000 ================                54.9% 216.00kB/393.25kB [7s] 
+
+Writing at 0x00046400 ================>               55.2% 217.00kB/393.25kB [7s] 
+
+Writing at 0x00046800 ================>               55.4% 218.00kB/393.25kB [7s] 
+
+Writing at 0x00046c00 ================>               55.7% 219.00kB/393.25kB [7s] 
+
+Writing at 0x00047000 ================>               55.9% 220.00kB/393.25kB [7s] 
+
+Writing at 0x00047400 ================>               56.2% 221.00kB/393.25kB [7s] 
+
+Writing at 0x00047800 ================>               56.5% 222.00kB/393.25kB [7s] 
+
+Writing at 0x00047c00 =================               56.7% 223.00kB/393.25kB [7s] 
+
+Writing at 0x00048000 =================               57.0% 224.00kB/393.25kB [7s] 
+
+Writing at 0x00048400 =================               57.2% 225.00kB/393.25kB [7s] 
+
+Writing at 0x00048800 =================               57.5% 226.00kB/393.25kB [7s] 
+
+Writing at 0x00048c00 =================               57.7% 227.00kB/393.25kB [7s] 
+
+Writing at 0x00049000 =================               58.0% 228.00kB/393.25kB [7s] 
+
+Writing at 0x00049400 =================               58.2% 229.00kB/393.25kB [7s] 
+
+Writing at 0x00049800 =================>              58.5% 230.00kB/393.25kB [7s] 
+
+Writing at 0x00049c00 =================>              58.7% 231.00kB/393.25kB [7s] 
+
+Writing at 0x0004a000 =================>              59.0% 232.00kB/393.25kB [7s] 
+
+Writing at 0x0004a400 =================>              59.2% 233.00kB/393.25kB [7s] 
+
+Writing at 0x0004a800 =================>              59.5% 234.00kB/393.25kB [7s] 
+
+Writing at 0x0004ac00 =================>              59.8% 235.00kB/393.25kB [7s] 
+
+Writing at 0x0004b000 ==================              60.0% 236.00kB/393.25kB [7s] 
+
+Writing at 0x0004b400 ==================              60.3% 237.00kB/393.25kB [7s] 
+
+Writing at 0x0004b800 ==================              60.5% 238.00kB/393.25kB [7s] 
+
+Writing at 0x0004bc00 ==================              60.8% 239.00kB/393.25kB [8s] 
+
+Writing at 0x0004c000 ==================              61.0% 240.00kB/393.25kB [8s] 
+
+Writing at 0x0004c400 ==================              61.3% 241.00kB/393.25kB [8s] 
+
+Writing at 0x0004c800 ==================              61.5% 242.00kB/393.25kB [8s] 
+
+Writing at 0x0004cc00 ==================>             61.8% 243.00kB/393.25kB [8s] 
+
+Writing at 0x0004d000 ==================>             62.0% 244.00kB/393.25kB [8s] 
+
+Writing at 0x0004d400 ==================>             62.3% 245.00kB/393.25kB [8s] 
+
+Writing at 0x0004d800 ==================>             62.6% 246.00kB/393.25kB [8s] 
+
+Writing at 0x0004dc00 ==================>             62.8% 247.00kB/393.25kB [8s] 
+
+Writing at 0x0004e000 ==================>             63.1% 248.00kB/393.25kB [8s] 
+
+Writing at 0x0004e400 ==================>             63.3% 249.00kB/393.25kB [8s] 
+
+Writing at 0x0004e800 ===================             63.6% 250.00kB/393.25kB [8s] 
+
+Writing at 0x0004ec00 ===================             63.8% 251.00kB/393.25kB [8s] 
+
+Writing at 0x0004f000 ===================             64.1% 252.00kB/393.25kB [8s] 
+
+Writing at 0x0004f400 ===================             64.3% 253.00kB/393.25kB [8s] 
+
+Writing at 0x0004f800 ===================             64.6% 254.00kB/393.25kB [8s] 
+
+Writing at 0x0004fc00 ===================             64.8% 255.00kB/393.25kB [8s] 
+
+Writing at 0x00050000 ===================>            65.1% 256.00kB/393.25kB [8s] 
+
+Writing at 0x00050400 ===================>            65.4% 257.00kB/393.25kB [8s] 
+
+Writing at 0x00050800 ===================>            65.6% 258.00kB/393.25kB [8s] 
+
+Writing at 0x00050c00 ===================>            65.9% 259.00kB/393.25kB [8s] 
+
+Writing at 0x00051000 ===================>            66.1% 260.00kB/393.25kB [8s] 
+
+Writing at 0x00051400 ===================>            66.4% 261.00kB/393.25kB [8s] 
+
+Writing at 0x00051800 ===================>            66.6% 262.00kB/393.25kB [8s] 
+
+Writing at 0x00051c00 ====================            66.9% 263.00kB/393.25kB [8s] 
+
+Writing at 0x00052000 ====================            67.1% 264.00kB/393.25kB [8s] 
+
+Writing at 0x00052400 ====================            67.4% 265.00kB/393.25kB [8s] 
+
+Writing at 0x00052800 ====================            67.6% 266.00kB/393.25kB [8s] 
+
+Writing at 0x00052c00 ====================            67.9% 267.00kB/393.25kB [8s] 
+
+Writing at 0x00053000 ====================            68.2% 268.00kB/393.25kB [9s] 
+
+Writing at 0x00053400 ====================>           68.4% 269.00kB/393.25kB [9s] 
+
+Writing at 0x00053800 ====================>           68.7% 270.00kB/393.25kB [9s] 
+
+Writing at 0x00053c00 ====================>           68.9% 271.00kB/393.25kB [9s] 
+
+Writing at 0x00054000 ====================>           69.2% 272.00kB/393.25kB [9s] 
+
+Writing at 0x00054400 ====================>           69.4% 273.00kB/393.25kB [9s] 
+
+Writing at 0x00054800 ====================>           69.7% 274.00kB/393.25kB [9s] 
+
+Writing at 0x00054c00 ====================>           69.9% 275.00kB/393.25kB [9s] 
+
+Writing at 0x00055000 =====================           70.2% 276.00kB/393.25kB [9s] 
+
+Writing at 0x00055400 =====================           70.4% 277.00kB/393.25kB [9s] 
+
+Writing at 0x00055800 =====================           70.7% 278.00kB/393.25kB [9s] 
+
+Writing at 0x00055c00 =====================           70.9% 279.00kB/393.25kB [9s] 
+
+Writing at 0x00056000 =====================           71.2% 280.00kB/393.25kB [9s] 
+
+Writing at 0x00056400 =====================           71.5% 281.00kB/393.25kB [9s] 
+
+Writing at 0x00056800 =====================>          71.7% 282.00kB/393.25kB [9s] 
+
+Writing at 0x00056c00 =====================>          72.0% 283.00kB/393.25kB [9s] 
+
+Writing at 0x00057000 =====================>          72.2% 284.00kB/393.25kB [9s] 
+
+Writing at 0x00057400 =====================>          72.5% 285.00kB/393.25kB [9s] 
+
+Writing at 0x00057800 =====================>          72.7% 286.00kB/393.25kB [9s] 
+
+Writing at 0x00057c00 =====================>          73.0% 287.00kB/393.25kB [9s] 
+
+Writing at 0x00058000 =====================>          73.2% 288.00kB/393.25kB [9s] 
+
+Writing at 0x00058400 ======================          73.5% 289.00kB/393.25kB [9s] 
+
+Writing at 0x00058800 ======================          73.7% 290.00kB/393.25kB [9s] 
+
+Writing at 0x00058c00 ======================          74.0% 291.00kB/393.25kB [9s] 
+
+Writing at 0x00059000 ======================          74.3% 292.00kB/393.25kB [9s] 
+
+Writing at 0x00059400 ======================          74.5% 293.00kB/393.25kB [9s] 
+
+Writing at 0x00059800 ======================          74.8% 294.00kB/393.25kB [9s] 
+
+Writing at 0x00059c00 ======================>         75.0% 295.00kB/393.25kB [9s] 
+
+Writing at 0x0005a000 ======================>         75.3% 296.00kB/393.25kB [9s] 
+
+Writing at 0x0005a400 ======================>         75.5% 297.00kB/393.25kB [9s] 
+
+Writing at 0x0005a800 ======================>         75.8% 298.00kB/393.25kB [10s] 
+
+Writing at 0x0005ac00 ======================>         76.0% 299.00kB/393.25kB [10s] 
+
+Writing at 0x0005b000 ======================>         76.3% 300.00kB/393.25kB [10s] 
+
+Writing at 0x0005b400 ======================>         76.5% 301.00kB/393.25kB [10s] 
+
+Writing at 0x0005b800 =======================         76.8% 302.00kB/393.25kB [10s] 
+
+Writing at 0x0005bc00 =======================         77.1% 303.00kB/393.25kB [10s] 
+
+Writing at 0x0005c000 =======================         77.3% 304.00kB/393.25kB [10s] 
+
+Writing at 0x0005c400 =======================         77.6% 305.00kB/393.25kB [10s] 
+
+Writing at 0x0005c800 =======================         77.8% 306.00kB/393.25kB [10s] 
+
+Writing at 0x0005cc00 =======================         78.1% 307.00kB/393.25kB [10s] 
+
+Writing at 0x0005d000 =======================         78.3% 308.00kB/393.25kB [10s] 
+
+Writing at 0x0005d400 =======================>        78.6% 309.00kB/393.25kB [10s] 
+
+Writing at 0x0005d800 =======================>        78.8% 310.00kB/393.25kB [10s] 
+
+Writing at 0x0005dc00 =======================>        79.1% 311.00kB/393.25kB [10s] 
+
+Writing at 0x0005e000 =======================>        79.3% 312.00kB/393.25kB [10s] 
+
+Writing at 0x0005e400 =======================>        79.6% 313.00kB/393.25kB [10s] 
+
+Writing at 0x0005e800 =======================>        79.8% 314.00kB/393.25kB [10s] 
+
+Writing at 0x0005ec00 ========================        80.1% 315.00kB/393.25kB [10s] 
+
+Writing at 0x0005f000 ========================        80.4% 316.00kB/393.25kB [10s] 
+
+Writing at 0x0005f400 ========================        80.6% 317.00kB/393.25kB [10s] 
+
+Writing at 0x0005f800 ========================        80.9% 318.00kB/393.25kB [10s] 
+
+Writing at 0x0005fc00 ========================        81.1% 319.00kB/393.25kB [10s] 
+
+Writing at 0x00060000 ========================        81.4% 320.00kB/393.25kB [10s] 
+
+Writing at 0x00060400 ========================        81.6% 321.00kB/393.25kB [10s] 
+
+Writing at 0x00060800 ========================>       81.9% 322.00kB/393.25kB [10s] 
+
+Writing at 0x00060c00 ========================>       82.1% 323.00kB/393.25kB [10s] 
+
+Writing at 0x00061000 ========================>       82.4% 324.00kB/393.25kB [10s] 
+
+Writing at 0x00061400 ========================>       82.6% 325.00kB/393.25kB [10s] 
+
+Writing at 0x00061800 ========================>       82.9% 326.00kB/393.25kB [10s] 
+
+Writing at 0x00061c00 ========================>       83.2% 327.00kB/393.25kB [10s] 
+
+Writing at 0x00062000 =========================       83.4% 328.00kB/393.25kB [11s] 
+
+Writing at 0x00062400 =========================       83.7% 329.00kB/393.25kB [11s] 
+
+Writing at 0x00062800 =========================       83.9% 330.00kB/393.25kB [11s] 
+
+Writing at 0x00062c00 =========================       84.2% 331.00kB/393.25kB [11s] 
+
+Writing at 0x00063000 =========================       84.4% 332.00kB/393.25kB [11s] 
+
+Writing at 0x00063400 =========================       84.7% 333.00kB/393.25kB [11s] 
+
+Writing at 0x00063800 =========================       84.9% 334.00kB/393.25kB [11s] 
+
+Writing at 0x00063c00 =========================>      85.2% 335.00kB/393.25kB [11s] 
+
+Writing at 0x00064000 =========================>      85.4% 336.00kB/393.25kB [11s] 
+
+Writing at 0x00064400 =========================>      85.7% 337.00kB/393.25kB [11s] 
+
+Writing at 0x00064800 =========================>      86.0% 338.00kB/393.25kB [11s] 
+
+Writing at 0x00064c00 =========================>      86.2% 339.00kB/393.25kB [11s] 
+
+Writing at 0x00065000 =========================>      86.5% 340.00kB/393.25kB [11s] 
+
+Writing at 0x00065400 ==========================      86.7% 341.00kB/393.25kB [11s] 
+
+Writing at 0x00065800 ==========================      87.0% 342.00kB/393.25kB [11s] 
+
+Writing at 0x00065c00 ==========================      87.2% 343.00kB/393.25kB [11s] 
+
+Writing at 0x00066000 ==========================      87.5% 344.00kB/393.25kB [11s] 
+
+Writing at 0x00066400 ==========================      87.7% 345.00kB/393.25kB [11s] 
+
+Writing at 0x00066800 ==========================      88.0% 346.00kB/393.25kB [11s] 
+
+Writing at 0x00066c00 ==========================      88.2% 347.00kB/393.25kB [11s] 
+
+Writing at 0x00067000 ==========================>     88.5% 348.00kB/393.25kB [11s] 
+
+Writing at 0x00067400 ==========================>     88.7% 349.00kB/393.25kB [11s] 
+
+Writing at 0x00067800 ==========================>     89.0% 350.00kB/393.25kB [11s] 
+
+Writing at 0x00067c00 ==========================>     89.3% 351.00kB/393.25kB [11s] 
+
+Writing at 0x00068000 ==========================>     89.5% 352.00kB/393.25kB [11s] 
+
+Writing at 0x00068400 ==========================>     89.8% 353.00kB/393.25kB [11s] 
+
+Writing at 0x00068800 ===========================     90.0% 354.00kB/393.25kB [11s] 
+
+Writing at 0x00068c00 ===========================     90.3% 355.00kB/393.25kB [11s] 
+
+Writing at 0x00069000 ===========================     90.5% 356.00kB/393.25kB [11s] 
+
+Writing at 0x00069400 ===========================     90.8% 357.00kB/393.25kB [11s] 
+
+Writing at 0x00069800 ===========================     91.0% 358.00kB/393.25kB [12s] 
+
+Writing at 0x00069c00 ===========================     91.3% 359.00kB/393.25kB [12s] 
+
+Writing at 0x0006a000 ===========================     91.5% 360.00kB/393.25kB [12s] 
+
+Writing at 0x0006a400 ===========================>    91.8% 361.00kB/393.25kB [12s] 
+
+Writing at 0x0006a800 ===========================>    92.1% 362.00kB/393.25kB [12s] 
+
+Writing at 0x0006ac00 ===========================>    92.3% 363.00kB/393.25kB [12s] 
+
+Writing at 0x0006b000 ===========================>    92.6% 364.00kB/393.25kB [12s] 
+
+Writing at 0x0006b400 ===========================>    92.8% 365.00kB/393.25kB [12s] 
+
+Writing at 0x0006b800 ===========================>    93.1% 366.00kB/393.25kB [12s] 
+
+Writing at 0x0006bc00 ===========================>    93.3% 367.00kB/393.25kB [12s] 
+
+Writing at 0x0006c000 ============================    93.6% 368.00kB/393.25kB [12s] 
+
+Writing at 0x0006c400 ============================    93.8% 369.00kB/393.25kB [12s] 
+
+Writing at 0x0006c800 ============================    94.1% 370.00kB/393.25kB [12s] 
+
+Writing at 0x0006cc00 ============================    94.3% 371.00kB/393.25kB [12s] 
+
+Writing at 0x0006d000 ============================    94.6% 372.00kB/393.25kB [12s] 
+
+Writing at 0x0006d400 ============================    94.9% 373.00kB/393.25kB [12s] 
+
+Writing at 0x0006d800 ============================>   95.1% 374.00kB/393.25kB [12s] 
+
+Writing at 0x0006dc00 ============================>   95.4% 375.00kB/393.25kB [12s] 
+
+Writing at 0x0006e000 ============================>   95.6% 376.00kB/393.25kB [12s] 
+
+Writing at 0x0006e400 ============================>   95.9% 377.00kB/393.25kB [12s] 
+
+Writing at 0x0006e800 ============================>   96.1% 378.00kB/393.25kB [12s] 
+
+Writing at 0x0006ec00 ============================>   96.4% 379.00kB/393.25kB [12s] 
+
+Writing at 0x0006f000 ============================>   96.6% 380.00kB/393.25kB [12s] 
+
+Writing at 0x0006f400 =============================   96.9% 381.00kB/393.25kB [12s] 
+
+Writing at 0x0006f800 =============================   97.1% 382.00kB/393.25kB [12s] 
+
+Writing at 0x0006fc00 =============================   97.4% 383.00kB/393.25kB [12s] 
+
+Writing at 0x00070000 =============================   97.6% 384.00kB/393.25kB [12s] 
+
+Writing at 0x00070400 =============================   97.9% 385.00kB/393.25kB [12s] 
+
+Writing at 0x00070800 =============================   98.2% 386.00kB/393.25kB [12s] 
+
+Writing at 0x00070c00 =============================>  98.4% 387.00kB/393.25kB [13s] 
+
+Writing at 0x00071000 =============================>  98.7% 388.00kB/393.25kB [13s] 
+
+Writing at 0x00071400 =============================>  98.9% 389.00kB/393.25kB [13s] 
+
+Writing at 0x00071800 =============================>  99.2% 390.00kB/393.25kB [13s] 
+
+Writing at 0x00071c00 =============================>  99.4% 391.00kB/393.25kB [13s] 
+
+Writing at 0x00072000 =============================>  99.7% 392.00kB/393.25kB [13s] 
+
+Writing at 0x00072400 =============================>  99.9% 393.00kB/393.25kB [13s] 
+
+Writing at 0x00072500 ============================== 100.0% 393.25kB/393.25kB [13s] 
+
+Wrote 402688 bytes at 0x00010000 in 13.2 seconds (243.3 kbit/s).
+
+Verifying written data...
+
+Hash of data verified.
+
+
+
+Hard resetting via RTS pin...
+
+Done

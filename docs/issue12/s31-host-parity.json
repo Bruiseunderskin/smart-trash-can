@@ -1,0 +1,128 @@
+{
+  "cases": 12,
+  "class_agreement": 12,
+  "mean_confidence_abs_delta": 2.670203844701291e-07,
+  "input_crc_agreement": 12,
+  "cases_detail": [
+    {
+      "case_id": "case_00",
+      "truth": "其他",
+      "s31_predicted_index": 2,
+      "s31_confidence": 0.843734,
+      "ppq_predicted_index": 2,
+      "ppq_confidence": 0.8437342643737793,
+      "class_match": true,
+      "confidence_abs_delta": 2.643737793128764e-07
+    },
+    {
+      "case_id": "case_01",
+      "truth": "其他",
+      "s31_predicted_index": 0,
+      "s31_confidence": 0.9489,
+      "ppq_predicted_index": 0,
+      "ppq_confidence": 0.9489004015922546,
+      "class_match": true,
+      "confidence_abs_delta": 4.0159225467295556e-07
+    },
+    {
+      "case_id": "case_02",
+      "truth": "其他",
+      "s31_predicted_index": 0,
+      "s31_confidence": 0.956761,
+      "ppq_predicted_index": 0,
+      "ppq_confidence": 0.9567614793777466,
+      "class_match": true,
+      "confidence_abs_delta": 4.79377746609444e-07
+    },
+    {
+      "case_id": "case_03",
+      "truth": "可回收物",
+      "s31_predicted_index": 2,
+      "s31_confidence": 0.984717,
+      "ppq_predicted_index": 2,
+      "ppq_confidence": 0.9847168922424316,
+      "class_match": true,
+      "confidence_abs_delta": 1.0775756831282735e-07
+    },
+    {
+      "case_id": "case_04",
+      "truth": "可回收物",
+      "s31_predicted_index": 1,
+      "s31_confidence": 0.781368,
+      "ppq_predicted_index": 1,
+      "ppq_confidence": 0.781367838382721,
+      "class_match": true,
+      "confidence_abs_delta": 1.616172790042114e-07
+    },
+    {
+      "case_id": "case_05",
+      "truth": "可回收物",
+      "s31_predicted_index": 1,
+      "s31_confidence": 0.971012,
+      "ppq_predicted_index": 1,
+      "ppq_confidence": 0.9710120558738708,
+      "class_match": true,
+      "confidence_abs_delta": 5.587387086336548e-08
+    },
+    {
+      "case_id": "case_06",
+      "truth": "廚餘",
+      "s31_predicted_index": 1,
+      "s31_confidence": 0.53974,
+      "ppq_predicted_index": 1,
+      "ppq_confidence": 0.5397398471832275,
+      "class_match": true,
+      "confidence_abs_delta": 1.5281677245848613e-07
+    },
+    {
+      "case_id": "case_07",
+      "truth": "廚餘",
+      "s31_predicted_index": 2,
+      "s31_confidence": 0.999026,
+      "ppq_predicted_index": 2,
+      "ppq_confidence": 0.9990261793136597,
+      "class_match": true,
+      "confidence_abs_delta": 1.7931365969836577e-07
+    },
+    {
+      "case_id": "case_08",
+      "truth": "廚餘",
+      "s31_predicted_index": 2,
+      "s31_confidence": 0.998596,
+      "ppq_predicted_index": 2,
+      "ppq_confidence": 0.9985963702201843,
+      "class_match": true,
+      "confidence_abs_delta": 3.7022018428700676e-07
+    },
+    {
+      "case_id": "case_09",
+      "truth": "有害",
+      "s31_predicted_index": 0,
+      "s31_confidence": 0.620431,
+      "ppq_predicted_index": 0,
+      "ppq_confidence": 0.6204306483268738,
+      "class_match": true,
+      "confidence_abs_delta": 3.5167312617545576e-07
+    },
+    {
+      "case_id": "case_10",
+      "truth": "有害",
+      "s31_predicted_index": 3,
+      "s31_confidence": 0.491575,
+      "ppq_predicted_index": 3,
+      "ppq_confidence": 0.4915751516819,
+      "class_match": true,
+      "confidence_abs_delta": 1.5168190004022364e-07
+    },
+    {
+      "case_id": "case_11",
+      "truth": "有害",
+      "s31_predicted_index": 3,
+      "s31_confidence": 0.561567,
+      "ppq_predicted_index": 3,
+      "ppq_confidence": 0.5615664720535278,
+      "class_match": true,
+      "confidence_abs_delta": 5.27946472206331e-07
+    }
+  ]
+}

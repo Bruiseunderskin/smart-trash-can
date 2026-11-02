@@ -1,0 +1,126 @@
+ESP-ROM:esp32s31-20251218
+Build:Dec 18 2025
+rst:0x1 (POWERON),boot:0x78 (SPI_FAST_FLASH_BOOT)
+SPI mode:DIO, clock div:1
+load:0x2f0740c0,len:0x17e4
+load:0x2f06a2b0,len:0xde0
+load:0x2f06cfb0,len:0x3460
+entry 0x2f06a2ba
+I (26) boot: ESP-IDF v6.1 2nd stage bootloader
+I (26) boot: compile time Nov  2 2026 18:51:12
+I (27) boot: Multicore bootloader
+I (29) boot: chip revision: v0.0
+I (29) boot: efuse block revision: v0.1
+I (33) qio_mode: Enabling default flash chip QIO
+I (37) boot.esp32s31: SPI Speed      : 80MHz
+I (41) boot.esp32s31: SPI Mode       : QIO
+I (45) boot.esp32s31: SPI Flash Size : 16MB
+I (49) boot: Enabling RNG early entropy source...
+I (53) boot: Partition Table:
+I (56) boot: ## Label            Usage          Type ST Offset   Length
+I (62) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (69) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (75) boot:  2 factory          factory app      00 00 00010000 00100000
+I (83) boot: End of partition table
+I (85) esp_image: segment 0: paddr=00010020 vaddr=40050020 size=15fc4h ( 90052) map
+I (108) esp_image: segment 1: paddr=00025fec vaddr=2f000000 size=0a02ch ( 41004) load
+I (117) esp_image: segment 2: paddr=00030020 vaddr=40000020 size=48814h (296980) map
+I (165) esp_image: segment 3: paddr=0007883c vaddr=2f00a02c size=040dch ( 16604) load
+I (170) esp_image: segment 4: paddr=0007c920 vaddr=2f00e180 size=03480h ( 13440) load
+I (178) boot: Loaded app from partition at offset 0x10000
+I (178) boot: Disabling RNG early entropy source...
+I (191) oct_psram: vendor id    : 0x0d (AP)
+I (192) oct_psram: Latency      : 0x01 (Fixed)
+I (192) oct_psram: DriveStr.    : 0x00 (25 Ohm)
+I (193) oct_psram: dev id       : 0x03 (generation 4)
+I (197) oct_psram: density      : 0x05 (128 Mbit)
+I (202) oct_psram: good-die     : 0x06 (Pass)
+I (206) oct_psram: SRF          : 0x02 (Slow Refresh)
+I (211) oct_psram: BurstType    : 0x00 ( Wrap)
+I (215) oct_psram: BurstLen     : 0x03 (2048 Byte)
+I (219) oct_psram: BitMode      : 0x00 (X8 Mode)
+I (224) oct_psram: Readlatency  : 0x04 (14 cycles@Fixed)
+I (229) oct_psram: DriveStrength: 0x00 (1/1)
+I (233) MSPI Timing: Enter psram timing tuning
+I (390) esp_psram: Found 16MB PSRAM device
+I (390) esp_psram: Speed: 200MHz
+I (390) oct_psram: psram CS IO is dedicated
+I (391) cpu_start: Multicore app
+I (705) esp_psram: SPI SRAM memory test OK
+I (714) cpu_start: GPIO 59 and 58 are used as console UART I/O pins
+I (714) cpu_start: Pro cpu start user code
+I (714) cpu_start: cpu freq: 320000000 Hz
+I (716) app_init: Application information:
+I (720) app_init: Project name:     s31_korvo_t2_camera
+I (725) app_init: App version:      6a8fadb-dirty
+I (729) app_init: Compile time:     Nov  2 2026 21:58:54
+I (734) app_init: ELF file SHA256:  8ee195d08...
+I (739) app_init: ESP-IDF:          v6.1
+I (742) efuse_init: Min chip rev:     v0.0
+I (746) efuse_init: Max chip rev:     v0.99 
+I (750) efuse_init: Chip rev:         v0.0
+I (754) heap_init: Initializing. RAM available for dynamic allocation:
+I (760) heap_init: At 2F013130 len 00067E80 (415 KiB): RAM
+I (765) heap_init: At 2F07AFB0 len 000041C0 (16 KiB): RAM
+I (771) heap_init: At 2E000000 len 00007FE8 (31 KiB): RTCRAM
+I (776) esp_psram: Adding pool of 16384K of PSRAM memory to heap allocator
+I (783) spi_flash: detected chip: generic
+I (786) spi_flash: flash io: qio
+I (790) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (796) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (802) oct_psram: psram CS IO is dedicated
+I (806) coexist: coex firmware version: a830d28
+I (810) coexist: coexist rom version cdcf52b
+I (815) main_task: Started on CPU0
+I (826) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+I (827) main_task: Calling app_main()
+I (829) S31-Korvo: Enable SD card power/control GPIO39, level=0
+I (835) S31-Korvo: Mount SD card: mount=/sdcard, width=4, freq=40000 kHz, uhs1=0, CLK=24 CMD=25 D0=20 D1=21 D2=22 D3=23
+I (845) SD_HOST: src_freq_hz: 400000000
+E (876) sdmmc_common: sdmmc_init_ocr: send_op_cond (1) returned 0x107
+E (876) vfs_fat_sdmmc: sdmmc_card_init failed (0x107).
+E (877) vfs_fat_sdmmc: esp_vfs_fat_sdmmc_sdcard_init failed (0x107).
+E (882) S31-Korvo: SD card mount failed (ESP_ERR_TIMEOUT)
+I (887) T2_CAMERA: SD mount=ESP_ERR_TIMEOUT path=/sdcard
+I (893) S31-Korvo: I2C bus initialized: SDA=0, SCL=1
+I (897) S31-Korvo: Initializing camera: dev=/dev/video2, shared_i2c=1, xclk=20000000
+I (919) sc101iot: Detected Camera sensor PID=0xda4a
+I (1500) S31-Korvo: Camera format: 1280x720, fourcc=UYVY, stride=0, size=0
+I (1500) S31-Korvo: Camera buffer[0]: ptr=0x50001040, length=1843200
+I (1501) S31-Korvo: Camera buffer[1]: ptr=0x501c3080, length=1843200
+I (1508) T2_CAMERA: T2_FORMAT width=1280 height=720 fourcc=UYVY stride=0 sizeimage=0
+W (1515) T2_CAMERA: T2_FORMAT_MISMATCH expected=OV3660/JPEG actual=UYVY
+I (1535) S31-Korvo: Camera stream started
+I (1631) S31-Korvo: Camera first frame: index=0, bytes=1843200, length=0
+I (1653) T2_CAMERA: Frame 01/30 size=1843200 valid=yes
+I (1717) T2_CAMERA: Frame 02/30 size=1843200 valid=yes
+I (1781) T2_CAMERA: Frame 03/30 size=1843200 valid=yes
+I (1845) T2_CAMERA: Frame 04/30 size=1843200 valid=yes
+I (1909) T2_CAMERA: Frame 05/30 size=1843200 valid=yes
+I (1973) T2_CAMERA: Frame 06/30 size=1843200 valid=yes
+I (2037) T2_CAMERA: Frame 07/30 size=1843200 valid=yes
+I (2101) T2_CAMERA: Frame 08/30 size=1843200 valid=yes
+I (2165) T2_CAMERA: Frame 09/30 size=1843200 valid=yes
+I (2229) T2_CAMERA: Frame 10/30 size=1843200 valid=yes
+I (2293) T2_CAMERA: Frame 11/30 size=1843200 valid=yes
+I (2357) T2_CAMERA: Frame 12/30 size=1843200 valid=yes
+I (2421) T2_CAMERA: Frame 13/30 size=1843200 valid=yes
+I (2485) T2_CAMERA: Frame 14/30 size=1843200 valid=yes
+I (2549) T2_CAMERA: Frame 15/30 size=1843200 valid=yes
+I (2613) T2_CAMERA: Frame 16/30 size=1843200 valid=yes
+I (2677) T2_CAMERA: Frame 17/30 size=1843200 valid=yes
+I (2741) T2_CAMERA: Frame 18/30 size=1843200 valid=yes
+I (2805) T2_CAMERA: Frame 19/30 size=1843200 valid=yes
+I (2869) T2_CAMERA: Frame 20/30 size=1843200 valid=yes
+I (2933) T2_CAMERA: Frame 21/30 size=1843200 valid=yes
+I (2997) T2_CAMERA: Frame 22/30 size=1843200 valid=yes
+I (3061) T2_CAMERA: Frame 23/30 size=1843200 valid=yes
+I (3125) T2_CAMERA: Frame 24/30 size=1843200 valid=yes
+I (3189) T2_CAMERA: Frame 25/30 size=1843200 valid=yes
+I (3253) T2_CAMERA: Frame 26/30 size=1843200 valid=yes
+I (3317) T2_CAMERA: Frame 27/30 size=1843200 valid=yes
+I (3381) T2_CAMERA: Frame 28/30 size=1843200 valid=yes
+I (3445) T2_CAMERA: Frame 29/30 size=1843200 valid=yes
+I (3509) T2_CAMERA: Frame 30/30 size=1843200 valid=yes
+I (3509) T2_CAMERA: T2_STATS fps=15.20 valid=30/30 first_bytes=1843200 last_bytesJCc�B \��	Xbj��{hO�c�Դ%B�-���(j"�Ä(���a
+P1!�|��������T0�CB�цciI�

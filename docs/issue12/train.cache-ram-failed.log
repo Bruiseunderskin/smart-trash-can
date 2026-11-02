@@ -1,0 +1,592 @@
+
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 0% ──────────── 32.0KB/5.5MB 92.0KB/s 0.1s<1:01
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 1% ──────────── 80.0KB/5.5MB 206.7KB/s 0.2s<27.0s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 2% ──────────── 128.0KB/5.5MB 280.3KB/s 0.3s<19.7s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 3% ──────────── 224.0KB/5.5MB 481.4KB/s 0.4s<11.3s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 5% ╸─────────── 288.0KB/5.5MB 513.4KB/s 0.5s<10.5s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 6% ╸─────────── 384.0KB/5.5MB 631.2KB/s 0.6s<8.4s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 8% ━─────────── 480.0KB/5.5MB 660.9KB/s 0.8s<7.8s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 11% ━─────────── 624.0KB/5.5MB 1.4MB/s 0.9s<3.6s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 15% ━╸────────── 880.0KB/5.5MB 2.2MB/s 1.0s<2.1s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 18% ━━────────── 1.0/5.5MB 1.5MB/s 1.1s<2.9s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 21% ━━╸───────── 1.2/5.5MB 1.5MB/s 1.2s<2.8s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 24% ━━╸───────── 1.3/5.5MB 1.5MB/s 1.3s<2.9s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 26% ━━━───────── 1.5/5.5MB 702.0KB/s 1.5s<5.9s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 28% ━━━───────── 1.6/5.5MB 754.3KB/s 1.6s<5.3s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 30% ━━━╸──────── 1.7/5.5MB 763.7KB/s 1.7s<5.2s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 32% ━━━╸──────── 1.8/5.5MB 1.2MB/s 1.8s<3.1s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 34% ━━━━──────── 1.9/5.5MB 762.7KB/s 1.9s<4.9s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 35% ━━━━──────── 1.9/5.5MB 645.2KB/s 2.1s<5.7s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 35% ━━━━──────── 2.0/5.5MB 584.8KB/s 2.2s<6.2s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 37% ━━━━╸─────── 2.1/5.5MB 681.1KB/s 2.3s<5.2s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 40% ━━━━╸─────── 2.2/5.5MB 1.1MB/s 2.4s<3.0s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 41% ━━━━╸─────── 2.3/5.5MB 603.3KB/s 2.5s<5.5s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 42% ━━━━━─────── 2.4/5.5MB 546.1KB/s 2.7s<5.9s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 44% ━━━━━─────── 2.4/5.5MB 557.7KB/s 2.9s<5.7s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 45% ━━━━━─────── 2.5/5.5MB 570.7KB/s 3.0s<5.4s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 46% ━━━━━╸────── 2.6/5.5MB 553.5KB/s 3.1s<5.4s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 47% ━━━━━╸────── 2.6/5.5MB 576.2KB/s 3.2s<5.1s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 48% ━━━━━╸────── 2.7/5.5MB 470.3KB/s 3.4s<6.2s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 48% ━━━━━╸────── 2.7/5.5MB 388.6KB/s 3.5s<7.4s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 49% ━━━━━╸────── 2.7/5.5MB 302.5KB/s 3.7s<9.5s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 50% ━━━━━━────── 2.8/5.5MB 396.1KB/s 3.8s<7.1s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 50% ━━━━━━────── 2.8/5.5MB 369.4KB/s 3.9s<7.5s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 51% ━━━━━━────── 2.8/5.5MB 341.2KB/s 4.0s<8.0s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 53% ━━━━━━────── 3.0/5.5MB 518.2KB/s 4.1s<5.1s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 54% ━━━━━━╸───── 3.0/5.5MB 479.3KB/s 4.3s<5.4s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 55% ━━━━━━╸───── 3.1/5.5MB 518.8KB/s 4.4s<4.9s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 56% ━━━━━━╸───── 3.1/5.5MB 545.9KB/s 4.5s<4.5s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 58% ━━━━━━╸───── 3.2/5.5MB 609.8KB/s 4.6s<3.9s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 59% ━━━━━━━───── 3.3/5.5MB 666.1KB/s 4.7s<3.4s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 60% ━━━━━━━───── 3.3/5.5MB 641.9KB/s 4.8s<3.5s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 61% ━━━━━━━───── 3.4/5.5MB 566.7KB/s 4.9s<3.9s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 63% ━━━━━━━╸──── 3.5/5.5MB 996.2KB/s 5.0s<2.1s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 65% ━━━━━━━╸──── 3.6/5.5MB 673.5KB/s 5.1s<2.9s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 67% ━━━━━━━━──── 3.7/5.5MB 1.0MB/s 5.2s<1.8s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 68% ━━━━━━━━──── 3.8/5.5MB 662.6KB/s 5.3s<2.7s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 69% ━━━━━━━━──── 3.9/5.5MB 692.6KB/s 5.5s<2.5s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 70% ━━━━━━━━──── 3.9/5.5MB 571.5KB/s 5.6s<2.9s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 72% ━━━━━━━━╸─── 4.0/5.5MB 1.0MB/s 5.7s<1.5s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 74% ━━━━━━━━╸─── 4.1/5.5MB 568.7KB/s 5.9s<2.5s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 75% ━━━━━━━━━─── 4.2/5.5MB 522.7KB/s 6.0s<2.7s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 75% ━━━━━━━━━─── 4.2/5.5MB 402.6KB/s 6.1s<3.4s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 76% ━━━━━━━━━─── 4.2/5.5MB 358.2KB/s 6.3s<3.8s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 76% ━━━━━━━━━─── 4.2/5.5MB 346.2KB/s 6.4s<3.8s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 77% ━━━━━━━━━─── 4.3/5.5MB 346.9KB/s 6.5s<3.7s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 78% ━━━━━━━━━─── 4.3/5.5MB 304.5KB/s 6.7s<4.0s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 78% ━━━━━━━━━─── 4.3/5.5MB 255.8KB/s 6.9s<4.7s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 79% ━━━━━━━━━╸── 4.4/5.5MB 209.2KB/s 7.2s<5.6s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 79% ━━━━━━━━━╸── 4.4/5.5MB 202.6KB/s 7.3s<5.6s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 80% ━━━━━━━━━╸── 4.4/5.5MB 178.8KB/s 7.5s<6.3s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 80% ━━━━━━━━━╸── 4.5/5.5MB 178.7KB/s 7.7s<6.1s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 82% ━━━━━━━━━╸── 4.5/5.5MB 251.4KB/s 7.8s<4.0s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 82% ━━━━━━━━━╸── 4.5/5.5MB 207.4KB/s 8.0s<4.8s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 83% ━━━━━━━━━╸── 4.6/5.5MB 235.3KB/s 8.2s<4.0s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 84% ━━━━━━━━━━── 4.7/5.5MB 263.6KB/s 8.4s<3.3s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 85% ━━━━━━━━━━── 4.7/5.5MB 313.4KB/s 8.5s<2.6s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 87% ━━━━━━━━━━── 4.8/5.5MB 412.0KB/s 8.7s<1.8s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 90% ━━━━━━━━━━╸─ 5.0/5.5MB 1.6MB/s 8.8s<0.3s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 91% ━━━━━━━━━━━─ 5.1/5.5MB 478.2KB/s 8.9s<1.0s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 92% ━━━━━━━━━━━─ 5.1/5.5MB 438.1KB/s 9.0s<1.0s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 93% ━━━━━━━━━━━─ 5.1/5.5MB 395.4KB/s 9.1s<1.0s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 93% ━━━━━━━━━━━─ 5.2/5.5MB 412.2KB/s 9.2s<0.8s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 94% ━━━━━━━━━━━─ 5.2/5.5MB 383.0KB/s 9.4s<0.8s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 95% ━━━━━━━━━━━╸ 5.3/5.5MB 452.7KB/s 9.5s<0.5s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 96% ━━━━━━━━━━━╸ 5.3/5.5MB 355.2KB/s 9.6s<0.6s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 96% ━━━━━━━━━━━╸ 5.3/5.5MB 305.1KB/s 9.8s<0.6s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 97% ━━━━━━━━━━━╸ 5.4/5.5MB 275.6KB/s 10.0s<0.5s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 98% ━━━━━━━━━━━╸ 5.4/5.5MB 314.0KB/s 10.1s<0.3s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 99% ━━━━━━━━━━━╸ 5.5/5.5MB 329.7KB/s 10.3s<0.1s
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-cls.pt to 'yolo11n-cls.pt': 100% ━━━━━━━━━━━━ 5.5MB 548.0KB/s 10.3s
+New https://pypi.org/project/ultralytics/8.4.198 available  Update with 'pip install -U ultralytics'
+Ultralytics 8.4.197  Python-3.12.1 torch-2.15.0+cpu CPU (13th Gen Intel Core i7-13650HX)
+[34m[1mengine\trainer: [0magnostic_nms=False, amp=False, angle=1.0, augment=False, auto_augment=randaugment, batch=32, bgr=0.0, box=7.5, cache=ram, cfg=None, channels_last=None, classes=None, close_mosaic=10, cls=0.5, cls_pw=0.0, cls_remap=True, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=C:\smart_trash_can\data\waste4_issue12_grouped_v3, degrees=0.0, deterministic=True, device=cpu, dfl=1.5, dgrad=0.5, dis=6.0, distill_model=None, dlam=1.0, dlog=1.0, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=20, erasing=0.4, exist_ok=True, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=160, iou=0.7, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=yolo11n-cls.pt, momentum=0.937, mosaic=1.0, multi_scale=0.0, name=cls160-grouped, nbs=64, nms=None, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=10, perspective=0.0, plots=True, pose=12.0, pretrained=True, profile=False, project=C:\smart_trash_can\runs\issue12, quantize=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=C:\smart_trash_can\runs\issue12\cls160-grouped, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=42, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=classify, time=None, tracker=tracktrack.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=4, workspace=None
+[34m[1mtrain:[0m C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... found 6905 images in 4 classes  
+[34m[1mval:[0m C:\smart_trash_can\data\waste4_issue12_grouped_v3\validation... found 1485 images in 4 classes  
+[34m[1mtest:[0m C:\smart_trash_can\data\waste4_issue12_grouped_v3\test... found 1480 images in 4 classes  
+Overriding model.yaml nc=80 with nc=4
+
+                   from  n    params  module                                       arguments                     
+  0                  -1  1       464  ultralytics.nn.modules.conv.Conv             [3, 16, 3, 2]                 
+  1                  -1  1      4672  ultralytics.nn.modules.conv.Conv             [16, 32, 3, 2]                
+  2                  -1  1      6640  ultralytics.nn.modules.block.C3k2            [32, 64, 1, False, 0.25]      
+  3                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+  4                  -1  1     26080  ultralytics.nn.modules.block.C3k2            [64, 128, 1, False, 0.25]     
+  5                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+  6                  -1  1     87040  ultralytics.nn.modules.block.C3k2            [128, 128, 1, True]           
+  7                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]              
+  8                  -1  1    346112  ultralytics.nn.modules.block.C3k2            [256, 256, 1, True]           
+  9                  -1  1    249728  ultralytics.nn.modules.block.C2PSA           [256, 256, 1]                 
+ 10                  -1  1    335364  ultralytics.nn.modules.head.Classify         [256, 4]                      
+YOLO11n-cls summary: 86 layers, 1,536,228 parameters, 1,536,228 gradients, 3.3 GFLOPs
+Transferred 234/236 items from pretrained weights
+WARNING [34m[1mtrain: [0mSlow image access detected (ping: 0.2±0.0 ms, read: 22.2±33.4 MB/s, size: 55.8 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 149 images, 0 corrupt: 2% ──────────── 149/6905 439.1it/s 0.1s<15.4s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 325 images, 0 corrupt: 4% ╸─────────── 325/6905 832.7it/s 0.2s<7.9s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 480 images, 0 corrupt: 6% ╸─────────── 480/6905 999.4it/s 0.3s<6.4s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 660 images, 0 corrupt: 9% ━─────────── 660/6905 1.2Kit/s 0.4s<5.1s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 785 images, 0 corrupt: 11% ━─────────── 785/6905 1.2Kit/s 0.5s<4.9s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 949 images, 0 corrupt: 13% ━╸────────── 949/6905 1.4Kit/s 0.6s<4.4s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 1118 images, 0 corrupt: 16% ━╸────────── 1118/6905 1.5Kit/s 0.7s<4.0s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 1265 images, 0 corrupt: 18% ━━────────── 1265/6905 1.4Kit/s 0.8s<3.9s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 1427 images, 0 corrupt: 20% ━━────────── 1427/6905 1.5Kit/s 0.9s<3.7s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 1596 images, 0 corrupt: 23% ━━╸───────── 1596/6905 1.5Kit/s 1.0s<3.5s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 1764 images, 0 corrupt: 25% ━━━───────── 1764/6905 1.6Kit/s 1.1s<3.3s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 1967 images, 0 corrupt: 28% ━━━───────── 1967/6905 1.7Kit/s 1.2s<2.9s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 2177 images, 0 corrupt: 31% ━━━╸──────── 2177/6905 1.8Kit/s 1.3s<2.6s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 2387 images, 0 corrupt: 34% ━━━━──────── 2387/6905 1.9Kit/s 1.4s<2.4s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 2599 images, 0 corrupt: 37% ━━━━╸─────── 2599/6905 2.0Kit/s 1.5s<2.2s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 2819 images, 0 corrupt: 40% ━━━━╸─────── 2819/6905 2.0Kit/s 1.6s<2.0s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 3044 images, 0 corrupt: 44% ━━━━━─────── 3044/6905 2.1Kit/s 1.7s<1.9s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 3259 images, 0 corrupt: 47% ━━━━━╸────── 3259/6905 2.1Kit/s 1.8s<1.7s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 3481 images, 0 corrupt: 50% ━━━━━━────── 3481/6905 2.1Kit/s 1.9s<1.6s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 3734 images, 0 corrupt: 54% ━━━━━━────── 3734/6905 2.2Kit/s 2.0s<1.4s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 4000 images, 0 corrupt: 57% ━━━━━━╸───── 4000/6905 2.4Kit/s 2.1s<1.2s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 4298 images, 0 corrupt: 62% ━━━━━━━───── 4298/6905 2.5Kit/s 2.2s<1.0s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 4597 images, 0 corrupt: 66% ━━━━━━━╸──── 4597/6905 2.7Kit/s 2.3s<0.9s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 4866 images, 0 corrupt: 70% ━━━━━━━━──── 4866/6905 2.7Kit/s 2.4s<0.8s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 5142 images, 0 corrupt: 74% ━━━━━━━━╸─── 5142/6905 2.7Kit/s 2.5s<0.7s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 5399 images, 0 corrupt: 78% ━━━━━━━━━─── 5399/6905 2.6Kit/s 2.6s<0.6s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 5663 images, 0 corrupt: 82% ━━━━━━━━━╸── 5663/6905 2.6Kit/s 2.7s<0.5s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 5923 images, 0 corrupt: 85% ━━━━━━━━━━── 5923/6905 2.6Kit/s 2.8s<0.4s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 6150 images, 0 corrupt: 89% ━━━━━━━━━━╸─ 6150/6905 2.5Kit/s 2.9s<0.3s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 6406 images, 0 corrupt: 92% ━━━━━━━━━━━─ 6406/6905 2.5Kit/s 3.0s<0.2s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 6660 images, 0 corrupt: 96% ━━━━━━━━━━━╸ 6660/6905 2.5Kit/s 3.1s<0.1s
+[K[34m[1mtrain: [0mScanning C:\smart_trash_can\data\waste4_issue12_grouped_v3\train... 6905 images, 0 corrupt: 100% ━━━━━━━━━━━━ 6905/6905 2.1Kit/s 3.2s
+[34m[1mtrain: [0mC:\smart_trash_can\data\waste4_issue12_grouped_v3\train\有害\5a23904de3b7__655a4b20a248_213.jpg: corrupt JPEG restored and saved
+[34m[1mtrain: [0mNew cache created: C:\smart_trash_can\data\waste4_issue12_grouped_v3\train.cache
+
+[K[34m[1mtrain: [0mCaching images: 2% ──────────── 207/6905 580.6it/s 0.1s<11.5s
+[K[34m[1mtrain: [0mCaching images: 6% ╸─────────── 479/6905 1.1Kit/s 0.2s<5.9s
+[K[34m[1mtrain: [0mCaching images: 10% ━─────────── 736/6905 1.4Kit/s 0.3s<4.3s
+[K[34m[1mtrain: [0mCaching images: 13% ━╸────────── 907/6905 1.5Kit/s 0.4s<4.0s
+[K[34m[1mtrain: [0mCaching images: 16% ━╸────────── 1116/6905 1.5Kit/s 0.6s<3.9s
+[K[34m[1mtrain: [0mCaching images: 19% ━━────────── 1376/6905 1.8Kit/s 0.7s<3.1s
+[K[34m[1mtrain: [0mCaching images: 22% ━━╸───────── 1583/6905 1.9Kit/s 0.8s<2.9s
+[K[34m[1mtrain: [0mCaching images: 25% ━━━───────── 1770/6905 1.8Kit/s 0.9s<2.8s
+[K[34m[1mtrain: [0mCaching images: 29% ━━━╸──────── 2033/6905 2.1Kit/s 1.0s<2.4s
+[K[34m[1mtrain: [0mCaching images: 31% ━━━╸──────── 2191/6905 1.8Kit/s 1.1s<2.6s
+[K[34m[1mtrain: [0mCaching images: 31% ━━━╸──────── 2199/6905 1.3Kit/s 1.3s<3.7s
+[K[34m[1mtrain: [0mCaching images: 33% ━━━╸──────── 2290/6905 1.1Kit/s 1.5s<4.2s
+[K[34m[1mtrain: [0mCaching images: 35% ━━━━──────── 2426/6905 986.0it/s 1.7s<4.5s
+[K[34m[1mtrain: [0mCaching images: 37% ━━━━──────── 2571/6905 962.5it/s 1.8s<4.5s
+[K[34m[1mtrain: [0mCaching images: 40% ━━━━╸─────── 2798/6905 1.3Kit/s 1.9s<3.3s
+[K[34m[1mtrain: [0mCaching images: 42% ━━━━━─────── 2936/6905 1.2Kit/s 2.1s<3.4s
+[K[34m[1mtrain: [0mCaching images: 45% ━━━━━─────── 3141/6905 1.3Kit/s 2.2s<2.8s
+[K[34m[1mtrain: [0mCaching images: 47% ━━━━━╸────── 3303/6905 1.4Kit/s 2.3s<2.5s
+[K[34m[1mtrain: [0mCaching images: 49% ━━━━━╸────── 3396/6905 1.2Kit/s 2.4s<2.8s
+[K[34m[1mtrain: [0mCaching images: 51% ━━━━━━────── 3558/6905 1.3Kit/s 2.5s<2.5s
+[K[34m[1mtrain: [0mCaching images: 52% ━━━━━━────── 3635/6905 1.1Kit/s 2.6s<2.9s
+[K[34m[1mtrain: [0mCaching images: 54% ━━━━━━╸───── 3758/6905 1.1Kit/s 2.7s<2.8s
+[K[34m[1mtrain: [0mCaching images: 54% ━━━━━━╸───── 3760/6905 787.4it/s 2.9s<4.0s
+[K[34m[1mtrain: [0mCaching images: 57% ━━━━━━╸───── 3938/6905 1.1Kit/s 3.0s<2.7s
+[K[34m[1mtrain: [0mCaching images: 57% ━━━━━━╸───── 3997/6905 912.6it/s 3.1s<3.2s
+[K[34m[1mtrain: [0mCaching images: 58% ━━━━━━━───── 4071/6905 817.1it/s 3.2s<3.5s
+[K[34m[1mtrain: [0mCaching images: 60% ━━━━━━━───── 4201/6905 942.5it/s 3.3s<2.9s
+[K[34m[1mtrain: [0mCaching images: 61% ━━━━━━━───── 4253/6905 683.1it/s 4.0s<3.9s
+[K[34m[1mtrain: [0mCaching images: 61% ━━━━━━━───── 4260/6905 491.2it/s 4.2s<5.4s
+[K[34m[1mtrain: [0mCaching images: 61% ━━━━━━━───── 4266/6905 352.8it/s 4.4s<7.5s
+[K[34m[1mtrain: [0mCaching images: 61% ━━━━━━━───── 4270/6905 256.1it/s 4.5s<10.3s
+[K[34m[1mtrain: [0mCaching images: 61% ━━━━━━━───── 4274/6905 187.6it/s 4.7s<14.0s
+[K[34m[1mtrain: [0mCaching images: 61% ━━━━━━━───── 4278/6905 140.5it/s 4.8s<18.7s
+[K[34m[1mtrain: [0mCaching images: 62% ━━━━━━━───── 4283/6905 109.0it/s 4.9s<24.0s
+[K[34m[1mtrain: [0mCaching images: 62% ━━━━━━━───── 4288/6905 86.5it/s 5.1s<30.3s
+[K[34m[1mtrain: [0mCaching images: 62% ━━━━━━━───── 4296/6905 77.6it/s 5.2s<33.6s
+[K[34m[1mtrain: [0mCaching images: 62% ━━━━━━━───── 4303/6905 64.9it/s 5.4s<40.1s
+[K[34m[1mtrain: [0mCaching images: 62% ━━━━━━━───── 4308/6905 58.2it/s 5.5s<44.6s
+[K[34m[1mtrain: [0mCaching images: 62% ━━━━━━━╸──── 4318/6905 62.2it/s 5.7s<41.6s
+[K[34m[1mtrain: [0mCaching images: 62% ━━━━━━━╸──── 4327/6905 53.4it/s 5.9s<48.3s
+[K[34m[1mtrain: [0mCaching images: 62% ━━━━━━━╸──── 4333/6905 49.9it/s 6.1s<51.5s
+[K[34m[1mtrain: [0mCaching images: 62% ━━━━━━━╸──── 4338/6905 45.2it/s 6.2s<56.8s
+[K[34m[1mtrain: [0mCaching images: 62% ━━━━━━━╸──── 4348/6905 45.6it/s 6.5s<56.1s
+[K[34m[1mtrain: [0mCaching images: 62% ━━━━━━━╸──── 4350/6905 36.1it/s 6.6s<1:11
+[K[34m[1mtrain: [0mCaching images: 63% ━━━━━━━╸──── 4357/6905 40.5it/s 6.7s<1:03
+[K[34m[1mtrain: [0mCaching images: 63% ━━━━━━━╸──── 4361/6905 37.6it/s 6.9s<1:08
+[K[34m[1mtrain: [0mCaching images: 63% ━━━━━━━╸──── 4368/6905 41.3it/s 7.0s<1:01
+[K[34m[1mtrain: [0mCaching images: 63% ━━━━━━━╸──── 4369/6905 31.2it/s 7.1s<1:21
+[K[34m[1mtrain: [0mCaching images: 63% ━━━━━━━╸──── 4382/6905 36.6it/s 7.4s<1:09
+[K[34m[1mtrain: [0mCaching images: 63% ━━━━━━━╸──── 4387/6905 36.6it/s 7.5s<1:09
+[K[34m[1mtrain: [0mCaching images: 63% ━━━━━━━╸──── 4394/6905 41.3it/s 7.7s<1:01
+[K[34m[1mtrain: [0mCaching images: 63% ━━━━━━━╸──── 4399/6905 40.4it/s 7.8s<1:02
+[K[34m[1mtrain: [0mCaching images: 63% ━━━━━━━╸──── 4411/6905 56.5it/s 7.9s<44.1s
+[K[34m[1mtrain: [0mCaching images: 63% ━━━━━━━╸──── 4415/6905 47.9it/s 8.1s<52.0s
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4420/6905 44.4it/s 8.2s<56.0s
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4425/6905 42.8it/s 8.3s<57.9s
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4431/6905 39.1it/s 8.5s<1:03
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4437/6905 40.6it/s 8.7s<1:01
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4445/6905 40.2it/s 8.9s<1:01
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4453/6905 46.4it/s 9.0s<52.8s
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4454/6905 34.7it/s 9.1s<1:11
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4462/6905 42.2it/s 9.3s<57.9s
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4468/6905 42.2it/s 9.4s<57.7s
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4473/6905 39.8it/s 9.6s<1:01
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4476/6905 34.5it/s 9.7s<1:11
+[K[34m[1mtrain: [0mCaching images: 64% ━━━━━━━╸──── 4488/6905 36.5it/s 10.0s<1:06
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4489/6905 27.7it/s 10.1s<1:27
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4490/6905 21.6it/s 10.3s<1:52
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4498/6905 32.8it/s 10.4s<1:13
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4508/6905 37.0it/s 10.6s<1:05
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4512/6905 34.8it/s 10.7s<1:09
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4518/6905 37.4it/s 10.9s<1:04
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4523/6905 36.2it/s 11.0s<1:06
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4527/6905 33.7it/s 11.2s<1:10
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4535/6905 40.8it/s 11.3s<58.1s
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4539/6905 37.3it/s 11.5s<1:03
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4541/6905 30.1it/s 11.6s<1:19
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4548/6905 32.2it/s 11.8s<1:13
+[K[34m[1mtrain: [0mCaching images: 65% ━━━━━━━╸──── 4554/6905 27.8it/s 12.1s<1:25
+[K[34m[1mtrain: [0mCaching images: 66% ━━━━━━━╸──── 4566/6905 36.0it/s 12.4s<1:05
+[K[34m[1mtrain: [0mCaching images: 66% ━━━━━━━╸──── 4567/6905 25.7it/s 12.9s<1:31
+[K[34m[1mtrain: [0mCaching images: 66% ━━━━━━━╸──── 4575/6905 30.8it/s 13.1s<1:16
+[K[34m[1mtrain: [0mCaching images: 66% ━━━━━━━╸──── 4582/6905 32.3it/s 13.3s<1:12
+[K[34m[1mtrain: [0mCaching images: 66% ━━━━━━━╸──── 4590/6905 31.6it/s 13.6s<1:13
+[K[34m[1mtrain: [0mCaching images: 66% ━━━━━━━╸──── 4597/6905 37.3it/s 13.7s<1:02
+[K[34m[1mtrain: [0mCaching images: 66% ━━━━━━━╸──── 4602/6905 33.2it/s 13.9s<1:09
+[K[34m[1mtrain: [0mCaching images: 66% ━━━━━━━━──── 4607/6905 34.3it/s 14.1s<1:07
+[K[34m[1mtrain: [0mCaching images: 66% ━━━━━━━━──── 4614/6905 40.0it/s 14.2s<57.3s
+[K[34m[1mtrain: [0mCaching images: 66% ━━━━━━━━──── 4621/6905 43.3it/s 14.3s<52.8s
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4628/6905 46.5it/s 14.5s<48.9s
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4636/6905 44.4it/s 14.7s<51.1s
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4639/6905 35.4it/s 14.9s<1:04
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4651/6905 50.6it/s 15.0s<44.5s
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4654/6905 37.6it/s 15.4s<59.8s
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4662/6905 44.0it/s 15.6s<51.0s
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4663/6905 32.9it/s 15.7s<1:08
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4669/6905 29.7it/s 16.0s<1:15
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4673/6905 29.1it/s 16.1s<1:17
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4679/6905 29.5it/s 16.3s<1:15
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4686/6905 36.8it/s 16.5s<1:00
+[K[34m[1mtrain: [0mCaching images: 67% ━━━━━━━━──── 4688/6905 27.1it/s 16.9s<1:22
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4697/6905 37.3it/s 17.1s<59.3s
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4704/6905 42.1it/s 17.2s<52.3s
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4711/6905 45.7it/s 17.3s<48.0s
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4712/6905 34.3it/s 17.4s<1:04
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4713/6905 26.3it/s 17.6s<1:23
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4725/6905 44.8it/s 17.7s<48.6s
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4730/6905 42.8it/s 17.8s<50.8s
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4735/6905 35.6it/s 18.1s<1:01
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4743/6905 42.9it/s 18.2s<50.4s
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4745/6905 33.0it/s 18.4s<1:05
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4749/6905 31.8it/s 18.6s<1:08
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4755/6905 35.7it/s 18.7s<1:00
+[K[34m[1mtrain: [0mCaching images: 68% ━━━━━━━━──── 4758/6905 31.4it/s 18.9s<1:08
+[K[34m[1mtrain: [0mCaching images: 69% ━━━━━━━━──── 4766/6905 31.0it/s 19.1s<1:09
+[K[34m[1mtrain: [0mCaching images: 69% ━━━━━━━━──── 4770/6905 26.1it/s 19.4s<1:22
+[K[34m[1mtrain: [0mCaching images: 69% ━━━━━━━━──── 4778/6905 36.6it/s 19.5s<58.2s
+[K[34m[1mtrain: [0mCaching images: 69% ━━━━━━━━──── 4783/6905 36.2it/s 19.7s<58.6s
+[K[34m[1mtrain: [0mCaching images: 69% ━━━━━━━━──── 4787/6905 29.8it/s 19.9s<1:11
+[K[34m[1mtrain: [0mCaching images: 69% ━━━━━━━━──── 4789/6905 25.2it/s 20.1s<1:24
+[K[34m[1mtrain: [0mCaching images: 69% ━━━━━━━━──── 4797/6905 24.6it/s 20.4s<1:26
+[K[34m[1mtrain: [0mCaching images: 69% ━━━━━━━━──── 4805/6905 21.8it/s 20.9s<1:36
+[K[34m[1mtrain: [0mCaching images: 69% ━━━━━━━━──── 4821/6905 22.9it/s 21.6s<1:31
+[K[34m[1mtrain: [0mCaching images: 69% ━━━━━━━━──── 4828/6905 25.8it/s 21.8s<1:20
+[K[34m[1mtrain: [0mCaching images: 70% ━━━━━━━━──── 4834/6905 30.7it/s 21.9s<1:07
+[K[34m[1mtrain: [0mCaching images: 70% ━━━━━━━━──── 4835/6905 22.6it/s 22.2s<1:32
+[K[34m[1mtrain: [0mCaching images: 70% ━━━━━━━━──── 4846/6905 31.9it/s 22.4s<1:04
+[K[34m[1mtrain: [0mCaching images: 70% ━━━━━━━━──── 4847/6905 24.3it/s 22.6s<1:25
+[K[34m[1mtrain: [0mCaching images: 70% ━━━━━━━━──── 4857/6905 41.5it/s 22.7s<49.4s
+[K[34m[1mtrain: [0mCaching images: 70% ━━━━━━━━──── 4862/6905 39.9it/s 22.8s<51.1s
+[K[34m[1mtrain: [0mCaching images: 70% ━━━━━━━━──── 4865/6905 31.2it/s 23.1s<1:05
+[K[34m[1mtrain: [0mCaching images: 70% ━━━━━━━━──── 4871/6905 34.7it/s 23.2s<58.6s
+[K[34m[1mtrain: [0mCaching images: 70% ━━━━━━━━──── 4876/6905 28.7it/s 23.6s<1:11
+[K[34m[1mtrain: [0mCaching images: 70% ━━━━━━━━──── 4891/6905 30.9it/s 24.0s<1:05
+[K[34m[1mtrain: [0mCaching images: 70% ━━━━━━━━╸─── 4899/6905 30.5it/s 24.3s<1:06
+[K[34m[1mtrain: [0mCaching images: 71% ━━━━━━━━╸─── 4907/6905 33.5it/s 24.5s<59.6s
+[K[34m[1mtrain: [0mCaching images: 71% ━━━━━━━━╸─── 4917/6905 38.5it/s 24.7s<51.7s
+[K[34m[1mtrain: [0mCaching images: 71% ━━━━━━━━╸─── 4924/6905 42.9it/s 24.8s<46.1s
+[K[34m[1mtrain: [0mCaching images: 71% ━━━━━━━━╸─── 4928/6905 34.5it/s 25.1s<57.3s
+[K[34m[1mtrain: [0mCaching images: 71% ━━━━━━━━╸─── 4936/6905 36.2it/s 25.3s<54.4s
+[K[34m[1mtrain: [0mCaching images: 71% ━━━━━━━━╸─── 4945/6905 48.2it/s 25.4s<40.6s
+[K[34m[1mtrain: [0mCaching images: 71% ━━━━━━━━╸─── 4953/6905 49.3it/s 25.5s<39.6s
+[K[34m[1mtrain: [0mCaching images: 71% ━━━━━━━━╸─── 4957/6905 43.8it/s 25.7s<44.5s
+[K[34m[1mtrain: [0mCaching images: 71% ━━━━━━━━╸─── 4961/6905 39.7it/s 25.8s<49.0s
+[K[34m[1mtrain: [0mCaching images: 71% ━━━━━━━━╸─── 4962/6905 30.1it/s 25.9s<1:05
+[K[34m[1mtrain: [0mCaching images: 71% ━━━━━━━━╸─── 4965/6905 24.3it/s 26.2s<1:20
+[K[34m[1mtrain: [0mCaching images: 72% ━━━━━━━━╸─── 4977/6905 34.2it/s 26.4s<56.3s
+[K[34m[1mtrain: [0mCaching images: 72% ━━━━━━━━╸─── 4985/6905 32.9it/s 26.7s<58.3s
+[K[34m[1mtrain: [0mCaching images: 72% ━━━━━━━━╸─── 4993/6905 39.7it/s 26.8s<48.2s
+[K[34m[1mtrain: [0mCaching images: 72% ━━━━━━━━╸─── 4994/6905 30.0it/s 27.0s<1:04
+[K[34m[1mtrain: [0mCaching images: 72% ━━━━━━━━╸─── 5009/6905 42.1it/s 27.2s<45.1s
+[K[34m[1mtrain: [0mCaching images: 72% ━━━━━━━━╸─── 5017/6905 46.6it/s 27.3s<40.5s
+[K[34m[1mtrain: [0mCaching images: 72% ━━━━━━━━╸─── 5018/6905 34.8it/s 27.5s<54.2s
+[K[34m[1mtrain: [0mCaching images: 72% ━━━━━━━━╸─── 5026/6905 41.7it/s 27.6s<45.0s
+[K[34m[1mtrain: [0mCaching images: 72% ━━━━━━━━╸─── 5034/6905 38.1it/s 27.9s<49.1s
+[K[34m[1mtrain: [0mCaching images: 72% ━━━━━━━━╸─── 5038/6905 35.4it/s 28.0s<52.8s
+[K[34m[1mtrain: [0mCaching images: 73% ━━━━━━━━╸─── 5044/6905 38.8it/s 28.1s<47.9s
+[K[34m[1mtrain: [0mCaching images: 73% ━━━━━━━━╸─── 5053/6905 36.6it/s 28.4s<50.5s
+[K[34m[1mtrain: [0mCaching images: 73% ━━━━━━━━╸─── 5055/6905 28.5it/s 28.6s<1:05
+[K[34m[1mtrain: [0mCaching images: 73% ━━━━━━━━╸─── 5065/6905 40.6it/s 28.8s<45.4s
+[K[34m[1mtrain: [0mCaching images: 73% ━━━━━━━━╸─── 5066/6905 30.5it/s 28.9s<1:00
+[K[34m[1mtrain: [0mCaching images: 73% ━━━━━━━━╸─── 5077/6905 44.7it/s 29.0s<40.9s
+[K[34m[1mtrain: [0mCaching images: 73% ━━━━━━━━╸─── 5079/6905 35.7it/s 29.2s<51.1s
+[K[34m[1mtrain: [0mCaching images: 73% ━━━━━━━━╸─── 5080/6905 27.1it/s 29.3s<1:07
+[K[34m[1mtrain: [0mCaching images: 73% ━━━━━━━━╸─── 5089/6905 27.0it/s 29.7s<1:07
+[K[34m[1mtrain: [0mCaching images: 73% ━━━━━━━━╸─── 5104/6905 24.5it/s 30.5s<1:13
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5114/6905 28.3it/s 30.7s<1:03
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5115/6905 22.1it/s 30.9s<1:21
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5124/6905 34.7it/s 31.0s<51.3s
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5132/6905 33.5it/s 31.3s<52.9s
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5134/6905 28.0it/s 31.4s<1:03
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5140/6905 32.8it/s 31.5s<53.9s
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5147/6905 38.8it/s 31.7s<45.3s
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5151/6905 36.0it/s 31.8s<48.7s
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5160/6905 45.5it/s 31.9s<38.3s
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5164/6905 36.3it/s 32.2s<48.0s
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5167/6905 29.9it/s 32.4s<58.1s
+[K[34m[1mtrain: [0mCaching images: 74% ━━━━━━━━╸─── 5177/6905 42.5it/s 32.5s<40.7s
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5183/6905 35.4it/s 32.9s<48.7s
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5185/6905 26.9it/s 33.1s<1:04
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5193/6905 37.1it/s 33.3s<46.1s
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5195/6905 30.6it/s 33.4s<55.9s
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5201/6905 35.0it/s 33.5s<48.7s
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5207/6905 32.9it/s 33.8s<51.7s
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5213/6905 37.5it/s 33.9s<45.1s
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5223/6905 49.2it/s 34.0s<34.2s
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5231/6905 46.0it/s 34.2s<36.4s
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5234/6905 38.8it/s 34.4s<43.1s
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5242/6905 40.0it/s 34.5s<41.6s
+[K[34m[1mtrain: [0mCaching images: 75% ━━━━━━━━━─── 5246/6905 32.5it/s 34.8s<51.0s
+[K[34m[1mtrain: [0mCaching images: 76% ━━━━━━━━━─── 5256/6905 29.4it/s 35.3s<56.1s
+[K[34m[1mtrain: [0mCaching images: 76% ━━━━━━━━━─── 5267/6905 30.4it/s 35.6s<53.8s
+[K[34m[1mtrain: [0mCaching images: 76% ━━━━━━━━━─── 5282/6905 22.8it/s 38.6s<1:11
+[K[34m[1mtrain: [0mCaching images: 77% ━━━━━━━━━─── 5352/6905 170.4it/s 38.7s<9.1s
+[K[34m[1mtrain: [0mCaching images: 77% ━━━━━━━━━─── 5354/6905 122.1it/s 38.9s<12.7s
+[K[34m[1mtrain: [0mCaching images: 77% ━━━━━━━━━─── 5363/6905 102.9it/s 39.1s<15.0s
+[K[34m[1mtrain: [0mCaching images: 77% ━━━━━━━━━─── 5370/6905 90.2it/s 39.2s<17.0s
+[K[34m[1mtrain: [0mCaching images: 77% ━━━━━━━━━─── 5375/6905 74.3it/s 39.3s<20.6s
+[K[34m[1mtrain: [0mCaching images: 77% ━━━━━━━━━─── 5384/6905 71.4it/s 39.5s<21.3s
+[K[34m[1mtrain: [0mCaching images: 78% ━━━━━━━━━─── 5394/6905 76.2it/s 39.6s<19.8s
+[K[34m[1mtrain: [0mCaching images: 78% ━━━━━━━━━─── 5430/6905 136.6it/s 39.7s<10.8s
+[K[34m[1mtrain: [0mCaching images: 78% ━━━━━━━━━─── 5431/6905 97.9it/s 39.8s<15.1s
+[K[34m[1mtrain: [0mCaching images: 78% ━━━━━━━━━─── 5441/6905 90.6it/s 40.0s<16.2s
+[K[34m[1mtrain: [0mCaching images: 78% ━━━━━━━━━─── 5448/6905 79.5it/s 40.1s<18.3s
+[K[34m[1mtrain: [0mCaching images: 78% ━━━━━━━━━─── 5454/6905 69.0it/s 40.2s<21.0s
+[K[34m[1mtrain: [0mCaching images: 79% ━━━━━━━━━─── 5456/6905 53.4it/s 40.4s<27.1s
+[K[34m[1mtrain: [0mCaching images: 79% ━━━━━━━━━─── 5461/6905 48.5it/s 40.5s<29.8s
+[K[34m[1mtrain: [0mCaching images: 79% ━━━━━━━━━─── 5466/6905 44.8it/s 40.6s<32.1s
+[K[34m[1mtrain: [0mCaching images: 80% ━━━━━━━━━╸── 5546/6905 156.1it/s 40.8s<8.7s
+[K[34m[1mtrain: [0mCaching images: 80% ━━━━━━━━━╸── 5554/6905 125.4it/s 41.0s<10.8s
+[K[34m[1mtrain: [0mCaching images: 80% ━━━━━━━━━╸── 5560/6905 101.4it/s 41.1s<13.3s
+[K[34m[1mtrain: [0mCaching images: 80% ━━━━━━━━━╸── 5566/6905 84.2it/s 41.2s<15.9s
+[K[34m[1mtrain: [0mCaching images: 80% ━━━━━━━━━╸── 5574/6905 76.5it/s 41.4s<17.4s
+[K[34m[1mtrain: [0mCaching images: 80% ━━━━━━━━━╸── 5580/6905 67.1it/s 41.5s<19.7s
+[K[34m[1mtrain: [0mCaching images: 80% ━━━━━━━━━╸── 5583/6905 53.8it/s 41.6s<24.6s
+[K[34m[1mtrain: [0mCaching images: 80% ━━━━━━━━━╸── 5590/6905 53.2it/s 41.8s<24.7s
+[K[34m[1mtrain: [0mCaching images: 80% ━━━━━━━━━╸── 5593/6905 44.2it/s 41.9s<29.7s
+[K[34m[1mtrain: [0mCaching images: 81% ━━━━━━━━━╸── 5597/6905 37.0it/s 42.1s<35.3s
+[K[34m[1mtrain: [0mCaching images: 81% ━━━━━━━━━╸── 5607/6905 48.1it/s 42.2s<27.0s
+[K[34m[1mtrain: [0mCaching images: 81% ━━━━━━━━━╸── 5611/6905 42.7it/s 42.4s<30.3s
+[K[34m[1mtrain: [0mCaching images: 81% ━━━━━━━━━╸── 5619/6905 47.8it/s 42.5s<26.9s
+[K[34m[1mtrain: [0mCaching images: 81% ━━━━━━━━━╸── 5623/6905 42.5it/s 42.6s<30.2s
+[K[34m[1mtrain: [0mCaching images: 81% ━━━━━━━━━╸── 5627/6905 34.2it/s 42.9s<37.4s
+[K[34m[1mtrain: [0mCaching images: 81% ━━━━━━━━━╸── 5635/6905 40.3it/s 43.1s<31.5s
+[K[34m[1mtrain: [0mCaching images: 81% ━━━━━━━━━╸── 5637/6905 33.3it/s 43.2s<38.0s
+[K[34m[1mtrain: [0mCaching images: 81% ━━━━━━━━━╸── 5645/6905 41.7it/s 43.3s<30.2s
+[K[34m[1mtrain: [0mCaching images: 81% ━━━━━━━━━╸── 5650/6905 33.0it/s 43.7s<38.1s
+[K[34m[1mtrain: [0mCaching images: 81% ━━━━━━━━━╸── 5660/6905 45.7it/s 43.8s<27.2s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5669/6905 45.2it/s 44.0s<27.3s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5673/6905 33.8it/s 44.6s<36.5s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5681/6905 41.5it/s 44.7s<29.5s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5685/6905 38.2it/s 44.9s<31.9s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5689/6905 32.7it/s 45.1s<37.2s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5692/6905 29.9it/s 45.2s<40.5s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5698/6905 34.9it/s 45.3s<34.6s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5702/6905 33.9it/s 45.5s<35.5s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5706/6905 29.4it/s 45.7s<40.8s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5712/6905 34.1it/s 45.8s<35.0s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5717/6905 34.9it/s 45.9s<34.1s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5722/6905 35.4it/s 46.1s<33.5s
+[K[34m[1mtrain: [0mCaching images: 82% ━━━━━━━━━╸── 5730/6905 41.9it/s 46.2s<28.0s
+[K[34m[1mtrain: [0mCaching images: 83% ━━━━━━━━━╸── 5736/6905 42.6it/s 46.4s<27.5s
+[K[34m[1mtrain: [0mCaching images: 83% ━━━━━━━━━╸── 5737/6905 32.0it/s 46.5s<36.5s
+[K[34m[1mtrain: [0mCaching images: 83% ━━━━━━━━━╸── 5744/6905 37.2it/s 46.6s<31.2s
+[K[34m[1mtrain: [0mCaching images: 83% ━━━━━━━━━╸── 5750/6905 39.0it/s 46.8s<29.6s
+[K[34m[1mtrain: [0mCaching images: 83% ━━━━━━━━━━── 5755/6905 32.8it/s 47.0s<35.0s
+[K[34m[1mtrain: [0mCaching images: 83% ━━━━━━━━━━── 5775/6905 31.1it/s 47.8s<36.4s
+[K[34m[1mtrain: [0mCaching images: 83% ━━━━━━━━━━── 5777/6905 26.1it/s 47.9s<43.2s
+[K[34m[1mtrain: [0mCaching images: 83% ━━━━━━━━━━── 5785/6905 35.1it/s 48.1s<31.9s
+[K[34m[1mtrain: [0mCaching images: 83% ━━━━━━━━━━── 5797/6905 50.4it/s 48.2s<22.0s
+[K[34m[1mtrain: [0mCaching images: 83% ━━━━━━━━━━── 5799/6905 39.8it/s 48.3s<27.8s
+[K[34m[1mtrain: [0mCaching images: 84% ━━━━━━━━━━── 5802/6905 30.4it/s 48.7s<36.3s
+[K[34m[1mtrain: [0mCaching images: 84% ━━━━━━━━━━── 5818/6905 57.6it/s 48.8s<18.9s
+[K[34m[1mtrain: [0mCaching images: 84% ━━━━━━━━━━── 5822/6905 49.3it/s 48.9s<22.0s
+[K[34m[1mtrain: [0mCaching images: 84% ━━━━━━━━━━── 5831/6905 54.2it/s 49.1s<19.8s
+[K[34m[1mtrain: [0mCaching images: 84% ━━━━━━━━━━── 5839/6905 55.3it/s 49.2s<19.3s
+[K[34m[1mtrain: [0mCaching images: 84% ━━━━━━━━━━── 5845/6905 51.7it/s 49.4s<20.5s
+[K[34m[1mtrain: [0mCaching images: 84% ━━━━━━━━━━── 5847/6905 40.6it/s 49.5s<26.1s
+[K[34m[1mtrain: [0mCaching images: 84% ━━━━━━━━━━── 5850/6905 31.7it/s 49.8s<33.2s
+[K[34m[1mtrain: [0mCaching images: 84% ━━━━━━━━━━── 5864/6905 37.6it/s 50.0s<27.7s
+[K[34m[1mtrain: [0mCaching images: 84% ━━━━━━━━━━── 5865/6905 28.5it/s 50.2s<36.4s
+[K[34m[1mtrain: [0mCaching images: 84% ━━━━━━━━━━── 5869/6905 21.4it/s 51.0s<48.5s
+[K[34m[1mtrain: [0mCaching images: 85% ━━━━━━━━━━── 5896/6905 75.5it/s 51.2s<13.4s
+[K[34m[1mtrain: [0mCaching images: 85% ━━━━━━━━━━── 5903/6905 67.6it/s 51.3s<14.8s
+[K[34m[1mtrain: [0mCaching images: 85% ━━━━━━━━━━── 5913/6905 63.8it/s 51.5s<15.5s
+[K[34m[1mtrain: [0mCaching images: 85% ━━━━━━━━━━── 5918/6905 54.7it/s 51.6s<18.0s
+[K[34m[1mtrain: [0mCaching images: 85% ━━━━━━━━━━── 5922/6905 46.9it/s 51.8s<20.9s
+[K[34m[1mtrain: [0mCaching images: 85% ━━━━━━━━━━── 5933/6905 49.5it/s 52.0s<19.6s
+[K[34m[1mtrain: [0mCaching images: 86% ━━━━━━━━━━── 5943/6905 49.7it/s 52.2s<19.4s
+[K[34m[1mtrain: [0mCaching images: 86% ━━━━━━━━━━── 5946/6905 39.4it/s 52.4s<24.4s
+[K[34m[1mtrain: [0mCaching images: 86% ━━━━━━━━━━── 5947/6905 29.8it/s 52.5s<32.1s
+[K[34m[1mtrain: [0mCaching images: 86% ━━━━━━━━━━── 5950/6905 24.2it/s 52.8s<39.5s
+[K[34m[1mtrain: [0mCaching images: 86% ━━━━━━━━━━── 5961/6905 33.1it/s 53.0s<28.5s
+[K[34m[1mtrain: [0mCaching images: 86% ━━━━━━━━━━── 5969/6905 34.7it/s 53.2s<27.0s
+[K[34m[1mtrain: [0mCaching images: 86% ━━━━━━━━━━── 5979/6905 43.6it/s 53.3s<21.3s
+[K[34m[1mtrain: [0mCaching images: 86% ━━━━━━━━━━── 5980/6905 33.0it/s 53.5s<28.0s
+[K[34m[1mtrain: [0mCaching images: 86% ━━━━━━━━━━── 5986/6905 25.5it/s 54.2s<36.0s
+[K[34m[1mtrain: [0mCaching images: 86% ━━━━━━━━━━── 6005/6905 46.1it/s 54.4s<19.5s
+[K[34m[1mtrain: [0mCaching images: 87% ━━━━━━━━━━── 6012/6905 47.6it/s 54.5s<18.8s
+[K[34m[1mtrain: [0mCaching images: 87% ━━━━━━━━━━── 6015/6905 39.3it/s 54.7s<22.6s
+[K[34m[1mtrain: [0mCaching images: 87% ━━━━━━━━━━── 6024/6905 40.5it/s 54.9s<21.8s
+[K[34m[1mtrain: [0mCaching images: 87% ━━━━━━━━━━── 6028/6905 37.3it/s 55.0s<23.5s
+[K[34m[1mtrain: [0mCaching images: 87% ━━━━━━━━━━── 6034/6905 38.7it/s 55.2s<22.5s
+[K[34m[1mtrain: [0mCaching images: 87% ━━━━━━━━━━╸─ 6042/6905 29.3it/s 56.3s<29.4s
+[K[34m[1mtrain: [0mCaching images: 87% ━━━━━━━━━━╸─ 6060/6905 58.4it/s 56.4s<14.5s
+[K[34m[1mtrain: [0mCaching images: 87% ━━━━━━━━━━╸─ 6065/6905 51.5it/s 56.6s<16.3s
+[K[34m[1mtrain: [0mCaching images: 87% ━━━━━━━━━━╸─ 6068/6905 40.5it/s 56.8s<20.7s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6079/6905 44.9it/s 57.0s<18.4s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6081/6905 35.9it/s 57.1s<22.9s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6088/6905 40.8it/s 57.2s<20.0s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6095/6905 44.4it/s 57.4s<18.3s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6096/6905 32.6it/s 57.6s<24.8s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6105/6905 43.2it/s 57.7s<18.5s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6107/6905 34.3it/s 57.8s<23.2s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6112/6905 36.3it/s 58.0s<21.8s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6117/6905 36.7it/s 58.1s<21.5s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6120/6905 29.1it/s 58.4s<27.0s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6131/6905 44.6it/s 58.5s<17.4s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6134/6905 33.5it/s 58.9s<23.0s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6140/6905 37.1it/s 59.0s<20.6s
+[K[34m[1mtrain: [0mCaching images: 88% ━━━━━━━━━━╸─ 6145/6905 37.2it/s 59.2s<20.4s
+[K[34m[1mtrain: [0mCaching images: 89% ━━━━━━━━━━╸─ 6152/6905 41.2it/s 59.3s<18.3s
+[K[34m[1mtrain: [0mCaching images: 89% ━━━━━━━━━━╸─ 6158/6905 37.5it/s 59.5s<19.9s
+[K[34m[1mtrain: [0mCaching images: 89% ━━━━━━━━━━╸─ 6163/6905 36.6it/s 59.6s<20.3s
+[K[34m[1mtrain: [0mCaching images: 89% ━━━━━━━━━━╸─ 6165/6905 30.2it/s 59.8s<24.5s
+[K[34m[1mtrain: [0mCaching images: 89% ━━━━━━━━━━╸─ 6173/6905 38.2it/s 59.9s<19.2s
+[K[34m[1mtrain: [0mCaching images: 89% ━━━━━━━━━━╸─ 6181/6905 32.6it/s 1:00<22.2s
+[K[34m[1mtrain: [0mCaching images: 89% ━━━━━━━━━━╸─ 6189/6905 34.8it/s 1:01<20.6s
+[K[34m[1mtrain: [0mCaching images: 89% ━━━━━━━━━━╸─ 6199/6905 39.2it/s 1:01<18.0s
+[K[34m[1mtrain: [0mCaching images: 89% ━━━━━━━━━━╸─ 6203/6905 36.1it/s 1:01<19.4s
+[K[34m[1mtrain: [0mCaching images: 89% ━━━━━━━━━━╸─ 6208/6905 35.9it/s 1:01<19.4s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6218/6905 46.8it/s 1:01<14.7s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6219/6905 34.9it/s 1:01<19.6s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6232/6905 39.2it/s 1:02<17.2s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6239/6905 35.0it/s 1:02<19.0s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6241/6905 29.0it/s 1:02<22.9s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6253/6905 46.4it/s 1:02<14.0s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6254/6905 34.7it/s 1:02<18.7s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6264/6905 45.7it/s 1:02<14.0s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6266/6905 36.3it/s 1:03<17.6s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6267/6905 27.6it/s 1:03<23.2s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6274/6905 35.6it/s 1:03<17.7s
+[K[34m[1mtrain: [0mCaching images: 90% ━━━━━━━━━━╸─ 6282/6905 42.2it/s 1:03<14.7s
+[K[34m[1mtrain: [0mCaching images: 91% ━━━━━━━━━━╸─ 6291/6905 42.4it/s 1:03<14.5s
+[K[34m[1mtrain: [0mCaching images: 91% ━━━━━━━━━━╸─ 6294/6905 36.0it/s 1:03<17.0s
+[K[34m[1mtrain: [0mCaching images: 91% ━━━━━━━━━━╸─ 6309/6905 35.8it/s 1:04<16.7s
+[K[34m[1mtrain: [0mCaching images: 91% ━━━━━━━━━━╸─ 6315/6905 33.6it/s 1:04<17.6s
+[K[34m[1mtrain: [0mCaching images: 91% ━━━━━━━━━━╸─ 6325/6905 32.2it/s 1:04<18.0s
+[K[34m[1mtrain: [0mCaching images: 91% ━━━━━━━━━━━─ 6342/6905 29.0it/s 1:05<19.4s
+[K[34m[1mtrain: [0mCaching images: 91% ━━━━━━━━━━━─ 6345/6905 24.9it/s 1:05<22.5s
+[K[34m[1mtrain: [0mCaching images: 92% ━━━━━━━━━━━─ 6353/6905 26.1it/s 1:06<21.1s
+[K[34m[1mtrain: [0mCaching images: 92% ━━━━━━━━━━━─ 6361/6905 35.5it/s 1:06<15.3s
+[K[34m[1mtrain: [0mCaching images: 92% ━━━━━━━━━━━─ 6364/6905 31.2it/s 1:06<17.3s
+[K[34m[1mtrain: [0mCaching images: 92% ━━━━━━━━━━━─ 6371/6905 37.5it/s 1:06<14.2s
+[K[34m[1mtrain: [0mCaching images: 92% ━━━━━━━━━━━─ 6383/6905 39.2it/s 1:06<13.3s
+[K[34m[1mtrain: [0mCaching images: 92% ━━━━━━━━━━━─ 6391/6905 36.5it/s 1:06<14.1s
+[K[34m[1mtrain: [0mCaching images: 92% ━━━━━━━━━━━─ 6394/6905 32.0it/s 1:07<15.9s
+[K[34m[1mtrain: [0mCaching images: 92% ━━━━━━━━━━━─ 6402/6905 40.5it/s 1:07<12.4s
+[K[34m[1mtrain: [0mCaching images: 92% ━━━━━━━━━━━─ 6407/6905 39.3it/s 1:07<12.7s
+[K[34m[1mtrain: [0mCaching images: 92% ━━━━━━━━━━━─ 6409/6905 30.5it/s 1:07<16.3s
+[K[34m[1mtrain: [0mCaching images: 92% ━━━━━━━━━━━─ 6419/6905 30.2it/s 1:07<16.1s
+[K[34m[1mtrain: [0mCaching images: 93% ━━━━━━━━━━━─ 6430/6905 45.8it/s 1:08<10.4s
+[K[34m[1mtrain: [0mCaching images: 93% ━━━━━━━━━━━─ 6436/6905 46.0it/s 1:08<10.2s
+[K[34m[1mtrain: [0mCaching images: 93% ━━━━━━━━━━━─ 6439/6905 36.8it/s 1:08<12.7s
+[K[34m[1mtrain: [0mCaching images: 93% ━━━━━━━━━━━─ 6443/6905 28.2it/s 1:08<16.4s
+[K[34m[1mtrain: [0mCaching images: 93% ━━━━━━━━━━━─ 6456/6905 47.8it/s 1:09<9.4s
+[K[34m[1mtrain: [0mCaching images: 93% ━━━━━━━━━━━─ 6464/6905 43.1it/s 1:09<10.2s
+[K[34m[1mtrain: [0mCaching images: 93% ━━━━━━━━━━━─ 6470/6905 41.7it/s 1:09<10.4s
+[K[34m[1mtrain: [0mCaching images: 93% ━━━━━━━━━━━─ 6474/6905 37.9it/s 1:09<11.4s
+[K[34m[1mtrain: [0mCaching images: 93% ━━━━━━━━━━━─ 6483/6905 37.4it/s 1:09<11.3s
+[K[34m[1mtrain: [0mCaching images: 93% ━━━━━━━━━━━─ 6487/6905 34.4it/s 1:09<12.1s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6493/6905 37.2it/s 1:10<11.1s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6496/6905 32.7it/s 1:10<12.5s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6501/6905 34.4it/s 1:10<11.7s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6506/6905 35.1it/s 1:10<11.4s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6512/6905 37.2it/s 1:10<10.6s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6517/6905 37.0it/s 1:10<10.5s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6520/6905 30.3it/s 1:10<12.7s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6525/6905 30.9it/s 1:11<12.3s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6534/6905 34.7it/s 1:11<10.7s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6541/6905 39.6it/s 1:11<9.2s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6549/6905 46.0it/s 1:11<7.7s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6551/6905 36.7it/s 1:11<9.7s
+[K[34m[1mtrain: [0mCaching images: 94% ━━━━━━━━━━━─ 6556/6905 36.1it/s 1:11<9.7s
+[K[34m[1mtrain: [0mCaching images: 95% ━━━━━━━━━━━─ 6567/6905 33.4it/s 1:12<10.1s
+[K[34m[1mtrain: [0mCaching images: 95% ━━━━━━━━━━━─ 6575/6905 35.1it/s 1:12<9.4s
+[K[34m[1mtrain: [0mCaching images: 95% ━━━━━━━━━━━─ 6582/6905 34.9it/s 1:12<9.2s
+[K[34m[1mtrain: [0mCaching images: 95% ━━━━━━━━━━━─ 6587/6905 34.7it/s 1:12<9.2s
+[K[34m[1mtrain: [0mCaching images: 95% ━━━━━━━━━━━─ 6591/6905 32.8it/s 1:12<9.6s
+[K[34m[1mtrain: [0mCaching images: 95% ━━━━━━━━━━━─ 6595/6905 24.8it/s 1:13<12.5s
+[K[34m[1mtrain: [0mCaching images: 95% ━━━━━━━━━━━─ 6603/6905 25.5it/s 1:13<11.9s
+[K[34m[1mtrain: [0mCaching images: 95% ━━━━━━━━━━━─ 6611/6905 22.8it/s 1:14<12.9s
+[K[34m[1mtrain: [0mCaching images: 95% ━━━━━━━━━━━─ 6614/6905 21.1it/s 1:14<13.8s
+[K[34m[1mtrain: [0mCaching images: 95% ━━━━━━━━━━━╸ 6622/6905 32.3it/s 1:14<8.8s
+[K[34m[1mtrain: [0mCaching images: 96% ━━━━━━━━━━━╸ 6631/6905 29.1it/s 1:15<9.4s
+[K[34m[1mtrain: [0mCaching images: 96% ━━━━━━━━━━━╸ 6639/6905 29.2it/s 1:15<9.1s
+[K[34m[1mtrain: [0mCaching images: 96% ━━━━━━━━━━━╸ 6647/6905 31.8it/s 1:15<8.1s
+[K[34m[1mtrain: [0mCaching images: 96% ━━━━━━━━━━━╸ 6654/6905 37.5it/s 1:15<6.7s
+[K[34m[1mtrain: [0mCaching images: 96% ━━━━━━━━━━━╸ 6663/6905 46.0it/s 1:15<5.3s
+[K[34m[1mtrain: [0mCaching images: 96% ━━━━━━━━━━━╸ 6664/6905 33.7it/s 1:16<7.2s
+[K[34m[1mtrain: [0mCaching images: 96% ━━━━━━━━━━━╸ 6678/6905 41.1it/s 1:16<5.5s
+[K[34m[1mtrain: [0mCaching images: 96% ━━━━━━━━━━━╸ 6685/6905 41.0it/s 1:16<5.4s
+[K[34m[1mtrain: [0mCaching images: 96% ━━━━━━━━━━━╸ 6693/6905 40.2it/s 1:16<5.3s
+[K[34m[1mtrain: [0mCaching images: 96% ━━━━━━━━━━━╸ 6694/6905 30.3it/s 1:16<7.0s
+[K[34m[1mtrain: [0mCaching images: 96% ━━━━━━━━━━━╸ 6695/6905 21.6it/s 1:17<9.7s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6707/6905 42.5it/s 1:17<4.7s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6708/6905 31.2it/s 1:17<6.3s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6711/6905 28.1it/s 1:18<6.9s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6720/6905 38.3it/s 1:18<4.8s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6726/6905 41.1it/s 1:18<4.4s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6731/6905 41.0it/s 1:18<4.2s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6739/6905 39.7it/s 1:18<4.2s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6741/6905 32.4it/s 1:18<5.1s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6746/6905 34.5it/s 1:19<4.6s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6751/6905 35.4it/s 1:19<4.4s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6755/6905 30.4it/s 1:19<4.9s
+[K[34m[1mtrain: [0mCaching images: 97% ━━━━━━━━━━━╸ 6765/6905 43.5it/s 1:19<3.2s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6768/6905 36.6it/s 1:19<3.7s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6770/6905 28.6it/s 1:19<4.7s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6780/6905 35.1it/s 1:20<3.6s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6783/6905 31.1it/s 1:20<3.9s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6787/6905 27.6it/s 1:20<4.3s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6798/6905 35.2it/s 1:20<3.0s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6806/6905 41.8it/s 1:20<2.4s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6812/6905 35.9it/s 1:20<2.6s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6819/6905 40.3it/s 1:21<2.1s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6821/6905 32.6it/s 1:21<2.6s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6827/6905 35.9it/s 1:21<2.2s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6829/6905 29.4it/s 1:21<2.6s
+[K[34m[1mtrain: [0mCaching images: 98% ━━━━━━━━━━━╸ 6833/6905 29.4it/s 1:21<2.4s
+[K[34m[1mtrain: [0mCaching images: 99% ━━━━━━━━━━━╸ 6845/6905 37.4it/s 1:21<1.6s
+[K[34m[1mtrain: [0mCaching images: 99% ━━━━━━━━━━━╸ 6855/6905 36.9it/s 1:22<1.4s
+[K[34m[1mtrain: [0mCaching images: 99% ━━━━━━━━━━━╸ 6857/6905 30.2it/s 1:22<1.6s
+[K[34m[1mtrain: [0mCaching images: 99% ━━━━━━━━━━━╸ 6860/6905 27.7it/s 1:22<1.6s
+[K[34m[1mtrain: [0mCaching images: 99% ━━━━━━━━━━━╸ 6868/6905 25.3it/s 1:22<1.5s
+[K[34m[1mtrain: [0mCaching images: 99% ━━━━━━━━━━━╸ 6884/6905 27.5it/s 1:23<0.8s
+[K[34m[1mtrain: [0mCaching images: 99% ━━━━━━━━━━━╸ 6889/6905 25.8it/s 1:23<0.6s
+[K[34m[1mtrain: [0mCaching images: 99% ━━━━━━━━━━━╸ 6892/6905 24.8it/s 1:23<0.5s
+[K[34m[1mtrain: [0mCaching images: 99% ━━━━━━━━━━━╸ 6904/6905 30.4it/s 1:23<0.0s
+[K[34m[1mtrain: [0mCaching images: 100% ━━━━━━━━━━━━ 6905/6905 78.1it/s 1:28
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\smart_trash_can\.venv-train\Scripts\yolo.exe\__main__.py", line 5, in <module>
+  File "C:\smart_trash_can\.venv-train\Lib\site-packages\ultralytics\cfg\__init__.py", line 1190, in entrypoint
+    getattr(model, mode)(**overrides)  # default args from model
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\smart_trash_can\.venv-train\Lib\site-packages\ultralytics\engine\model.py", line 901, in train
+    self.trainer.train()
+  File "C:\smart_trash_can\.venv-train\Lib\site-packages\ultralytics\engine\trainer.py", line 263, in train
+    self._do_train()
+  File "C:\smart_trash_can\.venv-train\Lib\site-packages\ultralytics\engine\trainer.py", line 473, in _do_train
+    self._setup_train()
+  File "C:\smart_trash_can\.venv-train\Lib\site-packages\ultralytics\engine\trainer.py", line 454, in _setup_train
+    self._build_train_pipeline()
+  File "C:\smart_trash_can\.venv-train\Lib\site-packages\ultralytics\engine\trainer.py", line 307, in _build_train_pipeline
+    self.train_loader = self.get_dataloader(
+                        ^^^^^^^^^^^^^^^^^^^^
+  File "C:\smart_trash_can\.venv-train\Lib\site-packages\ultralytics\models\yolo\classify\train.py", line 136, in get_dataloader
+    dataset = self.build_dataset(dataset_path, mode)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\smart_trash_can\.venv-train\Lib\site-packages\ultralytics\models\yolo\classify\train.py", line 115, in build_dataset
+    return ClassificationDataset(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\smart_trash_can\.venv-train\Lib\site-packages\ultralytics\data\dataset.py", line 1263, in __init__
+    self.cache_images()
+  File "C:\smart_trash_can\.venv-train\Lib\site-packages\ultralytics\data\dataset.py", line 1329, in cache_images
+    self.img_cache = BaseDataset._ImageCache(ims)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\smart_trash_can\.venv-train\Lib\site-packages\ultralytics\data\base.py", line 82, in __init__
+    self.buffer = torch.empty(int(self.offsets[-1]), dtype=torch.uint8)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: [enforce fail at alloc_cpu.cpp:117] data. DefaultCPUAllocator: not enough memory: you tried to allocate 9748125978 bytes.

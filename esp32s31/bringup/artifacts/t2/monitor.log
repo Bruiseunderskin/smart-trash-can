@@ -1,0 +1,277 @@
+--- WARNING: GDB cannot open serial ports accessed as COMx
+
+--- NOTE: Using \\.\COM5 instead...
+
+--- esp-idf-monitor 1.10.0 on \\.\COM5 115200
+
+--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H
+
+Executing action: monitor
+Running idf_monitor in directory C:\smart_trash_can\esp32s31\bringup\t2_camera
+Executing "C:\Espressif\tools\python_env\idf6.1_py3.13_env\Scripts\python.exe C:\esp\v6.1\esp-idf\tools/idf_monitor.py -p COM5 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32s31 --revision 0 --decode-panic backtrace C:\smart_trash_can\esp32s31\bringup\t2_camera\build\s31_korvo_t2_camera.elf C:\smart_trash_can\esp32s31\bringup\t2_camera\build\bootloader\bootloader.elf --force-color -m 'C:\Espressif\tools\python_env\idf6.1_py3.13_env\Scripts\python.exe' 'C:\esp\v6.1\esp-idf\tools\idf.py' '--preview' '-p' 'COM5'"...
+ESP-ROM:esp32s31-20251218
+
+Build:Dec 18 2025
+
+rst:0x1 (POWERON),boot:0x78 (SPI_FAST_FLASH_BOOT)
+
+SPI mode:DIO, clock div:1
+
+load:0x2f0740c0,len:0x17e4
+
+load:0x2f06a2b0,len:0xde0
+
+--- 0x2f06a2b0: esp_bootloader_get_description at C:/esp/v6.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c:40
+
+load:0x2f06cfb0,len:0x3460
+
+--- 0x2f06cfb0: is_xmc_chip_strict at C:/esp/v6.1/esp-idf/components/bootloader_support/bootloader_flash/src/bootloader_flash.c:911
+
+entry 0x2f06a2ba
+
+--- 0x2f06a2ba: call_start_cpu0 at C:/esp/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c:27
+
+I (26) boot: ESP-IDF v6.1 2nd stage bootloader
+
+I (26) boot: compile time Nov  2 2026 18:51:12
+
+I (27) boot: Multicore bootloader
+
+I (29) boot: chip revision: v0.0
+
+I (29) boot: efuse block revision: v0.1
+
+I (33) qio_mode: Enabling default flash chip QIO
+
+I (37) boot.esp32s31: SPI Speed      : 80MHz
+
+I (41) boot.esp32s31: SPI Mode       : QIO
+
+I (45) boot.esp32s31: SPI Flash Size : 16MB
+
+I (49) boot: Enabling RNG early entropy source...
+
+I (53) boot: Partition Table:
+
+I (56) boot: ## Label            Usage          Type ST Offset   Length
+
+I (62) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+
+I (69) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+
+I (75) boot:  2 factory          factory app      00 00 00010000 00100000
+
+I (83) boot: End of partition table
+
+I (85) esp_image: segment 0: paddr=00010020 vaddr=40040020 size=150e4h ( 86244) map
+
+I (108) esp_image: segment 1: paddr=0002510c vaddr=2f000000 size=0af0ch ( 44812) load
+
+I (118) esp_image: segment 2: paddr=00030020 vaddr=40000020 size=3b108h (241928) map
+
+I (157) esp_image: segment 3: paddr=0006b130 vaddr=2f00af0c size=030d4h ( 12500) load
+
+I (161) esp_image: segment 4: paddr=0006e20c vaddr=2f00e000 size=032c0h ( 12992) load
+
+I (169) boot: Loaded app from partition at offset 0x10000
+
+I (169) boot: Disabling RNG early entropy source...
+
+I (183) oct_psram: vendor id    : 0x0d (AP)
+
+I (183) oct_psram: Latency      : 0x01 (Fixed)
+
+I (184) oct_psram: DriveStr.    : 0x00 (25 Ohm)
+
+I (184) oct_psram: dev id       : 0x03 (generation 4)
+
+I (189) oct_psram: density      : 0x05 (128 Mbit)
+
+I (193) oct_psram: good-die     : 0x06 (Pass)
+
+I (197) oct_psram: SRF          : 0x02 (Slow Refresh)
+
+I (202) oct_psram: BurstType    : 0x00 ( Wrap)
+
+I (206) oct_psram: BurstLen     : 0x03 (2048 Byte)
+
+I (211) oct_psram: BitMode      : 0x00 (X8 Mode)
+
+I (215) oct_psram: Readlatency  : 0x04 (14 cycles@Fixed)
+
+I (220) oct_psram: DriveStrength: 0x00 (1/1)
+
+I (224) MSPI Timing: Enter psram timing tuning
+
+I (382) esp_psram: Found 16MB PSRAM device
+
+I (382) esp_psram: Speed: 200MHz
+
+I (382) oct_psram: psram CS IO is dedicated
+
+I (383) cpu_start: Multicore app
+
+I (697) esp_psram: SPI SRAM memory test OK
+
+I (706) cpu_start: GPIO 59 and 58 are used as console UART I/O pins
+
+I (706) cpu_start: Pro cpu start user code
+
+I (706) cpu_start: cpu freq: 320000000 Hz
+
+I (708) app_init: Application information:
+
+I (712) app_init: Project name:     s31_korvo_t2_camera
+
+I (717) app_init: App version:      88c5509
+
+I (721) app_init: Compile time:     Nov  2 2026 18:48:35
+
+I (726) app_init: ELF file SHA256:  43558908c...
+
+I (730) app_init: ESP-IDF:          v6.1
+
+I (734) efuse_init: Min chip rev:     v0.0
+
+I (738) efuse_init: Max chip rev:     v0.99 
+
+I (742) efuse_init: Chip rev:         v0.0
+
+I (745) heap_init: Initializing. RAM available for dynamic allocation:
+
+I (752) heap_init: At 2F012DE0 len 000681D0 (416 KiB): RAM
+
+I (757) heap_init: At 2F07AFB0 len 000041C0 (16 KiB): RAM
+
+I (762) heap_init: At 2E000000 len 00007FE8 (31 KiB): RTCRAM
+
+I (768) esp_psram: Adding pool of 16384K of PSRAM memory to heap allocator
+
+I (774) spi_flash: detected chip: generic
+
+I (778) spi_flash: flash io: qio
+
+I (781) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+
+I (787) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+
+I (793) oct_psram: psram CS IO is dedicated
+
+I (797) coexist: coex firmware version: a830d28
+
+I (802) coexist: coexist rom version cdcf52b
+
+I (806) main_task: Started on CPU0
+
+I (817) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+
+I (818) main_task: Calling app_main()
+
+I (820) S31-Korvo: Enable SD card power/control GPIO39, level=0
+
+I (826) S31-Korvo: Mount SD card: mount=/sdcard, width=4, freq=40000 kHz, uhs1=0, CLK=24 CMD=25 D0=20 D1=21 D2=22 D3=23
+
+I (836) SD_HOST: src_freq_hz: 400000000
+
+E (867) sdmmc_common: sdmmc_init_ocr: send_op_cond (1) returned 0x107
+
+HINT: Please reboot the board and then try again
+E (867) vfs_fat_sdmmc: sdmmc_card_init failed (0x107).
+
+HINT: Please verify if there is an SD card inserted into the SD slot. Then, try rebooting the board.
+E (868) vfs_fat_sdmmc: esp_vfs_fat_sdmmc_sdcard_init failed (0x107).
+
+E (873) S31-Korvo: SD card mount failed (ESP_ERR_TIMEOUT)
+
+I (879) T2_CAMERA: SD mount=ESP_ERR_TIMEOUT path=/sdcard
+
+I (884) S31-Korvo: I2C bus initialized: SDA=0, SCL=1
+
+I (888) S31-Korvo: Initializing camera: dev=/dev/video2, shared_i2c=1, xclk=20000000
+
+I (910) sc101iot: Detected Camera sensor PID=0xda4a
+
+I (1491) S31-Korvo: Camera format: 1280x720, fourcc=UYVY, stride=0, size=0
+
+I (1491) S31-Korvo: Camera buffer[0]: ptr=0x50001040, length=1843200
+
+I (1493) S31-Korvo: Camera buffer[1]: ptr=0x501c3080, length=1843200
+
+I (1499) T2_CAMERA: T2_FORMAT width=1280 height=720 fourcc=UYVY stride=0 sizeimage=0
+
+W (1506) T2_CAMERA: T2_FORMAT_MISMATCH expected=OV3660/JPEG actual=UYVY
+
+I (1526) S31-Korvo: Camera stream started
+
+I (1672) S31-Korvo: Camera first frame: index=0, bytes=1843200, length=0
+
+I (1692) T2_CAMERA: Frame 01/30 size=1843200 valid=yes
+
+I (1756) T2_CAMERA: Frame 02/30 size=1843200 valid=yes
+
+I (1820) T2_CAMERA: Frame 03/30 size=1843200 valid=yes
+
+I (1884) T2_CAMERA: Frame 04/30 size=1843200 valid=yes
+
+I (1948) T2_CAMERA: Frame 05/30 size=1843200 valid=yes
+
+I (2012) T2_CAMERA: Frame 06/30 size=1843200 valid=yes
+
+I (2076) T2_CAMERA: Frame 07/30 size=1843200 valid=yes
+
+I (2140) T2_CAMERA: Frame 08/30 size=1843200 valid=yes
+
+I (2204) T2_CAMERA: Frame 09/30 size=1843200 valid=yes
+
+I (2268) T2_CAMERA: Frame 10/30 size=1843200 valid=yes
+
+I (2332) T2_CAMERA: Frame 11/30 size=1843200 valid=yes
+
+I (2396) T2_CAMERA: Frame 12/30 size=1843200 valid=yes
+
+I (2460) T2_CAMERA: Frame 13/30 size=1843200 valid=yes
+
+I (2524) T2_CAMERA: Frame 14/30 size=1843200 valid=yes
+
+I (2588) T2_CAMERA: Frame 15/30 size=1843200 valid=yes
+
+I (2652) T2_CAMERA: Frame 16/30 size=1843200 valid=yes
+
+I (2716) T2_CAMERA: Frame 17/30 size=1843200 valid=yes
+
+I (2780) T2_CAMERA: Frame 18/30 size=1843200 valid=yes
+
+I (2844) T2_CAMERA: Frame 19/30 size=1843200 valid=yes
+
+I (2908) T2_CAMERA: Frame 20/30 size=1843200 valid=yes
+
+I (2972) T2_CAMERA: Frame 21/30 size=1843200 valid=yes
+
+I (3036) T2_CAMERA: Frame 22/30 size=1843200 valid=yes
+
+I (3100) T2_CAMERA: Frame 23/30 size=1843200 valid=yes
+
+I (3164) T2_CAMERA: Frame 24/30 size=1843200 valid=yes
+
+I (3228) T2_CAMERA: Frame 25/30 size=1843200 valid=yes
+
+I (3292) T2_CAMERA: Frame 26/30 size=1843200 valid=yes
+
+I (3356) T2_CAMERA: Frame 27/30 size=1843200 valid=yes
+
+I (3420) T2_CAMERA: Frame 28/30 size=1843200 valid=yes
+
+I (3484) T2_CAMERA: Frame 29/30 size=1843200 valid=yes
+
+I (3548) T2_CAMERA: Frame 30/30 size=1843200 valid=yes
+
+I (3561) S31-Korvo: Camera stream stopped
+
+I (3561) T2_CAMERA: T2_STATS fps=14.84 valid=30/30 first_bytes=1843200 last_bytes=1843200 saved=0
+
+I (3562) T2_CAMERA: T2_AUTO_CHECK=FAIL count=pass sensor_format=SC101IOT/UYVY-observed saved_images=0/3
+
+I (3571) main_task: Returned from app_main()
+
+
+

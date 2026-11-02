@@ -6,16 +6,24 @@ compile_commands.json
 
 # ---- Waste classification training data and outputs ----
 .venv-train/
+.venv-data/
 /data/garbage265/
 /data/modelscope_cache/
 /data/waste4/
+/data/waste4_issue12_source/
+/data/waste4_issue12_grouped*/
+/data/issue12_*
+/esp32s31/model_validation/on_device_cases/
+/esp32s31/model_validation/sdkconfig
 /data/waste4_ei*.zip
 /data/waste4_ei_train/
 /data/waste4_ei_test/
 /runs/waste4/
+/runs/issue12/
 /runs/classify/
 /yolo11n-cls.pt
 /tools/__pycache__/
+/tools/tests/__pycache__/
 
 # ---- IDE / editor ----
 .cache/

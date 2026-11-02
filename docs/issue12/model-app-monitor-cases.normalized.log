@@ -1,0 +1,738 @@
+--------+--------------+-----------+---------------+
+
+
+
+
+
+I (4637) dl::Model: model:main_graph, version:0
+
+I (4739) dl::Model: +--------------------------------------�ESP-ROM:esp32s31-20251218
+
+Build:Dec 18 2025
+
+rst:0x1 (POWERON),boot:0x79 (SPI_FAST_FLASH_BOOT)
+
+SPI mode:DIO, clock div:1
+
+load:0x2f0740c0,len:0x17e4
+
+load:0x2f06a2b0,len:0xde0
+
+load:0x2f06cfb0,len:0x3460
+
+entry 0x2f06a2ba
+
+I (26) boot: ESP-IDF v6.1 2nd stage bootloader
+
+I (26) boot: compile time Nov  2 2026 21:33:01
+
+I (27) boot: Multicore bootloader
+
+I (29) boot: chip revision: v0.0
+
+I (29) boot: efuse block revision: v0.1
+
+I (33) qio_mode: Enabling default flash chip QIO
+
+I (37) boot.esp32s31: SPI Speed      : 80MHz
+
+I (41) boot.esp32s31: SPI Mode       : QIO
+
+I (45) boot.esp32s31: SPI Flash Size : 16MB
+
+I (49) boot: Enabling RNG early entropy source...
+
+I (53) boot: Partition Table:
+
+I (56) boot: ## Label            Usage          Type ST Offset   Length
+
+I (62) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+
+I (69) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+
+I (75) boot:  2 factory          factory app      00 00 00010000 00600000
+
+I (83) boot: End of partition table
+
+I (85) esp_image: segment 0: paddr=00010020 vaddr=40210020 size=20f2a8h (2159272) map
+
+I (428) esp_image: segment 1: paddr=0021f2d0 vaddr=2f000000 size=00d48h (  3400) load
+
+I (430) esp_image: segment 2: paddr=00220020 vaddr=40000020 size=2069d4h (2124244) map
+
+I (761) esp_image: segment 3: paddr=004269fc vaddr=2f000d48 size=0cd50h ( 52560) load
+
+I (772) esp_image: segment 4: paddr=00433754 vaddr=2f00db00 size=03620h ( 13856) load
+
+I (780) boot: Loaded app from partition at offset 0x10000
+
+I (780) boot: Disabling RNG early entropy source...
+
+I (791) oct_psram: vendor id    : 0x0d (AP)
+
+I (791) oct_psram: Latency      : 0x01 (Fixed)
+
+I (791) oct_psram: DriveStr.    : 0x00 (25 Ohm)
+
+I (792) oct_psram: dev id       : 0x03 (generation 4)
+
+I (797) oct_psram: density      : 0x05 (128 Mbit)
+
+I (801) oct_psram: good-die     : 0x06 (Pass)
+
+I (805) oct_psram: SRF          : 0x02 (Slow Refresh)
+
+I (810) oct_psram: BurstType    : 0x00 ( Wrap)
+
+I (814) oct_psram: BurstLen     : 0x03 (2048 Byte)
+
+I (819) oct_psram: BitMode      : 0x00 (X8 Mode)
+
+I (823) oct_psram: Readlatency  : 0x04 (14 cycles@Fixed)
+
+I (828) oct_psram: DriveStrength: 0x00 (1/1)
+
+I (832) MSPI Timing: Enter psram timing tuning
+
+I (989) esp_psram: Found 16MB PSRAM device
+
+I (989) esp_psram: Speed: 200MHz
+
+I (990) oct_psram: psram CS IO is dedicated
+
+I (990) cpu_start: Multicore app
+
+I (1312) esp_psram: SPI SRAM memory test OK
+
+I (1320) cpu_start: GPIO 59 and 58 are used as console UART I/O pins
+
+I (1320) cpu_start: Pro cpu start user code
+
+I (1320) cpu_start: cpu freq: 320000000 Hz
+
+I (1323) app_init: Application information:
+
+I (1326) app_init: Project name:     s31_waste4_model_validation
+
+I (1332) app_init: App version:      6a8fadb-dirty
+
+I (1337) app_init: Compile time:     Nov  2 2026 21:31:12
+
+I (1342) app_init: ELF file SHA256:  df83f1f64...
+
+I (1346) app_init: ESP-IDF:          v6.1
+
+I (1350) efuse_init: Min chip rev:     v0.0
+
+I (1354) efuse_init: Max chip rev:     v0.99 
+
+I (1358) efuse_init: Chip rev:         v0.0
+
+I (1362) heap_init: Initializing. RAM available for dynamic allocation:
+
+I (1368) heap_init: At 2F013F90 len 00067020 (412 KiB): RAM
+
+I (1373) heap_init: At 2F07AFB0 len 000041C0 (16 KiB): RAM
+
+I (1379) heap_init: At 2E000000 len 00007FE8 (31 KiB): RTCRAM
+
+I (1384) esp_psram: Adding pool of 16384K of PSRAM memory to heap allocator
+
+I (1391) spi_flash: detected chip: generic
+
+I (1395) spi_flash: flash io: qio
+
+I (1398) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+
+I (1404) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+
+I (1411) oct_psram: psram CS IO is dedicated
+
+I (1415) coexist: coex firmware version: a830d28
+
+I (1419) coexist: coexist rom version cdcf52b
+
+I (1423) main_task: Started on CPU0
+
+I (1434) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+
+I (1434) main_task: Calling app_main()
+
+I (1437) S31_MODEL: MEM_BEFORE internal=445351 psram=16774632
+
+I (1600) S31_MODEL: MODEL_IO input=images shape=[1,160,160,3] dtype=3 exponent=788630844 output=output0 shape=[1,4] dtype=1 exponent=788630904
+
+
+
+I (1602) dl::Model: Test max_error = 0.0005 (default)
+
+I (1703) dl::Model: Testing output output0.
+
+I (1705) dl::Model: Test Pass!
+
+I (1705) S31_MODEL: MODEL_SELF_TEST=PASS
+
+I (3385) S31_MODEL: MODEL_TIMING runs=20 mean_us=84013 p50_us=83997 p95_us=84043
+
+I (3386) S31_MODEL: MEM_AFTER internal=403799 psram=14962924 internal_delta=41552 psram_delta=1811708
+
+I (3480) S31_MODEL: CASE_RESULT id=case_00 expected=其他 predicted=2 confidence=0.812849 host_confidence=0.455040 delta=0.357809 pre_us=2119 model_us=84591 status=FAIL
+
+I (3572) S31_MODEL: CASE_RESULT id=case_01 expected=其他 predicted=0 confidence=0.887247 host_confidence=0.998582 delta=0.111335 pre_us=1704 model_us=84550 status=PASS
+
+I (3665) S31_MODEL: CASE_RESULT id=case_02 expected=其他 predicted=0 confidence=0.769004 host_confidence=1.000000 delta=0.230996 pre_us=1736 model_us=84574 status=FAIL
+
+I (3758) S31_MODEL: CASE_RESULT id=case_03 expected=可回收物 predicted=2 confidence=0.980607 host_confidence=0.469169 delta=0.511438 pre_us=1670 model_us=84595 status=FAIL
+
+I (3851) S31_MODEL: CASE_RESULT id=case_04 expected=可回收物 predicted=1 confidence=0.892628 host_confidence=0.993708 delta=0.101079 pre_us=1709 model_us=84615 status=PASS
+
+I (3944) S31_MODEL: CASE_RESULT id=case_05 expected=可回收物 predicted=1 confidence=0.864616 host_confidence=1.000000 delta=0.135384 pre_us=1705 model_us=84528 status=PASS
+
+I (4038) S31_MODEL: CASE_RESULT id=case_06 expected=廚餘 predicted=1 confidence=0.584672 host_confidence=0.424300 delta=0.160372 pre_us=1653 model_us=84584 status=FAIL
+
+I (4130) S31_MODEL: CASE_RESULT id=case_07 expected=廚餘 predicted=2 confidence=0.998364 host_confidence=0.999865 delta=0.001501 pre_us=1663 model_us=84579 status=PASS
+
+I (4223) S31_MODEL: CASE_RESULT id=case_08 expected=廚餘 predicted=2 confidence=0.998375 host_confidence=1.000000 delta=0.001625 pre_us=1666 model_us=84591 status=PASS
+
+I (4316) S31_MODEL: CASE_RESULT id=case_09 expected=有害 predicted=0 confidence=0.520202 host_confidence=0.298611 delta=0.221590 pre_us=1693 model_us=84592 status=FAIL
+
+I (4409) S31_MODEL: CASE_RESULT id=case_10 expected=有害 predicted=3 confidence=0.406224 host_confidence=0.997190 delta=0.590966 pre_us=1656 model_us=84580 status=FAIL
+
+I (4501) S31_MODEL: CASE_RESULT id=case_11 expected=有害 predicted=1 confidence=0.499205 host_confidence=1.000000 delta=0.500795 pre_us=1739 model_us=84519 status=FAIL
+
+I (4505) S31_MODEL: ON_DEVICE_CASES pass=5/12 mean_abs_confidence_delta=0.243741
+
+
+
+I (4513) dl::Model: model:main_graph, version:0
+
+I (4517) dl::Model: MODEL LOCATION IN FLASH RODATA
+
+I (4522) dl::Model: +----------------+--------------+-----------+---------------+
+
+I (4529) dl::Model: |                      memory summary                       |
+
+I (4536) dl::Model: +----------------+--------------+-----------+---------------+
+
+I (4543) dl::Model: |                | internal RAM | PSRAM     | FLASH         |
+
+I (4550) dl::Model: +----------------+--------------+-----------+---------------+
+
+I (4557) dl::Model: | fbs_model      |              |           | 1752.78KB     |
+
+I (4565) dl::Model: |  -- parameter  |              |           |  -- 1513.78KB |
+
+I (4572) dl::Model: +----------------+--------------+-----------+---------------+
+
+I (4579) dl::Model: | parameter_copy |              | 1513.78KB |               |
+
+I (4586) dl::Model: +----------------+--------------+-----------+---------------+
+
+I (4593) dl::Model: | variable       |              | 187.50KB  |               |
+
+I (4601) dl::Model: +----------------+--------------+-----------+---------------+
+
+I (4608) dl::Model: | others         | 35.71KB      | 65.96KB   |               |
+
+I (4615) dl::Model: +----------------+--------------+-----------+---------------+
+
+I (4622) dl::Model: | total          | 35.71KB      | 1767.24KB | 1752.78KB     |
+
+I (4629) dl::Model: +----------------+--------------+-----------+---------------+
+
+
+
+
+
+I (4637) dl::Model: model:main_graph, version:0
+
+I (4739) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4739) dl::Model: |                             module summary                             |
+
+I (4744) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4753) dl::Model: | name                                     | type              | latency |
+
+I (4761) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4770) dl::Model: | /model.0/conv/Conv                       | Conv              | 8360us  |
+
+I (4778) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4786) dl::Model: | /model.0/conv/Conv/Swish                 | Swish             | 1669us  |
+
+I (4794) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4803) dl::Model: | /model.1/conv/Conv                       | Conv              | 3790us  |
+
+I (4811) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4819) dl::Model: | /model.1/conv/Conv/Swish                 | Swish             | 788us   |
+
+I (4828) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4836) dl::Model: | /model.2/cv1/conv/Conv                   | Conv              | 1310us  |
+
+I (4844) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4853) dl::Model: | /model.2/cv1/conv/Conv/Swish             | Swish             | 650us   |
+
+I (4861) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4869) dl::Model: | /model.2/Split                           | Split             | 1179us  |
+
+I (4878) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4886) dl::Model: | /model.2/m.0/cv1/conv/Conv               | Conv              | 8358us  |
+
+I (4894) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4903) dl::Model: | /model.2/m.0/cv1/conv/Conv/Swish         | Swish             | 167us   |
+
+I (4911) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4919) dl::Model: | /model.2/m.0/cv2/conv/Conv               | Conv              | 2265us  |
+
+I (4928) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4936) dl::Model: | /model.2/m.0/cv2/conv/Conv/Swish         | Swish             | 285us   |
+
+I (4944) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4953) dl::Model: | /model.2/m.0/Add                         | Add               | 373us   |
+
+I (4961) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4969) dl::Model: | /model.2/Concat                          | Concat            | 2048us  |
+
+I (4978) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (4986) dl::Model: | /model.2/cv2/conv/Conv                   | Conv              | 2787us  |
+
+I (4994) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5003) dl::Model: | /model.2/cv2/conv/Conv/Swish             | Swish             | 1652us  |
+
+I (5011) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5019) dl::Model: | /model.3/conv/Conv                       | Conv              | 5875us  |
+
+I (5028) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5036) dl::Model: | /model.3/conv/Conv/Swish                 | Swish             | 421us   |
+
+I (5044) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5053) dl::Model: | /model.4/cv1/conv/Conv                   | Conv              | 708us   |
+
+I (5061) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5069) dl::Model: | /model.4/cv1/conv/Conv/Swish             | Swish             | 264us   |
+
+I (5077) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5086) dl::Model: | /model.4/Split                           | Split             | 305us   |
+
+I (5094) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5103) dl::Model: | /model.4/m.0/cv1/conv/Conv               | Conv              | 684us   |
+
+I (5111) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5119) dl::Model: | /model.4/m.0/cv1/conv/Conv/Swish         | Swish             | 95us    |
+
+I (5127) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5136) dl::Model: | /model.4/m.0/cv2/conv/Conv               | Conv              | 776us   |
+
+I (5144) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5152) dl::Model: | /model.4/m.0/cv2/conv/Conv/Swish         | Swish             | 155us   |
+
+I (5161) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5169) dl::Model: | /model.4/m.0/Add                         | Add               | 115us   |
+
+I (5177) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5186) dl::Model: | /model.4/Concat                          | Concat            | 534us   |
+
+I (5194) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5202) dl::Model: | /model.4/cv2/conv/Conv                   | Conv              | 2020us  |
+
+I (5211) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5219) dl::Model: | /model.4/cv2/conv/Conv/Swish             | Swish             | 726us   |
+
+I (5227) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5236) dl::Model: | /model.5/conv/Conv                       | Conv              | 7134us  |
+
+I (5244) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5252) dl::Model: | /model.5/conv/Conv/Swish                 | Swish             | 197us   |
+
+I (5261) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5269) dl::Model: | /model.6/cv1/conv/Conv                   | Conv              | 686us   |
+
+I (5277) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5286) dl::Model: | /model.6/cv1/conv/Conv/Swish             | Swish             | 138us   |
+
+I (5294) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5302) dl::Model: | /model.6/Split                           | Split             | 56us    |
+
+I (5311) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5319) dl::Model: | /model.6/m.0/cv1/conv/Conv               | Conv              | 125us   |
+
+I (5327) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5336) dl::Model: | /model.6/m.0/cv2/conv/Conv               | Conv              | 132us   |
+
+I (5344) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5352) dl::Model: | /model.6/m.0/cv1/conv/Conv/Swish         | Swish             | 42us    |
+
+I (5361) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5369) dl::Model: | /model.6/m.0/cv2/conv/Conv/Swish         | Swish             | 38us    |
+
+I (5377) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5386) dl::Model: | /model.6/m.0/m/m.0/cv1/conv/Conv         | Conv              | 392us   |
+
+I (5394) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5402) dl::Model: | PPQ_Operation_5                          | RequantizeLinear  | 71us    |
+
+I (5411) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5419) dl::Model: | /model.6/m.0/m/m.0/cv1/conv/Conv/Swish   | Swish             | 56us    |
+
+I (5427) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5436) dl::Model: | /model.6/m.0/m/m.0/cv2/conv/Conv         | Conv              | 392us   |
+
+I (5444) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5452) dl::Model: | /model.6/m.0/m/m.0/cv2/conv/Conv/Swish   | Swish             | 53us    |
+
+I (5461) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5469) dl::Model: | /model.6/m.0/m/m.0/Add                   | Add               | 45us    |
+
+I (5477) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5486) dl::Model: | /model.6/m.0/m/m.1/cv1/conv/Conv         | Conv              | 391us   |
+
+I (5494) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5502) dl::Model: | /model.6/m.0/m/m.1/cv1/conv/Conv/Swish   | Swish             | 59us    |
+
+I (5511) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5519) dl::Model: | /model.6/m.0/m/m.1/cv2/conv/Conv         | Conv              | 390us   |
+
+I (5527) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5536) dl::Model: | /model.6/m.0/m/m.1/cv2/conv/Conv/Swish   | Swish             | 55us    |
+
+I (5544) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5552) dl::Model: | /model.6/m.0/m/m.1/Add                   | Add               | 31us    |
+
+I (5561) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5569) dl::Model: | /model.6/m.0/Concat                      | Concat            | 64us    |
+
+I (5577) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5586) dl::Model: | /model.6/m.0/cv3/conv/Conv               | Conv              | 207us   |
+
+I (5594) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5602) dl::Model: | /model.6/m.0/cv3/conv/Conv/Swish         | Swish             | 81us    |
+
+I (5611) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5619) dl::Model: | /model.6/Concat                          | Concat            | 174us   |
+
+I (5627) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5636) dl::Model: | /model.6/cv2/conv/Conv                   | Conv              | 941us   |
+
+I (5644) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5652) dl::Model: | /model.6/cv2/conv/Conv/Swish             | Swish             | 165us   |
+
+I (5661) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5669) dl::Model: | /model.7/conv/Conv                       | Conv              | 4369us  |
+
+I (5677) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5686) dl::Model: | /model.7/conv/Conv/Swish                 | Swish             | 117us   |
+
+I (5694) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5702) dl::Model: | /model.8/cv1/conv/Conv                   | Conv              | 1034us  |
+
+I (5711) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5719) dl::Model: | /model.8/cv1/conv/Conv/Swish             | Swish             | 94us    |
+
+I (5727) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5736) dl::Model: | /model.8/Split                           | Split             | 71us    |
+
+I (5744) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5752) dl::Model: | /model.8/m.0/cv1/conv/Conv               | Conv              | 177us   |
+
+I (5761) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5769) dl::Model: | /model.8/m.0/cv2/conv/Conv               | Conv              | 162us   |
+
+I (5777) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5786) dl::Model: | /model.8/m.0/cv1/conv/Conv/Swish         | Swish             | 26us    |
+
+I (5794) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5802) dl::Model: | /model.8/m.0/cv2/conv/Conv/Swish         | Swish             | 23us    |
+
+I (5811) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5819) dl::Model: | /model.8/m.0/m/m.0/cv1/conv/Conv         | Conv              | 576us   |
+
+I (5827) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5836) dl::Model: | PPQ_Operation_6                          | RequantizeLinear  | 43us    |
+
+I (5844) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5852) dl::Model: | /model.8/m.0/m/m.0/cv1/conv/Conv/Swish   | Swish             | 29us    |
+
+I (5861) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5869) dl::Model: | /model.8/m.0/m/m.0/cv2/conv/Conv         | Conv              | 564us   |
+
+I (5877) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5886) dl::Model: | /model.8/m.0/m/m.0/cv2/conv/Conv/Swish   | Swish             | 39us    |
+
+I (5894) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5902) dl::Model: | /model.8/m.0/m/m.0/Add                   | Add               | 39us    |
+
+I (5911) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5919) dl::Model: | /model.8/m.0/m/m.1/cv1/conv/Conv         | Conv              | 576us   |
+
+I (5927) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5936) dl::Model: | /model.8/m.0/m/m.1/cv1/conv/Conv/Swish   | Swish             | 31us    |
+
+I (5944) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5952) dl::Model: | /model.8/m.0/m/m.1/cv2/conv/Conv         | Conv              | 564us   |
+
+I (5961) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5969) dl::Model: | /model.8/m.0/m/m.1/cv2/conv/Conv/Swish   | Swish             | 29us    |
+
+I (5977) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (5986) dl::Model: | /model.8/m.0/m/m.1/Add                   | Add               | 44us    |
+
+I (5994) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6002) dl::Model: | /model.8/m.0/Concat                      | Concat            | 42us    |
+
+I (6011) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6019) dl::Model: | /model.8/m.0/cv3/conv/Conv               | Conv              | 310us   |
+
+I (6027) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6036) dl::Model: | /model.8/m.0/cv3/conv/Conv/Swish         | Swish             | 39us    |
+
+I (6044) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6052) dl::Model: | /model.8/Concat                          | Concat            | 150us   |
+
+I (6061) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6069) dl::Model: | /model.8/cv2/conv/Conv                   | Conv              | 1532us  |
+
+I (6077) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6086) dl::Model: | /model.8/cv2/conv/Conv/Swish             | Swish             | 103us   |
+
+I (6094) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6102) dl::Model: | /model.9/cv1/conv/Conv                   | Conv              | 1091us  |
+
+I (6111) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6119) dl::Model: | /model.9/cv1/conv/Conv/Swish             | Swish             | 94us    |
+
+I (6127) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6136) dl::Model: | /model.9/Split                           | Split             | 31us    |
+
+I (6144) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6152) dl::Model: | PPQ_Operation_8                          | RequantizeLinear  | 37us    |
+
+I (6161) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6169) dl::Model: | /model.9/m/m.0/attn/qkv/conv/Conv        | Conv              | 585us   |
+
+I (6177) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6186) dl::Model: | PPQ_Operation_7                          | RequantizeLinear  | 27us    |
+
+I (6194) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6202) dl::Model: | PPQ_Operation_0                          | Transpose         | 526us   |
+
+I (6211) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6219) dl::Model: | /model.9/m/m.0/attn/Reshape              | Reshape           | 15us    |
+
+I (6227) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6236) dl::Model: | /model.9/m/m.0/attn/Split                | Split             | 16us    |
+
+I (6244) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6252) dl::Model: | /model.9/m/m.0/attn/Mul                  | Mul               | 54us    |
+
+I (6261) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6269) dl::Model: | /model.9/m/m.0/attn/Reshape_2            | Reshape           | 2us     |
+
+I (6277) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6286) dl::Model: | /model.9/m/m.0/attn/Transpose            | Transpose         | 134us   |
+
+I (6294) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6302) dl::Model: | PPQ_Operation_1                          | Transpose         | 262us   |
+
+I (6311) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6319) dl::Model: | /model.9/m/m.0/attn/MatMul               | MatMul            | 555us   |
+
+I (6327) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6336) dl::Model: | /model.9/m/m.0/attn/pe/conv/Conv         | Conv              | 242us   |
+
+I (6344) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6352) dl::Model: | /model.9/m/m.0/attn/Softmax              | Softmax           | 124us   |
+
+I (6361) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6369) dl::Model: | PPQ_Operation_4                          | QuantizeLinear    | 90us    |
+
+I (6377) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6386) dl::Model: | /model.9/m/m.0/attn/Transpose_1          | Transpose         | 109us   |
+
+I (6394) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6402) dl::Model: | /model.9/m/m.0/attn/MatMul_1             | MatMul            | 1003us  |
+
+I (6411) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6419) dl::Model: | /model.9/m/m.0/attn/Reshape_1            | Reshape           | 4us     |
+
+I (6427) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6436) dl::Model: | PPQ_Operation_2                          | Transpose         | 266us   |
+
+I (6444) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6452) dl::Model: | /model.9/m/m.0/attn/Add                  | Add               | 32us    |
+
+I (6461) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6469) dl::Model: | /model.9/m/m.0/attn/proj/conv/Conv       | Conv              | 334us   |
+
+I (6477) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6486) dl::Model: | /model.9/m/m.0/Add                       | Add               | 14us    |
+
+I (6494) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6502) dl::Model: | /model.9/m/m.0/ffn/ffn.0/conv/Conv       | Conv              | 589us   |
+
+I (6511) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6519) dl::Model: | /model.9/m/m.0/ffn/ffn.0/conv/Conv/Swish | Swish             | 92us    |
+
+I (6527) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6536) dl::Model: | /model.9/m/m.0/ffn/ffn.1/conv/Conv       | Conv              | 551us   |
+
+I (6544) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6552) dl::Model: | /model.9/m/m.0/Add_1                     | Add               | 44us    |
+
+I (6561) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6569) dl::Model: | /model.9/Concat                          | Concat            | 64us    |
+
+I (6577) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6586) dl::Model: | /model.9/cv2/conv/Conv                   | Conv              | 1063us  |
+
+I (6594) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6602) dl::Model: | /model.9/cv2/conv/Conv/Swish             | Swish             | 102us   |
+
+I (6611) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6619) dl::Model: | /model.10/conv/conv/Conv                 | Conv              | 5060us  |
+
+I (6627) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6636) dl::Model: | /model.10/conv/conv/Conv/Swish           | Swish             | 606us   |
+
+I (6644) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6652) dl::Model: | /model.10/pool/GlobalAveragePool         | GlobalAveragePool | 286us   |
+
+I (6661) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6669) dl::Model: | PPQ_Operation_3                          | Transpose         | 46us    |
+
+I (6677) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6686) dl::Model: | /model.10/Flatten                        | Flatten           | 13us    |
+
+I (6694) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6702) dl::Model: | /model.10/linear/Gemm                    | Gemm              | 249us   |
+
+I (6711) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6719) dl::Model: | /model.10/Softmax                        | Softmax           | 11us    |
+
+I (6727) dl::Model: +------------------------------------------+-------------------+---------+
+
+I (6736) dl::Model: | total                                    |                   | 85680us |
+
+I (6744) dl::Model: +------------------------------------------+-------------------+---------+
+
+
+
+I (6753) S31_MODEL: S31_MODEL=AUTO_CHECK_FAIL self_test=pass runs=20 cases=5/12
+

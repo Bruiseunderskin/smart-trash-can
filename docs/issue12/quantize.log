@@ -1,0 +1,400 @@
+
+    ___________ ____        ____  ____  ____
+   / ____/ ___// __ \      / __ \/ __ \/ __ \
+  / __/  \__ \/ /_/ /_____/ /_/ / /_/ / / / /
+ / /___ ___/ / ____/_____/ ____/ ____/ /_/ /
+/_____//____/_/         /_/   /_/    \___\_\
+
+
+[21:22:01] ConvTranspose Decomposition Pass Running ... Finished.
+[21:22:02] PPQ Quantization Fusion Pass Running ...       Finished.
+[21:22:02] PPQ Quantize Simplify Pass Running ...         Finished.
+[21:22:02] PPQ Parameter Quantization Pass Running ...    Finished.
+
+Calibration Progress(Phase 1):   0%|          | 0/200 [00:00<?, ?it/s]
+Calibration Progress(Phase 1):   2%|▎         | 5/200 [00:00<00:04, 42.15it/s]
+Calibration Progress(Phase 1):   5%|▌         | 10/200 [00:00<00:04, 44.27it/s]
+Calibration Progress(Phase 1):   8%|▊         | 16/200 [00:00<00:03, 48.26it/s]
+Calibration Progress(Phase 1):  11%|█         | 22/200 [00:00<00:03, 50.86it/s]
+Calibration Progress(Phase 1):  14%|█▍        | 28/200 [00:00<00:03, 51.62it/s]
+Calibration Progress(Phase 1):  17%|█▋        | 34/200 [00:00<00:03, 53.83it/s]
+Calibration Progress(Phase 1):  20%|██        | 40/200 [00:00<00:02, 53.63it/s]
+Calibration Progress(Phase 1):  24%|██▎       | 47/200 [00:00<00:02, 56.41it/s]
+Calibration Progress(Phase 1):  26%|██▋       | 53/200 [00:01<00:02, 49.49it/s]
+Calibration Progress(Phase 1):  30%|██▉       | 59/200 [00:01<00:03, 45.57it/s]
+Calibration Progress(Phase 1):  32%|███▏      | 64/200 [00:01<00:03, 44.96it/s]
+Calibration Progress(Phase 1):  34%|███▍      | 69/200 [00:01<00:03, 42.32it/s]
+Calibration Progress(Phase 1):  37%|███▋      | 74/200 [00:01<00:02, 42.78it/s]
+Calibration Progress(Phase 1):  40%|███▉      | 79/200 [00:01<00:02, 42.65it/s]
+Calibration Progress(Phase 1):  42%|████▏     | 84/200 [00:01<00:02, 42.85it/s]
+Calibration Progress(Phase 1):  45%|████▌     | 90/200 [00:01<00:02, 43.50it/s]
+Calibration Progress(Phase 1):  48%|████▊     | 95/200 [00:02<00:02, 44.58it/s]
+Calibration Progress(Phase 1):  50%|█████     | 101/200 [00:02<00:02, 46.47it/s]
+Calibration Progress(Phase 1):  53%|█████▎    | 106/200 [00:02<00:02, 46.08it/s]
+Calibration Progress(Phase 1):  56%|█████▌    | 111/200 [00:02<00:01, 46.12it/s]
+Calibration Progress(Phase 1):  58%|█████▊    | 117/200 [00:02<00:01, 49.14it/s]
+Calibration Progress(Phase 1):  62%|██████▏   | 123/200 [00:02<00:01, 48.52it/s]
+Calibration Progress(Phase 1):  64%|██████▍   | 129/200 [00:02<00:01, 49.90it/s]
+Calibration Progress(Phase 1):  68%|██████▊   | 135/200 [00:02<00:01, 50.34it/s]
+Calibration Progress(Phase 1):  70%|███████   | 141/200 [00:02<00:01, 48.00it/s]
+Calibration Progress(Phase 1):  73%|███████▎  | 146/200 [00:03<00:01, 47.07it/s]
+Calibration Progress(Phase 1):  76%|███████▌  | 151/200 [00:03<00:01, 46.58it/s]
+Calibration Progress(Phase 1):  78%|███████▊  | 157/200 [00:03<00:00, 49.65it/s]
+Calibration Progress(Phase 1):  82%|████████▏ | 163/200 [00:03<00:00, 51.60it/s]
+Calibration Progress(Phase 1):  84%|████████▍ | 169/200 [00:03<00:00, 52.43it/s]
+Calibration Progress(Phase 1):  88%|████████▊ | 175/200 [00:03<00:00, 51.45it/s]
+Calibration Progress(Phase 1):  90%|█████████ | 181/200 [00:03<00:00, 50.89it/s]
+Calibration Progress(Phase 1):  94%|█████████▎| 187/200 [00:03<00:00, 50.53it/s]
+Calibration Progress(Phase 1):  96%|█████████▋| 193/200 [00:03<00:00, 51.30it/s]
+Calibration Progress(Phase 1): 100%|█████████▉| 199/200 [00:04<00:00, 50.24it/s]
+Calibration Progress(Phase 1): 100%|██████████| 200/200 [00:04<00:00, 48.04it/s]
+
+Calibration Progress(Phase 2):   0%|          | 0/200 [00:00<?, ?it/s]
+Calibration Progress(Phase 2):   2%|▎         | 5/200 [00:00<00:04, 40.93it/s]
+Calibration Progress(Phase 2):   5%|▌         | 10/200 [00:00<00:04, 40.34it/s]
+Calibration Progress(Phase 2):   8%|▊         | 15/200 [00:00<00:05, 36.97it/s]
+Calibration Progress(Phase 2):  10%|▉         | 19/200 [00:00<00:04, 37.33it/s]
+Calibration Progress(Phase 2):  12%|█▏        | 24/200 [00:00<00:04, 39.27it/s]
+Calibration Progress(Phase 2):  14%|█▍        | 29/200 [00:00<00:04, 41.45it/s]
+Calibration Progress(Phase 2):  17%|█▋        | 34/200 [00:00<00:04, 40.09it/s]
+Calibration Progress(Phase 2):  20%|█▉        | 39/200 [00:00<00:03, 40.77it/s]
+Calibration Progress(Phase 2):  22%|██▏       | 44/200 [00:01<00:03, 42.96it/s]
+Calibration Progress(Phase 2):  24%|██▍       | 49/200 [00:01<00:03, 39.64it/s]
+Calibration Progress(Phase 2):  27%|██▋       | 54/200 [00:01<00:03, 38.43it/s]
+Calibration Progress(Phase 2):  30%|██▉       | 59/200 [00:01<00:03, 39.88it/s]
+Calibration Progress(Phase 2):  32%|███▏      | 64/200 [00:01<00:03, 41.59it/s]
+Calibration Progress(Phase 2):  34%|███▍      | 69/200 [00:01<00:03, 41.08it/s]
+Calibration Progress(Phase 2):  37%|███▋      | 74/200 [00:01<00:03, 41.47it/s]
+Calibration Progress(Phase 2):  40%|███▉      | 79/200 [00:01<00:03, 39.76it/s]
+Calibration Progress(Phase 2):  42%|████▏     | 84/200 [00:02<00:02, 39.13it/s]
+Calibration Progress(Phase 2):  44%|████▍     | 89/200 [00:02<00:02, 40.61it/s]
+Calibration Progress(Phase 2):  47%|████▋     | 94/200 [00:02<00:02, 38.98it/s]
+Calibration Progress(Phase 2):  49%|████▉     | 98/200 [00:02<00:02, 39.11it/s]
+Calibration Progress(Phase 2):  52%|█████▏    | 103/200 [00:02<00:02, 40.00it/s]
+Calibration Progress(Phase 2):  54%|█████▍    | 108/200 [00:02<00:02, 41.04it/s]
+Calibration Progress(Phase 2):  56%|█████▋    | 113/200 [00:02<00:02, 39.92it/s]
+Calibration Progress(Phase 2):  59%|█████▉    | 118/200 [00:02<00:01, 41.65it/s]
+Calibration Progress(Phase 2):  62%|██████▏   | 123/200 [00:03<00:01, 42.58it/s]
+Calibration Progress(Phase 2):  64%|██████▍   | 128/200 [00:03<00:01, 42.09it/s]
+Calibration Progress(Phase 2):  66%|██████▋   | 133/200 [00:03<00:01, 38.79it/s]
+Calibration Progress(Phase 2):  68%|██████▊   | 137/200 [00:03<00:01, 38.41it/s]
+Calibration Progress(Phase 2):  70%|███████   | 141/200 [00:03<00:01, 38.48it/s]
+Calibration Progress(Phase 2):  73%|███████▎  | 146/200 [00:03<00:01, 39.27it/s]
+Calibration Progress(Phase 2):  76%|███████▌  | 151/200 [00:03<00:01, 39.91it/s]
+Calibration Progress(Phase 2):  78%|███████▊  | 156/200 [00:03<00:01, 41.24it/s]
+Calibration Progress(Phase 2):  80%|████████  | 161/200 [00:03<00:00, 42.11it/s]
+Calibration Progress(Phase 2):  83%|████████▎ | 166/200 [00:04<00:00, 40.41it/s]
+Calibration Progress(Phase 2):  86%|████████▌ | 171/200 [00:04<00:00, 41.01it/s]
+Calibration Progress(Phase 2):  88%|████████▊ | 176/200 [00:04<00:00, 38.82it/s]
+Calibration Progress(Phase 2):  90%|█████████ | 180/200 [00:04<00:00, 37.54it/s]
+Calibration Progress(Phase 2):  92%|█████████▏| 184/200 [00:04<00:00, 36.16it/s]
+Calibration Progress(Phase 2):  94%|█████████▍| 188/200 [00:04<00:00, 36.32it/s]
+Calibration Progress(Phase 2):  96%|█████████▌| 192/200 [00:04<00:00, 36.23it/s]
+Calibration Progress(Phase 2):  98%|█████████▊| 196/200 [00:04<00:00, 36.35it/s]
+Calibration Progress(Phase 2): 100%|██████████| 200/200 [00:05<00:00, 35.71it/s]
+Calibration Progress(Phase 2): 100%|██████████| 200/200 [00:05<00:00, 39.39it/s]
+[21:22:02] PPQ Runtime Calibration Pass Running ...       Finished.
+[21:22:12] PPQ Quantization Alignment Pass Running ...    Finished.
+[21:22:12] PPQ Passive Parameter Quantization Running ... Finished.
+--------- Network Snapshot ---------
+Num of Op:                    [109]
+Num of Quantized Op:          [109]
+Num of Variable:              [207]
+Num of Quantized Var:         [207]
+------- Quantization Snapshot ------
+Num of Quant Config:          [337]
+ACTIVATED:                    [120]
+OVERLAPPED:                   [112]
+PASSIVE:                      [94]
+FP32:                         [11]
+Network Quantization Finished.
+
+Analysing Graphwise Quantization Error(Phrase 1)::   0%|          | 0/8 [00:00<?, ?it/s]
+Analysing Graphwise Quantization Error(Phrase 1)::  25%|██▌       | 2/8 [00:00<00:00, 17.24it/s]
+Analysing Graphwise Quantization Error(Phrase 1)::  50%|█████     | 4/8 [00:00<00:00, 16.90it/s]
+Analysing Graphwise Quantization Error(Phrase 1)::  75%|███████▌  | 6/8 [00:00<00:00, 17.20it/s]
+Analysing Graphwise Quantization Error(Phrase 1):: 100%|██████████| 8/8 [00:00<00:00, 17.51it/s]
+Analysing Graphwise Quantization Error(Phrase 1):: 100%|██████████| 8/8 [00:00<00:00, 15.14it/s]
+
+Analysing Graphwise Quantization Error(Phrase 2)::   0%|          | 0/8 [00:00<?, ?it/s]
+Analysing Graphwise Quantization Error(Phrase 2)::  25%|██▌       | 2/8 [00:00<00:00, 13.29it/s]
+Analysing Graphwise Quantization Error(Phrase 2)::  50%|█████     | 4/8 [00:00<00:00, 14.17it/s]
+Analysing Graphwise Quantization Error(Phrase 2)::  75%|███████▌  | 6/8 [00:00<00:00, 13.97it/s]
+Analysing Graphwise Quantization Error(Phrase 2):: 100%|██████████| 8/8 [00:00<00:00, 14.06it/s]
+Analysing Graphwise Quantization Error(Phrase 2):: 100%|██████████| 8/8 [00:00<00:00, 12.23it/s]
+Layer                               | NOISE:SIGNAL POWER RATIO 
+/model.9/m/m.0/ffn/ffn.1/conv/Conv: | ████████████████████ | 26.359%
+/model.9/m/m.0/attn/proj/conv/Conv: | ███████████          | 14.326%
+/model.9/m/m.0/attn/pe/conv/Conv:   | ██████████           | 13.579%
+/model.9/m/m.0/attn/qkv/conv/Conv:  | ██████████           | 13.078%
+/model.9/m/m.0/attn/MatMul_1:       | █████████            | 12.418%
+/model.8/m.0/cv2/conv/Conv:         | █████████            | 11.280%
+/model.6/cv1/conv/Conv:             | ████████             | 11.046%
+/model.10/linear/Gemm:              | ████████             | 10.192%
+/model.6/m.0/cv2/conv/Conv:         | ████████             | 10.173%
+/model.8/m.0/cv1/conv/Conv:         | ███████              | 9.441%
+
+/model.8/cv1/conv/Conv:             | ███████              | 9.244%
+/model.9/m/m.0/attn/MatMul:         | ███████              | 8.664%
+/model.9/cv1/conv/Conv:             | ██████               | 8.332%
+/model.10/conv/conv/Conv:           | ██████               | 8.121%
+/model.7/conv/Conv:                 | ██████               | 7.897%
+/model.8/cv2/conv/Conv:             | ██████               | 7.822%
+/model.6/cv2/conv/Conv:             | ██████               | 7.519%
+/model.6/m.0/cv1/conv/Conv:         | █████                | 6.803%
+/model.4/cv2/conv/Conv:             | █████                | 6.386%
+/model.5/conv/Conv:                 | █████                | 6.216%
+/model.8/m.0/m/m.0/cv2/conv/Conv:   | ████                 | 5.698%
+/model.8/m.0/cv3/conv/Conv:         | ████                 | 4.991%
+/model.8/m.0/m/m.0/cv1/conv/Conv:   | ████                 | 4.828%
+/model.3/conv/Conv:                 | ███                  | 4.502%
+/model.6/m.0/cv3/conv/Conv:         | ███                  | 4.392%
+/model.6/m.0/m/m.0/cv2/conv/Conv:   | ███                  | 4.322%
+/model.9/cv2/conv/Conv:             | ███                  | 4.315%
+/model.4/cv1/conv/Conv:             | ███                  | 4.239%
+/model.2/cv2/conv/Conv:             | ███                  | 4.133%
+/model.6/m.0/m/m.0/cv1/conv/Conv:   | ███                  | 3.998%
+/model.8/m.0/m/m.1/cv2/conv/Conv:   | ███                  | 3.714%
+/model.8/m.0/m/m.1/cv1/conv/Conv:   | ███                  | 3.459%
+/model.6/m.0/m/m.1/cv1/conv/Conv:   | ██                   | 2.905%
+/model.2/cv1/conv/Conv:             | ██                   | 2.901%
+/model.9/m/m.0/ffn/ffn.0/conv/Conv: | ██                   | 2.239%
+/model.4/m.0/cv1/conv/Conv:         | ██                   | 2.004%
+/model.6/m.0/m/m.1/cv2/conv/Conv:   | █                    | 1.937%
+/model.4/m.0/cv2/conv/Conv:         | █                    | 1.379%
+/model.2/m.0/cv2/conv/Conv:         | █                    | 1.014%
+/model.2/m.0/cv1/conv/Conv:         |                      | 0.564%
+/model.1/conv/Conv:                 |                      | 0.510%
+/model.0/conv/Conv:                 |                      | 0.022%
+Analysing Layerwise quantization error::   0%|          | 0/42 [00:00<?, ?it/s]
+Analysing Layerwise quantization error::   2%|▏         | 1/42 [00:00<00:05,  6.86it/s]
+Analysing Layerwise quantization error::   5%|▍         | 2/42 [00:00<00:06,  6.48it/s]
+Analysing Layerwise quantization error::   7%|▋         | 3/42 [00:00<00:05,  6.67it/s]
+Analysing Layerwise quantization error::  10%|▉         | 4/42 [00:00<00:05,  6.69it/s]
+Analysing Layerwise quantization error::  12%|█▏        | 5/42 [00:00<00:05,  6.40it/s]
+Analysing Layerwise quantization error::  14%|█▍        | 6/42 [00:00<00:05,  6.39it/s]
+Analysing Layerwise quantization error::  17%|█▋        | 7/42 [00:01<00:05,  6.51it/s]
+Analysing Layerwise quantization error::  19%|█▉        | 8/42 [00:01<00:05,  6.73it/s]
+Analysing Layerwise quantization error::  21%|██▏       | 9/42 [00:01<00:04,  6.85it/s]
+Analysing Layerwise quantization error::  24%|██▍       | 10/42 [00:01<00:04,  7.16it/s]
+Analysing Layerwise quantization error::  26%|██▌       | 11/42 [00:01<00:04,  7.31it/s]
+Analysing Layerwise quantization error::  29%|██▊       | 12/42 [00:01<00:04,  7.07it/s]
+Analysing Layerwise quantization error::  31%|███       | 13/42 [00:01<00:04,  6.87it/s]
+Analysing Layerwise quantization error::  33%|███▎      | 14/42 [00:02<00:04,  6.78it/s]
+Analysing Layerwise quantization error::  36%|███▌      | 15/42 [00:02<00:04,  6.57it/s]
+Analysing Layerwise quantization error::  38%|███▊      | 16/42 [00:02<00:03,  6.57it/s]
+Analysing Layerwise quantization error::  40%|████      | 17/42 [00:02<00:03,  6.47it/s]
+Analysing Layerwise quantization error::  43%|████▎     | 18/42 [00:02<00:03,  6.47it/s]
+Analysing Layerwise quantization error::  45%|████▌     | 19/42 [00:02<00:03,  6.70it/s]
+Analysing Layerwise quantization error::  48%|████▊     | 20/42 [00:02<00:03,  6.53it/s]
+Analysing Layerwise quantization error::  50%|█████     | 21/42 [00:03<00:03,  6.07it/s]
+Analysing Layerwise quantization error::  52%|█████▏    | 22/42 [00:03<00:03,  6.29it/s]
+Analysing Layerwise quantization error::  55%|█████▍    | 23/42 [00:03<00:03,  6.30it/s]
+Analysing Layerwise quantization error::  57%|█████▋    | 24/42 [00:03<00:02,  6.22it/s]
+Analysing Layerwise quantization error::  60%|█████▉    | 25/42 [00:03<00:02,  6.43it/s]
+Analysing Layerwise quantization error::  62%|██████▏   | 26/42 [00:03<00:02,  6.43it/s]
+Analysing Layerwise quantization error::  64%|██████▍   | 27/42 [00:04<00:02,  6.41it/s]
+Analysing Layerwise quantization error::  67%|██████▋   | 28/42 [00:04<00:02,  6.37it/s]
+Analysing Layerwise quantization error::  69%|██████▉   | 29/42 [00:04<00:02,  6.37it/s]
+Analysing Layerwise quantization error::  71%|███████▏  | 30/42 [00:04<00:01,  6.60it/s]
+Analysing Layerwise quantization error::  74%|███████▍  | 31/42 [00:04<00:01,  6.51it/s]
+Analysing Layerwise quantization error::  76%|███████▌  | 32/42 [00:04<00:01,  6.36it/s]
+Analysing Layerwise quantization error::  79%|███████▊  | 33/42 [00:05<00:01,  6.34it/s]
+Analysing Layerwise quantization error::  81%|████████  | 34/42 [00:05<00:01,  6.28it/s]
+Analysing Layerwise quantization error::  83%|████████▎ | 35/42 [00:05<00:01,  6.46it/s]
+Analysing Layerwise quantization error::  86%|████████▌ | 36/42 [00:05<00:00,  6.52it/s]
+Analysing Layerwise quantization error::  88%|████████▊ | 37/42 [00:05<00:00,  6.42it/s]
+Analysing Layerwise quantization error::  90%|█████████ | 38/42 [00:05<00:00,  6.67it/s]
+Analysing Layerwise quantization error::  93%|█████████▎| 39/42 [00:05<00:00,  6.86it/s]
+Analysing Layerwise quantization error::  95%|█████████▌| 40/42 [00:06<00:00,  7.00it/s]
+Analysing Layerwise quantization error::  98%|█████████▊| 41/42 [00:06<00:00,  6.91it/s]
+Analysing Layerwise quantization error:: 100%|██████████| 42/42 [00:06<00:00,  6.81it/s]
+Analysing Layerwise quantization error:: 100%|██████████| 42/42 [00:06<00:00,  6.59it/s]
+Layer                               | NOISE:SIGNAL POWER RATIO 
+/model.0/conv/Conv:                 | ████████████████████ | 0.772%
+/model.4/cv1/conv/Conv:             |                      | 0.014%
+/model.2/m.0/cv2/conv/Conv:         |                      | 0.002%
+/model.2/cv2/conv/Conv:             |                      | 0.002%
+/model.8/cv1/conv/Conv:             |                      | 0.001%
+/model.6/cv1/conv/Conv:             |                      | 0.001%
+/model.6/cv2/conv/Conv:             |                      | 0.001%
+/model.5/conv/Conv:                 |                      | 0.001%
+/model.2/m.0/cv1/conv/Conv:         |                      | 0.001%
+/model.2/cv1/conv/Conv:             |                      | 0.000%
+/model.4/m.0/cv2/conv/Conv:         |                      | 0.000%
+/model.6/m.0/m/m.1/cv2/conv/Conv:   |                      | 0.000%
+/model.9/cv1/conv/Conv:             |                      | 0.000%
+/model.9/m/m.0/ffn/ffn.1/conv/Conv: |                      | 0.000%
+/model.8/cv2/conv/Conv:             |                      | 0.000%
+/model.6/m.0/cv3/conv/Conv:         |                      | 0.000%
+/model.6/m.0/cv1/conv/Conv:         |                      | 0.000%
+/model.7/conv/Conv:                 |                      | 0.000%
+/model.1/conv/Conv:                 |                      | 0.000%
+/model.3/conv/Conv:                 |                      | 0.000%
+/model.9/m/m.0/attn/qkv/conv/Conv:  |                      | 0.000%
+/model.4/cv2/conv/Conv:             |                      | 0.000%
+/model.6/m.0/m/m.0/cv1/conv/Conv:   |                      | 0.000%
+/model.9/m/m.0/ffn/ffn.0/conv/Conv: |                      | 0.000%
+/model.10/conv/conv/Conv:           |                      | 0.000%
+/model.9/cv2/conv/Conv:             |                      | 0.000%
+/model.9/m/m.0/attn/pe/conv/Conv:   |                      | 0.000%
+/model.8/m.0/cv3/conv/Conv:         |                      | 0.000%
+/model.6/m.0/m/m.0/cv2/conv/Conv:   |                      | 0.000%
+/model.8/m.0/m/m.0/cv1/conv/Conv:   |                      | 0.000%
+/model.6/m.0/m/m.1/cv1/conv/Conv:   |                      | 0.000%
+/model.10/linear/Gemm:              |                      | 0.000%
+/model.4/m.0/cv1/conv/Conv:         |                      | 0.000%
+/model.8/m.0/cv1/conv/Conv:         |                      | 0.000%
+/model.9/m/m.0/attn/MatMul:         |                      | 0.000%
+/model.9/m/m.0/attn/MatMul_1:       |                      | 0.000%
+/model.9/m/m.0/attn/proj/conv/Conv: |                      | 0.000%
+/model.8/m.0/m/m.1/cv1/conv/Conv:   |                      | 0.000%
+/model.8/m.0/m/m.0/cv2/conv/Conv:   |                      | 0.000%
+/model.8/m.0/m/m.1/cv2/conv/Conv:   |                      | 0.000%
+/model.8/m.0/cv2/conv/Conv:         |                      | 0.000%
+/model.6/m.0/cv2/conv/Conv:         |                      | 0.000%
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_90 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_110 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_130 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_2 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_3 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip /model.9/m/m.0/attn/Constant_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_221 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip /model.9/m/m.0/attn/Softmax_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_1 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip output0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_90 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_110 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_130 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_2 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_3 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip /model.9/m/m.0/attn/Constant_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_221 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip /model.9/m/m.0/attn/Softmax_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_1 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip output0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_90 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_110 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_130 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_2 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_3 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip /model.9/m/m.0/attn/Constant_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_221 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip /model.9/m/m.0/attn/Softmax_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_1 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip output0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_90 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_110 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_130 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mskip not QuantableOperation
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_2 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mskip not QuantableOperation
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_3 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mskip not QuantableOperation
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mskip not QuantableOperation
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip /model.9/m/m.0/attn/Constant_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip onnx::Split_221 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip /model.9/m/m.0/attn/Softmax_output_0 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mskip not QuantableOperation
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip PPQ_Variable_1 because it's not exportable
+
+[38;5;2m[INFO][ESPDL][2026-11-02 21:22:19]:  [mSkip output0 because it's not exportable
+{
+  "target": "esp32s31",
+  "quant_type": "w8a8",
+  "calibration_images": 200,
+  "test_images": 1480,
+  "input_shape": [
+    1,
+    3,
+    160,
+    160
+  ],
+  "espdl_path": "runs\\issue12\\model\\waste4_grouped_int8.espdl",
+  "espdl_bytes": 1794864,
+  "macro_f1": 0.8332079668580983,
+  "per_class_f1": {
+    "其他": 0.8215661103979461,
+    "可回收物": 0.78,
+    "廚餘": 0.9236947791164659,
+    "有害": 0.807570977917981
+  },
+  "confusion_matrix": [
+    [
+      320,
+      40,
+      5,
+      8
+    ],
+    [
+      37,
+      312,
+      13,
+      17
+    ],
+    [
+      19,
+      11,
+      345,
+      3
+    ],
+    [
+      30,
+      58,
+      6,
+      256
+    ]
+  ]
+}

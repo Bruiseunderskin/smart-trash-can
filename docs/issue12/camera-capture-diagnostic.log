@@ -1,0 +1,4 @@
+RX_BYTES 11962
+HAS_BEGIN False HAS_END False
+HEADER missing
+TAIL b'ate=460800\r\nCAMERA_READY\r\r\nCAMERA_UNKNOWN_COMMAND\r\r\nCAMERA_READY\r\r\nI (3537) S31-Korvo: Camera stream stopped\r\nI (3537) T2_CAMERA: CAMERA_CAPTURE_STOPPED\r\nI (3537) main_task: Returned from app_main()\r\n'

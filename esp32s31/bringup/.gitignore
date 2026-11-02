@@ -1,0 +1,5 @@
+build/
+build.incomplete-*/
+managed_components/
+sdkconfig
+sdkconfig.old

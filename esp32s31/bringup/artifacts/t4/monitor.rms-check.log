@@ -1,0 +1,273 @@
+--- WARNING: GDB cannot open serial ports accessed as COMx
+
+--- NOTE: Using \\.\COM5 instead...
+
+--- esp-idf-monitor 1.10.0 on \\.\COM5 115200
+
+--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H
+
+Executing action: monitor
+Running idf_monitor in directory C:\smart_trash_can\esp32s31\bringup\t4_speaker
+Executing "C:\Espressif\tools\python_env\idf6.1_py3.13_env\Scripts\python.exe C:\esp\v6.1\esp-idf\tools/idf_monitor.py -p COM5 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32s31 --revision 0 --decode-panic backtrace C:\smart_trash_can\esp32s31\bringup\t4_speaker\build\s31_korvo_t4_speaker.elf C:\smart_trash_can\esp32s31\bringup\t4_speaker\build\bootloader\bootloader.elf --force-color -m 'C:\Espressif\tools\python_env\idf6.1_py3.13_env\Scripts\python.exe' 'C:\esp\v6.1\esp-idf\tools\idf.py' '--preview' '-p' 'COM5'"...
+ESP-ROM:esp32s31-20251218
+
+Build:Dec 18 2025
+
+rst:0x1 (POWERON),boot:0x78 (SPI_FAST_FLASH_BOOT)
+
+SPI mode:DIO, clock div:1
+
+load:0x2f0740c0,len:0x17e4
+
+load:0x2f06a2b0,len:0xde0
+
+--- 0x2f06a2b0: esp_bootloader_get_description at C:/esp/v6.1/esp-idf/components/esp_bootloader_format/esp_bootloader_desc.c:40
+
+load:0x2f06cfb0,len:0x3460
+
+--- 0x2f06cfb0: is_xmc_chip_strict at C:/esp/v6.1/esp-idf/components/bootloader_support/bootloader_flash/src/bootloader_flash.c:911
+
+entry 0x2f06a2ba
+
+--- 0x2f06a2ba: call_start_cpu0 at C:/esp/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c:27
+
+I (26) boot: ESP-IDF v6.1 2nd stage bootloader
+
+I (26) boot: compile time Nov  2 2026 19:19:48
+
+I (27) boot: Multicore bootloader
+
+I (29) boot: chip revision: v0.0
+
+I (29) boot: efuse block revision: v0.1
+
+I (33) qio_mode: Enabling default flash chip QIO
+
+I (37) boot.esp32s31: SPI Speed      : 80MHz
+
+I (41) boot.esp32s31: SPI Mode       : QIO
+
+I (45) boot.esp32s31: SPI Flash Size : 16MB
+
+I (49) boot: Enabling RNG early entropy source...
+
+I (53) boot: Partition Table:
+
+I (56) boot: ## Label            Usage          Type ST Offset   Length
+
+I (62) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+
+I (69) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+
+I (75) boot:  2 factory          factory app      00 00 00010000 00100000
+
+I (83) boot: End of partition table
+
+I (85) esp_image: segment 0: paddr=00010020 vaddr=40040020 size=14cf4h ( 85236) map
+
+I (107) esp_image: segment 1: paddr=00024d1c vaddr=2f000000 size=0b2fch ( 45820) load
+
+I (118) esp_image: segment 2: paddr=00030020 vaddr=40000020 size=3efe0h (258016) map
+
+I (159) esp_image: segment 3: paddr=0006f008 vaddr=2f00b2fc size=029bch ( 10684) load
+
+I (163) esp_image: segment 4: paddr=000719cc vaddr=2f00dd00 size=03374h ( 13172) load
+
+I (171) boot: Loaded app from partition at offset 0x10000
+
+I (171) boot: Disabling RNG early entropy source...
+
+I (186) oct_psram: vendor id    : 0x0d (AP)
+
+I (186) oct_psram: Latency      : 0x01 (Fixed)
+
+I (186) oct_psram: DriveStr.    : 0x00 (25 Ohm)
+
+I (187) oct_psram: dev id       : 0x03 (generation 4)
+
+I (191) oct_psram: density      : 0x05 (128 Mbit)
+
+I (196) oct_psram: good-die     : 0x06 (Pass)
+
+I (200) oct_psram: SRF          : 0x02 (Slow Refresh)
+
+I (205) oct_psram: BurstType    : 0x00 ( Wrap)
+
+I (209) oct_psram: BurstLen     : 0x03 (2048 Byte)
+
+I (213) oct_psram: BitMode      : 0x00 (X8 Mode)
+
+I (218) oct_psram: Readlatency  : 0x04 (14 cycles@Fixed)
+
+I (223) oct_psram: DriveStrength: 0x00 (1/1)
+
+I (227) MSPI Timing: Enter psram timing tuning
+
+I (384) esp_psram: Found 16MB PSRAM device
+
+I (384) esp_psram: Speed: 200MHz
+
+I (385) oct_psram: psram CS IO is dedicated
+
+I (385) cpu_start: Multicore app
+
+I (700) esp_psram: SPI SRAM memory test OK
+
+I (708) cpu_start: GPIO 59 and 58 are used as console UART I/O pins
+
+I (708) cpu_start: Pro cpu start user code
+
+I (709) cpu_start: cpu freq: 320000000 Hz
+
+I (710) app_init: Application information:
+
+I (714) app_init: Project name:     s31_korvo_t4_speaker
+
+I (719) app_init: App version:      88c5509
+
+I (723) app_init: Compile time:     Nov  2 2026 19:19:27
+
+I (728) app_init: ELF file SHA256:  1a0189fa9...
+
+I (732) app_init: ESP-IDF:          v6.1
+
+I (736) efuse_init: Min chip rev:     v0.0
+
+I (740) efuse_init: Max chip rev:     v0.99 
+
+I (744) efuse_init: Chip rev:         v0.0
+
+I (748) heap_init: Initializing. RAM available for dynamic allocation:
+
+I (754) heap_init: At 2F012B70 len 00068440 (417 KiB): RAM
+
+I (759) heap_init: At 2F07AFB0 len 000041C0 (16 KiB): RAM
+
+I (764) heap_init: At 2E000000 len 00007FE8 (31 KiB): RTCRAM
+
+I (770) esp_psram: Adding pool of 16384K of PSRAM memory to heap allocator
+
+I (777) spi_flash: detected chip: generic
+
+I (780) spi_flash: flash io: qio
+
+I (783) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+
+I (789) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+
+I (796) oct_psram: psram CS IO is dedicated
+
+I (800) coexist: coex firmware version: a830d28
+
+I (804) coexist: coexist rom version cdcf52b
+
+I (808) main_task: Started on CPU0
+
+I (819) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+
+I (820) main_task: Calling app_main()
+
+I (822) S31-Korvo: Enable SD card power/control GPIO39, level=0
+
+I (828) S31-Korvo: Mount SD card: mount=/sdcard, width=4, freq=40000 kHz, uhs1=0, CLK=24 CMD=25 D0=20 D1=21 D2=22 D3=23
+
+I (838) SD_HOST: src_freq_hz: 400000000
+
+E (869) sdmmc_common: sdmmc_init_ocr: send_op_cond (1) returned 0x107
+
+HINT: Please reboot the board and then try again
+E (869) vfs_fat_sdmmc: sdmmc_card_init failed (0x107).
+
+HINT: Please verify if there is an SD card inserted into the SD slot. Then, try rebooting the board.
+E (870) vfs_fat_sdmmc: esp_vfs_fat_sdmmc_sdcard_init failed (0x107).
+
+E (875) S31-Korvo: SD card mount failed (ESP_ERR_TIMEOUT)
+
+I (880) T4_SPEAKER: SD mount=ESP_ERR_TIMEOUT
+
+W (885) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+
+I (893) S31-Korvo: Audio I2S initialized
+
+I (897) S31-Korvo: I2C bus initialized: SDA=0, SCL=1
+
+I (924) ES8389: Work in Slave mode
+
+I (927) ES8389: Set internal reference signal
+
+I (928) ES8389: Codec already opened, reusing (open_count=2)
+
+I (928) I2S_IF: Paired data: 0x2f07e3ac, current mode: record, paired in_enable: 0, paired out_enable: 0
+
+I (935) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: STEREO, slot_mask: 0x3
+
+I (944) I2S_IF: STD: RX, sample_rate_hz: 48000, mclk_multiple: 256, clk_src: 16
+
+I (951) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: STEREO, slot_mask: 0x3
+
+I (959) I2S_IF: STD: TX, sample_rate_hz: 48000, mclk_multiple: 256, clk_src: 16
+
+I (984) Adev_Codec: Open codec device OK
+
+I (984) I2S_IF: Current mode(playback) and peer mode have same sample_rate 48000, channel 2, bits_per_sample 16
+
+I (986) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: STEREO, slot_mask: 0x3
+
+I (995) I2S_IF: STD: TX, sample_rate_hz: 48000, mclk_multiple: 256, clk_src: 16
+
+I (1019) Adev_Codec: Open codec device OK
+
+I (1020) T4_SPEAKER: T4_PHASE=tone freq_hz=440 volume=30
+
+I (1020) T4_SPEAKER: T4_VOLUME percent=30
+
+I (2126) T4_SPEAKER: T4_CAPTURE freq_hz=440 volume=30 rms=375.33 peak=1809 target_db=27.55 other_db=-5.11
+
+I (2127) T4_SPEAKER: T4_PHASE=tone freq_hz=440 volume=60
+
+I (2131) T4_SPEAKER: T4_VOLUME percent=60
+
+I (3241) T4_SPEAKER: T4_CAPTURE freq_hz=440 volume=60 rms=354.04 peak=1045 target_db=45.07 other_db=-7.45
+
+I (3241) T4_SPEAKER: T4_PHASE=tone freq_hz=440 volume=100
+
+I (3245) T4_SPEAKER: T4_VOLUME percent=100
+
+I (4353) T4_SPEAKER: T4_CAPTURE freq_hz=440 volume=100 rms=2720.49 peak=6221 target_db=65.36 other_db=1.25
+
+I (4354) T4_SPEAKER: T4_PHASE=tone freq_hz=1000 volume=30
+
+I (4358) T4_SPEAKER: T4_VOLUME percent=30
+
+I (5471) T4_SPEAKER: T4_CAPTURE freq_hz=1000 volume=30 rms=326.43 peak=1141 target_db=40.77 other_db=14.15
+
+I (5471) T4_SPEAKER: T4_PHASE=tone freq_hz=1000 volume=60
+
+I (5475) T4_SPEAKER: T4_VOLUME percent=60
+
+I (6585) T4_SPEAKER: T4_CAPTURE freq_hz=1000 volume=60 rms=921.25 peak=2195 target_db=55.68 other_db=6.52
+
+I (6585) T4_SPEAKER: T4_PHASE=tone freq_hz=1000 volume=100
+
+I (6589) T4_SPEAKER: T4_VOLUME percent=100
+
+I (7697) T4_SPEAKER: T4_CAPTURE freq_hz=1000 volume=100 rms=7827.43 peak=14273 target_db=74.53 other_db=6.76
+
+I (7698) T4_SPEAKER: T4_PHASE=sweep start_hz=20 end_hz=16000 duration_s=3 volume=60
+
+I (7704) T4_SPEAKER: T4_VOLUME percent=60
+
+I (10721) T4_SPEAKER: T4_SWEEP finished=yes
+
+I (10721) T4_SPEAKER: T4_VOLUME_CHECK 30to60=fail 60to100=pass
+
+I (10721) T4_SPEAKER: T4_FREQUENCY_CHECK 440Hz=pass 1kHz=pass
+
+I (10725) T4_SPEAKER: T4_AUTO_CHECK=FAIL audio_beauty=REQUIRES_EXTERNAL_LISTEN
+
+I (10733) ES8389: Codec still enabled (enable_count=1), skip hardware stop
+
+I (10812) main_task: Returned from app_main()
+
+
+
