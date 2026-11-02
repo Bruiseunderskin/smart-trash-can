@@ -1,6 +1,7 @@
 # ---- Build outputs / generated files (regenerable) ----
 build/
 managed_components/
+sdkconfig
 sdkconfig.old
 compile_commands.json
 

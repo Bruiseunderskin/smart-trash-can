@@ -13,19 +13,19 @@ def check(root):
         ['git', 'ls-files', '-z'], cwd=root
     ).decode().split('\0')
     paths = [Path(p) for p in tracked if p]
-    board_prefix = Path('xiaozhi-esp32/main/boards/smart-trash-can')
-    owned = [p for p in paths if p.parts[0] != 'xiaozhi-esp32' or p.is_relative_to(board_prefix)]
+    board_prefix = Path('firmware/xiaozhi-esp32/main/boards/smart-trash-can')
+    owned = [p for p in paths if not p.is_relative_to(Path('firmware/xiaozhi-esp32')) or p.is_relative_to(board_prefix)]
     directories = {Path('.')}
     for path in owned:
         directories.update(p for p in path.parents
-                           if p.parts[:1] != ('xiaozhi-esp32',) or p.is_relative_to(board_prefix))
+                           if not p.is_relative_to(Path('firmware/xiaozhi-esp32')) or p.is_relative_to(board_prefix))
     errors = []
     for directory in sorted(directories):
         guide = root / directory / 'README.md'
         if not guide.is_file() or directory / 'README.md' not in paths:
             errors.append(f'{directory}: missing README.md')
     # The imported tree is excluded; our board is a documented project entry.
-    board = root / 'xiaozhi-esp32/main/boards/smart-trash-can/README.md'
+    board = root / 'firmware/xiaozhi-esp32/main/boards/smart-trash-can/README.md'
     if not board.is_file() or board.relative_to(root) not in paths:
         errors.append('custom smart-trash-can board: missing README.md')
     markdown = [p for p in owned if p.suffix.lower() == '.md']

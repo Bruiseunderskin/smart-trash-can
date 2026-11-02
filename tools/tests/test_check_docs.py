@@ -17,7 +17,8 @@ class DocsChecks(unittest.TestCase):
         self.root = Path(self.tmp.name).resolve()
         subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
         self.write('README.md', '# Project\n')
-        self.write('xiaozhi-esp32/main/boards/smart-trash-can/README.md', '# Board\n')
+        self.write('firmware/README.md', '# Firmware\n')
+        self.write('firmware/xiaozhi-esp32/main/boards/smart-trash-can/README.md', '# Board\n')
 
     def write(self, name, text):
         path = self.root / name
@@ -30,9 +31,9 @@ class DocsChecks(unittest.TestCase):
         self.assertIn('new: missing README.md', MODULE.check(self.root)[0])
 
     def test_upstream_excluded_custom_board_included(self):
-        self.write('xiaozhi-esp32/upstream/foo.c', '// upstream')
+        self.write('firmware/xiaozhi-esp32/upstream/foo.c', '// upstream')
         self.assertEqual([], MODULE.check(self.root)[0])
-        self.write('xiaozhi-esp32/main/boards/smart-trash-can/nested/foo.c', '// own')
+        self.write('firmware/xiaozhi-esp32/main/boards/smart-trash-can/nested/foo.c', '// own')
         self.assertTrue(any('nested: missing README' in e for e in MODULE.check(self.root)[0]))
 
     def test_links_and_untracked_targets(self):

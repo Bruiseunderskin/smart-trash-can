@@ -1,0 +1,3 @@
+# Lightweight host tests; no training/runtime model downloads.
+numpy==2.4.6
+Pillow==13.0.0
