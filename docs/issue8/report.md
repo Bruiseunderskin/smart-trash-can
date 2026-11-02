@@ -156,3 +156,5 @@ ESP-PPQ TorchExecutor host simulation 的逐類 F1：其他 0.7967、可回收�
 以相同 200 張 calibration 及 980 張去重 test manifest 重新量化為 `esp32s3`。ESP-PPQ 主機模擬 macro-F1 **0.796771**，輸出 1,715,696 B。S31 目標產物與 S3 產物不同；不可互換。
 
 ESP32-S3、240 MHz、ESP-IDF 6.0.2、8 MB PSRAM：ESP-DL 載入及內建 `Model::test()` 通過。四張選定圖各代表一類，單核心輸出全部符合標籤。每張 20 次 Invoke，p95 為 **247.807–247.867 ms**；每次重載輸入的時間不計在內。測試亦不包括拍照、resize、屏幕及開蓋；四張圖不能估計準確率。
+
+重跑的已遮蔽序列輸出見 [S3 ESP-DL 實圖紀錄](s3-espdl-real-input.log)：四類最後輸出相同，單核心每張 20 次 p95 為 247.801–247.866 ms；此為獨立重跑，與上段原始數字略有差異。
