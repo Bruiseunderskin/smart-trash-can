@@ -2,7 +2,7 @@
 
 四個外設 + 一個迴路測試。**一次只跑一個**，跑完把 `RESULT` 行貼回 [issue #11](https://github.com/Bruiseunderskin/smart-trash-can/issues/11)。
 
-編譯 CI 使用 ESP-IDF 6.1，透過 `tools/dev.py compile --project s31_bringup` 建置。CI 結果以對應 commit 的 Actions 為準；編譯不代表外設已在實板通過。Codec、camera 和 SD 的未完成依賴如下。
+編譯 CI 使用 ESP-IDF 6.1，透過 `tools/dev.py compile --project s31_bringup` 建置。[搬移後編譯紀錄](https://github.com/Bruiseunderskin/smart-trash-can/actions/runs/41489144893)已通過 bring-up 及 Korvo-1 板型編譯；編譯不代表外設已在實板通過。Codec、camera 和 SD 的未完成依賴如下。
 
 ## 跑法
 

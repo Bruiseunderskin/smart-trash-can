@@ -10,7 +10,7 @@
 | 影像實驗 | [S3 probes](../firmware/esp32s3/README.md) | 量測特定模型和輸入；不是完整相機至開蓋控制器。 |
 | 實體輸出測試 | [PCA9685](../firmware/esp32s3/pca9685_servo_test/README.md) | 四通道測試；同步寫入不證明機械開蓋到位。 |
 | 語音／MCP | [自訂板型](../firmware/xiaozhi-esp32/main/boards/smart-trash-can/README.md) | 現有 GPIO9–12 控制；尚未接到 PCA9685。語音教育對話屬 V2。 |
-| 板級 bring-up | [S31](../firmware/esp32s31/bringup/README.md) | 外設驗證骨架；仍有 codec、camera 與 SDK 驗證缺口。 |
+| 板級 bring-up | [S31](../firmware/esp32s31/bringup/README.md) | 外設驗證骨架；ESP-IDF 6.1 編譯已通過；codec、camera 與實板驗證仍有缺口。 |
 | 資料與模型 | [工具](../tools/README.md)、[資料](../data/README.md)、[產物](../runs/README.md) | 主機側資料準備、量化與評估；模型產物必須保留資料來源、hash 及前處理對應。 |
 | 設計與證據 | [設計來源](../design/README.md)、[報告](README.md) | 設計來源和測試紀錄分開；generated、ZIP、截圖均為衍生產物。 |
 

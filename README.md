@@ -44,7 +44,7 @@
 | XiaoZhi 板型 | `smart-trash-can` 板型提供四路直接 GPIO 伺服控制及 `self.trash_can.*` MCP 工具。 | 與 PCA9685 測試是不同實作；未證明已整合 PCA9685 或完整分類流程。 |
 | 4.3 吋介面 | LVGL 9.5 的 800×480 教學介面及 SDL 桌面預覽；包含分類流程、圖鑑和總分頁。 | 目標屏幕、觸控及硬件整合未驗證。 |
 | 影像模型 | Edge Impulse、YOLO 與 ESP-DL 的主機評估及 ESP32-S3 實板探測，詳見[模型比較](docs/model-comparison.md)及[現場圖片探測](docs/issue12/field-probe/metrics.md)。 | 共享資料仍有近重複及選模洩漏風險；小樣本測試不能代表現場準確率。S31 實板及整機效能尚待驗證。 |
-| ESP32-S31 bring-up | LCD、音訊與迴路測試骨架；相機測試保留待實作。 | 依專案說明，尚未編譯或完成硬件測試；codec 初始化與相機整合未完成。 |
+| ESP32-S31 bring-up | LCD、音訊與迴路測試骨架；相機測試保留待實作。 | ESP-IDF 6.1 CI 已通過 bring-up 及 Korvo-1 板型編譯；硬件未驗證，codec 初始化與相機整合未完成。 |
 
 首要目標是完成影像分類與基本教育互動；V2 再探索語音對話。離線流程、拍照至開蓋延遲及連續十次整機運作尚未驗證。見[系統架構與驗收](docs/system-architecture-decision.md)和[里程碑](docs/ROADMAP.md)。
 
