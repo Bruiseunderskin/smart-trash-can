@@ -4,7 +4,7 @@
 
 | 檢查 | 覆蓋來源 | 不代表甚麼 |
 | --- | --- | --- |
-| Documentation | 所有第一方目錄 README、行內本地連結、文件檢查工具測試 | 不檢查外部 URL 或內容正確性 |
+| Documentation | 所有第一方目錄 README、行內本地連結、文件檢查、開發 runner、field-probe 和預覽技能測試 | 不檢查外部 URL 或內容正確性 |
 | Firmware compile：Arduino | ESP32-S3 的三個測試 sketch | 不會燒錄或量測硬件 |
 | Firmware compile：ESP-IDF | S3 PCA9685、公開 person-detect TFLite probe、XiaoZhi smart-trash-can 板型 | EI 私有模型、S31 和其他上游板型不在編譯矩陣 |
 | LVGL native UI | SDL native 建置、互動測試及渲染基準 | 不等於實屏、相機、觸控或模型整合通過 |

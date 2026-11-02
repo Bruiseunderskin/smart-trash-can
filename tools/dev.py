@@ -53,13 +53,13 @@ def checks(stage, base):
     run(sys.executable, 'tools/check_docs.py')
     if stage == 'pre-commit':
         return
-    run(sys.executable, '-m', 'unittest', 'discover', '-s', 'tools/tests', '-p', 'test_check_docs.py', '-v')
     try:
         import PIL  # noqa: F401
+        import numpy  # noqa: F401
     except ImportError as error:
-        raise RuntimeError('Install tools/skills/lvgl-preview/requirements.txt in your Python environment.') from error
+        raise RuntimeError('Install tools/requirements-dev.txt in your Python environment.') from error
     run(sys.executable, '-m', 'unittest', 'discover', '-s', 'tools/skills/lvgl-preview/tests', '-v')
-    run(sys.executable, '-m', 'unittest', 'discover', '-s', 'tools/tests', '-p', 'test_dev.py', '-v')
+    run(sys.executable, '-m', 'unittest', 'discover', '-s', 'tools/tests', '-v')
     # Never silently skip compilation for changed first-party firmware.
     changed = subprocess.check_output(['git', 'diff', '--name-only', f'{base}...HEAD'], cwd=ROOT, text=True).splitlines()
     changed += subprocess.check_output(['git', 'diff', '--name-only', 'HEAD'], cwd=ROOT, text=True).splitlines()

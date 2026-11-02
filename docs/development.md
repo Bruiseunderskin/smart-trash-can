@@ -16,7 +16,7 @@ push／PR 的變更基準預設為本機 `origin/main`，使用前先 `git fetch
 
 ## 環境
 
-- 文件檢查及技能測試：Python 3.12；技能測試另需 `pip install -r tools/skills/lvgl-preview/requirements.txt`。
+- 文件檢查及技能測試：Python 3.12；主機工具及技能測試另需 `pip install -r tools/requirements-dev.txt`。
 - Arduino：arduino-cli、Espressif boards URL 的 `esp32:esp32@3.3.12`，以及 `ESP32Servo@3.0.9`。三個 sketch 均以 `esp32:esp32:esp32s3` 編譯。
 - S3 ESP-IDF：啟用 ESP-IDF 6.0.2 的 `export.sh`。TFLite probe 需先依其 README 準備模型；CI 下載公開 person-detect 模型並驗 SHA-256。
 - Edge Impulse probe 需要使用者提供的模型。沒有模型時會停止，不能用 person-detect 替代它來宣稱模型相容。

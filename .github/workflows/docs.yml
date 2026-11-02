@@ -13,5 +13,6 @@ jobs:
         with:
           python-version: '3.12'
       - run: python3 tools/check_docs.py
-      - run: python3 -m unittest discover -s tools/tests -p test_check_docs.py -v
-      - run: python3 -m unittest discover -s tools/tests -p test_dev.py -v
+      - run: python3 -m pip install -r tools/requirements-dev.txt
+      - run: python3 -m unittest discover -s tools/tests -v
+      - run: python3 -m unittest discover -s tools/skills/lvgl-preview/tests -v
