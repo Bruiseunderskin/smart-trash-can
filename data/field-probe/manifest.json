@@ -1,0 +1,130 @@
+{
+  "purpose": "獨立現場探測集：不參與訓練、校準、選模或閾值調整",
+  "counts": {
+    "可回收物": 8,
+    "廚餘": 4,
+    "有害垃圾": 3,
+    "其他垃圾": 2
+  },
+  "images": [
+    {
+      "file": "recyclable/cardboard_7.jpg",
+      "bin_hk": "可回收物",
+      "source_class": "Cardboard",
+      "sha256_16": "d79dcd3d759bda73",
+      "note": "卡通紙箱，有明顯破口"
+    },
+    {
+      "file": "recyclable/cardboard_50.jpg",
+      "bin_hk": "可回收物",
+      "source_class": "Cardboard",
+      "sha256_16": "b8d4e8bbe521aae2",
+      "note": "撕裂紙皮碎"
+    },
+    {
+      "file": "recyclable/glass_3.jpg",
+      "bin_hk": "可回收物",
+      "source_class": "Glass",
+      "sha256_16": "7623aa0bc2192dc9",
+      "note": "透明玻璃器皿，斜放"
+    },
+    {
+      "file": "recyclable/glass_40.jpg",
+      "bin_hk": "可回收物",
+      "source_class": "Glass",
+      "sha256_16": "9da0fd9d739a8c29",
+      "note": "玻璃瓶，有標籤"
+    },
+    {
+      "file": "recyclable/metal_12.jpg",
+      "bin_hk": "可回收物",
+      "source_class": "Metal",
+      "sha256_16": "af322927fb2f0bc7",
+      "note": "金屬罐頭罐"
+    },
+    {
+      "file": "recyclable/paper_5.jpg",
+      "bin_hk": "可回收物",
+      "source_class": "Paper",
+      "sha256_16": "39c250b5001be0da",
+      "note": "小白信封，物體極細"
+    },
+    {
+      "file": "recyclable/paper_60.jpg",
+      "bin_hk": "可回收物",
+      "source_class": "Paper",
+      "sha256_16": "4edc93baf0b31649",
+      "note": "紙盒／紙包裝"
+    },
+    {
+      "file": "recyclable/plastic_2.jpg",
+      "bin_hk": "可回收物",
+      "source_class": "Plastic",
+      "sha256_16": "050ce812d904a52a",
+      "note": "白色 HDPE 膠樽（2號）"
+    },
+    {
+      "file": "food/food-organics_77.jpg",
+      "bin_hk": "廚餘",
+      "source_class": "Food Organics",
+      "sha256_16": "3e5442ec49200aea",
+      "note": "青椒切片"
+    },
+    {
+      "file": "food/food-organics_9.jpg",
+      "bin_hk": "廚餘",
+      "source_class": "Food Organics",
+      "sha256_16": "040c543a6a1f38f8",
+      "note": "綠色蔬果（火龍果狀）"
+    },
+    {
+      "file": "food/vegetation_120.jpg",
+      "bin_hk": "廚餘",
+      "source_class": "Vegetation",
+      "sha256_16": "031079c70a7ef392",
+      "note": "雜草枝葉"
+    },
+    {
+      "file": "food/vegetation_4.jpg",
+      "bin_hk": "廚餘",
+      "source_class": "Vegetation",
+      "sha256_16": "16579d126c0a3595",
+      "note": "整條青瓜"
+    },
+    {
+      "file": "hazardous/viola-001_bd75a457.jpg",
+      "bin_hk": "有害垃圾",
+      "source_class": "batteries",
+      "sha256_16": "46c273dc51e45ad5",
+      "note": "六粒 AA 電池"
+    },
+    {
+      "file": "hazardous/viola-003_793ffd6d.jpg",
+      "bin_hk": "有害垃圾",
+      "source_class": "batteries",
+      "sha256_16": "ccf7c3c786765ea0",
+      "note": "汽車電池"
+    },
+    {
+      "file": "hazardous/viola-005_f42fa779.jpg",
+      "bin_hk": "有害垃圾",
+      "source_class": "batteries",
+      "sha256_16": "e7431c153c234d9d",
+      "note": "9V 電池連充電器"
+    },
+    {
+      "file": "other/miscellaneous-trash_33.jpg",
+      "bin_hk": "其他垃圾",
+      "source_class": "Miscellaneous Trash",
+      "sha256_16": "429c1cf7f0da4a7f",
+      "note": "乾果殼／植物殘渣 — 標註存疑，見 note"
+    },
+    {
+      "file": "other/miscellaneous-trash_6.jpg",
+      "bin_hk": "其他垃圾",
+      "source_class": "Miscellaneous Trash",
+      "sha256_16": "e0e317ebb449272b",
+      "note": "粉紅色布碎"
+    }
+  ]
+}
