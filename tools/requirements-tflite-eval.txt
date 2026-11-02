@@ -1,0 +1,10 @@
+# Host-only LiteRT runtime for evaluating Edge Impulse TFLite exports.
+# Does not apply to ESP-IDF firmware or on-device latency measurements.
+ai-edge-litert==2.3.0
+flatbuffers==25.12.19
+ml_dtypes==0.6.0
+numpy==2.4.6
+Pillow==13.0.0
+protobuf==7.36.2
+tqdm==4.70.1
+typing_extensions==4.16.0

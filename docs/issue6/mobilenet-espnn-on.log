@@ -1,0 +1,344 @@
+Adding "flash"'s dependency "all" to list of commands with default set of options.
+Executing action: all (aliases: build)
+Running ninja in directory /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build
+Executing "ninja all"...
+[1/4] cd /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build && /Users/wed/.espressif/python_env/idf6.0_py3.14_env/bin/python /Users/wed/.espressif/v6.0.2/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build/partition_table/partition-table.bin /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build/tflite_probe.bin
+tflite_probe.bin binary size 0x464c60 bytes. Smallest app partition is 0x600000 bytes. 0x19b3a0 bytes (27%) free.
+[2/4] Performing build step for 'bootloader'
+[1/1] cd /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build/bootloader && /Users/wed/.espressif/python_env/idf6.0_py3.14_env/bin/python /Users/wed/.espressif/v6.0.2/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build/bootloader/bootloader.bin
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[3/4] No install step for 'bootloader'
+[4/4] Completed 'bootloader'
+Executing action: flash
+Running ninja in directory /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build
+Executing "ninja flash"...
+[1/5] cd /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build && /Users/wed/.espressif/python_env/idf6.0_py3.14_env/bin/python /Users/wed/.espressif/v6.0.2/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build/partition_table/partition-table.bin /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build/tflite_probe.bin
+tflite_probe.bin binary size 0x464c60 bytes. Smallest app partition is 0x600000 bytes. 0x19b3a0 bytes (27%) free.
+[2/5] Performing build step for 'bootloader'
+[1/1] cd /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build/bootloader && /Users/wed/.espressif/python_env/idf6.0_py3.14_env/bin/python /Users/wed/.espressif/v6.0.2/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build/bootloader/bootloader.bin
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[3/5] No install step for 'bootloader'
+[4/5] Completed 'bootloader'
+[4/5] Running utility command for flash
+esptool --chip esp32s3 -p /dev/cu.usbmodem5C843268331 -b 460800 --before=default-reset --after=hard-reset write-flash --flash-mode dio --flash-freq 80m --flash-size 16MB 0x0 bootloader/bootloader.bin 0x8000 partition_table/partition-table.bin 0x10000 tflite_probe.bin
+esptool v5.6.0
+Serial port /dev/cu.usbmodem5C843268331:
+Connecting....
+Connected to ESP32-S3 on /dev/cu.usbmodem5C843268331:
+Chip type:          ESP32-S3 (QFN56) (revision v0.2)
+Features:           Wi-Fi, BT 5 (LE), Dual Core + LP Core, 240MHz, Embedded PSRAM 8MB (AP_3v3)
+Crystal frequency:  40MHz
+MAC:                [REDACTED-MAC]
+Uploading stub flasher...
+Running stub flasher...
+Stub flasher running.
+Changing baud rate to 460800...
+Changed.
+Configuring flash size...
+Writing 'bootloader/bootloader.bin' at 0x00000000...
+SHA digest in image updated.
+Flash will be erased from 0x00000000 to 0x00005fff...
+Compressed 21056 bytes to 13534...
+Writing at 0x00005240 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% 13.22kB/13.22kB [0s]
+Wrote 21056 bytes (13534 compressed) at 0x00000000 in 0.6 seconds (306.2 kbit/s).
+Verifying written data...
+Hash of data verified.
+Writing 'partition_table/partition-table.bin' at 0x00008000...
+Flash will be erased from 0x00008000 to 0x00008fff...
+Compressed 3072 bytes to 104...
+Writing at 0x00008c00 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% 104B/104B [0s]
+Wrote 3072 bytes (104 compressed) at 0x00008000 in 0.0 seconds (585.5 kbit/s).
+Verifying written data...
+Hash of data verified.
+Writing 'tflite_probe.bin' at 0x00010000...
+Flash will be erased from 0x00010000 to 0x00474fff...
+Compressed 4607072 bytes to 3274853...
+Writing at 0x0001bba8                                  0.5% 16.00kB/3.12MB [0s]
+Writing at 0x00021a10                                  1.0% 32.00kB/3.12MB [0s]
+Writing at 0x00027c1a                                  1.5% 48.00kB/3.12MB [1s]
+Writing at 0x0002dfef ╸                                2.0% 64.00kB/3.12MB [1s]
+Writing at 0x00034354 ╸                                2.5% 80.00kB/3.12MB [2s]
+Writing at 0x0003a672 ╸                                3.0% 96.00kB/3.12MB [2s]
+Writing at 0x000409dc ━                                3.5% 112.00kB/3.12MB [2s]
+Writing at 0x00046d44 ━                                4.0% 128.00kB/3.12MB [3s]
+Writing at 0x0004cfde ━                                4.5% 144.00kB/3.12MB [3s]
+Writing at 0x000531f6 ━╸                               5.0% 160.00kB/3.12MB [4s]
+Writing at 0x00059421 ━╸                               5.5% 176.00kB/3.12MB [4s]
+Writing at 0x0005ece9 ━╸                               6.0% 192.00kB/3.12MB [4s]
+Writing at 0x0006416a ━╸                               6.5% 208.00kB/3.12MB [5s]
+Writing at 0x0006963b ━━                               7.0% 224.00kB/3.12MB [5s]
+Writing at 0x0006eab4 ━━                               7.5% 240.00kB/3.12MB [6s]
+Writing at 0x00073f57 ━━                               8.0% 256.00kB/3.12MB [6s]
+Writing at 0x00079415 ━━╸                              8.5% 272.00kB/3.12MB [6s]
+Writing at 0x0007e876 ━━╸                              9.0% 288.00kB/3.12MB [7s]
+Writing at 0x00083cac ━━╸                              9.5% 304.00kB/3.12MB [7s]
+Writing at 0x000890f5 ━━━                             10.0% 320.00kB/3.12MB [8s]
+Writing at 0x0008e5c1 ━━━                             10.5% 336.00kB/3.12MB [8s]
+Writing at 0x00093a59 ━━━                             11.0% 352.00kB/3.12MB [8s]
+Writing at 0x00098e8b ━━━                             11.5% 368.00kB/3.12MB [9s]
+Writing at 0x0009e34d ━━━╸                            12.0% 384.00kB/3.12MB [9s]
+Writing at 0x000a37b7 ━━━╸                            12.5% 400.00kB/3.12MB [10s]
+Writing at 0x000a8c49 ━━━╸                            13.0% 416.00kB/3.12MB [10s]
+Writing at 0x000ae051 ━━━━                            13.5% 432.00kB/3.12MB [10s]
+Writing at 0x000b34dc ━━━━                            14.0% 448.00kB/3.12MB [11s]
+Writing at 0x000b8967 ━━━━                            14.5% 464.00kB/3.12MB [11s]
+Writing at 0x000bdde1 ━━━━╸                           15.0% 480.00kB/3.12MB [12s]
+Writing at 0x000c3246 ━━━━╸                           15.5% 496.00kB/3.12MB [12s]
+Writing at 0x000c8649 ━━━━╸                           16.0% 512.00kB/3.12MB [12s]
+Writing at 0x000cdae4 ━━━━╸                           16.5% 528.00kB/3.12MB [13s]
+Writing at 0x000d2f97 ━━━━━                           17.0% 544.00kB/3.12MB [13s]
+Writing at 0x000d8467 ━━━━━                           17.5% 560.00kB/3.12MB [14s]
+Writing at 0x000dd8b8 ━━━━━                           18.0% 576.00kB/3.12MB [14s]
+Writing at 0x000e2d1c ━━━━━╸                          18.5% 592.00kB/3.12MB [15s]
+Writing at 0x000e8178 ━━━━━╸                          19.0% 608.00kB/3.12MB [15s]
+Writing at 0x000ed5ea ━━━━━╸                          19.5% 624.00kB/3.12MB [15s]
+Writing at 0x000f2a32 ━━━━━━                          20.0% 640.00kB/3.12MB [16s]
+Writing at 0x000f7ec5 ━━━━━━                          20.5% 656.00kB/3.12MB [16s]
+Writing at 0x000fd396 ━━━━━━                          21.0% 672.00kB/3.12MB [17s]
+Writing at 0x00102824 ━━━━━━                          21.5% 688.00kB/3.12MB [17s]
+Writing at 0x00107cd6 ━━━━━━╸                         22.0% 704.00kB/3.12MB [17s]
+Writing at 0x0010d0b4 ━━━━━━╸                         22.5% 720.00kB/3.12MB [18s]
+Writing at 0x0011254b ━━━━━━╸                         23.0% 736.00kB/3.12MB [18s]
+Writing at 0x00117a12 ━━━━━━━                         23.5% 752.00kB/3.12MB [19s]
+Writing at 0x0011ce8e ━━━━━━━                         24.0% 768.00kB/3.12MB [19s]
+Writing at 0x001222b5 ━━━━━━━                         24.5% 784.00kB/3.12MB [19s]
+Writing at 0x0012775c ━━━━━━━╸                        25.0% 800.00kB/3.12MB [20s]
+Writing at 0x0012cc06 ━━━━━━━╸                        25.5% 816.00kB/3.12MB [20s]
+Writing at 0x0013209f ━━━━━━━╸                        26.0% 832.00kB/3.12MB [21s]
+Writing at 0x001374f1 ━━━━━━━╸                        26.5% 848.00kB/3.12MB [21s]
+Writing at 0x0013c9b6 ━━━━━━━━                        27.0% 864.00kB/3.12MB [21s]
+Writing at 0x00141e25 ━━━━━━━━                        27.5% 880.00kB/3.12MB [22s]
+Writing at 0x001472c1 ━━━━━━━━                        28.0% 896.00kB/3.12MB [22s]
+Writing at 0x0014c6da ━━━━━━━━╸                       28.5% 912.00kB/3.12MB [23s]
+Writing at 0x00151b29 ━━━━━━━━╸                       29.0% 928.00kB/3.12MB [23s]
+Writing at 0x00156f56 ━━━━━━━━╸                       29.5% 944.00kB/3.12MB [23s]
+Writing at 0x0015bf89 ━━━━━━━━━                       30.0% 960.00kB/3.12MB [24s]
+Writing at 0x001614ed ━━━━━━━━━                       30.5% 976.00kB/3.12MB [24s]
+Writing at 0x00166e88 ━━━━━━━━━                       31.0% 992.00kB/3.12MB [25s]
+Writing at 0x0016c76f ━━━━━━━━━                       31.5% 1008.00kB/3.12MB [25s]
+Writing at 0x001720c0 ━━━━━━━━━╸                      32.0% 1.00MB/3.12MB [25s]
+Writing at 0x001779e1 ━━━━━━━━━╸                      32.5% 1.02MB/3.12MB [26s]
+Writing at 0x0017d303 ━━━━━━━━━╸                      33.0% 1.03MB/3.12MB [26s]
+Writing at 0x00182ce5 ━━━━━━━━━━                      33.5% 1.05MB/3.12MB [27s]
+Writing at 0x001886be ━━━━━━━━━━                      34.0% 1.06MB/3.12MB [27s]
+Writing at 0x0018e060 ━━━━━━━━━━                      34.5% 1.08MB/3.12MB [27s]
+Writing at 0x0019391b ━━━━━━━━━━╸                     35.0% 1.09MB/3.12MB [28s]
+Writing at 0x00199246 ━━━━━━━━━━╸                     35.5% 1.11MB/3.12MB [28s]
+Writing at 0x0019ec8e ━━━━━━━━━━╸                     36.0% 1.12MB/3.12MB [29s]
+Writing at 0x001a4c69 ━━━━━━━━━━╸                     36.5% 1.14MB/3.12MB [29s]
+Writing at 0x001aac7d ━━━━━━━━━━━                     37.0% 1.16MB/3.12MB [29s]
+Writing at 0x001b0c63 ━━━━━━━━━━━                     37.5% 1.17MB/3.12MB [30s]
+Writing at 0x001b6d68 ━━━━━━━━━━━                     38.0% 1.19MB/3.12MB [30s]
+Writing at 0x001bccf7 ━━━━━━━━━━━╸                    38.5% 1.20MB/3.12MB [31s]
+Writing at 0x001c2d68 ━━━━━━━━━━━╸                    39.0% 1.22MB/3.12MB [31s]
+Writing at 0x001c8d32 ━━━━━━━━━━━╸                    39.5% 1.23MB/3.12MB [31s]
+Writing at 0x001ced29 ━━━━━━━━━━━━                    40.0% 1.25MB/3.12MB [32s]
+Writing at 0x001d4cfb ━━━━━━━━━━━━                    40.5% 1.27MB/3.12MB [32s]
+Writing at 0x001daccc ━━━━━━━━━━━━                    41.0% 1.28MB/3.12MB [33s]
+Writing at 0x001e041c ━━━━━━━━━━━━                    41.5% 1.30MB/3.12MB [33s]
+Writing at 0x001e5e06 ━━━━━━━━━━━━╸                   42.0% 1.31MB/3.12MB [33s]
+Writing at 0x001eb804 ━━━━━━━━━━━━╸                   42.5% 1.33MB/3.12MB [34s]
+Writing at 0x001f11e8 ━━━━━━━━━━━━╸                   43.0% 1.34MB/3.12MB [34s]
+Writing at 0x001f6b0b ━━━━━━━━━━━━━                   43.5% 1.36MB/3.12MB [35s]
+Writing at 0x001fc56a ━━━━━━━━━━━━━                   44.0% 1.38MB/3.12MB [35s]
+Writing at 0x00201f2b ━━━━━━━━━━━━━                   44.5% 1.39MB/3.12MB [35s]
+Writing at 0x002078b7 ━━━━━━━━━━━━━╸                  45.0% 1.41MB/3.12MB [36s]
+Writing at 0x0020d1cd ━━━━━━━━━━━━━╸                  45.5% 1.42MB/3.12MB [36s]
+Writing at 0x00212b78 ━━━━━━━━━━━━━╸                  46.0% 1.44MB/3.12MB [37s]
+Writing at 0x0021851f ━━━━━━━━━━━━━╸                  46.5% 1.45MB/3.12MB [37s]
+Writing at 0x0021d7ed ━━━━━━━━━━━━━━                  47.0% 1.47MB/3.12MB [37s]
+Writing at 0x0022328a ━━━━━━━━━━━━━━                  47.5% 1.48MB/3.12MB [38s]
+Writing at 0x00229015 ━━━━━━━━━━━━━━                  48.0% 1.50MB/3.12MB [38s]
+Writing at 0x0022ed5c ━━━━━━━━━━━━━━╸                 48.5% 1.52MB/3.12MB [39s]
+Writing at 0x00234ad6 ━━━━━━━━━━━━━━╸                 49.0% 1.53MB/3.12MB [39s]
+Writing at 0x0023a90e ━━━━━━━━━━━━━━╸                 49.5% 1.55MB/3.12MB [39s]
+Writing at 0x0024074d ━━━━━━━━━━━━━━━                 50.0% 1.56MB/3.12MB [40s]
+Writing at 0x002464fd ━━━━━━━━━━━━━━━                 50.5% 1.58MB/3.12MB [40s]
+Writing at 0x0024c2cc ━━━━━━━━━━━━━━━                 51.0% 1.59MB/3.12MB [41s]
+Writing at 0x002520da ━━━━━━━━━━━━━━━                 51.5% 1.61MB/3.12MB [41s]
+Writing at 0x00257ecc ━━━━━━━━━━━━━━━╸                52.0% 1.62MB/3.12MB [41s]
+Writing at 0x0025dd7d ━━━━━━━━━━━━━━━╸                52.5% 1.64MB/3.12MB [42s]
+Writing at 0x00262ebf ━━━━━━━━━━━━━━━╸                53.0% 1.66MB/3.12MB [42s]
+Writing at 0x002681ed ━━━━━━━━━━━━━━━━                53.5% 1.67MB/3.12MB [43s]
+Writing at 0x0026d672 ━━━━━━━━━━━━━━━━                54.0% 1.69MB/3.12MB [43s]
+Writing at 0x00272cfa ━━━━━━━━━━━━━━━━                54.5% 1.70MB/3.12MB [43s]
+Writing at 0x00278306 ━━━━━━━━━━━━━━━━╸               55.0% 1.72MB/3.12MB [44s]
+Writing at 0x0027d953 ━━━━━━━━━━━━━━━━╸               55.5% 1.73MB/3.12MB [44s]
+Writing at 0x00282fd3 ━━━━━━━━━━━━━━━━╸               56.0% 1.75MB/3.12MB [45s]
+Writing at 0x002884e2 ━━━━━━━━━━━━━━━━╸               56.5% 1.77MB/3.12MB [45s]
+Writing at 0x0028db50 ━━━━━━━━━━━━━━━━━               57.0% 1.78MB/3.12MB [45s]
+Writing at 0x0029319e ━━━━━━━━━━━━━━━━━               57.5% 1.80MB/3.12MB [46s]
+Writing at 0x002987de ━━━━━━━━━━━━━━━━━               58.0% 1.81MB/3.12MB [46s]
+Writing at 0x0029ddc4 ━━━━━━━━━━━━━━━━━╸              58.5% 1.83MB/3.12MB [47s]
+Writing at 0x002a33fb ━━━━━━━━━━━━━━━━━╸              59.0% 1.84MB/3.12MB [47s]
+Writing at 0x002a8a78 ━━━━━━━━━━━━━━━━━╸              59.5% 1.86MB/3.12MB [47s]
+Writing at 0x002ae0b6 ━━━━━━━━━━━━━━━━━━              60.0% 1.88MB/3.12MB [48s]
+Writing at 0x002b375d ━━━━━━━━━━━━━━━━━━              60.5% 1.89MB/3.12MB [48s]
+Writing at 0x002b8d10 ━━━━━━━━━━━━━━━━━━              61.0% 1.91MB/3.12MB [49s]
+Writing at 0x002be315 ━━━━━━━━━━━━━━━━━━              61.5% 1.92MB/3.12MB [49s]
+Writing at 0x002c391a ━━━━━━━━━━━━━━━━━━╸             62.0% 1.94MB/3.12MB [49s]
+Writing at 0x002c8f1f ━━━━━━━━━━━━━━━━━━╸             62.5% 1.95MB/3.12MB [50s]
+Writing at 0x002ce4d6 ━━━━━━━━━━━━━━━━━━╸             63.0% 1.97MB/3.12MB [50s]
+Writing at 0x002d38e5 ━━━━━━━━━━━━━━━━━━━             63.5% 1.98MB/3.12MB [51s]
+Writing at 0x002d8db1 ━━━━━━━━━━━━━━━━━━━             64.0% 2.00MB/3.12MB [51s]
+Writing at 0x002de25e ━━━━━━━━━━━━━━━━━━━             64.5% 2.02MB/3.12MB [51s]
+Writing at 0x002e37a4 ━━━━━━━━━━━━━━━━━━━╸            65.0% 2.03MB/3.12MB [52s]
+Writing at 0x002e8bf1 ━━━━━━━━━━━━━━━━━━━╸            65.5% 2.05MB/3.12MB [52s]
+Writing at 0x002ee168 ━━━━━━━━━━━━━━━━━━━╸            66.0% 2.06MB/3.12MB [53s]
+Writing at 0x002f3629 ━━━━━━━━━━━━━━━━━━━╸            66.5% 2.08MB/3.12MB [53s]
+Writing at 0x002f8b4b ━━━━━━━━━━━━━━━━━━━━            67.0% 2.09MB/3.12MB [53s]
+Writing at 0x002fdffb ━━━━━━━━━━━━━━━━━━━━            67.5% 2.11MB/3.12MB [54s]
+Writing at 0x0030347b ━━━━━━━━━━━━━━━━━━━━            68.0% 2.12MB/3.12MB [54s]
+Writing at 0x00308963 ━━━━━━━━━━━━━━━━━━━━╸           68.5% 2.14MB/3.12MB [55s]
+Writing at 0x0030decc ━━━━━━━━━━━━━━━━━━━━╸           69.0% 2.16MB/3.12MB [55s]
+Writing at 0x003133d3 ━━━━━━━━━━━━━━━━━━━━╸           69.5% 2.17MB/3.12MB [55s]
+Writing at 0x003188a2 ━━━━━━━━━━━━━━━━━━━━━           70.0% 2.19MB/3.12MB [56s]
+Writing at 0x0031dcd1 ━━━━━━━━━━━━━━━━━━━━━           70.5% 2.20MB/3.12MB [56s]
+Writing at 0x00323126 ━━━━━━━━━━━━━━━━━━━━━           71.0% 2.22MB/3.12MB [57s]
+Writing at 0x003285ca ━━━━━━━━━━━━━━━━━━━━━           71.5% 2.23MB/3.12MB [57s]
+Writing at 0x0032da49 ━━━━━━━━━━━━━━━━━━━━━╸          72.0% 2.25MB/3.12MB [57s]
+Writing at 0x00332edb ━━━━━━━━━━━━━━━━━━━━━╸          72.5% 2.27MB/3.12MB [58s]
+Writing at 0x003383e7 ━━━━━━━━━━━━━━━━━━━━━╸          73.0% 2.28MB/3.12MB [58s]
+Writing at 0x0033d8c6 ━━━━━━━━━━━━━━━━━━━━━━          73.5% 2.30MB/3.12MB [59s]
+Writing at 0x00342dcb ━━━━━━━━━━━━━━━━━━━━━━          74.0% 2.31MB/3.12MB [59s]
+Writing at 0x0034827d ━━━━━━━━━━━━━━━━━━━━━━          74.5% 2.33MB/3.12MB [59s]
+Writing at 0x0034d741 ━━━━━━━━━━━━━━━━━━━━━━╸         75.0% 2.34MB/3.12MB [1:00]
+Writing at 0x00352d7a ━━━━━━━━━━━━━━━━━━━━━━╸         75.5% 2.36MB/3.12MB [1:00]
+Writing at 0x00358413 ━━━━━━━━━━━━━━━━━━━━━━╸         76.0% 2.38MB/3.12MB [1:01]
+Writing at 0x0035da3f ━━━━━━━━━━━━━━━━━━━━━━╸         76.5% 2.39MB/3.12MB [1:01]
+Writing at 0x003629ea ━━━━━━━━━━━━━━━━━━━━━━━         77.0% 2.41MB/3.12MB [1:01]
+Writing at 0x003686fc ━━━━━━━━━━━━━━━━━━━━━━━         77.5% 2.42MB/3.12MB [1:02]
+Writing at 0x0036e657 ━━━━━━━━━━━━━━━━━━━━━━━         78.0% 2.44MB/3.12MB [1:02]
+Writing at 0x00374509 ━━━━━━━━━━━━━━━━━━━━━━━╸        78.5% 2.45MB/3.12MB [1:03]
+Writing at 0x0037a3c1 ━━━━━━━━━━━━━━━━━━━━━━━╸        79.0% 2.47MB/3.12MB [1:03]
+Writing at 0x00380301 ━━━━━━━━━━━━━━━━━━━━━━━╸        79.5% 2.48MB/3.12MB [1:03]
+Writing at 0x00386259 ━━━━━━━━━━━━━━━━━━━━━━━━        80.0% 2.50MB/3.12MB [1:04]
+Writing at 0x0038c06f ━━━━━━━━━━━━━━━━━━━━━━━━        80.5% 2.52MB/3.12MB [1:04]
+Writing at 0x003920a0 ━━━━━━━━━━━━━━━━━━━━━━━━        81.0% 2.53MB/3.12MB [1:05]
+Writing at 0x00397fd4 ━━━━━━━━━━━━━━━━━━━━━━━━        81.5% 2.55MB/3.12MB [1:05]
+Writing at 0x0039df50 ━━━━━━━━━━━━━━━━━━━━━━━━╸       82.0% 2.56MB/3.12MB [1:05]
+Writing at 0x003a3e75 ━━━━━━━━━━━━━━━━━━━━━━━━╸       82.5% 2.58MB/3.12MB [1:06]
+Writing at 0x003a9da6 ━━━━━━━━━━━━━━━━━━━━━━━━╸       83.0% 2.59MB/3.12MB [1:06]
+Writing at 0x003afc80 ━━━━━━━━━━━━━━━━━━━━━━━━━       83.5% 2.61MB/3.12MB [1:07]
+Writing at 0x003b5bb8 ━━━━━━━━━━━━━━━━━━━━━━━━━       84.0% 2.62MB/3.12MB [1:07]
+Writing at 0x003bbb24 ━━━━━━━━━━━━━━━━━━━━━━━━━       84.6% 2.64MB/3.12MB [1:07]
+Writing at 0x003c194e ━━━━━━━━━━━━━━━━━━━━━━━━━╸      85.1% 2.66MB/3.12MB [1:08]
+Writing at 0x003c78c9 ━━━━━━━━━━━━━━━━━━━━━━━━━╸      85.6% 2.67MB/3.12MB [1:08]
+Writing at 0x003cd6e9 ━━━━━━━━━━━━━━━━━━━━━━━━━╸      86.1% 2.69MB/3.12MB [1:09]
+Writing at 0x003d35c5 ━━━━━━━━━━━━━━━━━━━━━━━━━╸      86.6% 2.70MB/3.12MB [1:09]
+Writing at 0x003d94bf ━━━━━━━━━━━━━━━━━━━━━━━━━━      87.1% 2.72MB/3.12MB [1:09]
+Writing at 0x003df2e3 ━━━━━━━━━━━━━━━━━━━━━━━━━━      87.6% 2.73MB/3.12MB [1:10]
+Writing at 0x003e4c73 ━━━━━━━━━━━━━━━━━━━━━━━━━━      88.1% 2.75MB/3.12MB [1:10]
+Writing at 0x003ea7c1 ━━━━━━━━━━━━━━━━━━━━━━━━━━╸     88.6% 2.77MB/3.12MB [1:11]
+Writing at 0x003f086c ━━━━━━━━━━━━━━━━━━━━━━━━━━╸     89.1% 2.78MB/3.12MB [1:11]
+Writing at 0x003f6fb9 ━━━━━━━━━━━━━━━━━━━━━━━━━━╸     89.6% 2.80MB/3.12MB [1:11]
+Writing at 0x003fd7b3 ━━━━━━━━━━━━━━━━━━━━━━━━━━━     90.1% 2.81MB/3.12MB [1:12]
+Writing at 0x00403e5d ━━━━━━━━━━━━━━━━━━━━━━━━━━━     90.6% 2.83MB/3.12MB [1:12]
+Writing at 0x0040a411 ━━━━━━━━━━━━━━━━━━━━━━━━━━━     91.1% 2.84MB/3.12MB [1:13]
+Writing at 0x0040fe74 ━━━━━━━━━━━━━━━━━━━━━━━━━━━     91.6% 2.86MB/3.12MB [1:13]
+Writing at 0x00415776 ━━━━━━━━━━━━━━━━━━━━━━━━━━━╸    92.1% 2.88MB/3.12MB [1:13]
+Writing at 0x0041b0e7 ━━━━━━━━━━━━━━━━━━━━━━━━━━━╸    92.6% 2.89MB/3.12MB [1:14]
+Writing at 0x00420806 ━━━━━━━━━━━━━━━━━━━━━━━━━━━╸    93.1% 2.91MB/3.12MB [1:14]
+Writing at 0x00426a65 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━    93.6% 2.92MB/3.12MB [1:15]
+Writing at 0x0042fde8 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━    94.1% 2.94MB/3.12MB [1:15]
+Writing at 0x00438288 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━    94.6% 2.95MB/3.12MB [1:15]
+Writing at 0x0043e8d4 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸   95.1% 2.97MB/3.12MB [1:16]
+Writing at 0x004446f3 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸   95.6% 2.98MB/3.12MB [1:16]
+Writing at 0x0044aad3 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸   96.1% 3.00MB/3.12MB [1:17]
+Writing at 0x0044fd3c ━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸   96.6% 3.02MB/3.12MB [1:17]
+Writing at 0x0045511e ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━   97.1% 3.03MB/3.12MB [1:17]
+Writing at 0x0045a3ea ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━   97.6% 3.05MB/3.12MB [1:18]
+Writing at 0x0045fb4a ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━   98.1% 3.06MB/3.12MB [1:18]
+Writing at 0x004649e2 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸  98.6% 3.08MB/3.12MB [1:19]
+Writing at 0x00469a8c ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸  99.1% 3.09MB/3.12MB [1:19]
+Writing at 0x0046f5ef ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸  99.6% 3.11MB/3.12MB [1:19]
+Writing at 0x00474c60 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% 3.12MB/3.12MB [1:20]
+Wrote 4607072 bytes (3274853 compressed) at 0x00010000 in 80.4 seconds (458.2 kbit/s).
+Verifying written data...
+Hash of data verified.
+Hard resetting via RTS pin...
+--- esp-idf-monitor 1.10.0 on /dev/cu.usbmodem5C843268331 115200
+--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H
+Executing action: monitor
+Running idf_monitor in directory /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe
+Executing "/Users/wed/.espressif/python_env/idf6.0_py3.14_env/bin/python /Users/wed/.espressif/v6.0.2/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem5C843268331 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build/tflite_probe.elf /Users/wed/.codex/workflows/waste-model-20261102/worktree/esp32s3/tflite_probe/build/bootloader/bootloader.elf -m '/Users/wed/.espressif/python_env/idf6.0_py3.14_env/bin/python' '/Users/wed/.espressif/v6.0.2/esp-idf/tools/idf.py' '-p' '/dev/cu.usbmodem5C843268331'"...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x8 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x14f0
+load:0x403c8700,len:0xda0
+--- 0x403c8700: _stext at ??:?
+load:0x403cb700,len:0x2f54
+entry 0x403c8908
+--- 0x403c8908: call_start_cpu0 at /Users/wed/.espressif/v6.0.2/esp-idf/components/bootloader/subproject/main/bootloader_start.c:27
+I (24) boot: ESP-IDF v6.0.2 2nd stage bootloader
+I (25) boot: compile time Nov  2 2026 01:41:31
+I (25) boot: Multicore bootloader
+I (25) boot: chip revision: v0.2
+I (28) boot: efuse block revision: v1.4
+I (31) boot.esp32s3: Boot SPI Speed : 80MHz
+I (35) boot.esp32s3: SPI Mode       : DIO
+I (39) boot.esp32s3: SPI Flash Size : 16MB
+I (43) boot: Enabling RNG early entropy source...
+I (47) boot: Partition Table:
+I (50) boot: ## Label            Usage          Type ST Offset   Length
+I (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (63) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (69) boot:  2 factory          factory app      00 00 00010000 00600000
+I (76) boot: End of partition table
+I (79) esp_image: segment 0: paddr=00010020 vaddr=3c040020 size=4216e0h (4331232) map
+I (876) esp_image: segment 1: paddr=00431708 vaddr=3fc90b00 size=033c4h ( 13252) load
+I (880) esp_image: segment 2: paddr=00434ad4 vaddr=40374000 size=0b544h ( 46404) load
+I (891) esp_image: segment 3: paddr=00440020 vaddr=42000020 size=336a4h (210596) map
+I (930) esp_image: segment 4: paddr=004736cc vaddr=4037f544 size=01540h (  5440) load
+I (931) esp_image: segment 5: paddr=00474c14 vaddr=50000000 size=00024h (    36) load
+I (939) boot: Loaded app from partition at offset 0x10000
+I (939) boot: Disabling RNG early entropy source...
+I (955) octal_psram: vendor id    : 0x0d (AP)
+I (955) octal_psram: dev id       : 0x02 (generation 3)
+I (955) octal_psram: density      : 0x03 (64 Mbit)
+I (957) octal_psram: good-die     : 0x01 (Pass)
+I (962) octal_psram: Latency      : 0x01 (Fixed)
+I (966) octal_psram: VCC          : 0x01 (3V)
+I (970) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (975) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (980) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (984) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (990) octal_psram: DriveStrength: 0x00 (1/1)
+I (994) esp_psram: Found 8MB PSRAM device
+I (998) esp_psram: Speed: 40MHz
+I (1001) cpu_start: Multicore app
+I (1734) esp_psram: SPI SRAM memory test OK
+I (1743) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (1743) cpu_start: Pro cpu start user code
+I (1743) cpu_start: cpu freq: 160000000 Hz
+I (1745) app_init: Application information:
+I (1749) app_init: Project name:     tflite_probe
+I (1754) app_init: App version:      3c156e5-dirty
+I (1758) app_init: Compile time:     Nov  2 2026 07:50:19
+I (1763) app_init: ELF file SHA256:  934d9ac3e...
+I (1768) app_init: ESP-IDF:          v6.0.2
+I (1771) efuse_init: Min chip rev:     v0.0
+I (1775) efuse_init: Max chip rev:     v0.99
+I (1779) efuse_init: Chip rev:         v0.2
+I (1783) heap_init: Initializing. RAM available for dynamic allocation:
+I (1790) heap_init: At 3FC94940 len 00054DD0 (339 KiB): RAM
+I (1795) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (1800) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (1806) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+I (1811) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (1818) spi_flash: detected chip: mxic
+I (1821) spi_flash: flash io: dio
+I (1825) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1831) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1838) main_task: Started on CPU0
+I (1858) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+I (1858) main_task: Calling app_main()
+I (1858) probe: model=mobilenet_v1_1.0_224_quant target=esp32s3 bytes=4276352 idf=v6.0.2
+I (1868) probe: arena: 4194304 bytes in PSRAM
+./managed_components/espressif__esp-tflite-micro/tensorflow/lite/micro/kernels/esp_nn/conv.cc Hybrid models are not supported on TFLite Micro.
+Node CONV_2D (number 0) failed to prepare with status 1
+E (1888) probe: AllocateTensors failed; inspect the preceding TFLite Micro kernel error
+I (1898) main_task: Returned from app_main()

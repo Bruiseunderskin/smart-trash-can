@@ -1,0 +1,40 @@
+# V2：粵語對話、鼓勵及遊戲畫面
+
+## 產品決定
+
+V2 必須具備小智式粵語自由對話、遊戲期間鼓勵說話及完成後「了解更多」。4.3 吋屏幕是主要介面：顯示清楚的遊戲狀態、動畫、分類結果與實際分數。語音與畫面由同一遊戲事件觸發，不能各自猜測分數或分類結果。
+
+選用現有 Xiaozhi 韌體／協定作對話整合的首選原型，先驗證 4.3 吋 LVGL 與 ESP32-S31 板型的整合；這不是已完成整合的聲稱。裝置本地負責相機、模型、狀態機、分數、畫面和舵機互鎖。上網後由小智相容服務處理自由對話；設計要求是斷網時分類、分數、學習內容和預錄粵語鼓勵仍可使用，畫面標示自由對話暫不可用；該離線流程尚未實機驗證。預錄提示不能冒充自由對話。
+
+## `xiaozhi.me` 實際使用哪個 STT / TTS？
+
+`xiaozhi.me` 公開頁說明 streaming ASR + LLM + TTS、offline wake-word detection，以及 LLM（例如 Qwen、DeepSeek）。**公開資料未列出託管服務各模式實際採用的 ASR/TTS provider 或模型**；不能把自架配置當成官方後端的實際設定。
+
+開源自架 `xiaozhi-esp32-server` README 現時建議 streaming 組合 XunfeiStreamASR、Qwen Flash、HuoshanDoubleStreamTTS；其 provider 可替換。這是自架後端建議，不是 `xiaozhi.me` 官方服務使用它們的證據。
+
+V2 prototype 選 XiaoZhi 相容協定和自架服務。ASR 先用 Xunfei streaming，設 `language=zh_cn`、`domain=xfime-mianqie`、`accent=cantonese`；官方 API 列出粵語，但須先開通方言權限。LLM 先用 Qwen Flash，prompt 限定繁體粵語、短句和兒童友善語氣。TTS 先試 EdgeTTS adapter 配 `zh-HK-HiuGaaiNeural` 或 `zh-HK-WanLungNeural`；Microsoft voice list 列有這兩款繁體粵語聲線。Adapter 串流效果、首音延遲、粵語自然度、成本及服務條款仍需測試。HuoshanDoubleStreamTTS 保留作低延遲選項，但要先確認實際 speaker 支援粵語。
+
+離線遊戲聲音預錄在裝置，涵蓋鼓勵、重試、分類和學習提示；離線不提供生成式自由對話。若目標改為完全斷網自由粵語對話，須另評估本地服務端運算硬件和 ASR/LLM/TTS，不可只憑 ESP32 wake-word 宣稱達成。
+
+來源：[XiaoZhi 官方公開架構](https://xiaozhi.me/home/en/)、[自架 server 建議組合與 provider 清單](https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/README.md)、[ASR dialect / EdgeTTS voice 設定](https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/main/xiaozhi-server/config.yaml)、[訊飛 streaming ASR 方言權限](https://www.xfyun.cn/doc/asr/voicedictation/API.html)、[Microsoft 粵語聲線](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=tts)、[Espressif Xiaozhi component](https://github.com/espressif/esp-iot-solution/tree/master/components/esp_xiaozhi)。
+
+## 屏幕及語音事件
+
+| 遊戲狀態 | 畫面重點 | 粵語語音例子 | 行為 |
+|---|---|---|---|
+| 準備 | 開始按鈕、角色提示 | 「準備好就開始啦！」 | 觸控可開始 |
+| 拍照／判類 | 相機狀態及短動畫 | 「等我睇一睇先。」 | 顯示等待及失敗重試 |
+| 成功 | 分類、桶蓋狀態、真實分數和動畫 | 「好叻呀！你做得好好！」 | 由本機結果事件更新；不憑空加分 |
+| 重試 | 簡單提示與重試按鈕 | 「唔緊要，我哋再試一次！」 | 低信心不自動開蓋 |
+| 完成 | 總分、連續答對、再玩／了解更多 | 「完成啦！想唔想知多啲？」 | 學習入口在完成後提供 |
+| 了解更多 | 四類內容、插圖、語音按鈕 | 「呢件物品點解放呢一類？」 | 支援本地內容及連網自由提問 |
+| 斷網／語音錯誤 | 明確顯示對話暫不可用，保留遊戲 | 預錄提示按本地事件播放 | 不阻塞分類；恢復後可重新連接 |
+
+粵語文字及錄音是初稿，須由粵語使用者和目標年齡兒童驗證。字幕、音量及重播控制應與動畫配合；語音中斷與重複播放規則需在整合時測試。既有 [LVGL UI PR #5](https://github.com/Bruiseunderskin/smart-trash-can/pull/5) 已合併，包含九種狀態、分數、完成後學習入口及短動畫；其 native-render CI 曾通過。語音、S31 實屏和端到端資料流尚未作實機驗證。
+
+## 必要驗證
+
+1. 兒童使用粵語問答，檢查識別、回應及聲音自然度；記錄實際服務和模式。
+2. 每個遊戲事件檢查字幕、動畫、播放、打斷與分數一致；錯誤與重試時不虛增分數。
+3. 斷網下連續完成 10 次，核對本機畫面、預錄提示、分類和舵機；另記自由對話的降級狀態。
+4. 同一硬件量測拍照觸發至桶蓋到位的每次時間，p95 ≤ 3 秒；語音延遲獨立記錄。

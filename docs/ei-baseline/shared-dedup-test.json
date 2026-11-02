@@ -1,0 +1,65 @@
+{
+  "runtime": "ai-edge-litert",
+  "runtime_version": "2.3.0",
+  "evaluation": "host TFLite accuracy evaluation; not ESP32 inference latency",
+  "model_sha256": "a213846fc867f8e2e4a1a032ac79bea858cfc75668dcd02f6e8c55af2b26dd94",
+  "input_shape": [
+    1,
+    160,
+    160,
+    3
+  ],
+  "input_dtype": "int8",
+  "input_quantization_scale": 0.003921568859368563,
+  "input_quantization_zero_point": -128,
+  "preprocessing": "Edge Impulse FIT_SHORTEST center crop and fixed-point bilinear RGB resize; uint8 RGB mapped to int8; border neighbors are edge-clamped when upsampling",
+  "label_order": [
+    "food",
+    "hazardous",
+    "other",
+    "recyclable"
+  ],
+  "manifest_path": "docs/yolo-evaluation-manifest.json",
+  "manifest_test_count": 980,
+  "verified_image_hashes": 980,
+  "accuracy": 0.8071428571428572,
+  "macro_f1": 0.8053711374803462,
+  "per_class_f1": {
+    "food": 0.9126984126984127,
+    "hazardous": 0.8048289738430584,
+    "other": 0.7225806451612903,
+    "recyclable": 0.7813765182186235
+  },
+  "confusion_matrix": [
+    [
+      230,
+      2,
+      7,
+      7
+    ],
+    [
+      2,
+      200,
+      24,
+      15
+    ],
+    [
+      12,
+      34,
+      168,
+      30
+    ],
+    [
+      14,
+      20,
+      22,
+      193
+    ]
+  ],
+  "confusion_matrix_label_order": [
+    "food",
+    "hazardous",
+    "other",
+    "recyclable"
+  ]
+}

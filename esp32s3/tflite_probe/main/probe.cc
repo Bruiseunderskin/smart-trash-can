@@ -15,12 +15,12 @@
 #include <vector>
 
 #include "esp_heap_caps.h"
+#include "esp_idf_version.h"
 #include "esp_log.h"
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#include "tensorflow/lite/micro/micro_error_reporter.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/schema/schema_generated.h"
@@ -31,6 +31,11 @@ extern const unsigned char waste4_int8_tflite_end[] asm("_binary_waste4_int8_tfl
 
 static const char *TAG = "probe";
 static constexpr int kRuns = 20;
+#if CONFIG_TFLITE_PROBE_USE_ESP_NN
+#define ESP_NN_MODE "on"
+#else
+#define ESP_NN_MODE "off"
+#endif
 
 namespace {
 
@@ -59,7 +64,8 @@ double percentile(std::vector<double> v, double p) {
 
 extern "C" void app_main(void) {
   const int model_len = waste4_int8_tflite_end - waste4_int8_tflite_start;
-  ESP_LOGI(TAG, "model bytes: %d", model_len);
+  ESP_LOGI(TAG, "model=%s target=%s bytes=%d idf=%s", CONFIG_TFLITE_PROBE_MODEL_LABEL,
+           CONFIG_IDF_TARGET, model_len, esp_get_idf_version());
 
   const tflite::Model *model = tflite::GetModel(waste4_int8_tflite_start);
   if (model->version() != TFLITE_SCHEMA_VERSION) {
@@ -82,13 +88,12 @@ extern "C" void app_main(void) {
   }
   ESP_LOGI(TAG, "arena: %u bytes in %s", (unsigned)kArenaSize, arena_in_psram ? "PSRAM" : "internal");
 
-  tflite::MicroErrorReporter error_reporter;
   tflite::MicroMutableOpResolver<10> resolver;
   build_resolver(resolver);
 
-  tflite::MicroInterpreter interpreter(model, resolver, arena, kArenaSize, &error_reporter);
+  tflite::MicroInterpreter interpreter(model, resolver, arena, kArenaSize);
   if (interpreter.AllocateTensors() != kTfLiteOk) {
-    ESP_LOGE(TAG, "AllocateTensors failed — 多數係 arena 太細或缺算子");
+    ESP_LOGE(TAG, "AllocateTensors failed; inspect the preceding TFLite Micro kernel error");
     return;
   }
   ESP_LOGI(TAG, "arena used: %u bytes", (unsigned)interpreter.arena_used_bytes());
@@ -144,11 +149,11 @@ extern "C" void app_main(void) {
     }
   }
 
-  ESP_LOGI(TAG, "RESULT runs=%d mean=%.2fms p50=%.2fms p95=%.2fms min=%.2fms max=%.2fms top1=%d",
-           kRuns,
+  ESP_LOGI(TAG, "RESULT esp_nn=%s runs=%d mean=%.2fms p50=%.2fms p95=%.2fms min=%.2fms max=%.2fms top1=%d arena_used=%u",
+           ESP_NN_MODE, kRuns,
            [&] { double s = 0; for (double v : ms) s += v; return s / ms.size(); }(),
            percentile(ms, 0.50), percentile(ms, 0.95),
            *std::min_element(ms.begin(), ms.end()),
            *std::max_element(ms.begin(), ms.end()),
-           best);
+           best, (unsigned)interpreter.arena_used_bytes());
 }
