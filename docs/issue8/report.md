@@ -130,6 +130,8 @@ PyTorch / ONNX          espdl int8
 
 使用相同 ONNX 權重及原始 train split，以 seed 42 選 200 張校準圖片，重新產生 S31 w8a8 量化圖；以 ESP-PPQ TorchExecutor 在 980 張完全重複已排除的測試圖評估，macro-F1 **0.858549**。各類 F1：其他 0.7967、可回收物 0.8473、廚餘 0.9307、有害 0.8595。逐類混淆矩陣見 `../yolo-espdl-dedup.json`。
 
+2026-11-02 review-fix rerun：以鎖定的 Python 3.11 環境、相同 ONNX、200 張 calibration 及 980 張去重 test 重新執行更新後的 `tools/quantize_espdl.py`。macro-F1 再現為 **0.858549**；臨時 `.espdl` 為 1,796,880 B，SHA-256 `3f369b0e8572abb49166bcd7455cac9454bb0e3f084b3d252e4880ca8f2c498e`，沒有提交模型檔。Ultralytics 8.4.197 的 `classify_transforms` 原始碼只有 Resize、CenterCrop、ToTensor、Normalize，並無隨機翻轉；校準與評估使用同一 deterministic transform。
+
 這次產物 1,796,768 B，SHA-256 `83bc961bc4dd1b7268393b250a53262b26d45b9b92fb9212d3af58f23289ed92`，與之前的產物雜湊不同；不可假設兩份二進位逐位相同。結果來自主機量化圖模擬，尚未在 S31 執行。測試集已於前次完整評估後再次檢視以修正已發現的洩漏；沒有以測試結果調參。近重複、同一場景與 train/val 的重複選模仍未排除。
 
 本次重算指令（路徑指向已保存的原始訓練影像與去重測試集）：

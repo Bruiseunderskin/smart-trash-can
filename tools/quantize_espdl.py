@@ -144,15 +144,31 @@ def main() -> int:
     if calib_classes != test_classes:
         raise ValueError(f"class order differs between calibration and test data: {calib_classes} vs {test_classes}")
     selected = balanced_sample(calib_paths, calib_labels, calib_classes, args.calib_images, args.seed)
+    # The pinned Ultralytics classify_transforms is deterministic: resize, center crop, tensor, normalize.
     transform = classify_transforms(args.imgsz)
     calib_loader = DataLoader(ImageDataset(selected, transform), batch_size=1, shuffle=False, num_workers=0)
     test_loader = DataLoader(TestDataset(test_paths, test_labels, transform), batch_size=1, shuffle=False, num_workers=0)
 
-    from esp_ppq.api import QuantizationSettingFactory, espdl_quantize_onnx
+    from esp_ppq import QuantizationSettingFactory
+    from esp_ppq.api import espdl_quantize_onnx
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
 
-    def collate_fn(batch: torch.Tensor) -> torch.Tensor:
+    def collate_fn(batch: Any) -> torch.Tensor:
+        if isinstance(batch, (list, tuple)):
+            if not batch:
+                raise ValueError("PPQ supplied an empty calibration batch")
+            tensors = [sample[0] if isinstance(sample, (list, tuple)) else sample for sample in batch]
+            if len(tensors) == 1:
+                batch = tensors[0]
+                if batch.ndim == 3:
+                    batch = batch.unsqueeze(0)
+            elif tensors[0].ndim == 3:
+                batch = torch.stack(tensors)
+            else:
+                batch = torch.cat(tensors, dim=0)
+        if not isinstance(batch, torch.Tensor):
+            raise TypeError(f"unsupported PPQ calibration batch type: {type(batch).__name__}")
         return batch.to(args.device)
 
     quantized_graph = espdl_quantize_onnx(

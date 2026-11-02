@@ -1,45 +1,59 @@
-# Issue #6 — ESP32-S3 上 esp-tflite-micro int8 延遲（ESP-NN A/B）
+# Issue #6 — ESP32-S3 的 TFLite Micro 延遲與 ESP-NN A/B
 
-## 結果
+## 指定 MobileNet 實測
 
 ```text
-board: ESP32-S3-CAM（Issue #6 / ROADMAP 的板型稱呼；晶片為 ESP32-S3 QFN56 rev v0.2；16 MB flash / 8 MB PSRAM detected；廠牌及模組標記未由實物獨立確認)
+board: ESP32-S3 QFN56 rev v0.2；16 MB flash、8 MB PSRAM
 idf: v6.0.2
-model: TensorFlow Lite Micro person_detect.tflite, int8, 300,568 B, SHA-256 808cfdfc0cf3a6fa6f6fa26bfa379ea97c16d5db7334637766e39c3408502e9d
-input: [1,96,96,1], int8; zero-filled; runs=20; CPU=160 MHz
-esp_nn=on : mean=104.92 ms p50=104.91 ms p95=104.92 ms arena_used=120,996 B
-esp_nn=off: mean=5071.97 ms p50=5071.96 ms p95=5071.98 ms arena_used=82,292 B
-ratio(p95): 48.34x (5071.98 / 104.92)
-probe.cc diff from PR #9: 11 insertions / 7 deletions (18 changed lines); timed Invoke loop unchanged
+model: mobilenet_v1_1.0_224_quant.tflite；4,276,352 B
+sha256: ecc3a67c47c5a609ec35f6a58a7d97532834e43df4cb7d3f1204a8164b7d20dd
+input: uint8 [1,224,224,3]；1001 outputs
+arena: 4,194,304 B allocated in PSRAM
 ```
 
-完整 ESP-IDF monitor serial capture（只遮蔽裝置 MAC）：
+模型來自 [Google Android Gitiles mirror](https://android.googlesource.com/platform/test/mlts/models/%2B/73313692ee90e6d768cd086fbb7c94298ecaf1ac/assets/mobilenet_v1_1.0_224_quant.tflite)。Issue 內原 Google Cloud Storage URL 回傳 403；mirror 同檔名及大小，但無法與受阻的 GCS 物件作逐位比對。
 
-- ESP-NN on: [`s3-person-detect-espnn-on.log`](s3-person-detect-espnn-on.log)
-- ESP-NN off: [`s3-person-detect-espnn-off.log`](s3-person-detect-espnn-off.log)
+ESP-NN on、off 的 build 及 flash 均成功。兩個版本都找到 8 MB PSRAM，並配置 4 MB arena；兩次都在 `AllocateTensors()` 的第一個 `CONV_2D` prepare 遇到同一錯誤：
 
-兩次都在同一塊 ESP32-S3 QFN56、同一 IDF 6.0.2、同一份全 int8 `person_detect.tflite` 上完成 20 次 `Invoke()`。兩個 build 都成功，刷寫後 flash hash 驗證成功；serial 輸出有 `runs=20` 的完整 RESULT。每次推理後 `vTaskDelay(10 ms)`，yield 不計入 Invoke 計時。ESP-NN on capture 沒有 watchdog 訊息；off capture 有 20 次 task-watchdog 訊息，但 20 次推理完成，輸出 RESULT 並正常由 `app_main()` 返回。
+```text
+Hybrid models are not supported on TFLite Micro.
+Node CONV_2D (number 0) failed to prepare with status 1
+AllocateTensors failed
+```
 
-ESP-NN on 的 arena 較大（120,996 vs 82,292 B），符合 optimized convolution 需要額外 scratch memory 的觀察；此數字只適用於這個模型和設定。
+ESP-NN off 的 build command 確認對 TFLM component 加上 `-UESP_NN`。因此這不是 A/B 開關失效、arena 配置失敗或缺少 resolver operator 的結果。兩次均未進入 `Invoke()`，沒有指定 MobileNet 的 mean、p50、p95 或 ratio。完整、已遮蔽 MAC 的 serial captures：
 
-## 指定 MobileNet 測試及模型替換
+- [ESP-NN on](mobilenet-espnn-on.log)
+- [ESP-NN off](mobilenet-espnn-off.log)
 
-Issue 指定的公開 `mobilenet_v1_1.0_224_quant.tflite` 是 uint8 模型。ESP-NN on 時它在 `AllocateTensors()` 階段因 convolution kernel 支援限制而失敗，沒有產生可比較的 latency。為完成純推理時間 A/B，改用 TensorFlow Lite Micro 公開的全 int8 `person_detect.tflite`（96×96×1 灰階、2 類）；這是 latency stand-in，不是四類垃圾分類模型。此失敗不能推廣成「所有 uint8 模型都不支援」，S31 和產品模型仍須獨立驗證。
+## int8 latency stand-in
 
-`person_detect.tflite` 下載來源及預期 SHA-256 已記在 [`README.md`](../../esp32s3/tflite_probe/README.md)。模型檔存於 Git 忽略路徑，沒有提交。
+指定 MobileNet 無法執行後，原有 A/B probe 仍以全 int8 TensorFlow Lite Micro `person_detect.tflite` 完成計時。這只是 kernel 延遲 stand-in，輸入為 96×96 灰階、兩類、零填充；不是四類垃圾分類模型。
 
-## Probe 修改範圍
+```text
+ESP-NN on : mean=104.92 ms p50=104.91 ms p95=104.92 ms arena_used=120,996 B
+ESP-NN off: mean=5071.97 ms p50=5071.96 ms p95=5071.98 ms arena_used=82,292 B
+ratio(p95): 48.34x
+runs: 20 per mode
+```
 
-相對 PR #9 的 `esp32s3/tflite_probe/main/probe.cc` 是 11 行新增、7 行刪除，共 18 行變更，符合 issue 少於 30 行限制。修改只移除已不適用的 `MicroErrorReporter` 建構參數，並在輸出加入 IDF、ESP-NN 設定及 arena 數字；原有 20-run 計時迴圈、統計計算和固定輸入方式沒有改變。A/B build 開關位於同一 probe 專案的 Kconfig/CMake。
+兩種設定各完成 20 次 `Invoke()`；off 組出現 20 次 task-watchdog 訊息，但仍完成並輸出結果。完整 serial captures：
 
-## Issue #6 驗收
+- [person_detect ESP-NN on](s3-person-detect-espnn-on.log)
+- [person_detect ESP-NN off](s3-person-detect-espnn-off.log)
 
-| 驗收 | 狀態 | 證據 |
+## Probe 變更與驗收
+
+Probe 保留 20 次固定輸入計時邏輯。它記錄明確設定的模型名稱、`CONFIG_IDF_TARGET`、IDF 版本及 arena；`AllocateTensors()` 錯誤訊息改為要求檢查前一個 kernel 錯誤，避免誤稱主要原因一定是 arena 或 operator。
+
+相對 PR #9 的 `probe.cc` diff 為 13 insertions / 8 deletions，共 21 行變更，少於 30 行限制。
+
+| 驗收 | 結果 | 證據 |
 |---|---|---|
-| ESP-IDF build 成功 | 通過 | on/off build 均完成 |
-| ESP-NN on/off 均燒錄，20 次完成 | 通過 | 兩份 monitor log；flash hash verified |
-| mean、p50、p95、ratio、arena 有記錄 | 通過 | 上表及兩份完整 serial log |
-| `probe.cc` 變更少於 30 行 | 通過 | 11 insertions / 7 deletions，相對 PR #9 |
-| 產品模型、實際圖片與 S31 延遲 | 未涵蓋 | 本 probe 是 `person_detect` 零輸入 S3 microbenchmark；須在模型及 S31 就緒後另測 |
+| ESP-IDF build 成功 | 通過 | ESP-NN on/off build 完成 |
+| 指定 MobileNet on/off 各完成 20 次並產生數字 | 未通過 | 兩種設定都在 `AllocateTensors()` 失敗；沒有 `RESULT` |
+| mean、p50、p95、ratio、arena | 部分完成 | 只對 int8 `person_detect` stand-in 有完整 A/B 數字 |
+| 不改 timed loop | 通過 | 統計與 20-run `Invoke()` 區間不變 |
+| 垃圾分類圖片、S31、相機至開蓋延遲 | 未涵蓋 | 此測試只在 ESP32-S3 跑零輸入模型 probe |
 
-因此這組結果只描述 S3 上 `person_detect` 的 microbenchmark，不代表垃圾分類準確率、EI 模型速度、相機至開蓋 latency 或 S31 實測。
+因此 Issue #6 的指定模型驗收仍未完成。不能用 `person_detect` 數字推論 Edge Impulse 模型或 ESP32-S31 的速度，也不能把單次 `Invoke()` 說成相機到開蓋的端到端時間。

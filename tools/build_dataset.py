@@ -43,11 +43,12 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--src", type=Path, help="Garbage265 root with train/ and val/ directories")
     parser.add_argument(
-        "--download",
+        "--download-images",
         action="store_true",
         help=(
             "Range-extract selected images from ModelScope OSS. The --src directory "
-            "must already contain classname.txt, train.csv, and val.csv."
+            "must already contain classname.txt, train.csv, and val.csv; this does not "
+            "clone the dataset or fetch metadata."
         ),
     )
     parser.add_argument("--out", type=Path, default=Path("data/waste4"), help="Output folder (default: data/waste4)")
@@ -78,8 +79,8 @@ def parse_args() -> argparse.Namespace:
         parser.error("--subclasses-per-class must be positive")
     if not 0 < args.validation_fraction < 1:
         parser.error("--validation-fraction must be between 0 and 1")
-    if args.src is None and not args.download:
-        parser.error("pass --src <garbage265-root>; --download only extracts images from an existing metadata clone")
+    if args.src is None:
+        parser.error("pass --src <garbage265-root>; --download-images only extracts image bytes from an existing metadata clone")
     return args
 
 
@@ -142,7 +143,7 @@ def download_dataset(
         from modelscope.msdatasets.utils.oss_utils import OssUtilities
     except ImportError as exc:
         raise ImportError(
-            "ModelScope dataset dependencies are required for --download; "
+            "ModelScope dataset dependencies are required for --download-images; "
             "install `tools/requirements-data.txt` first"
         ) from exc
 
@@ -192,7 +193,7 @@ def download_dataset(
         selected_ids = [index for major in CLASS_ORDER for index in selected_categories[major]]
         per_subclass = max(1, (limit + subclasses_per_class - 1) // subclasses_per_class) if limit is not None else None
         zip_key = os.path.join(oss.oss_dir, f"{zip_name}.zip")
-        archive_size = oss.bucket.get_object_meta(zip_key).content_length
+        archive_size = oss.bucket.head_object(zip_key).content_length
         with zipfile.ZipFile(OssRangeReader(oss.bucket, zip_key, archive_size)) as archive:
             grouped: dict[int, list[zipfile.ZipInfo]] = defaultdict(list)
             for info in archive.infolist():
@@ -482,12 +483,12 @@ def main() -> int:
     for archive in (args.ei_zip, args.ei_test_zip):
         if archive and (archive.resolve() == source_resolved or source_resolved in archive.resolve().parents):
             raise ValueError("EI ZIP must not be inside the source directory")
-    if args.download:
+    if args.download_images:
         metadata_paths = [source / name for name in ("classname.txt", "train.csv", "val.csv")]
         missing = [path.name for path in metadata_paths if not path.is_file()]
         if missing:
             raise FileNotFoundError(
-                f"--download requires an existing ModelScope tany0699/garbage265 metadata clone "
+                f"--download-images requires an existing ModelScope tany0699/garbage265 metadata clone "
                 f"under {source}; missing: {', '.join(missing)}. Clone the dataset metadata first."
             )
         class_names = read_class_names(source)

@@ -64,7 +64,8 @@ double percentile(std::vector<double> v, double p) {
 
 extern "C" void app_main(void) {
   const int model_len = waste4_int8_tflite_end - waste4_int8_tflite_start;
-  ESP_LOGI(TAG, "model=person_detect_int8 bytes=%d idf=%s", model_len, esp_get_idf_version());
+  ESP_LOGI(TAG, "model=%s target=%s bytes=%d idf=%s", CONFIG_TFLITE_PROBE_MODEL_LABEL,
+           CONFIG_IDF_TARGET, model_len, esp_get_idf_version());
 
   const tflite::Model *model = tflite::GetModel(waste4_int8_tflite_start);
   if (model->version() != TFLITE_SCHEMA_VERSION) {
@@ -92,7 +93,7 @@ extern "C" void app_main(void) {
 
   tflite::MicroInterpreter interpreter(model, resolver, arena, kArenaSize);
   if (interpreter.AllocateTensors() != kTfLiteOk) {
-    ESP_LOGE(TAG, "AllocateTensors failed — 多數係 arena 太細或缺算子");
+    ESP_LOGE(TAG, "AllocateTensors failed; inspect the preceding TFLite Micro kernel error");
     return;
   }
   ESP_LOGI(TAG, "arena used: %u bytes", (unsigned)interpreter.arena_used_bytes());
