@@ -7,10 +7,10 @@
 | 層 | 來源／入口 | 責任與限制 |
 | --- | --- | --- |
 | 教育互動 UI | [LVGL](../ui/lvgl/README.md) | 顯示狀態、結果與學習內容；SDL fixture 不是相機或模型結果。 |
-| 影像實驗 | [S3 probes](../esp32s3/README.md) | 量測特定模型和輸入；不是完整相機至開蓋控制器。 |
-| 實體輸出測試 | [PCA9685](../esp32s3/pca9685_servo_test/README.md) | 四通道測試；同步寫入不證明機械開蓋到位。 |
-| 語音／MCP | [自訂板型](../xiaozhi-esp32/main/boards/smart-trash-can/README.md) | 現有 GPIO9–12 控制；尚未接到 PCA9685。語音教育對話屬 V2。 |
-| 板級 bring-up | [S31](../esp32s31/bringup/README.md) | 外設驗證骨架；仍有 codec、camera 與 SDK 驗證缺口。 |
+| 影像實驗 | [S3 probes](../firmware/esp32s3/README.md) | 量測特定模型和輸入；不是完整相機至開蓋控制器。 |
+| 實體輸出測試 | [PCA9685](../firmware/esp32s3/pca9685_servo_test/README.md) | 四通道測試；同步寫入不證明機械開蓋到位。 |
+| 語音／MCP | [自訂板型](../firmware/xiaozhi-esp32/main/boards/smart-trash-can/README.md) | 現有 GPIO9–12 控制；尚未接到 PCA9685。語音教育對話屬 V2。 |
+| 板級 bring-up | [S31](../firmware/esp32s31/bringup/README.md) | 外設驗證骨架；仍有 codec、camera 與 SDK 驗證缺口。 |
 | 資料與模型 | [工具](../tools/README.md)、[資料](../data/README.md)、[產物](../runs/README.md) | 主機側資料準備、量化與評估；模型產物必須保留資料來源、hash 及前處理對應。 |
 | 設計與證據 | [設計來源](../design/README.md)、[報告](README.md) | 設計來源和測試紀錄分開；generated、ZIP、截圖均為衍生產物。 |
 
@@ -39,9 +39,11 @@ flowchart LR
 
 ## 目錄與來源規則
 
-既有路徑被 CMake、資產產生器、模型 manifest 與報告引用。本輪採用導航與邊界整理，保留路徑；搬移來源時必須一起更新呼叫者和建置設定。
+韌體來源集中於 `firmware/`：`esp32s31` 是目標板 bring-up，`xiaozhi-esp32` 保留上游框架邊界，`esp32s3` 與 `arduino` 是獨立實驗。`ui`、`design`、`tools`、`data`、`runs` 和 `docs` 各自保存顯示、設計、主機工具、資料、模型產物與證據。
 
-本專案自有目錄與 `.github`、`.vscode` 均提供 `README.md`。生成資產、圖片與測試資料子目錄的指南交代來源及使用限制。`xiaozhi-esp32/` 是匯入的上游來源樹，沿用其 README 和 AGENTS；本專案自訂 smart-trash-can 板型整個子樹亦納入覆蓋與連結檢查。此例外不適用於根目錄的自有程式。
+搬移前四個韌體目錄位於 repository root。CMake 的 LVGL 預設來源、CI filters、開發 runner 與指南已隨之調整。歷史 JSON／log 中的模型路徑和雜湊保留原貌；它們描述當時的實驗，不是目前的操作命令。
+
+本專案自有目錄與 `.github`、`.vscode` 均提供 `README.md`。生成資產、圖片與測試資料子目錄的指南交代來源及使用限制。`firmware/xiaozhi-esp32/` 是匯入的上游來源樹，沿用其 README 和 AGENTS；本專案自訂 smart-trash-can 板型整個子樹亦納入覆蓋與連結檢查。此例外不適用於根目錄的自有程式。
 
 新增自有目錄時，指南至少說明用途、入口／產生來源及驗證方法；資料目錄則說明 provenance 和使用限制。從 repository root 執行：
 

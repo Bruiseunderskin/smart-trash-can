@@ -6,4 +6,4 @@ ESP32-S3 的 PCA9685 四通道測試。Arduino IDE 開啟同名 .ino；使用內
 
 - [PCA9685_4Servo_Test.ino](PCA9685_4Servo_Test.ino)
 
-[上層指南](../README.md) · [專案入口](../../README.md)
+[上層指南](../README.md) · [專案入口](../../../README.md)

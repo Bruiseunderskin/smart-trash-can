@@ -15,7 +15,7 @@
 | 你想做甚麼 | 指南 |
 | --- | --- |
 | 找到程式入口與了解目前整合邊界 | [架構與依賴](docs/architecture.md) |
-| 測試 ESP32-S3 伺服或麥克風 | [Arduino](arduino/README.md)、[ESP-IDF](esp32s3/README.md) |
+| 測試 ESP32-S3 伺服或麥克風 | [Arduino](firmware/arduino/README.md)、[ESP-IDF](firmware/esp32s3/README.md) |
 | 預覽教學畫面 | [UI](ui/README.md) |
 | 準備資料、量化或評估模型 | [工具](tools/README.md)、[資料](data/README.md) |
 | 查閱實驗證據和待完成項目 | [文件索引](docs/README.md) |
@@ -65,29 +65,29 @@
 安裝並啟用 ESP-IDF 環境，按實際接線編輯 `main/main.c` 的 `SDA_GPIO`、`SCL_GPIO` 及 `PCA_ADDRESS`，然後執行：
 
 ```sh
-cd esp32s3/pca9685_servo_test
+cd firmware/esp32s3/pca9685_servo_test
 idf.py set-target esp32s3
 idf.py build
 idf.py -p YOUR_PORT flash monitor
 ```
 
-程式先逐一移動四個通道，再同時移動；每次輸出 90、60、120、90 度的測試指令。預設序列埠速率為 115200。實際角度取決於伺服及脈寬設定。接線、電源、console 選擇與排錯見[測試說明](esp32s3/pca9685_servo_test/README.md)。
+程式先逐一移動四個通道，再同時移動；每次輸出 90、60、120、90 度的測試指令。預設序列埠速率為 115200。實際角度取決於伺服及脈寬設定。接線、電源、console 選擇與排錯見[測試說明](firmware/esp32s3/pca9685_servo_test/README.md)。
 
 ### Arduino IDE
 
-開啟 [`PCA9685_4Servo_Test.ino`](arduino/PCA9685_4Servo_Test/PCA9685_4Servo_Test.ino)，選擇 ESP32-S3 板型，按實際接線修改 `SDA_PIN`、`SCL_PIN` 及位址，再編譯上傳。它只需 Arduino `Wire` 程式庫；序列監控器設為 115200。
+開啟 [`PCA9685_4Servo_Test.ino`](firmware/arduino/PCA9685_4Servo_Test/PCA9685_4Servo_Test.ino)，選擇 ESP32-S3 板型，按實際接線修改 `SDA_PIN`、`SCL_PIN` 及位址，再編譯上傳。它只需 Arduino `Wire` 程式庫；序列監控器設為 115200。
 
 ## XiaoZhi 直接 GPIO 板型
 
 本板型將四個伺服訊號直接接到 ESP32-S3：可回收物 GPIO9、廚餘 GPIO10、有害垃圾 GPIO11、其他垃圾 GPIO12。伺服使用獨立電源並共地。此接線**不適用於上述 PCA9685 測試**；不要假設兩個程式的 GPIO 配置相同。
 
 ```sh
-cd xiaozhi-esp32
+cd firmware/xiaozhi-esp32
 python scripts/build.py smart-trash-can
 idf.py -p YOUR_PORT flash monitor
 ```
 
-角度、MCP 工具、音訊及 OLED 接線見[板型 README](xiaozhi-esp32/main/boards/smart-trash-can/README.md)。`xiaozhi-esp32/` 來源為 [78/xiaozhi-esp32](https://github.com/78/xiaozhi-esp32)。
+角度、MCP 工具、音訊及 OLED 接線見[板型 README](firmware/xiaozhi-esp32/main/boards/smart-trash-can/README.md)。`firmware/xiaozhi-esp32/` 來源為 [78/xiaozhi-esp32](https://github.com/78/xiaozhi-esp32)。
 
 ## 4.3 吋教學介面
 
@@ -108,17 +108,14 @@ python tools/build_dataset.py --src data/garbage265 --out data/waste4 \
 來源須包含 `train/`、`val/` 和 `classname.txt`。鎖定套件以 macOS arm64、Python 3.11 測試；大型資料集及模型權重不包括在 repository。下載選項另有 metadata 與依賴要求，見 [`tools/build_dataset.py`](tools/build_dataset.py)。
 
 - [模型比較與證據限制](docs/model-comparison.md)
-- [ESP32-S3 TFLite probe](esp32s3/tflite_probe/README.md)及 [Edge Impulse latency probe](esp32s3/ei_latency_probe/README.md)
+- [ESP32-S3 TFLite probe](firmware/esp32s3/tflite_probe/README.md)及 [Edge Impulse latency probe](firmware/esp32s3/ei_latency_probe/README.md)
 - [資料集、模型與獨立測試 issue #12](https://github.com/Bruiseunderskin/smart-trash-can/issues/12)
 
 ## 專案目錄
 
 | 路徑 | 用途 |
 | --- | --- |
-| [`arduino/`](arduino/) | ESP32-S3 伺服、PCA9685 和 I2S 麥克風測試 |
-| [`esp32s3/`](esp32s3/) | PCA9685、TFLite 和 Edge Impulse 測試專案 |
-| [`esp32s31/bringup/`](esp32s31/bringup/) | ESP32-S31-Korvo-1 外設 bring-up 與未完成項目 |
-| [`xiaozhi-esp32/`](xiaozhi-esp32/) | 語音助手來源及自訂垃圾桶板型 |
+| [`firmware/`](firmware/README.md) | S31 目標板、XiaoZhi 框架、S3 與 Arduino 硬件測試 |
 | [`ui/lvgl/`](ui/lvgl/) | 教學介面 component、桌面預覽及測試 |
 | [`design/`](design/) | 介面規格、設計 tokens 和資產 |
 | [`tools/`](tools/) | 資料集、評估、量化與 LVGL 預覽工具 |

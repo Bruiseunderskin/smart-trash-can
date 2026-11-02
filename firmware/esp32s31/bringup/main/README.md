@@ -15,4 +15,4 @@
 - [t4_speaker.c](t4_speaker.c)
 - [t5_loopback.c](t5_loopback.c)
 
-[上層指南](../README.md) · [專案入口](../../../README.md)
+[上層指南](../README.md) · [專案入口](../../../../README.md)

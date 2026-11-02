@@ -28,25 +28,26 @@ def compile_project(project):
         if not match or tuple(map(int, match.groups())) < (6, 1):
             raise RuntimeError('ESP32-S31 requires ESP-IDF >=6.1; activate its export.sh.')
     if project == 's31_bringup':
-        run('idf.py', '--preview', '-C', str(ROOT / 'esp32s31/bringup'),
-            '-D', 'IDF_TARGET=esp32s31', 'build')
+        run('idf.py', '--preview', '-C', str(ROOT / 'firmware/esp32s31/bringup'),
+            '-B', str(ROOT / 'build/idf/s31_bringup'), '-D', 'IDF_TARGET=esp32s31', 'build')
         return
     if project in ARDUINO:
         if not shutil.which('arduino-cli'):
             raise RuntimeError('Install arduino-cli, esp32:esp32@3.3.12 and ESP32Servo@3.0.9 first.')
-        run('arduino-cli', 'compile', '--fqbn', 'esp32:esp32:esp32s3', str(ROOT / 'arduino' / project))
+        run('arduino-cli', 'compile', '--fqbn', 'esp32:esp32:esp32s3', str(ROOT / 'firmware' / 'arduino' / project))
     elif project in BOARDS:
         if not shutil.which('idf.py'):
             raise RuntimeError('Activate ESP-IDF 6.0.2 first.')
-        run(sys.executable, 'scripts/build.py', project, '--name', project, cwd=ROOT / 'xiaozhi-esp32')
+        board_dir = 'espressif/' + project if project == 'esp32-s31-korvo-1' else project
+        run(sys.executable, 'scripts/build.py', board_dir, '--name', project, cwd=ROOT / 'firmware' / 'xiaozhi-esp32')
     elif project in IDF:
         if not shutil.which('idf.py'):
             raise RuntimeError('Activate ESP-IDF 6.0.2 with export.sh first.')
-        path = ROOT / 'esp32s3' / project
+        path = ROOT / 'firmware' / 'esp32s3' / project
         if project != 'pca9685_servo_test' and not (path / 'main/models/waste4_int8.tflite').is_file():
             raise RuntimeError(f'Provide {path}/main/models/waste4_int8.tflite as described in its README.')
         # -D fixes the target without destructive set-target/fullclean.
-        run('idf.py', '-C', str(path), '-D', 'IDF_TARGET=esp32s3', 'build')
+        run('idf.py', '-C', str(path), '-B', str(ROOT / 'build/idf' / project), '-D', 'IDF_TARGET=esp32s3', 'build')
 
 
 def require_submitted_content(stage):
@@ -77,16 +78,16 @@ def checks(stage, base):
     changed = subprocess.check_output(['git', 'diff', '--name-only', f'{base}...HEAD'], cwd=ROOT, text=True).splitlines()
     changed += subprocess.check_output(['git', 'diff', '--name-only', 'HEAD'], cwd=ROOT, text=True).splitlines()
     for project in ARDUINO:
-        if any(p.startswith(f'arduino/{project}/') and not p.endswith('.md') for p in changed):
+        if any(p.startswith(f'firmware/arduino/{project}/') and not p.endswith('.md') for p in changed):
             compile_project(project)
     for project in IDF:
-        if any(p.startswith(f'esp32s3/{project}/') and not p.endswith('.md') for p in changed):
+        if any(p.startswith(f'firmware/esp32s3/{project}/') and not p.endswith('.md') for p in changed):
             compile_project(project)
-    if any(p.startswith('xiaozhi-esp32/') and not p.endswith('.md') for p in changed):
+    if any(p.startswith('firmware/xiaozhi-esp32/') and not p.endswith('.md') for p in changed):
         compile_project('smart-trash-can')
-    if any(p.startswith('esp32s31/') and not p.endswith('.md') for p in changed):
+    if any(p.startswith('firmware/esp32s31/') and not p.endswith('.md') for p in changed):
         compile_project('s31_bringup')
-    if any(p.startswith('xiaozhi-esp32/') and not p.endswith('.md') for p in changed):
+    if any(p.startswith('firmware/xiaozhi-esp32/') and not p.endswith('.md') for p in changed):
         compile_project('esp32-s31-korvo-1')
 
 

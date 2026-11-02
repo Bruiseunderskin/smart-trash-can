@@ -15,7 +15,7 @@ ctest --test-dir ui/lvgl/preview/build --output-on-failure
 SDL_RENDER_DRIVER=software ui/lvgl/preview/bin/main
 ```
 
-需要 CMake、C/C++ compiler、SDL2。預設讀取本 repo 已安裝的 `xiaozhi-esp32/managed_components/lvgl__lvgl`（9.5.0）。若未安裝，使用現有 LVGL 9.5 checkout，並在 configure 加 `-DLVGL_DIR=/absolute/path/to/lvgl`。不會自動下載、替換或修改 LVGL。
+需要 CMake、C/C++ compiler、SDL2。預設讀取本 repo 已安裝的 `firmware/xiaozhi-esp32/managed_components/lvgl__lvgl`（9.5.0）。若未安裝，使用現有 LVGL 9.5 checkout，並在 configure 加 `-DLVGL_DIR=/absolute/path/to/lvgl`。不會自動下載、替換或修改 LVGL。
 
 - `1`–`6`：原有待機、拍攝、辨識、結果、再試、錯誤。
 - `7`：先建立完成示範，再開四類圖鑑；點分類卡進入該類小百科。

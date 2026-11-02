@@ -35,11 +35,11 @@ RESULT T3 BLOCKED codec not initialised
 
 1. **ES8389 codec 初始化**（擋住 T3/T4/T5）
    `bringup_codec_init()` 目前只拉高 PA（GPIO7）。要補 I2C + ES8389 暫存器設定，
-   參考同 repo 的 `xiaozhi-esp32/main/audio/codecs/es8389_audio_codec.cc`。
+   參考同 repo 的 `firmware/xiaozhi-esp32/main/audio/codecs/es8389_audio_codec.cc`。
 
 2. **Camera 初始化**（擋住 T2）
    S31 走 esp-video（V4L2），`t2_camera.c` 內已列出要接的 5 個步驟。
-   參考 `xiaozhi-esp32/main/boards/common/esp_video.cc`。
+   參考 `firmware/xiaozhi-esp32/main/boards/common/esp_video.cc`。
 
 3. **SD 卡 mount**（影響 T3 的 WAV 輸出）
    `bringup_write_wav()` 只做 `fopen("/sdcard/...")`，前提是 SD 已 mount。

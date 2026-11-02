@@ -11,7 +11,7 @@ This is a hardware probe for the `esp-tflite-micro` + ESP-NN path. It reports 20
 ## Prepare the model
 
 ```bash
-cd esp32s3/tflite_probe
+cd firmware/esp32s3/tflite_probe
 curl -L --fail --output main/models/waste4_int8.tflite \
   https://raw.githubusercontent.com/tensorflow/tflite-micro/main/tensorflow/lite/micro/models/person_detect.tflite
 shasum -a 256 main/models/waste4_int8.tflite

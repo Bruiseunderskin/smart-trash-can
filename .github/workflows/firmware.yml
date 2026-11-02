@@ -1,9 +1,9 @@
 name: Firmware compile
 on:
   push:
-    paths: ['arduino/**', 'esp32s3/**', 'esp32s31/**', 'xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
+    paths: ['firmware/arduino/**', 'firmware/esp32s3/**', 'firmware/esp32s31/**', 'firmware/xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
   pull_request:
-    paths: ['arduino/**', 'esp32s3/**', 'esp32s31/**', 'xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
+    paths: ['firmware/arduino/**', 'firmware/esp32s3/**', 'firmware/esp32s31/**', 'firmware/xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
   workflow_dispatch:
 concurrency:
   group: firmware-${{ github.head_ref || github.ref_name }}
@@ -43,8 +43,8 @@ jobs:
         if: matrix.project == 'tflite_probe'
         shell: bash
         run: |
-          curl --fail --location --retry 3 --output esp32s3/tflite_probe/main/models/waste4_int8.tflite https://raw.githubusercontent.com/tensorflow/tflite-micro/main/tensorflow/lite/micro/models/person_detect.tflite
-          echo '808cfdfc0cf3a6fa6f6fa26bfa379ea97c16d5db7334637766e39c3408502e9d  esp32s3/tflite_probe/main/models/waste4_int8.tflite' | sha256sum --check
+          curl --fail --location --retry 3 --output firmware/esp32s3/tflite_probe/main/models/waste4_int8.tflite https://raw.githubusercontent.com/tensorflow/tflite-micro/main/tensorflow/lite/micro/models/person_detect.tflite
+          echo '808cfdfc0cf3a6fa6f6fa26bfa379ea97c16d5db7334637766e39c3408502e9d  firmware/esp32s3/tflite_probe/main/models/waste4_int8.tflite' | sha256sum --check
       - name: Compile
         shell: bash
         run: |

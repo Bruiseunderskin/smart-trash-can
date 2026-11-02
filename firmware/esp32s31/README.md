@@ -7,4 +7,4 @@ ESP32-S31 目標板的 bring-up。S3 韌體與接線不能直接套用；先閱�
 
 - [bringup](bringup/README.md)
 
-[上層指南](../README.md) · [專案入口](../README.md)
+[上層指南](../README.md) · [專案入口](../../README.md)

@@ -20,11 +20,11 @@ class DevelopmentChecks(unittest.TestCase):
 
     def test_changed_sketch_compiles_but_readme_does_not(self):
         with patch.object(DEV, 'require_submitted_content'), patch.dict(sys.modules, {'PIL': MagicMock(), 'numpy': MagicMock()}), patch.object(DEV, 'run'), patch.object(DEV, 'compile_project') as compile_project:
-            with patch.object(DEV.subprocess, 'check_output', side_effect=['arduino/PCA9685_4Servo_Test/PCA9685_4Servo_Test.ino\n', '']):
+            with patch.object(DEV.subprocess, 'check_output', side_effect=['firmware/arduino/PCA9685_4Servo_Test/PCA9685_4Servo_Test.ino\n', '']):
                 DEV.checks('pre-push', 'origin/main')
             compile_project.assert_called_once_with('PCA9685_4Servo_Test')
             compile_project.reset_mock()
-            with patch.object(DEV.subprocess, 'check_output', side_effect=['arduino/PCA9685_4Servo_Test/README.md\n', '']):
+            with patch.object(DEV.subprocess, 'check_output', side_effect=['firmware/arduino/PCA9685_4Servo_Test/README.md\n', '']):
                 DEV.checks('pre-pr', 'origin/main')
             compile_project.assert_not_called()
 
@@ -37,6 +37,16 @@ class DevelopmentChecks(unittest.TestCase):
         with patch.object(DEV.subprocess, 'run', side_effect=[MagicMock(returncode=0), MagicMock(returncode=1)]):
             with self.assertRaises(RuntimeError):
                 DEV.require_submitted_content('pre-push')
+
+    def test_s31_uses_nested_board_directory(self):
+        with patch.object(DEV.shutil, 'which', return_value='/idf.py'), patch.object(DEV.subprocess, 'check_output', return_value='ESP-IDF v6.1'), patch.object(DEV, 'run') as run:
+            DEV.compile_project('esp32-s31-korvo-1')
+            self.assertEqual(run.call_args.args[2:5], ('espressif/esp32-s31-korvo-1', '--name', 'esp32-s31-korvo-1'))
+
+    def test_s31_rejects_old_sdk(self):
+        with patch.object(DEV.shutil, 'which', return_value='/idf.py'), patch.object(DEV.subprocess, 'check_output', return_value='ESP-IDF v6.0.2'):
+            with self.assertRaisesRegex(RuntimeError, '>=6.1'):
+                DEV.compile_project('s31_bringup')
 
     def test_missing_toolchain_stops(self):
         with patch.object(DEV.shutil, 'which', return_value=None):
