@@ -119,7 +119,7 @@ PyTorch / ONNX          espdl int8
 
 - test set 只在最後評估使用，未用於調參；calibration 只取 train split。
 - `.pt` / `.onnx` / `.espdl` 均未 commit（`.gitignore` 已排除 `runs/classify/`）。
-- 尚未量測 espdl 在實機上的延遲；#6 的 105 ms 是另一個模型（person_detect int8）在 ESP-NN 下的數字，不可直接比較。
+- 原始量化報告當時尚未量測 espdl 在實機上的延遲；#6 的 105 ms 是另一個模型（person_detect int8）在 ESP-NN 下的數字，不可直接比較。
 
 ## 後續：排除完全重複的測試圖
 
@@ -149,4 +149,10 @@ ESP-PPQ TorchExecutor host simulation 的逐類 F1：其他 0.7967、可回收�
 
 在同一份 980 張 SHA-256 去重 test manifest 上，EI MobileNetV2 0.5 int8 TFLite 以 LiteRT 2.3.0 host 評估的 macro-F1 為 **0.805371**（accuracy 0.807143）；本模型 PyTorch/ONNX macro-F1 為 **0.862707**，ESP-PPQ 模擬為 **0.858549**。同圖 EI 與 YOLO ONNX 的 macro-F1 差為 5.73 個百分點，量化 ESP-PPQ YOLO 與 EI 差為 5.32 個百分點。EI 完整結果及 confusion matrix 見 [`../ei-baseline/shared-dedup-test.json`](../ei-baseline/shared-dedup-test.json)。
 
-因此同一測試集的準確率證據目前偏向 YOLO11n-cls，適合作為 S31 `.espdl` 實板候選；這不代表 ESP-PPQ 主機模擬已在 S31 達到該精度或速度。EI TFLite 實板測試只在 S3 使用零輸入，p95 858.635 ms；YOLO 沒有目標板時延。兩者都未以實際相機至開蓋流程驗收 3 秒 p95、4.3 吋畫面、斷網流程或連續 10 次。EI host 前處理有 18 張小圖採邊界 edge clamp，詳細限制及建議見 [`../model-comparison.md`](../model-comparison.md)。
+因此同一測試集的準確率證據目前偏向 YOLO11n-cls，適合作為 S31 `.espdl` 實板候選；這不代表 ESP-PPQ 主機模擬已在 S31 達到該精度或速度。EI TFLite 原先只驗證 S3 零輸入 p95 858.635 ms；後續 S3 YOLO 實測見下節。兩者都未以實際相機至開蓋流程驗收 3 秒 p95、4.3 吋畫面、斷網流程或連續 10 次。EI host 前處理有 18 張小圖採邊界 edge clamp，詳細限制及建議見 [`../model-comparison.md`](../model-comparison.md)。
+
+## ESP32-S3 專用量化與板端 smoke test
+
+以相同 200 張 calibration 及 980 張去重 test manifest 重新量化為 `esp32s3`。ESP-PPQ 主機模擬 macro-F1 **0.796771**，輸出 1,715,696 B。S31 目標產物與 S3 產物不同；不可互換。
+
+ESP32-S3、240 MHz、ESP-IDF 6.0.2、8 MB PSRAM：ESP-DL 載入及內建 `Model::test()` 通過。四張選定圖各代表一類，單核心輸出全部符合標籤。每張 20 次 Invoke，p95 為 **247.807–247.867 ms**；每次重載輸入的時間不計在內。測試亦不包括拍照、resize、屏幕及開蓋；四張圖不能估計準確率。

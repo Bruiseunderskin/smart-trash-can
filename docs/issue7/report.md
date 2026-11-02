@@ -56,11 +56,11 @@ v2 的 `model_metadata.h` 標記 `EI_CLASSIFIER_COMPILED=1`，並只提供 `_com
 
 兩種 engine 的表列 latency 相同，但 RAM/flash 不同。這是 Studio 預估；不能用來代替硬件測試，也不能把同一 engine 的 int8/float32 當作 EON/TFLite 對照。
 
-v1 `.tflite` 曾在 ESP32-S3 以零輸入連續執行 20 次。ESP-NN 開啟、每次 Invoke 後讓出一個 tick 時，p95 為 858.635 ms、arena 使用 507,836 B。這證明此 EI TFLite FlatBuffer 可經該 S3 TFLM 路線執行；沒有驗證真實圖片分類或 S31 實板支援，也沒有驗證 EON v2 SDK。
+v1 `.tflite` 曾在 ESP32-S3 以零輸入連續執行 20 次。ESP-NN 開啟、每次 Invoke 後讓出一個 tick 時，p95 為 858.635 ms、arena 使用 507,836 B。這證明此 EI TFLite FlatBuffer 可經該 S3 TFLM 路線執行；後續四張真實圖片 smoke test 通過；S31 實板及 EON v2 SDK 未驗證。
 
 ## Espressif runtime 與框架選擇
 
-- 在已測 ESP32-S3 上，首個分類原型採 EI v1 int8 `.tflite` + ESP-IDF + `esp-tflite-micro` + ESP-NN；有實際 20-run 零輸入 Invoke 證據。
+- EI v1 int8 `.tflite` 可經 ESP-IDF + `esp-tflite-micro` + ESP-NN 在 S3 完成零輸入 Invoke；實圖 probe 每次重載輸入後，四張各執行 20 次並正確分類。
 - Espressif 現行 ESP-VISION 文件列明 ESP32-S31 可走兩條 runtime：`.tflite` 經 TFLite Micro，`.espdl` 經 ESP-DL。ESP-VISION 是 MicroPython 韌體/應用框架，雖由 ESP-IDF 元件構成，但與本專案 XiaoZhi C++ 音訊、舵機及 LVGL 產品韌體不是即插即用整合；可作 S31 視覺原型參考，不建議直接替換整個產品框架。
 - 產品控制、顯示與語音底層建議維持 ESP-IDF + LVGL + XiaoZhi 相容 C++ 音訊路徑。目標若是 S31，須針對 IDF 6.1 實際整合及驗證 TFLite Micro；現有 `esp-tflite-micro` 公開 CI 支援表列到 IDF 6.0，不能把 S3/IDF 6.0.2 測量直接推及 S31。
 - ESP-DL 只直接載入 `.espdl`；ESP-PPQ 的公開匯出介面支援 PyTorch/ONNX。YOLO11n-cls 可用 ONNX → ESP-PPQ → S31 `.espdl` 路徑評估。EI `.tflite` 不可直接交給 ESP-DL；若要轉換，還須驗證 TFLite→ONNX、算子覆蓋及轉換後精度。
@@ -87,7 +87,7 @@ README 推薦的 `HuoshanDoubleStreamTTS` 可作低延遲方案候選，但其�
 
 ## 結論
 
-目前分類準確率排序偏向 YOLO11n-cls + ESP-PPQ：同一 980 張共享測試的 macro-F1 為 0.858549，EI int8 TFLite 為 0.805371；產品部署建議先在 S31 驗證 YOLO `.espdl`。EI v1 標準 int8 `.tflite` 仍是已有 ESP32-S3 零輸入 Invoke 證據的 fallback，p95 858.635 ms；它不是整機時延，也沒有真圖上板分類證據。EON v2 是獨立的編譯 C++ SDK 產物，尚待在目標產品韌體整合。生成 SDK 的授權聲明要求符合有效 Edge Impulse 訂閱條款；產品部署前須核對適用方案。
+目前分類準確率排序偏向 YOLO11n-cls + ESP-PPQ：同一 980 張共享測試的 macro-F1 為 0.858549，EI int8 TFLite 為 0.805371；產品部署建議先在 S31 驗證 YOLO `.espdl`。EI v1 標準 int8 `.tflite` 有 ESP32-S3 零輸入 Invoke 證據，四張實圖 smoke test 通過；p95 858.635 ms；它不是整機時延。EON v2 是獨立的編譯 C++ SDK 產物，尚待在目標產品韌體整合。生成 SDK 的授權聲明要求符合有效 Edge Impulse 訂閱條款；產品部署前須核對適用方案。
 
 ## 官方技術參考
 

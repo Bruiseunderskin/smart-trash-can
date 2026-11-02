@@ -8,13 +8,15 @@ V2 必須具備小智式粵語自由對話、遊戲期間鼓勵說話及完成�
 
 ## `xiaozhi.me` 實際使用哪個 STT / TTS？
 
-官方韌體 README 說個人帳號可在 `xiaozhi.me` 使用 Qwen Realtime；公開頁面也提供角色聲音設定。**公開資料仍不足以確認官方服務目前各角色與模式所用的 ASR/TTS 供應商或模型**，Realtime 也可能不是獨立 STT 和 TTS 供應商的組合。
+`xiaozhi.me` 公開頁說明 streaming ASR + LLM + TTS、offline wake-word detection，以及 LLM（例如 Qwen、DeepSeek）。**公開資料未列出託管服務各模式實際採用的 ASR/TTS provider 或模型**；不能把自架配置當成官方後端的實際設定。
 
-另一個公開的自架伺服器專案列出多種後端設定：入門組合含 FunASR、GLM-4-Flash、EdgeTTS；流式組合含訊飛 ASR、Qwen-Flash、火山 TTS。這些是自架伺服器的可選組合，不是 `xiaozhi.me` 官方服務使用它們的證據。
+開源自架 `xiaozhi-esp32-server` README 現時建議 streaming 組合 XunfeiStreamASR、Qwen Flash、HuoshanDoubleStreamTTS；其 provider 可替換。這是自架後端建議，不是 `xiaozhi.me` 官方服務使用它們的證據。
 
-實作選擇：優先試官方 Xiaozhi 相容對話與可用粵語音色；若粵語、兒童語音、成本或網絡不達標，再在可替換的服務端評估 SenseVoice／其他粵語 STT、LLM 及粵語 TTS。實際型號、授權和服務成本須於所選服務確認。若要求**完全無網絡的自由粵語對話**，須另備本地服務計算硬件與模型，不能只憑 ESP32 離線喚醒宣稱已達成。
+V2 prototype 選 XiaoZhi 相容協定和自架服務。ASR 先用 Xunfei streaming，設 `language=zh_cn`、`domain=xfime-mianqie`、`accent=cantonese`；官方 API 列出粵語，但須先開通方言權限。LLM 先用 Qwen Flash，prompt 限定繁體粵語、短句和兒童友善語氣。TTS 先試 EdgeTTS adapter 配 `zh-HK-HiuGaaiNeural` 或 `zh-HK-WanLungNeural`；Microsoft voice list 列有這兩款繁體粵語聲線。Adapter 串流效果、首音延遲、粵語自然度、成本及服務條款仍需測試。HuoshanDoubleStreamTTS 保留作低延遲選項，但要先確認實際 speaker 支援粵語。
 
-來源：[Xiaozhi firmware 官方 README](https://github.com/78/xiaozhi-esp32)、[官方聲音設定 FAQ](https://xiaozhi.me/xz-docs/docs/help-doc/xiaozhi-ai-chatbot-q%26a/)、[Xiaozhi 自架伺服器支援的提供者](https://github.com/xinnan-tech/xiaozhi-esp32-server)、[Espressif Xiaozhi component](https://github.com/espressif/esp-iot-solution/tree/master/components/esp_xiaozhi)。
+離線遊戲聲音預錄在裝置，涵蓋鼓勵、重試、分類和學習提示；離線不提供生成式自由對話。若目標改為完全斷網自由粵語對話，須另評估本地服務端運算硬件和 ASR/LLM/TTS，不可只憑 ESP32 wake-word 宣稱達成。
+
+來源：[XiaoZhi 官方公開架構](https://xiaozhi.me/home/en/)、[自架 server 建議組合與 provider 清單](https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/README.md)、[ASR dialect / EdgeTTS voice 設定](https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/main/xiaozhi-server/config.yaml)、[訊飛 streaming ASR 方言權限](https://www.xfyun.cn/doc/asr/voicedictation/API.html)、[Microsoft 粵語聲線](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=tts)、[Espressif Xiaozhi component](https://github.com/espressif/esp-iot-solution/tree/master/components/esp_xiaozhi)。
 
 ## 屏幕及語音事件
 
