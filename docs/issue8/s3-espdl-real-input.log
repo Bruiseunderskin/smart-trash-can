@@ -1,0 +1,11 @@
+I (1615) waste4_espdl_probe: target=esp32s3 idf=v6.0.2 model_bytes=1715696 input_bytes=307200 cpu_mhz=240 psram_bytes=8388608
+I (2435) waste4_espdl_probe: embedded_espdl_test=PASS
+I (7905) waste4_espdl_probe: RESULT sample=0 mode=single prediction=food scores=[0.00002,0.00020,0.99978,0.00000] mean_us=247845 p50_us=247852 p95_us=247866
+I (13685) waste4_espdl_probe: RESULT sample=0 mode=multi prediction=food scores=[0.00002,0.00020,0.99978,0.00000] mean_us=261140 p50_us=261018 p95_us=265312
+I (19155) waste4_espdl_probe: RESULT sample=1 mode=single prediction=hazardous scores=[0.06710,0.00624,0.00031,0.92634] mean_us=247779 p50_us=247782 p95_us=247801
+I (25035) waste4_espdl_probe: RESULT sample=1 mode=multi prediction=hazardous scores=[0.06710,0.00624,0.00031,0.92634] mean_us=263084 p50_us=262873 p95_us=264417
+I (30505) waste4_espdl_probe: RESULT sample=2 mode=single prediction=other scores=[0.98875,0.00458,0.00001,0.00666] mean_us=247802 p50_us=247798 p95_us=247829
+I (36375) waste4_espdl_probe: RESULT sample=2 mode=multi prediction=other scores=[0.98875,0.00458,0.00001,0.00666] mean_us=263441 p50_us=263322 p95_us=264801
+I (41845) waste4_espdl_probe: RESULT sample=3 mode=single prediction=recyclable scores=[0.00034,0.99895,0.00023,0.00049] mean_us=247832 p50_us=247832 p95_us=247847
+I (47725) waste4_espdl_probe: RESULT sample=3 mode=multi prediction=recyclable scores=[0.00034,0.99895,0.00023,0.00049] mean_us=262860 p50_us=262866 p95_us=264106
+I (47725) waste4_espdl_probe: COMPLETE; model invocation only; excludes camera, preprocessing, screen and lid

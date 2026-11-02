@@ -1,0 +1,4736 @@
+{
+  "note": "Public Garbage265-derived images; paths are relative to the specified split. Exact SHA-256 exclusion does not detect near duplicates.",
+  "calibration": {
+    "split": "original data/waste4/train",
+    "count": 200,
+    "seed": 42,
+    "images": [
+      {
+        "path": "有害/有害垃圾-灯--91daa15b9f74_1227.jpg",
+        "sha256": "ca978c105810e2763b3c531fc9b9bf2f437de0d74e592a087e8dd8171653fe78"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--1e63721940c5_76.jpg",
+        "sha256": "c01622a0984cb101e8ee81ba3cce7b223ce51b1324c95a62a8d0ccc4e2861a2b"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--13c3f498ed2e_1742.jpg",
+        "sha256": "9771d77912aaaae50a6fbf13482d050f21198cd46889d9181829473d2154fe38"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--359251a0586a_1667.jpg",
+        "sha256": "52e47186d1ab238234763074d63a3f911ca39835751a266042993fdf1408afe6"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--a742f584a8ab_269.jpg",
+        "sha256": "752bf984d83c52696ee4dd5154f7a7bbd28f7a38ee83b71e4e28b136ec3bcee1"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--c41ad49212c0_695.jpg",
+        "sha256": "ca0d3899fe69c0242a7f6624a45d6d4e22a902923f7ba5d07577c15be8fbe600"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--e66f7097615a_clothes1948.jpg",
+        "sha256": "eedb39d473e9b4350119ede86542c98d68cb1ce559164578ad974f51df4e0b75"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--0f2c6a7b0d7c_shoes768.jpg",
+        "sha256": "ffc4c8bcd808c471b8a65e4a44b083b9d9984b7af2427e676714fef688fabc3c"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--08f60618d9dd_180.jpg",
+        "sha256": "b211f976a77e145294586ec76409e7b86c1a93ffacd232fbcf05cf435df43119"
+      },
+      {
+        "path": "可回收物/可回收物-护肤品瓶--69410c21cc91_58.jpg",
+        "sha256": "2418904d5d30736c43a08ca0cf048a5445878e32df76ad7800bd18d8212e9a27"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--35e01594fa1d_586.jpg",
+        "sha256": "65c0cf2012fdb567f06f988f806faecc24d2afed233c3f996c5e24661f721fb3"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--1accc8d23d6c_1584.jpg",
+        "sha256": "9c123d06dda3c5b023eeda6221fc54834b6240f154e12a8c3b49411f1dd565ef"
+      },
+      {
+        "path": "可回收物/可回收物-包--542f6a231f9a_1.jpg",
+        "sha256": "8a4711eaf412b0a6780927779a12aa492ca83c120f2aa287bfc72f893c19917d"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--da17f98c61a5_154.jpg",
+        "sha256": "08758c6ec228fa13963c4e14ca85550c443c05fc7986d6cf694a07e2fd4710bc"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--a621355aa20c_13.jpg",
+        "sha256": "d8283a14d344e63a7c4bb06978e829328ec3c71e627c296b1c9f80ccdd388009"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--16d6b8f84d57_240.jpg",
+        "sha256": "c73356ffac0b7de9d78ce2969328d7869cd21b5f1bc8b28e28202d7834412803"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--882b1571e624_1828.jpg",
+        "sha256": "7fa2fb069c4cc8561f40c866c5003c9b11b00fbb5e30363bea40e6d882e49c9f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--84233518c98a_221.jpg",
+        "sha256": "fb446422a3f90a72c9752ebfa10f1c109105ec359329ea05abe20da4f19b5338"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--4bc0ec9136a3_1857.jpg",
+        "sha256": "092ca1490c71e8475f2e9b40d4aee1c6ed804a74656dbb5debb59829b4852a0d"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--39a9f22fae75_396.jpg",
+        "sha256": "4ceae7f948ceac22080998f37cd0819de641c1c387a8bec41c4b1ee1e790abab"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--e07f79493dcb_1483.jpg",
+        "sha256": "9d2c8f19e0d9c07477340da1c6f02c30abad475fcf1e2cd4403737120080a04d"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--8f3a635c1b3f_13.jpg",
+        "sha256": "2d535909addc8ad7d79cdbc1f1c8f31340920dd00a4d5c199b67df1993b31df8"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--79eb2547f070_1051.jpg",
+        "sha256": "12c3d25eabea0b0c48a8fb25d11cd7a84f93df52c1c18e4f2c7ea519214068cf"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--55a8b9531ba4_1126.jpg",
+        "sha256": "61b014e70d5cedf9dbcac7c6edfe28f20751860ff7fb1cda8d3eee6f5aea005f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--61cd5d59b41d_169.jpg",
+        "sha256": "b24ea8acb4c53d3545cbc3f75f0e69ad7e796beb320e53d17ef99695436c7f9f"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--c9d440a555e8_1096.jpg",
+        "sha256": "264626ed8f26326fa741cb9bdb9859649f374d97fa888441487b75cf634a43bf"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--6cc59c4cfcd2_1185.jpg",
+        "sha256": "b3efc3ddf677819e7f8d3d2acb8337909e8b97e0ad53945ef7151f3a752cf655"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--8828501a1e06_135.jpg",
+        "sha256": "47373fd8455cc1bfc3216a8c1c3220f4aa4d7c4cb126f8524e822d6e494373b7"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--05b17e26982b_1556.jpg",
+        "sha256": "7aa24e4a79b10848f157ada3ed2b19ac0d0488c0fdb2aa362ac714e5038a4d68"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--168ae2c70f60_142.jpg",
+        "sha256": "d68e91dc30eae43d83f8037a52bc68574a44f4e23a7c5e8ebfe66459e9b9b530"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--089ca0043acb_2055.jpg",
+        "sha256": "2bd399d4f4ec059bb6be4224b6c603216e18f2dd54ded2279734bfb368b26f2a"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--d118bc19bac9_177.jpg",
+        "sha256": "32a9f39d69ce4777eb9d00f0883984c00e5db2318af4e8a6ca2adfbbfa44132f"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--1dac271c37c0_154.jpg",
+        "sha256": "64b4a52b37d7ecf64c0ec992283603607fb4d0be08adb03d2669fdb74cf5c89c"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--5bb391cea501_1319.jpg",
+        "sha256": "e37f88f8d913289c651b06f2da790368cdc19f9ab58eb012b338ff12a27095d8"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--0ab818ef42aa_270.jpg",
+        "sha256": "703fa66b8c600167b695ee4386438f82c86ae2b94bc314ff600b40793f778d04"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--7665d96c7b55_101.jpg",
+        "sha256": "0555d42bf2c10de2cf9419c44128d3aa76f91a9607861c2d943b9fe1a266fa01"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--39b9b8c68421_244.jpg",
+        "sha256": "8b3b1ef529bbf489f421815bc676964f39d968720371749e8b283288dd44ac27"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--48f6c2a723d8_1275.jpg",
+        "sha256": "a502c6ef035ca3fcab3e78c3449590264b2305ab6ff48fa0b8c8e256a83b0332"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--c6c9b7d71bd8_1140.jpg",
+        "sha256": "e34e9714e715e5ee82e951c427f5280044ce1842ab2a0ca918c6495de62eeb09"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--2f2f285ee1f8_1665.jpg",
+        "sha256": "c97bab9237d3368a7bc9004cab36965757fcedac8f89e3c00c625fd3927446d9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--bd7769388619_150.jpg",
+        "sha256": "a3e386a591d47e788ef42b923f5e3f10481391345670b0682e0eedb05807ba56"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--402f9258086e_654.jpg",
+        "sha256": "1af5e5278082910bebbd6f1f48fa488bd6c5b25ff34d2f3992fd397565ca5d27"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--1f309a28d424_1099.jpg",
+        "sha256": "2c65241a2ec132d3434cac1e639939f480d1217f02b0c3715c1c4da9524de3f1"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--9232638d8990_142.jpg",
+        "sha256": "02a8568fd4f4b4bfe52f19a2939bea3858fb77224607e0c5a28c94be653b234e"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--1b10e3588ad7_19.jpg",
+        "sha256": "e9e4d65d5f483a3be77d1dd58d0957a5c139b1700816ca3edf3982d7832645bf"
+      },
+      {
+        "path": "有害/有害垃圾-灯--cfcc9e52f0cc_81.jpg",
+        "sha256": "71beacd1089ee0f71853586989bb80be852bed02ae82d5b5434cd77ca5692704"
+      },
+      {
+        "path": "有害/有害垃圾-灯--d3831e326c56_1019.jpg",
+        "sha256": "dd85ad7b27e3c684ea8634c8dd1b1f32e781844260aeea924c03d1a9a84b6695"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--e8f5f523a3a4_1668.jpg",
+        "sha256": "8769f1de3bfc71235c76f9c18a6011990d5cf6ff244db349417fc39851d68cf4"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--abdc62d5a567_343.jpg",
+        "sha256": "b8b98739ae45f3027ed076baa3ecc58ba070f6fd0b9a0c0aafe4351459fa5c36"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--115fe1a2f3d9_1298.jpg",
+        "sha256": "d516b959aa4d6de19fb3bbfcf8c8926415c670cee5b0d0858b9766574df838a9"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--1711c9d26b28_223.jpg",
+        "sha256": "458df83a50a6a9ce6238ff8d4e8aaf8e7cff19f4fec351606d87fb528fb1cbc1"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--ef29dc673c9a_1380.jpg",
+        "sha256": "2f1dd22433649be5923af691dbaca7b32ecee0c90160ca41a788008106cdb0a3"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--b18e79f60e2c_117.jpg",
+        "sha256": "a2afbc63d47f223ce4d60ab95109d29b0cca56c9666a77c357d2986182e4317d"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--d7359535d3f5_376.jpg",
+        "sha256": "f796a2623e7d82852bc68a6f1a4ac47849ee1367f97cf95bbae742b23d69e09a"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--8b76b78c052a_81.jpg",
+        "sha256": "9cd3d8761a008e36f476b7b17a552fbf569dd7bc56c95ea9383a73eae23b6c6e"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--11af1b5b7541_705.jpg",
+        "sha256": "7a2b2ebccf7f9f19742b1ff0ff28b44faee82e3e75b7fd2f5fc878370b4939b0"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--2dbfda7cc67a_311.jpg",
+        "sha256": "4ce1a7a7118deb88f93885e6eae0c3da4cafe75501b000a1a5fc6b1cf3f2509c"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--a63fee185b4b_147.jpg",
+        "sha256": "629db4dc2ee2b958ac6fe4a69588e301fbbee1999eb07b5cef6defdb66e0784f"
+      },
+      {
+        "path": "可回收物/可回收物-包--b35162228dc0_1178.jpg",
+        "sha256": "6b533812e99f502574105d05c54b62e7a8959739cf795b1e88dd3f55c1581284"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--d804c3a51f41_234.jpg",
+        "sha256": "51846142decc799ff2db28b0c7b39a2bba9406a5c936d0d4809f0e1a2017ce15"
+      },
+      {
+        "path": "可回收物/可回收物-包--f7555efaf5ed_74.jpg",
+        "sha256": "81b7bc0b171a7cc9dc1f049d7a48090b892d6305f8c86b5b525ddc86e9d7acf7"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--268a71949d2e_1155.jpg",
+        "sha256": "f3b87732f61386058cfb6c0f96dbaf533a1ebdbc59276b2bd8ab11b1f6487dce"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--a3b6432243c1_27.jpg",
+        "sha256": "c3296dd49d616346fabfb78e8cf2d592b794ab192cde0c71feb366645196bf9a"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--a68afa1a9a68_332.jpg",
+        "sha256": "bf5cd4ae0792ff7746a16c4a950035c6802149708f03a6d7dc22c125f9831313"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--0f00326680a2_1091.jpg",
+        "sha256": "13864f05b95b6cf4f24eeb08b18acbffeb5825a6ac98aa1e8a12158ed1dfb63b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--7d4660e9f84a_249.jpg",
+        "sha256": "64baf79e0a2bff0bc118911a248830c3477aa9451aa8f4c1a5ff5475910614a7"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--a66fe42e4344_349.jpg",
+        "sha256": "5b4372160b7042edb5074515e4923e2f3ce824a3fabef6dd40595e8651068d6c"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--7d23d7f92c1b_clothes4213.jpg",
+        "sha256": "dc2ec1949ecd4238fc4edd5a931599f76bca3442842befc199efcbc3287e3f2e"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--c6a5f0b9d72d_213.jpg",
+        "sha256": "04107df46bbdf55feda03816011c7bf08e00e48c727fd28aed52dd17e72923b1"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--fb3174e0a08f_188.jpg",
+        "sha256": "f12ad60ee52bb98dc40e2d73ddedf760c0d8772b5c406e50af951dbddc27f91b"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--c0fab9a218dd_227.jpg",
+        "sha256": "b4c93386f998923040fd31f7c36fee7e55388e14abf40ab8bd26c42587ecebaa"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--f19d1b79eaf3_3.jpg",
+        "sha256": "fba811752414abb7669c26726fe9d5fae773d8343e3855e93f54757d4bf621a5"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--435ef12d7c52_1.jpg",
+        "sha256": "46c5afa9814f1ecdf4231cc5e9a177979dcf87e5b212340dbb17e98f585f2302"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--f2cf96e29d33_48.jpg",
+        "sha256": "01263c2490ab90b2e13a7e82ba88d95661d70574363fde4a4405503744c5416b"
+      },
+      {
+        "path": "可回收物/可回收物-包--8ce321d989a5_1028.jpg",
+        "sha256": "ab1e13bd8d1ebcb8e7c3489436a9348d04ac13b37d8b54259f00602495ed8ec0"
+      },
+      {
+        "path": "有害/有害垃圾-灯--3b260d556b30_23.jpg",
+        "sha256": "c1c5f5397d54989b9cd5534a82187c0fbb78603f35c63da6878cfaf312c020c1"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--2b20140e1e48_clothes1765.jpg",
+        "sha256": "84197360fd728b85bc64af39537606a5b03ab0f74b7f7c10827446853eef4ce0"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--f77f8f59f642_116.jpg",
+        "sha256": "1c25b326ef2893aaf1947b905c142ec3ee716ddbc4bfc6ca71b65c343ee84485"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--fd36eabee21e_228.jpg",
+        "sha256": "891400e68a00f3c5bc4408d0b7bdb9e232ec8ac31d5b8bda294ad270000dcec0"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--6f111f783c11_231.jpg",
+        "sha256": "99cf44a6fb7db8908fe7484c1ee37b1f3fcbc4cd37bc004c0937229bf83a0248"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--c96217a6c78e_74.jpg",
+        "sha256": "1d2388e762f2c5e0b8e4019f24d1a10480ebdd38c8ec7b12032feea53e07f5c9"
+      },
+      {
+        "path": "有害/有害垃圾-灯--f35f8de66e95_1391.jpg",
+        "sha256": "5ac58902cd54a18acb0499719be614e497c338e062ea7436496a0415301bf1b3"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--54760e9ff47d_177.jpg",
+        "sha256": "414475300b0a41cdffb2eb8e970e92d55e42adc0bb809720b02f5387a18d59f6"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--d18f56036d52_1521.jpg",
+        "sha256": "6e0381d415cd05484a663d729a822371f83dfecd90445d01d4fe40935fc65498"
+      },
+      {
+        "path": "有害/有害垃圾-电池--6125f6735d8f_384.jpg",
+        "sha256": "95068ead03473f85f98f42a492e37c55d0c99cf1489da8e67b685da5f57d36ea"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--1ba24adb4560_165.jpg",
+        "sha256": "533e2111cf67acb94e0a14e0ad002c5b37eb6d28e9284ebcad190c5fd079c3b0"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--993de9c4a8e4_19.jpg",
+        "sha256": "fa93824c882c77c7e09d38a15556ad39e59fc91c40e88424f57238530a9d1bd7"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--dbe7bac5c790_1829.jpg",
+        "sha256": "60e22de4347bdfc086e199261ae1abdfa18227e53ce61ddabde8a22edc0c619f"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--f38bff8b1876_1041.jpg",
+        "sha256": "265b40075363c4c524f31bbeeec8d8bc5c11cea3c9a1d088453117f76ff7f245"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--5fede5c51727_clothes4911.jpg",
+        "sha256": "d678d10fed5f8631c4a1d211acc106c9425fd84286b70b1c446c6877b765a566"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--55ecf622a54b_347.jpg",
+        "sha256": "15e2da31494bf6c6e686c818e539fc3e5258aa8b37f35547c7be7b1772f0dffb"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--896b548f50db_93.jpg",
+        "sha256": "8490ac1ada7397cad8e3cf5a845ab908ace0e7d4a5a44bfa737b5c45240e1fca"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--2d33982cc8be_1424.jpg",
+        "sha256": "d22b35380a1781ec58f4c55be8052a2335920a8998d568c4eb07218eddae3e87"
+      },
+      {
+        "path": "有害/有害垃圾-电池--f061cb986dc5_battery186.jpg",
+        "sha256": "1769b1d8ed603c9219664defae1d0b17148b07964c86af7b1589939494b21a87"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--8f0d3a48dbeb_199.jpg",
+        "sha256": "de63274c834a4dd61d26f09609bfa68022e6ad4cdd3d5da4915da67527f902c0"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--4ba1e5670c62_shoes1867.jpg",
+        "sha256": "9a04460affc7bb70afc38396eb71451bd82fb8b0b80d68bf0f1f4e13902a1096"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--029f70ab2acf_135.jpg",
+        "sha256": "c2fae370f40422302ed3e42a8742824972ee6d962ca6dc1451fe733446072471"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--e18665f61d8d_1063.jpg",
+        "sha256": "c554b5ef4afcaa8b68ef3bf80bf066b96a62b29bd42f3a5c8f01b31ab2cb3c13"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--d49f147a5306_1433.jpg",
+        "sha256": "6a36160bbbf0c14c837bd71778e16b8c7d6a08a608993c16c0d9cff32baa99f5"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--56ef21cc510e_1690.jpg",
+        "sha256": "2b99bf032627a606d6e49401c04b5ba72a3d1601dd10f0db82a2d46b06fb4aa3"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--043bbfb9b609_270.jpg",
+        "sha256": "1ca2df66b1f11160b4e081e94db68cc4367d3648618d0722d5105f3a124e7e6f"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--f2e062639178_clothes4029.jpg",
+        "sha256": "52fac59d5f03a3854b1f6ab58941293333a502005db50cbd633cc2f0b78a8505"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--216a1b351c00_149.jpg",
+        "sha256": "78a67ad2bbe47f6a1e72d63f36a163aa39fd8b5a3c147e00fd55c4271bdd254d"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--66669bfcfd46_42.jpg",
+        "sha256": "a0b3672d52fa59aee6c6d3ac6bbd2d2615b2a27440a06479f9bb61d04354617b"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--6be65f4d927f_1445.jpg",
+        "sha256": "8f56bff4089c4b841cbfbb98dddc5dfdc0c005bd667f1920babb6319302d020d"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--42995a00f90a_228.jpg",
+        "sha256": "6f7465cf220cdec51eb93fa0cbdefc23ce53a729df289f955ce8496c74d8479f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--b7861743c675_1123.jpg",
+        "sha256": "a35de1629946344e4ae57134ce4fc716f3b6528ffe823b4b23c28550b8c5d1ef"
+      },
+      {
+        "path": "有害/有害垃圾-灯--7d886bfb7059_46.jpg",
+        "sha256": "58537cde8b7badce320b7938adc052906ef2f28fab587dedeaa81391e97eaa48"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--8ac19e5c810d_151.jpg",
+        "sha256": "f2c040955634427ec4cfda07c750722f53a09b71ec85fb6bd206873d4fc19293"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--8a3540173ae3_166.jpg",
+        "sha256": "899df7b52fad52798892c30987c8f65df38961ea55fd73ba126bde3e5e00308f"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--c3c758e99fcd_218.jpg",
+        "sha256": "79711c38f0509e5a9d4d0147a7d77e27b85195dda183b96757f212d55d332ec2"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--9442ebb4349d_1220.jpg",
+        "sha256": "2471d3e5cc80384ce39aaecfce96b3a12eca7a55cfb60e3730d0040600eb5fd8"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--737bbb8b4d9e_1130.jpg",
+        "sha256": "666a7f1d830dad2a6b57da31257509602003241deb2c3184c956ff0869c49624"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--e7666df1e806_114.jpg",
+        "sha256": "171759c4f2d6a2e12f92b9d41faf27fa710609c063146a061bf484dbb0d7a0ed"
+      },
+      {
+        "path": "有害/有害垃圾-电池--67a1354e62f7_401.jpg",
+        "sha256": "f7030d917a4dd32db8fa2391d0378f4477cf1c4b0022f0f0eb390eb108c07818"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--8cb82e3d9bd6_151.jpg",
+        "sha256": "88c3a3fd2c60d828226894f82f76a7f96f27f7717a6c82ec1b90f8392068bc1e"
+      },
+      {
+        "path": "可回收物/可回收物-包--3e499aade7aa_300.jpg",
+        "sha256": "b0539d03d7ec0bc334ede9844c26ac41623a1ee948799e0a7832f2ad4a6410ee"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--62a2ffeb2f87_218.jpg",
+        "sha256": "5f0e2e1a8101f334ebe261b183d6b2372fc8664d88175b851fdc6c7481775b5c"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--1aa8d541f442_249.jpg",
+        "sha256": "953bed1de0f390aef0b292de147a83a771c35fdb23f41ac578775db8e47cccb3"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--a4fdbc304004_196.jpg",
+        "sha256": "4130232239a3bef2e02a74cc9d8cd1c40a20567254910eeaa49fd059f539d382"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--886db2c7858b_1353.jpg",
+        "sha256": "1d87272324acac38d8e8833abeb3965a177ceaa4f5baa7ef11b9bbe7776db31d"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--69c36f902154_220.jpg",
+        "sha256": "182ab7f3c7bb961bf057e39100349b9450642e5dd1e8357b3fc7ee08aae1e6f1"
+      },
+      {
+        "path": "有害/有害垃圾-电池--ba0d30eb1208_443.jpg",
+        "sha256": "de76f98a1f93f8fcc68898523434f406ff3b5373d1a5433a06e546c833048c01"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--0bd03de7bae3_1218.jpg",
+        "sha256": "065201dc50dc2873d16a679b1fd64e3a83fba227ff5d69c5454beea044cc0274"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--6799092d74ba_444.jpg",
+        "sha256": "5f3dea4e82e7b96040994bd5069e0815e606f789ec37d988ba21daba9c668f7f"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--4d795aaaa962_10.jpg",
+        "sha256": "b18551ad032a172dd3216f17a529e3f30aebd176faf4e30f1deb882357d0dd16"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--cf93167695e5_74.jpg",
+        "sha256": "11f4c82cf05e833b6eaf8f3a551f71b95a60a91ef07093df807f67c360e53eab"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--451f0bb22804_1444.jpg",
+        "sha256": "74afe4aab1489258b202a14fe1de1f0f3887c54a240579d14f2380baefa0bac4"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--a74b7ff22564_162.jpg",
+        "sha256": "34322f9285a3b840ee2f76813ec79df2d9249dc0f251eaea936d52d774d95349"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--e6946f596914_23.jpg",
+        "sha256": "f89e53d7348a6d266edf2e2c229c07d23bac722820b33835a50f17ae4bfc8de4"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--71965536d94e_173.jpg",
+        "sha256": "1803e1dc7589463ce2bff55edfffe68dc4bb50b3d4910b44a11df9d770d9d2f7"
+      },
+      {
+        "path": "有害/有害垃圾-灯--127432d190a9_41.jpg",
+        "sha256": "c2fe6959f39b051c0e43f17e17ea7928dfcfb26b4fa3958ceeed6effb62670c4"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--acb92c7f8565_clothes1214.jpg",
+        "sha256": "b31cce40da0f9ce4d57ef3dc048c103f000a4d938a37a6380aa46be0fb62a81e"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--6d1948da3cfc_3.jpg",
+        "sha256": "c7e890a29701a78c3bac7f1dd9cf3b5b296c05bcd929fd6b6989bed68db7863d"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--a18f74eb2371_246.jpg",
+        "sha256": "c0f35d4d19917634578efc719fe248163c1196f92f3af0d76a8054be14a6e1c3"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--27361b7b4760_1136.jpg",
+        "sha256": "fb2f44e7d8855bed9f67eaafd794942d9717ea406673942ca667165a19d181ff"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--b4f808d9eea5_1744.jpg",
+        "sha256": "325da40b609fbff3d556c784ea472208f4af630d7a3c99fd86dbd648f55b06f9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--6274b68613e4_206.jpg",
+        "sha256": "8f1cabc4309f5f868552ce2b6fc3797c4478901fe69190913cf193164f4541d7"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--d693b82a3378_279.jpg",
+        "sha256": "75917a5af775298bc46ed94793dea28c785850b4ba9e1f0bbacf2a50fc1c3891"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--b5578bf9a5e6_clothes510.jpg",
+        "sha256": "d2fb8bf6cd812eb78e36fa4be59712551a228f25b29f6a226c7ec0b75e7c00f8"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--b45300d67235_1.jpg",
+        "sha256": "3baf332f2637414c7c57d77012413ed735b266a2f4bb061ed48529725db77d57"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--d5ec79563110_1107.jpg",
+        "sha256": "a4219653014e0d877031fd5e0212c90c0c49d1eb306c2605dd1f64674656148a"
+      },
+      {
+        "path": "有害/有害垃圾-电池--f8ece7d75337_1400.jpg",
+        "sha256": "3afe51ec9b237d13cdc6997e119920c85859b76bb6e422a4ddeb0d55c3cb40d4"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--ac6f89ee25c9_21.jpg",
+        "sha256": "3f1b70859bf4925e98de8e6be963c5a33d98bd0d2c97601b519e8160601ef24e"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--bac285ac5503_154.jpg",
+        "sha256": "c59e452fc4debc808b2d23a9b178460d0c145ba2b88c7c954c02b6ee8c224e5c"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--895606df49b7_shoes460.jpg",
+        "sha256": "9fdf63df9896c758d829ae8fcbd529ad328a6d2f245883b4817349ee890efaba"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--faad8e8ccf27_1275.jpg",
+        "sha256": "fa4e96f05d83599527c76472dff50bc27978912226837e49e39e9de36369b084"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--91147888d21d_217.jpg",
+        "sha256": "e6d53c6d7d948b8dcbc8a1a41facb42be90f55bb2f1b82ae5d9487bfbf776908"
+      },
+      {
+        "path": "有害/有害垃圾-电池--c6f30d5423e5_battery130.jpg",
+        "sha256": "d27bf234dc35feb3db51d87a717581eada4b04c143ff5f0ff3b3ccf793095f38"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--fd122179c765_clothes3778.jpg",
+        "sha256": "61561c0ad488353bcbf95799afd7321fcec106dcea7a45ae2a183e446cc71f22"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--653c4661aa6d_1124.jpg",
+        "sha256": "91912eb074b7285a8e6979b2cc77b50a3803321f371e53754eb787e4fd58d82a"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--5fab9d861ba1_30.jpg",
+        "sha256": "e29540f46cf38be346899b1bae83d5847df0d1edea1627481bcd34c8689cc8b5"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--11f8a4757261_266.jpg",
+        "sha256": "4f07f0f361da71f61fd8dcdb2691ffb67a07e4fdfcfba39eda2788b565896858"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--20ffd001d3f0_1112.jpg",
+        "sha256": "2eee22257cb88b062e93c62a6ced90d8cce3bc8bb66ea785ebb07dc000be192a"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--4d04a6b8590f_196.jpg",
+        "sha256": "e57affd733477d789d9da14b4fee2a632bd386cf7fa92be5b722d9410ddbad35"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--a3e647f1159a_217.jpg",
+        "sha256": "26ee093233a3bf39995827dc970960d087413eab9c57e47504a91d78b0a6ea3a"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--40a7c4e3bf1e_206.jpg",
+        "sha256": "88217ad1c45ebac92b712ca144837c9c829c2606549d54395adf64afec1b221c"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--4f5825e37a90_15.jpg",
+        "sha256": "80dd4739b15b1d38bfa6999a322f9f686f7281b17d670d064cc340a23ae732ee"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--59877ca275d9_clothes3289.jpg",
+        "sha256": "59a41ea8ae6a4217c4ddafeea55d4d94337dc017b72a0233e973de831c3dd46b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--4bb05f6511e0_280.jpg",
+        "sha256": "0ca2c027f6b21df4cccc223a707c89338e5a9a803ce6809d65828fb82b36ffe3"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--670e9fb66dc9_302.jpg",
+        "sha256": "6d28c734e6869ccd3baa368aeff364d6beaf90076a4f609de3201dc2d70864a7"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--7642e62c77e3_148.jpg",
+        "sha256": "c6f8b91902a4b8987164a8877d4e9c869dbce15b4f589364b743a6fb7ce84719"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--182d8fd60e01_2230.jpg",
+        "sha256": "30e417985a613b16c69c10c5210c45f769c4f06a37cb35e2490f27703eaa6c96"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--1f5013d0fca3_1572.jpg",
+        "sha256": "3f908c18964119100dc9d646115647c33a765eb07d5ae8ee10d11c75bdd96940"
+      },
+      {
+        "path": "可回收物/可回收物-包--5bdaeecd9dd0_11.jpg",
+        "sha256": "6da9d44848455b85b3aeea61b310c92783d051f900985585f5a3a91833faf0ac"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--305c88179328_7.jpg",
+        "sha256": "4803b55f07eae4378db5a6f448643fafe6808f2cfd4e2cf98f1c4d7199a3273c"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--abdb2eda7b9b_1620.jpg",
+        "sha256": "17e7c82d82df3c2778dafeda5d3a9c3fca81f89924ab5c166d0b9a90386b2539"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--5ce096b7d9f9_171.jpg",
+        "sha256": "2c488becc13a83c1144f0876d203ca0b250ce26efa40b6b5d8c9d6b62ec61448"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--7a329d10f613_59.jpg",
+        "sha256": "1c2bbc0ada54d7df6ac38f7de1cfd95e848dd0138bd9a5ee1aac2058a8601efe"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--76aba642e668_127.jpg",
+        "sha256": "f605a34e618fb96f7b471233033b7e704acab371127a538f5c1b4e3fc9964db1"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--97321ee2f108_1096.jpg",
+        "sha256": "5a083bfbe4e146fd163471a6e4b480f40ae326ce99be19dcc2e5bcca9181ba27"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--b34d7c669c73_150.jpg",
+        "sha256": "42397bffdbab64909b872e3ab514eb97127fb8cae2ce01527e6c5cb6ea1c6d41"
+      },
+      {
+        "path": "有害/有害垃圾-电池--9ab0ba9f6613_battery912.jpg",
+        "sha256": "db82a3363d48f2b944687907e851af70e2a5d5945081511446a37a2c9b7d50c4"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--b3319eb02d31_99.jpg",
+        "sha256": "ccb67a73412436f13ea8998733bed337ce15f8ddaa0160146481e5c8952e810b"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--323bba49a4ac_120.jpg",
+        "sha256": "19f0bcd2ffa6d9b86ec2b7c3582668d6340eb2d4475355151d57bb036f5e0560"
+      },
+      {
+        "path": "可回收物/可回收物-包--3afb4c7cf9cf_189.jpg",
+        "sha256": "7aee329cbf4bc41bfdf0219b1a8a9802cbe15da83b272ff57d471a0b2326ce99"
+      },
+      {
+        "path": "有害/有害垃圾-灯--8cb9af3a8d4b_182.jpg",
+        "sha256": "4e14919c34264971c13d067c9c9a9b0c0f4d1a90861bd3b5b455c9c8d4093b41"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--f9fdc908870b_240.jpg",
+        "sha256": "d21c878e8286cbae84398244bc74b60d42ff762d1ae5f9d1f400174f9c5c97e4"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--2baf56838718_clothes86.jpg",
+        "sha256": "a1a61792de53b33afff55bce6488dfae7b9b2a49f86686e9f51f20f9033fd7ba"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--eeb33e7fca11_1297.jpg",
+        "sha256": "0cfefb562019e7328429213e183be1f36c87650781b1e59b294742d441091e5e"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--31f0a7fe3192_317.jpg",
+        "sha256": "d279b73c409a8fa1c4179c216dbd3d955f303aac8ee6465927abfa2914db7067"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--5aacb68b5b60_16.jpg",
+        "sha256": "aa732a970c801734c0ecbe1c6badddfa1695eeb18ae44f950ed7b5af8c2c983d"
+      },
+      {
+        "path": "可回收物/可回收物-包--541f0977ef08_1302.jpg",
+        "sha256": "7ce08f3e42fda08b2beaf63de16ac972af1b03a71e37b4d82885d114b8ae1934"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--998c0108ea5c_1290.jpg",
+        "sha256": "b787ce680a7ca090afdf2ed8738da890bfcce94e771df7215ffa8e6d66af1dc2"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--9538772ca155_161.jpg",
+        "sha256": "18898dc24cbf4141b6b904c38baeba3493d70197213e009df9906d3c96b7f8b2"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--d9640a57684f_220.jpg",
+        "sha256": "fba5f0f7d482398f1d9fcade22e15e6ff1f1b5368ae583d5dd4cd90fc2f5d812"
+      },
+      {
+        "path": "有害/有害垃圾-电池--090fd051bd7a_1026.jpg",
+        "sha256": "e2a2ad49ea0b35df6a0c3f13fee6f7d401091b9158897c41d3c074e799ae5862"
+      },
+      {
+        "path": "有害/有害垃圾-电池--5a46bcd7d0c3_battery286.jpg",
+        "sha256": "7b7a9d169fc2d004bd19a85737b40255ed9876dd46171fba18c15204edb9ef6e"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--a40a00a0ca43_96.jpg",
+        "sha256": "9ecee51326be495d2d4348e8115492a5fc26fffaedd15b8044d8552d20b02073"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--d7f63a536993_289.jpg",
+        "sha256": "7b8253eed464ba401bd2c90a7988984aa781c38a18a61e49c7bd6a2619b1934a"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--741fc5f313e1_1435.jpg",
+        "sha256": "596eb5147ff285022c7bf61e64cd408d0a0d0bc0d0111dd60276a04b12490cdb"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--7cc4cfd246c1_1773.jpg",
+        "sha256": "0371d2d88d0ae87c516589ad4f84e27d362ba524312d00a33eed1c71a425a57e"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--dd61814f6ce1_1099.jpg",
+        "sha256": "99ee7c7933b3b3fe5bdfab962ed2f429d53dc4fa214e342e26a43f5388584a22"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--b1dba220cf4e_218.jpg",
+        "sha256": "057a1c3d7224491c872f752d2428bae8c008d745d20dea668ff0e6f03610f3bf"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--109446629814_1337.jpg",
+        "sha256": "a22861a218bc76cfbdd300d60776723810c36580d1ee9841f9249eae1cd60361"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--ec91a6a422d2_169.jpg",
+        "sha256": "d0d490b070f6bf7fe2edb29523cc145b590df335224089f9f55dceb0719d4220"
+      },
+      {
+        "path": "有害/有害垃圾-电池--34d8195361fc_684.jpg",
+        "sha256": "c3fa30b3e65b816e895d2af70ad23958c1957b1505715ab9a275ef43c72151ba"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--89c886d0efa6_1584.jpg",
+        "sha256": "f9ee763145b991789002518f118340f3ccdf0febccf413c762c8f1efd5b8a31e"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--bf6d2e8c922f_clothes2992.jpg",
+        "sha256": "40294173878d1e8a6ae77103584b1356a8a6d8e76e97c4b7ac256f59d3868269"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--c8b63d223c0e_clothes631.jpg",
+        "sha256": "82f8c33c40dd8def6ef6b7d46daf1bb4f2e8ebc69b7ce7e91e552f8efe896ab9"
+      }
+    ]
+  },
+  "test": {
+    "split": "deduplicated waste4_clean/test",
+    "count": 980,
+    "images": [
+      {
+        "path": "其他/其他垃圾-一次性棉签--029784e52dd0_1403.jpg",
+        "sha256": "d36663a5d02a612e6919e8707d09fb53862f450075a8bc1734c65949dae8be8f"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--07bd431f5db1_1251.jpg",
+        "sha256": "d2d86a96da99ba79310f6406a6d14d1f0c9074620bfc915ec6b3f8a5654cfbd9"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--14e0be44cbd7_1259.jpg",
+        "sha256": "66093ae9ea2ac0b8a132a2d50175107e5086e34e900e3ad5f16681ba49325b83"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--19a55d4f79c8_1413.jpg",
+        "sha256": "2b702afad322afe67445f44c4dac747eb607c9fb50377e5474d22a97a2a03388"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--216833797284_1305.jpg",
+        "sha256": "134b77908c602dcc163272c6c248196c78fabb4309d7b986d5ee26b617d6a966"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--268444e3c3e8_1117.jpg",
+        "sha256": "25132081fcc562ab47afa03d307113b7e709c3b7f434d4f8b436cd57f0ed065c"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--26bb2facd496_44.jpg",
+        "sha256": "f49c4ff23b8752d4f25d98c54dfac126981d9dd6d86c753548df6610b4b34042"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--2cd6af763499_1361.jpg",
+        "sha256": "5cef3f74f65667a33e21bf38f28a3e004fe306e56b77596f8de56c13bff58202"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--352368913135_1592.jpg",
+        "sha256": "b9d60d1008d363afb0f8d4a6c7eaab715d54260f8a0f2e74f37d4e842f8eb9a0"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--3b76e817bd42_207.jpg",
+        "sha256": "43ea62423d992911d3ca07398aad1d83b90a093eb7234fb203b2bfc445eef8f4"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--419ba0c51903_176.jpg",
+        "sha256": "70d3a1d059323e82835825203ef0e8bc535d5e8d82c55965c75eb7362a6cf0d7"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--441874945066_1327.jpg",
+        "sha256": "3b425ab970c6706e637fe453595be5c1e4ab6351b815c7a0c19f813621366a23"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--448fb54196ab_1007.jpg",
+        "sha256": "2ec8119a660916940fdd18996e8a3bb818a2b8556feb1cf4a4ef1ce5ee697fce"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--519ad6ba204a_1448.jpg",
+        "sha256": "57dc51b21f0ad1ae7a750e604e13fbeb46dcf0474e441dfa627edc043acc7419"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--573489cedfe0_1385.jpg",
+        "sha256": "cac72429e50eb59fa31fcb10b74aed8c5faab0a4381c2f238eeec52dbd9e5a5a"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--5cd51c9def9e_1184.jpg",
+        "sha256": "b6515b08099221816b44c72e7b0d9ef41f29b4484b81a5cd8f2b8293518a72f6"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--5d331a5bc076_1089.jpg",
+        "sha256": "9ea932ffacdb6b2351c4fe3add151e835c248f1b3bee1cc516827487d5159756"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--5f3641803002_1468.jpg",
+        "sha256": "179aca5db76207208715a929aa9b281d48cc98fad9aba8fe705c96d8bfeca5f3"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--62087da2afcb_17.jpg",
+        "sha256": "e9187f12154aed1c85b5b936042a8406e9900b63aeefb28752bb34fda9ac6fa1"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--64d09cae3271_37.jpg",
+        "sha256": "edb33d391a6b042b1f5b3b380fbf29fd04d0549545d87ae2450daa18c137d48b"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--67bab63ebbe5_1218.jpg",
+        "sha256": "529e313bba14578be7d2a6d86393cdf9ad8168b593f228ca9e6ae668059659f1"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--6a000469e2a3_1288.jpg",
+        "sha256": "fe5e7d485105049fcdee9cd10193bc54698faebbce1595b4b6b0633ca0d2431b"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--78eb5a9dba69_123.jpg",
+        "sha256": "f65c58159ea6fd5d1f5e05fcd2300042fc2087ab8118e08d4737cf2c65566a84"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--81206b3c80d5_1488.jpg",
+        "sha256": "b2aca0177f241f8ed5118ff84f3a722b0f67cb7ec2c7347b2b5b468a8c979f50"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--815302d75220_1038.jpg",
+        "sha256": "d719478a991d184f07ba1e20417289ad53a37baf8211bcb50d077e6c21a9b6ec"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--8927e96f754f_1483.jpg",
+        "sha256": "6728ef7feb309eb17d6a41c5a70bc0913fc929a264b236f75696d2fb4aa718cf"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--910a6a6729bc_1108.jpg",
+        "sha256": "c837bf3d786ee7c717b7cebe7814ab665c53378cc6fe8ce39afe668f68edb1e7"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--9e4be4a251b7_69.jpg",
+        "sha256": "8c58744fa9708f71f87ad34cbd174b379c0e8cb5b86a7c6a5ac9289f16d4656d"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--a2aa30c8e7cf_152.jpg",
+        "sha256": "f53e163486760f7a4b86d4fececb9aaebb3e0cdd1a923a03dbe37a159e46d73a"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--a74fa467a621_1323.jpg",
+        "sha256": "62d3b5674fd1c9370a8983028f2b9b5a12e4cd47838aeae20579060999b3f74c"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--a9cb98380006_1368.jpg",
+        "sha256": "5b630780043832bb1aea364a2dd1e52dd2e7ef0b8af9611fde9e3ca3d2a52c53"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--b17d52ae30f6_1475.jpg",
+        "sha256": "e94e265a37b48c84c3939874582eb64021c0413bad97ecb4ad6538daf7ceb41b"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--b2d5987c45c0_163.jpg",
+        "sha256": "5ee1a07e0462947f5cf45e5164efb2cf5a3f0d4abcc7eeb37cd2432b8b3b47b6"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--b5ff5e5a3a30_94.jpg",
+        "sha256": "c75137d2f49156cf2cb1d418c31cdf7a1cf406bab890c63145377d58482357a9"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--ba9ef093a0f0_158.jpg",
+        "sha256": "9f725b48f9234e4d156b641d30484b93e0e07931dbb5e2447c154a152fe7a095"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--bbeaf0a91596_130.jpg",
+        "sha256": "086d7173b2e01f9c4c8c28100062011ec73c1e2dcc7d019d8dd428c77d733766"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--c466763b656b_1195.jpg",
+        "sha256": "a8f40ee8679cfc94daf33bc79d64495da4555a6aebb512340a07889a7bc392dd"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--c6fabe4d8397_250.jpg",
+        "sha256": "4da49a4f67f330c5151b21bf8398b3525c1a26659f4f4488c7c67acc065d5317"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--d0bc6ece56bb_1139.jpg",
+        "sha256": "2588ff3377d53e815560c263d9ceeab19720699a83b7307e9861e273595299d3"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--d1a10bc0bd47_1100.jpg",
+        "sha256": "19e60362ea126f93177716bfc86648342117646a228048ddfdcbd7c1f9f2ef7a"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--dafe32e35260_1419.jpg",
+        "sha256": "da52fb5442a2b99f44d037686a2b2b6a8cbf0fb3c9f9eb0b3747e0169a2550aa"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--df7b13c9d740_1398.jpg",
+        "sha256": "e2b7fa764a2fd7816def03dad5285e6e1784b85588ac7b1119159caa955023c1"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--dfa4570d2614_76.jpg",
+        "sha256": "88158cf995946d37d48990e557592db4687ce6bc67c5a9ca43f3b4101795737d"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--e04fd23eb941_1560.jpg",
+        "sha256": "c0c2e11cea8fe45c628d5fdeff798f8e882d4a01ec7db6e31d712c46459e38d0"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--e0ac3f2ab7cf_1004.jpg",
+        "sha256": "9c4897ec0588a22bf80ad6c55bac58c32d9b9ac1dac590635b8bd9e834193b0c"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--eda0e6f89c7f_121.jpg",
+        "sha256": "e7be89137f50dc92775bff5ac9b2bd54c2b487525dd2e133a38f28d875b0c7d0"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--f4e95e3bed66_59.jpg",
+        "sha256": "f0d20f3522e7dde978bc174386e80eb6dbb465b11a4d6b52bf6044c3dea6f95b"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--faa51590e2af_9.jpg",
+        "sha256": "a6f05d86e470fee365c95056ece61f4e95a3d8608c16571458fc74b79df68ef0"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--fc37f7b08566_1124.jpg",
+        "sha256": "8b0ab81833c0959104a1d26d5fd39ada85dc32a2b2e7058b0bd260bc60ce812c"
+      },
+      {
+        "path": "其他/其他垃圾-一次性棉签--fd255d061012_1358.jpg",
+        "sha256": "39d2c21ccd31a9ec2fa1f5af0f48b8431fd2d15e83b95fbf52991244588cc563"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--054b590a2842_167.jpg",
+        "sha256": "86363bf796326b660292c3450a11f4c4d3b8d474637348649f76d2332afacf4d"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--0851d2759b7b_1106.jpg",
+        "sha256": "2a993253bce9287fed81600a921fc7340ccedae28d73a7b4612d4ff03b83055a"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--10e413e1849a_1346.jpg",
+        "sha256": "7389a08e0feb52d9f04e27ccc33908ceeb29a2e591660426f996662a7255cbe5"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--1928afbcc1e6_1292.jpg",
+        "sha256": "237583f8434b371bd091370ac062cf356a4f3f67149671d28429d604e75974da"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--194bd3913c01_1150.jpg",
+        "sha256": "aec76cc0dbd89db566f4ae9173d44e7e8966dd0eb3f7103cf63256997b702329"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--1a216f1e2a42_170.jpg",
+        "sha256": "393a498764de072b474f6706cfe62cf5eaa40efd7160eb759f0025a6bd1f9b86"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--1b850c8606c8_187.jpg",
+        "sha256": "3b357d851e9d495e8dd2b424802b3c6e167463f91b7c94fb0c1987af8a6a5882"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--1cd2e811116d_237.jpg",
+        "sha256": "65e6680a7fb7e42da60cd6481a16ca61a9d778ca5d433420301196415d5dedce"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--1d63601acc83_1143.jpg",
+        "sha256": "3313bb41bc7233473af6c3a3ba79c7c4cea498356941adc7351c72dd65d918a7"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--1e69c39c248d_253.jpg",
+        "sha256": "90ce542c929590f6308a7ce222f3aa9d53e74f3af92adfe4335fc842c4a272b1"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--1f355db44f91_1308.jpg",
+        "sha256": "ea1aefb3a2f36f21fee6a991a3167515578caed0e41246a9fb505c0a3d8438e6"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--21a163496fd8_1228.jpg",
+        "sha256": "8f431a7b57c3b1eae9d6424391379a811195c43e32de9fb8886e6dd20fbaad4a"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--345c76ee735a_1271.jpg",
+        "sha256": "7b6335774c7b259797ae9f69291754ccc1fe8d2b1b52f85d8e72c0e097223e3d"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--349a6e4fe5ff_30.jpg",
+        "sha256": "87107ba97d557cb5431550fea81bb28caf0964a9469299ab02c78d9f955f7906"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--355b9ffeb006_26.jpg",
+        "sha256": "37df8a2e4f063b029f07fbfebde4e081b5f75fc4c946b9659b2f0c32349d06e4"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--3dc99388d237_225.jpg",
+        "sha256": "8bb5fa7f4386d6ece80cfe181d541bb5bb920b468a1d88e4b8592728d0f1c027"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--497f7fce1b25_1350.jpg",
+        "sha256": "f516955da93df390c287324b2b7efc602b6acae015e9ed66c22b6de0e8b521bc"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--4e6421739c8a_1072.jpg",
+        "sha256": "2c270c6bc1cb7112ae239bbd9fc12a11ded70960c2a84f29a5af63d0037a138f"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--567eac399b60_1180.jpg",
+        "sha256": "8ab5b5f485e3819930d89900e5f4cf229ebb06cc9524b7aa213890c9f732103d"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--5a629428670b_142.jpg",
+        "sha256": "d51615e5ce04af6475e65276983131c63a6f79fef2f247b42585827ba6575de6"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--5bf572319e93_1273.jpg",
+        "sha256": "1b4874d4e82ce6d8075d8449bbbcb1d5e20eab7cf554dfb9e377067dff377477"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--69a2f69b117f_27.jpg",
+        "sha256": "ba684cc15a52eeeb19a19b55d66eed6e427812b02ea4acc077d7f68fece7575b"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--6e21e6e5c270_1133.jpg",
+        "sha256": "2bab5602648fb4724185852c8ec8f2098c721db7dc3190c59714a252ba2f9b82"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--6e40b09f7884_160.jpg",
+        "sha256": "f3781a28a1181258b20c69a96994a33c1f85c63dc01b21f3bedb34f425f73589"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--7298ced76589_139.jpg",
+        "sha256": "860d22a40ae96c805bec7c395e346fb3d28db820c3d139b27353f1048bc6fb5b"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--860eea9855c9_1172.jpg",
+        "sha256": "1773f43c84b6765cd381975f13f56eaf97dd02dcb8944dacd1aa40a4baa9e8e4"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--8aae573a7a0d_45.jpg",
+        "sha256": "df2076b80bbd9fead881ab987920f25a8783d0f94687043370e82665b7433a69"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--938455956cc6_263.jpg",
+        "sha256": "0dead70bc1196d6c77f8e206eb9844bc3e4ab82528557ed201c3639ad75a71ac"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--93a35130d06b_262.jpg",
+        "sha256": "9183714d045fff11073325aed9e6b18bc117e70ee5d9be5339910d70574ea47a"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--ad9f9f60dab3_47.jpg",
+        "sha256": "96d9cd16fd94168e119943a4067d8bef2e27869d3b99349cbb93676b4286bdf0"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--b5b6b1b4aa5c_51.jpg",
+        "sha256": "dcb8596f50accf6e45140432e663f7e03c1fb41b5ed5fc448e241c479ac3a340"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--c265128c8db5_1206.jpg",
+        "sha256": "68c0cb9b7ad9537df92e5176a900ff8b31eba6895d94b7b186eb92c65d547696"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--c466b8753eda_70.jpg",
+        "sha256": "f7d491c61883fc168135777c052e64937261fa02b19264188b44b27e713f4965"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--c504d3ca82fc_1211.jpg",
+        "sha256": "340e5baa1c3a51f227e92027bce9ed3f9f578a29e4ec36a2dfef944675bd0455"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--cce4c1877a37_60.jpg",
+        "sha256": "52b0dd73131af93e35d322c07a0a60a07b11027766c53141980427c042eacdc7"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--cdb05fff58ed_1110.jpg",
+        "sha256": "9102936f9470f42ee6ad50ac08d796999f2cfd1a922176f07091f6cf24e167d1"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--d6bc5a4ba961_1369.jpg",
+        "sha256": "c401037afedd88ddb9cad7a944b492fa67160fb826dbafcf207d7f5f7a8e80ac"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--dc588c6d4f14_1352.jpg",
+        "sha256": "38e73e77401a54933d5c094a9bcd2071d8538b0ac0bc9033ee749ab490ef4991"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--e5e8ed4c320f_39.jpg",
+        "sha256": "2aa86ade786c34487ae96771b20d3b981877e69b9d4ac24e32a89b86992f910b"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--e61058fd13a1_1159.jpg",
+        "sha256": "f869f3e576578546484b368ea93ab5810bc06a7c9ac3847dfefd3352c8e1bdd8"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--e93c54738f76_156.jpg",
+        "sha256": "a462058af04ad2b2609f9b9fa7cf910d0be54b8adc0c28ccc7c2c7e6e3363e9d"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--ea775c52878b_179.jpg",
+        "sha256": "65eec670400ca72c8ce5b22cb10d96d461303d5a7434633f1a11195946a7c864"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--f46a96e7cc04_173.jpg",
+        "sha256": "adf4b60ab3b58a9b9b308ec7b8fbaa8601069246d449949a68b43d83543ce892"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--f7474d33379e_106.jpg",
+        "sha256": "c9e6705357d894e5426c297137143a619fb0a29f4a5eb6ded84fbfb1abd81e53"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--f81eb8a091cd_108.jpg",
+        "sha256": "fa099fc0e7af11a48ed03e5054cd96576eff2d4ae6c854582babdc3bc9fa5115"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--fe72a07e8a62_204.jpg",
+        "sha256": "304859cf47770f66e91ab9deb65658feefbd25abfb5a7a22edf1c668b1729b28"
+      },
+      {
+        "path": "其他/其他垃圾-塑料袋--fe73e3f9dafa_1321.jpg",
+        "sha256": "c0a7116c2b40b161d6a4b796c7e9af6004054eca3a0c2af9f67b5662cdc69672"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--02d45704a86d_1564.jpg",
+        "sha256": "617fc3e8392f1c0b71e2db3495ed672a13244ec515d8d0636801950760e2d4f9"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--0e4dae9eca93_1354.jpg",
+        "sha256": "2cec7990f23ad4ff4d6613a899f6ffe85478f7e978672c21c400450392110454"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--110774be49d1_1614.jpg",
+        "sha256": "079735297ad9aff037e665d36932de8b08266ce200e4aa5d373c5c11b572983f"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--111e3e48cd0d_1176.jpg",
+        "sha256": "e9b50ff6c5f710f6802c20034ed7fad41cedd30464cae2010444d97d0fbf1fd3"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--12bfa814028c_1411.jpg",
+        "sha256": "3a00c9e9df753c4eaec328e90441bb6eaf9770f1411158fa008c08a7cd79f349"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--202bbc504936_1151.jpg",
+        "sha256": "eb59830911f52066cc0d28f40b302e82229821275a25033585db9dd7972f259d"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--268297821d5e_1505.jpg",
+        "sha256": "66a38295d32b0b394e04b09b6624519ef671bf205bc0f115812ebfc820bb7497"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--2f3c46d0cc0e_1010.jpg",
+        "sha256": "3b7c725054a3c6b8bf40546fed90d9f90d9c340c4057ae235c2aa01e61bd3444"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--316e67888ac5_1159.jpg",
+        "sha256": "4cc6a74f640abf984de54b9ff0c6bdca5e55d18815cead258792fe24ce5bc562"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--3592cd0c1c75_1288.jpg",
+        "sha256": "b8290831c78c74d865c0e04338484b34c78caf3ea387d6b7f63a76cb73901082"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--4a847d2a2dbe_1452.jpg",
+        "sha256": "d67b9214425448737796ec7c4f55c31fb85a5935278c91bb987a79c8fe2de402"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--4b49b55263c1_1664.jpg",
+        "sha256": "7055ee10dee0f6b7f83b0becbf89a029739eaf892e1e9c7798c9a04f837cd3b7"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--4b7699477b66_1843.jpg",
+        "sha256": "239183651ac77c4738d8f20cb839db44a4ded5d9b67e6dc028b611ea162d3c8d"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--4ca582a9cd8a_1123.jpg",
+        "sha256": "26e5aa607ccf01740212b6e0a2d18ad64a9f6224b7f1a65f62d76005d717c19e"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--4dfe08e449eb_1180.jpg",
+        "sha256": "f136325ff2a4a4bebdd80e2091f77c10fb022b2ae31a8db0e632a9fc40e9fbea"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--50b90b08a530_1639.jpg",
+        "sha256": "c00e819ae8f1d9f00c80fddce8c763c2124406e3a4ed08eea191e469c0d8f748"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--535597abf88e_1713.jpg",
+        "sha256": "29638ab085cbfcca537cada5935828f790a13cee1a88e263bd71634c6b7bb303"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--561f967ea8cc_1590.jpg",
+        "sha256": "11869f340dec524ef8a6658285972cdbea2f179a26523c0b7afd86a2e784b760"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--565add78d857_1258.jpg",
+        "sha256": "353d249c538e5c71e069d34867979ea79c14c7cce20194bac09671174aa46584"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--5c522550efc3_1276.jpg",
+        "sha256": "13aad63c3d58b60fbfdf930061051c061c25f1b2b798f02de8c238514e3f72b6"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--6002a0f3b3b2_1617.jpg",
+        "sha256": "ed7804120c3c6e5c269a4ad0ff083b67a1cb38a4f8a0a51d6ceda8913483fc6d"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--61ddb567a62c_1324.jpg",
+        "sha256": "ad30f3f0ffcad3a438aafc5c43aa19920929d8534d1fc26faf65d4f01b987a21"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--66725a2aa0b4_1786.jpg",
+        "sha256": "8c998ffddd2a59d6291b6cc97cec1c0f0e876085bbdff36cd233d7266f82cc80"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--6cf12ff0eb32_1003.jpg",
+        "sha256": "1bdd375b8dba393f877c68821ec0fabbc9c13487fde78f3d368e26ecc47dde37"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--6ff8599d592a_1135.jpg",
+        "sha256": "3ac0b01856c7c520b7df9e906ad78904caf6db67163af9276e9dd9b97fc26194"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--704f09033f25_1409.jpg",
+        "sha256": "54c11d6df6bd7c6ddc93f3567385f8f4daa2c44c25acdeabcd59b0f70a404ae8"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--736580778425_1053.jpg",
+        "sha256": "deb65a668fa536b5b8a905927f7a9debbf3c9b89a75b5b0cefb795a2ebc8e434"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--8ef896a1927f_1381.jpg",
+        "sha256": "0e920ea5ed09e5328493bca3c4c999a24b1d28fde32c4da8bf5676a46f9eacbd"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--9298b6fa8eca_1059.jpg",
+        "sha256": "d37bb6c0f72d2ceeea01562197cacb1a3b72dc534b6e3e43c31d850b2a201111"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--a2216c600687_1474.jpg",
+        "sha256": "9ffeb82dde896a89206eb929d65e068e6688f8255a041faf2712160db41532fb"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--a7df141f5ef5_1651.jpg",
+        "sha256": "da3a331280e5411c3f705577edd90aba9ed30709b6af5dc6bb97189c91fa726c"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--af1e1e9a24d2_1710.jpg",
+        "sha256": "d02274db630887d43725a7b24ecbe881261d4f3395c2fd60c58176a84527aa93"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--b37f799eaf83_1757.jpg",
+        "sha256": "afae89fc66006dd3e1540950e7388415778655f66b4855d2abfbde0ac39b38e9"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--bd5d60ac5d63_1423.jpg",
+        "sha256": "ca05b704065954a61fae36a7f6d62cc91618e29e2f5937f05f84aea69753eb96"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--c26f494a5506_1761.jpg",
+        "sha256": "75e39f84fcd62f8c432f52512424117e047d4e73e4ae87492f543cd675b15e28"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--c39142d9dc83_1387.jpg",
+        "sha256": "8c67bb6dc771a84ef25036f8b1eb8faaa2e8d9b67c5eb979a4cf61cdcaa6c6e2"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--c70f4976ef01_1356.jpg",
+        "sha256": "6423c933c60f51d6fdf40d5c80c3bdb0c868b445b75a4653561bae79c1b25a1e"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--c715828b5c65_1750.jpg",
+        "sha256": "8afd5b1de81f61a63b70caa0daaa870e213a451a9bc628fd36bbec907893cc66"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--c717e083ee4e_1682.jpg",
+        "sha256": "5fcd9dda783a9a2898158ff3589f9385b96e7172ec1154c457d52fb06ad8304b"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--cd2cf8cb065c_1085.jpg",
+        "sha256": "dea7aead8fe8fbfb594c01e205b6c35d92ebed9f42d9ec3941a1031a59939c14"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--cd4359e54bd8_1797.jpg",
+        "sha256": "119e0650282134a916f7bf42e52cb8ddcc775964afb3c8db81fda4b48a66fb8c"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--d529cbac1d42_1718.jpg",
+        "sha256": "4a0f4d988171693f4d22667408e31a45c8f2a959a254d35354689f11d5419c29"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--d6422724d7bd_1445.jpg",
+        "sha256": "d4288417a6330ae581d8a77a59fcea07e2ef8a0f1acfe305fa36811f108f801b"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--d717983bbb8d_1619.jpg",
+        "sha256": "612758b9a70fad7bf29a30b8c5eeb1806002052c2919489d5471250ef1b320bb"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--d84207ebf5f5_1204.jpg",
+        "sha256": "167e0d437cbca6df5c63d6f3e114a0046ad50431ab30b4214a107f6ecf99ee9b"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--dedee1a09bd8_1719.jpg",
+        "sha256": "dfd7b1ca1002f0fe484fe44586c90f413c4ea8940f1bd16765c6998920c47eae"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--e16b2c1fe96e_1375.jpg",
+        "sha256": "86762e673e29580e0ddc0839b5b91191cc6afc10ca58e5d601c2708798fb737f"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--ecad23f5ca57_1306.jpg",
+        "sha256": "01ac2210d8db9055dd6645339950e9e46026c4e0ea457c97dda0750abedabb7e"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--f88cce255962_1507.jpg",
+        "sha256": "e308c88b8dc5e7b16cdfef9555388f527340c8041ac4a60cedcf6398d44b050e"
+      },
+      {
+        "path": "其他/其他垃圾-竹筷--fa064c1753a9_1366.jpg",
+        "sha256": "13a7831ba66179bf68844ba26f0b045e928e847d8a0c7ba92b105533c349c622"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--0dbb28aaf1f2_1685.jpg",
+        "sha256": "6af2866803891682ccecad576a3f0701663bfc75bbe3bbe7b9194528a3d344d3"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--0f1f046b25f9_1770.jpg",
+        "sha256": "33166dd4df31ebe7c4991a9effaa97cadb64ee183c32f1f1f959fa1cc2fb54ee"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--10ae70e86175_4.jpg",
+        "sha256": "be09d1a0609c3620fba1fc1b11b99a8f76d5fc4913772c7bf628f61623b9b6ad"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--115c6404d462_1362.jpg",
+        "sha256": "81b93b7a7b2f7e522934037badb1866c45dec3ed51dd885ab106ec0349555727"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--117057be159d_1034.jpg",
+        "sha256": "802af0ac1ed8f87b4fd1a95c1d958f468785b70af6f5f72cd22bdbec219789ea"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--1f6e27c6f2b5_42.jpg",
+        "sha256": "4879ae950055e0cab0dbdada31ef4afcb7ad6e694efa285d6c44980d524edebc"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--2045de9bcbea_1040.jpg",
+        "sha256": "db64c27291230d22b4058480317c7892f1b71d666a96b69e20d04b824f22b499"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--2234a71a228b_1357.jpg",
+        "sha256": "266d8512d0db2452e92098b593d62be1d2b8020a013b232442fd72d6a2d63400"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--2a8e92a6af46_1458.jpg",
+        "sha256": "121fe65ad488420356e681431d033184054971242dca4101b6404c20bdbda565"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--2c59dcc2f33b_1804.jpg",
+        "sha256": "61ef1cf130fb0ea97910ca691f7b8d4cc13bbcc981450277e1e971de68be6ff0"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--322ab130a824_1515.jpg",
+        "sha256": "050e355a8f504dd8daa183df8f84d289d868707fd7e89dda5745a2b3b3a3f4ec"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--352a1a0102f8_1365.jpg",
+        "sha256": "234f09617d6ce0da1789e4704c7e7bee7c5b35fd8e1692f2f9e21d62074b6583"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--364ab0e74ba7_1096.jpg",
+        "sha256": "0a414538b042ea5620b69ee3e1bc64590bcd023ba46efeef55524e6b1a457d2b"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--3a8b5d6649f5_1249.jpg",
+        "sha256": "cd2c499c31cd80b1cebcb171501ba04dc53dee1d31d8019b21dc1fcd95e5fb82"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--3bac6807badd_1396.jpg",
+        "sha256": "6926ee25238f98b090e4210aa39275d97c692261e9c032c1466c010d332c770c"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--4213b3368292_121.jpg",
+        "sha256": "658dbdf23892a2a49ca8971fb75a625614b24b48e84e48f32a308c1c87587608"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--4533407e2dc7_142.jpg",
+        "sha256": "65c73358beef4884a1c85cf7b02bc3eee222fe2051dee0ab729d8648d998b845"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--4ab0d5887c65_1773.jpg",
+        "sha256": "0b5fa4bb3393cdfa697becea0f61cf3a63255d7b912cb68cb215383e20b8f936"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--4b1d9c63fb6c_1138.jpg",
+        "sha256": "ad293200e48fd77f9cd7a45329e14c06561074de600ef24b3376ecb9021f7995"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--540a3a849c60_206.jpg",
+        "sha256": "8efcdcc42ece43292ce7d86480148e88ab060fc7757f0c669c05a9e4a0f6db35"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--6054d452f548_1824.jpg",
+        "sha256": "b2b629f08c5eb1fb01030a372e4e831fc1321324a4a8a19bfea0f365c1da9582"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--61248d6db7bc_1143.jpg",
+        "sha256": "e3928779f18b4c050fb73d7c3bfe554eff025e18abedf910ab2fe6dd79361b8d"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--6aede607ab3b_1823.jpg",
+        "sha256": "7f41e758e4a156229d6b9e13afec406dd75740a0bdcbff8e7c5f68f94e8abceb"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--6c71dedd6018_101.jpg",
+        "sha256": "e8c49f0867fe1b15d5682c2d9134eb7f61c21472d601698e3eb25c0f5e7e375d"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--6c8d06c86f6d_24.jpg",
+        "sha256": "c783666d49cee71de0be63ede99cefd02b7b30e1b3f0d6f94c3cad6ef208e592"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--742d4ce4a55e_1760.jpg",
+        "sha256": "d97cb20c2d1b9706c74ea84aa1f7f33c0f1fe413a4a39bc93153c99f7dd30831"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--76bb2f541248_1621.jpg",
+        "sha256": "039d0aa3441fad7fc05541096de7bfb4d91d8b7a85edf9f5b3ab0c51af67ce6c"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--78b6364155b4_1825.jpg",
+        "sha256": "20d9179ebeffc2006e4a1d62e7452f32104c7e81f3add37346290533bd49c4fa"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--7f68796cfdb6_1194.jpg",
+        "sha256": "f41538491020779bb5c497165ddf11ab9a4c09bf7cfd24ecadc6b6494d550800"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--80b3c9ea76a0_1638.jpg",
+        "sha256": "9fb19603768c68bb27c0ef1ed1a6d3ec4746eab2084e5003ef39876de82e1680"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--8b37f12a3c67_1208.jpg",
+        "sha256": "344804a5a024b5e59b61d1959c8ae00d11b6875551a8de54e194568cf0049581"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--8d460a6e6015_1594.jpg",
+        "sha256": "294c580a287c631f969c2077764ef2f71ad0c8bb2c065af107fb671ed9cc0286"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--972c530cb362_1475.jpg",
+        "sha256": "b859974e1cb4a9678fd7a901465921b2a8b410c255e857f40ff069a6b9e63ad1"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--9905b19a8b3d_1378.jpg",
+        "sha256": "043e758d8b1b7fc9e28eedbbc8c52a0cc05ec074f1b5d40fd820cdf2a7b37d37"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--9a443bc59191_1714.jpg",
+        "sha256": "b9228fbfc0a172560415aed98e434fd9638ca838629c3cab9d0620d2acd4290d"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--9a7b8b20c765_119.jpg",
+        "sha256": "a90e86185529703cbb3cd422b7bee876b7937b3ba80b28c12afab6804c297b8f"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--9c4a0ccc3bcf_1607.jpg",
+        "sha256": "6f940de385cf6f73ac18effee6347209d446113984d18ac6c1d1cb09ea1fec06"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--a0b842e4b0ce_134.jpg",
+        "sha256": "130a1881db3699d1deea9831e499450d4d2108240391016f95e1db543a7cea2f"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--a3fdecc88a49_1054.jpg",
+        "sha256": "df73fedc64c5695288f99328280cc12f9cb8add891425d17175b9fb9d12f2783"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--ad04d06e9fb5_1286.jpg",
+        "sha256": "0e32dd425ff0fa7adb0c85f3074c59e6bc8702088d37d5594e5b3f6484cc2980"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--ad1a9bbeae12_108.jpg",
+        "sha256": "88f8ea6ed6078d2f36694202f49ed2b0cfebffa90f1e01fca72ca3e08209ba19"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--b872b0747255_1241.jpg",
+        "sha256": "392f7868726b91d78e5a54d5bc2ba2732f1d83453df19e2567c04be11e73285b"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--ba29deaadef5_1433.jpg",
+        "sha256": "16d5e6db538cd30f1eae4c84db8742005e1cfe522bea5a97674f629c175c0f07"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--c6b781785b11_1827.jpg",
+        "sha256": "46dd7ba229091b14cde398ede825362ffb1cc5839ceccef60ed166260158d0e6"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--d1b5c3cfdd64_1817.jpg",
+        "sha256": "4f143e0a3d1a198ebe61d7ccc821de4ebf58e4db59c4b368f2a5b2063a3f601e"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--de05820f805d_138.jpg",
+        "sha256": "c7fa3232ae1188cb5ffab573ac587352c731b1d5fb798e7e3dfa71eb85244a08"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--de5fdcec3256_1509.jpg",
+        "sha256": "0e46050e34558de7362e0e39012d0c170f1969635db2d3ab97d21461313968f3"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--f15dd9767bab_1448.jpg",
+        "sha256": "edc1e52d2ada90d6464642ef87557ebfd3fa3dae4f320a36f02fcd224d88c1d4"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--f38ddb5d72db_1309.jpg",
+        "sha256": "22fa3240dc1f4ba10dc2a2510cc5cd7bf2d993fd97e1b9cb69092dbf56b1423a"
+      },
+      {
+        "path": "其他/其他垃圾-胶带--ff46d66e566d_181.jpg",
+        "sha256": "dd8c972ef2a9f6c0c891d903417edf8935b4b51a8518f7b71ad957549c91af16"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--14728c4d9c6d_1644.jpg",
+        "sha256": "8101e5b904b7831d5899a01de54ce9d26e3ddece977ff64cb4c623fce7b65d22"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--164e2d872c87_55.jpg",
+        "sha256": "a34e81dbe3ee92ab329b0fe380066408a78b1addd5276120ab1d70508a2500b5"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--172ba1bd84d9_1261.jpg",
+        "sha256": "8b39dc96097489b4d91a2e4c8e955f6ba30162ddec283e943e7a48761e62c607"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--1db491e0ea9c_1017.jpg",
+        "sha256": "b65682d2037cf3a5947ee5988220e69d7207c7a89b72dd0759f3afcddd92d3d2"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--24a47a1fc739_1024.jpg",
+        "sha256": "6117464278771c76abc3c0f71f79188b8fe33b77e5f63648606f42a745e425a5"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--291d5cf02b81_83.jpg",
+        "sha256": "265a4ce73671d1c3e81f54dc3cc026934beba3d96346ba5603868e92c481a3ef"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--2b632a748423_1612.jpg",
+        "sha256": "03805d06653d633a5c48ae39157d144f11514533a6f956fdc33a2478b93b48d9"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--2d381a109396_17.jpg",
+        "sha256": "9ac57be888b14207e9642270c2e802054c0f740ecb7c2ea449bb3e45fa1d3213"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--306b9d503bbc_92.jpg",
+        "sha256": "f2b6cfe4dea2a7fb73a1d74a9f1f9768cf024695aae0c0d7f7b0b9c905f44f97"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--33aee63b5d02_1550.jpg",
+        "sha256": "8806889bd99aaef3379fd846853079deb5a612a3e34b9d370d7abdd855c8f8e6"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--3872aebd8bcc_1219.jpg",
+        "sha256": "1f696d6b4afb5a37f1d8c348bf3ae79a909fe61297750ef2b39b5f59e173a50b"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--5214af486167_1436.jpg",
+        "sha256": "b0ccaaccaee60b0bd8c9db359d22f55e3db1d0a57e5cdfadb15ae21aead2eaa9"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--5a1016a6818c_77.jpg",
+        "sha256": "33691a7fe591a7b8a04edbaa6f31d8335929abaa4feafdeda6c53470470a8dc1"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--6e07f19555da_1154.jpg",
+        "sha256": "4a646355c4e442ff850b0795efc6cf39f16a588768d254523412aab014effa9a"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--74f3537aa078_1490.jpg",
+        "sha256": "d28cb4569bdc4073764f6e2ca3126dd5caa39ee11b12b6f5277cc12d463bab0e"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--7c3ec9bdcb70_1271.jpg",
+        "sha256": "7e0f0a572fc9debf424512c7f8b67babcbe0720f98d28abe7d94dc723b38da33"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--8b9d71d48883_69.jpg",
+        "sha256": "650e30f3cb83d9e30471790d7dbce59b3be25fdbf14272283f5d3d8e33c1553b"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--8e6c7c7678c5_1338.jpg",
+        "sha256": "10976fa122c5255cddfb081ca04303ebf79e22145d503ca7d14c7fa0a2464a00"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--9b20f10f4710_8.jpg",
+        "sha256": "8d43fb0788bc60def988959ae07c0dd875239e15634f87197172d2f4d6183b37"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--9bb00d284c8d_1135.jpg",
+        "sha256": "85a9f56708f500365d7be5772a17358c07dd26c8a5bc991add86e71cc5fbb5a3"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--9cfad642cbd8_1630.jpg",
+        "sha256": "eeb86db4c835f5e2bbe5ff00bf60b4b48f4e719f5cda74d8aa4c6d1888da4fd4"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--9f607aa2d854_104.jpg",
+        "sha256": "1067c507f41e5e7c5de118fc39bca87ccbc4ee0f63601e593a9b2c39daed0353"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--a309034fc86e_1531.jpg",
+        "sha256": "95c60679dded079bfaa11875d908eef0aba9fbbdbf31edcbdb2ae9ac53f2a861"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--a435d5fa69f1_1654.jpg",
+        "sha256": "d056192ad48dc85e5197c2e7b8e0171a1ca8cfeee24387a0e66966b96edec0ca"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--a99f5af968f1_1566.jpg",
+        "sha256": "29187a07eb963a76f30c6cad7dc09e91d42fdd04e937f8da0e6cd84eeb5515ed"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--ae2d11a32a52_1048.jpg",
+        "sha256": "cf7940131021ba53d5ebc86ccf10a37ff20e332959d8c9dcd7fec59038aff348"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--b01b1b52ded7_159.jpg",
+        "sha256": "9e493fa75150de4f0e4a9b1db7e039f8d7c9c5c6cd54295965f283be2bdc7ded"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--cf81f1adf498_208.jpg",
+        "sha256": "e787128f75fe6e34a62e25a79865e286eb80f4d2a77a3e98bf09318ddcdc53d6"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--cfd0de1420cc_1493.jpg",
+        "sha256": "cf7cc7c1316b30b57ec2ef71e48efb38dce0a1613ba37f7ed380a2d7f38bb577"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--d2adaf7ab9fb_1316.jpg",
+        "sha256": "095e370578430222df0de8e01358990b23f69c54fcd80df5d9a6f0caa0d94307"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--d521653a9bb0_1568.jpg",
+        "sha256": "eb9f02e54c627184b9a8ac0aac915167ef4fa77edf15915247af35af8cb51e17"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--d6aa4cca3498_1309.jpg",
+        "sha256": "0cd31c98b0992f45a5911109bc2ebbd5bc1ca9783b15aa8202ee5cbefb959f2d"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--d6fd4a70cbcf_1560.jpg",
+        "sha256": "f577320ed7cc9dfae1602225389eb1c9da6c4fa61990325ff53ea732ae177d58"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--d73177f24e84_81.jpg",
+        "sha256": "8f5e7ce1797dea210f49e6202b9b36306964e15e2a9814ec17d2561becb45796"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--d86a3d1e470c_1295.jpg",
+        "sha256": "a5bdf5f2ab23ef16178f1ee47adc63553e5119ac55d2aa7f9c23a47913130d0b"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--d87d70bf426a_1586.jpg",
+        "sha256": "62cdc2b60b40fd54c471fa294c1870f4836e841804bfe38166f57bdee215c92c"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--d90bd7565c9c_1231.jpg",
+        "sha256": "0dcb127570071a2d6ae699ba288cc6f24753d823c5ad332f6c493369a661c422"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--df27f067305b_133.jpg",
+        "sha256": "cae56e37f97cfd247a30fd45ce3a57c2eef1aff1f57055380fd88241fd01cc03"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--e10d0c0c4129_1435.jpg",
+        "sha256": "db2d76266b9fa3ad0227e2b1d013c02f16d9379ad3c5c6444a254b88e9e2860a"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--e8de372a4d8b_45.jpg",
+        "sha256": "dfcafae6ac8ec4525aafec53ff92633d762a760619adce3706a6a9f0740a2477"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--ee5b51616b63_1021.jpg",
+        "sha256": "e1c0e566eb7a6e504fc0ced1c433bdc9bd4e3758fc68a7accdb5fd2f1bd41064"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--f078a4d166b2_1071.jpg",
+        "sha256": "7f50d11c05c3f1055c5f4bb71b1bd8c1da9319083559cf168547a425739e523d"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--f28c3e530238_51.jpg",
+        "sha256": "6c405055c81d12ac4add1e893d96c1554356c7d579030b19916435d6aa6361cf"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--f35714c66b8e_183.jpg",
+        "sha256": "ae27928c9c504ffbd5ab0accb6eed133bad414daed9126bb45e01b86a2a9784b"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--f60bec1c7a5a_1592.jpg",
+        "sha256": "cb9aa6839e489aaac8173b026029da34491a8a21785bfdab1ec6ca1be6e8c77c"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--f77546113ae7_1481.jpg",
+        "sha256": "88eb0eacd8d63345c2f26c6553414161350c0cd7ea7a2fd44bfa1534f72b87bd"
+      },
+      {
+        "path": "其他/其他垃圾-验孕棒--fe075ca120de_1334.jpg",
+        "sha256": "abde6fa6220228435b3dd47416873b0eddaf622090adcc2804b186e8cbe7a9cd"
+      },
+      {
+        "path": "可回收物/可回收物-包--08f5cbda72c4_329.jpg",
+        "sha256": "8c69e2c5bdc6024af5039251749ef0dcf63e86bfc28fbc397988d02d3adc5077"
+      },
+      {
+        "path": "可回收物/可回收物-包--0c44bcf33911_145.jpg",
+        "sha256": "ee4c0f61c32204929f843afa672c3a314d28d6223af040dc67381718b75f39c0"
+      },
+      {
+        "path": "可回收物/可回收物-包--0dbf58a3c31f_1598.jpg",
+        "sha256": "454b6b3e226dadad9806d3f34e47539f4a14cb772a4a1149f7031679ca68e67e"
+      },
+      {
+        "path": "可回收物/可回收物-包--146fcfcbbeca_39.jpg",
+        "sha256": "1758f3109bf3b44dbffd74aeb41e14dafda130137c833423afeb08d7e22a0bc2"
+      },
+      {
+        "path": "可回收物/可回收物-包--190407c80a88_185.jpg",
+        "sha256": "e0d6e247475560a47430ebaf42b5ea4fe395942099b9ea5725cdcb0402ebfbc1"
+      },
+      {
+        "path": "可回收物/可回收物-包--19c7644f35f5_1348.jpg",
+        "sha256": "c84f290ed20e64b5b711b946d14909d6904736a3ff3a69548e9de46710d37be1"
+      },
+      {
+        "path": "可回收物/可回收物-包--1a4d269a8700_177.jpg",
+        "sha256": "3acaa7c639e14d97f9a80ca122df3f92e1bf594eb1752ee265cc7f7192372527"
+      },
+      {
+        "path": "可回收物/可回收物-包--1da9e692d268_106.jpg",
+        "sha256": "b2887ef14c046be3ca3cb5c15ac59fca13a3ad27825f08b2cc42427872decea1"
+      },
+      {
+        "path": "可回收物/可回收物-包--22dfb573d29e_278.jpg",
+        "sha256": "da0137b6b021c81b825ddb3bdec0960d39847a19a1f4eb75d248d404ca40c59e"
+      },
+      {
+        "path": "可回收物/可回收物-包--397bc389fa42_7.jpg",
+        "sha256": "524cbe343aff755cde220d7b26ea118890b05a978fa956bda3728b328181b69a"
+      },
+      {
+        "path": "可回收物/可回收物-包--39c12871e25f_259.jpg",
+        "sha256": "ae2f5ec9ddf94c8d5107463739b9a051663618bd07f3c786f9e18601b211d20a"
+      },
+      {
+        "path": "可回收物/可回收物-包--43303e2ff2dd_42.jpg",
+        "sha256": "37829b90d6efccc88da1faf5115a3c59093a33c6b7b53ff47223b94968e6dcc1"
+      },
+      {
+        "path": "可回收物/可回收物-包--442624956db5_327.jpg",
+        "sha256": "235130cda92b7f522afaee1ac714a8738538957525f61afdf7e4d3a4b9a2ba76"
+      },
+      {
+        "path": "可回收物/可回收物-包--45218aff6468_1344.jpg",
+        "sha256": "311dd835b3b30106c829cea332cb02f88d814641c18e3572c9c01634161b7c84"
+      },
+      {
+        "path": "可回收物/可回收物-包--4b2d4fe9ab03_191.jpg",
+        "sha256": "dcb7924be7dbc4313522a72b9f43cff60c4f04da145620523e77cb9f807ccc40"
+      },
+      {
+        "path": "可回收物/可回收物-包--4e550493fd16_1615.jpg",
+        "sha256": "49ecbdd1553f5d49e08d95c142745babbe45134160539a921fa75b8a9813f207"
+      },
+      {
+        "path": "可回收物/可回收物-包--4ef867f2029c_230.jpg",
+        "sha256": "ec317cb0b37b200083e28d05c52a3f889a18082f198d95bc80f9e7905e0245c5"
+      },
+      {
+        "path": "可回收物/可回收物-包--50ad76bc7d49_216.jpg",
+        "sha256": "f4a8e665e98dfd52cc8af56ea9a47dac8c802c733c42cef066abadf33b3d6ff6"
+      },
+      {
+        "path": "可回收物/可回收物-包--516eb7058ee6_81.jpg",
+        "sha256": "dfe14473960edca8959c5ed6d2a96bd4f62c96c9699d6b86f37b7ddf01e7fa16"
+      },
+      {
+        "path": "可回收物/可回收物-包--5c2ee73378e2_1063.jpg",
+        "sha256": "4d936b26fd02175cc0aa2fdd6645a1e2d85eb4ea834195d81a8c08c49f851b74"
+      },
+      {
+        "path": "可回收物/可回收物-包--5e8e2bd93fef_1544.jpg",
+        "sha256": "644c45138d548be9c448685c4b5908921940ca0f4762005930e021e5546094e3"
+      },
+      {
+        "path": "可回收物/可回收物-包--6a8b7df52fa4_1323.jpg",
+        "sha256": "29fefa8225f1872ff1421992203d632510d9c609f515be158ccd2adcf5594b1c"
+      },
+      {
+        "path": "可回收物/可回收物-包--6ca1dec13332_179.jpg",
+        "sha256": "81435d2f19c54020dd026c4bb9e3edb30b70200f16923e81ad445e0255c70a51"
+      },
+      {
+        "path": "可回收物/可回收物-包--6f38bb14cead_187.jpg",
+        "sha256": "c9a4f3c75aa1c3597b479831731d5c58abe9c1eea220e3b9979305229c690c70"
+      },
+      {
+        "path": "可回收物/可回收物-包--7c47e7f38fdd_284.jpg",
+        "sha256": "3fa134e06d6a4b20e4970d2e15ae0bb7d1e1c8dedc61baaa5ddc2a4632cebc30"
+      },
+      {
+        "path": "可回收物/可回收物-包--8674b8ba2e17_153.jpg",
+        "sha256": "93bb1a34837e8850ff2ecd78c76e5912fa53b2621fa95454132b777aca4d3456"
+      },
+      {
+        "path": "可回收物/可回收物-包--87db1fe900e9_1204.jpg",
+        "sha256": "009061ef0f3cd2b5927aa16748b21f99b52671981bd82c2a74ffdfb29fc2c34a"
+      },
+      {
+        "path": "可回收物/可回收物-包--87de1e703d26_253.jpg",
+        "sha256": "00c23d6bfa58f3c98959005fc8a93d77649a55d0a45b8bc4caf9608220bb4ce7"
+      },
+      {
+        "path": "可回收物/可回收物-包--906cd843551d_367.jpg",
+        "sha256": "2565f1c05311f225fd47ae8cd840066591a09e3c790d8850087d75708a850d19"
+      },
+      {
+        "path": "可回收物/可回收物-包--95cfcf0f6c59_1332.jpg",
+        "sha256": "4e1ab59c7892f3b683b4e8b790f01715a0812f60e51653c99c914d0e2878a279"
+      },
+      {
+        "path": "可回收物/可回收物-包--9d5d479a1190_25.jpg",
+        "sha256": "fced7e000c429aa152f5c868cc325725c92794041c8b2653b825fa3b945c09ca"
+      },
+      {
+        "path": "可回收物/可回收物-包--a1b1b584688a_315.jpg",
+        "sha256": "d68a1e040d795bf7d2cbd151d95b30db9b3d0947c94f34d88e04bd58b1b7f5bb"
+      },
+      {
+        "path": "可回收物/可回收物-包--b18fc54d8df9_292.jpg",
+        "sha256": "ae31d9a000353c41663e4bb6a6f93ea01fe00f70b9189ab2191332d6d0b862e6"
+      },
+      {
+        "path": "可回收物/可回收物-包--b3dfca85d4b9_190.jpg",
+        "sha256": "767d38aef902d1608d37bb1e58aeae17328acb1f8f156a59498481135733b677"
+      },
+      {
+        "path": "可回收物/可回收物-包--b65c9034da34_226.jpg",
+        "sha256": "f66a8050126152931c2f8f98683b9851ccd18b2638bfee1206e0109d2a1f7c6d"
+      },
+      {
+        "path": "可回收物/可回收物-包--b77fe0fc4c8b_206.jpg",
+        "sha256": "388cee030d4ae362c7ae856acab51761665600d477c81be2696bc82b17cb3bb1"
+      },
+      {
+        "path": "可回收物/可回收物-包--c96fcf28fab3_1595.jpg",
+        "sha256": "412a0d017e16abf596e8bc37b97f6eae6042bd87b731a85703f626b4795984d6"
+      },
+      {
+        "path": "可回收物/可回收物-包--ce6e1fe78e48_379.jpg",
+        "sha256": "d32c652e214fc4d3f025e80b1c3709611e9644926905a3be5a816b924cfa2529"
+      },
+      {
+        "path": "可回收物/可回收物-包--d3b046bf484c_361.jpg",
+        "sha256": "fba3ae0e7b36c1516aea4227ac6ff03175985b89954059dc90991b2cade4819f"
+      },
+      {
+        "path": "可回收物/可回收物-包--d87d90b479ec_360.jpg",
+        "sha256": "339f3c278fbbb0d8290087785a3542dbbc5ce8aeb1ef3d5d348d68bb3e2c382a"
+      },
+      {
+        "path": "可回收物/可回收物-包--ded57ac5b40b_353.jpg",
+        "sha256": "954f1ff82238afb2ab1ba01b7b6cec23f2a0397098e77a495174c4a27236e21c"
+      },
+      {
+        "path": "可回收物/可回收物-包--e2aae8875695_10.jpg",
+        "sha256": "1ebb961a4e3ae35ca6b655e7b54186b4c90234fb0f4462cfc7367f99c0fa2771"
+      },
+      {
+        "path": "可回收物/可回收物-包--e6c1f2a26f6a_1605.jpg",
+        "sha256": "790d724f299487105dfdba36ab4b8b227c57ac52e1cdb97a1612ef3592b8672f"
+      },
+      {
+        "path": "可回收物/可回收物-包--e6cdd1d06843_1609.jpg",
+        "sha256": "a4e924472cf29b75e77f6715ded9b0d0a22001f7a6cc3ccadc4b65dfb9145d77"
+      },
+      {
+        "path": "可回收物/可回收物-包--e781e7b95b58_1372.jpg",
+        "sha256": "a97d48cb8fc5a5a0849a2a80c7acf6459bd70d9ac2a7314cbc478ad3decbef04"
+      },
+      {
+        "path": "可回收物/可回收物-包--ebdfae52997e_114.jpg",
+        "sha256": "cfd135236097edadae7130eec3162847ee86c31c61343ef98fb7fe77e7a52ba2"
+      },
+      {
+        "path": "可回收物/可回收物-包--f24771f86718_336.jpg",
+        "sha256": "1040dd00942079f96130733eb1d6eb865ed1083b17c9ac932cfc163b2d7ba7c3"
+      },
+      {
+        "path": "可回收物/可回收物-包--f54df4fea8fd_66.jpg",
+        "sha256": "7b8975585a4232adb198349f445436dcd2543c26cdb1da40a2739ca80e490dc1"
+      },
+      {
+        "path": "可回收物/可回收物-包--f630b1dc5d44_334.jpg",
+        "sha256": "4707f249daa2aa5918e62aa99ef37f94c60f2a843bbb59c9a83dd83ec4d690d8"
+      },
+      {
+        "path": "可回收物/可回收物-包--fa1c9b9a9dbc_1248.jpg",
+        "sha256": "bdb198d3ab21fb5cbd3540f40a80c892d14bbaf0c2795ec927a4e1fcf81f1050"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--000210554fd9_35.jpg",
+        "sha256": "0d1f507b543a76ebc049d5631b59f00134cd6ba48366b27c354b537a93453bee"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--06c75689b399_219.jpg",
+        "sha256": "5d4239781448b9df62059bcfa924324b077e6cc918eeae8692b7088909c3e091"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--0a24d976406e_1018.jpg",
+        "sha256": "ca29a56879fbf3ee1e49ce3c96a0697bb53a7526ddedd270431eae9167b7a4e3"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--180e20d7bb6a_25.jpg",
+        "sha256": "57c2608b2f818111cf290e09663836f85594d4f6c9811c77dae1a091407eca7d"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--18a46d25bb26_510.jpg",
+        "sha256": "bb7f53103663e4f5434880c553093a722d8e2e6cd7ffdabe34e6bb6e937d6fcd"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--193327c0d8cb_371.jpg",
+        "sha256": "d2f1d967738f3d4f2aed24a95024dbf304d99df6ecddf470410020cda7c625b0"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--1cb11dbdc131_138.jpg",
+        "sha256": "1b47ebc9435893631b6b8840d6dee0603b76c46ed7249f9dc9b60c4c7a72c637"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--1fd0d7bfdecf_379.jpg",
+        "sha256": "79f9c9c9137ac4de19db8d90a72e3f35f11a821818934a13a67c8183204194e1"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--2002e8719b22_721.jpg",
+        "sha256": "0f2f346206ed87f6ebfa4f5c29df837fb4cb1330e1d30b518347c11fb2bfee46"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--2595b66a9945_2.jpg",
+        "sha256": "6849efc6a5c253a0739ff0214ddfd140687e0e951b343a77ec91b87d6e229bb6"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--27b4f593d674_367.jpg",
+        "sha256": "df1bec1f03b246ae39d27ff98a14d1f1fcc1655345894606d38583e3f7093ab7"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--3591a54370a3_1296.jpg",
+        "sha256": "31602a739b590350c0d46995f282205948549ee2e985c36aece9abed6f9321af"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--393b24854ec8_360.jpg",
+        "sha256": "cff21c3c0b1cf5d3e136c81ae0a104b92c793eb79f3daba61cc2d2c2391ae50e"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--3964402de97a_129.jpg",
+        "sha256": "134efc7b227fe19c1cac5ce33cb01ef5f1fe2d808f2af782e8bbbe350783286d"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--3da6700b2536_334.jpg",
+        "sha256": "8b4ff583511e1e126a4514ef4df096c17dd283a098fa627ef05e8605683a53f1"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--3fb4ec42d5c0_215.jpg",
+        "sha256": "b952b97e1d5468786bc16cddd6a4710d1800e551611574d1211d7bde6587f7eb"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--477678f41ca6_1011.jpg",
+        "sha256": "17c0c56ec970e1f6aececec75b079d5f99fea26c1dd2bf6bbd69316d9a3b9d50"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--4f26c56da605_216.jpg",
+        "sha256": "a57360f5f720f593532b43bda44340d959ad221ce92df49990c99f8a901be012"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--50fcf41816e7_270.jpg",
+        "sha256": "7c31ee015b582015dfe0c75a4314d5f98e13848403490fbdfdcc5e25c266cccb"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--593d239e30e4_646.jpg",
+        "sha256": "af2e668dad1b88e905f86e4f644c46cca9a92ba853b0d0108b4f1c70ef6f50a8"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--604dc0550fa0_345.jpg",
+        "sha256": "7ef3de19552e0949327979baad838fc9e94a071d49419bbb770efc2fa6ddcdd2"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--67db896183d8_56.jpg",
+        "sha256": "e9a1dc92416171b9f0ccb55c6c255f0d67a0fdc346c2330187c0f44d166cb487"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--6be85b494a06_159.jpg",
+        "sha256": "2f620613dc6f8cc74396d94b2fcfa73ec125192cc92e24b1beea7cbf26335ab4"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--710fc3fca745_332.jpg",
+        "sha256": "d46845d71783934bac4a9578b6e9a7ae63d8af33dc43f27394595bf6c245daa2"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--78cd0985da09_652.jpg",
+        "sha256": "c621a18abb0d0d961afda5940fd6a132a62d84c7fa0394e153da6e3cb18ee76b"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--797ce275dd6c_1.jpg",
+        "sha256": "fd13d0f0f4b6b3a9db964133ba042d9e8aef29c8bb158b986388b9ed216622c5"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--7a5c5b0a4f35_86.jpg",
+        "sha256": "31bafdfae417077f70ff9d5ec921733de503197f5a410261fb10e33d327b0eaf"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--7de0c4e6ddc9_359.jpg",
+        "sha256": "cb28b44fa60ed2304538694364f5fe96b63c4061a9806b879336121bb48f39d6"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--7e794594d200_62.jpg",
+        "sha256": "57aae4abc8f60968f2702c0540d99803bdcf943d56012a6628de307a0b184866"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--804da241c248_234.jpg",
+        "sha256": "dd8dfd6f7d56740f82c573cee0bc6f2302bdff3dcecd70df75a30c116d42a9dc"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--8054113f5fd4_229.jpg",
+        "sha256": "b66df851f19f3665054cff4d2b85b60a0976da0b4ed850f56d294e77d46abbe8"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--8a475a170b6b_310.jpg",
+        "sha256": "37d9bd1edb7e3ceb8006f5f9e13a3e2888d81d91d5541968f96faf56a77efc15"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--8fcc49ade729_211.jpg",
+        "sha256": "f65b8e0908ce77bff2baaafcc638875e075e437b53cea60cb40c768e8f130388"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--91320ca71d0c_330.jpg",
+        "sha256": "98b2ad95b2940eba7b53e4b05b60b42d71d980e987921a2cec3e0eb6d97670c5"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--984d5740ad48_100.jpg",
+        "sha256": "9cc1a42b31de42fb6ab5bb648b3f7d463ed1c2168d7f3898a140205a031d16c5"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--9caabfadbd7b_526.jpg",
+        "sha256": "3003daaa07323755e7e7352256195328f533e81a8b924e9172d0b66c52928082"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--a1572b8443e3_249.jpg",
+        "sha256": "85e0e7642eaa6bf825f2f3d694087a4a3d6c111c96eeeb0a38a30200ab1f1521"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--a3e235d5f95a_180.jpg",
+        "sha256": "2423fd77ee3178e98ce5301a1b0627310e1dd1d0240f93795951a958dd88ff5e"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--ab620f6c03f2_693.jpg",
+        "sha256": "2a227d3f8711980331525efba1240c94315954f87ee5cd88684c1e5d39a04f32"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--ac94cf28b12d_137.jpg",
+        "sha256": "2bfcb91fc6f8ec5e7718914b415543a4c5f4f93cb3f75cdfcacf79a25b82e232"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--b565327f6d75_156.jpg",
+        "sha256": "428ca1a83c6eb08a0126bb4f80516a2205962d2a9e576c95e3eb58aa3757acce"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--cb0c90050c91_98.jpg",
+        "sha256": "8ae2249008552e03121a1f133c2c07bae563182d8a57fd6fd37842b03eb8fc2c"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--da49f07de17a_157.jpg",
+        "sha256": "654bb52fa1882ae2acd332db17794d373521261320849e91f92c4717fa02a91b"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--ddd95a964914_273.jpg",
+        "sha256": "29acce0e0d1e558c782e170cdc9c62b86bf632a01e7a4dc2309d998e83400f22"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--e02d10f86bc1_314.jpg",
+        "sha256": "36a7333337ec44f8004ee5bfe7f53543f3e34160c63a4d1332f92d54b8c540b1"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--ecd243e28dac_254.jpg",
+        "sha256": "6db952e7ed95b281818061faa499cc750ac83dec6cd01bec3d66060a2189de81"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--ee6d9dbdf1ff_16.jpg",
+        "sha256": "941f32a2f978462f9921379c62a8f9bac39a87283c0ea19602356aa80f37f0a8"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--f56b706a62b3_63.jpg",
+        "sha256": "ec4f433fb10d83dc33b36a2b30466f4e0bcd92b9a168aabfd1918d0bbbf0196c"
+      },
+      {
+        "path": "可回收物/可回收物-玩具--f9ad2d9cbf3a_74.jpg",
+        "sha256": "1acfc47c28189cd07f7c3db8693ab7a36d2268b739c2103c76ceeeffae513698"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--00c53e98832a_214.jpg",
+        "sha256": "054c09971cef7d9f9166c6e283c91112797959a6df936599ddfd1f3cf3c8b585"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--0a24c20533fc_235.jpg",
+        "sha256": "64b867179a298487e379f2e0e881f8c993952edb49adfea05c787961d8bc9531"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--172c8bbc87e4_17.jpg",
+        "sha256": "5d47dfd815811b834dbf6797ae68c5708c3f503a6b7b221de1ee4b45c7f4ac39"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--1779a54e5f92_59.jpg",
+        "sha256": "449addc74ab498225a15277506bb2bd7fb120c8648a67c6117e985db95666d5f"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--1a47a178597d_64.jpg",
+        "sha256": "08720efd4c5b5ccbb06c6cdc24f27b612c8a276ecf311e346041571275c9e3c5"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--255945a37abb_252.jpg",
+        "sha256": "9eb8dbb26194e7ae857c4621221081457a90b0cc3e097697ba6c646be12b97f8"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--2e6dd7cd3d07_82.jpg",
+        "sha256": "0c1d6ddd617f87fce3cc73404d36fc71661d7e6c8d18e6cb5310cca49f3dea7c"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--2ed910b00c78_1110.jpg",
+        "sha256": "6b548d172338a839cae6d5402736a573d3cfd318eecfd3c1993ed5d48fd322af"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--3031828e8dc7_149.jpg",
+        "sha256": "3128c634757420b31a76f88d12ae19da74d69c4497d5ed39ff93d7a5e29b28a6"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--3244b3f57654_139.jpg",
+        "sha256": "9b1dc15bd39ded13c36bd8a3a76202ea4dc52ba957ac5f000d0c3dc8fd3d546d"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--3527be830a20_1035.jpg",
+        "sha256": "525ff89f76655a4de59fc25b045917a6153b074dcfb94b9d5aa5a88257be9db9"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--43a0c993f247_1590.jpg",
+        "sha256": "919cdb72aa2cfaa401f342561f597a341e85ca37b3a3771651962f1a4c2f2193"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--4cd01e84b84c_189.jpg",
+        "sha256": "9e83ca6544731ea6e07fa5be26de8e101e98039d2cdb2ca9ae1c68e33e1d154b"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--505f8bd44d5e_17.jpg",
+        "sha256": "15073aef7e9e36da8b911f0b4e08242c06f647da3cd0ca51b34e8609d57fae1a"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--60719bad83a6_133.jpg",
+        "sha256": "cfd803784ca57612a70b29913c6eb05a44b0a58f31924b6fbe4b7eb71c2795c5"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--62759dd2ea27_48.jpg",
+        "sha256": "fbc4ff4b6e699a03b32f51adf43e6f9b686a3ddc38bc4b727a971484fa5dba6d"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--65f762cde413_1292.jpg",
+        "sha256": "ac266a87a747e207f61b7036d31d1503fbc817b43c35541a1700f2212277468c"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--777e737021d6_1092.jpg",
+        "sha256": "3fcc5531716597159406437d6651c86a68ed8061b698ba2075755e2510019a4b"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--7a01c85f42ee_308.jpg",
+        "sha256": "37b0b19b0dff0cd4fffd134ca1f63cb394f11b05b4367a00c45157ddde5c68e1"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--7cc6d6029809_15.jpg",
+        "sha256": "240d64a4311d6d3367b26cd54d398ccf5360fd5bd45a9e04fbd86ae2cd574d93"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--7eff14311e75_19.jpg",
+        "sha256": "6e067523366cafbb80e5434e0fe39abd7d326937496f1dd1e7483aea295e1828"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--8296056e6b9b_28.jpg",
+        "sha256": "cd2dbf126daef99e98a47fc9d880d0bbc5e12dc56f2031bf8ee18d6886401e4a"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--850154f87526_1461.jpg",
+        "sha256": "87c6823e07983c91e558507b14a42365d391a01b686382519d7548a641b9f58e"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--8543fb82726d_1527.jpg",
+        "sha256": "13c61206871d47d5ee7cbd3de5c7b3fa7d425ba48bc128435eb8f7502101b9ac"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--879112a46e87_56.jpg",
+        "sha256": "0c9a6f97154c875912ca5f1a2db04851fab705f91e2af4e0d589fa9926ed4797"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--8ebc24712546_1186.jpg",
+        "sha256": "b0f951e540e1cd97325a047b8ef9020ebf82698a30c23486f457d562bea78891"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--9eacade09048_1514.jpg",
+        "sha256": "767ec335e4f3300b7e01a8fd80ff4ad17fc9d28319f134abb292faa211647ec9"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--a047ced656f4_36.jpg",
+        "sha256": "61b6beeaaa83c186f9aca520a8bef1e89901963839c4234f6a0ef43b7263c082"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--a3a803ca4233_13.jpg",
+        "sha256": "e66325c291a04ea83f9059141651b7397ef2279450d4d0a6764c62328f39aac4"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--a493f850278c_55.jpg",
+        "sha256": "934f73626711c2f3b3eba3f02b665dc27026ed83841dcbf637104c5e21013c3e"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--a5b54e2af1f8_1019.jpg",
+        "sha256": "b3801b90d682423bbd8e79db6e6ebc8c412eef33fcdd5ed35476202d7487308c"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--a8cad69f0d03_83.jpg",
+        "sha256": "c9cda346fce1276435e198620fc872a2f5c88ac2b7e07e7eceeef6c3606d53e9"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--b1ed3eb4bcee_81.jpg",
+        "sha256": "f7e7da076eb42de6d7cce9dbebc6ca4942bec57046c73d2391e0ed1ba0d9c623"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--bf0fef2fe68d_38.jpg",
+        "sha256": "faeab38f919f594fe7a6b79b613a6c670583a50ac44e4321ce9551ee9afe86c1"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--c023b033c636_278.jpg",
+        "sha256": "67c70418926131996e8ee0059e0879baedad81c99614c52fe565edcb59a8a91b"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--c296a55055ad_139.jpg",
+        "sha256": "1c420fc0bb07f2891a70347a83a8158aff12ea5dbfe70cfed50067cd5a666310"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--c3966ef6ecb2_143.jpg",
+        "sha256": "bc33527b24380fdf104f434cbb5879811ce5f7b028c0671ca1d6492dbb13f72a"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--c505f34d366b_231.jpg",
+        "sha256": "3726ebdcce18a89eb743f74f39518023fad1e06a8e084b7e08c960f1bc0f99a1"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--d49fbfe495eb_1766.jpg",
+        "sha256": "5aa39d1ee1ae0025d7dd9c8300b5ceeb711b609e4864c9d3655d94559fc0d252"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--d4c63e2e1ae3_159.jpg",
+        "sha256": "c7ca21e9ec88889a587536317d6462e17174c08a83235c90805e7857fed7fd81"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--d4cb0fa852e0_106.jpg",
+        "sha256": "6b524c898887324fe0d630fe45c6ed981530a96eed89cf17b0251bfff9231065"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--e208b9e73f5b_1068.jpg",
+        "sha256": "30d74c99400d07d048224b43947b605ef7c1842aa84691c60b63f3315f776a00"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--e30e36cfd670_66.jpg",
+        "sha256": "6c9cfe8162f47e11184cc48d16d4b5bebebe382ab1cd55b43d5cacf625d6ef51"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--e52a10e100a7_1154.jpg",
+        "sha256": "cb708d4eb24a460c54be38eba3f73ed9f91730d31fe2b01d4942376fa13aa0d4"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--e95cba7645ea_275.jpg",
+        "sha256": "6ced9fdbcf63378e3c96778803e172ca1be993d41b5962b8822c9c5520e727c6"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--ea7b7f9f1214_265.jpg",
+        "sha256": "df81839a40959c1aa7098da37ef6206f049d86621972d64d5b7176a281e4a80c"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--f90263eee64e_207.jpg",
+        "sha256": "d05afbefed340247f5d827a615e893cb9edd4de50cfcf452551131f5c4fe8b6b"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--f939c78c8a81_238.jpg",
+        "sha256": "ad56e3c8428f65f79bd29ba8a4ebd2fad343ae10b3633cec30496626f87949e6"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--fb8a627e5222_1247.jpg",
+        "sha256": "cd75d0c038bd4878e17cf1533198352f09d8c2966caf070e32b9b02a35cf819d"
+      },
+      {
+        "path": "可回收物/可回收物-盒子--fe00769ed302_8.jpg",
+        "sha256": "0ecab35c61873eacdabfa8058ba1d8f772ba52db727f826e9f4ea8a0badf8b64"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--00b3c7625115_clothes2063.jpg",
+        "sha256": "36dfefa76e591beb065809f23ec2fe8197c42a598997f217660a8f035fcd8b46"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--012375a9ba18_clothes3982.jpg",
+        "sha256": "8db54c17db9ee302aa44178e41e3814820b021a0ce2788e10386467d80d06bea"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--0392a94d539f_clothes637.jpg",
+        "sha256": "d04f4d673c6e73caa0b8781587f58041ab04aa139820aadba625f3a9d99627e5"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--051fd4feec28_clothes46.jpg",
+        "sha256": "c3630f67cab223d10cb25729166a91dad138a6888e3baae8d90f6c0698488d7f"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--077ddc69df6f_1462.jpg",
+        "sha256": "fbcc6b01f72a7803f32e247bffca89da9f1cac9a608a5c56347eabe4f59aae3b"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--160d6286cc16_clothes2932.jpg",
+        "sha256": "d7436ac998569fc00a7db350dca6d9b3d58f74e7f94c1a3957a47f25f6973368"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--1ccd6801aaa4_clothes1874.jpg",
+        "sha256": "565d2175fcfb0e6301c6680b514fd2b690d220250391a3bd7699169dbd4b4ba0"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--229ff0999b2c_1183.jpg",
+        "sha256": "ba292267eb405f0f653c519115a861c53687b00c96ac9ca3d032a03300c8034e"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--26bcff60f1bb_clothes2782.jpg",
+        "sha256": "11eac202f78b7fe2d908e6c8ced0ecbf8c571aeafc28dc7a660fc15e420e1fcd"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--279806a0a251_clothes1869.jpg",
+        "sha256": "05945715a4bff1c5845da0ecd2d5328050da7602cd61fe02214abac6d92c0166"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--27b623689723_clothes2666.jpg",
+        "sha256": "98b0e3117225941ad858e761d88de9c9cd2ee3a8d2599000ac73039944c5d271"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--27cf4e20e7bc_clothes4813.jpg",
+        "sha256": "e445db25ba7adb6b398f99d95061ea5765d02fd8097355456ce081d42927872a"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--2b19171c64f7_clothes2946.jpg",
+        "sha256": "c9a9b383666943e915f6a0d2e28e48987be9a2da8cb7bf2cec3cbe48495b2067"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--2b2d458a621b_clothes71.jpg",
+        "sha256": "102618ef21e5da02493d14d77180739b7c7f88a3b1ae00d47491b8c680305bbf"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--2cda56e86dfc_clothes2708.jpg",
+        "sha256": "703121426da567c42a4fffebbbbd904eb955effc14cdef51c3a631858ef2e8f6"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--2e08aa03b4b8_clothes4288.jpg",
+        "sha256": "ef9a4f5c37877f331f043489f416c1f5d15ab4bea51cdbddbed936ce299b19ba"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--31df345564bd_1050.jpg",
+        "sha256": "76e37e5e0c55bd35c46ecb1cbfe580e13d0e7f55ef69a24cde76093b19514f39"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--356b2133a8f3_clothes3936.jpg",
+        "sha256": "240ba381d79086da34fceb728667d4c25124f64f9dc48ce91fea6b752e6584ef"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--3f908c03f7da_clothes2399.jpg",
+        "sha256": "8c9a0bbc7771bee58a9d4651858a188c44a5b2969f5136dfa3d41d36070ad0ec"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--42d00d547ee5_clothes609.jpg",
+        "sha256": "5e589f6fb3568d394aa8a9cc61afffd3b6dbcc8b07e52a17a1148a994ede1970"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--4d79e07cea50_clothes1384.jpg",
+        "sha256": "a520e301534ae322b3e4710c4eb9df2bc0c66cfa2b0504b44a8101c49eae594e"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--50fdba40ebfc_clothes866.jpg",
+        "sha256": "c1f6276d87cfdf702a88f5b0bbbfecceec0e5a9cd393c2c9f0652a86ea810a7f"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--6104b9d1cc44_clothes4707.jpg",
+        "sha256": "765ca23f4f20a96ef1068e1262a1bbf2d9859412e06e26a88a768fa6f2148d72"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--622bdef36c45_clothes540.jpg",
+        "sha256": "2b3d39053aed78d5a9fba506b5e609009e3a204800d65517d2660d46e0595b94"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--6f0b472a0f7e_clothes3909.jpg",
+        "sha256": "a9dea9545785a2bfd30c8e06348f3c36f820ffa9f44d37a7fd059898ed2ad31e"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--809049d33e29_clothes1979.jpg",
+        "sha256": "9bc3423f48e42f3e90acad27772b66287ce125788727d3678b447a4e42e239fa"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--821cd4f51184_clothes5156.jpg",
+        "sha256": "5e88bc64cc75c9e42c76d94a080ed2334c3c0d6b59b464a28e230e47b3f8a5e2"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--8690da010e98_clothes948.jpg",
+        "sha256": "a10b0c7243e60cea4fa9f81a263a328145037d4917ebeb3a6b6e27651cf1261b"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--89dfef71f569_clothes2600.jpg",
+        "sha256": "908098b30cca24f5574039480fabc1fa223b7d7d768ae865b982f490a00f625d"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--8b13cfd208d7_clothes2263.jpg",
+        "sha256": "329b137f8f1a3aa7147b4b3b5d1e3b34bc1f836a5b42d2fb2d24c43187c7be84"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--8c3ed71ad51b_clothes4996.jpg",
+        "sha256": "66513c267ecc0228ab05b452d39aa5df9b41bf262de205fc3bef298628c446fa"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--9ec0f13a238e_clothes3111.jpg",
+        "sha256": "5f8dc3c537bf73af362b5b854128256070f50fb7319a3500a43cce18454ca875"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--9f5b03886631_clothes5304.jpg",
+        "sha256": "dcd9d427125f61f203fcfd7a36ab23be7f4b746743b713e4628f7059bb9783a8"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--a279242a4d9f_clothes1891.jpg",
+        "sha256": "b51f1a67fddb9d38ec4602914f1096cb4632274f02bfde29fcbcbb660fccff7c"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--a30dee1b7d8b_clothes2737.jpg",
+        "sha256": "ff63e1629b6885e9ce9177d620c5f425f98f1eda2c5d73ac6dc6ead70b8f3fa5"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--a9af39d9c853_clothes3990.jpg",
+        "sha256": "8b51271e36d2c44743549288742400f53de5a01d9c260521b015cfe723c5da2a"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--ab2a963ea285_clothes990.jpg",
+        "sha256": "4ca9ae7915fedcb2a28f3ef3c947b520fb60cc493f4f776699beb5a62d06460d"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--ac6e25bc6ed4_clothes4367.jpg",
+        "sha256": "025ddd2ecda83388c4292aa9c7fbf13ef24f9789ad48c935ccae7b4e6bfbe45c"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--c072ff1c4bb9_clothes3070.jpg",
+        "sha256": "1b236fb96d01ac118242c3326a406f279c2b8323a316089502f419f12f32e0b6"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--c213fa10f16f_clothes2976.jpg",
+        "sha256": "27aee5ec2efdb626f31cc642e3d4cd9f809de7eea19539864a2d341d82c78f87"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--c33bd28022b7_clothes891.jpg",
+        "sha256": "2cdb4e5b4a4aa29da77ba54ca6d7b4fc79a7d839d6229a6a961dd166bd63a212"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--c5f5bc423fc9_clothes1777.jpg",
+        "sha256": "ff25c878c30d0e7e59a320082240ab3dd399b622c442f24eef25ea6fd4962d4f"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--c9a21825374d_clothes1490.jpg",
+        "sha256": "860e2feb627eb1c0309c7d6f33fb613d7dcf0827880bf3f1193b4dd998d33f95"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--ce09e14f6e7f_clothes1714.jpg",
+        "sha256": "771cdbacebe3a7d2544f03542df296ae57348eccecf197e150e24315224fd83f"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--d4af5b0da585_1009.jpg",
+        "sha256": "a9985bc45e58b7734c333486dd86e17620e3f849b2c190ad3e8b490e0ed45448"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--dd42f61734d6_clothes3587.jpg",
+        "sha256": "7f29825aaf1c6c35e422863d2ee324ddcc663369b0e246af53e9ac068768c5ba"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--dfdd34889ed4_clothes5086.jpg",
+        "sha256": "ce8e697606a6c16b53743ad4419ca412d2bf8f1043e753eac6f53cb4990b8e27"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--e3cad60f80bc_clothes1060.jpg",
+        "sha256": "da52bd459fe1931292b4cec1a951d42c56665bd290a2612166d19a2b6a4feb7e"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--e3dd223a61fa_1312.jpg",
+        "sha256": "541e18bad04d3a21b07343c88dcab4f8a91c901aacd37b597edfd92590d2f9ef"
+      },
+      {
+        "path": "可回收物/可回收物-衣服--fc994887c859_clothes306.jpg",
+        "sha256": "06aaa6300f5730083dd7cde12648237be760f54449727f40b67ffa8c328b6925"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--010877fcfdfe_shoes1310.jpg",
+        "sha256": "34fc5966006b66225ff3b74826a8596550cd3b9a82bda9ebe3227806e7bdc473"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--011eb844f4d1_1221.jpg",
+        "sha256": "6aa727152d809b5498b7d58f121c16528c3a90a32b438281db43cba805c2726a"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--097cd694dab8_shoes1952.jpg",
+        "sha256": "0923191ed241439b0a6c6edf4c280962c79844685f20579fb11caea6c4972ac5"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--0fed5ff1bafb_1102.jpg",
+        "sha256": "a2322cdf82911ccf326e8884179cd919c3fef80f1d9b5fddbc94793ef7bcd230"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--20c07d2001cb_1713.jpg",
+        "sha256": "b1dadfd4500471b1490fcd2b53e31a5a86338f1aa4f5d97257b31f7f625aec2f"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--22bcf3579b25_shoes1398.jpg",
+        "sha256": "fe0ce4a63948f6623c26fd16a934f3fb79edb0a626c305b6b2b28cb0c3dd8fa1"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--23dd82c8be84_1350.jpg",
+        "sha256": "7ee8ada1dab600be7d08ac7d133210cff81d0348c53e2b0faa29251d5739a20e"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--255cd67c45f0_shoes1062.jpg",
+        "sha256": "70c75a7af3fdd6b02b845e6ed71ced06d78b646fd9da95d5cfdb4ce91fbacd46"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--445342fa9da8_shoes748.jpg",
+        "sha256": "9f5bd06ad58f7a1f98a357b055f5d331a3adda25dc1bd6bf18e2f68977283aa7"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--57bd2b33bf12_shoes1392.jpg",
+        "sha256": "8565650dcadfa11d8eb6a3603c4b5d3e9c9e54ac9ce40a86c9b77df350181df9"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--5c4240317982_2377.jpg",
+        "sha256": "91705dca267c0f64e2e13361c269f3d574c86467c8a69e390c2dd06207820182"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--5c47c4fe4423_shoes1445.jpg",
+        "sha256": "0a8584fdbb090ec8daca9a2447fb31b4bd56a5cf93c6db591ed3251930971e9a"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--5fc513679930_shoes1136.jpg",
+        "sha256": "e6bdeca69710cbfd91fae6eefe36516d45c4bbd38b1ab2ff12f2786d488b3ef8"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--6694959e37ee_shoes1132.jpg",
+        "sha256": "8c52cdb93d1643a83bb2b6e3250d6cd94998e589060f417fb24a6450066a2b0b"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--66c690ffb6c5_shoes317.jpg",
+        "sha256": "3af5617380d4edf7fee64723df1c9b95210dd2183562fc336468f93958d15a37"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--6b00c722d0b3_shoes1182.jpg",
+        "sha256": "0bd4e945ee9ab1aa9d023b77598d8123821b0dea308a17a23f7a559a5667e316"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--6d16352307c6_shoes865.jpg",
+        "sha256": "d43cd8b48b8a619c6864c66a6534950e0f0c58bf459cf4d03970d67985b33ce3"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--6e0ebd1f0947_shoes502.jpg",
+        "sha256": "108d7a8c251f5a266a87996bd4989d4e26713369c91eea5f530b3e19a52e5c3a"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--6ee32e454d3f_shoes769.jpg",
+        "sha256": "0bc89e9207d759e1fc7b0f7466c7219510667333f78a5403dce00cd41486dc44"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--6f174ec2a38e_shoes229.jpg",
+        "sha256": "f89ec05aec56665cc79a6585178602ff78cbf55f6b668e4cdc3543aab347d27a"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--70829bcf9d47_shoes1213.jpg",
+        "sha256": "d0ae4d87b880892fc77ebbce09b4a9a7e22fe952cce0bb30d9c4c5d63d4ce008"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--7677456d72bb_1417.jpg",
+        "sha256": "f26ac6a02b16153a58631f90ebf975c027d3702eb8ef743cc1f2d6941ab03158"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--7d5ac9dad7eb_1677.jpg",
+        "sha256": "06c8ff08372b0a9b2857f0a08975fde2d23101073ee3d4f2b0739aab07c6eb2b"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--7e64d16f72cc_2302.jpg",
+        "sha256": "8481aa5047a5f2305e7c3d9a872fa0d0cd3405f50c27c4bfff18917d02becc1d"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--8049144b3fbe_1306.jpg",
+        "sha256": "abcccb2d5040447d90365f2686cd3b5d960b284d1d8b7ac3c6dade62fc0410dd"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--85820695008e_shoes29.jpg",
+        "sha256": "d785f6d5fc8d56f0a4824ceec42ca9986ccd4a10f264a7a6731829cdabf8f093"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--8873cdba4809_1706.jpg",
+        "sha256": "7f6e602d8e2ff0a4253f53cfb520c197a6530224c709ab588853f5d5a9c43ffb"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--8b82709df8fc_shoes318.jpg",
+        "sha256": "647b2751c0ee29b2a412e9c6b6e5b12363b10ee18690f00efefa51e8a6559594"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--8df370e40ed4_2356.jpg",
+        "sha256": "3d8be76ca03f05367c2265e6da607a85523e6a7fff9c7c1b6f6d681783db8c64"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--907bf7dae576_1205.jpg",
+        "sha256": "3070d6220790baad838da50a9c5037bb6241130579be9987277a83b8be0735cd"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--9a32e7998550_shoes1812.jpg",
+        "sha256": "6da7668a21e16bc406f947d826e792589e90d15737994fdb3c6d091f7cb2d889"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--9bc3545ee016_shoes21.jpg",
+        "sha256": "8a03387a5c55c62814ac4d5aeda946ed5c07200f750cb6a28216e163ab65ef36"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--a3ddbc3dd765_shoes1229.jpg",
+        "sha256": "952b4dbe10b35e03953f255ba26f97415ee33424ae6713b13749b293f3b1aec4"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--a524fbf62671_1107.jpg",
+        "sha256": "9f93400d1de147b4897342ff488b6396e7b3754042b47858fc5bfdd837f60113"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--a70658580bc8_1914.jpg",
+        "sha256": "0032d25e3e401d53572fe84227e6b763f32d3bf46ae2b40941be85a2955ad588"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--abb600e9f927_2385.jpg",
+        "sha256": "ddd4af84ca3b34bd4f85f5f5913fda2ae79c64633b32361142817aaa741f3305"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--b2539c38fe73_1065.jpg",
+        "sha256": "a91115ffa5494919f174670b1c8b84c38ec9faf259f1055fcef76643d8c93956"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--b37590639792_shoes397.jpg",
+        "sha256": "fbe8d8e36dbb84927960e78bd8db01b3cbb02babeb91400caba89147122dc69b"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--b9974efbf05a_shoes234.jpg",
+        "sha256": "93e390631369cde78d33122601f0cecea9cfe4482b28ef5ddd1626b61facd13f"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--c093b1c6a879_1877.jpg",
+        "sha256": "5047f9aec827dc17de0fbde292ceed7db9c94cf56c38192a14ec00dd64bf6384"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--c2647906b28b_shoes1176.jpg",
+        "sha256": "375e4f1147f1532cb2e384eaeae8b94616c0ac3442bfca22b504ff45338594a5"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--cdd7e166cbb5_shoes441.jpg",
+        "sha256": "6b6e3763d48f55b7eee52cc1884c8f427c839d35b25b4cfa6e8024e689832ba3"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--d14bd9bf4e4e_2280.jpg",
+        "sha256": "4fde3b0c4ef892ba37effd0458146c859a65153ac15d53058affcf49b09f9083"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--daf935bd1c00_2221.jpg",
+        "sha256": "fe5a9a4b276ae2ce0ba96cc2001de963fb6f32ed7fb816bb76b3ac902057b22b"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--deb1fa0e0c82_shoes848.jpg",
+        "sha256": "9ab05a622d546ff3b06680f6f160685773ffaa0e717c2a0e001df113da9be0d3"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--ef41584d8d15_shoes385.jpg",
+        "sha256": "fc1f443ef4a21663c7e38b22ee40261691b51c96bf60140bc393f9e386244926"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--f12d647a0342_shoes843.jpg",
+        "sha256": "8f279a69e908a6460f0e2c553285c3a8f93307dafde5a92735c1d46d6acd84c2"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--f277b4227f49_1279.jpg",
+        "sha256": "41fba3d410b2aa0e892971981c377e66f4003c267161e3fd9c5b3b72864cb0d6"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--f86699d98adf_1604.jpg",
+        "sha256": "2685e8d24b231d090358270a988f4c584c53cb7ad09fa2a6d2ea9f9033df454a"
+      },
+      {
+        "path": "可回收物/可回收物-鞋子--fba3adb2af17_1704.jpg",
+        "sha256": "c3e1447a6217f9255634d4968fbeaeb6bbbdbb98a95648a4509afb1bfc248aa2"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--00a453fa165e_153.jpg",
+        "sha256": "8517d444b089bf1d2bccb22dca1a932534a9da4c5d1f979abf04d33401859d77"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--024dac96a7a8_5.jpg",
+        "sha256": "65b038a514aa370c192084cd0b40729b06126ae9f27591197df2638f2adec669"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--0616202fe7f3_40.jpg",
+        "sha256": "5d0394c749469f4fa3b0521b002759d8d76912f677dd60803bd238f288189544"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--0c6a52642fb3_23.jpg",
+        "sha256": "d7572a4f81468b041d9531338dde73b4c193999d0a8ca0741151cea3e516cbe2"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--0c94f8a89ec6_11.jpg",
+        "sha256": "ccc85074ee0fc7b7debeba7bd5f6481eacac89ce913369fefad87685493d133d"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--15938d01188a_219.jpg",
+        "sha256": "52b1e162f84beca3addbd5c4195117f2f4f67e928612755c3df14f0df95f8ba3"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--181e0fa23038_110.jpg",
+        "sha256": "8171dbd193c0e8986bf2c60b2c1352a5c4418426f4c658298f418bf99309d413"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--182edc7d2c65_223.jpg",
+        "sha256": "d7ca5551999c4278c8761a2243745b2aae643a6a5d9a39f868af4274c28d10af"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--21129a1948a0_76.jpg",
+        "sha256": "65d0065fc45e9dc39589241e45dd2b5f121ddd432ebf2e8765a6fbd3b54b1f93"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--282d6f3ba701_332.jpg",
+        "sha256": "22b140fe257c9fb14aece2af04a3f15adb1b12779c35c112f1e7272006f6e6a8"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--2bf6cfafb8e1_259.jpg",
+        "sha256": "8785f5e3001a4be2df12fec318f393e5ceba335182140b955f8512f640faa49e"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--2df403204ce4_158.jpg",
+        "sha256": "893d796eac978df26e11690ffcd6145595d530af15d52f1816048db888699420"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--3718346ffff2_266.jpg",
+        "sha256": "0137844287e98ab55c64a349dc854f1d5c5d748cbbf159d9c9573dedda1ff766"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--383839a342a0_41.jpg",
+        "sha256": "f67e2bdbde990344d4f99e253e237e4a9006e431e8db69f7242f5deb2145c6b1"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--3e658d32a15e_48.jpg",
+        "sha256": "6bd7d3521c9b3dc66296d8d0ab3c8cc2e7d3b779b4ad3eb0b5665e20c9925e1f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--45a0ad792153_202.jpg",
+        "sha256": "5d48b10971fda2ea1c52ce50cd0efd4b31ff5c098c1dce0123b449c774ada629"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--45a25a1d9b59_227.jpg",
+        "sha256": "6f25746893d4edc6cd0090eb7cd2bcfd11b61a33ddff1446c7571d1f54f67c57"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--460a56af2846_257.jpg",
+        "sha256": "55746910d580b755b35b46a8f11df37f64d1f95925387c982d1456f900e855f6"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--4a872a408621_118.jpg",
+        "sha256": "dc93de68b97ff285236bb2c2286328379e552ca391e03d911ce7e8a2f2edc437"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--5080eef01dba_228.jpg",
+        "sha256": "20b9cb4f05284f0aceb490fe19c0d4dcd298b45c3222c4ba1c65599027494ffa"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--50c210d912c7_29.jpg",
+        "sha256": "4b5f806f9633be0d44b3ee510ccf920ce0b1c5d66667366b1fc2212d79f043d5"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--52173fdf896c_204.jpg",
+        "sha256": "11de782ca916b6ff4d8d279c253dd4111fec7161a14d441ebe67e5ac3b41ed5e"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--537ffee73a5b_302.jpg",
+        "sha256": "b90b61d53a4baa0469a335a9b1844fb546636ef67f0c4a2ad69b1e0bd25c58ed"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--5bead86d5204_292.jpg",
+        "sha256": "81002c834cf18befe698734e929526ed15f38ca8a9805c0eeb07ac2ee1be327e"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--5e74d80cb2c9_261.jpg",
+        "sha256": "50f6b82a68679764c157200947e1033fb68935dd2c7b06f5787a8619814441c6"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--6690abe406eb_247.jpg",
+        "sha256": "d24122d0e3d43bee2e3ec17c9446206b4b0c0b4435fa604f1c73b35b4a6abee3"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--6ae9c327a2b0_70.jpg",
+        "sha256": "d94070d4b6066446c765eb102e54c9e9e244decb52c6d07dbd364f48021d68a1"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--6e2488b8032e_117.jpg",
+        "sha256": "d4019ec3e244b503cf782439e52a488d9947feadef8a0c92f173c12159303c01"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--739ecda18b5b_50.jpg",
+        "sha256": "b8965d8ce911afd2ebdf6454d4b7c605b3e71aa235eb95ca77f00158d5d66bdb"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--806b05f6b279_137.jpg",
+        "sha256": "34fd4badf481a13ede7149fc6db3b2f47f58e6fa9e63af2a405de100eac7a601"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--83247ea981ef_128.jpg",
+        "sha256": "3230684524185a308e0a6979e3dd4a2dfa55db9bdfaa1e596033ddc353be0004"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--87fb3516bdd1_224.jpg",
+        "sha256": "c7d7cafa4a92dc641e0dcbfb476c02d1e24369555a274058d8b4e63c093dc9d9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--8bafdae97417_255.jpg",
+        "sha256": "0a314c043a9d95ebdc89429b03fefb0f3652ef194aa597e13d7727e8af5b8220"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--8ddece5c5558_143.jpg",
+        "sha256": "e3530ac4668d52b8a87f7010134e06a5d48fbe4150b0caa0a41a8a56ae5164cb"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--8f7e72958397_329.jpg",
+        "sha256": "c3d12d41a9a1dafec863b4e26dee9e736eb8170bfad055e08621bef2c2638b98"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--916dd5b15be7_247.jpg",
+        "sha256": "db5078e541ab3df4c1a4d1004ded8ed3280880b573ba1d9c9b65432cdd393728"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--a79be9cc4cfd_183.jpg",
+        "sha256": "afc822895e782ad9f06a9432dd6934916e9d1dfe4fbab07cdbbd1e63e4638055"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--b41a53a089b2_211.jpg",
+        "sha256": "e5b393245dffcfe25e7d32f10591c3a2a5037d5285e63c37fd65c6a7b5b68c2f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--bc90533f6e8b_32.jpg",
+        "sha256": "7a7f85b5f1353354b2293d6c1bcb7bc6a5e00b5fbecdd525bdaeb8000a1ce073"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--c5cb3aff37df_257.jpg",
+        "sha256": "f1a6ac134c75652a672859d51718b90e5557ce1c2e3960946bace96c681d16c5"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--c82dd9594136_204.jpg",
+        "sha256": "62cb84bc324376c48f9b46e55631c8b0c8a6d6c9bb9ffd752ec8fa152bd44da2"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--c881b529779e_205.jpg",
+        "sha256": "632015a7f10cc24b6c048b3a14154ccc2d9b0a579d33305d31339bae3f760c4f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--d436dcc44bb1_251.jpg",
+        "sha256": "022160dd394aba84aabfb49c6ab495d98771a74e25ea92fe2e7fe5ae5c914468"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--d91c47ae3c5a_14.jpg",
+        "sha256": "a2e05aeb6ca0da52a2821458e7d5555158a5f9a45ed18f5aa4a9e47b392f46d9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--e3805fc9e8dc_54.jpg",
+        "sha256": "6696acb16d7b862ced4808a31be583e3726a28bea581c9f5acee1a71e90f6cfc"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--eece2f7b0910_145.jpg",
+        "sha256": "c63de441cd9e950a8dc991c584bfc28d5b201c7194a836adbb9f1f6cdf0b8afd"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--f44f0fa57eef_116.jpg",
+        "sha256": "14011e876156902b7479b035b2ebf82cd3c6b3f9feffb784ac3a609c82b2286d"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--f573eaeebbdc_80.jpg",
+        "sha256": "97d2b020eb3e2ef4e34584a3b6cb97e711ba98319252267edf9aba8e16cb1d76"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肉类--fb12909700ab_152.jpg",
+        "sha256": "6a5a7dc063de733152e926a9e0f26d9fead5eb54eec60a4574c9e61a8bf15019"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--0321cd4f85f9_1619.jpg",
+        "sha256": "f9081c0630801a4edea5cdb465a82c0966b51a84c55e59cea147af1f0b885c09"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--03a88b899862_254.jpg",
+        "sha256": "2300e81035badad06d16eb257238b8f780002997ec986f9b584731e7b058696e"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--04cf9e1a6a9a_225.jpg",
+        "sha256": "ee9a06d51f48abccafc0bf2d83ef2cb5eac46438d6d7086a3c433b1899791104"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--170fe1795889_1530.jpg",
+        "sha256": "ceff3b4b4f3e1fe48a183eacd002f0b3c862829eade888f6a1667bd4e97d9a0a"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--1797b1b486c8_147.jpg",
+        "sha256": "28b9f7d6b9dbd5e28213316c8c25bd8d95573fdec41b8ccbe21fad61cec17900"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--1b0695dccb22_206.jpg",
+        "sha256": "67d76cd74540fc2e06e8129fed116cde57f27da983293d404cf1065b9e4b544e"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--1c97cde82c9a_164.jpg",
+        "sha256": "3a802d8347f5e7d4e274e8f46fe7aa5ca48c2f2196f72479f161ab314653cf6c"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--1e469a800454_65.jpg",
+        "sha256": "696f77f8c2df0fdc09f4f64787488a0f01767cbd2d4d4c6036892da39f23b0bf"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--1fa7e153e94f_1648.jpg",
+        "sha256": "2a585b20cb37ac1a041b08377b737005be4f1e3bc49b31fe665f81f2f9503c42"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--2533158af93d_1287.jpg",
+        "sha256": "7084ba344c4714f82c39afd09bfa05ad48bc0b9b28d0ff82f6d80d3c6a40b281"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--2fb9e9ecb2c0_13.jpg",
+        "sha256": "3bf8bfeb2884a2211dad1413207867a400fd2e6f3dcb4707676d99a429b789d7"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--306d19536e14_87.jpg",
+        "sha256": "d15e3acdc04705d6fb0cdedd0328ea45c8b9afcb798efa48abd268d3e1305a81"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--3680cd8514b1_1225.jpg",
+        "sha256": "bad66c6edc6162c741418e78348b31c03f2e54cb6cd2b15f139e42dc9714aa63"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--377fa7ffdaa7_56.jpg",
+        "sha256": "526faeaf439484b53e3bd6f8fad11cb384f6843aa37138e5e4bbe0729267ac8d"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--4705f97e5721_147.jpg",
+        "sha256": "079a35e00dab21ab4637a1f471ce809a285b820d7a7462c97a39a7f592bd995a"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--5458088d7521_69.jpg",
+        "sha256": "800c8ac95bfd4f5132f1e1e1a38cc672e56efb73891642a8f6e02abec67c4fa6"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--55e9853058b6_58.jpg",
+        "sha256": "500c078f85a1af34bcab7ddf041a48096842ba559952d2b8b19ba9b4bc1a15d4"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--5674696e22f0_1150.jpg",
+        "sha256": "792b365e8eca1d7ed71ff53b503881d66d1e43383a4efbe7bb94c9c81dbb7618"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--5f7697725672_224.jpg",
+        "sha256": "742631767fd06957fa7103e8cb1af2fd78f92233953428c34cc08221e32ff328"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--605a65d2a46a_153.jpg",
+        "sha256": "0b0d4b7ecb9e5b4a93166efddfc19ae7fa68f0083b209daf06c0661aef76cd38"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--6696bc3f8098_237.jpg",
+        "sha256": "344ab20507e3c2ce2bb92d08c6ce3bb3107d857bcb82540418e73603cfe6b218"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--6782a38a327b_1059.jpg",
+        "sha256": "4c54c6f57e0cffa94558b6652c8545cd3ba42496e96e1da1e4444c269121c831"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--68531779ff63_234.jpg",
+        "sha256": "47bc7b6055eefa533a3ba6fbe3d0687d70d7f4f39be5e3b4da7e7a810d1184cf"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--6f1f953c146b_1289.jpg",
+        "sha256": "11e810462e001da26ab8e329ed3798f40f16ac6821a381c24bc7d2be0d21cda2"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--7aa8d4560543_1405.jpg",
+        "sha256": "9528488a584e0f8e13e2b57115cbe0798987912470d112d68f55c6dfec33dca0"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--82f5f8c54b31_1551.jpg",
+        "sha256": "36a39fa338c3fcc855bad576fccddd662025db3e417ca4222bc9dc8bf3ab26de"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--84522efe251d_24.jpg",
+        "sha256": "427965b2a288b0f3c3d3a68ffc4249624a2c137b810caa84bb6ede4457c7bec2"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--867dd7c8040c_1575.jpg",
+        "sha256": "de5b00d6b9865fda259cff38488f7be63457896a85ce64bb9557bce865cf3f12"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--9047788d6608_1487.jpg",
+        "sha256": "58a6835dac9cd3e09703695cc9894abe975c5a22c5160232ada4fe8cd485d7d7"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--91454c63e9d4_35.jpg",
+        "sha256": "3329f293e28f1070b21c757932e4298dd11f34fdb7e95804a7225e05461e5672"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--916fd4171296_201.jpg",
+        "sha256": "2c63283c2b9eb4ae334960bec8c52215cd68b1f200112c1f3bc22f19c68af770"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--931f1010c773_51.jpg",
+        "sha256": "9cfdb84279c91489ee7b0b17a5a533fa704ae1b88e46df718fde7de8498e3c82"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--94dee7433927_192.jpg",
+        "sha256": "d82ca10486d0fae8da248c84710c4c0e4e0b5c12e9a85785d20e3f8c64011a35"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--9f0eed9fcacb_1540.jpg",
+        "sha256": "d20b01a9ed97cb3ba103acb6a45b00e0531b94753f807fcfc1921be3e2e18850"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--a9817f3fb11f_183.jpg",
+        "sha256": "10f66668acac9a495445c2569f9187d7884c9a82e79ab050b7c52ffa05e32845"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--c392e27539eb_1595.jpg",
+        "sha256": "7152d9fa58d78a87b9c37a05e4bd818b575628c85c27330c2bdbf54f5a85ca89"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--c569997a5799_1538.jpg",
+        "sha256": "402a9e5f08a02cb34443c4dbadac6b9e72934f79e07de02e989c7e106c8b7d0e"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--c5a65eed993b_183.jpg",
+        "sha256": "8ff822e94b090394597310d9d07b14387f0e8e18040456597cf1af235da07da9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--cc92cba7901f_1259.jpg",
+        "sha256": "ca2de527f48b5b780fdc6aa6fc11242cca6e195c4a13b68d50e6caa4775ff48c"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--da7f3a92a5e3_182.jpg",
+        "sha256": "aaca5c5d351492dd2631211d017ab747c851d06e308248ff89b13feb6428b99f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--ddacfa0453d9_1625.jpg",
+        "sha256": "65d5af3e46aab7a106e21eff0267850fcdfe1a12c9bff5464d0a57d741cd24f4"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--dfef6811c286_78.jpg",
+        "sha256": "d1e628039a3fec41c81fa9136ee429faf3dd0786588f31909cf1aa837c0c17a9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--e6402b6ee993_54.jpg",
+        "sha256": "bde270ea23df41900642b7f9185dc26ff8f089ee7df717518de444f6eb1837f5"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--e8811acedd4c_282.jpg",
+        "sha256": "fdea95de631010cad9f5791fa636a0b948cbe97cb267c83b2383a1309c67fc74"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--f142623eb433_1247.jpg",
+        "sha256": "566619bddc66c40898bc3cd54b49f4ffc72fff61bdd0feae6ab92edeb8708633"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--f54dcebf32c1_209.jpg",
+        "sha256": "f35761c9faf3e8c4f515f86e627aad6cd88a2ae848b4c37412a1957b118353f4"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--fe4834bc3a03_1228.jpg",
+        "sha256": "559f1e09bd9e693468ac35b89e58082d7b094558f47864f6947699b8f4e2db82"
+      },
+      {
+        "path": "廚餘/厨余垃圾-肠--fe8d3cdcd8af_1605.jpg",
+        "sha256": "eeaf7450e68e11d5cd1cf002b7467c327ab265de5d14f343d4c1cf36b4c7555a"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--0157b2fdcd2d_28.jpg",
+        "sha256": "268aa9299bc2fdaa67419beb87cc581d6cb244b347973c77e55bb3044f77f772"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--042022b6f0c0_267.jpg",
+        "sha256": "21d2b498dbe3fbe10f90346c4d977a6cb13ef3a1f5bf0e2c0061faebe91d9ad6"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--0b08d5475974_254.jpg",
+        "sha256": "3f977ae3a488c257963ee645a4267fd04a69d1691760e961d2923bb3fa121ffe"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--0d5105050aaa_256.jpg",
+        "sha256": "c9f6ae5695b00465d1f2260665cae671e815dc9752ec0cd58b9f15bb4c3d95f0"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--11e6adae16ac_52.jpg",
+        "sha256": "6895196acf74bb306cbe3a3979412169e461b62f4af06b4b4d5c547c3df8fbbc"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--146964d98f7b_18.jpg",
+        "sha256": "e3f0fa6e533c556b99500e6817af224b5dd0706e5b1584b07270254114e444cc"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--1d1119ebca85_286.jpg",
+        "sha256": "7eb7ad192b4c3197053555144c08fd77b4131fd846379fc796ef9bfb5e5bcc2b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--1e81d88a2753_228.jpg",
+        "sha256": "7eecce4fc1025b5a291d90ee0e0467629397a6f8cfe92c43c7633b622c50ceee"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--263f8c61740c_198.jpg",
+        "sha256": "2bf10247e6832ba088abef40a4957a925c9b61395d937679d47dc3e67331018f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--29b15f676490_232.jpg",
+        "sha256": "32ce71a45aabfc1239f18910434ed348d94d523299e6f6bb80c920d7e4e3fa27"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--35f2fa9d269e_295.jpg",
+        "sha256": "638236b7047a8c3fddd5effea7a7ac5212f54c402b7d74955c8333cc69e130b7"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--39e6eab592d7_39.jpg",
+        "sha256": "4b63a405c2439c2b87579b2f76f8d68a884ef558d0cfd9f200a331bd8a975ea4"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--3cb73617b711_37.jpg",
+        "sha256": "54237127f7ddf6161462bb9e5938322abfa75566ce723c423db06b754e4e8ea8"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--3f36629cb6c0_263.jpg",
+        "sha256": "13b91668cea8ec613b269f523e2174dbb61b5f6edbbceb4ca79bd7c9e8ba17ad"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--42fbaa1580d2_191.jpg",
+        "sha256": "97bb7ed520a1cb8222be202b679a5537167b0f7346d11a44f610ccf3fb312163"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--43ce0495e9e4_28.jpg",
+        "sha256": "e0d327d22382bdc364192cfe47362aae1f426990283c9333ef054c9f26b32b3a"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--45dd105134b1_152.jpg",
+        "sha256": "51c353086a7fb4bcd046458190c0d90293ec452f1b41ed33934e651e6112714a"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--4c422966533e_260.jpg",
+        "sha256": "e910d703cb7bd071648c9a1448c20ad4b116db04d034130cc27ffbebd2b6acc5"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--4d4b5b5944ca_29.jpg",
+        "sha256": "029d88c284a99627ba8ac3f726efce57cbda0f81ec17b931f4abdb39e0b6aec7"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--54b65d807c01_80.jpg",
+        "sha256": "5004ff3b3d1651f8cfca543a0f383d7dc82de9d95717707acf0994c1e32d3991"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--57162f285f29_260.jpg",
+        "sha256": "7af4b68d2aa6a56b8e6910f2fd44ea74e399b4f16891968c1e75f1a8212333b2"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--66cab3af9323_257.jpg",
+        "sha256": "ece2241ecc42fbed40d1d6b2da7f55b6eca35a2a359de5ee7f4de057c5afa629"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--6d4bd20384e8_125.jpg",
+        "sha256": "71e3a5383852c4071177b52da2a821d81ad7c8b7267900efbb1d24e1d4a643d9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--6ff2417d27b4_82.jpg",
+        "sha256": "a54f47fd246256c1f1f75198cd7ea74b98bb41cf5a394b31e74395c0b3206197"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--7701822aecc5_265.jpg",
+        "sha256": "d3d230aaed03cc1dbddb8dc351b89d5765a96327f357ea62e25c9129b8896f02"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--857bad0678b2_62.jpg",
+        "sha256": "f092d59bd4b2e2fc1768e09da66021559198df7a540d11d8f763fa8d75953b8b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--90a694eb08f0_90.jpg",
+        "sha256": "5f70ac1867e316110a3c10198c71163c70b87de04a2211d500ca1d06e088f49f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--94295ed9fcf0_230.jpg",
+        "sha256": "65725a1d97c6a6b090ddd0fba0bf8e7b2f665fae904e95042507b6f8632c6d72"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--987a56076df2_94.jpg",
+        "sha256": "1430c937bc1fb939f9561d16aa63292d211251bdcabf911e58dd7b16b7c6eef4"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--a032c57291e5_222.jpg",
+        "sha256": "e07c0886c297b8bf5bf9528eadcb225297ed423a384df024c477adf724f21c03"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--a78cef2126da_116.jpg",
+        "sha256": "5009acb6a57410bd10d90ab3f9c9863c2b2ee43e62b87dabc1913a7c36172457"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--b2050634902d_206.jpg",
+        "sha256": "536054fd6b52019b0cbae567f99b021af2b3a930098fe71581dc3ee850e28d78"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--b8ec204455b6_301.jpg",
+        "sha256": "7498f157f36d0196e09d897b2e372293ea37e47f7eb5b96fea6c3633bde766d6"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--b9da9ab746b7_64.jpg",
+        "sha256": "e960135e7ad210a3131f7841f2dd9f2bd5cc693bf3c7cd7d656efd627d7a868b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--bc5db66b8b9b_16.jpg",
+        "sha256": "ee34be66433ca78e7a5e0c0ddb84588548460b335be9622174cdc8bfc91ce913"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--bd83e481e68d_218.jpg",
+        "sha256": "1075de220bec3937dfe5e97acf71c961ca2ce6c7c8316eb7877b5d20ede2ae5f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--bf8c7bf445c0_269.jpg",
+        "sha256": "82269f381d54de2c547679eb3cfb82640383229f180f7967d9451e22e6020b68"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--c00cf2819796_88.jpg",
+        "sha256": "dc2a0dd0a11034a7e2cd7de1a5abc8eec1c1992d5b5b1e5a33decc131f03d6d9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--c49e5a025618_302.jpg",
+        "sha256": "c327a83942140c81994344d46230a6c88e493624d6e28b74c495b50da3556e4b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--cc0aca72c368_108.jpg",
+        "sha256": "95540a526208d1de7875d713f53d6d52a71e8e0b30bf71bff8ab3ae8abf18a23"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--ccb8106161d8_75.jpg",
+        "sha256": "55e4736fe57fc0f9b69bf277e93d49125756c3b4192217caa41dfe0a69d500f9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--dfd1dca5f98d_167.jpg",
+        "sha256": "2ea23d682522b990942478d80b0ef21df059cae9385c03afeca0f99a3153fc19"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--e1e9444148ab_177.jpg",
+        "sha256": "a9e169bdf3071f39f2059199f55ee8b95283947607ee08e742c3e2b622ec1946"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--eafd7e7a6686_99.jpg",
+        "sha256": "874c9d2b0be96df3511534a26c2efad4b0fe3faa5a91ce7b5fbb5db22d3c87f9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--eddade4e1a7e_129.jpg",
+        "sha256": "6a0443539193bd4543b41e6946790ead9d18b5058cc81901cc9542a56b6a5fb6"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--f60ce6077d83_254.jpg",
+        "sha256": "86fe9a07321dfec1512fda7ddd007364916662f32b261b84da59034835a5bbe4"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--f8de270fba6f_267.jpg",
+        "sha256": "50e68d0c3f8f1f991ab54c573eeaf1432fda4538230ff1ab6b631ea5a73ccca5"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--fb1896e08e97_75.jpg",
+        "sha256": "e544c45b20f3bcc83505d21a721ab9979663a43b01d4497172b2591fe775beaa"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蔬菜--fe14c6e06d0c_5.jpg",
+        "sha256": "621b2dc814f36f4e2f596c7b47ebb65af6b68465b3171c28a95c768ba73d3d29"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--0cc9590b95cd_151.jpg",
+        "sha256": "4d25c2989afc8c06544d0b36bdabd903cf53f4ce8d5ef6bd979d1a9f713dffaa"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--19a4ab0e7f9c_1284.jpg",
+        "sha256": "1ce19a92b0d81ffa3a33cebee57027d3f266b9e1675a8142cccb4437036ebd97"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--30ad2c77be3e_154.jpg",
+        "sha256": "180b0bf368fafc6a2c8fcac5b5329c6306f8d3a018eb714ed2654291d68c7288"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--41024367d917_303.jpg",
+        "sha256": "e73175687934f6d1abbf665397d351ac1f66c2d78200b3ce43dfed3eda543a57"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--43a8176d94a9_1441.jpg",
+        "sha256": "03b1592d17939b58ea8beba4f781c920ecaa1025308f6b497db07e8f25379905"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--46d961729e1c_31.jpg",
+        "sha256": "6d32848346eee1a9ab4c510b0485323c7c58c0bf25625e830f04a079d86179e1"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--4a38087dff53_14.jpg",
+        "sha256": "87931452c56da7389b33c97772a3129dfd7bc3d327cf601113663558c304768c"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--4ad097d7f625_1430.jpg",
+        "sha256": "48224a02f6699c446b76c406a7621ee3effb06855dd2c3e44296a7a6548ee49d"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--4d3c0431ceca_1418.jpg",
+        "sha256": "3cafb12c6f9d9088986ba96ebc6761a8e970d120c74078fe9c5f082a2837bd6e"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--538d8190ab3a_122.jpg",
+        "sha256": "33e82b5dbddd409b2e3000ae591016bc6b1da75b7399a5200cadd0ef73a43298"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--550fb6b36c7b_353.jpg",
+        "sha256": "feb015d3ea69e6b8edee4b285d1d99aff0e46379e9ffc7c1095da7efe0c49fb5"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--5d0f9621f009_57.jpg",
+        "sha256": "a858e7ba537aaa20bf9aefb6a77a96c6e5d4ad30f94a47474bffb44a8f2194ac"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--62aedc772fa9_234.jpg",
+        "sha256": "8cf2ecc8945ae138acc245a80ac37665f13fff9172f1e2bb9a6312bff524cf16"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--665fb15c6a2f_1348.jpg",
+        "sha256": "157ccbff907b04af87e85231d35a99a13bc4300ec61cd4e6d88aea713322a318"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--722a3ea37932_113.jpg",
+        "sha256": "fd01c5c63da322a3a79073e2c7b37a47f3a2e1dd7016652136792e915c39c425"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--763be5e9cfe4_33.jpg",
+        "sha256": "7b7e74b7e36c129080ff161060db80fc72f9de3fa8874bccac8ff09be04ef588"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--78ca65448d23_66.jpg",
+        "sha256": "a7e7f0e41a5b9addf7165baf8d732d84e0a16cb9f28183dff8d112a79e8dd77b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--7f50471f6151_1308.jpg",
+        "sha256": "f0b9b531db8e7834b4630d8961fbe480443cb8381ca1f677e9293583df3d646a"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--8539dc416f49_283.jpg",
+        "sha256": "3681bb33a94bb2ff2fd9f995aa140e05d97c8adcc73cece90551ca9e27acddc4"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--8b40f4e33fc4_128.jpg",
+        "sha256": "8a2cc893dcb1178fd3dfaea5ea55c2cd539d53b5c6f0476f28efcfa781c5cfb3"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--91d184373542_1178.jpg",
+        "sha256": "2d4b05aa85f7fc8a55ec3fdc84aac43fed8c7e3e0f5c823c2cf0d1ec340ba88d"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--91e122a1577d_112.jpg",
+        "sha256": "52f3fc8ae698353bc7e825512205238e2b817c58ef95a70a7bb188c93ca956df"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--9210e49ded43_320.jpg",
+        "sha256": "fddee24c8b6174587478384b27c36ae11899f1370fd73a5e29c4fbd8274e775b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--9357f8a77f7b_252.jpg",
+        "sha256": "6940074c9f900f8471355da0dedb811b6435eca9df4257700389196c3f7133fc"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--944e943f71d4_167.jpg",
+        "sha256": "827c7e7fbcc4d8defbf0f20cde16cc48d56390b5c1b2aafedfb459aff61125c3"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--984d6f58967e_159.jpg",
+        "sha256": "9796fb2ac575c4ae72c87c8c96cf80ed572ec98cbdac36ca5a279c9655053488"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--9b32f0ea3aed_144.jpg",
+        "sha256": "ae34576b54b5b88e48a8a0c59844e6e95fbe42b330ef5909faf1c8f65afd622c"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--a2f9779300b0_209.jpg",
+        "sha256": "281429a77f61083cce8e0f3120d5c4382309d4c60e31a7ff6469ef94c078ac3a"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--a4d803d4a0b0_136.jpg",
+        "sha256": "6c21f3a9bf854c8ef84dfd7248e5327864cd298acb75c4de176c31b0d16d902b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--ab8f42670da6_1350.jpg",
+        "sha256": "5c322806b5c173956d21173482694af39560f7250698981ef98f250c6ec0c757"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--aeb49873056c_203.jpg",
+        "sha256": "b2d3a430f2e00eb750341dd92d4fe98d699af83e2685ca72b6c12b0357435843"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--b5f0bcc0065f_88.jpg",
+        "sha256": "ce459f0c89459a30517a239173c5432c03b7b1b5e916991827a413baf03c1e5b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--b88e85e4f623_1440.jpg",
+        "sha256": "9354f3e73196df2bbf1716ad550caaf0c988afb57ff6d34075bfff262aa57d00"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--bcb2ec28414c_1490.jpg",
+        "sha256": "9671dff8a288ef87dbe7d0f87d4d7a56ebcbd3453312bfc52d0610a5d9a7f94c"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--bdd85ad32e07_196.jpg",
+        "sha256": "2f359f7371c3407fe3a72b91de9921f213f0c865491c511655274e2d76d20847"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--cfb067189767_54.jpg",
+        "sha256": "99a64516b53c1d821390d5755dfd686acae0360d68fa3e550c94c0ff5dd10b67"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--d26645587c00_246.jpg",
+        "sha256": "ed3f4aa202bd7a78215ed930adb31236e5ea1d5612e4f9c28f854c72c1601ed3"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--d3515b3b949b_227.jpg",
+        "sha256": "f8d07a1a364925e36076b49613442fae903e0022feb9817767152c8e4a7e6959"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--e2dc2f038dca_233.jpg",
+        "sha256": "768f45c99a951b181669f2f5cda99c9dcd198cf224cd456ee21d9331a7900fb3"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--e60b94a099a0_282.jpg",
+        "sha256": "73b0247468587cdb06b0e544cd2dffabed264ee026b9b75f647c601eb7ae2311"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--e619bfb29d5f_118.jpg",
+        "sha256": "81d0e6cc31698bac0ecb62e56645e9e1bcc8011a791f7202721efa4c7dc040ee"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--e6eda655c02d_77.jpg",
+        "sha256": "b78a310b9db8503ea0b545983fe1212728b8f7643cf4324e69ee6ac3f721a0b9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--e95134183955_115.jpg",
+        "sha256": "35eb1de0b8062c56b96a1c8884af89844b61e07298b30ad8a44e9b0e3dad19a3"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--eeeb11ce1da2_213.jpg",
+        "sha256": "5690b86f2e05b2016c22dc4b49fb6f748353fcf4d90ffc3c0387d7dad067536f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--f3bf92f8440c_141.jpg",
+        "sha256": "d235692103e9cf5a2ea6800f0acdd734974718dbeb82fa7b4d294fc3f415ff8d"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--f4adb9ed43cc_167.jpg",
+        "sha256": "54398e9e050dccfc531af331c48025a256a32f6c653df56f9f042ea98eccaf58"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--f4e08bccd65b_1313.jpg",
+        "sha256": "98f5812054406983408ac82752af30b09b24a1a02ee7c6068c4a4c47965b46d8"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--f6e204fd6506_202.jpg",
+        "sha256": "e0a3ed67cf748175a4f0d813c29a9cd0dc211502247547e2d3c186b693c85704"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--f7622ce4d2f4_185.jpg",
+        "sha256": "112e5de981f1aa79aba0751fa3200e2130e83b71a45a45b00fc9bea34e792aaa"
+      },
+      {
+        "path": "廚餘/厨余垃圾-蛋糕--f86e75502fcf_39.jpg",
+        "sha256": "33bba780ab6fab21e371279d263e921701650d9f9c9b200e7f774c75190cd966"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--0070bbae4fa0_1280.jpg",
+        "sha256": "255cda4de2334adcd39d059ae763519c0b3e112d9ef1f65da8ebaed6dc04eadf"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--0724ac9cddfb_127.jpg",
+        "sha256": "f55b35af4b659fb45a11e81fc4acd59b6b2af68a224494e8f27442973cb948b7"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--12baf671382b_1158.jpg",
+        "sha256": "65fb58b1b07dabd2ef318aefb4b052ead7e24f9d83fae245044b16d96c0874f0"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--145dbf346125_1150.jpg",
+        "sha256": "b631ef688b322f3d1dd1c6d97b19a2e382a39f9fe05dc272fa6eebd6b0a4847e"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--19cb051a83b0_169.jpg",
+        "sha256": "9573cab1d5df57c61fdc62b3435c1687f11f3562ac87f69202af3e77380bc068"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--1ae8088e204b_114.jpg",
+        "sha256": "8a25c560e51e9610d90d7abcc7fa4fe4a71fbe9aa2b6c437a2b62a3cfb8ad074"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--1eb481b94fb6_55.jpg",
+        "sha256": "c8615df4f622331dae260f523e0572371eb65aec738fd3bf4d97cf4acafb525c"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--31110a32da0b_343.jpg",
+        "sha256": "e8e414683166d8ae5da241cbdf81af9073064e74dcde73b5064cf8c432912e31"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--322b6f334864_123.jpg",
+        "sha256": "c88d6a3713d8770f387abaa050b2c2d7386ff34af340b8a703c9eb6e4bd8161b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--33388dc51817_1137.jpg",
+        "sha256": "885c03748c48353078943929210904181cba9e20e7893c75a2cef771c55ab590"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--33c36ac6348e_143.jpg",
+        "sha256": "8cb0a2eb32fc99e8e848436f426f1abbb739e5511f5605a3fd3e1290044b96d5"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--34e890c138e2_28.jpg",
+        "sha256": "932d454aa9522b172f765d7106af69db1ad96c90921f7a04ed895222a9b6f339"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--4392b71d516d_290.jpg",
+        "sha256": "dd0276bc47f6852d853638c60d58a75b43113a06af0bf98c756815f992c6916a"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--4c5582f69a8a_1224.jpg",
+        "sha256": "409c0a1af11286a224fd59712ee4b71e43e12cc1674d11e3ab70c6d7e87f07bd"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--4e5bcba1a47b_57.jpg",
+        "sha256": "7de251e27299da47991c67987ca4d39a27f951c5dace54c8be3b38802c3b8a10"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--602774854b95_1162.jpg",
+        "sha256": "a535d90dad37bc1fb8d057f41eaf059020e1503ef907160cc187d0682230b4b6"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--6130f23f7b56_1015.jpg",
+        "sha256": "de32cca723a76a54f37ac6a7de9fe17b7e5924f2b0919780fdad3d00beaa787b"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--692b180f391d_1286.jpg",
+        "sha256": "fefcced93fcf80680f55dbab6c25b1e3dae7141de9d35ea65553042d4fe3aeba"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--6a1b1e8b7d6a_249.jpg",
+        "sha256": "05f8cc7ee4b676b11f2f9dff1a6fdeff6028fae47b715dbd5e9cfc5f2481c798"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--6b4576238e17_191.jpg",
+        "sha256": "d8ad3de24de632ba6c3086b028f85e2b8366308a4df8c8a674b3a458841dd576"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--6ca203a2a9f4_1129.jpg",
+        "sha256": "574329be88ad7bca21036e3f894646eb1d08ef465ee1c5ddd1c16e375ed86929"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--777dd5c85278_1122.jpg",
+        "sha256": "c0a77d750340935969434e01415af5958e03d5d14119153e51a64804d719bca6"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--79bde19da0cc_320.jpg",
+        "sha256": "1058341db2e3fe42e14787de1f2081760fbaabd76945e09280fb4fd2311d0c4f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--7a842c9bddff_43.jpg",
+        "sha256": "f89338fd032292592bb0049764d5364bb8dbaece5cc40442c41eeca429b619b8"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--813f1bd9b86e_2.jpg",
+        "sha256": "8935310ff0c8647aedf207b3e10621e67322734aff48dd9521082614527487a5"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--91ca1b565cee_197.jpg",
+        "sha256": "f09490234b7762f6842b8a21a61391da916d9302203eaf19c1f20e0aa40c99b8"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--92edcd4cda89_1069.jpg",
+        "sha256": "6093727c6c8adbe3af91e53235d062e138be996f606fde5b200ff71791deb7a2"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--96a4f79493c5_322.jpg",
+        "sha256": "c5dae4046756cedec6eba554f5bfc654950d72c818ffc26e2c5a0dafe65138fa"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--992e101c969d_1119.jpg",
+        "sha256": "c214a11a7895b0122933c1355aa5aa2638ea22773552fa4fa09003789d323a9d"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--9c2b36e0e3ac_333.jpg",
+        "sha256": "887c1a1fbb77daad9a05dd637312286f055a039fb70f2fca98503b36c68dfdd0"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--a5147588f21a_63.jpg",
+        "sha256": "85280af9f981cc8a65b9f6d5fe8e9f6609023655bd9ab944774566ec7731e2be"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--a6072e685c43_316.jpg",
+        "sha256": "d5f17b05dce830e160c4a7910c3f01bafd3941aeda3ef567313b09f3f76cb25d"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--b89d54caaf2a_113.jpg",
+        "sha256": "3466c8f05fb2123e8c879da952b3d885ee779bbca650f2a6e2c215a231920510"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--bbaf9745f9f9_206.jpg",
+        "sha256": "71e59795ddaed35c835ad618c8bd1fd17355a9595556412471d1be8084f986ab"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--cbd2d1d93c75_224.jpg",
+        "sha256": "60b7d7b1642b0db47569ddc2d5e0c80f50a3c64ac82cccf6d2ddccb9c06ece51"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--cd10fd5aef57_173.jpg",
+        "sha256": "6ae386698f79e99048011fb85833f5f8ce704465484962da525d5d5f2b48cf71"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--ce3563b3c229_152.jpg",
+        "sha256": "01030474c5f7d5cb3269c3caf2da2018b57550ee69a97ceec164c7854fb9d5e7"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--d8b5b2f6afb5_34.jpg",
+        "sha256": "966c04de686c8c5e4268669efe0c4b02a8ac4e046f2b55722bcb32e7b6dd8c2c"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--db19fbb97adc_191.jpg",
+        "sha256": "fbc8b1d04dde9f3ed28eb6fde93e83df0b5d5fd568d65ae5bc69afe7b50b0c87"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--de302e843bbe_256.jpg",
+        "sha256": "01dfeae04195cd738b78ba092e497d01472c373617a366a4c0ebbaf97f032f43"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--e2b1e794997f_58.jpg",
+        "sha256": "520887e8c2a5442eec222a6c97af77aba438c7b90d2571e2da01b1d8abb838c0"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--e34fd5253414_241.jpg",
+        "sha256": "86d865ef66004ac3483a9062bc279ad56b353dba996bf1673f7e4358af7fa77f"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--e5e8c0439f95_205.jpg",
+        "sha256": "c977b0d2b580449806b37afc3013986d6f60cf510374f8a489046b9192419fa9"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--ea40a24ec4a8_56.jpg",
+        "sha256": "3368340eaa9ec5e3ea02b42fc71d61befadb6a570609897461f96f8ab6b78365"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--ecbd67391911_1254.jpg",
+        "sha256": "31770e39242fd659447596daeadfa1e5b19d7f16e2fed1e6a364e9966c998fe0"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--f474a003edd7_119.jpg",
+        "sha256": "ad167059b739e3fecc2792877328de7b1fc6c52b176ff6374a4055f2d32fefd0"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--f50c09ee15d5_274.jpg",
+        "sha256": "95de0bbaa039b83d0dd8d7d7a455ae69582de503646023cf721df27c12743572"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--f810bf7855e8_127.jpg",
+        "sha256": "26dd44dd33b30039d0ea8b2cdec533690ae4b6935613c10f47cc20d86781d0e4"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--fb49efb491f0_257.jpg",
+        "sha256": "f0658b8f0dee68fc64b1baeea49bac49c4cc996727ae5cce331082d41c294f05"
+      },
+      {
+        "path": "廚餘/厨余垃圾-面包--fdb540f9c470_1221.jpg",
+        "sha256": "c788bf89e52dec7f53cb7d0826dd98553fd928bcb68fb7c18ca3704b063ec789"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--03c88e880a32_93.jpg",
+        "sha256": "e7e417f50903742a76bdc214228520f2d801a49758998ee499401a864e52b770"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--03d4c9c5fe80_1264.jpg",
+        "sha256": "0b962e9b2441271e247592e0a76c802cc7a81bbef34791960cb332493b60e7be"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--0db7024e4eac_1173.jpg",
+        "sha256": "8062f1f95ad682ce4f78afe51e65b74b89048098842e2815e0b982f4dc1b2b90"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--123e9a9e8a77_298.jpg",
+        "sha256": "b4d4d978e12e194e9b6cddd172631ef8271421c82747ebee8657e16d142f259c"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--15b07a927631_1286.jpg",
+        "sha256": "700976ff7d2f34d930b385f14f19a007e4ee3fd8c997beffd56966470c1495b6"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--18422d728018_4.jpg",
+        "sha256": "c9a5b5affe2830012aa7a84c8a5fd76d419218a76b4dc7cc46191e62d30b251f"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--1c4ddb5b7fa9_1179.jpg",
+        "sha256": "302302779bda5b1c1bc1342d73a9d73f558d23027b3784b16e088109b96c1254"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--238064dfddc6_339.jpg",
+        "sha256": "2d87daa832d5a086e064aef97f9f9955af70e6e976861ebccf6d1068175d87d1"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--296b367ed96e_1292.jpg",
+        "sha256": "7a3dd8dad126fe07ef66293d63e243887f551e7f67884649534f03ef6138cde1"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--2c285eb85b86_231.jpg",
+        "sha256": "3f76afd6b2330790c0623ee2d7d7d696f2740743d783790e9ebc180029ea47db"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--303fe132cf65_248.jpg",
+        "sha256": "70ee8a772463ba44214591cc4f79cc923ae8623c588f77e48e3011b5b954cc2b"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--309bdf183268_1125.jpg",
+        "sha256": "03aacced0cae29e148e2ad6e77c9668fe19ec6d5e92ecf9fdb06649d9994fba8"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--390279010e8b_63.jpg",
+        "sha256": "e3b6806ddbd62f6f1c03ba65921d7d891b34eb18ae0b021f8a22490ee77ae0e3"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--46bd07ac07aa_51.jpg",
+        "sha256": "f821d71ce0694e6d34ad13b7022952effd3ac227aa99703eb670e81967427ad9"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--472da1e95222_171.jpg",
+        "sha256": "0bfedc283fa08373f8b81564a2b5d08848a2414f58af966797f451787c5e97b8"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--4884f1b46d53_344.jpg",
+        "sha256": "e6582475fbd6bfa24c151ac6f7805f83354e5ae6d687d643143fc57af0eac44e"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--4f4c2611935d_61.jpg",
+        "sha256": "e8679cd13e8d33a15876194cbf49e6de0b413fc80fa92e6eb12a54d419a4f53c"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--58ab3a986d7e_1270.jpg",
+        "sha256": "447839e02e3a9117f69f98dddd6b9c215317e7784271e07c64c319cc846ad686"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--628c16330aba_1139.jpg",
+        "sha256": "29db61d64c98879c7799cecfdf5c772a60fdb17143596a3e01b297f308d4074e"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--644f7c884612_1246.jpg",
+        "sha256": "154d86d4eda413f76cdff849841f0e8f95d91c60462aeab2c56155b5dd58bc58"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--6dd790e52aea_1159.jpg",
+        "sha256": "8e3ac8d0894acf5216a2073f4bea86bedda570709c43ea3c3d7cb300a566c24c"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--6e57eba7c340_1323.jpg",
+        "sha256": "b3714e6ff6f5dce8e5cff314cc83849e0120dc1d23db93b69bdef5eb4b8b62bd"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--6e7e091f91ff_245.jpg",
+        "sha256": "5a125b617f5de4ffcfce2c964931f5dd917c86212d2d2f7b02fb7ff5ba47e103"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--801e013fe4d7_78.jpg",
+        "sha256": "6430b35e0e8069c61abdcf09d3669d6cd6cd3d2b9366d6945faf1cae43d3a494"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--83d813271e74_1340.jpg",
+        "sha256": "6cb49b65362b672d65e06133eed3d8a1c597e20495d6ade0632b8a39d09d491f"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--86d0005fab9c_218.jpg",
+        "sha256": "aea4908a22fee26de95e30047a58862735116193a25a55281958391f4d921b78"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--8b591687485d_1324.jpg",
+        "sha256": "f5ee24009dd78b6b1f923370632157066511d65d2d7bb81f1bd4ee521273c6e2"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--9916acf21684_1163.jpg",
+        "sha256": "eacd068941818071de81db7e8f6cb84d629bdf35350dadcfffd98d9b9bf35bb2"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--9fbb694f634a_19.jpg",
+        "sha256": "0313719b5e0c52c7acf04a82ad0338559c24f0b62f5bd2a052e1b4a1e04a1df5"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--a8cf157012d4_1148.jpg",
+        "sha256": "d07e3240c5648f1112811412d32abfd87ab6254c83525170557b98d0fbd51f60"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--baf10206131a_25.jpg",
+        "sha256": "87e7892c48d0a8a7e492a3ad2342ca166a04870b59605b30bfd25dc4b8897190"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--bcd2f029c377_256.jpg",
+        "sha256": "3228ef61de7c4a68cf64d6e83d2fd0372e420a22a7154f015162b11b49684585"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--bff04506372b_323.jpg",
+        "sha256": "99a9be3c45aac4c03ea940e56cca819f9bb50302cbeaec5f5b895579a4d74a89"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--ca729cd9ed12_1214.jpg",
+        "sha256": "d25b09f4916fcbe71a4e56bffd87339c8ed6afb7323a5948493e189a30942099"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--ca7718a02f77_1013.jpg",
+        "sha256": "2bd80fa2f4f2254903ba788c5887124ab6661263276dc4fdf79447de336e39f8"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--cc064ba27432_123.jpg",
+        "sha256": "b3b0d9f7e14aec634482beb72a2c05196682399ef168c0f8523181f785c25b91"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--cf4055e7c3a8_217.jpg",
+        "sha256": "1df87223b31564727adfad8ca8379c5441c44b07d782a890a2dcba5d7fd52bd5"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--d39961d9fdc3_318.jpg",
+        "sha256": "dabfce71305d2cb27ac3bcfd7213fb6645b566f1348906bd33b1e8c7b8774b8a"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--d86e09ebc828_254.jpg",
+        "sha256": "bb75e1af7b054eba0db39a7ca1d2ea3b12372c3b7b0a1fc688240f1f06149f20"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--def2644c3eba_342.jpg",
+        "sha256": "1cdf89ed3f9f2163c38fe83fc45f98e1518f4b82d779c3d5c56715c21e80c0d3"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--ecd8e581a95e_41.jpg",
+        "sha256": "7f5e63b55b2cb3e07db4040e5275d740b53053df6a01f5d3b16682d08aed13b6"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--ed372a2ecbb9_1129.jpg",
+        "sha256": "a8d71b5a4ba7bc4d7a8b5d7bed72f41bb43c8c52d12b900c2113f86774919510"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--eed6b5047eb9_65.jpg",
+        "sha256": "929a0d5b95ae690cf47cef826f21621789c29982bec5433062dcadac41c2a86c"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--eef595ac0600_1265.jpg",
+        "sha256": "d236762aaf7d2000a1b8bc41c8e132bdd845aee5cbb0c8a64687085e74198f01"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--fb02f8a85b86_97.jpg",
+        "sha256": "fcd2a01621cd05f65bf6e4abd32b25c4d78f33c63af1489a529191421b87f57e"
+      },
+      {
+        "path": "有害/有害垃圾-杀虫剂--fcb8e6e7c74b_348.jpg",
+        "sha256": "a2905f813fcba2dca214d81d714ae7da08d6a875d9ca65ff12658f01866aab1b"
+      },
+      {
+        "path": "有害/有害垃圾-灯--01f7da1cb822_1003.jpg",
+        "sha256": "844e28156ea2330b0ed93ba774d4a9d2c04e462f9bd56d246717d232414933b9"
+      },
+      {
+        "path": "有害/有害垃圾-灯--027d013857f4_67.jpg",
+        "sha256": "057dc0304f10a427d4cccb3c2efa753261f87aca98ce2042ae56f53ed4cdf181"
+      },
+      {
+        "path": "有害/有害垃圾-灯--046cc19abb29_1160.jpg",
+        "sha256": "73cf9c07c6ccc1200e6bf499ea7fc1e303a39b6225a65e9ede911119373816bd"
+      },
+      {
+        "path": "有害/有害垃圾-灯--04dfdac59684_17.jpg",
+        "sha256": "cc45ea259266d1cfa7dfaed4f24c8cb4598dbdbe258a0098f8b995fffe71657d"
+      },
+      {
+        "path": "有害/有害垃圾-灯--0a11e5a7ae62_1109.jpg",
+        "sha256": "5bbd9a8e551ce0488c934595f49831cfd208d3eb76375bd213abf80f46803434"
+      },
+      {
+        "path": "有害/有害垃圾-灯--106d4b8a8b1b_1523.jpg",
+        "sha256": "920416e75318f9f7a2831251c00bd684b05b402d8859396651b3f90572e3792a"
+      },
+      {
+        "path": "有害/有害垃圾-灯--12655e3d3497_233.jpg",
+        "sha256": "8b4e666e88646254d4e49b8e4946d4cfa744e14f572687126ec2bda875878971"
+      },
+      {
+        "path": "有害/有害垃圾-灯--15d63ae913bc_1290.jpg",
+        "sha256": "eb936613603ae8e6ba70b58fe07e425f3cc67f8f4512f0ba22d3fb1cb24f4ec0"
+      },
+      {
+        "path": "有害/有害垃圾-灯--1c23c712b45f_12.jpg",
+        "sha256": "20856a2f4498696a8cecf7371db5c7bc33c63beb530ad300a23684749b7a9ec4"
+      },
+      {
+        "path": "有害/有害垃圾-灯--295b70be4d55_1365.jpg",
+        "sha256": "111242bc568376e57e755e3997f5cd1ba315db19168b499612cf86badc21b8da"
+      },
+      {
+        "path": "有害/有害垃圾-灯--2e3cb4ba4536_1299.jpg",
+        "sha256": "c544da10519abb0edac4680cdc0818971a06f117bd0f070a53f6701b6491ccaa"
+      },
+      {
+        "path": "有害/有害垃圾-灯--309f98409560_1096.jpg",
+        "sha256": "f942985a4fd725dc1783a42611b92d87c430ddc1c48cea97374f4654c31ac40e"
+      },
+      {
+        "path": "有害/有害垃圾-灯--33c8a7f3477c_82.jpg",
+        "sha256": "b43ceac8d603b029dac9fd74f680863df8036b03654051d6dfff8cd0d86c57bd"
+      },
+      {
+        "path": "有害/有害垃圾-灯--36fda8cc957b_1131.jpg",
+        "sha256": "587bb0ff442a4147dc56a4d5c61d57bd962cc6e20b61a8d8897bc74a7b72e243"
+      },
+      {
+        "path": "有害/有害垃圾-灯--3956070dd61f_216.jpg",
+        "sha256": "54c8cd82f3003184ebdcfd78f6863f999e296e867f57e888c6256f46f693a37c"
+      },
+      {
+        "path": "有害/有害垃圾-灯--4e77df041d92_1393.jpg",
+        "sha256": "32e2e75b4b64aabe6d959d695cb8d207dc2f4ae14e1c561701948ce2bb870f11"
+      },
+      {
+        "path": "有害/有害垃圾-灯--51c76312ac9a_1108.jpg",
+        "sha256": "3238d3ca1d1690fe43542e412ba0d06ee9b2bfa6a63863d1f865ad0df4f05e1c"
+      },
+      {
+        "path": "有害/有害垃圾-灯--548bd0294d10_60.jpg",
+        "sha256": "a1a2d860609332050046888c53b9e4477f22fc7a2c25fec52bccba390c21e454"
+      },
+      {
+        "path": "有害/有害垃圾-灯--5bed4884af70_1010.jpg",
+        "sha256": "01b70da48cf73f939ddd22ad29e231e1af360eea0cceac13c9448b1eedd36b17"
+      },
+      {
+        "path": "有害/有害垃圾-灯--5e6bcf359b05_1406.jpg",
+        "sha256": "8ef5c0377a38cc4d7877bc9587a652aadab183f8288827dc2c7b9c268a0d688a"
+      },
+      {
+        "path": "有害/有害垃圾-灯--64b029c3c2a9_1291.jpg",
+        "sha256": "b6e3cb14ee48d17015a463e5dd3a99a81c3cddf17d95ce8b4c193b5e0c4eb536"
+      },
+      {
+        "path": "有害/有害垃圾-灯--664ab5e4a551_1196.jpg",
+        "sha256": "351943a114354a06a578260de5a6e4fc7db271a9f1719efc081d128f2b477cd4"
+      },
+      {
+        "path": "有害/有害垃圾-灯--6a5ef2e3106a_1476.jpg",
+        "sha256": "17c66940da208e7544300c9edb1ca7b47c7b86eb9190cc0ee309c61527e6f86c"
+      },
+      {
+        "path": "有害/有害垃圾-灯--6dfe158cd996_1361.jpg",
+        "sha256": "3d6d516299362ef804d32480094e447d83c7b425581683160255b5b088a8ccef"
+      },
+      {
+        "path": "有害/有害垃圾-灯--72277c426f73_1295.jpg",
+        "sha256": "1f6de322b61a225f5e3d996c737c88faffc8e987de497a6d04d171744c7ae076"
+      },
+      {
+        "path": "有害/有害垃圾-灯--7ce74d7a038d_215.jpg",
+        "sha256": "deb40fcbd5c91f0a93a6bd95803b21f781215eb976ab3fa8b9930ba6de03ac13"
+      },
+      {
+        "path": "有害/有害垃圾-灯--8405dd9cfe63_1486.jpg",
+        "sha256": "888a05a5d7e0c7fe3d05c49cd9c6991a1f131b74937dc33145080761d2d753fc"
+      },
+      {
+        "path": "有害/有害垃圾-灯--92231f5c3e9c_1020.jpg",
+        "sha256": "e46fe4df72ff5953dfdfd08bf03c4164288b6b541e4b9598631e3f71a15bcb38"
+      },
+      {
+        "path": "有害/有害垃圾-灯--ad01ba84b236_132.jpg",
+        "sha256": "4d1e6433664800150ac402584d4f3d6ca5975835b1966671e91dcb2b29cb3cf7"
+      },
+      {
+        "path": "有害/有害垃圾-灯--b90c57d6718d_1411.jpg",
+        "sha256": "37896a19c35b9201161821a347ec5b23aba313e40a66b7dcb1facf61a645be52"
+      },
+      {
+        "path": "有害/有害垃圾-灯--b9c4949943b1_1079.jpg",
+        "sha256": "a1110ad740ce4c9e785dce9e6de18599428fc0c39de13eaf371a488d0379f33b"
+      },
+      {
+        "path": "有害/有害垃圾-灯--ba2775fdf6a4_33.jpg",
+        "sha256": "84a0f6b8c068cd91e4d50ca209fc30920609e1427d29180511aa67521bb816c6"
+      },
+      {
+        "path": "有害/有害垃圾-灯--bfe07d8de9d1_1142.jpg",
+        "sha256": "acb7a0807a02834e032a3cd71aaad39121b67e7bff951da724ec04557857ec08"
+      },
+      {
+        "path": "有害/有害垃圾-灯--c157b1509e59_1503.jpg",
+        "sha256": "fa5e875b20d44d392f1d9eed2324e8026001fc8843131c1e5c8fabfbca8af43c"
+      },
+      {
+        "path": "有害/有害垃圾-灯--c29be6a600b0_1372.jpg",
+        "sha256": "b252c886ec9346a2802909a694e7be253a217e449fdd969de1e87067a140d448"
+      },
+      {
+        "path": "有害/有害垃圾-灯--c8d7568ef0f6_64.jpg",
+        "sha256": "1e43ff88b49724cc274ae92deee1eaabb39098b9282763f5d7e23d7e344d3487"
+      },
+      {
+        "path": "有害/有害垃圾-灯--cb2de5f6b6f7_1118.jpg",
+        "sha256": "259a787128874e01f18a2ea79e565782e1160442d308d3ed14e76a45178e24de"
+      },
+      {
+        "path": "有害/有害垃圾-灯--debc1b51c4f0_1578.jpg",
+        "sha256": "d2379abefc259341288c899d5f642738edeac44784ea3c7bbf6174515f99a74f"
+      },
+      {
+        "path": "有害/有害垃圾-灯--e200e4f140c8_1382.jpg",
+        "sha256": "d84c9fbf8b2e74b72ca46753fbe53b0da5ac83471c1ba66138341cbaa9472070"
+      },
+      {
+        "path": "有害/有害垃圾-灯--e3de8ac14bdf_1319.jpg",
+        "sha256": "1fd8d539f50af0c4dc2041e979c4d7d4aa82150cf7bd498b9b2b1adff898f412"
+      },
+      {
+        "path": "有害/有害垃圾-灯--e8ce0c3ca454_1070.jpg",
+        "sha256": "46732081f6d0ef8ebef9fc003d8b565b0b6794708eb29e97659d7df0cf091aa8"
+      },
+      {
+        "path": "有害/有害垃圾-灯--e95779724a2e_157.jpg",
+        "sha256": "60db0e47646edc66e0f5025828a0858367b94c281b8ccd2033ab44493cec26eb"
+      },
+      {
+        "path": "有害/有害垃圾-灯--eb35f329803a_1131.jpg",
+        "sha256": "359cf1faa2e3c5d6ae463b4e5a01e2be183010965e07fbf7b1b60be507e4e3b5"
+      },
+      {
+        "path": "有害/有害垃圾-灯--ec0a789dd217_150.jpg",
+        "sha256": "45f1708a5001582e2c5eb98b91531a143ae9a123b53b051d86cc5b0afd144ecb"
+      },
+      {
+        "path": "有害/有害垃圾-灯--f612bb9d8261_1397.jpg",
+        "sha256": "13e1c153bc0d6064aa0919281f319e059d69e0cfcc06e8dfce1bb5a988d27119"
+      },
+      {
+        "path": "有害/有害垃圾-灯--f829368eaa1c_170.jpg",
+        "sha256": "ba6d4aa72ef2caff1a5e6e5c393b9a2d59a60c4e22feac727dfbb60b5ae48120"
+      },
+      {
+        "path": "有害/有害垃圾-灯--f85489682a00_239.jpg",
+        "sha256": "574217d7dbaaf6ba3f970860c25bb892b1dc39ca7e8f57f2527f6dc209c920fe"
+      },
+      {
+        "path": "有害/有害垃圾-灯--f90f2347f8e3_1216.jpg",
+        "sha256": "221ffc3f25bb5732f2190b07f1bb5965686ce96519ee88bccf07adca5fd6f92f"
+      },
+      {
+        "path": "有害/有害垃圾-电池--0a0037cf9a9d_126.jpg",
+        "sha256": "33575ebc48d8ff30a5b5959a428f8e593bc183122a91c4d6f49539d637d9f8c7"
+      },
+      {
+        "path": "有害/有害垃圾-电池--1cc0be721bc3_230.jpg",
+        "sha256": "d00e43c5cd021b8f26cbd101332fcd4e7eac123e1a25a3623f01c1d8fa1ff56b"
+      },
+      {
+        "path": "有害/有害垃圾-电池--26ad94628311_656.jpg",
+        "sha256": "ed68e0d80bfd7501d2f66b2ce647b3f8979d998e777c38d961b97729329c5a69"
+      },
+      {
+        "path": "有害/有害垃圾-电池--26d353985225_583.jpg",
+        "sha256": "523967ddb1fc1b6cbaef0fe0be5ae444d809fd20af05fbd56bdaa6a0841cc119"
+      },
+      {
+        "path": "有害/有害垃圾-电池--2864fd7b65b0_519.jpg",
+        "sha256": "3d2b0aff814fb66de4dd5e60dc74fc8bc51790e157ede6d834ef016ff993278b"
+      },
+      {
+        "path": "有害/有害垃圾-电池--2cd4851e847b_battery633.jpg",
+        "sha256": "4adef6da00a507d22522853c83d736c708cb315dfed80fdb4338db7ee8a3164f"
+      },
+      {
+        "path": "有害/有害垃圾-电池--41226d93abcb_battery638.jpg",
+        "sha256": "9e498b6ae9d1b9531d892496a3a8ccf880628051d99e03345b4bf08ffe115136"
+      },
+      {
+        "path": "有害/有害垃圾-电池--4750f46c033e_1390.jpg",
+        "sha256": "4b512edd9a4bd7e705188e47c155140fcebdbbda82dac250a9c5676826bc36ce"
+      },
+      {
+        "path": "有害/有害垃圾-电池--476d0c8c5f78_145.jpg",
+        "sha256": "b4ecc39aa3f0c2a4196c9c3e74313c7cb356fd63cfbca2f43a477fb715a34d84"
+      },
+      {
+        "path": "有害/有害垃圾-电池--49035737eb81_battery231.jpg",
+        "sha256": "6889e556aa97b6a4b1f875df14e6e4930373236b57d28dc4ae8bcd5b61f09642"
+      },
+      {
+        "path": "有害/有害垃圾-电池--4b40845fea2c_662.jpg",
+        "sha256": "0f8761521e29d9ea3234d544fc7a7dd99dbfcdc99a31a08b9acca50ad9ce409f"
+      },
+      {
+        "path": "有害/有害垃圾-电池--5612a8686f71_1490.jpg",
+        "sha256": "23e48ac5b22fcbc3bb4386f3629dce9504568103933063b74b4cfe25e7c64618"
+      },
+      {
+        "path": "有害/有害垃圾-电池--5690d97d634d_battery662.jpg",
+        "sha256": "1ef0870e571af5534f36365031c83fecf9eef77aec56daee070923e66703fac2"
+      },
+      {
+        "path": "有害/有害垃圾-电池--5c38a4f18c60_233.jpg",
+        "sha256": "beed96b35d0e91ca849f8efe330c7080601221a056de1d74771f3b87396ca89f"
+      },
+      {
+        "path": "有害/有害垃圾-电池--64eca4b0463b_19.jpg",
+        "sha256": "af21c9c66a60b37f7c171d75ab1039c8ca497d4cb82b4165ae8c1270120db487"
+      },
+      {
+        "path": "有害/有害垃圾-电池--6d120a82f3b2_1258.jpg",
+        "sha256": "c50502165f7c715860d26f16dc2f583aec5a8472184a6b0f4255d6937e7b6214"
+      },
+      {
+        "path": "有害/有害垃圾-电池--718369923477_battery610.jpg",
+        "sha256": "ac3037f476457fcc3eda6f6da99a858b6ef4dc9d82bb2834ee14ae8d6dae7df8"
+      },
+      {
+        "path": "有害/有害垃圾-电池--72b28fbd36d9_1164.jpg",
+        "sha256": "c0a58c7585dff3cc2cc4e427135f885fa69be79031d900b27175d0d35db7be10"
+      },
+      {
+        "path": "有害/有害垃圾-电池--78c320515060_437.jpg",
+        "sha256": "6838a7b0e7ee929f966edb4d524de40eed803017371bb83308338dfb00f15b76"
+      },
+      {
+        "path": "有害/有害垃圾-电池--7a6ca0122769_1413.jpg",
+        "sha256": "32f3342bf04ea7b4ce51c08e26881082818bf8693e1a9787c60283d050f06588"
+      },
+      {
+        "path": "有害/有害垃圾-电池--7a75e56323df_405.jpg",
+        "sha256": "8d30e97b27243561daee085d78359084aa1fcadb37e805ea51218753f5770e58"
+      },
+      {
+        "path": "有害/有害垃圾-电池--8cb307ed7baa_1150.jpg",
+        "sha256": "2b272ebfd03d53a32514363a0ef26d50d6a52535072f3a058960a1b4d1517ab6"
+      },
+      {
+        "path": "有害/有害垃圾-电池--8e8cf98cc749_battery895.jpg",
+        "sha256": "1901de51bb07c12c56d89a5384ef6a1d4ba72ef171494fef03b80bf03bf487fd"
+      },
+      {
+        "path": "有害/有害垃圾-电池--923fdcadfab4_battery141.jpg",
+        "sha256": "c0a9c9db8d745fa5b079d379b71ac0cf7e7db8f559adfdc7b3f26de48b757655"
+      },
+      {
+        "path": "有害/有害垃圾-电池--925562876a70_426.jpg",
+        "sha256": "4f9aa5195cf9638780a1dcc71b807c0a22da260a4277dbe24d22025d4309adab"
+      },
+      {
+        "path": "有害/有害垃圾-电池--984b12370510_1335.jpg",
+        "sha256": "6fdaa4498d2ef6b066a2687e3f132a912c836a209cbc3c2f8b8f2a30b836e50a"
+      },
+      {
+        "path": "有害/有害垃圾-电池--9c1a91ccc378_battery70.jpg",
+        "sha256": "974a44de65293931e0c4a8695775d2ce0e56893c85fa0913abf4ec5befd15991"
+      },
+      {
+        "path": "有害/有害垃圾-电池--9c508dab5fe6_battery284.jpg",
+        "sha256": "a136b220d8bc95be6e3fca53d5f571c51d26faa220b540ebf69a4f1a5e79d04b"
+      },
+      {
+        "path": "有害/有害垃圾-电池--a1a40fb95b91_battery156.jpg",
+        "sha256": "2dc0bee43d935f6ac897049b8073de73b1c00066b624be3eb95af0b1e22296bb"
+      },
+      {
+        "path": "有害/有害垃圾-电池--a46a287fab2a_battery385.jpg",
+        "sha256": "f994eaa16a4aed9ae04486a4b03aab68ef8af4db8d88b76ee9b38698bd0d1923"
+      },
+      {
+        "path": "有害/有害垃圾-电池--b70d71a98088_309.jpg",
+        "sha256": "edbc49e34c3ab0ec1e8be4c19c2c8de351a0c46a22a9d729111e3f187318cd8a"
+      },
+      {
+        "path": "有害/有害垃圾-电池--b8ee3b90859c_1031.jpg",
+        "sha256": "249e21e9b31cebfc4b9726f913ad803bd44bafb5d3e59f8efad9c5f27213a490"
+      },
+      {
+        "path": "有害/有害垃圾-电池--b96a892d31e0_1096.jpg",
+        "sha256": "46b8a83b02b9d6e8d91880acd1e0e500331632e7ade1d134bc003cda4bb5ea23"
+      },
+      {
+        "path": "有害/有害垃圾-电池--be8d3e5ccb4c_battery944.jpg",
+        "sha256": "223dbb0b28d046d969691e374f860483487d1a6ad09486fa16b6ddcf698e7463"
+      },
+      {
+        "path": "有害/有害垃圾-电池--bed5af5e2b0d_588.jpg",
+        "sha256": "61c3bb57f9e1cad7b194c190548f8e61e7b1284878ae191ea786356a0821316b"
+      },
+      {
+        "path": "有害/有害垃圾-电池--c4d4290c041a_battery162.jpg",
+        "sha256": "3150bfe9f06a0970cc7c98969c663ed7d37ccf2c78cb08be23ccbee20928f9b8"
+      },
+      {
+        "path": "有害/有害垃圾-电池--c5752bef4e99_battery362.jpg",
+        "sha256": "4e9f376381120267e6836ee9605da61cb3330f31fabc37740326fd9864615b46"
+      },
+      {
+        "path": "有害/有害垃圾-电池--da1459e4c3fc_193.jpg",
+        "sha256": "a7389335d004189320bc23940a8b1edd162a0cb4cdf53d4feb2f42bf23b707c8"
+      },
+      {
+        "path": "有害/有害垃圾-电池--db850b909c8b_1108.jpg",
+        "sha256": "ec8e3f161430a3987312ef596b590801788db62b255bf23a8967bb2379ce8c18"
+      },
+      {
+        "path": "有害/有害垃圾-电池--dde93899db1d_battery165.jpg",
+        "sha256": "4b620365a35d63729af6205db00b6bb8f9c9f65eed97be7d8311b6af5f9e659e"
+      },
+      {
+        "path": "有害/有害垃圾-电池--ded0f50ee4e6_battery344.jpg",
+        "sha256": "5f5d4c079a73c094ba40805889953efccdf27768b0dde613785ff948b6562b91"
+      },
+      {
+        "path": "有害/有害垃圾-电池--e1ca843ef7e3_300.jpg",
+        "sha256": "f491cb121925201eba965880e5f11b01138b4c3727ff98bfc47f43ed08e6dcb3"
+      },
+      {
+        "path": "有害/有害垃圾-电池--e49d811c6e43_battery373.jpg",
+        "sha256": "460789554358c9358cb0f968aef48855afa6ef525679b7bb4860c67845ed4bae"
+      },
+      {
+        "path": "有害/有害垃圾-电池--e714421bf21e_battery630.jpg",
+        "sha256": "bf23a013b7ca758db587531eee468a76de8642ad2125145755ad22451710062a"
+      },
+      {
+        "path": "有害/有害垃圾-电池--e8013406e896_666.jpg",
+        "sha256": "78c29d0bf445435728aebe9d7f5862ef1624283b072493b262e83446fc9ace12"
+      },
+      {
+        "path": "有害/有害垃圾-电池--f3d753db2646_622.jpg",
+        "sha256": "a2fee0528fb184330113ca80676ab3a2c2cc28222697b534f157bb35011a3238"
+      },
+      {
+        "path": "有害/有害垃圾-电池--f69228749fd9_battery744.jpg",
+        "sha256": "e11dfbf5730cf903791236f27472683800d31de8f6f5ef67cd116bbb0ca28839"
+      },
+      {
+        "path": "有害/有害垃圾-电池--f81a71f63ae7_1296.jpg",
+        "sha256": "cd279a53112cd8493d6454b17167ff8bd7a5b5f43492b6f6198fc095ec8dc27c"
+      },
+      {
+        "path": "有害/有害垃圾-电池--fec89ce66ae8_166.jpg",
+        "sha256": "2f827ff3389f71d59a38fd2233abbf942382524ac76434fdcc8e0ba6cc5cbd75"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--04b46aef6f0e_188.jpg",
+        "sha256": "eb1beadf26f0669d2548a93a531cbdf5cec5038f3abf9be6e1dbf9886a000a6b"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--098f412350ed_212.jpg",
+        "sha256": "398dd28134fcb680027829c5403f3bc0e1da97e2aff11b180ac830eab5cebd34"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--0a7d7e6539d4_608.jpg",
+        "sha256": "c3f56f23d34c7436c161f0cdfbcba293624c41caf9947afb18db3e5a91bbc5fa"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--12d15b0f7a51_21.jpg",
+        "sha256": "1d19e99a4b5d76c63ef202cd63e74adef71688736752a9c5788bfe15536f64ae"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--19606cc485f4_557.jpg",
+        "sha256": "cfd85f7abad1af0c7e342300084db4880a8853e8d437cde66a18442def40ab72"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--2db0e237cd42_31.jpg",
+        "sha256": "c99c077cd0cc4b9578552f1cd75c536e3299817c3e43ef545bc52bbadad7ab70"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--309e23d83403_320.jpg",
+        "sha256": "dda70f8b29226fc51873ea1345d89461475a4bbfcaa33c3a4f3d8de4dafea983"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--3119a1e4d99a_482.jpg",
+        "sha256": "4c043522daa8f7123c39c755826563a38eb18ec80a29522dfb08374d95614ce5"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--346b9f956541_473.jpg",
+        "sha256": "dbeb652cf950b6402a92e5823ac1876d084ffe17aa4c7ae33b7db5850b50d0b6"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--3be4a0071556_12.jpg",
+        "sha256": "fb64a3209a6c189c530d4095d253c2856a2cb359cb7dce9d5e7fc7227f03ef2b"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--3e9940ca60e7_407.jpg",
+        "sha256": "e91e5cc0d2779bd5281b6645f716fdf6fbeea13939b3d6786de1d63d8b326fdf"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--4190939a8d26_520.jpg",
+        "sha256": "5474511195b49d8ced64968aef957cd0b929b30ff19f29092dd906c6a5bbc65d"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--44a705519096_271.jpg",
+        "sha256": "b26264be5ffb12746762b0dcdf23d09dbeef1e93a7e9e8b777448cabeda2611f"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--50ab783b3e03_492.jpg",
+        "sha256": "11f37ac39c4d421c39eb84f9b3b243acbe6e22a6856f88aabaa55e66320de4e6"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--67ff1451ee98_392.jpg",
+        "sha256": "f46c2f611caed700d985be08f33cc323ff4a33c169ff15e6d0ed1e4fc9a04042"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--683c84b47287_364.jpg",
+        "sha256": "46966b164ba8f4224979556617ce3078a5a50b2904fa513ba42bf530fc931f54"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--69d949241f8d_678.jpg",
+        "sha256": "b614c786dde113aa656aa727d7f58c9e8bd6b42844497d31fe53edb17538286f"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--6b127b7873a2_315.jpg",
+        "sha256": "bf586840858e082c99c7280a23821256da0408cf2849837e266eed6b3c631fa5"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--739656c03c1e_488.jpg",
+        "sha256": "14ed92b0be620b687c1c75c986da135f0db0c7864704e22fa82f54fdb3902591"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--798d705d5706_266.jpg",
+        "sha256": "de31832041da02554015c55ae393d7f834958c3c388e2445b0cefd79333db5dc"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--79a833292aa3_394.jpg",
+        "sha256": "9ea94c52a0df90785a583127199ac6dcbe0f2c825fc442ea8d97616359430a7c"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--7d53c3375b0e_402.jpg",
+        "sha256": "5286d58a25f1425bc3b85968cc515b533872c169b513d8e30f4f499301df038a"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--83a110c1d12d_651.jpg",
+        "sha256": "eddc6fb0cb12460d8564852998df307fcf11d140ad7b6f6df265d21b7a9830a2"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--88f647ef5d90_545.jpg",
+        "sha256": "543759ac41c1bf1e35fb98c1715876bc84ebc5693073a9c888237bcd13fe9555"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--891408fb5bb7_509.jpg",
+        "sha256": "bce3277d74968c980f5718e572b9974762ca158aebdf445a64ade7ddd90c7605"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--8b73c40b41c1_466.jpg",
+        "sha256": "595c66ff24ef6d4e1229ebeeab70049e144b5118a02164fba413e5b78f670938"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--8da5e4fdd06a_499.jpg",
+        "sha256": "3a6119ea456977589d57215015442dbe5152fc70711d85a96dd5dbcae2321b6a"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--98fa95ea0418_483.jpg",
+        "sha256": "dd5214bd047ffc227d8e0fbe99adc1b11ce0ed3f935ee6ca2a78778c96a5016b"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--9fca4f7a4d74_456.jpg",
+        "sha256": "18fbc0e1b902d5a288aa07984bb5362924cced304647f5024a6e4f3ffd488242"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--a78d84afdf12_463.jpg",
+        "sha256": "d59f1a5bc9bf5a91c9eb5c3901ef2e038b80a842846291523ed3ce5de1e5b12a"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--b58f3265edcb_199.jpg",
+        "sha256": "5127cd74c253bf37755c3b4339d066e9b55b25040593af688d53aad39c8b6be7"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--be27f219e8e3_52.jpg",
+        "sha256": "20f176b441af269c7c8cbefad0811dba027990ec08e5de32cd2fcdadb346cf51"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--c20efbc4a03c_100.jpg",
+        "sha256": "b1d0f05a02630b98029bf13e0d1989588c720500469d07c507315be03cbb9944"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--c358b3a20134_432.jpg",
+        "sha256": "012fcd468289230fe322a98ff649d86c5aecbacf70473075877bc5b262e6b945"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--c46a8482127d_295.jpg",
+        "sha256": "d50652521c9b08784f42d1a70e07ed42f7784208cc2b2be86a92223c9bb1e2cc"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--cea087dc7a9d_419.jpg",
+        "sha256": "df3b8f9372e88f2f09b08e55431d7a923b35a1597c0c601dc410b5a5642d98db"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--d2cfb669bde9_341.jpg",
+        "sha256": "cede7084738bebfed6f8b1dd7d40236b508dcf46fdd0aae6e4b3e27154d60254"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--d5feec5c9c01_389.jpg",
+        "sha256": "1d7b02110f09e7464013ae7c76f3bcae3ccd34bb4f14029a24ff84aedf99ee5c"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--d7ee36956410_114.jpg",
+        "sha256": "236a3c0950b8541fe7b103e8727d56db2b67343f343ef7162eb1e9f1d569836f"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--d9ef33530639_132.jpg",
+        "sha256": "fc69861101924bb842cc0d4a2300a1b1f83288b600871446f8d099fdde7b031e"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--dc62123a1713_138.jpg",
+        "sha256": "90c25b75d371dda1f25c577cb829d51c4b6203384fec1c355ce81cb763a78340"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--ecef9a7f6acb_198.jpg",
+        "sha256": "b0fbce5be5ade5e369bdcc062c9e917cd9107f5faf4447941ffb63d04f1e6cd0"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--ede1f6a7e53a_336.jpg",
+        "sha256": "a08cd3a70e28f1b41d9551656798fc7a02e4499bec0b447c4cdb1d7ec3fe8242"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--eee6f300cf6e_485.jpg",
+        "sha256": "a59d2a3f0b0bb46695c018f1d72f68af0e5a068587148ef14a8651222f55f5c1"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--f16886f3c0da_9.jpg",
+        "sha256": "d4193a967ccf1f7bd4eec5499c72f20cc004117936244f5da640a3adf0c5abc5"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--f2b0bc406e8d_27.jpg",
+        "sha256": "d3231d0adde0131cf10063b09322c53174ebfae95f4500194532823bdde861a7"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--f75259991509_413.jpg",
+        "sha256": "4fc444cd4aac95662ef9973c38dd2ab92355c652a15dd8921f7a07c847915f6f"
+      },
+      {
+        "path": "有害/有害垃圾-药品包装--fc9382c34330_464.jpg",
+        "sha256": "5db0ba3f3acaba4dc78864e434ede2d2e7be9dec254a0e4eff021e081f1fc0ef"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--038734701c6f_50.jpg",
+        "sha256": "59dd9205d301d98aa0d7ac3e595f3d824187ce07ef5ae036cb7eff162164138d"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--07d67cf3ee93_222.jpg",
+        "sha256": "40843b3fcdefc67b260ad4988080915ab1983fe2a415bc9ef62f91aac74508db"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--0dd2db7e896a_183.jpg",
+        "sha256": "7162c948c844c0939048322e190aed0cf5f57d23aacc16eb25b9203e0ef326cf"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--0ecd1dbebdb5_54.jpg",
+        "sha256": "69b673c29b34394584fd45553f2568bb39db9f22184905ec47ad06cca7ea1d48"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--1365aaa25afe_125.jpg",
+        "sha256": "fe486ef1879dfc55d3cf35bacb70d7f681e7d4f63221ab9a0eb00da21ab7e04c"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--17170f77c5a9_41.jpg",
+        "sha256": "5cd204f0fb48def6bfdd1a9633976825aedf91a3cd7f8306e03058437c23ce5e"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--1b38879a313b_113.jpg",
+        "sha256": "0e35f0b8b6e094da79d00513547b29719d6b3cbc4554ff55d2e9c6e8e697f561"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--1d4e0a00f020_187.jpg",
+        "sha256": "4bb2cc6091a570744d03a432d6d4cd80ca07607fe5447f7d8ad9a5ec750cdc38"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--1e2b43930126_204.jpg",
+        "sha256": "1c979b7f93838c4abeb102c5626582716d8096c3d8a14a7279348afa7adf36c8"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--285ed7999b99_242.jpg",
+        "sha256": "43fcdce189514618f0c94496e6f2f330f39dc84bf4011ab6234a3dbf9e90e655"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--2fbfefd7cfd0_124.jpg",
+        "sha256": "92ba94dfc9ef7c30e9c152c0b0605321f439a828263c5d0042a31913d958020a"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--39be917b7316_162.jpg",
+        "sha256": "fb2eedd8700b91121f776b82c76c21f39607598b9a1205111b8ee9635177bc20"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--3b955365a823_12.jpg",
+        "sha256": "b472e1ed144d84d37b932d2c4f25ed804aa64d4eeae472d109432a8f43d54091"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--3bfc33b3569d_190.jpg",
+        "sha256": "093414618620dd0963e35fdbec78484d71029985aabbbc61950afe54b7fe737c"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--41e2053c557e_31.jpg",
+        "sha256": "efacdc1110132ea4e60bc09781f0576c302327f9d6d85a8d267e441226959883"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--43d2456ae47f_96.jpg",
+        "sha256": "c450ccb8ab48380d7ebb86c831eca6df203c60da0f30652c13cef5fa9cdfaefa"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--52a1d07946e9_50.jpg",
+        "sha256": "384bc7e7d524af8691d04ff425b8169eb7e3886eb11ba9d3d7795cca6673e7d5"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--59432896d0b0_263.jpg",
+        "sha256": "d7575b61ee1d940d9a547b6c72fe1141635338a3a75a8ccba8cc301f55d01564"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--5e1554697eed_186.jpg",
+        "sha256": "ccf769680d84cce0eecbdc6b76ca2830e31bde127c02335359ba0499f0e38970"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--6e1e585678d3_19.jpg",
+        "sha256": "c3f3bc722fbc2303b4f43ec5ef15ba71498ede5771d719b6e2387f22353cf4fe"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--77d3edc01864_152.jpg",
+        "sha256": "e37dffe75dbb5c2541cc9707a3e3a9b4b783d2b0b9cb53519c0108c3a96c1e3c"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--7a4901e93b28_145.jpg",
+        "sha256": "c4d9ac033e5499c27248a02fc794ea118f9eeaec7bb2e2108c810b71ca489195"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--83011611898e_14.jpg",
+        "sha256": "4dc217f37ed8af35038816fb93ea8bbc2c5c559ebc8f9a400fae726d6512fd10"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--841974433a59_29.jpg",
+        "sha256": "e039b71e11a5ccb513d0772d4a9bbbf9c044e055da1d326cd34b513e6db36088"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--90439bcd50d8_78.jpg",
+        "sha256": "257f5db16c47f7a075b13d1fb740dab95efb34fea2185975220c134a2d2bb394"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--97f0aabe5793_278.jpg",
+        "sha256": "195b9d11251946029f842b88acda7abdbbcfb81705563e54b9ba3fc8a3e062ee"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--993d8ce09e2c_98.jpg",
+        "sha256": "89012eb77a1d270446f0d175b3d19176304d648b45073b827831861bbff20b1b"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--9a59838eb95d_46.jpg",
+        "sha256": "df6dc82ecc355005cb1261416780b3814c222b0580d1370ccbeb12354284354d"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--9b79c6115596_150.jpg",
+        "sha256": "4e2e5922d98176a26619af29245490a9e1ee69b1678f0f74764adc3d2546efa4"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--a68122e7ae58_284.jpg",
+        "sha256": "bdbdb91c5ae9eace9b05baf88ec402720bea2b93cff0639c0e1f35bf1841d1a6"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--aac924d0e662_38.jpg",
+        "sha256": "46f8edf541d9ed126e638d786a20a91ab6b239c3451f8c8825aab61ea14ce19e"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--b09ac569e520_198.jpg",
+        "sha256": "615c802e2c5f7c699ff21ac533e3e695944bd2d25972a0da435784a1748f7c55"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--b2b5c1d10ea5_64.jpg",
+        "sha256": "fec64214f2d8f64d15b082e95288634bea691f27bbf1238698881d78bf570b66"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--b6a8bc5d4322_79.jpg",
+        "sha256": "92af70102cd9a62673ca6fdf14885056cc0e910845571552882e76d72f00f05c"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--b881d96d84b2_74.jpg",
+        "sha256": "f2acceb862c70206fa18f8e287d75d48cbd4d0bfb0cae906fc3001c05ffd3592"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--bdc1e8594145_43.jpg",
+        "sha256": "45e06d155b8509ecb1ef5a5d1b2aeff9c1549b73253d00629552fb3b46cedcd9"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--c14187c376ea_215.jpg",
+        "sha256": "34fe15e63685dc2873992656769d83c73b6cdb55b7b9b867d5b8ff9defdea909"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--c4702f8f6015_125.jpg",
+        "sha256": "3796a5e657ad21ed7ed67663936b53e41e7ebc636ffe129e807dde7310c368dc"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--c65154f79d46_117.jpg",
+        "sha256": "34aa6f1bed994817a92b0d86e7c1b58c4917c23330bf8e436f453f3263cae0e7"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--c6d427cfc069_135.jpg",
+        "sha256": "22454513de329f21608f2afb27d9bdef387b054ec98204c6d65c852a4775748d"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--c970466287bc_81.jpg",
+        "sha256": "32b719d83810879720be0b581d115ef383e227e23043e7e7bd6a5c5fce162b73"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--d5b0f53b032f_29.jpg",
+        "sha256": "80267355dce7042bbfc620a5f42e0183c8cbdee667cc4019e98877fd521f5ec9"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--e91cc701f513_72.jpg",
+        "sha256": "19cff258de72b33c47fd651a7576292b7a805f3e8c40122716b7437ffffe3571"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--ea8c706804f0_139.jpg",
+        "sha256": "bee9474e1be816178301b1b3803d0da518735351f7307f5ee44e985e070ad6bc"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--eefb14e7e498_100.jpg",
+        "sha256": "055ebd7c36f2094d453aad48d9b9b4847411866d5047cde60849891d38fb9335"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--f67a18d3606c_188.jpg",
+        "sha256": "7b7d7b4e83bd955fe2763dbc401d9a96d1637eec028b56ba8f9804a37bc9ce3c"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--f841c6b83c5f_96.jpg",
+        "sha256": "e801bbb9d71a42c86287358c439f7557ed431f37f416afb81c34e7e18f6bf383"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--f9590f2a0602_141.jpg",
+        "sha256": "c6999aac7a7c3358cd846dd75b3fe8316d9833fa04a25a7e5622aab41366fc7c"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--fbd0cf81d529_114.jpg",
+        "sha256": "d53c2055651ed66e51a565443fd887d7642ec5b31c93413c46c741cb4f3b06c4"
+      },
+      {
+        "path": "有害/有害垃圾-药瓶--fc719e4d6450_256.jpg",
+        "sha256": "9273f8f89a6a75e7bb01c01a79ff9a07e6b3c85b0b84846cee7219e421c94016"
+      }
+    ]
+  }
+}
