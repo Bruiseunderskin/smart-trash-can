@@ -10,7 +10,7 @@
 | S31 compile | ESP-IDF 6.1：bring-up、XiaoZhi esp32-s31-korvo-1 | codec、camera 和實板功能仍須驗證 |
 | LVGL native UI | SDL native 建置、互動測試及渲染基準 | 不等於實屏、相機、觸控或模型整合通過 |
 
-XiaoZhi 來源含大量上游板型，不能把單一 S3 板型的成功當作全部板型相容。完整板型設定可在啟用 ESP-IDF 後，以 `cd xiaozhi-esp32`、`python scripts/build.py --list-boards` 列出；各板的 `config.json` 是建置變體來源。
+XiaoZhi 來源含大量上游板型，不能把單一 S3 板型的成功當作全部板型相容。完整板型設定可在啟用 ESP-IDF 後，以 `cd firmware/xiaozhi-esp32`、`python scripts/build.py --list-boards` 列出；各板的 `config.json` 是建置變體來源。
 
 S31 bring-up 已加入編譯 job，但仍有未完成的執行期依賴。EI probe 缺少公開可取得的指定模型，未納入編譯。需要加入新板型時，先加入其建置設定及依賴，再於 workflow 矩陣加入對應入口，保留真實 CI 結果。
 
