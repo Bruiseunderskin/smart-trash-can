@@ -10,6 +10,8 @@
 | PR 前 | `python3 tools/dev.py pre-pr` | 同 push；`pr -- ...` 通過後可建立 PR |
 | 單獨編譯 | `python3 tools/dev.py compile --project pca9685_servo_test` | ESP-IDF 編譯，不會燒錄 |
 
+commit 前須將 tracked 變更全部 stage；push／PR 前須提交 tracked 變更，避免驗證其他版本的內容。
+
 push／PR 的變更基準預設為本機 `origin/main`，使用前先 `git fetch origin main`；可用 `--base` 指定其他基準。腳本不會自行改動遠端分支或下載模型。
 
 ## 環境

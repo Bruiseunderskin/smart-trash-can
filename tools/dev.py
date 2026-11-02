@@ -36,7 +36,18 @@ def compile_project(project):
         run('idf.py', '-C', str(path), '-D', 'IDF_TARGET=esp32s3', 'build')
 
 
+def require_submitted_content(stage):
+    commands = [['git', 'diff', '--quiet']]
+    if stage != 'pre-commit':
+        commands.append(['git', 'diff', '--cached', '--quiet'])
+    for command in commands:
+        result = subprocess.run(command, cwd=ROOT)
+        if result.returncode:
+            raise RuntimeError('Uncommitted tracked changes would mask submitted content. Stage all changes before pre-commit; commit tracked changes before push/PR checks.')
+
+
 def checks(stage, base):
+    require_submitted_content(stage)
     run('git', 'diff', '--check')
     run('git', 'diff', '--cached', '--check')
     run(sys.executable, 'tools/check_docs.py')
