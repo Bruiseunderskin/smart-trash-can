@@ -2,6 +2,8 @@ import importlib.util
 from pathlib import Path
 import subprocess
 import unittest
+import sys
+from unittest.mock import MagicMock
 from unittest.mock import patch
 
 SPEC = importlib.util.spec_from_file_location('dev', Path(__file__).parents[1] / 'dev.py')
@@ -17,7 +19,7 @@ class DevelopmentChecks(unittest.TestCase):
             changed.assert_not_called()
 
     def test_changed_sketch_compiles_but_readme_does_not(self):
-        with patch.object(DEV, 'run'), patch.object(DEV, 'compile_project') as compile_project:
+        with patch.dict(sys.modules, {'PIL': MagicMock()}), patch.object(DEV, 'run'), patch.object(DEV, 'compile_project') as compile_project:
             with patch.object(DEV.subprocess, 'check_output', side_effect=['arduino/PCA9685_4Servo_Test/PCA9685_4Servo_Test.ino\n', '']):
                 DEV.checks('pre-push', 'origin/main')
             compile_project.assert_called_once_with('PCA9685_4Servo_Test')

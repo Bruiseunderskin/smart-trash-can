@@ -9,6 +9,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 ARDUINO = ('ESP32S3_Mic_Test', 'MG90_LidServo_ESP32S3', 'PCA9685_4Servo_Test')
 IDF = ('pca9685_servo_test', 'tflite_probe', 'ei_latency_probe')
+BOARDS = ('smart-trash-can',)
 
 
 def run(*args, cwd=ROOT):
@@ -21,6 +22,10 @@ def compile_project(project):
         if not shutil.which('arduino-cli'):
             raise RuntimeError('Install arduino-cli, esp32:esp32@3.3.12 and ESP32Servo@3.0.9 first.')
         run('arduino-cli', 'compile', '--fqbn', 'esp32:esp32:esp32s3', str(ROOT / 'arduino' / project))
+    elif project in BOARDS:
+        if not shutil.which('idf.py'):
+            raise RuntimeError('Activate ESP-IDF 6.0.2 first.')
+        run(sys.executable, 'scripts/build.py', project, '--name', project, cwd=ROOT / 'xiaozhi-esp32')
     elif project in IDF:
         if not shutil.which('idf.py'):
             raise RuntimeError('Activate ESP-IDF 6.0.2 with export.sh first.')
@@ -38,6 +43,10 @@ def checks(stage, base):
     if stage == 'pre-commit':
         return
     run(sys.executable, '-m', 'unittest', 'discover', '-s', 'tools/tests', '-p', 'test_check_docs.py', '-v')
+    try:
+        import PIL  # noqa: F401
+    except ImportError as error:
+        raise RuntimeError('Install tools/skills/lvgl-preview/requirements.txt in your Python environment.') from error
     run(sys.executable, '-m', 'unittest', 'discover', '-s', 'tools/skills/lvgl-preview/tests', '-v')
     run(sys.executable, '-m', 'unittest', 'discover', '-s', 'tools/tests', '-p', 'test_dev.py', '-v')
     # Never silently skip compilation for changed first-party firmware.
@@ -49,15 +58,17 @@ def checks(stage, base):
     for project in IDF:
         if any(p.startswith(f'esp32s3/{project}/') and not p.endswith('.md') for p in changed):
             compile_project(project)
-    if any(p.startswith(('esp32s31/', 'xiaozhi-esp32/')) and not p.endswith('.md') for p in changed):
-        raise RuntimeError('S31/XiaoZhi changed: run the board-specific build and document evidence in the PR; this runner has no validated build profile for these targets.')
+    if any(p.startswith('xiaozhi-esp32/') and not p.endswith('.md') for p in changed):
+        compile_project('smart-trash-can')
+    if any(p.startswith('esp32s31/') and not p.endswith('.md') for p in changed):
+        raise RuntimeError('S31 changed: run the board-specific build and document evidence in the PR; this runner has no validated build profile for this target.')
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=('pre-commit', 'pre-push', 'pre-pr', 'compile', 'install-hooks', 'pr'))
     parser.add_argument('--base', default='origin/main')
-    parser.add_argument('--project', choices=ARDUINO + IDF)
+    parser.add_argument('--project', choices=ARDUINO + IDF + BOARDS)
     args, extra = parser.parse_known_args()
     if args.action != 'pr' and extra:
         parser.error('unrecognized arguments: ' + ' '.join(extra))

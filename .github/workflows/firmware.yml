@@ -1,9 +1,9 @@
 name: Firmware compile
 on:
   push:
-    paths: ['arduino/**', 'esp32s3/**', 'tools/dev.py', '.github/workflows/firmware.yml']
+    paths: ['arduino/**', 'esp32s3/**', 'xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
   pull_request:
-    paths: ['arduino/**', 'esp32s3/**', 'tools/dev.py', '.github/workflows/firmware.yml']
+    paths: ['arduino/**', 'esp32s3/**', 'xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -33,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: [pca9685_servo_test, tflite_probe]
+        project: [pca9685_servo_test, tflite_probe, smart-trash-can]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Prepare public latency model
