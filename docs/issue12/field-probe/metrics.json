@@ -1,0 +1,1239 @@
+{
+  "schema_version": 1,
+  "purpose": "Independent field probe; never used for training, calibration, threshold selection, or model selection",
+  "model": {
+    "path": "runs/issue12/cls160-grouped/weights/best.onnx",
+    "sha256": "0447a566cdbf6f45a43245205e5667f592d0f6d86bc1c7067bf7e736e6e8177f",
+    "bytes": 6162712,
+    "locked": true
+  },
+  "manifest": {
+    "path": "data/field-probe/manifest.json",
+    "sha256": "50fb8a988953d2d1b8fcba1346eec60728cf6667dc473962dd05fd49b7f8dba5",
+    "images": 17,
+    "counts_by_bin": {
+      "可回收物": 8,
+      "廚餘": 4,
+      "有害垃圾": 3,
+      "其他垃圾": 2
+    },
+    "counts_by_source": {
+      "realwaste": 14,
+      "battery": 3
+    }
+  },
+  "input_size": 160,
+  "preprocessing": "Ultralytics classify_transforms(160): resize short side, center crop, RGB, ImageNet normalization",
+  "threshold": 0.7,
+  "crop_fraction": 0.6,
+  "experiments": {
+    "baseline": {
+      "summary": {
+        "overall": {
+          "images": 17,
+          "correct_count": 6,
+          "accuracy": 0.35294117647058826,
+          "ambiguity_neutral_correct_count": 7,
+          "ambiguity_neutral_accuracy": 0.4117647058823529,
+          "ambiguous_count": 2,
+          "ambiguous_misclassified_count": 1,
+          "macro_f1": 0.34285714285714286,
+          "abstained_count": 6,
+          "coverage": 0.6470588235294118,
+          "accepted_accuracy": 0.45454545454545453,
+          "mean_confidence": 0.7855694241383496,
+          "per_class": {
+            "其他": {
+              "precision": 0.2,
+              "recall": 0.5,
+              "f1": 0.28571428571428575,
+              "support": 2
+            },
+            "可回收物": {
+              "precision": 0.42857142857142855,
+              "recall": 0.375,
+              "f1": 0.39999999999999997,
+              "support": 8
+            },
+            "廚餘": {
+              "precision": 1.0,
+              "recall": 0.25,
+              "f1": 0.4,
+              "support": 4
+            },
+            "有害": {
+              "precision": 0.25,
+              "recall": 0.3333333333333333,
+              "f1": 0.28571428571428575,
+              "support": 3
+            }
+          }
+        },
+        "by_source": {
+          "realwaste": {
+            "images": 14,
+            "correct_count": 5,
+            "accuracy": 0.35714285714285715,
+            "ambiguity_neutral_correct_count": 6,
+            "ambiguity_neutral_accuracy": 0.42857142857142855,
+            "ambiguous_count": 2,
+            "ambiguous_misclassified_count": 1,
+            "macro_f1": 0.2868131868131868,
+            "abstained_count": 6,
+            "coverage": 0.5714285714285714,
+            "accepted_accuracy": 0.5,
+            "mean_confidence": 0.7655571124383381,
+            "per_class": {
+              "其他": {
+                "precision": 0.2,
+                "recall": 0.5,
+                "f1": 0.28571428571428575,
+                "support": 2
+              },
+              "可回收物": {
+                "precision": 0.6,
+                "recall": 0.375,
+                "f1": 0.4615384615384615,
+                "support": 8
+              },
+              "廚餘": {
+                "precision": 1.0,
+                "recall": 0.25,
+                "f1": 0.4,
+                "support": 4
+              },
+              "有害": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              }
+            }
+          },
+          "battery": {
+            "images": 3,
+            "correct_count": 1,
+            "accuracy": 0.3333333333333333,
+            "ambiguity_neutral_correct_count": 1,
+            "ambiguity_neutral_accuracy": 0.3333333333333333,
+            "ambiguous_count": 0,
+            "ambiguous_misclassified_count": 0,
+            "macro_f1": 0.125,
+            "abstained_count": 0,
+            "coverage": 1.0,
+            "accepted_accuracy": 0.3333333333333333,
+            "mean_confidence": 0.8789602120717367,
+            "per_class": {
+              "其他": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              },
+              "可回收物": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              },
+              "廚餘": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              },
+              "有害": {
+                "precision": 1.0,
+                "recall": 0.3333333333333333,
+                "f1": 0.5,
+                "support": 3
+              }
+            }
+          }
+        }
+      },
+      "background_shortcut": {
+        "signal_detected": false,
+        "confidence_bias_signal": true,
+        "battery": {
+          "images": 3,
+          "correct_count": 1,
+          "accuracy": 0.3333333333333333,
+          "ambiguity_neutral_correct_count": 1,
+          "ambiguity_neutral_accuracy": 0.3333333333333333,
+          "ambiguous_count": 0,
+          "ambiguous_misclassified_count": 0,
+          "macro_f1": 0.125,
+          "abstained_count": 0,
+          "coverage": 1.0,
+          "accepted_accuracy": 0.3333333333333333,
+          "mean_confidence": 0.8789602120717367,
+          "per_class": {
+            "其他": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 0
+            },
+            "可回收物": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 0
+            },
+            "廚餘": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 0
+            },
+            "有害": {
+              "precision": 1.0,
+              "recall": 0.3333333333333333,
+              "f1": 0.5,
+              "support": 3
+            }
+          }
+        },
+        "realwaste": {
+          "images": 14,
+          "correct_count": 5,
+          "accuracy": 0.35714285714285715,
+          "ambiguity_neutral_correct_count": 6,
+          "ambiguity_neutral_accuracy": 0.42857142857142855,
+          "ambiguous_count": 2,
+          "ambiguous_misclassified_count": 1,
+          "macro_f1": 0.2868131868131868,
+          "abstained_count": 6,
+          "coverage": 0.5714285714285714,
+          "accepted_accuracy": 0.5,
+          "mean_confidence": 0.7655571124383381,
+          "per_class": {
+            "其他": {
+              "precision": 0.2,
+              "recall": 0.5,
+              "f1": 0.28571428571428575,
+              "support": 2
+            },
+            "可回收物": {
+              "precision": 0.6,
+              "recall": 0.375,
+              "f1": 0.4615384615384615,
+              "support": 8
+            },
+            "廚餘": {
+              "precision": 1.0,
+              "recall": 0.25,
+              "f1": 0.4,
+              "support": 4
+            },
+            "有害": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 0
+            }
+          }
+        },
+        "battery_high_confidence_count": 3,
+        "battery_high_confidence_correct_count": 1,
+        "mean_confidence_gap": 0.11340309963339856,
+        "interpretation": "完整背景捷徑條件（電池全部高分正確、RealWaste 同時大幅崩塌）未成立；但電池 3 張全部高分並被接受，只有 1 張正確，而且 coverage 明顯高於 RealWaste。這顯示白底產品照可推高信心而沒有帶來準確率優勢；仍不能單憑這個對照證明背景係唯一原因。"
+      },
+      "predictions": [
+        {
+          "file": "recyclable/cardboard_7.jpg",
+          "sha256_16": "d79dcd3d759bda73",
+          "source": "realwaste",
+          "source_class": "Cardboard",
+          "truth": "可回收物",
+          "prediction": "可回收物",
+          "confidence": 0.9988916516304016,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.0010656417580321431,
+            "可回收物": 0.9988916516304016,
+            "廚餘": 3.964489224017598e-05,
+            "有害": 3.075772383454023e-06
+          }
+        },
+        {
+          "file": "recyclable/cardboard_50.jpg",
+          "sha256_16": "b8d4e8bbe521aae2",
+          "source": "realwaste",
+          "source_class": "Cardboard",
+          "truth": "可回收物",
+          "prediction": "其他",
+          "confidence": 0.992483913898468,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.992483913898468,
+            "可回收物": 0.006555246189236641,
+            "廚餘": 0.0009328294545412064,
+            "有害": 2.7936737751588225e-05
+          }
+        },
+        {
+          "file": "recyclable/glass_3.jpg",
+          "sha256_16": "7623aa0bc2192dc9",
+          "source": "realwaste",
+          "source_class": "Glass",
+          "truth": "可回收物",
+          "prediction": "可回收物",
+          "confidence": 0.9829130172729492,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.003621458075940609,
+            "可回收物": 0.9829130172729492,
+            "廚餘": 1.5490570149268024e-05,
+            "有害": 0.01345003116875887
+          }
+        },
+        {
+          "file": "recyclable/glass_40.jpg",
+          "sha256_16": "9da0fd9d739a8c29",
+          "source": "realwaste",
+          "source_class": "Glass",
+          "truth": "可回收物",
+          "prediction": "其他",
+          "confidence": 0.9856587052345276,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.9856587052345276,
+            "可回收物": 0.014021618291735649,
+            "廚餘": 7.066074431349989e-06,
+            "有害": 0.00031260211835615337
+          }
+        },
+        {
+          "file": "recyclable/metal_12.jpg",
+          "sha256_16": "af322927fb2f0bc7",
+          "source": "realwaste",
+          "source_class": "Metal",
+          "truth": "可回收物",
+          "prediction": "有害",
+          "confidence": 0.5143666863441467,
+          "correct": false,
+          "abstained": true,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.003854835405945778,
+            "可回收物": 0.4813181459903717,
+            "廚餘": 0.0004603672423399985,
+            "有害": 0.5143666863441467
+          }
+        },
+        {
+          "file": "recyclable/paper_5.jpg",
+          "sha256_16": "39c250b5001be0da",
+          "source": "realwaste",
+          "source_class": "Paper",
+          "truth": "可回收物",
+          "prediction": "有害",
+          "confidence": 0.7321884036064148,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.023931406438350677,
+            "可回收物": 0.24387148022651672,
+            "廚餘": 8.727462954993825e-06,
+            "有害": 0.7321884036064148
+          }
+        },
+        {
+          "file": "recyclable/paper_60.jpg",
+          "sha256_16": "4edc93baf0b31649",
+          "source": "realwaste",
+          "source_class": "Paper",
+          "truth": "可回收物",
+          "prediction": "可回收物",
+          "confidence": 0.49916502833366394,
+          "correct": true,
+          "abstained": true,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.48201629519462585,
+            "可回收物": 0.49916502833366394,
+            "廚餘": 5.7303191169921774e-06,
+            "有害": 0.018813051283359528
+          }
+        },
+        {
+          "file": "recyclable/plastic_2.jpg",
+          "sha256_16": "050ce812d904a52a",
+          "source": "realwaste",
+          "source_class": "Plastic",
+          "truth": "可回收物",
+          "prediction": "其他",
+          "confidence": 0.6729375123977661,
+          "correct": false,
+          "abstained": true,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.6729375123977661,
+            "可回收物": 0.09220732003450394,
+            "廚餘": 5.598839561571367e-05,
+            "有害": 0.23479917645454407
+          }
+        },
+        {
+          "file": "food/food-organics_77.jpg",
+          "sha256_16": "3e5442ec49200aea",
+          "source": "realwaste",
+          "source_class": "Food Organics",
+          "truth": "廚餘",
+          "prediction": "有害",
+          "confidence": 0.8283244371414185,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.07271356135606766,
+            "可回收物": 0.09792155772447586,
+            "廚餘": 0.0010404422646388412,
+            "有害": 0.8283244371414185
+          }
+        },
+        {
+          "file": "food/food-organics_9.jpg",
+          "sha256_16": "040c543a6a1f38f8",
+          "source": "realwaste",
+          "source_class": "Food Organics",
+          "truth": "廚餘",
+          "prediction": "可回收物",
+          "confidence": 0.5382266044616699,
+          "correct": false,
+          "abstained": true,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.03763764351606369,
+            "可回收物": 0.5382266044616699,
+            "廚餘": 0.09523382037878036,
+            "有害": 0.3289019763469696
+          }
+        },
+        {
+          "file": "food/vegetation_120.jpg",
+          "sha256_16": "031079c70a7ef392",
+          "source": "realwaste",
+          "source_class": "Vegetation",
+          "truth": "廚餘",
+          "prediction": "廚餘",
+          "confidence": 0.9441713094711304,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.024290800094604492,
+            "可回收物": 0.020591653883457184,
+            "廚餘": 0.9441713094711304,
+            "有害": 0.010946176946163177
+          }
+        },
+        {
+          "file": "food/vegetation_4.jpg",
+          "sha256_16": "16579d126c0a3595",
+          "source": "realwaste",
+          "source_class": "Vegetation",
+          "truth": "廚餘",
+          "prediction": "其他",
+          "confidence": 0.5891528725624084,
+          "correct": false,
+          "abstained": true,
+          "ambiguous": true,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.5891528725624084,
+            "可回收物": 0.1292250156402588,
+            "廚餘": 0.0003165417001582682,
+            "有害": 0.2813057005405426
+          }
+        },
+        {
+          "file": "hazardous/viola-001_bd75a457.jpg",
+          "sha256_16": "46c273dc51e45ad5",
+          "source": "battery",
+          "source_class": "batteries",
+          "truth": "有害",
+          "prediction": "可回收物",
+          "confidence": 0.8779604434967041,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.008884789422154427,
+            "可回收物": 0.8779604434967041,
+            "廚餘": 5.172812400644489e-09,
+            "有害": 0.11315484344959259
+          }
+        },
+        {
+          "file": "hazardous/viola-003_793ffd6d.jpg",
+          "sha256_16": "ccf7c3c786765ea0",
+          "source": "battery",
+          "source_class": "batteries",
+          "truth": "有害",
+          "prediction": "可回收物",
+          "confidence": 0.9928508996963501,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.005994315724819899,
+            "可回收物": 0.9928508996963501,
+            "廚餘": 5.2998103683421505e-09,
+            "有害": 0.0011548049515113235
+          }
+        },
+        {
+          "file": "hazardous/viola-005_f42fa779.jpg",
+          "sha256_16": "e7431c153c234d9d",
+          "source": "battery",
+          "source_class": "batteries",
+          "truth": "有害",
+          "prediction": "有害",
+          "confidence": 0.7660692930221558,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.00021896912949159741,
+            "可回收物": 0.23358246684074402,
+            "廚餘": 0.00012935009726788849,
+            "有害": 0.7660692930221558
+          }
+        },
+        {
+          "file": "other/miscellaneous-trash_33.jpg",
+          "sha256_16": "429c1cf7f0da4a7f",
+          "source": "realwaste",
+          "source_class": "Miscellaneous Trash",
+          "truth": "其他",
+          "prediction": "其他",
+          "confidence": 0.9999873638153076,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": true,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.9999873638153076,
+            "可回收物": 4.029698629892664e-06,
+            "廚餘": 1.2467789929360151e-06,
+            "有害": 7.305844974325737e-06
+          }
+        },
+        {
+          "file": "other/miscellaneous-trash_6.jpg",
+          "sha256_16": "e0e317ebb449272b",
+          "source": "realwaste",
+          "source_class": "Miscellaneous Trash",
+          "truth": "其他",
+          "prediction": "可回收物",
+          "confidence": 0.4393320679664612,
+          "correct": false,
+          "abstained": true,
+          "ambiguous": false,
+          "crop_size": null,
+          "probabilities": {
+            "其他": 0.42909926176071167,
+            "可回收物": 0.4393320679664612,
+            "廚餘": 0.13099420070648193,
+            "有害": 0.0005744986701756716
+          }
+        }
+      ]
+    },
+    "center_crop_60": {
+      "summary": {
+        "overall": {
+          "images": 17,
+          "correct_count": 8,
+          "accuracy": 0.47058823529411764,
+          "ambiguity_neutral_correct_count": 9,
+          "ambiguity_neutral_accuracy": 0.5294117647058824,
+          "ambiguous_count": 2,
+          "ambiguous_misclassified_count": 1,
+          "macro_f1": 0.4373015873015873,
+          "abstained_count": 4,
+          "coverage": 0.7647058823529411,
+          "accepted_accuracy": 0.5384615384615384,
+          "mean_confidence": 0.8259035226176766,
+          "per_class": {
+            "其他": {
+              "precision": 0.2857142857142857,
+              "recall": 1.0,
+              "f1": 0.4444444444444445,
+              "support": 2
+            },
+            "可回收物": {
+              "precision": 0.6666666666666666,
+              "recall": 0.5,
+              "f1": 0.5714285714285715,
+              "support": 8
+            },
+            "廚餘": {
+              "precision": 1.0,
+              "recall": 0.25,
+              "f1": 0.4,
+              "support": 4
+            },
+            "有害": {
+              "precision": 0.3333333333333333,
+              "recall": 0.3333333333333333,
+              "f1": 0.3333333333333333,
+              "support": 3
+            }
+          }
+        },
+        "by_source": {
+          "realwaste": {
+            "images": 14,
+            "correct_count": 7,
+            "accuracy": 0.5,
+            "ambiguity_neutral_correct_count": 8,
+            "ambiguity_neutral_accuracy": 0.5714285714285714,
+            "ambiguous_count": 2,
+            "ambiguous_misclassified_count": 1,
+            "macro_f1": 0.37884615384615383,
+            "abstained_count": 3,
+            "coverage": 0.7857142857142857,
+            "accepted_accuracy": 0.5454545454545454,
+            "mean_confidence": 0.8201146189655576,
+            "per_class": {
+              "其他": {
+                "precision": 0.3333333333333333,
+                "recall": 1.0,
+                "f1": 0.5,
+                "support": 2
+              },
+              "可回收物": {
+                "precision": 0.8,
+                "recall": 0.5,
+                "f1": 0.6153846153846154,
+                "support": 8
+              },
+              "廚餘": {
+                "precision": 1.0,
+                "recall": 0.25,
+                "f1": 0.4,
+                "support": 4
+              },
+              "有害": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              }
+            }
+          },
+          "battery": {
+            "images": 3,
+            "correct_count": 1,
+            "accuracy": 0.3333333333333333,
+            "ambiguity_neutral_correct_count": 1,
+            "ambiguity_neutral_accuracy": 0.3333333333333333,
+            "ambiguous_count": 0,
+            "ambiguous_misclassified_count": 0,
+            "macro_f1": 0.125,
+            "abstained_count": 1,
+            "coverage": 0.6666666666666666,
+            "accepted_accuracy": 0.5,
+            "mean_confidence": 0.8529184063275655,
+            "per_class": {
+              "其他": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              },
+              "可回收物": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              },
+              "廚餘": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+              },
+              "有害": {
+                "precision": 1.0,
+                "recall": 0.3333333333333333,
+                "f1": 0.5,
+                "support": 3
+              }
+            }
+          }
+        }
+      },
+      "background_shortcut": {
+        "signal_detected": false,
+        "confidence_bias_signal": false,
+        "battery": {
+          "images": 3,
+          "correct_count": 1,
+          "accuracy": 0.3333333333333333,
+          "ambiguity_neutral_correct_count": 1,
+          "ambiguity_neutral_accuracy": 0.3333333333333333,
+          "ambiguous_count": 0,
+          "ambiguous_misclassified_count": 0,
+          "macro_f1": 0.125,
+          "abstained_count": 1,
+          "coverage": 0.6666666666666666,
+          "accepted_accuracy": 0.5,
+          "mean_confidence": 0.8529184063275655,
+          "per_class": {
+            "其他": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 0
+            },
+            "可回收物": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 0
+            },
+            "廚餘": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 0
+            },
+            "有害": {
+              "precision": 1.0,
+              "recall": 0.3333333333333333,
+              "f1": 0.5,
+              "support": 3
+            }
+          }
+        },
+        "realwaste": {
+          "images": 14,
+          "correct_count": 7,
+          "accuracy": 0.5,
+          "ambiguity_neutral_correct_count": 8,
+          "ambiguity_neutral_accuracy": 0.5714285714285714,
+          "ambiguous_count": 2,
+          "ambiguous_misclassified_count": 1,
+          "macro_f1": 0.37884615384615383,
+          "abstained_count": 3,
+          "coverage": 0.7857142857142857,
+          "accepted_accuracy": 0.5454545454545454,
+          "mean_confidence": 0.8201146189655576,
+          "per_class": {
+            "其他": {
+              "precision": 0.3333333333333333,
+              "recall": 1.0,
+              "f1": 0.5,
+              "support": 2
+            },
+            "可回收物": {
+              "precision": 0.8,
+              "recall": 0.5,
+              "f1": 0.6153846153846154,
+              "support": 8
+            },
+            "廚餘": {
+              "precision": 1.0,
+              "recall": 0.25,
+              "f1": 0.4,
+              "support": 4
+            },
+            "有害": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 0
+            }
+          }
+        },
+        "battery_high_confidence_count": 2,
+        "battery_high_confidence_correct_count": 1,
+        "mean_confidence_gap": 0.03280378736200795,
+        "interpretation": "未檢出「電池照片全部高分正確，而 RealWaste 明顯下跌」的簡單背景捷徑訊號。"
+      },
+      "predictions": [
+        {
+          "file": "recyclable/cardboard_7.jpg",
+          "sha256_16": "d79dcd3d759bda73",
+          "source": "realwaste",
+          "source_class": "Cardboard",
+          "truth": "可回收物",
+          "prediction": "可回收物",
+          "confidence": 0.8294966220855713,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.16978825628757477,
+            "可回收物": 0.8294966220855713,
+            "廚餘": 0.0004210958140902221,
+            "有害": 0.0002940403937827796
+          }
+        },
+        {
+          "file": "recyclable/cardboard_50.jpg",
+          "sha256_16": "b8d4e8bbe521aae2",
+          "source": "realwaste",
+          "source_class": "Cardboard",
+          "truth": "可回收物",
+          "prediction": "其他",
+          "confidence": 0.9942952990531921,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.9942952990531921,
+            "可回收物": 0.005583666730672121,
+            "廚餘": 0.00011918543168576434,
+            "有害": 1.891198394332605e-06
+          }
+        },
+        {
+          "file": "recyclable/glass_3.jpg",
+          "sha256_16": "7623aa0bc2192dc9",
+          "source": "realwaste",
+          "source_class": "Glass",
+          "truth": "可回收物",
+          "prediction": "可回收物",
+          "confidence": 0.9972721934318542,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.002151055261492729,
+            "可回收物": 0.9972721934318542,
+            "廚餘": 1.318833028562949e-06,
+            "有害": 0.0005753879086114466
+          }
+        },
+        {
+          "file": "recyclable/glass_40.jpg",
+          "sha256_16": "9da0fd9d739a8c29",
+          "source": "realwaste",
+          "source_class": "Glass",
+          "truth": "可回收物",
+          "prediction": "其他",
+          "confidence": 0.9899283051490784,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.9899283051490784,
+            "可回收物": 0.010053658857941628,
+            "廚餘": 1.1735245379895787e-06,
+            "有害": 1.689434611762408e-05
+          }
+        },
+        {
+          "file": "recyclable/metal_12.jpg",
+          "sha256_16": "af322927fb2f0bc7",
+          "source": "realwaste",
+          "source_class": "Metal",
+          "truth": "可回收物",
+          "prediction": "可回收物",
+          "confidence": 0.652526319026947,
+          "correct": true,
+          "abstained": true,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.010823062621057034,
+            "可回收物": 0.652526319026947,
+            "廚餘": 0.0003652825835160911,
+            "有害": 0.3362852931022644
+          }
+        },
+        {
+          "file": "recyclable/paper_5.jpg",
+          "sha256_16": "39c250b5001be0da",
+          "source": "realwaste",
+          "source_class": "Paper",
+          "truth": "可回收物",
+          "prediction": "有害",
+          "confidence": 0.36233046650886536,
+          "correct": false,
+          "abstained": true,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.29784807562828064,
+            "可回收物": 0.33982133865356445,
+            "廚餘": 1.7401887930645898e-07,
+            "有害": 0.36233046650886536
+          }
+        },
+        {
+          "file": "recyclable/paper_60.jpg",
+          "sha256_16": "4edc93baf0b31649",
+          "source": "realwaste",
+          "source_class": "Paper",
+          "truth": "可回收物",
+          "prediction": "可回收物",
+          "confidence": 0.7678927779197693,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.23209825158119202,
+            "可回收物": 0.7678927779197693,
+            "廚餘": 1.5056654945055925e-07,
+            "有害": 8.846734090184327e-06
+          }
+        },
+        {
+          "file": "recyclable/plastic_2.jpg",
+          "sha256_16": "050ce812d904a52a",
+          "source": "realwaste",
+          "source_class": "Plastic",
+          "truth": "可回收物",
+          "prediction": "其他",
+          "confidence": 0.9604471921920776,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.9604471921920776,
+            "可回收物": 0.037141941487789154,
+            "廚餘": 0.0006473333924077451,
+            "有害": 0.001763576758094132
+          }
+        },
+        {
+          "file": "food/food-organics_77.jpg",
+          "sha256_16": "3e5442ec49200aea",
+          "source": "realwaste",
+          "source_class": "Food Organics",
+          "truth": "廚餘",
+          "prediction": "有害",
+          "confidence": 0.8106548190116882,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.05120450630784035,
+            "可回收物": 0.13563816249370575,
+            "廚餘": 0.002502535004168749,
+            "有害": 0.8106548190116882
+          }
+        },
+        {
+          "file": "food/food-organics_9.jpg",
+          "sha256_16": "040c543a6a1f38f8",
+          "source": "realwaste",
+          "source_class": "Food Organics",
+          "truth": "廚餘",
+          "prediction": "其他",
+          "confidence": 0.5867632627487183,
+          "correct": false,
+          "abstained": true,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.5867632627487183,
+            "可回收物": 0.17065700888633728,
+            "廚餘": 0.21083228290081024,
+            "有害": 0.03174746409058571
+          }
+        },
+        {
+          "file": "food/vegetation_120.jpg",
+          "sha256_16": "031079c70a7ef392",
+          "source": "realwaste",
+          "source_class": "Vegetation",
+          "truth": "廚餘",
+          "prediction": "廚餘",
+          "confidence": 0.9956941604614258,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.00030833942582830787,
+            "可回收物": 0.0021658779587596655,
+            "廚餘": 0.9956941604614258,
+            "有害": 0.0018316272180527449
+          }
+        },
+        {
+          "file": "food/vegetation_4.jpg",
+          "sha256_16": "16579d126c0a3595",
+          "source": "realwaste",
+          "source_class": "Vegetation",
+          "truth": "廚餘",
+          "prediction": "可回收物",
+          "confidence": 0.7567952871322632,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": true,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.23949028551578522,
+            "可回收物": 0.7567952871322632,
+            "廚餘": 0.00037424458423629403,
+            "有害": 0.0033402054104954004
+          }
+        },
+        {
+          "file": "hazardous/viola-001_bd75a457.jpg",
+          "sha256_16": "46c273dc51e45ad5",
+          "source": "battery",
+          "source_class": "batteries",
+          "truth": "有害",
+          "prediction": "可回收物",
+          "confidence": 0.9890272617340088,
+          "correct": false,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": 284,
+          "probabilities": {
+            "其他": 0.00219542789272964,
+            "可回收物": 0.9890272617340088,
+            "廚餘": 5.103003353212898e-09,
+            "有害": 0.008777324110269547
+          }
+        },
+        {
+          "file": "hazardous/viola-003_793ffd6d.jpg",
+          "sha256_16": "ccf7c3c786765ea0",
+          "source": "battery",
+          "source_class": "batteries",
+          "truth": "有害",
+          "prediction": "其他",
+          "confidence": 0.5721208453178406,
+          "correct": false,
+          "abstained": true,
+          "ambiguous": false,
+          "crop_size": 266,
+          "probabilities": {
+            "其他": 0.5721208453178406,
+            "可回收物": 0.4226663112640381,
+            "廚餘": 9.987768407881958e-07,
+            "有害": 0.005211875308305025
+          }
+        },
+        {
+          "file": "hazardous/viola-005_f42fa779.jpg",
+          "sha256_16": "e7431c153c234d9d",
+          "source": "battery",
+          "source_class": "batteries",
+          "truth": "有害",
+          "prediction": "有害",
+          "confidence": 0.9976071119308472,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": 284,
+          "probabilities": {
+            "其他": 4.7326015192084014e-05,
+            "可回收物": 0.0022899776231497526,
+            "廚餘": 5.558993871090934e-05,
+            "有害": 0.9976071119308472
+          }
+        },
+        {
+          "file": "other/miscellaneous-trash_33.jpg",
+          "sha256_16": "429c1cf7f0da4a7f",
+          "source": "realwaste",
+          "source_class": "Miscellaneous Trash",
+          "truth": "其他",
+          "prediction": "其他",
+          "confidence": 0.9767416715621948,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": true,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.9767416715621948,
+            "可回收物": 0.007472571916878223,
+            "廚餘": 0.014808249659836292,
+            "有害": 0.0009775751968845725
+          }
+        },
+        {
+          "file": "other/miscellaneous-trash_6.jpg",
+          "sha256_16": "e0e317ebb449272b",
+          "source": "realwaste",
+          "source_class": "Miscellaneous Trash",
+          "truth": "其他",
+          "prediction": "其他",
+          "confidence": 0.8007662892341614,
+          "correct": true,
+          "abstained": false,
+          "ambiguous": false,
+          "crop_size": 314,
+          "probabilities": {
+            "其他": 0.8007662892341614,
+            "可回收物": 0.020498069003224373,
+            "廚餘": 0.1785859614610672,
+            "有害": 0.00014975384692661464
+          }
+        }
+      ]
+    }
+  },
+  "analysis": {
+    "background_shortcut": {
+      "signal_detected": false,
+      "confidence_bias_signal": true,
+      "battery": {
+        "images": 3,
+        "correct_count": 1,
+        "accuracy": 0.3333333333333333,
+        "ambiguity_neutral_correct_count": 1,
+        "ambiguity_neutral_accuracy": 0.3333333333333333,
+        "ambiguous_count": 0,
+        "ambiguous_misclassified_count": 0,
+        "macro_f1": 0.125,
+        "abstained_count": 0,
+        "coverage": 1.0,
+        "accepted_accuracy": 0.3333333333333333,
+        "mean_confidence": 0.8789602120717367,
+        "per_class": {
+          "其他": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "可回收物": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "廚餘": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          },
+          "有害": {
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5,
+            "support": 3
+          }
+        }
+      },
+      "realwaste": {
+        "images": 14,
+        "correct_count": 5,
+        "accuracy": 0.35714285714285715,
+        "ambiguity_neutral_correct_count": 6,
+        "ambiguity_neutral_accuracy": 0.42857142857142855,
+        "ambiguous_count": 2,
+        "ambiguous_misclassified_count": 1,
+        "macro_f1": 0.2868131868131868,
+        "abstained_count": 6,
+        "coverage": 0.5714285714285714,
+        "accepted_accuracy": 0.5,
+        "mean_confidence": 0.7655571124383381,
+        "per_class": {
+          "其他": {
+            "precision": 0.2,
+            "recall": 0.5,
+            "f1": 0.28571428571428575,
+            "support": 2
+          },
+          "可回收物": {
+            "precision": 0.6,
+            "recall": 0.375,
+            "f1": 0.4615384615384615,
+            "support": 8
+          },
+          "廚餘": {
+            "precision": 1.0,
+            "recall": 0.25,
+            "f1": 0.4,
+            "support": 4
+          },
+          "有害": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          }
+        }
+      },
+      "battery_high_confidence_count": 3,
+      "battery_high_confidence_correct_count": 1,
+      "mean_confidence_gap": 0.11340309963339856,
+      "interpretation": "完整背景捷徑條件（電池全部高分正確、RealWaste 同時大幅崩塌）未成立；但電池 3 張全部高分並被接受，只有 1 張正確，而且 coverage 明顯高於 RealWaste。這顯示白底產品照可推高信心而沒有帶來準確率優勢；仍不能單憑這個對照證明背景係唯一原因。"
+    },
+    "crop_effect": {
+      "overall": {
+        "accuracy_delta": 0.11764705882352938,
+        "coverage_delta": 0.11764705882352933,
+        "mean_confidence_delta": 0.04033409847932701
+      },
+      "by_source": {
+        "realwaste": {
+          "accuracy_delta": 0.14285714285714285,
+          "coverage_delta": 0.2142857142857143,
+          "mean_confidence_delta": 0.05455750652721947
+        },
+        "battery": {
+          "accuracy_delta": 0.0,
+          "coverage_delta": -0.33333333333333337,
+          "mean_confidence_delta": -0.026041805744171143
+        }
+      },
+      "realwaste_framing_sensitive": false,
+      "interpretation": "中心裁切帶來部分 RealWaste 改善，但未達明顯改善門檻；物件位置／比例有貢獻，但不足以解釋主要錯誤，語意辨認仍是主要問題。"
+    }
+  },
+  "comparison": {
+    "sc101iot": {
+      "source_path": "docs/issue12/live-camera/metrics.json",
+      "source_sha256": "c9787f9c5cd64ebd0489ac333e8f1333c162be70f60a4247d144290245d4424c",
+      "source_onnx_sha256": "0447a566cdbf6f45a43245205e5667f592d0f6d86bc1c7067bf7e736e6e8177f",
+      "camera": "SC101IOT",
+      "images": 4,
+      "accuracy": 0.25,
+      "macro_f1": 0.25,
+      "abstained_count": 2,
+      "coverage": 0.5,
+      "accepted_accuracy": 0.0
+    }
+  },
+  "ambiguous_files": [
+    "food/vegetation_4.jpg",
+    "other/miscellaneous-trash_33.jpg"
+  ],
+  "load_failures": []
+}
