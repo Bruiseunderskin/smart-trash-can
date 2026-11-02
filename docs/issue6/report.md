@@ -65,3 +65,5 @@ Probe 保留 20 次固定輸入計時邏輯。它記錄明確設定的模型名�
 ESP32-S3、160 MHz、ESP-IDF 6.0.2、ESP-NN 啟用、8 MB PSRAM。四張經 host LiteRT 核對的 int8 影像 tensor，每類一張，每次 Invoke 前重新載入輸入。四張各執行 20 次，最後輸出全部符合真值；p95 分別為 food **858.187 ms**、hazardous **858.157 ms**、other **858.196 ms**、recyclable **858.141 ms**，arena 使用 507,836 B。這是選定樣本的 smoke test，不是準確率估計；不包含資料複製、相機、預處理、顯示或開蓋。
 
 先前 probe 只在迴圈前載入一次輸入，最後四張均判為 other；修正後結果上列，因此舊結果不能用來判定 runtime 不相容。ESP-NN 關閉的診斷在首個 Invoke 執行逾 92 秒並出現 watchdog 訊息後中止，沒有完成時間。
+
+240 MHz 同板補測：EI 四張各 20 次，最後輸出皆正確，p95 分別為 684.019、684.003、684.085、684.006 ms；arena 507,836 B。記錄見 [240 MHz 摘錄](ei-s3-real-input-240mhz.log)。不包括複製輸入、相機、前處理、畫面及開蓋。
