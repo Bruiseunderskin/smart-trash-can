@@ -5,6 +5,9 @@ on:
   pull_request:
     paths: ['arduino/**', 'esp32s3/**', 'xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
   workflow_dispatch:
+concurrency:
+  group: firmware-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
