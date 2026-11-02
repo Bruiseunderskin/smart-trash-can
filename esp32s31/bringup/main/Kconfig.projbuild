@@ -1,0 +1,21 @@
+menu "Bring-up"
+
+    choice BRINGUP_TEST
+        prompt "Test to run"
+        default BRINGUP_TEST_T1
+        help
+            一次只跑一個測試。每個測試都會印一行 `RESULT <代號> PASS/FAIL/BLOCKED ...`。
+
+        config BRINGUP_TEST_T1
+            bool "T1 — LCD 800x480 五色 + 線條"
+        config BRINGUP_TEST_T2
+            bool "T2 — Camera OV3660 抓幀"
+        config BRINGUP_TEST_T3
+            bool "T3 — Mic 錄 3 秒 + RMS + WAV"
+        config BRINGUP_TEST_T4
+            bool "T4 — Speaker 440/1k/掃頻"
+        config BRINGUP_TEST_T5
+            bool "T5 — Loopback（回錄驗證喇叭）"
+    endchoice
+
+endmenu
