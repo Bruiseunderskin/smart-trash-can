@@ -2,15 +2,14 @@
 
 四個外設 + 一個迴路測試。**一次只跑一個**，跑完把 `RESULT` 行貼回 [issue #11](https://github.com/Bruiseunderskin/smart-trash-can/issues/11)。
 
-> ⚠️ 這份程式**未在這台機器編譯過**（無 ESP-IDF）。第一次 build 可能要修 API 差異，例如
-> `esp_lcd_new_rgb_panel` 的欄位名、`i2s_std_config_t` 的初始化順序。
+編譯 CI 使用 ESP-IDF 6.1，透過 `tools/dev.py compile --project s31_bringup` 建置。CI 結果以對應 commit 的 Actions 為準；編譯不代表外設已在實板通過。Codec、camera 和 SD 的未完成依賴如下。
 
 ## 跑法
 
 ```bash
-idf.py set-target esp32s31
+idf.py --preview set-target esp32s31
 idf.py menuconfig      # Bring-up → Test to run → 選 T1..T5
-idf.py -p <port> build flash monitor
+idf.py --preview -p <port> build flash monitor
 ```
 
 每個測試都會印一行：

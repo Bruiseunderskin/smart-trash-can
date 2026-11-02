@@ -1,9 +1,9 @@
 name: Firmware compile
 on:
   push:
-    paths: ['arduino/**', 'esp32s3/**', 'xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
+    paths: ['arduino/**', 'esp32s3/**', 'esp32s31/**', 'xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
   pull_request:
-    paths: ['arduino/**', 'esp32s3/**', 'xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
+    paths: ['arduino/**', 'esp32s3/**', 'esp32s31/**', 'xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
   workflow_dispatch:
 concurrency:
   group: firmware-${{ github.head_ref || github.ref_name }}
@@ -46,6 +46,22 @@ jobs:
           curl --fail --location --retry 3 --output esp32s3/tflite_probe/main/models/waste4_int8.tflite https://raw.githubusercontent.com/tensorflow/tflite-micro/main/tensorflow/lite/micro/models/person_detect.tflite
           echo '808cfdfc0cf3a6fa6f6fa26bfa379ea97c16d5db7334637766e39c3408502e9d  esp32s3/tflite_probe/main/models/waste4_int8.tflite' | sha256sum --check
       - name: Compile
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          python tools/dev.py compile --project ${{ matrix.project }}
+  esp32s31:
+    name: S31 (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    container: espressif/idf:v6.1
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [s31_bringup, esp32-s31-korvo-1]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Compile S31 with preview target support
         shell: bash
         run: |
           . "$IDF_PATH/export.sh"

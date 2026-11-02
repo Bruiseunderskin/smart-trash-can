@@ -25,6 +25,6 @@ push／PR 的變更基準預設為本機 `origin/main`，使用前先 `git fetch
 
 Firmware compile 工作流程編譯三個 Arduino sketch、PCA9685 ESP-IDF 和公開 person-detect TFLite probe；既有 LVGL 工作流程負責 native UI 建置及渲染。文件 workflow 負責 README 與連結檢查。
 
-S31 bring-up 目前沒有加入這個共用 runner 的已驗證 build profile。修改它的程式時，push／PR 檢查會停止並要求依專案指南建置及記錄證據。不要把 S3 編譯成功推論為 S31、私有模型或所有上游板型均通過。
+S31 使用 ESP-IDF 6.1 的獨立 job，編譯 bring-up 與 XiaoZhi `esp32-s31-korvo-1`。本機使用對應 SDK，執行 `python3 tools/dev.py compile --project s31_bringup` 或 `--project esp32-s31-korvo-1`。S31 target 仍使用 preview 開關；runner 會拒絕低於 6.1 的 SDK。修改 XiaoZhi 程式時，push／PR 檢查會建置 S3 自訂板及 S31 Korvo 板，需分別具備相容 SDK（6.1 可涵蓋兩者，CI S3 維持固定 6.0.2）。
 
 編譯 CI 不會操作硬件，不能證明馬達、麥克風、顯示屏、分類準確率或整機流程正常。

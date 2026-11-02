@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "driver/gpio.h"
 #include "driver/i2s_std.h"
