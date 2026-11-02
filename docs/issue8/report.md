@@ -144,3 +144,9 @@ ESP-PPQ TorchExecutor host simulation 的逐類 F1：其他 0.7967、可回收�
 最新 `.espdl` 產物保存在執行者的 workflow artifacts，不提交至 repository，符合本 issue 不提交 `.espdl` 的要求。前兩次記錄的同指標 rerun 曾產生 1,796,880 B / SHA-256 `3f369b0e8572abb49166bcd7455cac9454bb0e3f084b3d252e4880ca8f2c498e`，以及 1,796,768 B / SHA-256 `83bc961bc4dd1b7268393b250a53262b26d45b9b92fb9212d3af58f23289ed92`；今次重算為 1,796,864 B。三次 macro-F1 一致至六位小數，但 binary size/hash 有差異，故以本節最新 hash 標識本次產物，不假設不同執行會逐位相同。
 
 原始 1,000 張測試集的首次量化結果仍保留在上方三方表格，macro-F1 為 0.859411；它與本節去重後的 980 張結果不是同一測試集。近重複、同一場景及 train/validation 的重複選模仍未排除，因此不能把現有測試當成完全獨立的產品驗收。
+
+## 與 Edge Impulse 共用測試集比較
+
+在同一份 980 張 SHA-256 去重 test manifest 上，EI MobileNetV2 0.5 int8 TFLite 以 LiteRT 2.3.0 host 評估的 macro-F1 為 **0.805371**（accuracy 0.807143）；本模型 PyTorch/ONNX macro-F1 為 **0.862707**，ESP-PPQ 模擬為 **0.858549**。同圖 EI 與 YOLO ONNX 的 macro-F1 差為 5.73 個百分點，量化 ESP-PPQ YOLO 與 EI 差為 5.32 個百分點。EI 完整結果及 confusion matrix 見 [`../ei-baseline/shared-dedup-test.json`](../ei-baseline/shared-dedup-test.json)。
+
+因此同一測試集的準確率證據目前偏向 YOLO11n-cls，適合作為 S31 `.espdl` 實板候選；這不代表 ESP-PPQ 主機模擬已在 S31 達到該精度或速度。EI TFLite 實板測試只在 S3 使用零輸入，p95 858.635 ms；YOLO 沒有目標板時延。兩者都未以實際相機至開蓋流程驗收 3 秒 p95、4.3 吋畫面、斷網流程或連續 10 次。EI host 前處理有 18 張小圖採邊界 edge clamp，詳細限制及建議見 [`../model-comparison.md`](../model-comparison.md)。

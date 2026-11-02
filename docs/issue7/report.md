@@ -19,6 +19,21 @@
 - Studio float32 Model Testing accuracy 為 78.17%，macro-F1 為 0.800；混淆矩陣見 `../ei-baseline/confusion-matrix.csv`。
 - 已發現 train/test split 間有完全重複圖。上述 baseline 可能偏高，不能當作獨立測試結果。
 
+## 與 YOLO 共用去重測試集的 int8 host 評估
+
+使用匯出的 v1 `.tflite`（SHA-256 `a213846fc867f8e2e4a1a032ac79bea858cfc75668dcd02f6e8c55af2b26dd94`），在與 YOLO 相同的 980 張 test manifest 上以 LiteRT 2.3.0 執行。980 張影像 SHA-256 全部與 manifest 相符；與本地 1,198 張 EI 訓練影像的完全相同 hash 數為 0。manifest 與逐類混淆矩陣見 [`shared-dedup-test.json`](../ei-baseline/shared-dedup-test.json)。
+
+| 指標 | EI int8 TFLite host 結果 |
+|---|---:|
+| Accuracy | 0.807143（80.71%） |
+| Macro-F1 | **0.805371** |
+| Food F1 | 0.912698 |
+| Hazardous F1 | 0.804829 |
+| Other F1 | 0.722581 |
+| Recyclable F1 | 0.781377 |
+
+輸入按 EI `FIT_SHORTEST` 中央裁切及 RGB 固定點 bilinear resize，再依模型 scale/zero-point 量化；18 張原圖須上採樣，host evaluator 對超出影像範圍的鄰點使用 edge clamp。這是明確記錄的 deterministic host 邊界規則，不是 EI SDK 對小圖的逐位重現。這組分數是在主機 LiteRT 上測準確率，不能當作 S3/S31 延遲或相機實拍結果。與 YOLO 的 shared-set macro-F1 對照見 [`../model-comparison.md`](../model-comparison.md)。近重複及訓練/驗證選模洩漏仍未排除。
+
 ## C++ library 匯出與推理引擎
 
 | 匯出 | ZIP 大小 / SHA-256 | 內容 | Metadata |
@@ -54,17 +69,25 @@ v1 `.tflite` 曾在 ESP32-S3 以零輸入連續執行 20 次。ESP-NN 開啟、�
 
 Edge Impulse C++ library 是 SDK/模型封裝與部署選項，並非與 YOLO 對立的 CV 模型架構。當前兩個候選都是四類單張圖片分類器：EI MobileNetV2 0.5 與 YOLO11n-cls。就「一次放一件物品在固定相機前」而言，先做影像分類即可；只有需要同時定位多件物品/背景中目標時，才值得改成物件偵測。
 
-目前數字不能判定 YOLO 比 EI 準：EI 78.17%/macro-F1 0.800 的 Studio 測試集與 YOLO 的 980 張去重集不同，EI split 還有跨 split 完全重複圖；YOLO 的 0.8627 PyTorch/ONNX 與 0.858549 ESP-PPQ 是同一去重集上的主機評估。要選贏家，須用同一組按來源/場景分組的 train/validation/test、相同輸入與預處理、同一真實影像集，並在目標板量 end-to-end latency、記憶體及分類指標。
+原 Studio 78.17%/macro-F1 0.800 與 YOLO 980 張數字仍不是同一測試集。新增的 980 張共享測試提供直接的 host accuracy 比較：EI LiteRT macro-F1 0.805371、YOLO ONNX 0.862707、YOLO ESP-PPQ simulation 0.858549。故目前準確率證據偏向 YOLO，但 near-duplicate、來源場景及 train/validation 選模污染尚未排除，18 張小原圖的 EI resize 邊界亦採 host edge clamp。量產選型仍要在目標板量 end-to-end latency、記憶體，並以現場相機影像確認分類指標。
 
-## V2 粵語語音候選
+## V2 粵語語音決定
 
-官方 `xiaozhi.me` 公開說明有 streaming ASR → LLM → TTS，但沒有列出所有託管模式實際採用的供應商。另一個開源自架 `xiaozhi-esp32-server` 是可替換元件的參考，不代表官方託管後端。V2 語音必須分成：本機預錄粵語鼓勵/引導音（離線必有），及有網絡時的自由對話。
+官方 `xiaozhi.me` 網站公開了 streaming ASR → LLM → TTS 架構及 offline wake word，沒有公開託管服務目前實際採用的 ASR/TTS 供應商。開源 `xiaozhi-esp32-server` 是可替換元件的自架參考，README 推薦的 streaming 組合為 XunfeiStreamASR + Qwen Flash + HuoshanDoubleStreamTTS；這是開源後端建議，不代表官方託管服務。
 
-若需掌控粵語服務，原型候選採自架 XiaoZhi 相容服務：`DoubaoStreamASRV2`（其設定註明不填語言可識別粵語）、Qwen Flash LLM、TTS 換成能說繁體粵語的 `zh-HK-HiuGaaiNeural` 或 `zh-HK-WanLungNeural`。上游設定的 EdgeTTS 預設為普通話 `zh-CN-XiaoxiaoNeural`，需改音色；EdgeTTS wrapper 對這兩款 HK voice 的實際相容性、語音自然度、端到端延遲、成本和可用條款尚未測試。這是候選，不宣稱為 `xiaozhi.me` 目前使用的供應商。
+V2 建議使用 XiaoZhi 相容協議和服務，但粵語 provider 配置如下：
+
+- **ASR：** Xunfei streaming ASR，設 `language=zh_cn`、`domain=xfime-mianqie`、`accent=cantonese`；官方 API 文件列出方言免切包含粵語，並指出方言需在控制台授權/購買。這比把 `DoubaoStreamASRV2` 空語言參數當作已驗證粵語更有明確依據。
+- **LLM：** Qwen Flash，依 XiaoZhi server README 的 streaming 建議；system prompt 指定用繁體粵語、短句及兒童友善語氣。實際粵語自然度與回答安全性須測試。
+- **在線 TTS：** XiaoZhi server `EdgeTTS` provider 配置 `voice` 欄，可試 `zh-HK-HiuGaaiNeural` 或 `zh-HK-WanLungNeural`。Microsoft 的 voice list 列出兩者為繁體粵語 neural voices；EdgeTTS adapter 的串流、首音延遲和實際語音效果仍須裝置端實測。
+- **離線語音：** 遊戲狀態、鼓勵、重新嘗試和學習提示預錄為本機粵語音檔，並在斷網時繼續播放。V2 保證斷網遊戲可用及有聲提示；自由生成式對話只在有網時可用，未宣稱 ESP32 可離線跑完整 LLM/TTS。
+- **互動呈現：** 4.3 吋屏幕顯示動畫、分類、得分、開蓋狀態和「了解更多」內容；語音補充鼓勵，不由 LLM 決定分數或舵機動作。例句：「你做得好好！」「唔緊要，我哋再試一次！」
+
+README 推薦的 `HuoshanDoubleStreamTTS` 可作低延遲方案候選，但其設定範例聲線尚未證明支援粵語；必須先確認粵語 speaker ID 再選用。雲端 TTS 與服務商仍要做延遲、成本、隱私及使用條款評估。
 
 ## 結論
 
-Edge Impulse v1 的標準 int8 `.tflite` 可經 ESP-IDF 的 TFLite Micro + ESP-NN 跑在已測 ESP32-S3；這是目前最有硬件證據的首個分類 baseline。保留 YOLO11n-cls + ESP-PPQ `.espdl` 作 S31 量化候選，但現有準確度/速度證據不足以宣布它較好。EON v2 是獨立的編譯 C++ SDK 產物，尚待在目標產品韌體整合。生成 SDK 的授權聲明要求符合有效 Edge Impulse 訂閱條款；產品部署前須核對適用方案。
+目前分類準確率排序偏向 YOLO11n-cls + ESP-PPQ：同一 980 張共享測試的 macro-F1 為 0.858549，EI int8 TFLite 為 0.805371；產品部署建議先在 S31 驗證 YOLO `.espdl`。EI v1 標準 int8 `.tflite` 仍是已有 ESP32-S3 零輸入 Invoke 證據的 fallback，p95 858.635 ms；它不是整機時延，也沒有真圖上板分類證據。EON v2 是獨立的編譯 C++ SDK 產物，尚待在目標產品韌體整合。生成 SDK 的授權聲明要求符合有效 Edge Impulse 訂閱條款；產品部署前須核對適用方案。
 
 ## 官方技術參考
 
@@ -73,7 +96,8 @@ Edge Impulse v1 的標準 int8 `.tflite` 可經 ESP-IDF 的 TFLite Micro + ESP-N
 - [ESP-VISION 原始碼、IDF 支援版本及用途聲明](https://github.com/espressif/esp-vision)
 - [ESP-DL：`.espdl` 格式、ESP-PPQ 及 ONNX/PyTorch 匯出](https://docs.espressif.com/projects/esp-dl/en/latest/tutorials/how_to_quantize_model.html)
 - [Edge Impulse：EON 將 TFLite FlatBuffer 編譯成 C++ 權重與推理程式碼](https://www.edgeimpulse.com/blog/new-in-eon-compiler-automatically-reduce-memory-with-tensor-deduplication/)
-- [小智官方架構：串流 ASR / LLM / TTS](https://xiaozhi.me/home/en/)
-- [自架小智服務：ASR / LLM / TTS 候選配置](https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/README.md)
-- [自架服務 DoubaoStreamASRV2 / EdgeTTS 設定](https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/main/xiaozhi-server/config.yaml)
+- [小智官方公開架構：串流 ASR / LLM / TTS、離線 wake word](https://xiaozhi.me/home/en/)
+- [自架小智服務：streaming 的 Xunfei ASR / Qwen Flash / Huoshan TTS 組合及 provider 清單](https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/README.md)
+- [自架 server：ASR 方言參數及 EdgeTTS voice 設定](https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/main/xiaozhi-server/config.yaml)
+- [訊飛流式聽寫：方言免切及粵語授權要求](https://www.xfyun.cn/doc/asr/voicedictation/API.html)
 - [Microsoft Speech：繁體粵語 zh-HK 神經語音](https://learn.microsoft.com/azure/cognitive-services/speech-service/language-support?tabs=tts)
