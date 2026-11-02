@@ -36,9 +36,10 @@ epoch,time,train/loss,metrics/accuracy_top1,metrics/accuracy_top5,val/loss,lr/pg
 
 - 最佳 epoch 37：top1 = 0.90、val/loss = 0.45199。
 - 混淆矩陣：
-  - `runs/classify/runs/waste4/cls160/confusion_matrix.png`
-  - `runs/classify/runs/waste4/cls160/confusion_matrix_normalized.png`
-- 權重：`weights/best.pt`（3,193,090 B）、`weights/last.pt`。
+  - `docs/issue8/confusion_matrix.png`
+  - `docs/issue8/confusion_matrix_normalized.png`
+- 訓練日誌：[`results.csv`](results.csv)；最佳與 normalized 混淆矩陣：[`confusion_matrix.png`](confusion_matrix.png)、[`confusion_matrix_normalized.png`](confusion_matrix_normalized.png)。
+- 權重：`weights/best.pt`（3,193,090 B）、`weights/last.pt`；模型 binaries 不提交。
 
 ## Step 3 — ONNX
 
@@ -128,20 +129,18 @@ PyTorch / ONNX          espdl int8
 
 ## 去重測試集上的重做量化評估
 
-使用相同 ONNX 權重及原始 train split，以 seed 42 選 200 張校準圖片，重新產生 S31 w8a8 量化圖；以 ESP-PPQ TorchExecutor 在 980 張完全重複已排除的測試圖評估，macro-F1 **0.858549**。各類 F1：其他 0.7967、可回收物 0.8473、廚餘 0.9307、有害 0.8595。逐類混淆矩陣見 `../yolo-espdl-dedup.json`。
+使用相同 ONNX 權重及 `docs/yolo-evaluation-manifest.json` 指定的校準/測試影像：200 張 calibration 只來自 train split；980 張 test 完全排除已知 SHA-256 重複。重算前逐檔核對 manifest hash，200/200 與 980/980 均相符。更新後的 `tools/quantize_espdl.py` 以鎖定的 Python 3.11 環境執行，`classify_transforms` 固定使用 Resize、CenterCrop、ToTensor、Normalize，沒有隨機翻轉；校準和評估使用相同 transform。
 
-2026-11-02 review-fix rerun：以鎖定的 Python 3.11 環境、相同 ONNX、200 張 calibration 及 980 張去重 test 重新執行更新後的 `tools/quantize_espdl.py`。macro-F1 再現為 **0.858549**；臨時 `.espdl` 為 1,796,880 B，SHA-256 `3f369b0e8572abb49166bcd7455cac9454bb0e3f084b3d252e4880ca8f2c498e`，沒有提交模型檔。Ultralytics 8.4.197 的 `classify_transforms` 原始碼只有 Resize、CenterCrop、ToTensor、Normalize，並無隨機翻轉；校準與評估使用同一 deterministic transform。
+| 指標 | 最新 review-fix rerun |
+|---|---:|
+| calibration / test images | 200 / 980 |
+| test macro-F1 | **0.858549** |
+| `.espdl` size | **1,796,864 B** |
+| `.espdl` SHA-256 | `05361838193d2edf9d32ce616c92d926b08036d53090fa2d6f89a6605b8a168c` |
+| ONNX SHA-256 | `1e209726e0fa21ee52c4828b4b308bad2b05eec4a5d8f5cdc4ac18082cca2f70` |
 
-這次產物 1,796,768 B，SHA-256 `83bc961bc4dd1b7268393b250a53262b26d45b9b92fb9212d3af58f23289ed92`，與之前的產物雜湊不同；不可假設兩份二進位逐位相同。結果來自主機量化圖模擬，尚未在 S31 執行。測試集已於前次完整評估後再次檢視以修正已發現的洩漏；沒有以測試結果調參。近重複、同一場景與 train/val 的重複選模仍未排除。
+ESP-PPQ TorchExecutor host simulation 的逐類 F1：其他 0.7967、可回收物 0.8473、廚餘 0.9307、有害 0.8595。逐類 confusion matrix 載於 `docs/yolo-espdl-dedup.json`。這是主機模擬，不代表 S31 實機延遲或準確率。
 
-本次重算指令（路徑指向已保存的原始訓練影像與去重測試集）：
+最新 `.espdl` 產物保存在執行者的 workflow artifacts，不提交至 repository，符合本 issue 不提交 `.espdl` 的要求。前兩次記錄的同指標 rerun 曾產生 1,796,880 B / SHA-256 `3f369b0e8572abb49166bcd7455cac9454bb0e3f084b3d252e4880ca8f2c498e`，以及 1,796,768 B / SHA-256 `83bc961bc4dd1b7268393b250a53262b26d45b9b92fb9212d3af58f23289ed92`；今次重算為 1,796,864 B。三次 macro-F1 一致至六位小數，但 binary size/hash 有差異，故以本節最新 hash 標識本次產物，不假設不同執行會逐位相同。
 
-```sh
-OMP_NUM_THREADS=2 .venv-train/bin/python tools/quantize_espdl.py \
-  --onnx runs/classify/runs/waste4/cls160/weights/best.onnx \
-  --calib data/waste4/train --test /path/to/waste4_clean/test \
-  --out /path/to/quant-eval-dedup/best.espdl --imgsz 160 \
-  --calib-images 200 --target esp32s31 --seed 42
-```
-
-選用的 200 張校準圖片和 980 張測試圖片各自的相對路徑與 SHA-256 保存於 `../yolo-evaluation-manifest.json`。兩者完全相同的 SHA-256 交集為零。
+原始 1,000 張測試集的首次量化結果仍保留在上方三方表格，macro-F1 為 0.859411；它與本節去重後的 980 張結果不是同一測試集。近重複、同一場景及 train/validation 的重複選模仍未排除，因此不能把現有測試當成完全獨立的產品驗收。

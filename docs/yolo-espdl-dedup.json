@@ -9,8 +9,8 @@
     160,
     160
   ],
-  "espdl_path": "local ignored artifact",
-  "espdl_bytes": 1796768,
+  "espdl_path": "not committed; see local workflow artifact",
+  "espdl_bytes": 1796864,
   "macro_f1": 0.858549235398607,
   "per_class_f1": {
     "其他": 0.7967145790554415,
@@ -44,6 +44,9 @@
       205
     ]
   ],
-  "artifact_sha256": "83bc961bc4dd1b7268393b250a53262b26d45b9b92fb9212d3af58f23289ed92",
-  "evaluation": "ESP-PPQ TorchExecutor host quantized-graph simulation; not device execution"
+  "artifact_sha256": "05361838193d2edf9d32ce616c92d926b08036d53090fa2d6f89a6605b8a168c",
+  "onnx_sha256": "1e209726e0fa21ee52c4828b4b308bad2b05eec4a5d8f5cdc4ac18082cca2f70",
+  "evaluation": "ESP-PPQ TorchExecutor host quantized-graph simulation; not device execution",
+  "calibration_manifest": "docs/yolo-evaluation-manifest.json#calibration (200 image hashes verified)",
+  "test_manifest": "docs/yolo-evaluation-manifest.json#test (980 image hashes verified)"
 }
