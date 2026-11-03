@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "purpose": "Own-capture field dataset for closing the domain gap identified in docs/issue12/field-probe/metrics.md",
+  "session_convention": "<桶>/<object-id>_s<session>_<nn>_<view>.jpeg — all images in the same s<session> MUST stay on one side of the train/test split",
+  "captures": [
+    {"file": "其他垃圾/biscuit_ovaltine_s1_01_front.jpeg", "object_id": "biscuit_ovaltine", "bin_hk": "其他垃圾", "session": "s1", "view": "front", "source": "handheld phone, classroom desk, monitor + white desk background", "notes": "Thai-market Ovaltine biscuit pack, plastic film wrapper"},
+    {"file": "其他垃圾/biscuit_ovaltine_s1_02_side.jpeg", "object_id": "biscuit_ovaltine", "bin_hk": "其他垃圾", "session": "s1", "view": "side", "source": "handheld phone, classroom desk", "notes": "crumpled side, mostly silver foil visible"},
+    {"file": "其他垃圾/biscuit_ovaltine_s1_03_back.jpeg", "object_id": "biscuit_ovaltine", "bin_hk": "其他垃圾", "session": "s1", "view": "back", "source": "handheld phone, classroom desk", "notes": "red back, Thai nutrition label"},
+    {"file": "其他垃圾/biscuit_ovaltine_s1_04_bottom_open.jpeg", "object_id": "biscuit_ovaltine", "bin_hk": "其他垃圾", "session": "s1", "view": "bottom_open", "source": "handheld phone, classroom desk", "notes": "opened end, silver foil inner"},
+    {"file": "其他垃圾/biscuit_ovaltine_s1_05_pinched.jpeg", "object_id": "biscuit_ovaltine", "bin_hk": "其他垃圾", "session": "s1", "view": "pinched_edge", "source": "handheld phone, classroom desk", "notes": "pinched between fingers, mostly out of focus"},
+    {"file": "可回收物/drink-carton_vitasoy_s1_01_front.jpeg", "object_id": "drink-carton_vitasoy", "bin_hk": "可回收物", "session": "s1", "view": "front", "source": "handheld phone, classroom desk", "notes": "Vitasoy no-added-sugar soymilk 330mL Tetra Pak, straw attached"},
+    {"file": "可回收物/drink-carton_vitasoy_s1_02_side.jpeg", "object_id": "drink-carton_vitasoy", "bin_hk": "可回收物", "session": "s1", "view": "side", "source": "handheld phone, classroom desk", "notes": "front-left angle"},
+    {"file": "可回收物/drink-carton_vitasoy_s1_03_grip.jpeg", "object_id": "drink-carton_vitasoy", "bin_hk": "可回收物", "session": "s1", "view": "grip_hand", "source": "handheld phone, classroom desk", "notes": "held with straw up, partial occlusion by hand"},
+    {"file": "可回收物/drink-carton_vitasoy_s1_04_bottom.jpeg", "object_id": "drink-carton_vitasoy", "bin_hk": "可回收物", "session": "s1", "view": "bottom", "source": "handheld phone, classroom desk", "notes": "nutrition label side, motion blur"},
+    {"file": "可回收物/drink-carton_vitasoy_s1_05_angled.jpeg", "object_id": "drink-carton_vitasoy", "bin_hk": "可回收物", "session": "s1", "view": "angled", "source": "handheld phone, classroom desk", "notes": " underside angle, package edge"}
+  ],
+  "labelling_rationale": {
+    "biscuit_ovaltine": "塑膠包裝袋／複合材質零食袋 — 香港一般不算乾淨回收，歸入其他垃圾",
+    "drink-carton_vitasoy": "紙盒飲品（Tetra Pak）— 屬可回收物（清潔壓平後交紙盒回收）"
+  },
+  "known_risks": [
+    "hand visible in most frames — model may learn hand/arm as a feature; future sessions should include object-only shots",
+    "fixed background (same desk + monitor) — background-shortcut risk documented in docs/issue12/field-probe/metrics.md",
+    "some frames out of focus / motion blur — kept deliberately, real usage has these"
+  ],
+  "split_rule": "session-based split only; never random. s1 currently exists; add s2/s3 with different background/light before training."
+}
