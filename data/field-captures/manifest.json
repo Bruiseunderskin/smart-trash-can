@@ -12,9 +12,23 @@
     {"file": "可回收物/drink-carton_vitasoy_s1_02_side.jpeg", "object_id": "drink-carton_vitasoy", "bin_hk": "可回收物", "session": "s1", "view": "side", "source": "handheld phone, classroom desk", "notes": "front-left angle"},
     {"file": "可回收物/drink-carton_vitasoy_s1_03_grip.jpeg", "object_id": "drink-carton_vitasoy", "bin_hk": "可回收物", "session": "s1", "view": "grip_hand", "source": "handheld phone, classroom desk", "notes": "held with straw up, partial occlusion by hand"},
     {"file": "可回收物/drink-carton_vitasoy_s1_04_bottom.jpeg", "object_id": "drink-carton_vitasoy", "bin_hk": "可回收物", "session": "s1", "view": "bottom", "source": "handheld phone, classroom desk", "notes": "nutrition label side, motion blur"},
-    {"file": "可回收物/drink-carton_vitasoy_s1_05_angled.jpeg", "object_id": "drink-carton_vitasoy", "bin_hk": "可回收物", "session": "s1", "view": "angled", "source": "handheld phone, classroom desk", "notes": " underside angle, package edge"}
+    {"file": "可回收物/drink-carton_vitasoy_s1_05_angled.jpeg", "object_id": "drink-carton_vitasoy", "bin_hk": "可回收物", "session": "s1", "view": "angled", "source": "handheld phone, classroom desk", "notes": " underside angle, package edge"},
+    {"file": "其他垃圾/chip-can_wise-cottage-fries_s2_01_front.jpeg", "object_id": "chip-can_wise-cottage-fries", "bin_hk": "其他垃圾", "session": "s2", "view": "front", "source": "handheld phone, classroom desk, different background from s1 (grey wall, white table, backpack)", "notes": "Wise Cottage Fries Hot&Spicy potato chip can, composite packaging"},
+    {"file": "其他垃圾/chip-can_wise-cottage-fries_s2_02_bottom.jpeg", "object_id": "chip-can_wise-cottage-fries", "bin_hk": "其他垃圾", "session": "s2", "view": "bottom", "source": "handheld phone, classroom desk", "notes": "metal base visible, tilted"},
+    {"file": "其他垃圾/chip-can_wise-cottage-fries_s2_03_front_grip.jpeg", "object_id": "chip-can_wise-cottage-fries", "bin_hk": "其他垃圾", "session": "s2", "view": "front_grip", "source": "handheld phone, classroom desk", "notes": "held in hand, chair visible behind"},
+    {"file": "其他垃圾/chip-can_wise-cottage-fries_s2_04_side.jpeg", "object_id": "chip-can_wise-cottage-fries", "bin_hk": "其他垃圾", "session": "s2", "view": "side", "source": "object on table, no hand", "notes": "object-only shot, standing upright"},
+    {"file": "其他垃圾/chip-can_wise-cottage-fries_s2_05_lid.jpeg", "object_id": "chip-can_wise-cottage-fries", "bin_hk": "其他垃圾", "session": "s2", "view": "lid", "source": "held in hand, classroom desk", "notes": "yellow lid facing camera"},
+    {"file": "其他垃圾/candy-wrapper_bonbons_s3_01_back.jpeg", "object_id": "candy-wrapper_bonbons", "bin_hk": "其他垃圾", "session": "s3", "view": "back", "source": "handheld phone, classroom desk + backpack, different background from s1/s2", "notes": "Juice Vitamin Bonbons mini wrapper, back (blank blue), torn"},
+    {"file": "其他垃圾/candy-wrapper_bonbons_s3_02_front.jpeg", "object_id": "candy-wrapper_bonbons", "bin_hk": "其他垃圾", "session": "s3", "view": "front", "source": "handheld phone, classroom desk + backpack", "notes": "front label, torn edge"},
+    {"file": "其他垃圾/candy-wrapper_haribo_s3_01_front_bin.jpeg", "object_id": "candy-wrapper_haribo", "bin_hk": "其他垃圾", "session": "s3", "view": "front_bin", "source": "handheld phone, over a waste bin", "notes": "Haribo Goldbears mini pack, opened top"},
+    {"file": "其他垃圾/candy-wrapper_haribo_s3_02_front_desk.jpeg", "object_id": "candy-wrapper_haribo", "bin_hk": "其他垃圾", "session": "s3", "view": "front_desk", "source": "handheld phone, classroom desk", "notes": "front label, torn top"},
+    {"file": "其他垃圾/candy-wrapper_haribo_s3_03_front_bin2.jpeg", "object_id": "candy-wrapper_haribo", "bin_hk": "其他垃圾", "session": "s3", "view": "front_bin2", "source": "handheld phone, over a waste bin", "notes": "front label, another angle over bin"},
+    {"file": "其他垃圾/candy-wrapper_haribo_s3_04_back_expiry.jpeg", "object_id": "candy-wrapper_haribo", "bin_hk": "其他垃圾", "session": "s3", "view": "back_expiry", "source": "handheld phone, over a waste bin", "notes": "back with expiry date print, upside down"}
   ],
   "labelling_rationale": {
+    "candy-wrapper_bonbons": "糖果獨立包裝紙／複合膜 — 不可回收，歸入其他垃圾",
+    "candy-wrapper_haribo": "糖果獨立包裝紙／複合膜（鍍鋁）— 不可回收，歸入其他垃圾",
+    "chip-can_wise-cottage-fries": "複合罐（紙筒＋金屬底＋膠蓋）— 香港混合材質薯片罐一般不可回收，歸入其他垃圾",
     "biscuit_ovaltine": "塑膠包裝袋／複合材質零食袋 — 香港一般不算乾淨回收，歸入其他垃圾",
     "drink-carton_vitasoy": "紙盒飲品（Tetra Pak）— 屬可回收物（清潔壓平後交紙盒回收）"
   },
