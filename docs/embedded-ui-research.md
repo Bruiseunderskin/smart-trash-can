@@ -137,7 +137,7 @@ void app_main(void) {
 
 ---
 
-## 7. LVGL Pro 授權：Community 夠不夠用（2026-11-03 補充）
+## 6. LVGL Pro 授權：Community 夠不夠用（2026-11-03 補充）
 
 Community 方案（免費、無到期日、不限座位）實際包含：
 
@@ -151,7 +151,7 @@ Community 方案（免費、無到期日、不限座位）實際包含：
 | Product variants | 不限 |
 | 支援 | 公開文件、AI assistant、Forum |
 
-### 7.1 對本項目的結論
+### 6.1 對本項目的結論
 
 - **比賽用途完全夠。** 11 個畫面全部可以在 Community 版完成，Figma 匯出可用。
 - **失去的是自動化**：沒有 CLI，就不能在 CI 內 `lvglpro generate / validate / screenshot`。
@@ -161,14 +161,14 @@ Community 方案（免費、無到期日、不限座位）實際包含：
 - **架構分工建議**：XML 管畫面（layout / 樣式 / 圖層），C 管狀態機與邏輯（`stc_ui.c` 內的 transition、計分、感測）。
   這樣即使日後不再用 LVGL Pro，畫面 XML 仍可手動翻譯，邏輯不動。
 
-### 7.2 若日後要開 CLI
+### 6.2 若日後要開 CLI
 
 CLI 需要 token（`LVGLPRO_CLI_TOKEN`）。token 屬憑證，不得貼在對話或 commit 入 repo；
 存放用 `hermes-vault add`，CI 內用 secret 注入。
 
 ---
 
-## 6. 資料來源
+## 7. 資料來源
 
 1. esp-bsp 倉庫 — https://github.com/espressif/esp-bsp
 2. ESP32-S31-Korvo-1 BSP v1.1.0 — https://components.espressif.com/components/espressif/esp32_s31_korvo_1
