@@ -25,9 +25,22 @@
     {"file": "其他垃圾/candy-wrapper_haribo_s3_03_front_bin2.jpeg", "object_id": "candy-wrapper_haribo", "bin_hk": "其他垃圾", "session": "s3", "view": "front_bin2", "source": "handheld phone, over a waste bin", "notes": "front label, another angle over bin"},
     {"file": "其他垃圾/candy-wrapper_haribo_s3_04_back_expiry.jpeg", "object_id": "candy-wrapper_haribo", "bin_hk": "其他垃圾", "session": "s3", "view": "back_expiry", "source": "handheld phone, over a waste bin", "notes": "back with expiry date print, upside down"},
     {"file": "其他垃圾/lens-wipe_sachet_s4_01_on_desk.jpeg", "object_id": "lens-wipe_sachet", "bin_hk": "其他垃圾", "session": "s4", "view": "on_desk_torn", "source": "phone on desk, keyboard + chair in frame, no hand", "notes": "torn lens-wipe sachet lying on white desk, object-only shot"},
-    {"file": "其他垃圾/lens-wipe_sachet_s4_02_held.jpeg", "object_id": "lens-wipe_sachet", "bin_hk": "其他垃圾", "session": "s4", "view": "held_front", "source": "handheld phone, classroom desk, monitor + keyboard behind", "notes": "two wrapped sachets, front label visible"}
+    {"file": "其他垃圾/lens-wipe_sachet_s4_02_held.jpeg", "object_id": "lens-wipe_sachet", "bin_hk": "其他垃圾", "session": "s4", "view": "held_front", "source": "handheld phone, classroom desk, monitor + keyboard behind", "notes": "two wrapped sachets, front label visible"},
+    {"file": "可回收物/drink-carton_vitasoy-choc_s5_01_back_nutrition.jpeg", "object_id": "drink-carton_vitasoy-choc", "bin_hk": "可回收物", "session": "s5", "view": "back_nutrition", "source": "handheld phone, lab desk with bench PSU + red/black leads + backpack (new background)", "notes": "Vitasoy chocolate milk beverage 250mL, nutrition panel, Tetra Pak logo"},
+    {"file": "可回收物/drink-carton_vitasoy-choc_s5_02_front_straw.jpeg", "object_id": "drink-carton_vitasoy-choc", "bin_hk": "可回收物", "session": "s5", "view": "front_straw", "source": "handheld phone, lab desk", "notes": "front label, straw attached in clear film, condensation on carton"},
+    {"file": "可回收物/drink-carton_vitasoy-choc_s5_03_side_barcode.jpeg", "object_id": "drink-carton_vitasoy-choc", "bin_hk": "可回收物", "session": "s5", "view": "side_barcode", "source": "handheld phone, lab desk", "notes": "side barcode, carton edge toward camera"},
+    {"file": "可回收物/drink-carton_vitasoy-choc_s5_04_back_barcode.jpeg", "object_id": "drink-carton_vitasoy-choc", "bin_hk": "可回收物", "session": "s5", "view": "back_barcode", "source": "handheld phone, lab desk", "notes": "back panel with barcode and storage instructions"},
+    {"file": "可回收物/drink-carton_vitasoy-oolong_s5_01_on_desk.jpeg", "object_id": "drink-carton_vitasoy-oolong", "bin_hk": "可回收物", "session": "s5", "view": "on_desk_upright", "source": "phone on desk, no hand, PSU + cables behind", "notes": "unsweetened Dong Ding oolong tea 250mL standing on desk, object-only shot"},
+    {"file": "可回收物/drink-carton_vitasoy-oolong_s5_02_side_info.jpeg", "object_id": "drink-carton_vitasoy-oolong", "bin_hk": "可回收物", "session": "s5", "view": "side_info", "source": "phone on desk, no hand", "notes": "side panel ingredients + Tetra Pak logo, standing"},
+    {"file": "可回收物/drink-carton_vitasoy-oolong_s5_03_front_held.jpeg", "object_id": "drink-carton_vitasoy-oolong", "bin_hk": "可回收物", "session": "s5", "view": "front_held", "source": "handheld phone, lab desk", "notes": "front label with straw, held in hand"},
+    {"file": "可回收物/drink-carton_vitasoy-jasmine-soy_s5_01_lying_on_desk.jpeg", "object_id": "drink-carton_vitasoy-jasmine-soy", "bin_hk": "可回收物", "session": "s5", "view": "lying_on_desk", "source": "phone on desk, no hand, carton lying flat with straw on top", "notes": "jasmine tea soymilk, lying flat — unusual orientation, useful pose diversity"},
+    {"file": "可回收物/drink-carton_vitasoy-jasmine-soy_s5_02_held_angled.jpeg", "object_id": "drink-carton_vitasoy-jasmine-soy", "bin_hk": "可回收物", "session": "s5", "view": "held_angled", "source": "handheld phone, lab desk", "notes": "held at angle, plant-graphics front"},
+    {"file": "可回收物/drink-carton_vitasoy-jasmine-soy_s5_03_side_barcode.jpeg", "object_id": "drink-carton_vitasoy-jasmine-soy", "bin_hk": "可回收物", "session": "s5", "view": "side_barcode", "source": "handheld phone, lab desk", "notes": "side panel, barcode + recycling mark"}
   ],
   "labelling_rationale": {
+    "drink-carton_vitasoy-choc": "紙盒飲品（Tetra Pak）— 可回收物，需沖淨壓平",
+    "drink-carton_vitasoy-oolong": "紙盒飲品（Tetra Pak）— 可回收物，需沖淨壓平",
+    "drink-carton_vitasoy-jasmine-soy": "紙盒飲品（Tetra Pak）— 可回收物，需沖淨壓平",
     "lens-wipe_sachet": "濕紙巾複合膜包裝（可含消毒液）— 不可回收，歸入其他垃圾",
     "candy-wrapper_bonbons": "糖果獨立包裝紙／複合膜 — 不可回收，歸入其他垃圾",
     "candy-wrapper_haribo": "糖果獨立包裝紙／複合膜（鍍鋁）— 不可回收，歸入其他垃圾",
