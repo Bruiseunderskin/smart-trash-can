@@ -23,9 +23,12 @@
     {"file": "其他垃圾/candy-wrapper_haribo_s3_01_front_bin.jpeg", "object_id": "candy-wrapper_haribo", "bin_hk": "其他垃圾", "session": "s3", "view": "front_bin", "source": "handheld phone, over a waste bin", "notes": "Haribo Goldbears mini pack, opened top"},
     {"file": "其他垃圾/candy-wrapper_haribo_s3_02_front_desk.jpeg", "object_id": "candy-wrapper_haribo", "bin_hk": "其他垃圾", "session": "s3", "view": "front_desk", "source": "handheld phone, classroom desk", "notes": "front label, torn top"},
     {"file": "其他垃圾/candy-wrapper_haribo_s3_03_front_bin2.jpeg", "object_id": "candy-wrapper_haribo", "bin_hk": "其他垃圾", "session": "s3", "view": "front_bin2", "source": "handheld phone, over a waste bin", "notes": "front label, another angle over bin"},
-    {"file": "其他垃圾/candy-wrapper_haribo_s3_04_back_expiry.jpeg", "object_id": "candy-wrapper_haribo", "bin_hk": "其他垃圾", "session": "s3", "view": "back_expiry", "source": "handheld phone, over a waste bin", "notes": "back with expiry date print, upside down"}
+    {"file": "其他垃圾/candy-wrapper_haribo_s3_04_back_expiry.jpeg", "object_id": "candy-wrapper_haribo", "bin_hk": "其他垃圾", "session": "s3", "view": "back_expiry", "source": "handheld phone, over a waste bin", "notes": "back with expiry date print, upside down"},
+    {"file": "其他垃圾/lens-wipe_sachet_s4_01_on_desk.jpeg", "object_id": "lens-wipe_sachet", "bin_hk": "其他垃圾", "session": "s4", "view": "on_desk_torn", "source": "phone on desk, keyboard + chair in frame, no hand", "notes": "torn lens-wipe sachet lying on white desk, object-only shot"},
+    {"file": "其他垃圾/lens-wipe_sachet_s4_02_held.jpeg", "object_id": "lens-wipe_sachet", "bin_hk": "其他垃圾", "session": "s4", "view": "held_front", "source": "handheld phone, classroom desk, monitor + keyboard behind", "notes": "two wrapped sachets, front label visible"}
   ],
   "labelling_rationale": {
+    "lens-wipe_sachet": "濕紙巾複合膜包裝（可含消毒液）— 不可回收，歸入其他垃圾",
     "candy-wrapper_bonbons": "糖果獨立包裝紙／複合膜 — 不可回收，歸入其他垃圾",
     "candy-wrapper_haribo": "糖果獨立包裝紙／複合膜（鍍鋁）— 不可回收，歸入其他垃圾",
     "chip-can_wise-cottage-fries": "複合罐（紙筒＋金屬底＋膠蓋）— 香港混合材質薯片罐一般不可回收，歸入其他垃圾",
