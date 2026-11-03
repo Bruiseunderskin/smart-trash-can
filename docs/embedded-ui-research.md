@@ -137,6 +137,37 @@ void app_main(void) {
 
 ---
 
+## 7. LVGL Pro 授權：Community 夠不夠用（2026-11-03 補充）
+
+Community 方案（免費、無到期日、不限座位）實際包含：
+
+| 項目 | Community |
+|---|---|
+| Editor 全部功能 | ✅ |
+| **Figma Flow** | ✅ 完整可用 |
+| Online project share | 只限公開 repo |
+| **CLI** | ❌ 不可用（屬 Professional 功能，需授權 token） |
+| **商業使用** | ❌ 只限個人使用與評估 |
+| Product variants | 不限 |
+| 支援 | 公開文件、AI assistant、Forum |
+
+### 7.1 對本項目的結論
+
+- **比賽用途完全夠。** 11 個畫面全部可以在 Community 版完成，Figma 匯出可用。
+- **失去的是自動化**：沒有 CLI，就不能在 CI 內 `lvglpro generate / validate / screenshot`。
+  替代做法：在設計機上手動 Generate C，把產出連 XML 一齊 commit。XML 可 diff，C 是產物。
+- **授權風險點**：概念裡提過「賣給學校 ICT 科／NGO」。Community 只准個人使用與評估，
+  一旦有商業銷售就要轉 Growth（per product 報價）。比賽本身非商業，現階段無問題，但要在文件裡寫清楚這個界線。
+- **架構分工建議**：XML 管畫面（layout / 樣式 / 圖層），C 管狀態機與邏輯（`stc_ui.c` 內的 transition、計分、感測）。
+  這樣即使日後不再用 LVGL Pro，畫面 XML 仍可手動翻譯，邏輯不動。
+
+### 7.2 若日後要開 CLI
+
+CLI 需要 token（`LVGLPRO_CLI_TOKEN`）。token 屬憑證，不得貼在對話或 commit 入 repo；
+存放用 `hermes-vault add`，CI 內用 secret 注入。
+
+---
+
 ## 6. 資料來源
 
 1. esp-bsp 倉庫 — https://github.com/espressif/esp-bsp
