@@ -227,6 +227,9 @@ choice BOARD_TYPE
     config BOARD_TYPE_ESP32_S31_KORVO_1
         bool "Espressif ESP32-S31-Korvo-1"
         depends on IDF_TARGET_ESP32S31
+    config BOARD_TYPE_ESP32_S31_KORVO_1_STC
+        bool "Espressif ESP32-S31-Korvo-1 STC text query test"
+        depends on IDF_TARGET_ESP32S31
     config BOARD_TYPE_ESP_HI
         bool "Espressif ESP-HI"
         depends on IDF_TARGET_ESP32C3
@@ -642,6 +645,15 @@ choice BOARD_TYPE
         bool "Zhengchen AI Camera Wi-Fi (征辰科技)"
         depends on IDF_TARGET_ESP32S3
 endchoice
+
+config STC_MCP_CAMERA
+    bool "Expose SC101IOT camera to MCP tools"
+    depends on BOARD_TYPE_ESP32_S31_KORVO_1_STC
+    default n
+    help
+        Keep the camera initialized for local image processing, while exposing
+        it to server-side MCP camera tools. Disabled by default to avoid an
+        extra cloud image round trip in text-query and latency measurements.
 
 choice XIAOZHI_NETWORK_TYPE
     prompt "Network Type"
