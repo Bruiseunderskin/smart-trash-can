@@ -207,7 +207,9 @@ Korvo-1 ──HTTPS/multipart──▶ 場地 laptop (FastAPI)
 
 硬限制：**新建板變體 `esp32-s31-korvo-1-stc/`，唔改官方板**；上游改動只准一條 Kconfig entry，並記入 `docs/upstream-patches.md`。
 
+---
 
+## 5. 憑證與配網（不可寫入 repo）
 
 - 小智雲端需要 API 憑證 → **用 VaultKnox 存放**，用 `hermes-vault add` 寫入，**不要貼在對話、不要 commit、不要寫進 sdkconfig 預設值**
 - 裝置端只存「配網後的 Wi-Fi 憑證」與「一次性 provisioning token」，存 NVS
