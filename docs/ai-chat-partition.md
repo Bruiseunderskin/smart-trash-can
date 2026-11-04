@@ -309,3 +309,44 @@ stc_chat_speak_text("請放入廚餘桶")
 - **遊戲流程（宣讀、答對答錯、類別說明）→ B1**，能快取就快取，斷網照跑
 - **評審互動（「你係咩垃圾？」用口問）→ B2 原生語音通路**，唔注入文字、唔改狀態機
 - **B2 文字注入（#23／#24）降級為技術驗證**：證明「伺服器接受任意文字」，寫進報告當研究發現，但**不作為遊戲依賴**
+
+---
+
+## 8. 自接 LLM：元件選型與可參考的開源項目（2026-11-04）
+
+### 8.1 可以，而且位置已經留好
+
+`server/chat/main.py` 的 `llm()` 就是唯一接觸 LLM 的地方，改成任何 **OpenAI 相容端點** 即可（換 base_url + model + key，不動裝置）：
+
+| 選項 | 成本 | 網絡 | 備註 |
+|---|---|---|---|
+| DeepSeek（`api.deepseek.com`） | 極低 | 需網 | 中文強、便宜，適合 demo |
+| 阿里 DashScope／通義 | 低 | 需網 | 粵語支援較好 |
+| Ollama（本地） | 0 | **免網** | laptop 跑 7B 量化可行；斷網照答 |
+| Dify／FastGPT／Coze | 視方案 | 需網 | 有現成 prompt 管理 |
+
+### 8.2 開源參考（已核實存在）
+
+| 項目 | 用途 | 對我們的價值 |
+|---|---|---|
+| [`xinnan-tech/xiaozhi-esp32-server`](https://github.com/xinnan-tech/xiaozhi-esp32-server) | 小智的完整 Python 後端，LLM 走 OpenAI 相容（支援 Ollama／Dify／Coze） | **最直接參考**：可自架取代官方雲端，protocol 與我們現在用的一致；也可只抄它的 ASR／TTS／pipeline 組織方式 |
+| [`k2-fsa/sherpa-onnx`](https://github.com/k2-fsa/sherpa-onnx) | 本地 ASR／TTS 推理 | **有粵語 ASR**：`sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8` |
+| [`rhasspy/piper`](https://github.com/rhasspy/piper) | 本地快速 TTS | ⚠️ 上游只有 `zh_CN-huayan`，**未有粵語 voice**（issue #511 仍開）→ 唔適合本專案 |
+| `edge-tts` / Azure `zh-HK` | 雲端粵語 TTS | 有 `zh-HK-HiuMaanNeural`（女）、`zh-HK-WanLungNeural`（男）；edge-tts 免費但屬非官方端點，正式比賽建議 Azure 官方或預生成 |
+| [`ggml-org/llama.cpp`](https://github.com/ggml-org/llama.cpp) | 本地 LLM | Ollama 底層；如要完全離線 |
+
+**粵語本地 TTS 目前沒有可靠的開源方案**（Piper 無、XTTS 只有 zh-cn）。所以：固定台詞一律預生成音檔，不要指望本地 TTS。
+
+### 8.3 分層建議（成本最低且最穩）
+
+| 用途 | 方案 | 延遲 | 依賴 |
+|---|---|---|---|
+| **15 句遊戲台詞**（開場／答對／答錯／逾時／結算／類別說明） | **預生成音檔**（Azure 或 edge-tts 離線生成一次，PCM 存 flash／SD） | **<0.05 s** | 無 |
+| 評審自由問答（文字驅動） | B1 `/ask`：LLM（DeepSeek 或本地 Ollama）＋ TTS | 1–3 s | 網絡 |
+| 評審用口問（真人語音） | B2 原生通路，或 B1 ＋ sherpa-onnx 粵語 ASR | 2–4 s | 網絡／本地 |
+
+**遊戲流程只依賴第一行**。第二、三行是加分，斷網就靜靜停用。
+
+### 8.4 憑證
+
+DeepSeek／Azure 等 key 用 `hermes-vault add` 存入 vault，部署時注入 server 環境變數；裝置端只持有 `DEVICE_TOKEN`。repo 內只准 `.env.example` 的空值。
