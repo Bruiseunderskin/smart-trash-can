@@ -46,14 +46,33 @@ S31 側不需要任何 GPIO：只用它的 USB-A Host 口。
 
 ## 2. 引腳分配（XIAO ESP32-C5：11 GPIO，只用 3 條）
 
-| XIAO 腳 | 功能 | 接到 | 備註 |
-|---|---|---|---|
-| D4 | I²C SDA | PCA9685 SDA ＋ TCA9555 SDA | 同總線並聯 |
-| D5 | I²C SCL | PCA9685 SCL ＋ TCA9555 SCL | 400 kHz |
-| D6 | INT（輸入） | TCA9555 INT | 低電平有效，上拉 |
-| 5V | VBUS | S31 USB-A（供電＋數據） | 節點電流約 60–120 mA |
-| 3V3 | 3V3_OUT | PCA9685 VCC ＋ TCA9555 VCC ＋ 光電模組 | 邏輯電源 |
-| GND | GND | 共地 | |
+| XIAO 腳 | GPIO | 功能 | 接到 | 備註 |
+|---|---|---|---|---|
+| D4 | GPIO23 | I²C SDA | PCA9685 SDA ＋ TCA9555 SDA | 同總線並聯 |
+| D5 | GPIO24 | I²C SCL | PCA9685 SCL ＋ TCA9555 SCL | 400 kHz |
+| D8 | GPIO8 | INT（輸入） | TCA9555 INT | 低電平有效，上拉 |
+| 5V | — | VBUS | S31 USB-A（供電＋數據） | 節點電流約 60–120 mA |
+| 3V3 | — | 3V3_OUT | PCA9685 VCC ＋ TCA9555 VCC ＋ 光電模組 | 邏輯電源 |
+| GND | — | GND | 共地 | |
+
+### 2.1 XIAO ESP32-C5 引腳（查 Seeed 官方 KiCad 原理圖 V1.1 確認）
+
+| 腳 | GPIO | 預設功能 | 可用性 | 注意 |
+|---|---|---|---|---|
+| D0 | GPIO1 | ADC1_CH0 | 可用 | 唯一 ADC 腳（另有 D11/A5 在背面焊盤） |
+| D1 | GPIO0 | 一般 IO | 可用 | |
+| D2 | GPIO25 | — | 可用（避用） | **strapping 腳**，開機電平影響模式 |
+| D3 | GPIO7 | SDIO_DATA1 | 可用（避用） | **strapping 腳** |
+| D4 | GPIO23 | SDA | **本方案用** | I²C，模組內建上拉 |
+| D5 | GPIO24 | SCL | **本方案用** | I²C |
+| D6 | GPIO11 | UART0 TX | **保留** | ROM boot log 會驅動，勿接 push-pull 輸入 |
+| D7 | GPIO12 | UART0 RX | **保留** | 救援 console |
+| D8 | GPIO8 | SDIO_DATA0 / SCK | **本方案用（INT）** | |
+| D9 | GPIO9 | SDIO_CLK / MISO | 可用 | |
+| D10 | GPIO10 | SDIO_CMD / MOSI | 可用 | |
+
+USB D+/D− 是 GPIO13/14（在 USB-C 內部，不出現在排針）；JTAG 在背面焊盤。
+11 條排針 GPIO 全部列出，本方案只用 3 條，剩 8 條。
 
 PCA9685 地址 0x40（可跳線改），TCA9555 地址 0x20–0x27。
 
@@ -188,9 +207,9 @@ S31 → 節點（type | 0x80）：
 
 ## 9. 未決
 
-| # | 問題 | 誰 | 影響 |
+| # | 問題 | 狀態 | 影響 |
 |---|---|---|---|
-| N1 | S31 的 USB Host CDC-ACM 驅動要用 `espressif/usb_host_cdc_acm` 還是自寫 | Codex | 開工前要釘死 |
-| N2 | XIAO C5 的 D4/D5 實際 GPIO 編號 | Codex（對 Seeed 官方 pinout） | 韌體常數 |
-| N3 | 蓋子行程與舵機安裝位置 | 隊員 | 延遲與機構 |
-| N4 | 是否保留 ESP-NOW 分支 | 隊員 | 韌體多一個 config flag |
+| N1 | S31 側 USB Host CDC-ACM 驅動 | **已定：用 Espressif 官方 `espressif/usb_host_cdc_acm` 元件**，不自寫 | 開工即可，不需自研驅動 |
+| N2 | XIAO C5 的 D4/D5 實際 GPIO 編號 | **已查證**：D4 = GPIO23（SDA）、D5 = GPIO24（SCL）；INT 由 D6 改為 **D8 = GPIO8**（D6 是 UART0 TX，留作 boot log） | 韌體常數見 §2.1 |
+| N3 | 蓋子行程與舵機安裝位置 | 待隊員 | 延遲與機構 |
+| N4 | 是否保留 ESP-NOW 分支 | 待隊員 | 韌體多一個 config flag |
