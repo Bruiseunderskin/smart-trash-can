@@ -52,6 +52,33 @@ v2（VL53L0X）保留作對照；`contracts/stc_bin.h` **不需要改**（介面
 | 改地址靠咩？ | 寫 register **0x212 `I2C_SLAVE__DEVICE_ADDRESS`**（7-bit，預設 0x29） | datasheet §6.2.55 |
 | 改完會保留嗎？ | **唔會**。Pololu 明文：「new address only applies until the sensor is reset or powered off」；斷電／reset 後回到 0x29 | Pololu 文件、datasheet 預設值 |
 
+**datasheet §6.2.55 原文**：
+
+```
+I2C_SLAVE__DEVICE_ADDRESS   Address: 0x212   Type: R/W   Reset: 0x29
+super_i2c_slave__device_address: User programmable I2C address (7-bit).
+Device address can be re-designated after power-up.
+```
+
+即係「可以改」是官方明文，而且 `Reset: 0x29` 說明每次 reset 都回到 0x29 —— 這正好是逐粒隔離上電可行的原因。
+
+**datasheet §2.3 原文**：
+
+```
+Hardware standby is the reset state (GPIO0=0). The device is held in reset
+until GPIO0 is de-asserted. Note that the device will not respond to I2C
+communication in this mode.
+```
+
+**實際程式佐證**（Pololu `vl6180x-arduino`）：
+
+```cpp
+void VL6180X::setAddress(uint8_t new_addr) {
+  writeReg(I2C_SLAVE__DEVICE_ADDRESS, new_addr & 0x7F);
+  if (last_status == 0) { address = new_addr; }
+}
+```
+
 所以四粒共用一條 I²C 匯流排時，**SHDN 同寫 0x212 兩者缺一不可**：SHDN 負責「隔離」，0x212 負責「分配」。單純拉 SHDN 唔會令四粒有唔同地址——佢哋上電後全部仍然係 0x29，直接衝突。
 
 ### 1.2 定案：四條 SHDN 獨立 GPIO ＋ 寫 0x212 分配地址（不用 mux）
@@ -69,19 +96,44 @@ v2（VL53L0X）保留作對照；`contracts/stc_bin.h` **不需要改**（介面
 
 四粒共用 SDA=8 / SCL=9；每條 SHDN 加 **10 kΩ 下拉到 GND**（確保上電初期為低，唔會被浮空拉高而提前 boot）。
 
-#### 開機分配序列（每一步都要讀回驗證）
+#### 開機分配序列（依 datasheet 原文，每一步都要讀回驗證）
+
+ST datasheet 建議的上電程序（§2.4）：
+
+```
+• Set GPIO0 to 0        （保持硬件 standby）
+• Set GPIO0 to 1        （放開，開始 MCU boot）
+• Wait ≥ 400 µs
+• 呼叫 WaitDeviceBooted()，或直接等 1 ms
+```
+
+⚠️ datasheet 警告：`WaitDeviceBooted()` **只可以在剛 reset 之後呼叫**，否則會 infinite loop。所以每一粒都必須「先拉低 SHDN → 再放開 → 才呼叫」，不可以對已運行的器件呼叫。
+
+完整序列：
 
 ```
 1. 四條 SHDN 全拉低，等 2 ms
 2. for i in 0..3:
-     a. 放開 SHDN#i，等 boot（datasheet Table 4，實測 1–2 ms）
-     b. 寫 0x212 = 0x2A + i
-     c. **讀回 0x212 驗證**；不符 → 拉低 SHDN#i，重試（最多 3 次）
-     d. 在 (0x2A+i) 上跑完整 init（private registers ＋ SPAD ＋ offset calibration）
-3. 四粒全部 init 完成後，各讀一次距離，確認四粒都有回應
+     a. 放開 SHDN#i
+     b. 等 ≥400 µs，再等 1 ms（或 WaitDeviceBooted）
+     c. 寫 0x212 = 0x2A + i
+     d. **讀回 0x212 驗證**；不符 → 拉低 SHDN#i 重試（最多 3 次）
+     e. 在新地址上跑 init：先檢查 SYSTEM__FRESH_OUT_OF_RESET == 1，
+        再寫入 AN4545 的 mandatory private registers，然後 SPAD / offset 校正
+3. 四粒完成後各讀一次距離，確認都有回應
 ```
 
-**為甚麼一定要讀回**：地址寫入無 ACK 錯誤時也會「看似成功」，但實際未生效；只靠 write 會得到「有時得有時唔得」。
+**為甚麼 e 步不能省**：Pololu 的 `init()` 也是先讀 `SYSTEM__FRESH_OUT_OF_RESET`，等於 1 才寫 private registers。漏了這步，量測會回 0 或亂數。
+
+#### GPIO0 上電電平的硬件檢查（重要）
+
+datasheet 註腳提到 GPIO0／GPIO1／SCL／SDA 會被上拉到 AVDD（2.8 V）。若 MCU 的 GPIO 在上電初期是浮空輸入，感測器可能**在 MCU 拉低之前就 boot**，四粒同時出現在 0x29。
+
+所以 10 kΩ 下拉必須真的壓得住：
+
+- 上電前用萬用表量 GPIO0：必須 **< 0.4 V**（VL6180X 的 low 門檻約 0.3×AVDD）
+- 壓不住就改 **4.7 kΩ**，或選一個 reset 後預設為低的 GPIO
+- 另外在 MCU 的初始化**最前面**就把四條腳設為輸出低，之後才做任何 I²C 動作
 
 #### 身份重認（sensor 重啟後）
 
