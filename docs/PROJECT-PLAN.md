@@ -186,7 +186,7 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 | D1 | 語音走 **B1（自建 HTTP）＋ B2（小智原生）分工**，遊戲流程只用本地台詞 | B1 可控可量測；B2 保留真人語音問答 | 11-04 |
 | D2 | **小智在閘後**：GAME 模式零連線、CHAT 才開 | AFE 爭 CPU、server 會叫相機（實測 9.15 s）、喇叭自我觸發 | 11-04 |
 | D3 | **不新增 `kDeviceState`**，用時序互斥 | `kDeviceState` 在 main/ 出現 160 處，改動與 rebase 成本遠高於收益 | 11-04 |
-| D4 | 文字注入（#23／#24）**降級為技術驗證**，不作遊戲依賴 | `WakeWordInvoke` 只在 Idle/Notifying 生效，Speaking 丟字、Listening 關通道 | 11-04 |
+| D4 | 文字注入（#23／#24）**降級為技術驗證**，不作遊戲依賴 | `WakeWordInvoke` 只在 Idle/Notifying 生效（Speaking 丟字、Listening 關通道）；且官方 server **拒絕超過約 16 個 Unicode 字符**的 `listen/detect.text`（「Detect is only for wake words」），30 條樣本僅 15 條成功 | 11-04 |
 | D5 | ToF 用 **TOF050C（VL6180X）＋ TCA9548A**，不用 SHDN 改址 | mux 省 150–200 行程式與 4 條 GPIO；SHDN 方案存 git 後備 | 11-04 |
 | D6 | 相機 `GetCamera()` 回 `nullptr`（不向 MCP 註冊） | 避免雲端 LLM 觸發 `take_photo`，延遲主因 | 11-04 |
 | D7 | 模型輸入 **160×160、中心裁切、不用 letterbox** | 與 PPA 管線一致，訓練/推論同構 | 11-04 |
@@ -218,7 +218,9 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 | 現場影像 per-image 表（17 張） | 待模型跑 | PR #14 |
 | ToF 偵測漏檢率 / 誤檢率 | 待 P0 | `docs/g1-results.csv` |
 | 端到端延遲 p95 | 待 P5 | `timings.csv` |
-| 語音 TTFB（模式 S／Q） | 待 P1 | `VALIDATION.md` |
+| 語音 TTFB（模式 S／Q） | 已有（僅成功樣本，n=9／6） | `esp32-s31-korvo-1-stc/VALIDATION.md` |
+| 官方 server 文字長度上限（約 16 字符） | 已有 | issue #24 留言 |
+| 文字注入成功率（15/30） | 已有 | issue #24 留言 |
 
 ---
 
@@ -228,7 +230,7 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 |---|---|---|
 | U1 | 蓋全開是否落於 ToF FoV | G1（11/06） |
 | U2 | 15 s 監聽窗是否夠小朋友 | 實測投放時間分佈 |
-| U3 | 評審自由問答用 B1 文字還是 B2 語音 | 11/08（看 B1 是否接通） |
+| U3 | 評審自由問答用 B1 文字還是 B2 語音 | 已由實測決定：**B2 原生語音**（文字上限 16 字符，不可用於長句）；B1 保留作長句／嚴格照讀的後備 | 11-04 |
 | U4 | 每局 5 回合是否改 3 回合（時間控制） | 11/10 |
 
 ---

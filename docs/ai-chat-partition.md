@@ -113,7 +113,7 @@ typedef struct {
 |---|---|---|---|---|---|
 | **B0** | **本地 FAQ ＋ 關鍵詞**（無 LLM） | 無網、無憑證 | 一定通、零延遲、斷網照跑 | 只答預設問題 | **必做**（保底就是它） |
 | B1 | 自建 HTTP streaming：ASR → LLM → TTS | 一個 API key ＋ 一張可靠 SIM/Wi-Fi | 可控、可換模型、粵語 ASR 可選 | 要自己寫 streaming 與斷線處理 | 有時間才做 |
-| B2 | 小智 WebSocket（repo 已有） | 小智帳號或自架 server | 現成、Opus 省頻寬 | 綁定它的協議與服務 | 想快就用 |
+| B2 | 小智 WebSocket／MQTT（repo 已有；**實機為 MQTT**） | 小智帳號或自架 server | 現成、Opus 省頻寬 | 綁定它的協議與服務 | 想快就用 |
 
 判斷依據（不要憑感覺選）：
 
