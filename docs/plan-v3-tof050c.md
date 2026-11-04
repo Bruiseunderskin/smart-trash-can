@@ -221,3 +221,60 @@ baseline = 最近 10 個樣本中位數（每 2 s 更新，避開事件窗）
 | 10 kΩ 電阻 | 4 | — | ~¥1 |
 | 排線／插座 | 4 組 | — | ~¥10 |
 | **合計** | | | **≈ ¥43（HK$47）** |
+
+---
+
+## 9. Codex 實作範圍（TOF bring-up ＋ G1 量測工具）
+
+硬件事定：**4 × TOF050C（VL6180X）→ TCA9548A（0x70）CH0–CH3 → S3 DevKitC-1**。四粒全部 0x29。
+
+### 9.1 第一階段：開機與讀數（不需要桶，不需要幾何）
+
+1. `mux_select(ch)`：`i2c_master_transmit(0x70, &(1<<ch), 1)`，之後 **≥100 µs** 才讀
+2. 每粒 init：
+   - 讀 `SYSTEM__FRESH_OUT_OF_RESET`，等於 1 才寫 AN4545 mandatory private registers
+   - `PerformRefSpadManagement()`
+   - `PerformOffsetSimpleCalibration(50)`（50 mm 白卡）
+   - 有保護窗才做 `PerformXTalkCalibration(100)`
+   - 校正值寫 NVS（key: `tof_ch<n>_offset`、`tof_ch<n>_xtalk`）
+3. 連續量測：`INTERMEASUREMENT_PERIOD = 20 ms`；四通道輪詢一輪 ≈ 80–90 ms
+4. **序列埠命令**（dev 用）：
+   - `tof info` — 四粒 ID、校正值、fault mask
+   - `tof stream on|off` — 20 Hz 印 `ch,dist_mm,status`
+   - `tof cal <ch> <mm>` — 用已知距離重做 offset
+   - `tof selftest` — `stc_bin_selftest()`
+
+### 9.2 第二階段：G1 量測（人手做，Codex 只提供工具）
+
+用 `tof stream` 邊移動感測器邊看數字，記錄：
+
+| 情境 | 要記錄 |
+|---|---|
+| 四種材質落卡（啞面／全黑／鏡面／皺紙） | 距離波形、是否漏檢 |
+| 蓋全開 | 四粒讀數是否「恆定 <100 mm」 |
+| 手伸入再離開 | 是否產生假事件 |
+| 相鄰桶同時干擾 | 兩粒讀數是否同步跳動 |
+
+輸出：`docs/g1-results.csv`（時間、ch、距離、備註）＋ 一段波形圖（可用 `tof stream` 原始輸出畫）。
+
+### 9.3 驗收（bring-up）
+
+| # | 項目 | 標準 |
+|---|---|---|
+| H1 | 四粒全部辨識 | `tof info` 顯示 CH0–CH3 都有回應，fault mask = 0 |
+| H2 | 穩定性 | 固定目標 100 mm，30 s 內 σ ≤ 5 mm |
+| H3 | 取樣率 | `tof stream` 每通道 ≥ 10 Hz（四通道合計 ≥ 40 Hz） |
+| H4 | 長跑 | 10 分鐘連續讀取 0 次 I²C 錯誤、0 次 NaN |
+| H5 | 熱插拔 | 拔掉一粒 → fault mask 對應 bit 置 1，其餘三粒照常；插回並 `tof selftest` 可恢復 |
+| H6 | 校正持久 | 重開機後 NVS 校正值仍在，100 mm 目標讀數偏差 < 3 mm |
+
+### 9.4 明確不做
+
+- 不改 `contracts/stc_bin.h` 的簽名（v1.2.0 已定）
+- 不實作 ESP-NOW 傳輸（S3 → S31 的手部通訊留待下一階段；本階段用序列埠讀數）
+- 不動舵機（`open_all`／`close_all` 可先回 `STC_ERR_UNSUPPORTED`）
+- 不改官方板、`application.cc`、`protocols/*`
+
+### 9.5 與 issue #25 的關係
+
+issue #25 的 `stc_bin` **保持 stub**；本階段完成後，把 stub 換成真實作即可，`stc_game` 不需要改動。
