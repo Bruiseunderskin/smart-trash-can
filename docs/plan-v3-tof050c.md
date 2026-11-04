@@ -79,94 +79,62 @@ void VL6180X::setAddress(uint8_t new_addr) {
 }
 ```
 
-所以四粒共用一條 I²C 匯流排時，**SHDN 同寫 0x212 兩者缺一不可**：SHDN 負責「隔離」，0x212 負責「分配」。單純拉 SHDN 唔會令四粒有唔同地址——佢哋上電後全部仍然係 0x29，直接衝突。
+所以四粒共用一條 I²C 匯流排時，**SHDN 同寫 0x212 兩者缺一不可**（但用 TCA9548A 就兩者都不需要，見 §1.2）：SHDN 負責「隔離」，0x212 負責「分配」。單純拉 SHDN 唔會令四粒有唔同地址——佢哋上電後全部仍然係 0x29，直接衝突。
 
-### 1.2 定案：四條 SHDN 獨立 GPIO ＋ 寫 0x212 分配地址（不用 mux）
+### 1.2 選型定案：TCA9548A（主）／4×SHDN 改址（後備）
 
-你提的做法正確，而且比 TCA9548A 更省（少一粒零件、少一個 I²C 地址）。以下是必須一併做到的三件事，缺一件就會出隨機故障。
+兩條路線都可行（SHDN 改址已用 datasheet §6.2.55、§2.3 同 Pololu 實作核實）。比較實際工作量之後，**TCA9548A 明顯簡單**，因為省掉的不是接線，而是 firmware 裡一整類時序與狀態問題。
+
+#### 工作量對比（不是形容詞，是行數）
+
+| | TCA9548A | 4×SHDN ＋ 改址 |
+|---|---|---|
+| 新增程式 | 一個 `mux_select(ch)`（約 15 行）＋ 每次讀寫前呼叫 | 地址分配狀態機、boot 時序、讀回驗證、重試、身份重認、健康檢查（約 150–200 行） |
+| 開機序列 | 無（四粒全部留在 0x29） | 逐粒「拉低→放開→等 400 µs→等 1 ms→寫 0x212→讀回→init」 |
+| 主要故障模式 | mux 本身壞（單點） | 兩粒同時 boot 撞 0x29、地址寫入未生效、sensor 重啟後身份不明 |
+| 調試難度 | 低：切 channel 就見到對應那粒 | 高：症狀是「有時得有時唔得」 |
+| GPIO | 0（SDA/SCL 共用）＋ 4 條 SHDN 可省 | 4 條 |
+| 額外成本 | ¥5、一個 I²C 地址（0x70） | 0 |
+| 彈性 | 可同時開多個 channel（本專案用不到） | 需要時可以逐粒 power-cycle |
+
+**結論：用 TCA9548A。** 省 4 條 GPIO、省 150–200 行程式、省一類「隨機失敗」的調試時間，代價 ¥5。
 
 #### 接線
 
-| 感測器 | SHDN GPIO（DevKitC-1） | I²C 地址 |
-|---|---|---|
-| TOF#0 | 10 | 0x2A |
-| TOF#1 | 11 | 0x2B |
-| TOF#2 | 12 | 0x2C |
-| TOF#3 | 13 | 0x2D |
-
-四粒共用 SDA=8 / SCL=9；每條 SHDN 加 **10 kΩ 下拉到 GND**（確保上電初期為低，唔會被浮空拉高而提前 boot）。
-
-#### 開機分配序列（依 datasheet 原文，每一步都要讀回驗證）
-
-ST datasheet 建議的上電程序（§2.4）：
-
 ```
-• Set GPIO0 to 0        （保持硬件 standby）
-• Set GPIO0 to 1        （放開，開始 MCU boot）
-• Wait ≥ 400 µs
-• 呼叫 WaitDeviceBooted()，或直接等 1 ms
+S3 ── I²C（SDA 8 / SCL 9, 400 kHz）── TCA9548A（0x70）
+                                        ├─ CH0 → TOF#0（0x29）
+                                        ├─ CH1 → TOF#1（0x29）
+                                        ├─ CH2 → TOF#2（0x29）
+                                        └─ CH3 → TOF#3（0x29）
+四粒 SHDN 全部接 AVDD（不用；模組上若已接則保持高）
 ```
 
-⚠️ datasheet 警告：`WaitDeviceBooted()` **只可以在剛 reset 之後呼叫**，否則會 infinite loop。所以每一粒都必須「先拉低 SHDN → 再放開 → 才呼叫」，不可以對已運行的器件呼叫。
+#### 程式骨架
 
-完整序列：
+```c
+static i2c_master_dev_handle_t mux;   /* 0x70 */
 
-```
-1. 四條 SHDN 全拉低，等 2 ms
-2. for i in 0..3:
-     a. 放開 SHDN#i
-     b. 等 ≥400 µs，再等 1 ms（或 WaitDeviceBooted）
-     c. 寫 0x212 = 0x2A + i
-     d. **讀回 0x212 驗證**；不符 → 拉低 SHDN#i 重試（最多 3 次）
-     e. 在新地址上跑 init：先檢查 SYSTEM__FRESH_OUT_OF_RESET == 1，
-        再寫入 AN4545 的 mandatory private registers，然後 SPAD / offset 校正
-3. 四粒完成後各讀一次距離，確認都有回應
-```
+static esp_err_t mux_select(uint8_t ch) {
+    uint8_t mask = (uint8_t)(1u << ch);      /* 一次只開一個 channel */
+    return i2c_master_transmit(mux, &mask, 1, 100);
+}
 
-**為甚麼 e 步不能省**：Pololu 的 `init()` 也是先讀 `SYSTEM__FRESH_OUT_OF_RESET`，等於 1 才寫 private registers。漏了這步，量測會回 0 或亂數。
-
-#### GPIO0 上電電平的硬件檢查（重要）
-
-datasheet 註腳提到 GPIO0／GPIO1／SCL／SDA 會被上拉到 AVDD（2.8 V）。若 MCU 的 GPIO 在上電初期是浮空輸入，感測器可能**在 MCU 拉低之前就 boot**，四粒同時出現在 0x29。
-
-所以 10 kΩ 下拉必須真的壓得住：
-
-- 上電前用萬用表量 GPIO0：必須 **< 0.4 V**（VL6180X 的 low 門檻約 0.3×AVDD）
-- 壓不住就改 **4.7 kΩ**，或選一個 reset 後預設為低的 GPIO
-- 另外在 MCU 的初始化**最前面**就把四條腳設為輸出低，之後才做任何 I²C 動作
-
-#### 身份重認（sensor 重啟後）
-
-任何一粒斷電／brown-out 重啟，會**靜靜回到 0x29**，此時它的物理位置未知。處理程序：
-
-```
-for i in 0..3:
-    只放開 SHDN#i（其餘拉低）
-    探測 0x29：有回應 → 這粒就是 bin i → 重跑 0x212 分配與 init
+esp_err_t tof_read_mm(uint8_t ch, uint16_t *out_mm) {
+    ESP_RETURN_ON_ERROR(mux_select(ch), TAG, "mux");
+    return vl6180x_read_range(TOF_ADDR_DEFAULT, out_mm);   /* 永遠 0x29 */
+}
 ```
 
-因為四條 SHDN 是獨立的，**永遠可以逐粒確認身份**；這是這條路線相對 mux 的真正優點。
+#### 必須留意的三點
 
-#### 定期健康檢查
+1. **上電後 mux 預設無 channel 開啟**——四粒天然被隔離，不會撞地址；這是它最大的優點
+2. **每次切 channel 後加 ≥100 µs 穩定時間**（便宜 mux 板有寄生電容），再讀距離
+3. **`FRESH_OUT_OF_RESET` 仍然要檢查**：mux 只解決地址，不解決初始化
 
-每 5 s 探測 0x2A–0x2D：
+#### 後備方案（保留，不施工）
 
-- 全部在 → 正常
-- 有一粒失蹤 → 對該 index 跑「身份重認」
-- 連續 3 次失敗 → 該桶標 `SENSOR_FAULT`，遊戲照跑但該桶投進去只計 0，並在結算頁顯示
-
-#### 對照：為何不選 TCA9548A
-
-| | 4 × SHDN GPIO（採用） | TCA9548A mux |
-|---|---|---|
-| 額外零件 | 0 | ¥5 |
-| GPIO | 4 | 0（+1 reset 可選） |
-| 上電後地址 | 須重跑分配 | 全部留在 0x29 |
-| 單粒重啟 | 回 0x29，需重認 | 不受影響 |
-| 身份辨識 | 靠 SHDN 逐粒確認 | 靠 channel |
-| 程式複雜度 | 分配序列＋讀回＋健康檢查 | 每次讀寫切 channel |
-
-兩者都可行。選 4 × SHDN 的理由是**省零件、且身份辨識能力相同**；代價是要寫好上面三段程序。若日後出現難以解釋的匯流排衝突，再換 mux 也只是改接線與一個 byte 的 channel 選擇，程式改動很小。
+若日後買不到 mux 或想省 ¥5，改回 4×SHDN 改址：接線與序列寫在 `docs/plan-v3-tof050c.md` 的 git 歷史（2026-11-04 20:45 版本），有完整開機序列、讀回驗證與身份重認程序。
 
 ## 2. 初始化與校正（每粒都要做）
 
