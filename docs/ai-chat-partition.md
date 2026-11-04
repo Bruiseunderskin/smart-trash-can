@@ -123,6 +123,77 @@ typedef struct {
 
 憑證：B1／B2 的 key 一律用 `hermes-vault add` 入 vault，裝置端只取一次性 provisioning token 存 NVS；repo 內只准空值。**任何 key 都不要貼在對話或 commit 裡。**
 
+
+### 4.5 B1 定案：自建 HTTP streaming（裝置 → 自家 server → 雲端 ASR/LLM/TTS）
+
+**架構原則：裝置永遠只信任自家 server，上游供應商的 key 只存在 server 上。**
+
+```
+Korvo-1 ──HTTPS/multipart──▶ 場地 laptop (FastAPI)
+   ▲                              │  ├─ ASR（粵語）
+   └──chunked PCM 16k─────────────┤  ├─ LLM（OpenAI 相容）
+                                  │  └─ TTS（粵語）
+                                  └── 日誌／錄音（報告用）
+```
+
+放在場地 laptop 而唔係直接由 ESP32 連雲端，三個理由：
+1. TLS 與 keep-alive 只做一次，ESP32 端唔需要處理憑證輪替與重連
+2. 上游換 vendor 唔需要重燒 firmware
+3. 每次問答的延遲、音檔、辨識文字都可以落 log —— 報告要的數字就是這樣來的
+
+#### 協議 v1（刻意選「錄完再送」，不做全雙工）
+
+1. 裝置端 VAD（能量＋ESP-SR VAD）偵測開始／結束；最長 5 s，靜音 600 ms 收尾
+2. `POST /ask`，`multipart/form-data`：
+   - `meta`：`{"device":"stc-01","round":3,"lang":"yue","max_ms":8000}`
+   - `audio`：PCM 16 kHz / 16-bit / mono（raw，無 WAV header）
+3. server 回應：`Content-Type: application/octet-stream`，chunked，**先送 1 行 JSON header** 再送 PCM：
+   ```
+   {"text":"...","reply":"...","sr":16000,"fmt":"s16le","ms":1850}\n
+   <PCM bytes...>
+   ```
+4. 裝置邊收邊寫 I2S（8 KB ring buffer），收到 EOF 即完成
+5. 任一階段超時（ASR 3 s／LLM 5 s／TTS 3 s）→ server 回 `X-Fallback: 1` 並改送 B0 的預錄答案
+
+#### 為甚麼唔做全雙工串流
+
+- 全雙工要同時處理上傳、播放、AEC，還要 server 端做 VAD 與打斷，工程量約 3 倍
+- 一局只有 5 次計分事件，對話不在流程內，1.5–2.5 s 首字延遲完全可接受
+- 先做「錄完再送」，通了再看要不要升級；協議不變（同一個 `/ask`）
+
+#### 延遲預算（目標，需實測）
+
+| 階段 | 目標 |
+|---|---|
+| VAD 收尾 | 600 ms |
+| 上傳 5 s PCM（160 KB）於 LAN | 100–200 ms |
+| ASR | 400–800 ms |
+| LLM 首 token | 300–800 ms |
+| TTS 首 chunk | 300–600 ms |
+| **合計首字** | **1.5–2.5 s** |
+
+#### 粵語與小朋友語音的硬性要求
+
+- ASR 必須明確支援 `yue-HK`（唔好靠「中文」模型硬食）
+- 驗收：**20 條小朋友風格語音**（含背景噪音），字錯率 WER ≤ 20% 才可上場；超過就每題改用 B0
+- TTS 用粵語 voice；短句由 server 生成後**快取成音檔**，同一句第二次直接回檔案（省時省錢）
+
+#### 憑證
+
+- 上游 key 只存在 server 的環境變數／vault，**永不落到裝置**
+- 裝置只有一個 `device_token`（配網時寫入 NVS），用作呼叫自家 server 的憑證
+- repo 內只准出現變數名（`ASR_KEY`、`LLM_KEY`、`TTS_KEY`）與 `.env.example` 空值
+
+#### 分段實作
+
+| Part | 內容 | 驗收 |
+|---|---|---|
+| B1-a | server 骨架 ＋ `/ask` 回固定 WAV（無 ASR/LLM） | 裝置收到並播出聲音 |
+| B1-b | 接 ASR，回 echo 文字 ＋ 固定回覆 | 20 條語音 WER 報告 |
+| B1-c | 接 LLM（分類領域 system prompt，限制在垃圾分類話題） | 20 條問答，離題率 <10% |
+| B1-d | 接 TTS streaming ＋ 短句快取 | 首字 ≤2.5 s（p95） |
+| B1-e | 超時／斷線 → 自動回落 B0 | 拔網線測試：3 s 內改用 B0 |
+
 ---
 
 ## 5. 憑證與配網（不可寫入 repo）
@@ -167,6 +238,6 @@ typedef struct {
 | # | 問題 | 決定點 |
 |---|---|---|
 | A1 | V2 是否需要（有 PLAY 鍵是否夠） | 11/06，看 P2 進度 |
-| A2 | V3 用 B0／B1／B2 哪個 | **B0 必做**（本地 FAQ，無網）；B1／B2 於 11/06 看進度決定，唔好反過來 |
+| A2 | V3 backend | **已定：B1**（自建 HTTP streaming，見 §4.5）；B0 仍為保底與 fallback，兩者一齊做 |
 | A3 | 粵語短句由誰錄（真人 vs TTS 生成） | 11/05，影響 P1 |
 | A4 | 對話內容範圍（只答垃圾分類，還是自由聊天） | 11/06，影響 prompt 與評審觀感 |
