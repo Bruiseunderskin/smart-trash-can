@@ -194,6 +194,19 @@ Korvo-1 ──HTTPS/multipart──▶ 場地 laptop (FastAPI)
 | B1-d | 接 TTS streaming ＋ 短句快取 | 首字 ≤2.5 s（p95） |
 | B1-e | 超時／斷線 → 自動回落 B0 | 拔網線測試：3 s 內改用 B0 |
 
+
+### 4.6 B2（小智）的文字輸入：已開 issue #23 給 Codex 試
+
+問題：小智協議**冇「使用者文字」訊息**，只有 `listen/start|stop|detect`、`abort`、`mcp`。唯一有機會零改動的路，是把 `listen/detect` 的 `text` 當成使用者輸入（現時它用來送喚醒詞）。
+
+已委派的三級驗證（見 issue #23）：
+
+1. **P1**：直接用現成 `Application::WakeWordInvoke("呢張卡係咩垃圾")`——零上游改動
+2. **P2**：在新板目錄加 `Protocol` 子類，試三種 payload 變體
+3. **P3**：若都失敗，唔改上游，直接走 B1
+
+硬限制：**新建板變體 `esp32-s31-korvo-1-stc/`，唔改官方板**；上游改動只准一條 Kconfig entry，並記入 `docs/upstream-patches.md`。
+
 ---
 
 ## 5. 憑證與配網（不可寫入 repo）
