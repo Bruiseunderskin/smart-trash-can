@@ -1,0 +1,27 @@
+{
+  "contract_version": "1.0.0",
+  "input": {
+    "height": 160,
+    "width": 160,
+    "layout": "NHWC",
+    "color": "RGB",
+    "dtype": "uint8",
+    "value_range": [0, 255]
+  },
+  "source": {
+    "camera": "SC101IOT",
+    "raw_format": "YUV422_UYVY",
+    "raw_size": [640, 480],
+    "conversion": "PPA_SRM_YUV422_TO_RGB",
+    "color_matrix": "BT.601"
+  },
+  "pipeline": ["center_crop_square", "bilinear_resize", "rgb_uint8"],
+  "normalization": "in_graph",
+  "output": {
+    "shape": [1, 4],
+    "activation": "softmax",
+    "index_map": "classes.json"
+  },
+  "abstain_threshold": 0.55,
+  "class_order_frozen": true
+}
