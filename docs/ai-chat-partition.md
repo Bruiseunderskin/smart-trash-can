@@ -350,3 +350,57 @@ stc_chat_speak_text("請放入廚餘桶")
 ### 8.4 憑證
 
 DeepSeek／Azure 等 key 用 `hermes-vault add` 存入 vault，部署時注入 server 環境變數；裝置端只持有 `DEVICE_TOKEN`。repo 內只准 `.env.example` 的空值。
+
+---
+
+## 9. 模式切換：只在需要對話時才「放小智出嚟」
+
+### 9.1 結論
+
+**可以，而且應該這樣做。** 不是把整條語音棧拆掉，而是把它「關在閘後面」：
+
+| 模式 | 開著甚麼 | 關掉甚麼 |
+|---|---|---|
+| **GAME（預設）** | codec／I2S 播放、本機模型、預生成台詞、舵機與 ToF | 雲端通道（WebSocket）、WakeNet 喚醒、AEC、麥克風上行 |
+| **CHAT** | 上述 ＋ 喚醒詞／文字送 server、TTS 回播 | 暫停遊戲回合（不接受 PLAY、不開蓋） |
+
+切換由一個**實體鍵**控制（建議長按 SET，Codex 已接好），不靠喚醒詞——遊戲音效會誤觸發。
+
+### 9.2 為甚麼要關而不是一直開
+
+1. **CPU 讓給推理**：AFE（AEC＋NS＋WakeNet）一直跑會與視覺模型爭核心，直接反映在 p95
+2. **避免 server 自己叫相機**（issue #24 的 9.15 s 就是這樣來的）——通道沒開，它沒機會
+3. **避免誤觸發**：喇叭播「請放入廚餘桶」時，麥克風會收到自己的聲音
+4. **省雲端費用**：只在評審互動時產生 token 成本
+
+### 9.3 實作方式（全部現成 API，不需要補丁）
+
+```cpp
+// 入 GAME 模式
+audio_service_.EnableWakeWordDetection(false);   // 停喚醒
+if (protocol_ && protocol_->IsAudioChannelOpened()) {
+    protocol_->CloseAudioChannel();              // 斷雲端通道
+}
+SetDeviceState(kDeviceStateIdle);
+
+// 入 CHAT 模式（按鍵觸發）
+audio_service_.EnableWakeWordDetection(true);    // 或直接 SendUserText(固定問題)
+```
+
+**不要**在中途 `Deinit` 整個 AudioService／AFE：初始化成本高、狀態易殘留。**只停偵測、只關通道**就夠，RAM 佔用不變但 CPU 與網絡歸零。
+
+### 9.4 安全閥
+
+- CHAT 模式 **60 s 無互動自動回 GAME**（寫進狀態機，不靠人手按）
+- CHAT 模式中 LCD 明確顯示當前模式，避免評審追問時誤會「壞了」
+- GAME 模式下任何雲端錯誤不得阻塞回合：語音播報失敗 → 靜音繼續，分數照計
+
+### 9.5 量測要求
+
+| 指標 | GAME 模式 | CHAT 模式 |
+|---|---|---|
+| 推理 p95 | 目標值（見 plan-v2 §9） | 允許上升，但不得超過 2 倍 |
+| 空閒電流 | 應低於 CHAT 模式 | — |
+| 誤觸發／分鐘 | **0** | 允許 |
+
+三個數字都要實測，不可以只寫「應該會省電」。
