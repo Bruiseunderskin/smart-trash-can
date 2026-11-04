@@ -9,7 +9,7 @@ menu "Bring-up"
         config BRINGUP_TEST_T1
             bool "T1 — LCD 800x480 五色 + 線條"
         config BRINGUP_TEST_T2
-            bool "T2 — Camera OV3660 抓幀"
+            bool "T2 — Camera SC101IOT 抓幀"
         config BRINGUP_TEST_T3
             bool "T3 — Mic 錄 3 秒 + RMS + WAV"
         config BRINGUP_TEST_T4

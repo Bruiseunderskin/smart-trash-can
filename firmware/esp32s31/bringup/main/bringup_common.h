@@ -53,7 +53,7 @@ extern "C" {
 #define BRINGUP_LCD_DATA14 35
 #define BRINGUP_LCD_DATA15 36
 
-// ---------------- Camera（OV3660，DVP） ----------------
+// ---------------- Camera（SC101IOT，DVP） ----------------
 #define BRINGUP_CAM_XCLK 55
 #define BRINGUP_CAM_PCLK 54
 #define BRINGUP_CAM_VSYNC 56
