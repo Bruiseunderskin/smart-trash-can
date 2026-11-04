@@ -309,7 +309,6 @@ stc_chat_speak_text("請放入廚餘桶")
 - **遊戲流程（宣讀、答對答錯、類別說明）→ B1**，能快取就快取，斷網照跑
 - **評審互動（「你係咩垃圾？」用口問）→ B2 原生語音通路**，唔注入文字、唔改狀態機
 - **B2 文字注入（#23／#24）降級為技術驗證**：證明「伺服器接受任意文字」，寫進報告當研究發現，但**不作為遊戲依賴**
-
 ---
 
 ## 8. 自接 LLM：元件選型與可參考的開源項目（2026-11-04）
@@ -404,3 +403,35 @@ audio_service_.EnableWakeWordDetection(true);    // 或直接 SendUserText(固�
 | 誤觸發／分鐘 | **0** | 允許 |
 
 三個數字都要實測，不可以只寫「應該會省電」。
+
+### 9.6 要不要在 xiaozhi 的 state machine 加一個「game」state？
+
+**建議：唔加。改用「時序互斥」，效果一樣而成本低得多。**
+
+#### 為甚麼唔加
+
+- `kDeviceState` 在 `main/` 出現 **160 處**（`application.cc` 自己 85 處、`display/` 30 處），每一處 `switch` 都可能要處理新值，漏一處就係 UI 空白或行為錯亂
+- 要改的檔案至少四個：`device_state.h`、`device_state_machine.cc`（轉移表）、`application.cc`、`display/*`
+- 每次同步上游都要重貼一次，與「唔改官方板」的原則正面衝突
+- 換來的好處（GAME 期間唔可以被對話打斷）用 §9.5 的閘已經拿到九成
+
+#### 改用互斥規則（零上游改動）
+
+| 時刻 | 允許的行為 |
+|---|---|
+| 回合進行中（CAPTURE → CLOSE_ALL） | **禁止進入 CHAT**；長按 SET 無效，畫面提示「完咗先」 |
+| 結算畫面 | 允許進入 CHAT |
+| CHAT 模式中 | 遊戲暫停，唔收 PLAY、唔開蓋 |
+| CHAT 60 s 無互動 | 自動回 GAME（結算畫面） |
+
+即係你講的「玩完 game 先出返嚟」——**唔係兩個 state 並存，而係時間上唔重疊**。兩個模式永遠唔會同時活著，就唔會爭喇叭、唔會互相打斷。
+
+#### 何時才值得回頭加 state
+
+只有實測到以下任何一種症狀，才值得動上游：
+
+1. GAME 期間 xiaozhi 自己播聲（notification、MCP 播報、OTA 提示）
+2. GAME 期間仍被喚醒詞觸發（即使已 `EnableWakeWordDetection(false)`）
+3. GAME 期間 xiaozhi 自行進休眠／關螢幕，影響遊戲畫面
+
+三者都量測不到，就維持現案。若真要加，只加一個 state ＋ 三處 handler，並記入 `docs/upstream-patches.md`。
