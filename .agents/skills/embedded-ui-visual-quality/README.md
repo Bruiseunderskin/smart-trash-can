@@ -9,6 +9,9 @@ Load it when:
 - reviewing a screenshot before a demo or submission
 - deciding type sizes, spacing, colour, or motion for the panel
 
-The instructions themselves are in [`SKILL.md`](SKILL.md). The 12 concrete
-rules they enforce are written up in [`docs/ui-visual-quality.md`](../../../docs/ui-visual-quality.md),
-and the screen-by-screen plan in [`docs/ui-redesign-spec.md`](../../../docs/ui-redesign-spec.md).
+The instructions themselves are in `SKILL.md` (same directory).
+
+Related project documents:
+
+- `docs/ui-visual-quality.md` — the 12 concrete visual rules this skill enforces
+- `docs/ui-redesign-spec.md` — the screen-by-screen redesign plan
