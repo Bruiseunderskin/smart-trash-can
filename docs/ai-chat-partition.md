@@ -207,9 +207,7 @@ Korvo-1 ──HTTPS/multipart──▶ 場地 laptop (FastAPI)
 
 硬限制：**新建板變體 `esp32-s31-korvo-1-stc/`，唔改官方板**；上游改動只准一條 Kconfig entry，並記入 `docs/upstream-patches.md`。
 
----
 
-## 5. 憑證與配網（不可寫入 repo）
 
 - 小智雲端需要 API 憑證 → **用 VaultKnox 存放**，用 `hermes-vault add` 寫入，**不要貼在對話、不要 commit、不要寫進 sdkconfig 預設值**
 - 裝置端只存「配網後的 Wi-Fi 憑證」與「一次性 provisioning token」，存 NVS
@@ -254,3 +252,60 @@ Korvo-1 ──HTTPS/multipart──▶ 場地 laptop (FastAPI)
 | A2 | V3 backend | **已定：B1**（自建 HTTP streaming，見 §4.5）；B0 仍為保底與 fallback，兩者一齊做 |
 | A3 | 粵語短句由誰錄（真人 vs TTS 生成） | 11/05，影響 P1 |
 | A4 | 對話內容範圍（只答垃圾分類，還是自由聊天） | 11/06，影響 prompt 與評審觀感 |
+
+---
+
+## 7. B1 vs B2：結論（2026-11-04，基於 #23／#24 實測）
+
+### 7.1 一句話
+
+**文字驅動的對話用 B1；B2 只用來做「評審用真人語音問問題」這個它本來就擅長的場景。**
+唔好再用 `WakeWordInvoke` 逼小智做程式化的一問一答 —— 那條路每一步都在同它的狀態機對抗。
+
+### 7.2 實測到的 B2 成本（已花掉的時間）
+
+| 障礙 | 性質 | 處理成本 |
+|---|---|---|
+| 協議無「使用者文字」訊息，只有 `listen/detect` 帶 text | 靠 `text` 冒充使用者輸入 | 已通過，但屬未文檔化的行為 |
+| `WakeWordInvoke()` 只在 Idle／Notifying 才送文字；Speaking 丟字、Listening 關通道 | 狀態機設計 | 需新增 `Application::SendUserText()`（上游補丁） |
+| server 主動叫 `self.camera.take_photo`，每次多 2–7 s | 我們控制不到 | 需 `GetCamera()` 回 nullptr（板內可改） |
+| `CONFIG_SEND_WAKE_WORD_DATA` 一關，整條路徑靜默失效 | 隱性依賴 | 要寫進驗收 |
+| 連續對話要處理中止、殘留音頻、串線 | 狀態機 | 一個測試矩陣（4 狀態 × 3 次） |
+
+### 7.3 B1 的真實工作量（關鍵：**唔需要 ASR**）
+
+遊戲自己知道要講甚麼，所以 B1 只需 **文字 → TTS（必要時加 LLM）**，完全跳過 VAD、錄音、ASR、Opus：
+
+```
+stc_chat_speak_text("請放入廚餘桶")
+  → HTTP POST /ask (meta + 無 audio)
+  → server: cache hit → 回 PCM
+  → I2S 播放
+```
+
+| 工作 | 估時 |
+|---|---|
+| server 加 `POST /say`（純 TTS，帶快取） | 2 小時（骨架已有） |
+| 裝置端 `esp_http_client` ＋ 串流寫 I2S | 1 日 |
+| 台詞表 ＋ 預生成音檔（B0 快取） | 半日 |
+| 斷網 fallback（本地預錄音檔） | 半日 |
+
+**不需要**：ASR、VAD、Opus、對話狀態機、上游補丁、相機工具處理。
+
+### 7.4 對比
+
+| 項目 | B1（文字→TTS/LLM） | B2（小智） |
+|---|---|---|
+| 預期 TTFB | **0.2–1.0 s**（快取時 <0.2 s） | 1.5–3 s（關相機後，未實測） |
+| 需上游補丁 | 否 | **是**（`SendUserText`） |
+| 依賴未文檔化行為 | 否 | **是**（`detect.text` 被當成使用者輸入） |
+| 連續多句 | 自己控制，簡單 | 要對抗狀態機 |
+| 現場需要 | 一台 laptop／server | 小智帳號／雲端 |
+| 真人語音提問 | 需另外接 ASR | **本來就有** |
+| 對評分的貢獻 | 可控、可量測 | 不可控 |
+
+### 7.5 定案分工
+
+- **遊戲流程（宣讀、答對答錯、類別說明）→ B1**，能快取就快取，斷網照跑
+- **評審互動（「你係咩垃圾？」用口問）→ B2 原生語音通路**，唔注入文字、唔改狀態機
+- **B2 文字注入（#23／#24）降級為技術驗證**：證明「伺服器接受任意文字」，寫進報告當研究發現，但**不作為遊戲依賴**
