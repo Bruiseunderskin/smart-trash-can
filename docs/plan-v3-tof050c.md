@@ -40,6 +40,49 @@ v2（VL53L0X）保留作對照；`contracts/stc_bin.h` **不需要改**（介面
 
 **VL6180X 的關鍵差別**：SHDN 放開後**設定全部丟失**，每次上電／每次 SHDN 循環都要重寫量測設定（VL53L0X 亦有類似行為，但 VL6180X 更明顯）。初始化函式必須冪等、可重入。
 
+
+### 1.1 已核實：SHDN 只係開關機，改址係另一個動作
+
+查 ST 官方 datasheet（DocID026171 Rev 6／Rev 7）與 Pololu 文件，結論明確：
+
+| 問題 | 事實 | 出處 |
+|---|---|---|
+| SHDN 係咩？ | VL6180X 的 **GPIO0**，預設為 **active-low shutdown input**；拉低 = hardware standby（<1 µA），唔使用時要接 AVDD | datasheet §2.2 |
+| SHDN 會改地址嗎？ | **唔會**。SHDN 只控制開關機 | 同上 |
+| 改地址靠咩？ | 寫 register **0x212 `I2C_SLAVE__DEVICE_ADDRESS`**（7-bit，預設 0x29） | datasheet §6.2.55 |
+| 改完會保留嗎？ | **唔會**。Pololu 明文：「new address only applies until the sensor is reset or powered off」；斷電／reset 後回到 0x29 | Pololu 文件、datasheet 預設值 |
+
+所以四粒共用一條 I²C 匯流排時，**SHDN 同寫 0x212 兩者缺一不可**：SHDN 負責「隔離」，0x212 負責「分配」。單純拉 SHDN 唔會令四粒有唔同地址——佢哋上電後全部仍然係 0x29，直接衝突。
+
+### 1.2 兩條可行路線（建議用第二條）
+
+**路線 A：SHDN 逐粒釋放 ＋ 寫 0x212（原方案）**
+
+```
+1. 四條 SHDN 全拉低
+2. 放開 SHDN#0 → 等 boot（datasheet Table 4，實測 1–2 ms）→ 寫 0x212 = 0x2A
+3. 放開 SHDN#1 → 寫 0x2B …… 如此類推
+4. 每粒最後在 0x2A–0x2D 上跑完整 init（private registers ＋ SPAD ＋ offset）
+```
+
+- 缺點：**每次上電都要重做**（地址唔保留）；時序敏感；若某粒上電慢過預期，會兩粒同時在 0x29 撞車
+
+**路線 B：TCA9548A I²C 多工器（建議）**
+
+```
+S3 ── I²C ── TCA9548A ─┬─ CH0 ─ TOF#0（保持 0x29）
+                       ├─ CH1 ─ TOF#1（保持 0x29）
+                       ├─ CH2 ─ TOF#2（保持 0x29）
+                       └─ CH3 ─ TOF#3（保持 0x29）
+```
+
+- 四粒**全部留在 0x29**，靠切 channel 選擇；SHDN 直接接 AVDD（唔用）
+- 優點：無時序陷阱、無「地址丟失」問題、換 sensor 唔使重新分配、程式只需在每次讀寫前切 channel（一個 byte 寫入）
+- 成本：TCA9548A 模組約 ¥5，佔一個 I²C 地址（0x70–0x77 可選）
+- 代價：多一次 I²C 寫入（<1 ms），對 20 ms 量測週期無影響
+
+**建議改用路線 B。** 4 粒同型號感測器共用匯流排，用多工器係標準做法，勝過逐粒隔離上電。原本「XSHUT 改址」的寫法本身冇錯，但它是「冇 mux 時的變通」，而我們有空間放一顆 ¥5 的 mux。
+
 ## 2. 初始化與校正（每粒都要做）
 
 依序：
