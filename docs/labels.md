@@ -15,6 +15,7 @@
 | `hardware` | bring-up、感測器、舵機、電源、接線 |
 | `ui` | LVGL 畫面、狀態機顯示 |
 | `docs` | 計劃、審核、報告、海報素材 |
+| `game-logic` | 回合狀態機、計分、結算、佔位 UI |
 
 ### 1.2 狀態（每 issue 剛好一個）
 
@@ -59,6 +60,8 @@
 | #11 S31 外設自測 | `hardware` | `status:in-progress` | — |
 | #2 移植到 S31 | `hardware` | `status:in-progress` | — |
 | #6 S3 tflite-micro 探測 | `ai-model` `hardware` | `status:pending` | — |
+| #31 遊戲邏輯（stub） | `game-logic` | `status:pending` | `for-codex` |
+| #30 契約 PR（stc_game v1.1／stc_ui v1.0） | `docs` `ui` | — | — |
 | #4 UI 後續 | `ui` | `status:pending` | — |
 | #23／#22／#8／#7／#3／#1 | 各自領域 | `status:done` | — |
 
