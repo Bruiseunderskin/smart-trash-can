@@ -1,0 +1,41 @@
+I (158887) Esp32S31Korvo1Stc: STC_CMD play
+W (158887) Esp32S31Korvo1Stc: GAME_START rejected: CHAT active
+I (159387) Esp32S31Korvo1Stc: STC_NETWORK_GATE state=GAME action=stop
+I (159387) WifiManager: Stopping station
+I (159387) WifiStation: Stopping WiFi station
+I (159387) MQTT: Closing audio channel, send_goodbye: 1
+I (159397) wifi:state: run -> init (0x0)
+I (159407) wifi:teardown, set twt_inactive_time_secs:6, sp_count:0
+I (159407) wifi:pm stop, total sleep time: 2074730 us / 48964230 us
+
+I (159417) wifi:<ba-del>idx:2, tid:0
+I (159417) wifi:<ba-del>idx:0, tid:4
+I (159417) wifi:<ba-del>idx:1, tid:6
+I (159427) wifi:flush txq
+I (159427) wifi:stop sw txq
+I (159427) wifi:lmac stop hw txq
+I (159437) WifiManager: Station stopped
+E (159437) Dynamic Impl: mbedtls_ssl_fetch_input error=76
+E (159437) esp-tls-mbedtls: read error :-0x004C
+E (159447) transport_base: esp_tls_conn_read error, errno=I/O error
+I (159447) Esp32S31Korvo1Stc: GAME_SETTLEMENT rounds=5 score=5
+E (159447) mqtt_client: esp_mqtt_handle_transport_read_error: transport_read() error: errno=5
+I (159467) esp_mqtt: MQTT error occurred: ESP_ERR_MBEDTLS_SSL_READ_FAILED
+E (159467) mqtt_client: mqtt_process_receive: mqtt_message_receive() returned -2
+I (159477) MQTT: MQTT disconnected, schedule reconnect in 60 seconds
+I (159447) StcVoice: STC_VOICE_LINE_START line=5 samples=29952 channels=2 queued_ms=2
+W (159487) mqtt_client: Publish: Losing qos0 data when client not connected
+W (159447) WifiBoard: WiFi disconnected
+E (159497) MQTT: Failed to publish message: {"session_id":"1fcba2b3","type":"goodbye"}
+I (159507) MQTT: MqttProtocol deinit
+I (159497) StateMachine: State: listening -> idle
+I (159517) StcVoice: STC_VOICE_MODE GAME
+I (159517) Esp32S31Korvo1Stc: STC_CMD game mode=0
+I (159527) Esp32S31Korvo1Stc: GAME_START result=0
+I (159737) Esp32S31Korvo1Stc: STUB_LABEL round=0 bin=0 conf=0.99 src=1
+I (161367) StcVoice: STC_VOICE_LINE_DONE line=5 start_ms=1916 interrupted=0
+I (161367) StcVoice: STC_VOICE_LINE_START line=0 samples=52608 channels=2 queued_ms=1634
+I (162737) StcStubs: STUB_DROP truth=0 selected=0 correct=1
+I (162737) Esp32S31Korvo1Stc: STUB_DROP bin=0 delta=10 score=10
+I (162757) Esp32S31Korvo1Stc: ROUND result=10 score=10
+I (163937) Esp32S31Korvo1Stc: STUB_LABEL round=1 bin=1 conf=0.99 src=1

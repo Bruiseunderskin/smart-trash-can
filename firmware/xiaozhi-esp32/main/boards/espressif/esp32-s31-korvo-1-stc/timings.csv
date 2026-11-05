@@ -1,0 +1,9 @@
+metric,value,unit,source,note
+first_local_line_queue_to_start,40,ms,evidence/serial-cfg.log,software playback start
+voice_selftest_lines,10,lines,evidence/serial-five-rounds-voice.log,regular game lines plus diagnostics
+voice_selftest_interrupt_latency,204,ms,evidence/serial-five-rounds-voice.log,from line start to stop request taking effect
+voice_selftest_busy_after_interrupt,0,bool,evidence/serial-five-rounds-voice.log,queue and playback idle
+first_game_round_labels,5,rounds,evidence/serial-cfg.log,0-1-2-3-0
+first_game_score,20,points,evidence/serial-cfg.log,+10-5+10-5+10
+first_chat_idle_to_game,60300,ms,evidence/serial-cfg.log,approx active listening to timeout
+second_game_round_labels,5,rounds,evidence/serial-cfg.log,0-1-2-3-0 after CHAT timeout

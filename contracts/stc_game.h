@@ -3,6 +3,11 @@
 #pragma once
 #include "stc_types.h"
 
+#define STC_GAME_CONTRACT_VERSION_MAJOR 1
+#define STC_GAME_CONTRACT_VERSION_MINOR 0
+#define STC_GAME_CONTRACT_VERSION_PATCH 0
+#define STC_GAME_CONTRACT_VERSION_STRING "1.0.0"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -1,0 +1,8 @@
+{
+  "open": {"text": "請將卡片放入任何一個桶", "pcm": "stc_open.pcm"},
+  "correct": {"text": "答對喇", "pcm": "stc_correct.pcm"},
+  "wrong": {"text": "答錯喇", "pcm": "stc_wrong.pcm"},
+  "timeout": {"text": "冇放入，下一回合", "pcm": "stc_timeout.pcm"},
+  "retry": {"text": "睇唔清，再試一次", "pcm": "stc_retry.pcm"},
+  "summary": {"text": "呢局完結", "pcm": "stc_summary.pcm"}
+}
