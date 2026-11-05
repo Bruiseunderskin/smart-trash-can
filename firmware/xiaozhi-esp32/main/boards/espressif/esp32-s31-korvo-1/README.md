@@ -10,7 +10,7 @@
 - 双模拟麦克风阵列（双通道输入）+ 双 NS4150B 功放（立体声输出）
 - RGB 接口 LCD 子板（ST7262E43，800x480，16MHz PCLK，背光常开）
 - GT1151 触摸（与 codec 共享 I2C 总线）
-- OV3660 摄像头（DVP 8bit，SCCB 共享 I2C 总线，地址 0x78，180° 旋转安装）
+- SC101IOT 摄像头（1280×720，DVP 8bit，YCbCr422，SCCB 共享 I2C 总线，地址 0x78，180° 旋转安装）
 - WS2812 RGB 状态灯（GPIO37）
 - BOOT 键（GPIO61）+ 4 个 ADC 按键（GPIO42，电阻分压）
 - microSD 卡槽、USB-A OTG（暂未启用）
@@ -62,8 +62,14 @@ idf.py menuconfig   # Xiaozhi Assistant -> Board Type -> Espressif ESP32-S31-Kor
 idf.py build flash monitor
 ```
 
-摄像头（OV3660）默认随固件启用（`config.json` 的 `sdkconfig_append` 已包含
-`CONFIG_CAMERA_OV3660=y`）；若手工配置 sdkconfig，请确认该项开启。
+摄像头是 **SC101IOT**（1280×720，DVP 8bit，YCbCr422，1/4.2"），不是 OV3660。
+
+> ⚠️ **待修正（T2 之前必須處理）**：`config.json` 目前仍寫 `CONFIG_CAMERA_OV3660=y`，
+> 與板上實際感測器不符。`esp_cam_sensor` 支援 SC101IOT（見 component 支援表），
+> 但要先確認對應的 Kconfig 符號名（慣例為 `CONFIG_CAMERA_SC101IOT`，未經查證不應亂改），
+> 再更新 `config.json` 的 `sdkconfig_append`。在改好之前，相機初始化會失敗或認錯 sensor。
+> 旁證：esp32.com 的 S31-Korvo factory demo 貼文記錄到 `Camera sensor handle ready: SC101IOT`，
+> 並指出官方 demo 的 `sdkconfig.defaults` 相機設定有誤。
 
 硬件验证建议覆盖：麦克风采集、扬声器播放（立体声）、唤醒词、ADC 四键、
 BOOT 键、RGB 灯、屏幕显示、触摸、拍照（方向应为正，偏色则检查 RGB565

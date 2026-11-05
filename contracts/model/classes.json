@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "classes": [
+    {"index": 0, "key": "recyclable", "zh": "可回收物", "bin": 0},
+    {"index": 1, "key": "food", "zh": "廚餘", "bin": 1},
+    {"index": 2, "key": "hazard", "zh": "有害垃圾", "bin": 2},
+    {"index": 3, "key": "other", "zh": "其他垃圾", "bin": 3}
+  ]
+}

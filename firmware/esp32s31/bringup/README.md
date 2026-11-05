@@ -26,7 +26,7 @@ RESULT T3 BLOCKED codec not initialised
 | 代號 | 測什麼 | 通過門檻 | 現狀 |
 |---|---|---|---|
 | T1 | LCD 800×480 | 五色正確、8 線均勻、填屏 ≤ 40 ms | 已寫，待實測 |
-| T2 | Camera OV3660 | 30 幀 ≥28 有效、JPEG 可開、記錄 fps | **未實作**（見 `t2_camera.c` 的 TODO） |
+| T2 | Camera SC101IOT | 30 幀 ≥28 有效、JPEG 可開、記錄 fps | **未實作**（見 `t2_camera.c` 的 TODO） |
 | T3 | Mic | 靜音 RMS < 200、講話 RMS ≥ 3×、WAV 可播 | 已寫，**卡在 codec** |
 | T4 | Speaker | 三種音量可分辨、無爆音、可被回錄 | 已寫，出聲需 codec |
 | T5 | Loopback | 回錄 peak > 500、Goertzel(440) ≥ 3× P(1000) | 已寫，**卡在 codec** |

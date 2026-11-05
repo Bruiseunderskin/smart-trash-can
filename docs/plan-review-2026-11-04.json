@@ -1,0 +1,208 @@
+{
+ "brief": "CTEA2026 高級組教育遊戲：卡池30張、每局5回合每回合1張；3分鐘；+10/-5/0；無磁簧、ToF裝桶身只量下落；偵測投入後3s關全部蓋、10s無投入判0；S31眼+腦、S3-DevKitC手部（LEDC+4xToF）、ESP-NOW；模型接口固定、第一版float32；硬件除4xToF外已齊",
+ "claims_total": 85,
+ "teams": [
+  "hw(34)",
+  "sw(51)"
+ ],
+ "rebuttals_summary": {
+  "accept": 9,
+  "trade_off": 6,
+  "reject": 5
+ },
+ "rulings": [
+  {
+   "id": "M1",
+   "from": [
+    "HW-R1",
+    "HW-R2",
+    "HW-R3"
+   ],
+   "verdict": "must-fix",
+   "why": "4xSG90 起動瞬時2.4-3.2A > 5V/2A；foldback→3.3V崩落",
+   "falsifier": "實測4蓋同開時5V rail最低電壓≥4.6V"
+  },
+  {
+   "id": "M2",
+   "from": [
+    "HW-R11",
+    "HW-R13"
+   ],
+   "verdict": "must-fix",
+   "why": "4x35ms輪詢=144ms > 卡穿越可量測窗口~97ms；25°錐100mm處僅43mm<卡寬",
+   "falsifier": "真實幾何下四材質20次漏檢=0"
+  },
+  {
+   "id": "M3",
+   "from": [
+    "HW-R14",
+    "HW-R15"
+   ],
+   "verdict": "must-fix",
+   "why": "開蓋後蓋板可能恆在FoV內造成鎖定；手伸入即觸發",
+   "falsifier": "開蓋後拍一張FoV照，確認無固定短距回波"
+  },
+  {
+   "id": "M4",
+   "from": [
+    "HW-R19",
+    "HW-R20"
+   ],
+   "verdict": "must-fix",
+   "why": "上電200-300ms內4顆同址0x29；XSHUT長線受舵機dv/dt干擾",
+   "falsifier": "冷啟20次全部改址成功且無NACK"
+  },
+  {
+   "id": "M5",
+   "from": [
+    "SW-R15",
+    "SW-R16",
+    "SW-R17"
+   ],
+   "verdict": "must-fix",
+   "why": "無版本/序號/冪等/去重/重同步，丟一包即兩板永久分歧",
+   "falsifier": "拔線重連測試：狀態最終一致"
+  },
+  {
+   "id": "M6",
+   "from": [
+    "SW-R33",
+    "SW-R24"
+   ],
+   "verdict": "must-fix",
+   "why": "無card_id可重複計分；卡反彈出桶仍加分",
+   "falsifier": "同卡重投5次，只計一次"
+  },
+  {
+   "id": "M7",
+   "from": [
+    "SW-R4",
+    "SW-R6"
+   ],
+   "verdict": "must-fix",
+   "why": "拍照觸發源未定義；SHOW_INFO與3s關蓋兩個時鐘衝突",
+   "falsifier": "規格寫明觸發源與關蓋時序後可實作"
+  },
+  {
+   "id": "M8",
+   "from": [
+    "HW-R32",
+    "SW-R2"
+   ],
+   "verdict": "must-fix",
+   "why": "每回合5-6張 vs 每局5張並存，實作必猜",
+   "falsifier": "規則改寫為唯一讀法"
+  },
+  {
+   "id": "M9",
+   "from": [
+    "SW-R38"
+   ],
+   "verdict": "must-fix",
+   "why": "驗收條件不可證偽（無數字/量測點/門檻）",
+   "falsifier": "寫出p95與介入定義後可驗收"
+  },
+  {
+   "id": "T1",
+   "from": [
+    "HW-R23"
+   ],
+   "verdict": "trade-off",
+   "why": "相機與RGB LCD共用LCD_CAM；本遊戲只需每回合一張靜態相",
+   "falsifier": "單幀抓取+LVGL同時運行實測通過"
+  },
+  {
+   "id": "T2",
+   "from": [
+    "HW-R27"
+   ],
+   "verdict": "trade-off",
+   "why": "V1.1 LCD副板疊在天線上方，2.4GHz可能被遮",
+   "falsifier": "實測RSSI與丟包率可接受"
+  },
+  {
+   "id": "T3",
+   "from": [
+    "SW-R1"
+   ],
+   "verdict": "trade-off",
+   "why": "5回合約65-75s，180s用唔盡",
+   "falsifier": "實測一局時長"
+  },
+  {
+   "id": "T4",
+   "from": [
+    "SW-R10"
+   ],
+   "verdict": "trade-off",
+   "why": "S31加速路徑為int8；float32更慢更大",
+   "falsifier": "兩者實測p50/p95對比"
+  },
+  {
+   "id": "T5",
+   "from": [
+    "HW-R33"
+   ],
+   "verdict": "trade-off",
+   "why": "每張36s預算但監聽只有10s",
+   "falsifier": "實測兒童平均投放時間"
+  },
+  {
+   "id": "T6",
+   "from": [
+    "SW-R50"
+   ],
+   "verdict": "trade-off",
+   "why": "五個工作天六項工作，零緩衝",
+   "falsifier": "砍一項後重估"
+  },
+  {
+   "id": "X1",
+   "from": [
+    "HW-R22"
+   ],
+   "verdict": "rejected",
+   "why": "板上相機已證實為SC101IOT，非OV3660",
+   "falsifier": "若拍相byte order不符再議"
+  },
+  {
+   "id": "X2",
+   "from": [
+    "SW-R11",
+    "HW-R24"
+   ],
+   "verdict": "rejected",
+   "why": "S31確有PPA/2D-DMA，PPA支援YUV422_UYVY→RGB565/888與BT.601/709",
+   "falsifier": "若PPA在S31實測失敗再議"
+  },
+  {
+   "id": "X3",
+   "from": [
+    "SW-R9"
+   ],
+   "verdict": "rejected",
+   "why": "模組為16MB PSRAM，非8MB",
+   "falsifier": "查實物型號"
+  },
+  {
+   "id": "X4",
+   "from": [
+    "SW-R29"
+   ],
+   "verdict": "rejected",
+   "why": "四蓋同開由玩家選桶，答錯可達",
+   "falsifier": "若改為只開一蓋則成立"
+  },
+  {
+   "id": "X5",
+   "from": [
+    "HW-R31"
+   ],
+   "verdict": "noise",
+   "why": "併入T2量測，非獨立must-fix",
+   "falsifier": "—"
+  }
+ ],
+ "biggest_risk": "VL53L0X 裝桶身只量下落：唯一決定分數的感測器，幾何仍只有假設",
+ "key_measurement": "四材質×20次、真實幾何下的漏檢/誤檢率與偵測延遲p50/p95"
+}
