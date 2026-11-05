@@ -1,6 +1,18 @@
 # 感測／舵機節點：有線（USB CDC）接法與協定
 
-狀態：**設計稿（待實作）**，2026-11-04。作者：阿吉 the hermes（代 W Ed / sillysben）。
+狀態：**部分已被取代**，2026-11-04 初稿／2026-11-05 修訂。作者：阿吉 the hermes（代 W Ed / sillysben）。
+
+> ### 修訂 2026-11-05（以 `docs/PROJECT-PLAN.md` D8／D9 為準）
+>
+> | 項目 | 本文件原稿 | **現行決定** |
+> |---|---|---|
+> | 節點板 | XIAO ESP32-C5 | **ESP32-S3-DevKitC-1** |
+> | 節點↔S31 | USB CDC（有線） | **ESP-NOW**（協議 v1 不變） |
+> | 舵機驅動 | PCA9685 | **PCA9685（保留）** |
+> | 桶口測距 | VL53L0X ×4，XSHUT 改址 | **TOF050C ×4 ＋ TCA9548A（0x70）**，見 `plan-v3-tof050c.md` |
+> | 蓋位感測 | 原以為可用 ToF baseline | **不做蓋位感測**（ToF 只在桶身量掉落，issue #22 澄清） |
+>
+> 仍然有效的部分：I²C 位址（PCA9685 `0x40`、TCA9555 `0x20` 若使用）、電源與共地規則、訊框協定欄位、VL53L0X 規格數據（TOF050C 段落以 `plan-v3-tof050c.md` 為準）。
 關聯文件：`docs/s31-gpio-budget.md`（為何需要節點）、`docs/lid-detect-research.md`（感測器選型）、`docs/ROADMAP.md`（plan C）。
 
 ---
