@@ -83,6 +83,13 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 - 每粒 init 四步：`FRESH_OUT_OF_RESET` 檢查 → AN4545 private registers → `RefSpadManagement` → `OffsetSimpleCalibration(50 mm)`；有保護窗加 `XTalkCalibration(100 mm)`；校正值存 NVS
 - **不用** SHDN 改址（已核實技術可行但需每次上電重做，程式多 150–200 行；方案存 git 歷史作後備）
 
+### 3.2b 相機策略（v1.1）
+
+- GAME 模式**保持串流**，每回合連拍 **5 幀（間隔 50 ms）**，逐幀推論後平均 softmax 再 argmax
+- 進 CHAT 才關串流；回合之間不重新 init（省 300–500 ms）
+- 每幀結果寫 CSV（`runs/capture-*.csv`），提供「幀間一致率」作報告證據
+- 風險：持續串流可能與 RGB LCD 爭 `LCD_CAM` → 若見撕裂，採集窗內暫停重繪；再不行退回單幀並在報告註明
+
 ### 3.3 電源
 
 - 舵機 5V/3A 獨立；`OPEN_ALL` 錯開 80–120 ms；四蓋共地、回流線直接回 PSU

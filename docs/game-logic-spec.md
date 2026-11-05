@@ -33,7 +33,7 @@ IDLE ──PLAY──▶ CAPTURE ──label──▶ OPEN ──▶ WAIT_DROP �
 
 | 階段 | 上限 | 超時行為 |
 |---|---:|---|
-| CAPTURE | 800 ms | 播「睇唔清」，`abstained=true`，0 分，進 FEEDBACK |
+| CAPTURE | 1200 ms（5 幀 × 50 ms ＋ 5 × 推論 ≈ 700 ms） | 播「睇唔清」，`abstained=true`，0 分，進 FEEDBACK |
 | OPEN | 1500 ms | 開蓋失敗 → 播錯誤，0 分，進 FEEDBACK（不重試） |
 | WAIT_DROP | 15000 ms | `timed_out`，0 分，進 CLOSE |
 | SETTLE | 300 ms | 去抖：同一桶 300 ms 內多次 DROP 只算一次 |
@@ -62,7 +62,7 @@ IDLE ──PLAY──▶ CAPTURE ──label──▶ OPEN ──▶ WAIT_DROP �
 
 | 介面 | 現在（stub） | 之後（真） |
 |---|---|---|
-| `stc_vision_capture()` | 讀 `assets/playlist.txt` 輪流回 4 類，`src=STC_SRC_STUB`，每次 sleep 80 ms 模擬推理 | SC101IOT 抓拍 ＋ int8 模型 |
+| `stc_vision_capture()` | 讀 `assets/playlist.txt` 輪流回 4 類；模擬 5 幀（其中 1 幀刻意不同以測聚合），`detail.agreement` 要正確填 | SC101IOT 連拍 5 幀（50 ms 間隔）＋ 5 次 int8 推論 ＋ 平均 softmax |
 | `stc_bin_open_all()` | 記 timestamp，300 ms 後回 OK | PCA9685 四舵機，錯開 80–120 ms |
 | `stc_bin_poll()` | 收到 `stc_game` 的「虛擬投放」注入後 500 ms 回一個 `stc_drop_t` | ToF050C ＋ TCA9548A |
 | `stc_voice_say()` | 印 log ＋ `esp_rom_delay_us(200ms)` | 本地 PCM 片段拼接 |
@@ -139,3 +139,37 @@ assert(stc_game_snapshot().phase == STC_PH_CLOSE);
 - 正式 UI 美術（隊友負責）
 - 語音內容（M3 之後）
 - 排行榜、多玩家、計時賽
+
+---
+
+## 8. 連拍 5 幀（v1.1）
+
+### 8.1 為甚麼是 5 幀 / 50 ms
+
+- 200 ms 采集窗足以跨過手震與單幀噪點，又短到不會令小朋友移動物件
+- 5 幀逐幀推論 ≈ 5 × 84 ms ≈ 420 ms；加采集窗 ≈ 620–700 ms，仍在 CAPTURE 預算內
+- 兩幀之間的相關性太高（<50 ms）沒有額外資訊，太多幀則開始超時
+
+### 8.2 聚合規則
+
+1. 每幀 → `softmax[4]`
+2. 5 幀平均 → 再 `argmax`
+3. `conf < 0.55` → abstain（觸發 `max_retry` 一次）
+4. 成功解碼幀數 < 3 → `STC_ERR_IO`，該回合 0 分
+5. 記錄 `agreement`（幾多幀與最終結果一致）——**這是報告要用的證據**
+
+### 8.3 相機保持開啟
+
+- 進 `GAME` → `stc_vision_stream_start()`；進 `CHAT` → `stc_vision_stream_stop()`
+- 好處：省掉每回合 300–500 ms init；壞處：持續耗電 ＋ 可能與 RGB LCD 爭 `LCD_CAM`
+- **風險與對策**：若實測見到 LCD 撕裂／掉幀，改為「採集窗內暫停 LCD 重繪（只畫不刷新）」；再不行就退回每回合單幀，並在報告註明
+
+### 8.4 證據輸出
+
+每回合寫一行到 `runs/capture-YYYYMMDD.csv`：
+
+```
+t_ms,truth,pred,conf,agreement,f0,f1,f2,f3,f4,t_capture_ms,t_infer_ms
+```
+
+報告可以用它講「5 幀聚合後準確率由 X% 升到 Y%」、「agreement ≥4/5 的樣本佔 Z%」。

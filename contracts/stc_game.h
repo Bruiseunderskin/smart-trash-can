@@ -11,7 +11,7 @@ extern "C" {
  * mode 講「可不可以聊天」，phase 講「回合做到邊一步」。 */
 typedef enum {
     STC_PH_IDLE = 0,
-    STC_PH_CAPTURE,     /* 抓拍＋推論，上限 800 ms */
+    STC_PH_CAPTURE,     /* 連拍 5 幀＋5 次推論，上限 1200 ms */
     STC_PH_OPEN,        /* 四蓋錯開開啟，上限 1.5 s */
     STC_PH_WAIT_DROP,   /* 等投放，上限 15 s */
     STC_PH_SETTLE,      /* 收到 DROP 後 300 ms 去抖 */
@@ -23,7 +23,7 @@ typedef enum {
 
 typedef struct {
     uint8_t  rounds_total;      /* 預設 5 */
-    uint16_t capture_timeout_ms;/* 800 */
+    uint16_t capture_timeout_ms;/* 1200（5 幀連拍 × 50 ms ＋ 5 次推論） */
     uint16_t open_timeout_ms;   /* 1500 */
     uint16_t wait_drop_ms;      /* 15000 */
     uint16_t settle_ms;         /* 300 */
