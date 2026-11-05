@@ -10,6 +10,7 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 | 項目 | 內容 |
 |---|---|
 | 專案 | AI 垃圾分類桶，4 類別（可回收物／廚餘／有害垃圾／其他垃圾），4 個獨立蓋 |
+| 一局 | 3 分鐘、5 回合、25–30 張卡；揀卡 → 掃描 → 開蓋 → 投放 → 學習頁 → 計分 |
 | 主控 | ESP32-S31-Korvo-1（相機 SC101IOT、4.3″ 800×480 LCD、ES8389 音頻、Wi-Fi） |
 | 手部 | ESP32-S3-DevKitC-1（4 舵機、4 × TOF050C 經 TCA9548A） |
 | 板間 | ESP-NOW，協議 v1（seq／冪等／重同步） |
@@ -83,12 +84,13 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 - 每粒 init 四步：`FRESH_OUT_OF_RESET` 檢查 → AN4545 private registers → `RefSpadManagement` → `OffsetSimpleCalibration(50 mm)`；有保護窗加 `XTalkCalibration(100 mm)`；校正值存 NVS
 - **不用** SHDN 改址（已核實技術可行但需每次上電重做，程式多 150–200 行；方案存 git 歷史作後備）
 
-### 3.2b 相機策略（v1.1）
+### 3.2b 相機策略（v1.2：只在掃卡時開）
 
-- GAME 模式**保持串流**，每回合連拍 **5 幀（間隔 50 ms）**，逐幀推論後平均 softmax 再 argmax
-- 進 CHAT 才關串流；回合之間不重新 init（省 300–500 ms）
-- 每幀結果寫 CSV（`runs/capture-*.csv`），提供「幀間一致率」作報告證據
-- 風險：持續串流可能與 RGB LCD 爭 `LCD_CAM` → 若見撕裂，採集窗內暫停重繪；再不行退回單幀並在報告註明
+- **相機只在「掃卡」那一刻開**：開 → 連拍 **5 幀（間隔 50 ms）** → 逐幀推論 → 平均 softmax → 關
+- 一局 5 回合 = 相機開 5 次，`WAIT_DROP` 期間相機必須已關（驗收 J8）
+- 掃描總耗時 1.0–1.2 s（開機 300–500 ms ＋ 采集 200 ms ＋ 5 × 84 ms 推論）
+- 每回合寫 `runs/capture-*.csv`，提供「幀間一致率」作報告證據
+- 風險：相機與 RGB LCD 争 `LCD_CAM` → 掃描窗約 1.2 s，其間暫停 LCD 重繪即可
 
 ### 3.3 電源
 
@@ -154,7 +156,7 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 
 ### P5a 遊戲邏輯（stub，先做，無硬件依賴）— Issue #30
 
-- **範圍**：`stc_game` 完整狀態機（IDLE→CAPTURE→OPEN→WAIT_DROP→SETTLE→CLOSE→FEEDBACK→SUMMARY）、5 回合、+10/−5/0／floor 0、逾時、abstain 重試、結算、`stc_result_t`
+- **範圍**：`stc_game` 完整狀態機（IDLE→PROMPT→SCAN→RESULT→OPEN→WAIT_DROP→SETTLE→CLOSE→LEARNING→SUMMARY）、5 回合／3 分鐘、+10/−5/0／floor 0、abstain 重試、學習頁、結算、`stc_result_t`
 - **介面**：`stc_vision`／`stc_bin`／`stc_voice` 全部走 stub；**佔位 UI**（`STC_UI_PLACEHOLDER`）經 `contracts/stc_ui.h`，隊友 UI 到貨只換 `.c`
 - **測試**：虛擬時鐘 ＋ 假事件，host 上跑 10 個情境 ＋ 1000 局隨機不變量
 - **依賴**：只有 P1 M1（模式閘）
