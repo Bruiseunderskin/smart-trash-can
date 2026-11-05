@@ -1,0 +1,180 @@
+I (6517) Esp32S31Korvo1Stc: STC_MODE_REQUEST target=CHAT source=uart
+I (6537) Esp32S31Korvo1Stc: STC_NETWORK_GATE state=CHAT action=start
+I (6537) WifiManager: Initializing...
+I (6537) pp: pp rom version: 395df10
+I (6537) net80211: net80211 rom version: 395df10
+I (6547) wifi:wifi driver task: 2f0662d8, prio:23, stack:6656, core=0
+I (6547) wifi:wifi firmware version: e12a754
+I (6547) wifi:wifi certification version: v7.0
+I (6557) wifi:config NVS flash: disabled
+I (6557) wifi:config nano formatting: disabled
+I (6557) wifi:mac_version:HAL_MAC_ESP32AX_764,ut_version:N, band mode:0x1
+I (6567) wifi:Init data frame dynamic rx buffer num: 6
+I (6577) wifi:Init dynamic rx mgmt buffer num: 5
+I (6577) wifi:Init management short buffer num: 32
+I (6577) wifi:Init dynamic tx buffer num: 32
+I (6587) wifi:Init static tx FG buffer num: 2
+I (6587) wifi:Init static rx buffer size: 1700 (rxctrl:64, csi:512)
+I (6597) wifi:Init static rx buffer num: 3
+I (6597) wifi:Init dynamic rx buffer num: 6
+I (6627) wifi_init: rx ba win: 3
+I (6627) wifi_init: accept mbox: 6
+I (6627) wifi_init: tcpip mbox: 16
+I (6627) wifi_init: udp mbox: 6
+I (6627) wifi_init: tcp mbox: 6
+I (6627) wifi_init: tcp tx win: 5760
+I (6637) wifi_init: tcp rx win: 5760
+I (6637) wifi_init: tcp mss: 1440
+I (6637) wifi_init: WiFi SLP IRAM OP enabled
+I (6647) WifiManager: Initialized
+I (6647) WifiBoard: Starting WiFi connection attempt
+I (6647) WifiManager: Starting station
+I (6657) WifiStation: Station DHCP hostname: Xiaozhi-58A0
+I (6657) phy_init: phy_version 100,dd4c590,Jul 14 2026,10:33:03
+W (6737) wifi:(phy)rate:0x0(  LP-1Mbps), pwr:20, txing:20
+W (6737) wifi:(phy)rate:0x1(  LP-2Mbps), pwr:20, txing:20
+W (6737) wifi:(phy)rate:0x2(LP-5.5Mbps), pwr:20, txing:20
+W (6737) wifi:(phy)rate:0x3( LP-11Mbps), pwr:20, txing:20
+W (6747) wifi:(phy)rate:0x5(  SP-2Mbps), pwr:20, txing:20
+W (6747) wifi:(phy)rate:0x6(SP-5.5Mbps), pwr:20, txing:20
+W (6757) wifi:(phy)rate:0x7( SP-11Mbps), pwr:20, txing:20
+W (6757) wifi:(phy)rate:0x8(    48Mbps), pwr:18, txing:18
+W (6767) wifi:(phy)rate:0x9(    24Mbps), pwr:19, txing:19
+W (6767) wifi:(phy)rate:0xa(    12Mbps), pwr:20, txing:20
+W (6777) wifi:(phy)rate:0xb(     6Mbps), pwr:20, txing:20
+W (6777) wifi:(phy)rate:0xc(    54Mbps), pwr:18, txing:18
+W (6787) wifi:(phy)rate:0xd(    36Mbps), pwr:19, txing:19
+W (6787) wifi:(phy)rate:0xe(    18Mbps), pwr:20, txing:20
+W (6797) wifi:(phy)rate:0xf(     9Mbps), pwr:20, txing:20
+W (6797) wifi:(phy)rate:0x10, mcs:0x0, pwr(bw20:20, bw40:19), txing:20
+W (6807) wifi:(phy)rate:0x11, mcs:0x1, pwr(bw20:20, bw40:19), txing:20
+W (6817) wifi:(phy)rate:0x12, mcs:0x2, pwr(bw20:20, bw40:19), txing:20
+W (6817) wifi:(phy)rate:0x13, mcs:0x3, pwr(bw20:20, bw40:19), txing:20
+W (6827) wifi:(phy)rate:0x14, mcs:0x4, pwr(bw20:19, bw40:18), txing:19
+W (6827) wifi:(phy)rate:0x15, mcs:0x5, pwr(bw20:19, bw40:18), txing:19
+W (6837) wifi:(phy)rate:0x16, mcs:0x6, pwr(bw20:18, bw40:17), txing:18
+W (6847) wifi:(phy)rate:0x17, mcs:0x7, pwr(bw20:18, bw40:17), txing:18
+W (6847) wifi:(phy)rate:0x18, mcs:0x8, pwr(bw20:16, bw40:16), txing:16
+W (6857) wifi:(phy)rate:0x19, mcs:0x9, pwr(bw20:15, bw40:15), txing:15
+I (6867) wifi:11ax coex: WDEVAX_PTI0(0x04000000), WDEVAX_PTI1(0x0001c0ec).
+
+I (6867) wifi:mode : sta (1c:29:04:d0:58:a0)
+I (6877) wifi:enable tsf
+I (6967) WifiStation: Scanning saved channel 6
+I (6967) WifiBoard: WiFi scanning
+E (6967) MODEL_LOADER: Can not find model in partition table
+W (6977) AFE_CONFIG: wakenet model not found. please load wakenet model...
+I (6987) AfeAudioEngine: Before AFE create: free=207415 min=105292 largest=98304
+I (6987) AFE: AFE Version: (1MIC_V251128)
+I (6997) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (6997) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (7007) AFE: AFE Version: (1MIC_V251128)
+I (7007) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (7017) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (7027) AfeAudioEngine: Initialized FD AFE, detector: none, NS: off, feed: 512, fetch: 512
+I (7037) AfeAudioEngine: After AFE create: free=154331 min=52136 largest=98304
+I (7037) StcVoice: STC_VOICE_MODE CHAT
+I (7047) Esp32S31Korvo1Stc: APP_STATE GAME -> CHAT_STARTING mode=0
+I (7087) WifiStation: Found AP: Wu_iPhone, BSSID: 8a:56:3b:77:c6:2e, RSSI: -49, Channel: 6, Authmode: 3
+I (7087) WifiBoard: WiFi connecting to Wu_iPhone
+W (7087) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (7107) wifi:(he)max.RxAMPDULenExponentExtension:3, max.RxAMPDUpre-EOFpaddingBytes:8388607(0x7fffff)
+I (7107) wifi:(mac)omc_ul_mu_data_disable_rx:0
+I (7107) wifi:(phy)ppe_thresholds_present:0, nominal_packet_padding:1
+I (7117) wifi:(phy)dcm tx(constellation:0, nss:0), dcm rx(constellation:1, nss:0)
+I (7127) wifi:(phy)rx_mcs_map:0xfff5, tx_mcs_map:0xfff5, stbc_tx:0, bfmer(su:0, mu:0), ldpc:1, max_rate:172
+I (7137) wifi:(opr)bss color disabled:1
+I (7137) wifi:(opr)len:7, TWT Required:0, VHT Opr Info Present:0, 6GHz Opr Info Present:0, Co-Hosted BSS:0(max_indicator:0), Basic MCS and NSS:0xfffc
+I (7147) wifi:(opr)len:7, Default PE Duration:0, TXOP RTS Threshold:1023(0 us), ER-SU-Disable:1
+I (7157) wifi:(opr)len:7, BSS Color:0, disabled:1, Partial BSS Color:0
+I (7247) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0x0
+I (7247) wifi:(connect)dot11_authmode:0x3, pairwise_cipher:0x3, group_cipher:0x3
+I (7257) wifi:state: init -> auth (0xb0)
+I (7287) wifi:state: auth -> assoc (0x0)
+I (7297) wifi:(assoc)RESP, Extended Capabilities length:8, operating_mode_notification:0
+I (7297) wifi:(assoc)RESP, Extended Capabilities, MBSSID:0, TWT Responder:0, OBSS Narrow Bandwidth RU In OFDMA Tolerance:0
+I (7307) wifi:Extended Capabilities length:8, operating_mode_notification:1
+I (7317) wifi:(he)max.RxAMPDULenExponentExtension:3, max.RxAMPDUpre-EOFpaddingBytes:8388607(0x7fffff)
+I (7317) wifi:(mac)omc_ul_mu_data_disable_rx:0
+I (7327) wifi:(phy)ppe_thresholds_present:0, nominal_packet_padding:1
+I (7327) wifi:(phy)dcm tx(constellation:0, nss:0), dcm rx(constellation:1, nss:0)
+I (7337) wifi:(phy)rx_mcs_map:0xfff5, tx_mcs_map:0xfff5, stbc_tx:0, bfmer(su:0, mu:0), ldpc:1, max_rate:172
+I (7347) wifi:(opr)bss color disabled:1
+I (7347) wifi:(opr)len:7, TWT Required:0, VHT Opr Info Present:0, 6GHz Opr Info Present:0, Co-Hosted BSS:0(max_indicator:0), Basic MCS and NSS:0xfffc
+I (7367) wifi:(opr)len:7, Default PE Duration:0, TXOP RTS Threshold:1023(0 us), ER-SU-Disable:1
+I (7377) wifi:(opr)len:7, BSS Color:0, disabled:1, Partial BSS Color:0
+I (7377) wifi:state: assoc -> run (0x10)
+I (7387) wifi:(he)ppe_thresholds_present:0, nominal_packet_padding(rx:1, cfg:1)
+I (7387) wifi:(trc)phytype:CBW20-SGI, snr:48, maxRate:172, highestRateIdx:0
+W (7397) wifi:(trc)band:2G, phymode:3, highestRateIdx:0, lowestRateIdx:11, dataSchedTableSize:14
+I (7407) wifi:(trc)band:2G, rate(S-MCS7, rateIdx:0), ampdu(rate:S-MCS7, schedIdx(0, stop:8)), snr:48, ampduState:wait operational
+I (7417) wifi:ifidx:0, rssi:-48, nf:-96, phytype(0x3, CBW20-SGI), phymode(0x7, 11ax), max_rate:172, he:1, vht:0, ht:1
+I (7427) wifi:(ht)max.RxAMPDULenExponent:3(65535 bytes), MMSS:6(8 us)
+I (7447) wifi:(extcap)mbssid:0, enhanced_mbssid_advertise:0, complete_nontxbssid_profiles:0, twt_responder: 0
+I (7447) wifi:connected with Wu_iPhone, aid = 20, channel 6, BW20, bssid = 8a:56:3b:77:c6:2e
+I (7457) wifi:security: WPA2-PSK, phy: ax, rssi: -48, cipher(pairwise:0x3, group:0x3), pmf:0
+I (7467) wifi:pm start, type: 1, twt_start:0
+
+I (7467) wifi:pm start, type:1, aid:0x14, trans-BSSID:8a:56:3b:77:c6:2e, BSSID[5]:0x2e, mbssid(max-indicator:0, index:0), he:1
+I (7477) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (7487) wifi:[ADDBA]TX addba request, tid:0, dialogtoken:1, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x0)
+I (7497) wifi:[ADDBA]TX addba request, tid:7, dialogtoken:2, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x20)
+I (7507) wifi:[ADDBA]TX addba request, tid:5, dialogtoken:3, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x0)
+W (7517) wifi:<ba-add>idx:0, ifx:0, tid:4, TAHI:0x1002ec6, TALO:0x773b568a, (ssn:1921, win:64, cur_ssn:1921), CONF:0xc0004001
+I (7527) wifi:[ADDBA]RX addba response, status:0, tid:0/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+I (7537) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (7547) wifi:[ADDBA]RX addba response, status:0, tid:7/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+I (7557) wifi:[ADDBA]RX addba response, status:0, tid:5/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+W (7667) wifi:<ba-add>idx:1, ifx:0, tid:6, TAHI:0x1002ec6, TALO:0x773b568a, (ssn:41, win:64, cur_ssn:41), CONF:0xc0006001
+I (8677) esp_netif_handlers: sta ip: 172.20.10.2, mask: 255.255.255.240, gw: 172.20.10.1
+I (8677) WifiStation: Got IP: 172.20.10.2
+I (8677) WifiBoard: Connected to WiFi: Wu_iPhone
+I (8677) Application: Network connected
+I (8677) StateMachine: State: starting -> activating
+I (8687) Assets: The storage free size is 62464 KB
+I (8687) Assets: The assets map size is 3392 KB (partition 8192 KB)
+I (8837) Assets: The checksum calculation time is 145 ms
+I (8847) MODEL_LOADER: Successfully load srmodels
+W (8847) AudioService: Ignoring speech model replacement after audio engine initialization
+I (8857) Assets: Refreshing display theme...
+W (8917) EmojiCollection: Emoji not found: robot_2
+I (8927) Ota: Current version: 2.5.2
+W (8937) wifi:<ba-add>idx:2, ifx:0, tid:0, TAHI:0x1002ec6, TALO:0x773b568a, (ssn:2701, win:64, cur_ssn:2701), CONF:0xc0000001
+I (9407) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=480
+I (9617) HttpClient: HTTP connection closed
+I (9627) Ota: Current is the latest version
+I (9627) Ota: Running partition: ota_0
+I (9627) MQTT: Connecting to endpoint api.tenclass.net:8883
+I (9627) MQTT: Resolved MQTT host api.tenclass.net -> 47.76.65.170
+I (10157) MQTT: Connected to endpoint
+I (10167) Application: Activation done
+I (10167) SystemInfo: free sram: 140047 minimal sram: 32168
+I (10167) StateMachine: State: activating -> idle
+I (10197) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (10197) wifi:Set ps type: 2, coexist: 0
+
+I (10197) StateMachine: State: idle -> connecting
+I (10197) I2S_IF: Paired data: 0x2f053f08, current mode: playback, paired in_enable: 0, paired out_enable: 0
+I (10207) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: STEREO, slot_mask: 0x3
+I (10217) I2S_IF: STD: TX, sample_rate_hz: 16000, mclk_multiple: 256, clk_src: 16
+I (10227) Esp32S31Korvo1Stc: APP_STATE CHAT_STARTING -> CHAT_READY
+I (10257) Adev_Codec: Open codec device OK
+I (10257) AudioCodec: Set output enable to true
+I (10267) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (10267) wifi:Set ps type: 0, coexist: 0
+
+I (10457) MQTT: Session ID: 5082fb3b
+I (10457) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (10457) wifi:Set ps type: 0, coexist: 0
+
+W (10457) Application: Server sample rate 24000 does not match device output sample rate 16000, resampling may cause distortion
+I (10467) StateMachine: State: connecting -> listening
+I (10597) I2S_IF: Current mode(record) and peer mode have same sample_rate 16000, channel 2, bits_per_sample 16
+I (10597) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (10597) I2S_IF: STD: RX, sample_rate_hz: 16000, mclk_multiple: 256, clk_src: 16
+I (10627) Adev_Codec: Open codec device OK
+I (10627) AudioCodec: Set input enable to true
+I (19757) SystemInfo: free sram: 139551 minimal sram: 32168
+I (29757) SystemInfo: free sram: 139551 minimal sram: 32168
+I (39757) SystemInfo: free sram: 139571 minimal sram: 32168
+I (49757) SystemInfo: free sram: 139571 minimal sram: 32168

@@ -5,3 +5,5 @@ first_chat_start_to_ready,3660,ms,evidence/serial-shell-fsm.log,request at 11767
 first_chat_ready_to_timeout,60220,ms,evidence/serial-shell-fsm.log,ready at 15427 ms; timeout at 75647 ms
 second_chat_start_to_ready,3880,ms,evidence/serial-shell-fsm.log,request at 75737 ms; ready at 79617 ms
 chat_to_game,100,ms,evidence/serial-shell-fsm.log,network stop at 79637 ms; app state at 79717 ms
+first_stt_after_chat_ready,19400,ms,evidence/serial-chat-debug-stats.log,includes live speech duration
+first_subtitle_after_stt,1140,ms,evidence/serial-chat-debug-stats.log,STT echo to first TTS subtitle

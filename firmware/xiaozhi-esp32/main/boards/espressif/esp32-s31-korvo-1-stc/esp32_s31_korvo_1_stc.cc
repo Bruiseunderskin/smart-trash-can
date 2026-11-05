@@ -165,12 +165,18 @@ static void UpdateStatusLed() {
 }
 
 static void LogStatus(const char* source) {
+    const DebugStatistics audio_stats =
+        Application::GetInstance().GetAudioService().GetDebugStatistics();
     ESP_LOGI(TAG,
              "STC_STATUS source=%s app_state=%d voice_mode=%d device_state=%d "
-             "network=%d voice_busy=%d",
+             "network=%d voice_busy=%d voice_detected=%d "
+             "audio_input=%lu audio_encoded=%lu",
              source, static_cast<int>(stc_app_fsm_get()), static_cast<int>(stc_voice_get_mode()),
              static_cast<int>(Application::GetInstance().GetDeviceState()),
-             stc_network_gate_is_enabled() ? 1 : 0, stc_voice_is_busy() ? 1 : 0);
+             stc_network_gate_is_enabled() ? 1 : 0, stc_voice_is_busy() ? 1 : 0,
+             Application::GetInstance().GetAudioService().IsVoiceDetected() ? 1 : 0,
+             static_cast<unsigned long>(audio_stats.input_count),
+             static_cast<unsigned long>(audio_stats.encode_count));
 }
 
 static void RunVoiceSelfTest() {

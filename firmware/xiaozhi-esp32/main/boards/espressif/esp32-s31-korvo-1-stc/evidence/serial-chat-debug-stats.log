@@ -1,0 +1,347 @@
+ESP-ROM:esp32s31-20251218
+Build:Dec 18 2025
+rst:0x1 (POWERON),boot:0x79 (SPI_FAST_FLASH_BOOT)
+SPI mode:DIO, clock div:1
+load:0x2f0740c0,len:0x58c
+load:0x2f06a2b0,len:0xb64
+load:0x2f06cfb0,len:0x316c
+entry 0x2f06a2b0
+I (42) oct_psram: vendor id    : 0x0d (AP)
+I (42) oct_psram: Latency      : 0x01 (Fixed)
+I (42) oct_psram: DriveStr.    : 0x00 (25 Ohm)
+I (43) oct_psram: dev id       : 0x03 (generation 4)
+I (47) oct_psram: density      : 0x05 (128 Mbit)
+I (52) oct_psram: good-die     : 0x06 (Pass)
+I (56) oct_psram: SRF          : 0x02 (Slow Refresh)
+I (60) oct_psram: BurstType    : 0x00 ( Wrap)
+I (64) oct_psram: BurstLen     : 0x03 (2048 Byte)
+I (69) oct_psram: BitMode      : 0x00 (X8 Mode)
+I (73) oct_psram: Readlatency  : 0x04 (14 cycles@Fixed)
+I (78) oct_psram: DriveStrength: 0x00 (1/1)
+I (82) MSPI Timing: Enter psram timing tuning
+I (233) esp_psram: Found 16MB PSRAM device
+I (233) esp_psram: Speed: 200MHz
+I (234) oct_psram: psram CS IO is dedicated
+I (234) cpu_start: Multicore app
+I (246) cpu_start: GPIO 59 and 58 are used as console UART I/O pins
+I (247) cpu_start: Pro cpu start user code
+I (247) cpu_start: cpu freq: 320000000 Hz
+I (249) app_init: Application information:
+I (253) app_init: Project name:     xiaozhi
+I (256) app_init: App version:      2.5.2
+I (260) app_init: Compile time:     Nov  5 2026 10:42:13
+I (265) app_init: ELF file SHA256:  45496de91...
+I (270) app_init: ESP-IDF:          v6.1
+I (273) efuse_init: Min chip rev:     v0.0
+I (277) efuse_init: Max chip rev:     v0.99 
+I (281) efuse_init: Chip rev:         v0.0
+I (285) heap_init: Initializing. RAM available for dynamic allocation:
+I (291) heap_init: At 2F026520 len 00054A90 (338 KiB): RAM
+I (296) heap_init: At 2F07AFB0 len 000041C0 (16 KiB): RAM
+I (302) heap_init: At 2E000024 len 00007FB4 (31 KiB): RTCRAM
+I (307) esp_psram: Adding pool of 16384K of PSRAM memory to heap allocator
+I (314) spi_flash: detected chip: generic
+I (317) spi_flash: flash io: qio
+I (321) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (327) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (333) oct_psram: psram CS IO is dedicated
+I (337) main_task: Started on CPU0
+I (357) esp_psram: Reserving pool of 100K of internal memory for DMA/internal allocations
+I (357) main_task: Calling app_main()
+I (367) Board: UUID=c1f6d7e2-c4f3-40e5-86f0-d2e8c9fddfeb SKU=esp32-s31-korvo-1-stc
+I (367) button: IoT Button Version: 4.2.3
+I (667) S31-ADC-CALI: Button ADC software calibration finished: w0_q=525155, w6_q=16360, w16_q=256
+I (677) Esp32S31Korvo1Stc: ADC button 3: center=380mV range=160-600mV
+I (677) Esp32S31Korvo1Stc: ADC button 2: center=820mV range=600-1080mV
+I (687) Esp32S31Korvo1Stc: ADC button 1: center=1340mV range=1080-1605mV
+I (687) Esp32S31Korvo1Stc: ADC button 0: center=1870mV range=1605-1935mV
+I (717) Display: Power management not supported
+I (727) LcdDisplay: Initialize LVGL library
+I (737) LcdDisplay: Initialize LVGL port
+I (737) LVGL: Starting LVGL task
+I (737) LcdDisplay: Adding LCD display
+I (737) gt1151: IC version: GT1158_000101(Patch)_0102(Mask)_00(SensorID)
+I (767) Esp32S31Korvo1Stc: GT1151 touch initialized
+I (797) sc101iot: Detected Camera sensor PID=0xda4a
+I (1497) EspVideo: Camera init success
+I (1507) StcShellUi: STC_SHELL_UI ready game_button=1 chat_button=1
+I (1507) StateMachine: State: unknown -> starting
+W (1667) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+I (1667) Es8389AudioCodec: Duplex channels created
+I (1737) ES8389: Work in Slave mode
+I (1747) ES8389: Set internal reference signal
+I (1747) Es8389AudioCodec: Es8389AudioCodec initialized
+I (1747) AudioCodec: Audio codec started
+I (1747) Application: After board/audio init
+I (1747) SystemInfo: free sram: 256239 minimal sram: 154712
+I (1757) MCP: Add tool: self.get_device_status
+I (1757) MCP: Add tool: self.audio_speaker.set_volume
+I (1767) MCP: Add tool: self.screen.set_theme
+I (1767) MCP: Add tool: self.get_system_info [user]
+I (1767) MCP: Add tool: self.reboot [user]
+I (1777) MCP: Add tool: self.upgrade_firmware [user]
+I (1777) MCP: Add tool: self.screen.get_info [user]
+I (1787) MCP: Add tool: self.screen.snapshot [user]
+I (1787) MCP: Add tool: self.screen.preview_image [user]
+I (1797) MCP: Add tool: self.assets.set_download_url [user]
+I (1797) Esp32S31Korvo1Stc: STC_NETWORK_GATE state=GAME action=block cloud_connections=0
+I ��I (3507) uart: ESP_INTR_FLAG_IRAM flag not set while CONFIG_UART_ISR_IN_IRAM is enabled, flag updated
+I (3507) Esp32S31Korvo1Stc: STC_CMD ready: 'stc status', 'stc voice', 'stc chat', 'stc play', 'stc game'
+I (3757) Esp32S31Korvo1Stc: CONTRACT_VERSION voice=1.1.0 vision=1.0.0 bin=1.2.0 game=1.0.0 impl_vision=stub-1
+I (4077) Esp32S31Korvo1Stc: STC_MODE_REQUEST target=CHAT source=uart
+I (4097) Esp32S31Korvo1Stc: STC_NETWORK_GATE state=CHAT action=start
+I (4097) WifiManager: Initializing...
+I (4097) pp: pp rom version: 395df10
+I (4097) net80211: net80211 rom version: 395df10
+I (4107) wifi:wifi driver task: 2f0662e8, prio:23, stack:6656, core=0
+I (4107) wifi:wifi firmware version: e12a754
+I (4107) wifi:wifi certification version: v7.0
+I (4117) wifi:config NVS flash: disabled
+I (4117) wifi:config nano formatting: disabled
+I (4117) wifi:mac_version:HAL_MAC_ESP32AX_764,ut_version:N, band mode:0x1
+I (4127) wifi:Init data frame dynamic rx buffer num: 6
+I (4137) wifi:Init dynamic rx mgmt buffer num: 5
+I (4137) wifi:Init management short buffer num: 32
+I (4137) wifi:Init dynamic tx buffer num: 32
+I (4147) wifi:Init static tx FG buffer num: 2
+I (4147) wifi:Init static rx buffer size: 1700 (rxctrl:64, csi:512)
+I (4157) wifi:Init static rx buffer num: 3
+I (4157) wifi:Init dynamic rx buffer num: 6
+I (4187) wifi_init: rx ba win: 3
+I (4187) wifi_init: accept mbox: 6
+I (4187) wifi_init: tcpip mbox: 16
+I (4187) wifi_init: udp mbox: 6
+I (4187) wifi_init: tcp mbox: 6
+I (4187) wifi_init: tcp tx win: 5760
+I (4197) wifi_init: tcp rx win: 5760
+I (4197) wifi_init: tcp mss: 1440
+I (4197) wifi_init: WiFi SLP IRAM OP enabled
+I (4207) WifiManager: Initialized
+I (4207) WifiBoard: Starting WiFi connection attempt
+I (4207) WifiManager: Starting station
+I (4217) WifiStation: Station DHCP hostname: Xiaozhi-58A0
+I (4217) phy_init: phy_version 100,dd4c590,Jul 14 2026,10:33:03
+W (4297) wifi:(phy)rate:0x0(  LP-1Mbps), pwr:20, txing:20
+W (4297) wifi:(phy)rate:0x1(  LP-2Mbps), pwr:20, txing:20
+W (4297) wifi:(phy)rate:0x2(LP-5.5Mbps), pwr:20, txing:20
+W (4307) wifi:(phy)rate:0x3( LP-11Mbps), pwr:20, txing:20
+W (4307) wifi:(phy)rate:0x5(  SP-2Mbps), pwr:20, txing:20
+W (4317) wifi:(phy)rate:0x6(SP-5.5Mbps), pwr:20, txing:20
+W (4317) wifi:(phy)rate:0x7( SP-11Mbps), pwr:20, txing:20
+W (4327) wifi:(phy)rate:0x8(    48Mbps), pwr:18, txing:18
+W (4327) wifi:(phy)rate:0x9(    24Mbps), pwr:19, txing:19
+W (4337) wifi:(phy)rate:0xa(    12Mbps), pwr:20, txing:20
+W (4337) wifi:(phy)rate:0xb(     6Mbps), pwr:20, txing:20
+W (4347) wifi:(phy)rate:0xc(    54Mbps), pwr:18, txing:18
+W (4347) wifi:(phy)rate:0xd(    36Mbps), pwr:19, txing:19
+W (4357) wifi:(phy)rate:0xe(    18Mbps), pwr:20, txing:20
+W (4357) wifi:(phy)rate:0xf(     9Mbps), pwr:20, txing:20
+W (4367) wifi:(phy)rate:0x10, mcs:0x0, pwr(bw20:20, bw40:19), txing:20
+W (4367) wifi:(phy)rate:0x11, mcs:0x1, pwr(bw20:20, bw40:19), txing:20
+W (4377) wifi:(phy)rate:0x12, mcs:0x2, pwr(bw20:20, bw40:19), txing:20
+W (4387) wifi:(phy)rate:0x13, mcs:0x3, pwr(bw20:20, bw40:19), txing:20
+W (4387) wifi:(phy)rate:0x14, mcs:0x4, pwr(bw20:19, bw40:18), txing:19
+W (4397) wifi:(phy)rate:0x15, mcs:0x5, pwr(bw20:19, bw40:18), txing:19
+W (4397) wifi:(phy)rate:0x16, mcs:0x6, pwr(bw20:18, bw40:17), txing:18
+W (4407) wifi:(phy)rate:0x17, mcs:0x7, pwr(bw20:18, bw40:17), txing:18
+W (4417) wifi:(phy)rate:0x18, mcs:0x8, pwr(bw20:16, bw40:16), txing:16
+W (4417) wifi:(phy)rate:0x19, mcs:0x9, pwr(bw20:15, bw40:15), txing:15
+I (4427) wifi:11ax coex: WDEVAX_PTI0(0x04000000), WDEVAX_PTI1(0x0001c0ec).
+
+I (4437) wifi:mode : sta (1c:29:04:d0:58:a0)
+I (4437) wifi:enable tsf
+I (4527) StcVoice: STC_VOICE_MODE CHAT
+I (4527) Esp32S31Korvo1Stc: APP_STATE GAME -> CHAT_STARTING mode=0
+I (4527) WifiStation: Scanning saved channel 6
+I (4527) WifiBoard: WiFi scanning
+I (4657) WifiStation: Found AP: Wu_iPhone, BSSID: 8a:56:3b:77:c6:2e, RSSI: -41, Channel: 6, Authmode: 3
+I (4657) WifiBoard: WiFi connecting to Wu_iPhone
+W (4657) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (4677) wifi:(he)max.RxAMPDULenExponentExtension:3, max.RxAMPDUpre-EOFpaddingBytes:8388607(0x7fffff)
+I (4677) wifi:(mac)omc_ul_mu_data_disable_rx:0
+I (4677) wifi:(phy)ppe_thresholds_present:0, nominal_packet_padding:1
+I (4687) wifi:(phy)dcm tx(constellation:0, nss:0), dcm rx(constellation:1, nss:0)
+I (4687) wifi:(phy)rx_mcs_map:0xfff5, tx_mcs_map:0xfff5, stbc_tx:0, bfmer(su:0, mu:0), ldpc:1, max_rate:172
+I (4697) wifi:(opr)bss color disabled:1
+I (4707) wifi:(opr)len:7, TWT Required:0, VHT Opr Info Present:0, 6GHz Opr Info Present:0, Co-Hosted BSS:0(max_indicator:0), Basic MCS and NSS:0xfffc
+I (4717) wifi:(opr)len:7, Default PE Duration:0, TXOP RTS Threshold:1023(0 us), ER-SU-Disable:1
+I (4727) wifi:(opr)len:7, BSS Color:0, disabled:1, Partial BSS Color:0
+I (4817) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0x0
+I (4817) wifi:(connect)dot11_authmode:0x3, pairwise_cipher:0x3, group_cipher:0x3
+I (4817) wifi:state: init -> auth (0xb0)
+I (4827) wifi:state: auth -> assoc (0x0)
+I (4837) wifi:(assoc)RESP, Extended Capabilities length:8, operating_mode_notification:0
+I (4837) wifi:(assoc)RESP, Extended Capabilities, MBSSID:0, TWT Responder:0, OBSS Narrow Bandwidth RU In OFDMA Tolerance:0
+I (4847) wifi:Extended Capabilities length:8, operating_mode_notification:1
+I (4857) wifi:(he)max.RxAMPDULenExponentExtension:3, max.RxAMPDUpre-EOFpaddingBytes:8388607(0x7fffff)
+I (4857) wifi:(mac)omc_ul_mu_data_disable_rx:0
+I (4867) wifi:(phy)ppe_thresholds_present:0, nominal_packet_padding:1
+I (4877) wifi:(phy)dcm tx(constellation:0, nss:0), dcm rx(constellation:1, nss:0)
+I (4877) wifi:(phy)rx_mcs_map:0xfff5, tx_mcs_map:0xfff5, stbc_tx:0, bfmer(su:0, mu:0), ldpc:1, max_rate:172
+I (4887) wifi:(opr)bss color disabled:1
+I (4897) wifi:(opr)len:7, TWT Required:0, VHT Opr Info Present:0, 6GHz Opr Info Present:0, Co-Hosted BSS:0(max_indicator:0), Basic MCS and NSS:0xfffc
+I (4907) wifi:(opr)len:7, Default PE Duration:0, TXOP RTS Threshold:1023(0 us), ER-SU-Disable:1
+I (4917) wifi:(opr)len:7, BSS Color:0, disabled:1, Partial BSS Color:0
+I (4917) wifi:state: assoc -> run (0x10)
+I (4927) wifi:(he)ppe_thresholds_present:0, nominal_packet_padding(rx:1, cfg:1)
+I (4927) wifi:(trc)phytype:CBW20-SGI, snr:56, maxRate:172, highestRateIdx:0
+W (4937) wifi:(trc)band:2G, phymode:3, highestRateIdx:0, lowestRateIdx:11, dataSchedTableSize:14
+I (4947) wifi:(trc)band:2G, rate(S-MCS7, rateIdx:0), ampdu(rate:S-MCS7, schedIdx(0, stop:8)), snr:56, ampduState:wait operational
+I (4957) wifi:ifidx:0, rssi:-40, nf:-96, phytype(0x3, CBW20-SGI), phymode(0x7, 11ax), max_rate:172, he:1, vht:0, ht:1
+I (4967) wifi:(ht)max.RxAMPDULenExponent:3(65535 bytes), MMSS:6(8 us)
+I (4987) wifi:(extcap)mbssid:0, enhanced_mbssid_advertise:0, complete_nontxbssid_profiles:0, twt_responder: 0
+I (4987) wifi:connected with Wu_iPhone, aid = 20, channel 6, BW20, bssid = 8a:56:3b:77:c6:2e
+I (4997) wifi:security: WPA2-PSK, phy: ax, rssi: -40, cipher(pairwise:0x3, group:0x3), pmf:0
+I (5007) wifi:pm start, type: 1, twt_start:0
+
+I (5007) wifi:pm start, type:1, aid:0x14, trans-BSSID:8a:56:3b:77:c6:2e, BSSID[5]:0x2e, mbssid(max-indicator:0, index:0), he:1
+I (5017) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (5027) wifi:[ADDBA]TX addba request, tid:0, dialogtoken:1, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x0)
+I (5037) wifi:[ADDBA]TX addba request, tid:7, dialogtoken:2, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x20)
+I (5047) wifi:[ADDBA]TX addba request, tid:5, dialogtoken:3, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x0)
+I (5057) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+W (5067) wifi:<ba-add>idx:0, ifx:0, tid:4, TAHI:0x1002ec6, TALO:0x773b568a, (ssn:2712, win:64, cur_ssn:2712), CONF:0xc0004001
+W (5077) wifi:<ba-add>idx:1, ifx:0, tid:6, TAHI:0x1002ec6, TALO:0x773b568a, (ssn:755, win:64, cur_ssn:755), CONF:0xc0006001
+I (5087) wifi:[ADDBA]RX addba response, status:0, tid:0/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+I (5097) wifi:[ADDBA]RX addba response, status:0, tid:7/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+I (5107) wifi:[ADDBA]RX addba response, status:0, tid:5/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+I (6297) esp_netif_handlers: sta ip: 172.20.10.2, mask: 255.255.255.240, gw: 172.20.10.1
+I (6297) WifiStation: Got IP: 172.20.10.2
+I (6297) WifiBoard: Connected to WiFi: Wu_iPhone
+I (6297) Application: Network connected
+I (6297) StateMachine: State: starting -> activating
+I (6307) Assets: The storage free size is 62464 KB
+I (6307) Assets: The assets map size is 3392 KB (partition 8192 KB)
+I (6457) Assets: The checksum calculation time is 143 ms
+I (6457) MODEL_LOADER: Successfully load srmodels
+I (6467) Assets: Refreshing display theme...
+W (6537) EmojiCollection: Emoji not found: robot_2
+I (6537) Ota: Current version: 2.5.2
+W (6567) wifi:<ba-add>idx:2, ifx:0, tid:0, TAHI:0x1002ec6, TALO:0x773b568a, (ssn:3083, win:64, cur_ssn:3083), CONF:0xc0000001
+I (7077) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=530
+I (7307) HttpClient: HTTP connection closed
+I (7317) Ota: Current is the latest version
+I (7317) Ota: Running partition: ota_0
+I (7317) MQTT: Connecting to endpoint api.tenclass.net:8883
+I (7317) MQTT: Resolved MQTT host api.tenclass.net -> 47.76.65.170
+I (7817) MQTT: Connected to endpoint
+I (7827) Application: Activation done
+I (7827) SystemInfo: free sram: 193583 minimal sram: 80952
+I (7827) StateMachine: State: activating -> idle
+I (7837) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (7837) wifi:Set ps type: 2, coexist: 0
+
+I (7837) AfeAudioEngine: Model 0: wn9_nihaoxiaozhi_tts
+I (7847) WakeWordCache: Allocated 64000 bytes in PSRAM
+I (7847) AFE_CONFIG: Set WakeNet Model: wn9_nihaoxiaozhi_tts
+I (7857) AfeAudioEngine: Before AFE create: free=193383 min=80952 largest=98304
+I (7897) Esp32S31Korvo1Stc: APP_STATE CHAT_STARTING -> CHAT_READY
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 16:52:43)
+I (7907) AFE: AFE Version: (1MIC_V251128)
+I (7907) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (7917) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_nihaoxiaozhi_tts,)| -> [output]
+I (7927) AFE: AFE Version: (1MIC_V251128)
+I (7927) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (7937) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (7947) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (7957) AfeAudioEngine: After AFE create: free=120607 min=61368 largest=49152
+I (7957) StateMachine: State: idle -> connecting
+I (7957) I2S_IF: Paired data: 0x2f053f18, current mode: record, paired in_enable: 0, paired out_enable: 0
+I (7977) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (7987) I2S_IF: STD: RX, sample_rate_hz: 16000, mclk_multiple: 256, clk_src: 16
+I (7987) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (7997) I2S_IF: STD: TX, sample_rate_hz: 16000, mclk_multiple: 256, clk_src: 16
+I (8027) Adev_Codec: Open codec device OK
+I (8027) AudioCodec: Set input enable to true
+I (8027) I2S_IF: Current mode(playback) and peer mode have same sample_rate 16000, channel 2, bits_per_sample 16
+I (8037) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: STEREO, slot_mask: 0x3
+I (8047) I2S_IF: STD: TX, sample_rate_hz: 16000, mclk_multiple: 256, clk_src: 16
+I (8067) Adev_Codec: Open codec device OK
+I (8067) AudioCodec: Set output enable to true
+I (8077) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (8077) wifi:Set ps type: 0, coexist: 0
+
+I (8327) MQTT: Session ID: 346fda86
+I (8337) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (8337) wifi:Set ps type: 0, coexist: 0
+
+W (8337) Application: Server sample rate 24000 does not match device output sample rate 16000, resampling may cause distortion
+I (8347) StateMachine: State: connecting -> listening
+I (9267) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (9327) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (10567) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (10577) Esp32S31Korvo1Stc: STC_STATUS source=uart app_state=2 voice_mode=1 device_state=5 network=1 voice_busy=0 voice_detected=1 audio_input=249 audio_encoded=22
+I (10647) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (11527) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (11607) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (11847) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (12027) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (12547) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (12687) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (12927) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (13467) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (13707) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (14067) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (14187) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (14667) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (14677) Esp32S31Korvo1Stc: STC_STATUS source=uart app_state=2 voice_mode=1 device_state=5 network=1 voice_busy=0 voice_detected=0 audio_input=658 audio_encoded=91
+I (15147) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (15227) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (15387) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (15507) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (15707) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (16007) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (16187) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (16827) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (16967) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (17087) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (17247) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (17547) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (17757) SystemInfo: free sram: 119459 minimal sram: 61368
+I (17967) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (18307) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (18527) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (19067) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (19077) Esp32S31Korvo1Stc: STC_STATUS source=uart app_state=2 voice_mode=1 device_state=5 network=1 voice_busy=0 voice_detected=0 audio_input=1099 audio_encoded=164
+I (19467) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (19607) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (19767) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (19887) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (20007) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (20087) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (20367) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (20667) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (20927) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (21027) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (21687) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (22247) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (22367) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (22467) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (22787) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (23107) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (23117) Esp32S31Korvo1Stc: STC_STATUS source=uart app_state=2 voice_mode=1 device_state=5 network=1 voice_busy=0 voice_detected=0 audio_input=1503 audio_encoded=232
+I (23547) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (23727) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (24087) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (24327) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (24687) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (27297) Application: >> 你好，小智。
+I (27307) Esp32S31Korvo1Stc: STC_STATUS source=uart app_state=2 voice_mode=1 device_state=5 network=1 voice_busy=0 voice_detected=1 audio_input=1923 audio_encoded=301
+I (27307) StateMachine: State: listening -> speaking
+I (28437) Application: << 哈喽～我在呢，今天过得怎么样呀？
+I (28667) AudioService: Resampling audio from 24000 to 16000
+I (31307) StateMachine: State: speaking -> listening
+I (31317) Esp32S31Korvo1Stc: STC_STATUS source=uart app_state=2 voice_mode=1 device_state=5 network=1 voice_busy=0 voice_detected=1 audio_input=2323 audio_encoded=302
+I (33207) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=0
+I (33327) Esp32S31Korvo1Stc: STC_AUDIO_VAD active=1
+I (34207) Application: >> 挺好的。
+I (34207) StateMachine: State: listening -> speaking
+I (35247) Application: << 那就好～
+I (36617) Application: << 听起来心情不错喔，今天有发生什么开心的事吗？
+I (36627) Esp32S31Korvo1Stc: STC_STATUS source=uart app_state=2 voice_mode=1 device_state=6 network=1 voice_busy=0 voice_detected=1 audio_input=2850 audio_encoded=347
+I (40517) StateMachine: State: speaking -> listening
+I (43897) Application: >> 没有没事了。好的，拜拜。
+I (43897) StateMachine: State: listening -> speaking
+I (43897) Esp32S31Korvo1Stc: STC_STATUS source=uart app_state=2 voice_mode=1 device_state=6 network=1 voice_busy=0 voice_detected=1 audio_input=3572 audio_encoded=400
+I (44897) Application: << 好啦，那你先忙，想聊的时候随时叫我喔，拜拜～
+I (49277) StateMachine: State: speaking -> listening

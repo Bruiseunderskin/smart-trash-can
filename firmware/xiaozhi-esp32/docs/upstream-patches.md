@@ -9,6 +9,7 @@ when synchronizing with upstream XiaoZhi firmware.
 | --- | --- | --- | --- |
 | `main/Kconfig.projbuild` | Adds `BOARD_TYPE_ESP32_S31_KORVO_1_STC` for `IDF_TARGET_ESP32S31` and a board-scoped `STC_MCP_CAMERA` option, default `n`. | Makes the isolated variant selectable and prevents the CHAT server from invoking a camera MCP tool. | Keep both entries while the variant exists; re-add them if an upstream sync replaces the board choice block. |
 | `main/CMakeLists.txt` | Maps the board option to `boards/espressif/esp32-s31-korvo-1-stc`, adds the frozen C contract include directory, and packages the board-local `assets` directory. | The board needs the game contract headers and local PCM files in the existing assets partition. | Reapply these lines after upstream CMake selection or asset packaging changes. |
+| `main/audio/audio_service.h` | Adds a read-only `GetDebugStatistics()` accessor. | Board diagnostics can distinguish microphone input, Opus encoding, and playback without adding logging to the realtime audio loop. | Keep the small accessor or replace it with an equivalent upstream diagnostic API. |
 
 No changes are made to `main/protocols/*`, `main/application.*`, `main/mcp_server.*`,
 or an official board directory. GAME mode starts before the upstream network

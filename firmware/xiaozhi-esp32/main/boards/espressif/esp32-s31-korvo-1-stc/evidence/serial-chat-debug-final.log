@@ -1,0 +1,183 @@
+I (7867) Esp32S31Korvo1Stc: STC_MODE_REQUEST target=CHAT source=uart
+I (7877) Esp32S31Korvo1Stc: STC_NETWORK_GATE state=CHAT action=start
+I (7877) WifiManager: Initializing...
+I (7877) pp: pp rom version: 395df10
+I (7877) net80211: net80211 rom version: 395df10
+I (7887) wifi:wifi driver task: 2f0662d0, prio:23, stack:6656, core=0
+I (7887) wifi:wifi firmware version: e12a754
+I (7887) wifi:wifi certification version: v7.0
+I (7897) wifi:config NVS flash: disabled
+I (7897) wifi:config nano formatting: disabled
+I (7907) wifi:mac_version:HAL_MAC_ESP32AX_764,ut_version:N, band mode:0x1
+I (7907) wifi:Init data frame dynamic rx buffer num: 6
+I (7917) wifi:Init dynamic rx mgmt buffer num: 5
+I (7917) wifi:Init management short buffer num: 32
+I (7927) wifi:Init dynamic tx buffer num: 32
+I (7927) wifi:Init static tx FG buffer num: 2
+I (7927) wifi:Init static rx buffer size: 1700 (rxctrl:64, csi:512)
+I (7937) wifi:Init static rx buffer num: 3
+I (7937) wifi:Init dynamic rx buffer num: 6
+I (7967) wifi_init: rx ba win: 3
+I (7967) wifi_init: accept mbox: 6
+I (7967) wifi_init: tcpip mbox: 16
+I (7967) wifi_init: udp mbox: 6
+I (7967) wifi_init: tcp mbox: 6
+I (7967) wifi_init: tcp tx win: 5760
+I (7977) wifi_init: tcp rx win: 5760
+I (7977) wifi_init: tcp mss: 1440
+I (7977) wifi_init: WiFi SLP IRAM OP enabled
+I (7987) WifiManager: Initialized
+I (7987) WifiBoard: Starting WiFi connection attempt
+I (7997) WifiManager: Starting station
+I (7997) WifiStation: Station DHCP hostname: Xiaozhi-58A0
+I (7997) phy_init: phy_version 100,dd4c590,Jul 14 2026,10:33:03
+W (8077) wifi:(phy)rate:0x0(  LP-1Mbps), pwr:20, txing:20
+W (8077) wifi:(phy)rate:0x1(  LP-2Mbps), pwr:20, txing:20
+W (8077) wifi:(phy)rate:0x2(LP-5.5Mbps), pwr:20, txing:20
+W (8087) wifi:(phy)rate:0x3( LP-11Mbps), pwr:20, txing:20
+W (8087) wifi:(phy)rate:0x5(  SP-2Mbps), pwr:20, txing:20
+W (8097) wifi:(phy)rate:0x6(SP-5.5Mbps), pwr:20, txing:20
+W (8097) wifi:(phy)rate:0x7( SP-11Mbps), pwr:20, txing:20
+W (8107) wifi:(phy)rate:0x8(    48Mbps), pwr:18, txing:18
+W (8107) wifi:(phy)rate:0x9(    24Mbps), pwr:19, txing:19
+W (8117) wifi:(phy)rate:0xa(    12Mbps), pwr:20, txing:20
+W (8117) wifi:(phy)rate:0xb(     6Mbps), pwr:20, txing:20
+W (8127) wifi:(phy)rate:0xc(    54Mbps), pwr:18, txing:18
+W (8127) wifi:(phy)rate:0xd(    36Mbps), pwr:19, txing:19
+W (8137) wifi:(phy)rate:0xe(    18Mbps), pwr:20, txing:20
+W (8137) wifi:(phy)rate:0xf(     9Mbps), pwr:20, txing:20
+W (8147) wifi:(phy)rate:0x10, mcs:0x0, pwr(bw20:20, bw40:19), txing:20
+W (8147) wifi:(phy)rate:0x11, mcs:0x1, pwr(bw20:20, bw40:19), txing:20
+W (8157) wifi:(phy)rate:0x12, mcs:0x2, pwr(bw20:20, bw40:19), txing:20
+W (8167) wifi:(phy)rate:0x13, mcs:0x3, pwr(bw20:20, bw40:19), txing:20
+W (8167) wifi:(phy)rate:0x14, mcs:0x4, pwr(bw20:19, bw40:18), txing:19
+W (8177) wifi:(phy)rate:0x15, mcs:0x5, pwr(bw20:19, bw40:18), txing:19
+W (8177) wifi:(phy)rate:0x16, mcs:0x6, pwr(bw20:18, bw40:17), txing:18
+W (8187) wifi:(phy)rate:0x17, mcs:0x7, pwr(bw20:18, bw40:17), txing:18
+W (8197) wifi:(phy)rate:0x18, mcs:0x8, pwr(bw20:16, bw40:16), txing:16
+W (8197) wifi:(phy)rate:0x19, mcs:0x9, pwr(bw20:15, bw40:15), txing:15
+I (8207) wifi:11ax coex: WDEVAX_PTI0(0x04000000), WDEVAX_PTI1(0x0001c0ec).
+
+I (8217) wifi:mode : sta (1c:29:04:d0:58:a0)
+I (8217) wifi:enable tsf
+I (8307) StcVoice: STC_VOICE_MODE CHAT
+I (8307) WifiStation: Scanning saved channel 6
+I (8307) WifiBoard: WiFi scanning
+I (8307) Esp32S31Korvo1Stc: APP_STATE GAME -> CHAT_STARTING mode=0
+I (8427) WifiStation: Found AP: Wu_iPhone, BSSID: 8a:56:3b:77:c6:2e, RSSI: -63, Channel: 6, Authmode: 3
+I (8437) WifiBoard: WiFi connecting to Wu_iPhone
+W (8437) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (8457) wifi:(he)max.RxAMPDULenExponentExtension:3, max.RxAMPDUpre-EOFpaddingBytes:8388607(0x7fffff)
+I (8457) wifi:(mac)omc_ul_mu_data_disable_rx:0
+I (8457) wifi:(phy)ppe_thresholds_present:0, nominal_packet_padding:1
+I (8467) wifi:(phy)dcm tx(constellation:0, nss:0), dcm rx(constellation:1, nss:0)
+I (8467) wifi:(phy)rx_mcs_map:0xfff5, tx_mcs_map:0xfff5, stbc_tx:0, bfmer(su:0, mu:0), ldpc:1, max_rate:172
+I (8477) wifi:(opr)bss color disabled:1
+I (8487) wifi:(opr)len:7, TWT Required:0, VHT Opr Info Present:0, 6GHz Opr Info Present:0, Co-Hosted BSS:0(max_indicator:0), Basic MCS and NSS:0xfffc
+I (8497) wifi:(opr)len:7, Default PE Duration:0, TXOP RTS Threshold:1023(0 us), ER-SU-Disable:1
+I (8507) wifi:(opr)len:7, BSS Color:0, disabled:1, Partial BSS Color:0
+I (8597) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0x0
+I (8597) wifi:(connect)dot11_authmode:0x3, pairwise_cipher:0x3, group_cipher:0x3
+I (8597) wifi:state: init -> auth (0xb0)
+I (8617) wifi:state: auth -> assoc (0x0)
+I (8627) wifi:(assoc)RESP, Extended Capabilities length:8, operating_mode_notification:0
+I (8627) wifi:(assoc)RESP, Extended Capabilities, MBSSID:0, TWT Responder:0, OBSS Narrow Bandwidth RU In OFDMA Tolerance:0
+I (8637) wifi:Extended Capabilities length:8, operating_mode_notification:1
+I (8637) wifi:(he)max.RxAMPDULenExponentExtension:3, max.RxAMPDUpre-EOFpaddingBytes:8388607(0x7fffff)
+I (8647) wifi:(mac)omc_ul_mu_data_disable_rx:0
+I (8657) wifi:(phy)ppe_thresholds_present:0, nominal_packet_padding:1
+I (8657) wifi:(phy)dcm tx(constellation:0, nss:0), dcm rx(constellation:1, nss:0)
+I (8667) wifi:(phy)rx_mcs_map:0xfff5, tx_mcs_map:0xfff5, stbc_tx:0, bfmer(su:0, mu:0), ldpc:1, max_rate:172
+I (8677) wifi:(opr)bss color disabled:1
+I (8677) wifi:(opr)len:7, TWT Required:0, VHT Opr Info Present:0, 6GHz Opr Info Present:0, Co-Hosted BSS:0(max_indicator:0), Basic MCS and NSS:0xfffc
+I (8697) wifi:(opr)len:7, Default PE Duration:0, TXOP RTS Threshold:1023(0 us), ER-SU-Disable:1
+I (8697) wifi:(opr)len:7, BSS Color:0, disabled:1, Partial BSS Color:0
+I (8707) wifi:state: assoc -> run (0x10)
+I (8707) wifi:(he)ppe_thresholds_present:0, nominal_packet_padding(rx:1, cfg:1)
+I (8717) wifi:(trc)phytype:CBW20-SGI, snr:33, maxRate:172, highestRateIdx:0
+W (8727) wifi:(trc)band:2G, phymode:3, highestRateIdx:0, lowestRateIdx:11, dataSchedTableSize:14
+I (8737) wifi:(trc)band:2G, rate(L-MCS6, rateIdx:2), ampdu(rate:L-MCS6, schedIdx(2, stop:8)), snr:33, ampduState:wait operational
+I (8747) wifi:ifidx:0, rssi:-63, nf:-96, phytype(0x3, CBW20-SGI), phymode(0x7, 11ax), max_rate:172, he:1, vht:0, ht:1
+I (8757) wifi:(ht)max.RxAMPDULenExponent:3(65535 bytes), MMSS:6(8 us)
+I (8777) wifi:(extcap)mbssid:0, enhanced_mbssid_advertise:0, complete_nontxbssid_profiles:0, twt_responder: 0
+I (8777) wifi:connected with Wu_iPhone, aid = 20, channel 6, BW20, bssid = 8a:56:3b:77:c6:2e
+I (8787) wifi:security: WPA2-PSK, phy: ax, rssi: -63, cipher(pairwise:0x3, group:0x3), pmf:0
+I (8797) wifi:pm start, type: 1, twt_start:0
+
+I (8797) wifi:pm start, type:1, aid:0x14, trans-BSSID:8a:56:3b:77:c6:2e, BSSID[5]:0x2e, mbssid(max-indicator:0, index:0), he:1
+I (8807) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (8817) wifi:[ADDBA]TX addba request, tid:0, dialogtoken:1, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x0)
+I (8827) wifi:[ADDBA]TX addba request, tid:7, dialogtoken:2, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x20)
+I (8837) wifi:[ADDBA]TX addba request, tid:5, dialogtoken:3, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x0)
+W (8847) wifi:<ba-add>idx:0, ifx:0, tid:4, TAHI:0x1002ec6, TALO:0x773b568a, (ssn:2399, win:64, cur_ssn:2399), CONF:0xc0004001
+W (8857) wifi:<ba-add>idx:1, ifx:0, tid:6, TAHI:0x1002ec6, TALO:0x773b568a, (ssn:4014, win:64, cur_ssn:4014), CONF:0xc0006001
+I (8867) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8877) wifi:[ADDBA]RX addba response, status:0, tid:0/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+I (8887) wifi:[ADDBA]RX addba response, status:0, tid:7/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+I (8897) wifi:[ADDBA]RX addba response, status:0, tid:5/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+I (10157) esp_netif_handlers: sta ip: 172.20.10.2, mask: 255.255.255.240, gw: 172.20.10.1
+I (10157) WifiStation: Got IP: 172.20.10.2
+I (10157) WifiBoard: Connected to WiFi: Wu_iPhone
+I (10157) Application: Network connected
+I (10157) StateMachine: State: starting -> activating
+I (10167) Assets: The storage free size is 62464 KB
+I (10167) Assets: The assets map size is 3392 KB (partition 8192 KB)
+I (10317) Assets: The checksum calculation time is 141 ms
+I (10317) MODEL_LOADER: Successfully load srmodels
+I (10327) Assets: Refreshing display theme...
+W (10407) EmojiCollection: Emoji not found: robot_2
+I (10407) Ota: Current version: 2.5.2
+W (10427) wifi:<ba-add>idx:2, ifx:0, tid:0, TAHI:0x1002ec6, TALO:0x773b568a, (ssn:1466, win:64, cur_ssn:1466), CONF:0xc0000001
+I (10897) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=480
+I (11037) HttpClient: HTTP connection closed
+I (11037) Ota: Current is the latest version
+I (11037) Ota: Running partition: ota_0
+I (11047) MQTT: Connecting to endpoint api.tenclass.net:8883
+I (11047) MQTT: Resolved MQTT host api.tenclass.net -> 47.76.65.170
+I (11657) MQTT: Connected to endpoint
+I (11657) Application: Activation done
+I (11657) SystemInfo: free sram: 193091 minimal sram: 80696
+I (11667) StateMachine: State: activating -> idle
+I (11667) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (11667) wifi:Set ps type: 2, coexist: 0
+
+I (11687) AfeAudioEngine: Model 0: wn9_nihaoxiaozhi_tts
+I (11687) WakeWordCache: Allocated 64000 bytes in PSRAM
+I (11687) AFE_CONFIG: Set WakeNet Model: wn9_nihaoxiaozhi_tts
+I (11687) AfeAudioEngine: Before AFE create: free=193043 min=80696 largest=98304
+I (11737) Esp32S31Korvo1Stc: APP_STATE CHAT_STARTING -> CHAT_READY
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 16:52:43)
+I (11747) AFE: AFE Version: (1MIC_V251128)
+I (11747) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (11757) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_nihaoxiaozhi_tts,)| -> [output]
+I (11767) AFE: AFE Version: (1MIC_V251128)
+I (11767) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (11777) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (11787) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (11787) AfeAudioEngine: After AFE create: free=120579 min=62384 largest=49152
+I (11797) I2S_IF: Paired data: 0x2f053f18, current mode: record, paired in_enable: 0, paired out_enable: 0
+I (11807) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (11817) I2S_IF: STD: RX, sample_rate_hz: 16000, mclk_multiple: 256, clk_src: 16
+I (11827) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (11827) I2S_IF: STD: TX, sample_rate_hz: 16000, mclk_multiple: 256, clk_src: 16
+I (11867) Adev_Codec: Open codec device OK
+I (11867) AudioCodec: Set input enable to true
+I (11867) I2S_IF: Current mode(playback) and peer mode have same sample_rate 16000, channel 2, bits_per_sample 16
+I (11877) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: STEREO, slot_mask: 0x3
+I (11877) I2S_IF: STD: TX, sample_rate_hz: 16000, mclk_multiple: 256, clk_src: 16
+I (11907) Adev_Codec: Open codec device OK
+I (11907) AudioCodec: Set output enable to true
+I (11907) StateMachine: State: idle -> connecting
+I (11907) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (11907) wifi:Set ps type: 0, coexist: 0
+
+I (12107) MQTT: Session ID: adce6245
+I (12107) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (12107) wifi:Set ps type: 0, coexist: 0
+
+W (12107) Application: Server sample rate 24000 does not match device output sample rate 16000, resampling may cause distortion
+I (12127) StateMachine: State: connecting -> listening
+I (21757) SystemInfo: free sram: 119439 minimal sram: 62384
+I (31757) SystemInfo: free sram: 119451 minimal sram: 62384
+I (41757) SystemInfo: free sram: 119439 minimal sram: 62384
+I (51757) SystemInfo: free sram: 119447 minimal sram: 62384

@@ -22,7 +22,7 @@ Test date: 2026-11-05.
 | First CHAT entry | PASS | Serial request reached `CHAT_STARTING`, then `CHAT_READY`, then `State: connecting -> listening`. |
 | CHAT re-entry | PASS | After 60 s timeout returned to GAME, CHAT started again and reached `CHAT_READY` without a protocol-not-initialized race. |
 | Return to GAME | PASS | CHAT request reached ready, then `STC_NETWORK_GATE state=GAME action=stop` and `APP_STATE CHAT -> GAME`. |
-| Human voice answer | **PENDING** | Network and native XiaoZhi Listening are active, but no person completed wake-word/ASR/LLM/TTS QA. |
+| Human voice answer | PASS | Real speech produced `>> 你好，小智。`, transitioned `listening -> speaking`, then returned TTS `<< 哈喽～我在呢…` and continued a second turn. |
 | Game UI | INTENTIONAL PLACEHOLDER | `stc_game_placeholder.cc` displays a dark empty page and replacement hint only. |
 
 ## State machine
@@ -39,6 +39,38 @@ network, LED, and UI changes in this order. CHAT does not call
 to `kDeviceStateIdle`; this prevents starting Listening before protocol
 initialization.
 
+## Voice deadlock fix
+
+The first Listening implementation initialized AFE before assets loaded and used
+manual-stop mode. The serial trace showed:
+
+```text
+MODEL_LOADER: Can not find model in partition table
+AfeAudioEngine: Initialized FD AFE, detector: none
+AudioService: Ignoring speech model replacement after audio engine initialization
+State: connecting -> listening
+```
+
+`StartListening()` selected `kListeningModeManualStop`, so speech never sent the
+server-side end-of-utterance signal. The fix:
+
+1. Do not initialize WakeNet from `stc_voice_set_mode(CHAT)`; wait until Assets
+   load the SR models.
+2. Start CHAT through `Application::ToggleChatState()` so the default auto/VAD
+   listening mode is used.
+
+The fixed trace shows the model loaded first and then a live conversation:
+
+```text
+MODEL_LOADER: Successfully load srmodels
+AfeAudioEngine: Model 0: wn9_nihaoxiaozhi_tts
+AfeAudioEngine: Initialized FD AFE, detector: WakeNet
+State: connecting -> listening
+Application: >> 你好，小智。
+State: listening -> speaking
+Application: << 哈喽～我在呢，今天过得怎么样呀？
+```
+
 ## UI replacement contract
 
 - The persistent bottom bar and touch callbacks are in `stc_shell_ui.cc`.
@@ -53,9 +85,9 @@ initialization.
 - `python -m unittest discover -s tools/tests -v`: **26/26 PASS**.
 - New app FSM test: pass.
 - ESP-IDF 6.1 canonical S31 build: pass.
-- Final application image: `0x30c4f0` bytes, 23% free.
+- Final application image: `0x30c580` bytes, 23% free.
 - Final `xiaozhi.bin` SHA-256:
-  `ed858f8383158f749e28d1186b494380f4b075ec8ba232cba4e95ce73207097d`.
+  `648fb017c13efce609912bb548d8797d708d4e2c00e06de7574ef5d605d1004c`.
 - Flash and hash verification on `COM5`: pass.
 
 ## Evidence
@@ -64,6 +96,16 @@ initialization.
   creation, GAME network lock, contract versions.
 - [`evidence/serial-shell-fsm.log`](./evidence/serial-shell-fsm.log): first CHAT,
   60 s timeout, second CHAT, and return to GAME.
+- [`evidence/serial-chat-debug-stats.log`](./evidence/serial-chat-debug-stats.log):
+  successful live microphone, VAD, ASR, TTS, and second-turn trace.
+- [`evidence/serial-chat-debug-before.log`](./evidence/serial-chat-debug-before.log):
+  failed trace proving the pre-fix `detector: none` initialization order.
+- [`evidence/serial-chat-debug-after.log`](./evidence/serial-chat-debug-after.log):
+  intermediate trace proving the model-loading order was fixed while manual-stop
+  listening still produced no reply.
+- [`evidence/serial-chat-debug-final.log`](./evidence/serial-chat-debug-final.log):
+  intermediate trace proving automatic VAD reached `listening`; no human speech
+  was entered during this short capture.
 - [`evidence/serial-final-boot.log`](./evidence/serial-final-boot.log): earlier
   final boot of the previous game-flow build.
 
@@ -74,7 +116,5 @@ not describe the current blank GAME page.
 
 ## Remaining hardware checks
 
-- Physically tap both screen buttons in GAME and CHAT.
-- Confirm visually that GAME fully covers XiaoZhi, while CHAT shows the native
-  XiaoZhi page with the bottom mode bar still available.
-- Perform one real spoken wake-word question and listen to the answer.
+- Confirm the exact GAME-page appearance and both bottom button touch targets
+  visually on the production enclosure.

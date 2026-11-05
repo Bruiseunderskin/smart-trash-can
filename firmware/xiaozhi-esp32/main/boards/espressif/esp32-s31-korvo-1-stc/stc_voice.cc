@@ -233,7 +233,10 @@ extern "C" stc_err_t stc_voice_set_mode(stc_mode_t requested_mode) {
             app.SetDeviceState(kDeviceStateWifiConfiguring);
         }
         stc_network_gate_enable_for_chat();
-        app.GetAudioService().EnableWakeWordDetection(true);
+        // Do not initialize the audio engine here. Models are loaded only after
+        // Assets are mounted during activation; initializing early creates an
+        // AFE with detector=none, and AudioService refuses to replace it later.
+        // The upstream idle state handler enables WakeNet after activation.
     }
     last_activity_us.store(esp_timer_get_time());
     ESP_LOGI(TAG, "STC_VOICE_MODE %s", requested_mode == STC_MODE_GAME ? "GAME" : "CHAT");
@@ -250,7 +253,10 @@ extern "C" stc_err_t stc_voice_start_dialog(void) {
     auto& app = Application::GetInstance();
     if (app.GetDeviceState() == kDeviceStateIdle) {
         chat_dialog_pending.store(false);
-        app.StartListening();
+        // StartListening() forces manual mode, which waits for an explicit
+        // stop. Use the normal XiaoZhi toggle path so server/VAD can finish
+        // the utterance automatically.
+        app.ToggleChatState();
     } else {
         chat_dialog_pending.store(true);
         ESP_LOGI(TAG, "STC_VOICE_DIALOG deferred state=%d", static_cast<int>(app.GetDeviceState()));
