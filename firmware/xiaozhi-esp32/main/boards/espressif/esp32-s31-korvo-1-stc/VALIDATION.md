@@ -1,183 +1,80 @@
-# STC P1 validation
+# STC game/chat shell validation
 
 Target: ESP32-S31-Korvo-1 V1.1, `esp32s31`, ESP-IDF 6.1 on Windows `COM5`.
 Test date: 2026-11-05.
 
-The implementation uses the P1 stub vision/bin modules and a real
-`stc_game`/`stc_voice` state machine. Stub labels are marked with
-`src=STC_SRC_STUB`; no claim below treats a stub result as model accuracy.
+## Requested behavior
 
-## Result summary
+- Keep XiaoZhi locked in GAME: no WiFi/protocol connection and no voice input.
+- Show an intentionally blank GAME page until the team provides game logic.
+- Switch through two touch buttons on screen.
+- In CHAT, release XiaoZhi and start its native voice path.
+- Keep the game UI replacement isolated from networking and XiaoZhi.
 
-| ID | Result | Evidence |
+## Results
+
+| Check | Result | Evidence |
 | --- | --- | --- |
-| A | PASS | Five autonomous rounds completed; labels `0,1,2,3,0`; scores `10,5,15,10,20`; settlement reached without reset or hang. |
-| B | PASS (software) | First local line queued-to-start `40 ms`; ten test lines played serially; interruption stopped after `204 ms` and `busy_after=0`. Acoustic quality is not human-rated. |
-| C | PASS | `stc chat` during round 0 was rejected; `stc play` in CHAT logged `GAME_START rejected: CHAT active`; CHAT exit started no game until GAME was selected. |
-| D | PASS | Whole GAME boot/five-round log contains the network gate block and no WiFi manager, HTTP/OTA, or MQTT connection. |
-| E | **PENDING** | CHAT network activation and listening were exercised, but no human spoke a wake word and completed a question/answer. |
-| F | PASS | CHAT returned to GAME at `88.687 s` after becoming active at `28.387 s`, about `60.3 s` without interaction. |
-| G | PASS | Startup prints all four frozen contract versions; board `static_assert` rejects any header version drift at compile time. |
+| Outer mode FSM | PASS | Host test covers `GAME -> CHAT_STARTING -> CHAT_READY -> GAME` and invalid/duplicate transitions. |
+| Touch shell creation | PASS (software) | Boot logs `STC_SHELL_UI ready game_button=1 chat_button=1`; LVGL top-layer objects are created without runtime assertion. |
+| Physical touch press | **PENDING** | UI and GT1151 initialize, but no human physically tapped the screen during this automated run. |
+| GAME cloud lock | PASS | Boot logs `STC_NETWORK_GATE state=GAME action=block cloud_connections=0`; no WiFi/OTA/MQTT initialization occurs before CHAT. |
+| First CHAT entry | PASS | Serial request reached `CHAT_STARTING`, then `CHAT_READY`, then `State: connecting -> listening`. |
+| CHAT re-entry | PASS | After 60 s timeout returned to GAME, CHAT started again and reached `CHAT_READY` without a protocol-not-initialized race. |
+| Return to GAME | PASS | CHAT request reached ready, then `STC_NETWORK_GATE state=GAME action=stop` and `APP_STATE CHAT -> GAME`. |
+| Human voice answer | **PENDING** | Network and native XiaoZhi Listening are active, but no person completed wake-word/ASR/LLM/TTS QA. |
+| Game UI | INTENTIONAL PLACEHOLDER | `stc_game_placeholder.cc` displays a dark empty page and replacement hint only. |
 
-## A - five-round smoke
+## State machine
 
-Command:
-
-```text
-tools/capture_stc_acceptance.py --port COM5 --seconds 155 \
-  --output firmware/xiaozhi-esp32/main/boards/espressif/esp32-s31-korvo-1-stc/evidence/serial-cfg.log
-```
-
-Observed sequence:
+`stc_app_fsm.c` is independent of LVGL and `kDeviceState`:
 
 ```text
-STUB_LABEL round=0 bin=0 conf=0.99 src=1
-STUB_LABEL round=1 bin=1 conf=0.99 src=1
-STUB_LABEL round=2 bin=2 conf=0.99 src=1
-STUB_LABEL round=3 bin=3 conf=0.99 src=1
-STUB_LABEL round=4 bin=0 conf=0.99 src=1
-GAME_SETTLEMENT rounds=5 score=20
+GAME -> CHAT_STARTING -> CHAT_READY -> GAME
 ```
 
-The random incorrect-drop path and timeout path are covered by the host test;
-the live run exercised correct, incorrect, and correct outcomes and completed
-all five rounds.
+The touch callback writes only a requested mode. The board task applies voice,
+network, LED, and UI changes in this order. CHAT does not call
+`stc_voice_start_dialog()` until the upstream network activation has returned
+to `kDeviceStateIdle`; this prevents starting Listening before protocol
+initialization.
 
-## B - local voice queue and interruption
+## UI replacement contract
 
-The initial game line was observed at:
+- The persistent bottom bar and touch callbacks are in `stc_shell_ui.cc`.
+- The whole GAME page body is built by `stc_game_placeholder_build()` in
+  `stc_game_placeholder.cc`.
+- The game team can replace only that builder/module when their UI arrives.
+- The shell adds children to `lv_layer_top()`, so the buttons remain visible
+  over XiaoZhi's own screen while GAME covers the XiaoZhi UI.
 
-```text
-STC_VOICE_LINE_START line=0 samples=52608 channels=2 queued_ms=40
-```
+## Automated checks
 
-`queued_ms` is measured from `stc_voice_say()` entry until the playback task
-starts the line. It is not an acoustic timestamp. A notified playback task is
-used instead of a polling delay, so the queue does not add a fixed 20 ms sleep.
-
-The `stc voice` diagnostic enqueued ten lines, waited for each busy queue to
-drain, then interrupted an active line:
-
-```text
-VOICE_SELFTEST sequential=10 result=complete
-STC_VOICE_LINE_DONE line=0 start_ms=204 interrupted=1
-VOICE_SELFTEST interrupt=1 busy_after=0
-```
-
-Only one playback task exists, so lines cannot overlap. The queue has eight
-slots; rapid test submissions correctly reported `queue_full` and were retried
-until all ten lines had played. PCM is mono 16 kHz/16-bit and is expanded to
-stereo only inside the codec output interface.
-
-## C - mode exclusion
-
-During the first capture round:
-
-```text
-STC_CMD chat rejected: game not in SETTLEMENT
-```
-
-During a later active CHAT session:
-
-```text
-STC_CMD play
-GAME_START rejected: CHAT active
-```
-
-Selecting GAME terminates the CHAT network gate before starting a new game.
-The short gate log is in `evidence/serial-chat-gate.log`.
-
-## D - GAME cloud isolation
-
-Fresh boot:
-
-```text
-STC_NETWORK_GATE state=GAME action=block cloud_connections=0
-```
-
-The full five-round GAME log was checked for `WifiManager`, `HttpClient`, and
-`MQTT` connection messages. None occurred before CHAT was explicitly selected.
-CHAT then logged network activation, and returning to GAME logged:
-
-```text
-STC_NETWORK_GATE state=GAME action=stop
-```
-
-This proves both the initial zero-connection path and teardown on CHAT exit.
-
-## E - CHAT human voice (pending)
-
-CHAT entered correctly after the first settlement:
-
-```text
-STC_NETWORK_GATE state=CHAT action=start
-State: activating -> idle
-State: idle -> connecting
-State: connecting -> listening
-```
-
-The same flow succeeded on a second CHAT entry after GAME had stopped the WiFi
-station. There was no human listener/speaker test in this run, so real wake
-word, ASR, LLM, and TTS acceptance remains **PENDING**. A successful network
-state transition is not substituted for that evidence.
-
-## F - CHAT idle timeout
-
-The first CHAT entry reached active listening at approximately `28.387 s`.
-No voice or reply kept the session alive, and the state machine emitted:
-
-```text
-STC_VOICE: CHAT idle timeout; returning to GAME
-STC_NETWORK_GATE state=GAME action=stop
-```
-
-at `88.687 s`, a measured idle period of about `60.3 s`. A second game then ran
-normally, proving that returning to GAME did not leave a stuck CHAT state.
-
-## G - contract version
-
-Startup emits:
-
-```text
-CONTRACT_VERSION voice=1.1.0 vision=1.0.0 bin=1.2.0 game=1.0.0 impl_vision=stub-1
-```
-
-The four contract headers expose major/minor/patch macros. The board uses
-`static_assert` against the frozen versions, so a header contract change fails
-the build instead of silently producing a firmware with mismatched interfaces.
-The vision contract remains a stub implementation during P1.
-
-## Automated and build checks
-
-- `python -m unittest discover -s tools/tests -v`: **25/25 PASS**.
-- Host `stc_game` test covers +10/-5/0, active-round PLAY rejection, five-round
-  progression, timeout, settlement, and CHAT eligibility.
-- Voice asset tests cover WAV validation and raw PCM conversion.
-- Canonical ESP-IDF 6.1 S31 build: **PASS**.
-- Final application image: `0x30c760` bytes, 23% free in the app partition.
+- `python -m unittest discover -s tools/tests -v`: **26/26 PASS**.
+- New app FSM test: pass.
+- ESP-IDF 6.1 canonical S31 build: pass.
+- Final application image: `0x30c4f0` bytes, 23% free.
 - Final `xiaozhi.bin` SHA-256:
-  `01b5a30a2497e781e44e193d23c66f5dc5f9abd28ec9480bc407b4665dde60a4`.
-- Flash and hash verification on `COM5`: **PASS**.
-- RGB indicator code runs for each phase, but visual color/current acceptance
-  was not recorded by a human; use serial logs as the authoritative P1 evidence.
+  `ed858f8383158f749e28d1186b494380f4b075ec8ba232cba4e95ce73207097d`.
+- Flash and hash verification on `COM5`: pass.
 
-## Remaining limitations
+## Evidence
 
-- Human CHAT speech (E) is still required.
-- Acoustic intelligibility, clicks, and speaker loudness were not human-rated.
-- UI is intentionally not implemented for P1; phase/mode evidence is serial and
-  LED only.
-- Board-local PCM assets are generated with Edge TTS and must be regenerated if
-  the phrase text changes.
+- [`evidence/serial-shell-ui.log`](./evidence/serial-shell-ui.log): shell object
+  creation, GAME network lock, contract versions.
+- [`evidence/serial-shell-fsm.log`](./evidence/serial-shell-fsm.log): first CHAT,
+  60 s timeout, second CHAT, and return to GAME.
+- [`evidence/serial-final-boot.log`](./evidence/serial-final-boot.log): earlier
+  final boot of the previous game-flow build.
 
-## Evidence files
+The files named `serial-cfg.log`, `serial-chat-gate.log`,
+`serial-five-rounds-voice.log`, and `serial-autonomous-5-rounds.log` are retained
+as historical evidence from the previous automatic five-round build. They do
+not describe the current blank GAME page.
 
-- [`evidence/serial-cfg.log`](./evidence/serial-cfg.log): two five-round games,
-  C, D, F, first CHAT entry, timeout, second game, and re-entry.
-- [`evidence/serial-chat-gate.log`](./evidence/serial-chat-gate.log): CHAT
-  prevents a new game, then GAME teardown and restart.
-- [`evidence/serial-five-rounds-voice.log`](./evidence/serial-five-rounds-voice.log):
-  ten-line serial playback and interruption test.
-- [`evidence/serial-final-boot.log`](./evidence/serial-final-boot.log): final
-  image boot, contract versions, GAME network gate, and first playback timing.
-- [`timings.csv`](./timings.csv): extracted queue, game, and timeout timings.
+## Remaining hardware checks
+
+- Physically tap both screen buttons in GAME and CHAT.
+- Confirm visually that GAME fully covers XiaoZhi, while CHAT shows the native
+  XiaoZhi page with the bottom mode bar still available.
+- Perform one real spoken wake-word question and listen to the answer.

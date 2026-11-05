@@ -1,9 +1,7 @@
 metric,value,unit,source,note
-first_local_line_queue_to_start,40,ms,evidence/serial-cfg.log,software playback start
-voice_selftest_lines,10,lines,evidence/serial-five-rounds-voice.log,regular game lines plus diagnostics
-voice_selftest_interrupt_latency,204,ms,evidence/serial-five-rounds-voice.log,from line start to stop request taking effect
-voice_selftest_busy_after_interrupt,0,bool,evidence/serial-five-rounds-voice.log,queue and playback idle
-first_game_round_labels,5,rounds,evidence/serial-cfg.log,0-1-2-3-0
-first_game_score,20,points,evidence/serial-cfg.log,+10-5+10-5+10
-first_chat_idle_to_game,60300,ms,evidence/serial-cfg.log,approx active listening to timeout
-second_game_round_labels,5,rounds,evidence/serial-cfg.log,0-1-2-3-0 after CHAT timeout
+shell_ui_ready,1507,ms,evidence/serial-shell-ui.log,since boot
+game_network_block,1797,ms,evidence/serial-shell-ui.log,since boot
+first_chat_start_to_ready,3660,ms,evidence/serial-shell-fsm.log,request at 11767 ms; ready at 15427 ms
+first_chat_ready_to_timeout,60220,ms,evidence/serial-shell-fsm.log,ready at 15427 ms; timeout at 75647 ms
+second_chat_start_to_ready,3880,ms,evidence/serial-shell-fsm.log,request at 75737 ms; ready at 79617 ms
+chat_to_game,100,ms,evidence/serial-shell-fsm.log,network stop at 79637 ms; app state at 79717 ms

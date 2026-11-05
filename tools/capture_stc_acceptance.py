@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Drive the P1 serial acceptance scenarios and preserve their complete log."""
+"""Drive the GAME/CHAT shell over UART and preserve the complete serial log."""
 from pathlib import Path
 import argparse
 import time
@@ -8,16 +8,14 @@ import serial
 
 
 MARKERS = (
+    "STC_SHELL_UI",
     "STC_NETWORK_GATE",
-    "STC_CMD",
-    "GAME_START",
-    "STUB_LABEL",
-    "STUB_DROP",
-    "GAME_SETTLEMENT",
+    "STC_MODE_REQUEST",
+    "APP_STATE",
     "CONTRACT_VERSION",
     "CHAT idle timeout",
-    "State: activating -> idle",
-    "State: idle -> listening",
+    "State: connecting -> listening",
+    "State: listening -> idle",
 )
 
 
@@ -29,12 +27,17 @@ def send(port: serial.Serial, command: str) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--port", default="COM5")
-    parser.add_argument("--seconds", type=float, default=150)
+    parser.add_argument("--seconds", type=float, default=110)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument(
+        "--skip-timeout",
+        action="store_true",
+        help="return to GAME immediately after the first CHAT becomes ready",
+    )
     args = parser.parse_args()
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    port = serial.Serial(args.port, 115200, timeout=0.5)
+    port = serial.Serial(args.port, 115200, timeout=0.3)
     port.dtr = False
     port.rts = True
     time.sleep(0.15)
@@ -42,13 +45,7 @@ def main() -> int:
 
     started = time.monotonic()
     deadline = started + args.seconds
-    reject_sent = False
-    first_chat = False
-    second_game = False
-    second_chat = False
-    second_chat_idle = False
-    settlement_count = 0
-
+    stage = 0
     with args.output.open("wb") as log:
         while time.monotonic() < deadline:
             line = port.readline()
@@ -60,34 +57,30 @@ def main() -> int:
             if any(marker in text for marker in MARKERS):
                 print(text, flush=True)
 
-            if not reject_sent and "GAME_START result=0" in text:
+            if stage == 0 and "STC_SHELL_UI ready" in text:
                 send(port, "stc chat")
-                reject_sent = True
-
-            if "GAME_SETTLEMENT rounds=5" in text:
-                settlement_count += 1
-                if settlement_count == 1 and not first_chat:
-                    send(port, "stc chat")
-                    first_chat = True
-                elif settlement_count == 2 and not second_chat:
-                    send(port, "stc chat")
-                    second_chat = True
-
-            if "CHAT idle timeout" in text and first_chat and not second_game:
+                stage = 1
+            elif stage == 1 and "APP_STATE CHAT_STARTING -> CHAT_READY" in text:
+                if args.skip_timeout:
+                    send(port, "stc game")
+                    stage = 4
+                else:
+                    stage = 2
+            elif stage == 2 and "APP_STATE CHAT_TIMEOUT -> GAME" in text:
+                send(port, "stc chat")
+                stage = 3
+            elif stage == 3 and "APP_STATE CHAT_STARTING -> CHAT_READY" in text:
                 send(port, "stc game")
-                second_game = True
-
-            if (second_chat and "State: connecting -> listening" in text
-                    and not second_chat_idle):
-                send(port, "stc play")
-                time.sleep(0.5)
-                send(port, "stc game")
-                second_chat_idle = True
+                stage = 4
+            elif stage == 4 and "APP_STATE CHAT -> GAME" in text:
+                stage = 5
                 break
 
     port.close()
-    print(f"CAPTURE seconds={time.monotonic() - started:.1f} "
-          f"settlements={settlement_count}", flush=True)
+    print(
+        f"CAPTURE stage={stage} seconds={time.monotonic() - started:.1f}",
+        flush=True,
+    )
     return 0
 
 

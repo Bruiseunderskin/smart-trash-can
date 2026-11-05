@@ -6,11 +6,11 @@
 #include "display/lcd_display.h"
 #include "esp_video.h"
 #include "led/single_led.h"
+#include "stc_app_fsm.h"
 #include "stc_bin.h"
 #include "stc_game.h"
-#include "stc_game_internal.h"
 #include "stc_network_gate.h"
-#include "stc_stubs.h"
+#include "stc_shell_ui.h"
 #include "stc_vision.h"
 #include "stc_voice.h"
 #include "wifi_board.h"
@@ -46,6 +46,7 @@ static_assert(STC_GAME_CONTRACT_VERSION_MAJOR == 1 && STC_GAME_CONTRACT_VERSION_
               "stc_game contract mismatch");
 
 static std::atomic<bool> chat_network_enabled{false};
+static std::atomic<stc_mode_t> requested_mode{STC_MODE_GAME};
 
 extern "C" void stc_network_gate_enable_for_chat(void) {
     if (!chat_network_enabled.exchange(true)) {
@@ -139,57 +140,37 @@ static const korvo_adc_button_ladder_t s_button_ladder[BSP_ADC_BUTTON_NUM] = {
     {BSP_ADC_BUTTON_SET, ADC_BUTTON_SET_MV},            // 1870mV
 };
 
-static void Say(stc_line_t line) {
-    const stc_err_t error = stc_voice_say(line);
-    if (error != STC_OK) {
-        ESP_LOGW(TAG, "Local line %d unavailable: %d", static_cast<int>(line),
-                 static_cast<int>(error));
-    }
+static void RequestMode(stc_mode_t mode, const char* source) {
+    requested_mode.store(mode);
+    ESP_LOGI(TAG, "STC_MODE_REQUEST target=%s source=%s", mode == STC_MODE_CHAT ? "CHAT" : "GAME",
+             source);
 }
-
-static void StartGame();
 
 static void UpdateStatusLed() {
     auto* led = static_cast<StcStatusLed*>(Board::GetInstance().GetLed());
     if (led == nullptr) {
         return;
     }
-    if (stc_voice_get_mode() == STC_MODE_CHAT) {
-        led->SetColor(16, 0, 16);
-        return;
-    }
-    switch (stc_game_phase()) {
-        case STC_GAME_IDLE:
+    switch (stc_app_fsm_get()) {
+        case STC_APP_GAME:
             led->SetColor(0, 0, 8);
             break;
-        case STC_GAME_CAPTURE:
-            led->SetColor(8, 8, 8);
+        case STC_APP_CHAT_STARTING:
+            led->SetColor(0, 12, 12);
             break;
-        case STC_GAME_WAIT_DROP:
-            led->SetColor(0, 16, 0);
-            break;
-        case STC_GAME_ROUND_RESULT:
-            if (stc_game_last_delta() > 0) {
-                led->SetColor(0, 16, 0);
-            } else if (stc_game_last_delta() < 0) {
-                led->SetColor(16, 0, 0);
-            } else {
-                led->SetColor(16, 8, 0);
-            }
-            break;
-        case STC_GAME_SETTLEMENT:
-            led->SetColor(0, 8, 16);
+        case STC_APP_CHAT_READY:
+            led->SetColor(16, 0, 16);
             break;
     }
 }
 
 static void LogStatus(const char* source) {
-    const stc_snapshot_t snapshot = stc_game_snapshot();
     ESP_LOGI(TAG,
-             "STC_STATUS source=%s mode=%d phase=%d round=%u/%u score=%d "
-             "voice_busy=%d",
-             source, static_cast<int>(stc_voice_get_mode()), static_cast<int>(stc_game_phase()),
-             snapshot.round, snapshot.rounds_total, snapshot.score, stc_voice_is_busy() ? 1 : 0);
+             "STC_STATUS source=%s app_state=%d voice_mode=%d device_state=%d "
+             "network=%d voice_busy=%d",
+             source, static_cast<int>(stc_app_fsm_get()), static_cast<int>(stc_voice_get_mode()),
+             static_cast<int>(Application::GetInstance().GetDeviceState()),
+             stc_network_gate_is_enabled() ? 1 : 0, stc_voice_is_busy() ? 1 : 0);
 }
 
 static void RunVoiceSelfTest() {
@@ -236,25 +217,15 @@ static void HandleUartCommand(char* command) {
         return;
     }
     if (strcmp(command, "stc play") == 0) {
-        ESP_LOGI(TAG, "STC_CMD play");
-        StartGame();
+        ESP_LOGI(TAG, "STC_CMD play result=placeholder");
         return;
     }
     if (strcmp(command, "stc chat") == 0) {
-        if (!stc_game_can_enter_chat()) {
-            ESP_LOGW(TAG, "STC_CMD chat rejected: game not in SETTLEMENT");
-            return;
-        }
-        const stc_err_t mode = stc_voice_set_mode(STC_MODE_CHAT);
-        const stc_err_t dialog = mode == STC_OK ? stc_voice_start_dialog() : mode;
-        ESP_LOGI(TAG, "STC_CMD chat mode=%d dialog=%d", static_cast<int>(mode),
-                 static_cast<int>(dialog));
+        RequestMode(STC_MODE_CHAT, "uart");
         return;
     }
     if (strcmp(command, "stc game") == 0) {
-        const stc_err_t mode = stc_voice_set_mode(STC_MODE_GAME);
-        ESP_LOGI(TAG, "STC_CMD game mode=%d", static_cast<int>(mode));
-        StartGame();
+        RequestMode(STC_MODE_GAME, "uart");
         return;
     }
     if (command[0] != '\0') {
@@ -307,29 +278,9 @@ static void StcCommandTask(void*) {
     }
 }
 
-static void StartGame() {
-    if (stc_voice_get_mode() != STC_MODE_GAME) {
-        ESP_LOGW(TAG, "GAME_START rejected: CHAT active");
-        return;
-    }
-    const stc_game_phase_t phase = stc_game_phase();
-    if (phase == STC_GAME_IDLE || phase == STC_GAME_SETTLEMENT) {
-        stc_event_t event = {
-            .type = STC_EV_PLAY,
-            .t_ms = static_cast<uint32_t>(esp_timer_get_time() / 1000),
-        };
-        const stc_err_t error = stc_game_input(&event);
-        ESP_LOGI(TAG, "GAME_START result=%d", static_cast<int>(error));
-    } else {
-        ESP_LOGW(TAG, "GAME_START rejected: round active phase=%d", static_cast<int>(phase));
-    }
-}
-
 static void GameTask(void*) {
     vTaskDelay(pdMS_TO_TICKS(2000));
-    stc_game_init();
-    stc_vision_init(nullptr);
-    stc_bin_init();
+    stc_app_fsm_init();
     stc_voice_init();
     stc_voice_set_mode(STC_MODE_GAME);
     xTaskCreate(StcCommandTask, "stc_cmd", 4096, nullptr, 4, nullptr);
@@ -341,73 +292,58 @@ static void GameTask(void*) {
              STC_VOICE_CONTRACT_VERSION_STRING, STC_VISION_CONTRACT_VERSION_STRING,
              STC_BIN_CONTRACT_VERSION_STRING, STC_GAME_CONTRACT_VERSION_STRING,
              stc_vision_version());
-    StartGame();
 
-    bool result_announced = false;
-    bool settlement_announced = false;
+    bool chat_dialog_requested = false;
     while (true) {
-        const uint32_t now_ms = static_cast<uint32_t>(esp_timer_get_time() / 1000);
         stc_voice_poll();
-        stc_game_tick(now_ms);
-        UpdateStatusLed();
-        if (stc_voice_get_mode() == STC_MODE_CHAT) {
-            result_announced = false;
-            settlement_announced = false;
-            vTaskDelay(pdMS_TO_TICKS(50));
-            continue;
+        stc_app_state_t app_state = stc_app_fsm_get();
+
+        // The voice gate auto-exits CHAT after 60 s. Mirror that transition
+        // into the outer state machine and touch UI.
+        if (app_state != STC_APP_GAME && stc_voice_get_mode() == STC_MODE_GAME) {
+            stc_app_fsm_request_game();
+            app_state = STC_APP_GAME;
+            chat_dialog_requested = false;
+            stc_shell_ui_set_state(app_state);
+            ESP_LOGI(TAG, "APP_STATE CHAT_TIMEOUT -> GAME");
         }
 
-        const stc_game_phase_t phase = stc_game_phase();
-        if (phase == STC_GAME_CAPTURE) {
-            result_announced = false;
-            settlement_announced = false;
-            stc_label_t label = {};
-            const stc_err_t capture = stc_vision_capture(&label, 1000);
-            if (capture != STC_OK) {
-                ESP_LOGE(TAG, "STUB capture failed: %d", static_cast<int>(capture));
-                vTaskDelay(pdMS_TO_TICKS(250));
-                continue;
+        const stc_mode_t target = requested_mode.load();
+        if (target == STC_MODE_CHAT && app_state == STC_APP_GAME) {
+            if (stc_app_fsm_request_chat() == STC_OK) {
+                app_state = stc_app_fsm_get();
+                stc_shell_ui_set_state(app_state);
+                const stc_err_t mode = stc_voice_set_mode(STC_MODE_CHAT);
+                chat_dialog_requested = false;
+                ESP_LOGI(TAG, "APP_STATE GAME -> CHAT_STARTING mode=%d", static_cast<int>(mode));
             }
-            ESP_LOGI(TAG, "STUB_LABEL round=%u bin=%d conf=%.2f src=%d", stc_game_snapshot().round,
-                     static_cast<int>(label.bin), label.conf, static_cast<int>(label.src));
-            stc_bin_stub_set_truth(label.bin);
-            stc_event_t event = {
-                .type = STC_EV_LABEL,
-                .t_ms = label.t_ms,
-            };
-            event.u.label = label;
-            stc_game_input(&event);
-            stc_bin_open_all();
-            stc_bin_start_monitor(static_cast<uint16_t>(STC_GAME_DROP_TIMEOUT_MS));
-            Say(STC_LINE_OPEN);
-        } else if (phase == STC_GAME_WAIT_DROP) {
-            stc_drop_t drop = {};
-            const int poll = stc_bin_poll(&drop);
-            if (poll == 1) {
-                stc_event_t event = {
-                    .type = STC_EV_DROP,
-                    .t_ms = drop.t_ms,
-                };
-                event.u.drop = drop;
-                stc_game_input(&event);
-                ESP_LOGI(TAG, "STUB_DROP bin=%d delta=%d score=%d", static_cast<int>(drop.bin),
-                         stc_game_last_delta(), stc_game_snapshot().score);
-            }
-        } else if (phase == STC_GAME_ROUND_RESULT) {
-            stc_bin_stop_monitor();
-            stc_bin_close_all();
-            if (!result_announced) {
-                const int8_t delta = stc_game_last_delta();
-                Say(delta > 0 ? STC_LINE_CORRECT : delta < 0 ? STC_LINE_WRONG : STC_LINE_TIMEOUT);
-                ESP_LOGI(TAG, "ROUND result=%d score=%d", delta, stc_game_snapshot().score);
-                result_announced = true;
-            }
-        } else if (phase == STC_GAME_SETTLEMENT && !settlement_announced) {
-            Say(STC_LINE_SUMMARY);
-            const stc_snapshot_t snapshot = stc_game_snapshot();
-            ESP_LOGI(TAG, "GAME_SETTLEMENT rounds=%u score=%d", snapshot.round, snapshot.score);
-            settlement_announced = true;
+        } else if (target == STC_MODE_GAME && app_state != STC_APP_GAME) {
+            stc_voice_set_mode(STC_MODE_GAME);
+            stc_app_fsm_request_game();
+            app_state = stc_app_fsm_get();
+            chat_dialog_requested = false;
+            stc_shell_ui_set_state(app_state);
+            ESP_LOGI(TAG, "APP_STATE %s -> GAME", "CHAT");
         }
+
+        if (app_state == STC_APP_CHAT_STARTING) {
+            const DeviceState device_state = Application::GetInstance().GetDeviceState();
+            if (!chat_dialog_requested && device_state == kDeviceStateIdle &&
+                WifiManager::GetInstance().IsConnected()) {
+                const stc_err_t dialog = stc_voice_start_dialog();
+                chat_dialog_requested = dialog == STC_OK;
+                if (chat_dialog_requested) {
+                    stc_app_fsm_mark_chat_ready();
+                    app_state = stc_app_fsm_get();
+                    stc_shell_ui_set_state(app_state);
+                    ESP_LOGI(TAG, "APP_STATE CHAT_STARTING -> CHAT_READY");
+                } else {
+                    ESP_LOGW(TAG, "APP_STATE CHAT dialog failed=%d", static_cast<int>(dialog));
+                }
+            }
+        }
+
+        UpdateStatusLed();
         vTaskDelay(pdMS_TO_TICKS(20));
     }
 }
@@ -473,14 +409,14 @@ private:
     }
 
     void InitializeButtons() {
-        // BOOT 键：启动阶段进入配网，其他时候切换对话状态
+        // BOOT 键：启动阶段进入配网，其他时候回到空白 GAME 页。
         boot_button_.OnClick([this]() {
             auto& app = Application::GetInstance();
             if (app.GetDeviceState() == kDeviceStateStarting) {
                 EnterWifiConfigMode();
                 return;
             }
-            StartGame();
+            RequestMode(STC_MODE_GAME, "boot");
         });
 
         // 4 个 ADC 按键在 GPIO42（ESP32-S31 的 ADC1 通道 0）。
@@ -537,20 +473,10 @@ private:
 
         auto set_button = adc_button_[BSP_ADC_BUTTON_SET];
         set_button->OnClick([this]() { EnterWifiConfigMode(); });
-        set_button->OnLongPress([]() {
-            if (!stc_game_can_enter_chat()) {
-                ESP_LOGW(TAG, "CHAT rejected: finish the 5-round game first");
-                return;
-            }
-            const stc_err_t mode_error = stc_voice_set_mode(STC_MODE_CHAT);
-            const stc_err_t dialog_error =
-                mode_error == STC_OK ? stc_voice_start_dialog() : mode_error;
-            ESP_LOGI(TAG, "CHAT start mode=%d dialog=%d", static_cast<int>(mode_error),
-                     static_cast<int>(dialog_error));
-        });
+        set_button->OnLongPress([]() { RequestMode(STC_MODE_CHAT, "set_long"); });
 
         auto mode_button = adc_button_[BSP_ADC_BUTTON_MODE];
-        mode_button->OnClick([]() { StartGame(); });
+        mode_button->OnClick([]() { RequestMode(STC_MODE_GAME, "mode"); });
     }
 
     void InitializeRgbDisplay() {
@@ -710,7 +636,12 @@ public:
         InitializeRgbDisplay();
         InitializeTouch();
         InitializeCamera();
-        xTaskCreate(GameTask, "stc_game", 8192, nullptr, 5, nullptr);
+        const stc_err_t ui_error =
+            stc_shell_ui_init(display_, [](stc_mode_t mode) { RequestMode(mode, "touch"); });
+        if (ui_error != STC_OK) {
+            ESP_LOGE(TAG, "STC_SHELL_UI init failed: %d", static_cast<int>(ui_error));
+        }
+        xTaskCreate(GameTask, "stc_shell", 8192, nullptr, 5, nullptr);
     }
 
     AudioCodec* GetAudioCodec() override {

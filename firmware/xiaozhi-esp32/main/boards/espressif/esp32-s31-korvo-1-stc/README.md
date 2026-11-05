@@ -2,8 +2,9 @@
 
 本板型适配乐鑫 ESP32-S31-Korvo-1 开发板（V1.1），需要 ESP-IDF
 `release/v6.1` 或更新版本（`esp32s31` target）。它是官方
-`esp32-s31-korvo-1` 板的独立变体，用于 P1 的本地五回合游戏与受控 CHAT
-语音问答。未修改官方板目录、`application.*`、`protocols/*` 或 MCP server。
+`esp32-s31-korvo-1` 板的独立变体，用外层 GAME/CHAT 状态机隔离垃圾游戏与
+小智语音问答。未修改官方板目录、`application.*`、`protocols/*` 或 MCP
+server；小智内部 `kDeviceState` 也保持不变。
 
 ## 支持的板载硬件
 
@@ -20,23 +21,37 @@
 ## GAME / CHAT 模式
 
 开机默认进入 GAME。此时 WiFi 与云端协议尚未初始化，日志明确记录
-`STC_NETWORK_GATE state=GAME action=block cloud_connections=0`。GAME 只播放
-`assets/` 内的本地 PCM，并使用 stub 视觉与投放事件完成五回合：
+`STC_NETWORK_GATE state=GAME action=block cloud_connections=0`。GAME 页面
+当前是空白占位，不运行任何游戏逻辑、不收语音、不显示小智。
 
-- 标签顺序由 `assets/stub-labels.json` 控制，默认 `[0,1,2,3,0]`。
-- 每回合模拟 200 ms 视觉处理，3 s 后投放；答对 `+10`、答错 `-5`、
-  10 s 未投放 `0`。
-- 五回合后进入 SETTLEMENT；只有 SETTLEMENT 可以长按 SET 进入 CHAT。
+外层状态机为 `GAME -> CHAT_STARTING -> CHAT_READY -> GAME`，与上游设备状态
+正交：
 
-CHAT 首次进入时才启动 WiFi、OTA 检查与 MQTT 协议；网络就绪后开始聆听。
-CHAT 中收到 `PLAY` 会被拒绝。连续 60 s 没有新的协议交互或回复播放时，
-自动关闭音频通道、停止 WiFi 并回到 GAME。再次进入 CHAT 会重新完成网络
-激活，因此不会复用已停止的协议对象。
+- `GAME`：关闭唤醒、断开音频通道、停止 WiFi；空白游戏页启用。
+- `CHAT_STARTING`：启动 WiFi/OTA/协议，等待上游真正到达 idle。
+- `CHAT_READY`：启动一次原生小智聆听；小智聊天页显示在原 UI 上。
+- CHAT 连续 60 s 无协议交互或 TTS 播放时自动回 GAME。
+
+进入 CHAT 时先等待网络激活完成，之后才调用 `stc_voice_start_dialog()`，避免
+协议尚未初始化就提前进入 Listening。再次进入 CHAT 会重新完成激活。
+
+## 占位 UI 与替换点
+
+屏幕底部有两个常驻触控按钮 `GAME` 和 `CHAT`。按钮创建在 LVGL top layer，
+因此切换小智内部界面时仍保持可见；GAME 页面会阻止触摸落到下方小智 UI。
+
+- `stc_shell_ui.cc`：模式栏、按钮回调、CHAT 连接提示和页面切换。
+- `stc_game_placeholder.cc`：游戏页占位内容，后续球队 UI 只需替换此文件。
+- `stc_app_fsm.c/.h`：不依赖 LVGL 或小智的外层状态机，已加主机测试。
+
+按钮回调只设置“请求模式”，不会在 LVGL 任务内直接操作协议；实际启停由
+`stc_shell` 主任务执行。
 
 ## 本地语音
 
-`stc_voice` 使用单播放任务和最多 8 项的 FIFO；同一时刻只会有一句本地 PCM
-播放。`stc_voice_stop()` 清空队列并打断当前句。`phrases.json` 将
+GAME 语音资源仍保留给后续游戏逻辑使用。`stc_voice` 使用单播放任务和最多
+8 项的 FIFO；同一时刻只会有一句本地 PCM 播放。`stc_voice_stop()` 清空队列
+并打断当前句。当前空白游戏页不会自动触发这些台词。`phrases.json` 将
 `stc_line_t` 映射到：
 
 ```json
@@ -63,21 +78,20 @@ python tools/generate_stc_voice_assets.py `
 生成时需要 `edge-tts` 和 `ffmpeg`（也可安装 `imageio-ffmpeg`）；运行时不需要
 网络或 TTS 服务。也可用 `--source-dir` 转换同规格的录音 WAV。
 
-## 按键、LED 与 UART 验收
+## 按键、LED 与 UART
 
-- 长按 SET：仅 SETTLEMENT 进入 CHAT。
-- MODE/BOOT：GAME 中从 IDLE 或 SETTLEMENT 启动新局。
-- 板载 WS2812：白=拍摄，绿=等待/答对，红=答错，橙=逾时，青=结算，
-  紫=CHAT。
+- 屏幕 `GAME` / `CHAT`：主要模式切换入口。
+- 长按 SET：请求 CHAT；MODE/BOOT：请求 GAME，作为硬件备用入口。
+- 板载 WS2812：蓝=GAME，青=CHAT 连接中，紫=CHAT 可用。
 
 UART0 波特率 115200，接收单行命令：
 
 | 命令 | 作用 |
 | --- | --- |
-| `stc status` | 输出模式、阶段、回合、分数和本地语音队列状态 |
+| `stc status` | 输出外层状态、小智模式、底层 DeviceState、网络和语音队列 |
 | `stc voice` | 顺序播放 10 句并验证打断/恢复 |
-| `stc chat` | 仅结算时进入 CHAT，用于无人值守验收 |
-| `stc play` | 尝试开始新局，用来验证 CHAT 模式互斥 |
+| `stc chat` | 请求 CHAT，用于无人值守验收 |
+| `stc play` | 游戏占位动作；当前只记录 `result=placeholder` |
 | `stc game` | 停止 CHAT 并回到 GAME |
 
 完整结果与原始串口证据见 [`VALIDATION.md`](./VALIDATION.md) 和
@@ -155,9 +169,9 @@ CONFIG_CAMERA_SC101IOT=y
 CONFIG_FLASH_DEFAULT_ASSETS=y
 ```
 
-硬件验证建议覆盖：五回合 stub smoke、本地 PCM 首播/队列/打断、模式互斥、
-GAME 零云端连接、CHAT 真人语音问答、60 s 自动退出、ADC 四键、BOOT 键、
-RGB 灯、屏幕显示、触摸、拍照方向、Wi-Fi 配网与重连。完整结果和限制见
+硬件验证建议覆盖：两个触控按钮、GAME 空白页遮挡、CHAT 原生语音问答、
+GAME 零云端连接、60 s 自动退出、再次进入 CHAT、ADC 四键、BOOT 键、
+RGB 灯、屏幕显示、拍照方向、Wi-Fi 配网与重连。完整结果和限制见
 [`VALIDATION.md`](./VALIDATION.md)。
 
 ## 参考资料
