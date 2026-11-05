@@ -145,11 +145,19 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 - **依賴**：P1 的事件順序（可先用 stub 資料）
 - **驗收**：每屏 <16 ms 重繪；字級符合簡報可讀性；GAME/CHAT 模式顯示正確
 
-### P5 遊戲核心整合
+### P5a 遊戲邏輯（stub，先做，無硬件依賴）— Issue #30
 
-- **範圍**：`stc_game` 完整狀態機（CAPTURE→OPEN→WAIT→SETTLE→CLOSE→NEXT）、5 回合、+10/−5/0、逾時、結算、分數存 NVS/SD
-- **依賴**：P0、P1、P2、P3、P4
-- **驗收**：連續 10 回合 0 人工介入；端到端 p95 ≤ 3 s
+- **範圍**：`stc_game` 完整狀態機（IDLE→CAPTURE→OPEN→WAIT_DROP→SETTLE→CLOSE→FEEDBACK→SUMMARY）、5 回合、+10/−5/0／floor 0、逾時、abstain 重試、結算、`stc_result_t`
+- **介面**：`stc_vision`／`stc_bin`／`stc_voice` 全部走 stub；**佔位 UI**（`STC_UI_PLACEHOLDER`）經 `contracts/stc_ui.h`，隊友 UI 到貨只換 `.c`
+- **測試**：虛擬時鐘 ＋ 假事件，host 上跑 10 個情境 ＋ 1000 局隨機不變量
+- **依賴**：只有 P1 M1（模式閘）
+- **驗收**：J1–J7（見 `docs/game-logic-spec.md`）
+
+### P5b 真硬件整合（零件到齊後）
+
+- **範圍**：把 stub 換成真 vision／bin／voice，端到端跑 10 回合
+- **依賴**：P0、P2、P3、P5a
+- **驗收**：連續 10 回合 0 人工介入；PLAY→蓋全開 p95 ≤ 3 s
 
 ### P6 交付物
 
@@ -248,6 +256,7 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 | 文件 | 內容 |
 |---|---|
 | `docs/mode-gate.md` | 模式閘：狀態、轉移表、不變量、鎖小智的五步、驗收 G1–G6 |
+| `docs/game-logic-spec.md` | 回合狀態機、計分、stub 介面、虛擬時鐘測試、佔位 UI 與替換契約 |
 | `docs/plan-v3-tof050c.md` | ToF 選型、接線、校正、Codex 實作範圍 |
 | `docs/ai-chat-implementation-plan.md` | 語音／CHAT 模式與 stub 範圍 |
 | `docs/ai-chat-partition.md` | B1 vs B2 分析、模式閘、為何不加 DeviceState |
