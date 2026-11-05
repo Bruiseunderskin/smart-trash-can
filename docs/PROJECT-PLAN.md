@@ -119,7 +119,9 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 
 ### P1 語音與 AI chat — Issue #25
 
-- **範圍**：`stc_voice`（本地台詞、模式閘、CHAT 入口、60 s 自動退出）、`stc_game` 最小真實邏輯、stub vision/bin
+- **順序**：**先 M1 模式閘**（`stc_mode`，純 C ＋ host test，約 180 行），再台詞片段，最後 CHAT
+- **範圍**：`stc_mode`（狀態機、唯一寫入者）、`stc_voice`（本地台詞、片段拼接、CHAT 入口）、`stc_game` 最小真實邏輯、stub vision/bin
+- **規格**：`docs/mode-gate.md`、`contracts/stc_mode.h`
 - **依賴**：無（stub 可跑完整 5 回合）
 - **驗收**：A–G（5 回合 smoke／台詞 <50 ms／模式互斥／GAME 零連線／CHAT 真人語音／60 s 退出／契約版本）
 - **關鍵未知**：**真人語音路徑從未實測**（Codex 只確認 WakeNet 初始化成功）→ 11/07 必驗
@@ -195,6 +197,7 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 | D7 | 模型輸入 **160×160、中心裁切、不用 letterbox** | 與 PPA 管線一致，訓練/推論同構 | 11-04 |
 | D8 | 感測／舵機節點板用 **S3-DevKitC-1**，不用 XIAO C5；舵機走 **PCA9685**，不走 LEDC | S3 的 ESP-NOW 支援無疑問、GPIO 充足；PCA9685 已有合併程式（PR #16），硬件波形無 jitter，只佔 I²C。XIAO C5 + USB CDC 方案（`docs/sensor-node-wiring.md` 原稿）風險在 S31 USB host stack，4 日內不值得 | 11-05 |
 | D9 | 蓋位**不做感測** | ToF 裝桶身、只量掉落；蓋位靠舵機指令狀態即可（issue #22 澄清） | 11-05 |
+| D10 | 加**外層模式閘** `stc_mode`（BOOT／GAME_IDLE／GAME_ROUND／SUMMARY／CHAT／FAULT），**不改** 小智 `kDeviceState` | 閘是唯一有權決定「遊戲／聊天」的地方，才能驗證「回合中禁入 CHAT」與「GAME 零連線」；改 `kDeviceState` 要動 160 處且每次 rebase 重貼 | 11-05 |
 
 ---
 
@@ -244,6 +247,7 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 
 | 文件 | 內容 |
 |---|---|
+| `docs/mode-gate.md` | 模式閘：狀態、轉移表、不變量、鎖小智的五步、驗收 G1–G6 |
 | `docs/plan-v3-tof050c.md` | ToF 選型、接線、校正、Codex 實作範圍 |
 | `docs/ai-chat-implementation-plan.md` | 語音／CHAT 模式與 stub 範圍 |
 | `docs/ai-chat-partition.md` | B1 vs B2 分析、模式閘、為何不加 DeviceState |
@@ -282,7 +286,7 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 ### 12.3 4 日內（11/05–11/09）唯一的工作序列
 
 1. **#26 節點 bring-up**（Codex）— 不需要模型、不需要 UI；H1–H6 通 = 硬件路線確定
-2. **#25 `stc_voice` ＋ 5 回合 stub 遊戲**（Codex）— A–G 通 = 軟件骨架確定
+2. **#25 M1 模式閘**（Codex，可 host 測）→ 再 `stc_voice` ＋ 5 回合 stub 遊戲 — A–G 通 = 軟件骨架確定
 3. **模型 v1 重訓**（W Ed）— 現場資料入訓練集，交 `model.onnx` ＋ `eval.json`
 4. **11/08 整合**：stub 換真模型、舵機換真指令、跑 10 回合
 
