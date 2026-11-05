@@ -1,7 +1,7 @@
 # 智分桶 EDU — 總體計劃（Single Source of Truth）
 
 CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿吉 the hermes
-本文件整合所有分散決策與子計劃；子文件保留細節，但**範圍、優先級、驗收標準以本文件為準**。
+本文件整合所有分散決策與子計劃；子文件保留細節，但**範圍、優先級、驗收標準以本文件為準**。2026-11-05 起手部 bring-up 實作入口為 `firmware/esp32s3/tof_bringup/`。
 
 ---
 
@@ -77,7 +77,8 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 - `S3 ─ I²C(SDA 8, SCL 9, 400 kHz) ─ TCA9548A(0x70) ─ CH0–CH3 ─ TOF(0x29)`
 - 通道 i = `stc_bin_t` i（0 可回收物 … 3 其他垃圾）
 - 每次切 channel 後 **≥100 µs** 才讀；量測週期 20 ms，四通道一輪 ≈ 80–90 ms
-- 每粒 init 四步：`FRESH_OUT_OF_RESET` 檢查 → AN4545 private registers → `RefSpadManagement` → `OffsetSimpleCalibration(50 mm)`；有保護窗加 `XTalkCalibration(100 mm)`；校正值存 NVS
+- 每粒 init：讀 factory offset／crosstalk → `FRESH_OUT_OF_RESET` 為 1 時寫 AN4545 mandatory private registers → 套用 NVS offset／crosstalk → 開 continuous mode
+- 安裝位需要重做 offset 校正時，用 50 mm 白卡執行 `tof cal <ch> 50`；VL6180X 沒有 VL53L0X 式 `RefSpadManagement`，factory SPAD／NVM 校正由 driver init 載入
 - **不用** SHDN 改址（已核實技術可行但需每次上電重做，程式多 150–200 行；方案存 git 歷史作後備）
 
 ### 3.3 電源
@@ -109,7 +110,7 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 
 ### P0 手部 bring-up（ToF ＋ 舵機）— Issue #26
 
-- **範圍**：mux 切換、四粒 init＋校正、序列埠命令、`stc_bin` 實作、G1 量測工具
+- **範圍**：mux 切換、四粒 init＋NVS 校正、序列埠命令、`stc_bin` 實作、G1 量測工具
 - **依賴**：無（不需要 S31、不需要模型、不需要 UI）
 - **驗收**：H1–H6（四粒辨識／100 mm σ ≤5 mm／每通道 ≥10 Hz／10 分鐘零錯誤／熱插拔 fault bit／NVS 校正持久）
 - **不做**：ESP-NOW、舵機實作（先回 `STC_ERR_UNSUPPORTED`）
@@ -243,5 +244,7 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 | `docs/ai-chat-implementation-plan.md` | 語音／CHAT 模式與 stub 範圍 |
 | `docs/ai-chat-partition.md` | B1 vs B2 分析、模式閘、為何不加 DeviceState |
 | `contracts/` | 四條 seam 的 C 標頭 ＋ 模型契約 |
+| `firmware/esp32s3/tof_bringup/` | TOF050C×4／TCA9548A／`stc_bin` P0 實作與 G1 工具 |
+| `docs/sensor-node-wiring.md` | **歷史**：USB CDC／XIAO／VL53L0X 舊方案，不施工 |
 | `docs/ROADMAP.md` | 舊版日曆（以本文件 §6 為準） |
 | `docs/architecture.md` / `docs/development.md` | 架構與開發流程 |

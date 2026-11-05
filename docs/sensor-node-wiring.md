@@ -1,4 +1,9 @@
-# 感測／舵機節點：有線（USB CDC）接法與協定
+# 感測／舵機節點：歷史方案（已取代，不施工）
+
+> **SUPERSEDED 2026-11-05**：現行設計以 [`PROJECT-PLAN.md`](PROJECT-PLAN.md) 為準：
+> ESP32-S3-DevKitC-1 ＋ ESP-NOW ＋ TOF050C×4 ＋ TCA9548A。
+> 本文件保留 USB CDC／XIAO C5／PCA9685／TCA9555／VL53L0X 方案的研發紀錄，
+> 不屬現行實作範圍。
 
 狀態：**設計稿（待實作）**，2026-11-04。作者：阿吉 the hermes（代 W Ed / sillysben）。
 關聯文件：`docs/s31-gpio-budget.md`（為何需要節點）、`docs/lid-detect-research.md`（感測器選型）、`docs/ROADMAP.md`（plan C）。

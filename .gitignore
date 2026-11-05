@@ -17,6 +17,8 @@ compile_commands.json
 /runs/classify/
 /yolo11n-cls.pt
 /tools/__pycache__/
+__pycache__/
+*.pyc
 
 # ---- IDE / editor ----
 .cache/

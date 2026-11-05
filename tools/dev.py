@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Shared local/CI checks. Run from any directory; no flashing or auto-downloads."""
 import argparse
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -8,9 +9,14 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 ARDUINO = ('ESP32S3_Mic_Test', 'MG90_LidServo_ESP32S3', 'PCA9685_4Servo_Test')
-IDF = ('pca9685_servo_test', 'tflite_probe', 'ei_latency_probe')
+IDF = ('pca9685_servo_test', 'tflite_probe', 'ei_latency_probe', 'tof_bringup')
 BOARDS = ('smart-trash-can', 'esp32-s31-korvo-1')
 S31 = ('s31_bringup', 'esp32-s31-korvo-1')
+
+
+def idf_launcher():
+    name = 'idf.py.exe' if os.name == 'nt' else 'idf.py'
+    return shutil.which(name)
 
 
 def run(*args, cwd=ROOT):
@@ -19,16 +25,17 @@ def run(*args, cwd=ROOT):
 
 
 def compile_project(project):
+    idf = idf_launcher()
     if project in S31:
-        if not shutil.which('idf.py'):
+        if not idf:
             raise RuntimeError('Activate ESP-IDF 6.1 for ESP32-S31.')
-        version = subprocess.check_output(['idf.py', '--version'], text=True)
+        version = subprocess.check_output([idf, '--version'], text=True)
         import re
         match = re.search(r'v(\d+)\.(\d+)', version)
         if not match or tuple(map(int, match.groups())) < (6, 1):
             raise RuntimeError('ESP32-S31 requires ESP-IDF >=6.1; activate its export.sh.')
     if project == 's31_bringup':
-        run('idf.py', '--preview', '-C', str(ROOT / 'firmware/esp32s31/bringup'),
+        run(idf, '--preview', '-C', str(ROOT / 'firmware/esp32s31/bringup'),
             '-B', str(ROOT / 'build/idf/s31_bringup'), '-D', 'IDF_TARGET=esp32s31', 'build')
         return
     if project in ARDUINO:
@@ -36,18 +43,18 @@ def compile_project(project):
             raise RuntimeError('Install arduino-cli, esp32:esp32@3.3.12 and ESP32Servo@3.0.9 first.')
         run('arduino-cli', 'compile', '--fqbn', 'esp32:esp32:esp32s3', str(ROOT / 'firmware' / 'arduino' / project))
     elif project in BOARDS:
-        if not shutil.which('idf.py'):
+        if not idf:
             raise RuntimeError('Activate ESP-IDF 6.0.2 first.')
         board_dir = 'espressif/' + project if project == 'esp32-s31-korvo-1' else project
         run(sys.executable, 'scripts/build.py', board_dir, '--name', project, cwd=ROOT / 'firmware' / 'xiaozhi-esp32')
     elif project in IDF:
-        if not shutil.which('idf.py'):
+        if not idf:
             raise RuntimeError('Activate ESP-IDF 6.0.2 with export.sh first.')
         path = ROOT / 'firmware' / 'esp32s3' / project
-        if project != 'pca9685_servo_test' and not (path / 'main/models/waste4_int8.tflite').is_file():
+        if project in ('tflite_probe', 'ei_latency_probe') and not (path / 'main/models/waste4_int8.tflite').is_file():
             raise RuntimeError(f'Provide {path}/main/models/waste4_int8.tflite as described in its README.')
         # -D fixes the target without destructive set-target/fullclean.
-        run('idf.py', '-C', str(path), '-B', str(ROOT / 'build/idf' / project), '-D', 'IDF_TARGET=esp32s3', 'build')
+        run(idf, '-C', str(path), '-B', str(ROOT / 'build/idf' / project), '-D', 'IDF_TARGET=esp32s3', 'build')
 
 
 def require_submitted_content(stage):

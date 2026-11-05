@@ -53,6 +53,12 @@ class DevelopmentChecks(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'ESP-IDF'):
                 DEV.compile_project('pca9685_servo_test')
 
+    def test_tof_bringup_compiles_without_model_file(self):
+        with patch.object(DEV.shutil, 'which', return_value='/idf.py'), patch.object(DEV, 'run') as run:
+            DEV.compile_project('tof_bringup')
+            self.assertIn('tof_bringup', run.call_args.args[2])
+            self.assertEqual(run.call_args.args[-1], 'build')
+
     def test_failed_checks_prevent_pr_creation(self):
         with patch.object(DEV.sys, 'argv', ['dev.py', 'pr', '--', '--title', 'Example']), patch.object(DEV, 'checks', side_effect=subprocess.CalledProcessError(1, 'test')), patch.object(DEV, 'run') as run:
             with self.assertRaises(subprocess.CalledProcessError):

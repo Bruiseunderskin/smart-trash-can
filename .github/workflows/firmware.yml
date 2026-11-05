@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: [pca9685_servo_test, tflite_probe, smart-trash-can]
+        project: [pca9685_servo_test, tflite_probe, tof_bringup, smart-trash-can]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Prepare public latency model

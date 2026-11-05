@@ -1,9 +1,10 @@
 # docs
 
-專案設計與實驗證據入口。先閱讀 architecture.md 的現況邊界，再閱讀 system-architecture-decision.md 的目標設計。歷史 report 和 log 只證明其記錄的模型、版本與測試範圍。
+專案設計與實驗證據入口。先閱讀 [PROJECT-PLAN.md](PROJECT-PLAN.md) 的現行範圍、優先級與驗收；歷史 report 和 log 只證明其記錄的模型、版本與測試範圍。
 
 ## 閱讀路徑
 
+- [總體計劃（範圍、優先級、驗收的唯一真相）](PROJECT-PLAN.md)
 - [目前架構、程式入口與整合邊界](architecture.md)
 - [系統目標及驗收](system-architecture-decision.md)
 - [模型比較與限制](model-comparison.md)
