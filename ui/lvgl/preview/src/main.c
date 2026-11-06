@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 static stc_ui_t *ui;
-static unsigned retries;
+static unsigned retries, asks;
 static bool reduced, toggle_motion, retry_command;
 static unsigned demo_stage, demo_category;static uint32_t due;
 static int requested=-1;
@@ -52,6 +52,7 @@ static void show(stc_state_t state,int category){
 }
 static void demo_action(stc_action_t action,int category,void *user){
     (void)category;(void)user;
+    if(action==STC_ACTION_ASK){asks++;return;}
     if(action==STC_ACTION_START){show(STC_CAPTURING,0);demo_stage=1;due=SDL_GetTicks()+1200;}
     else {
         demo_stage=0;
@@ -81,6 +82,21 @@ static lv_obj_t *button_named(lv_obj_t *parent,const char *text){
         lv_obj_t *result=button_named(child,text);if(result)return result;
     }return NULL;
 }
+static unsigned button_count(lv_obj_t *parent){
+    unsigned count=0;
+    for(uint32_t i=0;i<lv_obj_get_child_count(parent);i++){
+        lv_obj_t *child=lv_obj_get_child(parent,i);
+        if(lv_obj_check_type(child,&lv_button_class))count++;
+        count+=button_count(child);
+    }return count;
+}
+static lv_obj_t *label_named(lv_obj_t *parent,const char *text){
+    for(uint32_t i=0;i<lv_obj_get_child_count(parent);i++){
+        lv_obj_t *child=lv_obj_get_child(parent,i);
+        if(lv_obj_check_type(child,&lv_label_class)&&strcmp(lv_label_get_text(child),text)==0)return child;
+        lv_obj_t *result=label_named(child,text);if(result)return result;
+    }return NULL;
+}
 static void press_button(const char *text){lv_obj_update_layout(lv_screen_active());lv_obj_t *button=button_named(lv_screen_active(),text);assert(button);lv_obj_send_event(button,LV_EVENT_CLICKED,NULL);}
 static bool image_cached(const void *source){
     lv_iter_t *iter=lv_image_cache_iter_create();assert(iter);
@@ -92,6 +108,10 @@ static bool image_cached(const void *source){
 static int self_test(void){
     unsigned cases=0;stc_ui_set_reduced_motion(ui,true);
     for(int s=0;s<9;s++){show((stc_state_t)s,0);assert(stc_ui_state(ui)==(stc_state_t)s);assert(stc_ui_check_layout(ui));cases++;}
+    show(STC_CLASSIFYING,0);
+    static const char *phases[]={"掃描","偵測","開蓋","投放","緩衝","關蓋","倒數"};
+    for(unsigned i=0;i<sizeof(phases)/sizeof(phases[0]);i++)assert(label_named(lv_screen_active(),phases[i]));
+    assert(!label_named(lv_screen_active(),"回合" "提示"));cases++;
     for(int cat=0;cat<4;cat++){show(STC_RESULT_OK,cat);assert(stc_ui_check_layout(ui));show(STC_LEARNING,cat);assert(stc_ui_check_layout(ui));cases+=2;}
     for(int a=0;a<4;a++)for(int b=0;b<4;b++)if(a!=b){show(STC_CLASSIFYING,0);stc_payload_t p=payload(STC_RESULT_RETRY);p.candidates[0].category_id=a;p.candidates[1].category_id=b;assert(stc_ui_apply(ui,&p));assert(stc_ui_check_layout(ui));cases++;}
     show(STC_IDLE,0);stc_payload_t p=payload(STC_RESULT_OK);assert(!stc_ui_apply(ui,&p));assert(stc_ui_state(ui)==STC_ERROR);cases++;
@@ -108,14 +128,19 @@ static int self_test(void){
     show(STC_CLASSIFYING,0);stc_ui_set_reduced_motion(ui,false);assert(lv_anim_count_running()==1);stc_ui_set_reduced_motion(ui,true);assert(lv_anim_count_running()==0);cases++;
     show(STC_IDLE,0);assert(!button_named(lv_screen_active(),"分類圖鑑"));
     p=payload(STC_CATEGORY_GUIDE);assert(!stc_ui_apply(ui,&p));cases++;
-    show(STC_SUMMARY,0);press_button("繼續學分類");assert(stc_ui_state(ui)==STC_CATEGORY_GUIDE);
+    show(STC_SUMMARY,0);assert(label_named(lv_screen_active(),"五題全對可換禮物"));press_button("繼續學分類");assert(stc_ui_state(ui)==STC_CATEGORY_GUIDE);
+    assert(!label_named(lv_screen_active(),"返回" "成績"));assert(button_named(lv_screen_active(),"問綠豆知多啲"));
+    unsigned ask_before=asks;press_button("問綠豆知多啲");assert(asks==ask_before+1);assert(stc_ui_state(ui)==STC_CATEGORY_GUIDE);
     /* Guide cards use SVG/text overlays; dispatch the underlying card's click event. */
     lv_obj_update_layout(lv_screen_active());
     lv_obj_t *root=lv_obj_get_child(lv_obj_get_child(lv_screen_active(),0),0);
     lv_obj_t *card=NULL;for(uint32_t i=0;i<lv_obj_get_child_count(root);i++){lv_obj_t *child=lv_obj_get_child(root,i);if(lv_obj_check_type(child,&lv_button_class)&&lv_obj_get_x(child)==24&&lv_obj_get_y(child)==136){card=child;break;}}
-    assert(card);lv_obj_send_event(card,LV_EVENT_CLICKED,NULL);assert(stc_ui_state(ui)==STC_LEARNING);assert(!button_named(lv_screen_active(),"我想試一試"));press_button("返回主頁");assert(stc_ui_state(ui)==STC_IDLE);cases++;
-    show(STC_LEARNING,3);press_button("返回圖鑑");press_button("返回成績");assert(stc_ui_state(ui)==STC_SUMMARY);cases++;
-    show(STC_LEARNING,1);p=payload(STC_CAPTURING);assert(!stc_ui_apply(ui,&p));cases++;
+    assert(card);lv_obj_send_event(card,LV_EVENT_CLICKED,NULL);assert(stc_ui_state(ui)==STC_LEARNING);
+    assert(button_count(lv_screen_active())==1);assert(button_named(lv_screen_active(),"下一回合"));
+    assert(!button_named(lv_screen_active(),"返回主頁"));assert(!button_named(lv_screen_active(),"返回圖鑑"));
+    press_button("下一回合");assert(stc_ui_state(ui)==STC_CAPTURING);cases++;
+    show(STC_LEARNING,3);assert(button_count(lv_screen_active())==1);press_button("下一回合");assert(stc_ui_state(ui)==STC_CAPTURING);cases++;
+    show(STC_LEARNING,1);p=payload(STC_CAPTURING);assert(stc_ui_apply(ui,&p));assert(stc_ui_state(ui)==STC_CAPTURING);cases++;
     show(STC_RESULT_OK,0);press_button("完成");assert(stc_ui_state(ui)==STC_SUMMARY);assert(stc_ui_check_layout(ui));cases++;
     show(STC_ERROR,0);unsigned before=retries;press_button("重試");press_button("重試");assert(retries==before+1);cases++;
     show(STC_CLASSIFYING,0);p=payload(STC_RESULT_OK);p.score=UINT32_MAX;p.streak=UINT32_MAX;assert(stc_ui_apply(ui,&p));assert(stc_ui_check_layout(ui));stc_ui_show_summary(ui);assert(stc_ui_check_layout(ui));cases++;
