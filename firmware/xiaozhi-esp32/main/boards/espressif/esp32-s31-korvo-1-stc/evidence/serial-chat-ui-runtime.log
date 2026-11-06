@@ -1,0 +1,342 @@
+I (81547) Esp32S31Korvo1Stc: STC_MODE_REQUEST target=CHAT source=uart
+
+I (81567) StateMachine: State: idle -> wifi_configuring
+
+I (81567) Esp32S31Korvo1Stc: STC_NETWORK_GATE state=CHAT action=start
+
+W (81567) WifiManager: Already initialized
+
+I (81567) WifiBoard: Starting WiFi connection attempt
+
+I (81567) WifiManager: Starting station
+
+I (81577) WifiStation: Station DHCP hostname: Xiaozhi-58A0
+
+W (81577) wifi:(phy)rate:0x0(  LP-1Mbps), pwr:20, txing:20
+
+W (81587) wifi:(phy)rate:0x1(  LP-2Mbps), pwr:20, txing:20
+
+W (81587) wifi:(phy)rate:0x2(LP-5.5Mbps), pwr:20, txing:20
+
+W (81597) wifi:(phy)rate:0x3( LP-11Mbps), pwr:20, txing:20
+
+W (81597) wifi:(phy)rate:0x5(  SP-2Mbps), pwr:20, txing:20
+
+W (81607) wifi:(phy)rate:0x6(SP-5.5Mbps), pwr:20, txing:20
+
+W (81607) wifi:(phy)rate:0x7( SP-11Mbps), pwr:20, txing:20
+
+W (81617) wifi:(phy)rate:0x8(    48Mbps), pwr:18, txing:18
+
+W (81617) wifi:(phy)rate:0x9(    24Mbps), pwr:19, txing:19
+
+W (81627) wifi:(phy)rate:0xa(    12Mbps), pwr:20, txing:20
+
+W (81637) wifi:(phy)rate:0xb(     6Mbps), pwr:20, txing:20
+
+W (81637) wifi:(phy)rate:0xc(    54Mbps), pwr:18, txing:18
+
+W (81647) wifi:(phy)rate:0xd(    36Mbps), pwr:19, txing:19
+
+W (81647) wifi:(phy)rate:0xe(    18Mbps), pwr:20, txing:20
+
+W (81657) wifi:(phy)rate:0xf(     9Mbps), pwr:20, txing:20
+
+W (81657) wifi:(phy)rate:0x10, mcs:0x0, pwr(bw20:20, bw40:19), txing:20
+
+W (81667) wifi:(phy)rate:0x11, mcs:0x1, pwr(bw20:20, bw40:19), txing:20
+
+W (81667) wifi:(phy)rate:0x12, mcs:0x2, pwr(bw20:20, bw40:19), txing:20
+
+W (81677) wifi:(phy)rate:0x13, mcs:0x3, pwr(bw20:20, bw40:19), txing:20
+
+W (81687) wifi:(phy)rate:0x14, mcs:0x4, pwr(bw20:19, bw40:18), txing:19
+
+W (81687) wifi:(phy)rate:0x15, mcs:0x5, pwr(bw20:19, bw40:18), txing:19
+
+W (81697) wifi:(phy)rate:0x16, mcs:0x6, pwr(bw20:18, bw40:17), txing:18
+
+W (81707) wifi:(phy)rate:0x17, mcs:0x7, pwr(bw20:18, bw40:17), txing:18
+
+W (81707) wifi:(phy)rate:0x18, mcs:0x8, pwr(bw20:16, bw40:16), txing:16
+
+W (81717) wifi:(phy)rate:0x19, mcs:0x9, pwr(bw20:15, bw40:15), txing:15
+
+I (81717) wifi:11ax coex: WDEVAX_PTI0(0x04000000), WDEVAX_PTI1(0x0001c0aa).
+
+
+
+I (81727) wifi:mode : sta (1c:29:04:d0:58:a0)
+
+I (81737) wifi:enable tsf
+
+I (81797) StcVoice: STC_VOICE_MODE CHAT
+
+I (81797) Esp32S31Korvo1Stc: APP_STATE GAME -> CHAT_STARTING mode=0
+
+I (81797) WifiStation: Scanning saved channel 6
+
+I (81797) WifiBoard: WiFi scanning
+
+I (81807) StcShellUi: STC_CHAT_UI connection=网络连接中
+
+I (81807) StcShellUi: STC_CHAT_UI device_state=配网中 · wifi_configuring
+
+I (81927) WifiStation: Found AP: Wu_iPhone, BSSID: 7a:86:a7:b7:ab:e6, RSSI: -33, Channel: 6, Authmode: 3
+
+I (81927) WifiBoard: WiFi connecting to Wu_iPhone
+
+W (81927) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+
+I (81947) wifi:(he)max.RxAMPDULenExponentExtension:3, max.RxAMPDUpre-EOFpaddingBytes:8388607(0x7fffff)
+
+I (81947) wifi:(mac)omc_ul_mu_data_disable_rx:0
+
+I (81947) wifi:(phy)ppe_thresholds_present:0, nominal_packet_padding:1
+
+I (81957) wifi:(phy)dcm tx(constellation:0, nss:0), dcm rx(constellation:1, nss:0)
+
+I (81957) wifi:(phy)rx_mcs_map:0xfff5, tx_mcs_map:0xfff5, stbc_tx:0, bfmer(su:0, mu:0), ldpc:1, max_rate:172
+
+I (81967) wifi:(opr)bss color disabled:1
+
+I (81977) wifi:(opr)len:7, TWT Required:0, VHT Opr Info Present:0, 6GHz Opr Info Present:0, Co-Hosted BSS:0(max_indicator:0), Basic MCS and NSS:0xfffc
+
+I (81987) wifi:(opr)len:7, Default PE Duration:0, TXOP RTS Threshold:1023(0 us), ER-SU-Disable:1
+
+I (81997) wifi:(opr)len:7, BSS Color:0, disabled:1, Partial BSS Color:0
+
+I (82017) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1, snd_ch_cfg:0x0
+
+I (82017) wifi:(connect)dot11_authmode:0x3, pairwise_cipher:0x3, group_cipher:0x3
+
+I (82027) wifi:state: init -> auth (0xb0)
+
+I (82037) wifi:state: auth -> assoc (0x0)
+
+I (82047) wifi:(assoc)RESP, Extended Capabilities length:8, operating_mode_notification:0
+
+I (82047) wifi:(assoc)RESP, Extended Capabilities, MBSSID:0, TWT Responder:0, OBSS Narrow Bandwidth RU In OFDMA Tolerance:0
+
+I (82047) wifi:Extended Capabilities length:8, operating_mode_notification:1
+
+I (82057) wifi:(he)max.RxAMPDULenExponentExtension:3, max.RxAMPDUpre-EOFpaddingBytes:8388607(0x7fffff)
+
+I (82067) wifi:(mac)omc_ul_mu_data_disable_rx:0
+
+I (82067) wifi:(phy)ppe_thresholds_present:0, nominal_packet_padding:1
+
+I (82077) wifi:(phy)dcm tx(constellation:0, nss:0), dcm rx(constellation:1, nss:0)
+
+I (82087) wifi:(phy)rx_mcs_map:0xfff5, tx_mcs_map:0xfff5, stbc_tx:0, bfmer(su:0, mu:0), ldpc:1, max_rate:172
+
+I (82097) wifi:(opr)bss color disabled:1
+
+I (82097) wifi:(opr)len:7, TWT Required:0, VHT Opr Info Present:0, 6GHz Opr Info Present:0, Co-Hosted BSS:0(max_indicator:0), Basic MCS and NSS:0xfffc
+
+I (82107) wifi:(opr)len:7, Default PE Duration:0, TXOP RTS Threshold:1023(0 us), ER-SU-Disable:1
+
+I (82117) wifi:(opr)len:7, BSS Color:0, disabled:1, Partial BSS Color:0
+
+I (82127) wifi:state: assoc -> run (0x10)
+
+I (82127) wifi:(he)ppe_thresholds_present:0, nominal_packet_padding(rx:1, cfg:1)
+
+I (82137) wifi:(trc)phytype:CBW20-SGI, snr:51, maxRate:172, highestRateIdx:0
+
+W (82147) wifi:(trc)band:2G, phymode:3, highestRateIdx:0, lowestRateIdx:11, dataSchedTableSize:14
+
+I (82157) wifi:(trc)band:2G, rate(S-MCS7, rateIdx:0), ampdu(rate:S-MCS7, schedIdx(0, stop:8)), snr:51, ampduState:wait operational
+
+I (82167) wifi:ifidx:0, rssi:-32, nf:-83, phytype(0x3, CBW20-SGI), phymode(0x7, 11ax), max_rate:172, he:1, vht:0, ht:1
+
+I (82177) wifi:(ht)max.RxAMPDULenExponent:3(65535 bytes), MMSS:6(8 us)
+
+I (82197) wifi:(extcap)mbssid:0, enhanced_mbssid_advertise:0, complete_nontxbssid_profiles:0, twt_responder: 0
+
+I (82197) wifi:connected with Wu_iPhone, aid = 20, channel 6, BW20, bssid = 7a:86:a7:b7:ab:e6
+
+I (82197) wifi:security: WPA2-PSK, phy: ax, rssi: -32, cipher(pairwise:0x3, group:0x3), pmf:0
+
+I (82207) wifi:pm start, type: 0, twt_start:0
+
+
+
+I (82217) wifi:pm start, type:0, aid:0x14, trans-BSSID:7a:86:a7:b7:ab:e6, BSSID[5]:0xe6, mbssid(max-indicator:0, index:0), he:1
+
+I (82227) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+
+I (82237) wifi:[ADDBA]TX addba request, tid:0, dialogtoken:4, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x0)
+
+I (82247) wifi:[ADDBA]TX addba request, tid:7, dialogtoken:5, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x20)
+
+I (82257) wifi:[ADDBA]TX addba request, tid:5, dialogtoken:6, bufsize:32, A-MSDU:0(not supported), policy:1(IMR), ssn:0(0x0)
+
+I (82267) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+
+W (82277) wifi:<ba-add>idx:0, ifx:0, tid:4, TAHI:0x100e6ab, TALO:0xb7a7867a, (ssn:3829, win:64, cur_ssn:3829), CONF:0xc0004001
+
+I (82287) wifi:[ADDBA]RX addba response, status:0, tid:0/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+
+I (82287) wifi:[ADDBA]RX addba response, status:0, tid:7/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+
+I (82297) wifi:[ADDBA]RX addba response, status:0, tid:5/tb:1(0xa1), bufsize:32, batimeout:0, txa_wnd:32
+
+W (82787) wifi:<ba-add>idx:1, ifx:0, tid:6, TAHI:0x100e6ab, TALO:0xb7a7867a, (ssn:1166, win:64, cur_ssn:1166), CONF:0xc0006001
+
+I (83467) esp_netif_handlers: sta ip: 172.20.10.2, mask: 255.255.255.240, gw: 172.20.10.1
+
+I (83467) WifiStation: Got IP: 172.20.10.2
+
+I (83467) WifiBoard: Connected to WiFi: Wu_iPhone
+
+I (83467) Application: Network connected
+
+I (83467) StateMachine: State: wifi_configuring -> activating
+
+I (83477) Ota: Current version: 2.5.2
+
+W (83497) wifi:<ba-add>idx:2, ifx:0, tid:0, TAHI:0x100e6ab, TALO:0xb7a7867a, (ssn:4064, win:64, cur_ssn:4064), CONF:0xc0000001
+
+I (83507) StcShellUi: STC_CHAT_UI connection=网络已连接
+
+I (83507) StcShellUi: STC_CHAT_UI device_state=激活中 · activating
+
+I (84177) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=690
+
+I (84307) HttpClient: HTTP connection closed
+
+I (84317) Ota: Current is the latest version
+
+I (84317) Ota: Running partition: ota_0
+
+I (84317) MQTT: Connecting to endpoint api.tenclass.net:8883
+
+I (84327) MQTT: Resolved MQTT host api.tenclass.net -> 47.76.65.170
+
+I (84827) MQTT: Connected to endpoint
+
+I (84827) Application: Activation done
+
+I (84827) SystemInfo: free sram: 115479 minimal sram: 61892
+
+I (84827) StateMachine: State: activating -> idle
+
+I (84827) StcShellUi: STC_CHAT_UI message role=system chars=0
+
+I (84837) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+
+I (84847) wifi:Set ps type: 2, coexist: 0
+
+
+
+I (84917) StcShellUi: STC_CHAT_UI message role=assistant chars=0
+
+I (84917) Esp32S31Korvo1Stc: APP_STATE CHAT_STARTING -> CHAT_READY
+
+I (84927) StcShellUi: STC_CHAT_UI device_state=待命 · idle
+
+I (84927) StateMachine: State: idle -> connecting
+
+I (84927) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+
+I (84937) wifi:Set ps type: 0, coexist: 0
+
+
+
+I (85027) StcShellUi: STC_CHAT_UI device_state=连接中 · connecting
+
+I (85127) MQTT: Session ID: c3321141
+
+I (85127) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+
+I (85127) wifi:Set ps type: 0, coexist: 0
+
+
+
+W (85127) Application: Server sample rate 24000 does not match device output sample rate 16000, resampling may cause distortion
+
+I (85147) StateMachine: State: connecting -> listening
+
+I (85227) StcShellUi: STC_CHAT_UI device_state=聆听中 · listening
+
+I (91337) Application: >> 拜拜，你好，小智，拜拜。
+
+I (91337) StcShellUi: STC_CHAT_UI message role=user chars=36
+
+I (91357) StateMachine: State: listening -> speaking
+
+I (91427) StcShellUi: STC_CHAT_UI device_state=回复中 · speaking
+
+I (92107) Application: << 拜拜啦，下次再聊喔～
+
+I (92107) StcShellUi: STC_CHAT_UI message role=assistant chars=30
+
+I (92287) AudioService: Resampling audio from 24000 to 16000
+
+I (94747) StateMachine: State: speaking -> listening
+
+I (94757) MQTT: Received goodbye message, session_id: c3321141
+
+I (94757) MQTT: Closing audio channel, send_goodbye: 0
+
+I (94757) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+
+I (94767) wifi:Set ps type: 2, coexist: 0
+
+
+
+I (94767) StcShellUi: STC_CHAT_UI message role=system chars=0
+
+I (94777) StateMachine: State: listening -> idle
+
+I (94837) StcShellUi: STC_CHAT_UI message role=assistant chars=0
+
+I (94837) StcShellUi: STC_CHAT_UI device_state=待命 · idle
+
+I (104647) SystemInfo: free sram: 123715 minimal sram: 61892
+
+I (114647) SystemInfo: free sram: 123715 minimal sram: 61892
+
+I (119587) Esp32S31Korvo1Stc: STC_MODE_REQUEST target=GAME source=uart
+
+I (119597) Esp32S31Korvo1Stc: STC_NETWORK_GATE state=GAME action=stop
+
+I (119597) MQTT: MqttProtocol deinit
+
+I (119597) WifiManager: Stopping station
+
+I (119597) WifiStation: Stopping WiFi station
+
+I (119607) wifi:state: run -> init (0x0)
+
+I (119607) wifi:teardown, set twt_inactive_time_secs:6, sp_count:0
+
+I (119607) wifi:pm stop, total sleep time: 24653243 us / 37386965 us
+
+
+
+I (119617) wifi:<ba-del>idx:2, tid:0
+
+I (119617) wifi:<ba-del>idx:0, tid:4
+
+I (119627) wifi:<ba-del>idx:1, tid:6
+
+I (119667) wifi:flush txq
+
+I (119667) wifi:stop sw txq
+
+I (119667) wifi:lmac stop hw txq
+
+I (119667) WifiManager: Station stopped
+
+W (119667) WifiBoard: WiFi disconnected
+
+I (119667) StcVoice: STC_VOICE_MODE GAME
+
+I (119667) Esp32S31Korvo1Stc: APP_STATE CHAT -> GAME
+
+I (119717) StcShellUi: STC_CHAT_UI connection=网络关闭
+
+I (124647) SystemInfo: free sram: 133671 minimal sram: 61892
+

@@ -8,6 +8,7 @@
 #include "led/single_led.h"
 #include "stc_app_fsm.h"
 #include "stc_bin.h"
+#include "stc_chat_display.h"
 #include "stc_game.h"
 #include "stc_network_gate.h"
 #include "stc_shell_ui.h"
@@ -300,6 +301,7 @@ static void GameTask(void*) {
              stc_vision_version());
 
     bool chat_dialog_requested = false;
+    TickType_t last_ui_refresh = 0;
     while (true) {
         stc_voice_poll();
         stc_app_state_t app_state = stc_app_fsm_get();
@@ -350,6 +352,12 @@ static void GameTask(void*) {
         }
 
         UpdateStatusLed();
+        const TickType_t now = xTaskGetTickCount();
+        if (last_ui_refresh == 0 || now - last_ui_refresh >= pdMS_TO_TICKS(100)) {
+            last_ui_refresh = now;
+            stc_shell_ui_refresh_status(app_state, Application::GetInstance().GetDeviceState(),
+                                        WifiManager::GetInstance().IsConnected());
+        }
         vTaskDelay(pdMS_TO_TICKS(20));
     }
 }
@@ -547,9 +555,9 @@ private:
         ESP_ERROR_CHECK(esp_lcd_new_rgb_panel(&rgb_config, &panel_handle));
         ESP_ERROR_CHECK(esp_lcd_panel_init(panel_handle));
 
-        display_ = new RgbLcdDisplay(panel_io, panel_handle, DISPLAY_WIDTH, DISPLAY_HEIGHT,
-                                     DISPLAY_OFFSET_X, DISPLAY_OFFSET_Y, DISPLAY_MIRROR_X,
-                                     DISPLAY_MIRROR_Y, DISPLAY_SWAP_XY);
+        display_ = new StcChatDisplay(panel_io, panel_handle, DISPLAY_WIDTH, DISPLAY_HEIGHT,
+                                      DISPLAY_OFFSET_X, DISPLAY_OFFSET_Y, DISPLAY_MIRROR_X,
+                                      DISPLAY_MIRROR_Y, DISPLAY_SWAP_XY);
     }
 
     void InitializeTouch() {

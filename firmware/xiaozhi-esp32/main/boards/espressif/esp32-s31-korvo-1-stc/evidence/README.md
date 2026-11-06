@@ -16,6 +16,11 @@
   该次短采集未输入真人语音，不能单独作为对话通过证据。
 - `serial-chat-debug-stats.log`: 修复后的真人语音证据，含麦克风输入/编码计数、
   VAD、`stt`、`tts` 和连续第二次回答。
+- `serial-chat-ui-runtime.log`: 2026-11-06 自建 CHAT UI 的原始串口证据；
+  含 `native_xiaozhi_ui=0`、网络状态、内部 `DeviceState`、真人 STT/TTS
+  字幕更新以及返回 GAME。
+- `serial-chat-ui-boot.log`: 2026-11-06 当前镜像启动证据，确认自建页面
+  建立且 `native_xiaozhi_ui=0`。
 - `serial-autonomous-5-rounds.log`: 历史自动五回合版本，仅作旧证据保留。
 - `serial-cfg.log`: 历史自动五回合版本，仅作旧证据保留。
 - `serial-chat-gate.log`: 历史 CHAT 互斥/网络停止证据。

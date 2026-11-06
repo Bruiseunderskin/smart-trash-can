@@ -1,7 +1,7 @@
 # STC game/chat shell validation
 
 Target: ESP32-S31-Korvo-1 V1.1, `esp32s31`, ESP-IDF 6.1 on Windows `COM5`.
-Test date: 2026-11-05.
+Test date: 2026-11-05, updated 2026-11-06.
 
 ## Requested behavior
 
@@ -9,6 +9,8 @@ Test date: 2026-11-05.
 - Show an intentionally blank GAME page until the team provides game logic.
 - Switch through two touch buttons on screen.
 - In CHAT, release XiaoZhi and start its native voice path.
+- Replace XiaoZhi's native display with a board-owned CHAT page.
+- Show a larger/bolder STT/TTS subtitle, network state, and XiaoZhi DeviceState.
 - Keep the game UI replacement isolated from networking and XiaoZhi.
 
 ## Results
@@ -22,7 +24,10 @@ Test date: 2026-11-05.
 | First CHAT entry | PASS | Serial request reached `CHAT_STARTING`, then `CHAT_READY`, then `State: connecting -> listening`. |
 | CHAT re-entry | PASS | After 60 s timeout returned to GAME, CHAT started again and reached `CHAT_READY` without a protocol-not-initialized race. |
 | Return to GAME | PASS | CHAT request reached ready, then `STC_NETWORK_GATE state=GAME action=stop` and `APP_STATE CHAT -> GAME`. |
-| Human voice answer | PASS | Real speech produced `>> 你好，小智。`, transitioned `listening -> speaking`, then returned TTS `<< 哈喽～我在呢…` and continued a second turn. |
+| Self-owned CHAT UI | PASS | `StcChatDisplay` logs `native_xiaozhi_ui=0`; the shell creates a dedicated CHAT page with `chat_page=1`. |
+| Runtime status display | PASS | Live status log moved through `网络连接中`, `网络已连接`, `连接中 · connecting`, `聆听中 · listening`, `回复中 · speaking`, then back to `待命 · idle`. |
+| Subtitle event routing | PASS | Real STT/TTS events reached the custom UI as `user`/`assistant` messages, including a multi-sentence assistant reply. |
+| Human voice answer | PASS | Real speech produced combined STT/TTS turns and returned audio while the custom status changed `listening -> speaking -> listening`. |
 | Game UI | INTENTIONAL PLACEHOLDER | `stc_game_placeholder.cc` displays a dark empty page and replacement hint only. |
 
 ## State machine
@@ -74,26 +79,35 @@ Application: << 哈喽～我在呢，今天过得怎么样呀？
 ## UI replacement contract
 
 - The persistent bottom bar and touch callbacks are in `stc_shell_ui.cc`.
+- The content viewport ends above the 94 px mode bar; subtitles never share
+  that area with the touch buttons.
+- `stc_chat_display.cc/.h` bridges XiaoZhi display events without constructing
+  the native LCD page.
 - The whole GAME page body is built by `stc_game_placeholder_build()` in
   `stc_game_placeholder.cc`.
 - The game team can replace only that builder/module when their UI arrives.
-- The shell adds children to `lv_layer_top()`, so the buttons remain visible
-  over XiaoZhi's own screen while GAME covers the XiaoZhi UI.
+- The future CHAT visual redesign can replace `stc_shell_ui.cc` while preserving
+  the small public update API in `stc_shell_ui.h`.
 
 ## Automated checks
 
 - `python -m unittest discover -s tools/tests -v`: **26/26 PASS**.
 - New app FSM test: pass.
 - ESP-IDF 6.1 canonical S31 build: pass.
-- Final application image: `0x30c580` bytes, 23% free.
+- Final application image: `0x32b690` bytes, 20% free.
 - Final `xiaozhi.bin` SHA-256:
-  `648fb017c13efce609912bb548d8797d708d4e2c00e06de7574ef5d605d1004c`.
+  `99bba5aa78990e3faf11af75cf0437afc2488eacd55e2390d3c2fb79f6764aca`.
 - Flash and hash verification on `COM5`: pass.
 
 ## Evidence
 
 - [`evidence/serial-shell-ui.log`](./evidence/serial-shell-ui.log): shell object
   creation, GAME network lock, contract versions.
+- [`evidence/serial-chat-ui-boot.log`](./evidence/serial-chat-ui-boot.log):
+  current image boots the custom page and logs `native_xiaozhi_ui=0`.
+- [`evidence/serial-chat-ui-runtime.log`](./evidence/serial-chat-ui-runtime.log):
+  current custom CHAT page, network/DeviceState updates, live STT/TTS subtitle
+  routing, and return to GAME.
 - [`evidence/serial-shell-fsm.log`](./evidence/serial-shell-fsm.log): first CHAT,
   60 s timeout, second CHAT, and return to GAME.
 - [`evidence/serial-chat-debug-stats.log`](./evidence/serial-chat-debug-stats.log):
@@ -116,5 +130,5 @@ not describe the current blank GAME page.
 
 ## Remaining hardware checks
 
-- Confirm the exact GAME-page appearance and both bottom button touch targets
-  visually on the production enclosure.
+- Confirm final typography spacing and touch ergonomics on the production
+  enclosure after the teammate's visual design replaces this placeholder.

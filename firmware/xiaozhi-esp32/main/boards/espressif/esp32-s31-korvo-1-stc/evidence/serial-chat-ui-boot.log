@@ -1,0 +1,150 @@
+I (233) esp_psram: Found 16MB PSRAM device
+
+I (233) esp_psram: Speed: 200MHz
+
+I (234) oct_psram: psram CS IO is dedicated
+
+I (234) cpu_start: Multicore app
+
+I (247) cpu_start: GPIO 59 and 58 are used as console UART I/O pins
+
+I (247) cpu_start: Pro cpu start user code
+
+I (247) cpu_start: cpu freq: 320000000 Hz
+
+I (249) app_init: Application information:
+
+I (253) app_init: Project name:     xiaozhi
+
+I (257) app_init: App version:      2.5.2
+
+I (260) app_init: Compile time:     Nov  6 2026 19:05:46
+
+I (265) app_init: ELF file SHA256:  6c816b9d4...
+
+I (270) app_init: ESP-IDF:          v6.1
+
+I (273) efuse_init: Min chip rev:     v0.0
+
+I (277) efuse_init: Max chip rev:     v0.99 
+
+I (281) efuse_init: Chip rev:         v0.0
+
+I (285) heap_init: Initializing. RAM available for dynamic allocation:
+
+I (291) heap_init: At 2F026590 len 00054A20 (338 KiB): RAM
+
+I (296) heap_init: At 2F07AFB0 len 000041C0 (16 KiB): RAM
+
+I (302) heap_init: At 2E000024 len 00007FB4 (31 KiB): RTCRAM
+
+I (307) esp_psram: Adding pool of 16384K of PSRAM memory to heap allocator
+
+I (314) spi_flash: detected chip: generic
+
+I (317) spi_flash: flash io: qio
+
+I (321) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+
+I (327) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+
+I (333) oct_psram: psram CS IO is dedicated
+
+I (337) main_task: Started on CPU0
+
+I (357) esp_psram: Reserving pool of 100K of internal memory for DMA/internal allocations
+
+I (357) main_task: Calling app_main()
+
+I (367) Board: UUID=c1f6d7e2-c4f3-40e5-86f0-d2e8c9fddfeb SKU=esp32-s31-korvo-1-stc
+
+I (367) button: IoT Button Version: 4.2.3
+
+I (667) S31-ADC-CALI: Button ADC software calibration finished: w0_q=525159, w6_q=16362, w16_q=256
+
+I (677) Esp32S31Korvo1Stc: ADC button 3: center=380mV range=160-600mV
+
+I (677) Esp32S31Korvo1Stc: ADC button 2: center=820mV range=600-1080mV
+
+I (687) Esp32S31Korvo1Stc: ADC button 1: center=1340mV range=1080-1605mV
+
+I (687) Esp32S31Korvo1Stc: ADC button 0: center=1870mV range=1605-1935mV
+
+I (717) Display: Power management not supported
+
+I (727) LcdDisplay: Initialize LVGL library
+
+I (737) LcdDisplay: Initialize LVGL port
+
+I (737) LVGL: Starting LVGL task
+
+I (737) LcdDisplay: Adding LCD display
+
+I (737) gt1151: IC version: GT1158_000101(Patch)_0102(Mask)_00(SensorID)
+
+I (767) Esp32S31Korvo1Stc: GT1151 touch initialized
+
+I (797) sc101iot: Detected Camera sensor PID=0xda4a
+
+I (1497) EspVideo: Camera init success
+
+I (1517) StcShellUi: STC_CHAT_UI message role=assistant chars=0
+
+I (1517) StcShellUi: STC_SHELL_UI ready game_button=1 chat_button=1 chat_page=1
+
+I (1517) StateMachine: State: unknown -> starting
+
+I (1587) StcChatDisplay: STC_CHAT_DISPLAY ready native_xiaozhi_ui=0
+
+I (1587) StcShellUi: STC_CHAT_UI message role=system chars=27
+
+W (1587) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+
+I (1597) Es8389AudioCodec: Duplex channels created
+
+I (1637) ES8389: Work in Slave mode
+
+I (1637) ES8389: Set internal reference signal
+
+I (1637) Es8389AudioCodec: Es8389AudioCodec initialized
+
+I (1637) AudioCodec: Audio codec started
+
+I (1647) Application: After board/audio init
+
+I (1647) SystemInfo: free sram: 257079 minimal sram: 155552
+
+I (1647) MCP: Add tool: self.get_device_status
+
+I (1657) MCP: Add tool: self.audio_speaker.set_volume
+
+I (1657) MCP: Add tool: self.screen.set_theme
+
+I (1667) MCP: Add tool: self.get_system_info [user]
+
+I (1667) MCP: Add tool: self.reboot [user]
+
+I (1667) MCP: Add tool: self.upgrade_firmware [user]
+
+I (1677) MCP: Add tool: self.screen.get_info [user]
+
+I (1677) MCP: Add tool: self.screen.snapshot [user]
+
+I (1687) MCP: Add tool: self.screen.preview_image [user]
+
+I (1687) MCP: Add tool: self.assets.set_download_url [user]
+
+I (1697) Esp32S31Korvo1Stc: STC_NETWORK_GATE state=GAME action=block cloud_connections=0
+
+I ��I (3517) uart: ESP_INTR_FLAG_IRAM flag not set while CONFIG_UART_ISR_IN_IRAM is enabled, flag updated
+
+I (3517) Esp32S31Korvo1Stc: STC_CMD ready: 'stc status', 'stc voice', 'stc chat', 'stc play', 'stc game'
+
+I (3767) Esp32S31Korvo1Stc: CONTRACT_VERSION voice=1.1.0 vision=1.0.0 bin=1.2.0 game=1.0.0 impl_vision=stub-1
+
+I (3767) StcShellUi: STC_CHAT_UI connection=网络关闭
+
+I (3767) StcShellUi: STC_CHAT_UI device_state=启动中 · starting
+
+I (11647) SystemInfo: free sram: 240115 minimal sram: 138532
+

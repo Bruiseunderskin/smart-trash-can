@@ -29,18 +29,28 @@ server；小智内部 `kDeviceState` 也保持不变。
 
 - `GAME`：关闭唤醒、断开音频通道、停止 WiFi；空白游戏页启用。
 - `CHAT_STARTING`：启动 WiFi/OTA/协议，等待上游真正到达 idle。
-- `CHAT_READY`：启动一次原生小智聆听；小智聊天页显示在原 UI 上。
+- `CHAT_READY`：启动一次原生小智聆听；显示项目自建的 CHAT 页面。
 - CHAT 连续 60 s 无协议交互或 TTS 播放时自动回 GAME。
 
 进入 CHAT 时先等待网络激活完成，之后才调用 `stc_voice_start_dialog()`，避免
 协议尚未初始化就提前进入 Listening。再次进入 CHAT 会重新完成激活。
 
-## 占位 UI 与替换点
+## 自建 UI 与替换点
 
 屏幕底部有两个常驻触控按钮 `GAME` 和 `CHAT`。按钮创建在 LVGL top layer，
-因此切换小智内部界面时仍保持可见；GAME 页面会阻止触摸落到下方小智 UI。
+内容区和按钮区使用独立的 386 px / 94 px 高度，不再覆盖小智字幕。
 
-- `stc_shell_ui.cc`：模式栏、按钮回调、CHAT 连接提示和页面切换。
+- CHAT 页面完全替代小智原生显示，提供：
+  - 当前用户 STT 或小智 TTS 大字幕，使用动态中文字体、1 px 描边和
+    约 1.08 倍视觉放大；
+  - Wi-Fi/云端连接状态；
+  - 小智内部 `DeviceState` 中英文状态，例如
+    `聆听中 · listening`、`回复中 · speaking`；
+  - 底部常驻 `GAME` / `CHAT` 触控按钮。
+- `stc_chat_display.cc/.h`：只负责把 `SetChatMessage()` 等 XiaoZhi 事件
+  转给自建 UI，不创建原生小智页面。
+- `stc_shell_ui.cc`：CHAT/GAME 页面布局、字幕、状态和模式栏。后续更换
+  视觉设计时只改这一个文件，保留公开的更新函数即可。
 - `stc_game_placeholder.cc`：游戏页占位内容，后续球队 UI 只需替换此文件。
 - `stc_app_fsm.c/.h`：不依赖 LVGL 或小智的外层状态机，已加主机测试。
 
