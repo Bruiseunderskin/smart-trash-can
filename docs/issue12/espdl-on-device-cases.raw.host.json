@@ -1,0 +1,176 @@
+{
+  "model": "best.onnx",
+  "input": "raw RGB888 from PIL decode of the case JPEG",
+  "calibration_images": 200,
+  "seed": 42,
+  "cases": [
+    {
+      "case_id": "case_00",
+      "truth": "其他",
+      "expected_index": 0,
+      "predicted_index": 2,
+      "predicted": "廚餘",
+      "confidence": 0.8437342643737793,
+      "probabilities": [
+        0.04200705513358116,
+        0.11418701708316803,
+        0.8437342643737793,
+        7.156405627029017e-05
+      ]
+    },
+    {
+      "case_id": "case_01",
+      "truth": "其他",
+      "expected_index": 0,
+      "predicted_index": 0,
+      "predicted": "其他",
+      "confidence": 0.9489004015922546,
+      "probabilities": [
+        0.9489004015922546,
+        0.025287339463829994,
+        0.025287339463829994,
+        0.0005248219822533429
+      ]
+    },
+    {
+      "case_id": "case_02",
+      "truth": "其他",
+      "expected_index": 0,
+      "predicted_index": 0,
+      "predicted": "其他",
+      "confidence": 0.9567614793777466,
+      "probabilities": [
+        0.9567614793777466,
+        0.0050206235609948635,
+        0.0011202525347471237,
+        0.037097666412591934
+      ]
+    },
+    {
+      "case_id": "case_03",
+      "truth": "可回收物",
+      "expected_index": 1,
+      "predicted_index": 2,
+      "predicted": "廚餘",
+      "confidence": 0.9847168922424316,
+      "probabilities": [
+        0.0035514438059180975,
+        0.010939216241240501,
+        0.9847168922424316,
+        0.0007924342062324286
+      ]
+    },
+    {
+      "case_id": "case_04",
+      "truth": "可回收物",
+      "expected_index": 1,
+      "predicted_index": 1,
+      "predicted": "可回收物",
+      "confidence": 0.781367838382721,
+      "probabilities": [
+        0.19756072759628296,
+        0.781367838382721,
+        0.014311251230537891,
+        0.006760156247764826
+      ]
+    },
+    {
+      "case_id": "case_05",
+      "truth": "可回收物",
+      "expected_index": 1,
+      "predicted_index": 1,
+      "predicted": "可回收物",
+      "confidence": 0.9710120558738708,
+      "probabilities": [
+        0.025876594707369804,
+        0.9710120558738708,
+        0.0030905187595635653,
+        2.0823750674026087e-05
+      ]
+    },
+    {
+      "case_id": "case_06",
+      "truth": "廚餘",
+      "expected_index": 2,
+      "predicted_index": 1,
+      "predicted": "可回收物",
+      "confidence": 0.5397398471832275,
+      "probabilities": [
+        0.32736876606941223,
+        0.5397398471832275,
+        0.09379272162914276,
+        0.039098624140024185
+      ]
+    },
+    {
+      "case_id": "case_07",
+      "truth": "廚餘",
+      "expected_index": 2,
+      "predicted_index": 2,
+      "predicted": "廚餘",
+      "confidence": 0.9990261793136597,
+      "probabilities": [
+        0.0007094828179106116,
+        0.0002610041410662234,
+        0.9990261793136597,
+        3.2855573408596683e-06
+      ]
+    },
+    {
+      "case_id": "case_08",
+      "truth": "廚餘",
+      "expected_index": 2,
+      "predicted_index": 2,
+      "predicted": "廚餘",
+      "confidence": 0.9985963702201843,
+      "probabilities": [
+        0.0011692361440509558,
+        0.0002031827752944082,
+        0.9985963702201843,
+        3.115908839390613e-05
+      ]
+    },
+    {
+      "case_id": "case_09",
+      "truth": "有害",
+      "expected_index": 3,
+      "predicted_index": 0,
+      "predicted": "其他",
+      "confidence": 0.6204306483268738,
+      "probabilities": [
+        0.6204306483268738,
+        0.17775636911392212,
+        0.024056706577539444,
+        0.17775636911392212
+      ]
+    },
+    {
+      "case_id": "case_10",
+      "truth": "有害",
+      "expected_index": 3,
+      "predicted_index": 3,
+      "predicted": "有害",
+      "confidence": 0.4915751516819,
+      "probabilities": [
+        0.2322036474943161,
+        0.26312121748924255,
+        0.01310003362596035,
+        0.4915751516819
+      ]
+    },
+    {
+      "case_id": "case_11",
+      "truth": "有害",
+      "expected_index": 3,
+      "predicted_index": 3,
+      "predicted": "有害",
+      "confidence": 0.5615664720535278,
+      "probabilities": [
+        0.001084078336134553,
+        0.4373483955860138,
+        9.885515055430005e-07,
+        0.5615664720535278
+      ]
+    }
+  ]
+}
