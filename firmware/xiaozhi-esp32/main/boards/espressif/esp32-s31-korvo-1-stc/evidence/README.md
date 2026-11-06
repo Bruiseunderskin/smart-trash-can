@@ -21,6 +21,10 @@
   字幕更新以及返回 GAME。
 - `serial-chat-ui-boot.log`: 2026-11-06 当前镜像启动证据，确认自建页面
   建立且 `native_xiaozhi_ui=0`。
+- `serial-chat-ui-recovery.log`: 修复后的软复位恢复证据，含实际 RGB
+  framebuffer 平均颜色与白色比例。
+- `serial-chat-ui-reset-fix.log`: 修复后的 GAME/CHAT、真人语音字幕和返回
+  GAME 原始串口日志。
 - `serial-autonomous-5-rounds.log`: 历史自动五回合版本，仅作旧证据保留。
 - `serial-cfg.log`: 历史自动五回合版本，仅作旧证据保留。
 - `serial-chat-gate.log`: 历史 CHAT 互斥/网络停止证据。

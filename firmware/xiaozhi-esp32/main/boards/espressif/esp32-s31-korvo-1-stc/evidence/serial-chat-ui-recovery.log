@@ -1,0 +1,80 @@
+I (677) S31-ADC-CALI: Button ADC software calibration finished: w0_q=525238, w6_q=16359, w16_q=256
+
+I (677) Esp32S31Korvo1Stc: ADC button 3: center=380mV range=160-600mV
+
+I (677) Esp32S31Korvo1Stc: ADC button 2: center=820mV range=600-1080mV
+
+I (687) Esp32S31Korvo1Stc: ADC button 1: center=1340mV range=1080-1605mV
+
+I (687) Esp32S31Korvo1Stc: ADC button 0: center=1870mV range=1605-1935mV
+
+I (717) Display: Power management not supported
+
+I (727) LcdDisplay: Initialize LVGL library
+
+I (737) LcdDisplay: Initialize LVGL port
+
+I (737) LVGL: Starting LVGL task
+
+I (737) LcdDisplay: Adding LCD display
+
+I (737) gt1151: IC version: GT1158_000101(Patch)_0102(Mask)_00(SensorID)
+
+I (1497) EspVideo: Camera init success
+
+I (1497) StateMachine: State: unknown -> starting
+
+I (1577) StcShellUi: STC_CHAT_UI message role=assistant bytes=0
+
+I (1577) StcShellUi: STC_SHELL_UI ready game_button=1 chat_button=1 chat_page=1
+
+I (1577) StcChatDisplay: STC_CHAT_DISPLAY ready native_xiaozhi_ui=0
+
+I (1637) StcShellUi: STC_CHAT_UI message role=system bytes=27
+
+W (1637) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+
+I (1637) Es8389AudioCodec: Duplex channels created
+
+I (1707) ES8389: Work in Slave mode
+
+I (1707) ES8389: Set internal reference signal
+
+I (1707) Es8389AudioCodec: Es8389AudioCodec initialized
+
+I (1707) AudioCodec: Audio codec started
+
+I (1717) Application: After board/audio init
+
+I (1717) SystemInfo: free sram: 252987 minimal sram: 151460
+
+I (1717) MCP: Add tool: self.get_device_status
+
+I (1727) MCP: Add tool: self.audio_speaker.set_volume
+
+I (1727) MCP: Add tool: self.screen.set_theme
+
+I (1737) MCP: Add tool: self.get_system_info [user]
+
+I (1737) MCP: Add tool: self.reboot [user]
+
+I (1737) MCP: Add tool: self.upgrade_firmware [user]
+
+I (1747) MCP: Add tool: self.screen.get_info [user]
+
+I (1747) MCP: Add tool: self.screen.snapshot [user]
+
+I (175I �I (3497) uart: ESP_INTR_FLAG_IRAM flag not set while CONFIG_UART_ISR_IN_IRAM is enabled, flag updated
+
+I (3497) Esp32S31Korvo1Stc: STC_CMD ready: 'stc status', 'stc voice', 'stc chat', 'stc play', 'stc game'
+
+I (3747) Esp32S31Korvo1Stc: CONTRACT_VERSION voice=1.1.0 vision=1.0.0 bin=1.2.0 game=1.0.0 impl_vision=stub-1
+
+I (3747) StcShellUi: STC_CHAT_UI connection=网络关闭
+
+I (3747) StcShellUi: STC_CHAT_UI device_state=启动中 · starting
+
+I (7237) Esp32S31Korvo1Stc: STC_SCREEN fb=0 avg_r=13006 avg_g=27961 avg_b=47626 white_permille=3 dark_permille=0
+
+I (7237) Esp32S31Korvo1Stc: STC_SCREEN fb=1 avg_r=13006 avg_g=27961 avg_b=47626 white_permille=3 dark_permille=0
+

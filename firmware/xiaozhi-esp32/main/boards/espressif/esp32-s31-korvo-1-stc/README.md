@@ -99,6 +99,7 @@ UART0 波特率 115200，接收单行命令：
 | 命令 | 作用 |
 | --- | --- |
 | `stc status` | 输出外层状态、小智模式、底层 DeviceState、网络和语音队列 |
+| `stc screen` | 采样两个 RGB framebuffer，输出平均颜色与白色比例，用于诊断白屏 |
 | `stc voice` | 顺序播放 10 句并验证打断/恢复 |
 | `stc chat` | 请求 CHAT，用于无人值守验收 |
 | `stc play` | 游戏占位动作；当前只记录 `result=placeholder` |

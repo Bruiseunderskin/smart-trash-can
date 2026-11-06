@@ -48,6 +48,7 @@ static_assert(STC_GAME_CONTRACT_VERSION_MAJOR == 1 && STC_GAME_CONTRACT_VERSION_
 
 static std::atomic<bool> chat_network_enabled{false};
 static std::atomic<stc_mode_t> requested_mode{STC_MODE_GAME};
+static esp_lcd_panel_handle_t stc_panel_handle = nullptr;
 
 extern "C" void stc_network_gate_enable_for_chat(void) {
     if (!chat_network_enabled.exchange(true)) {
@@ -213,10 +214,67 @@ static void RunVoiceSelfTest() {
     stc_voice_say(STC_LINE_CORRECT);
 }
 
+static void LogScreenPixelStatistics() {
+    if (stc_panel_handle == nullptr) {
+        ESP_LOGE(TAG, "STC_SCREEN unavailable panel=null");
+        return;
+    }
+
+    void* frame_buffers[2] = {};
+    const esp_err_t error = esp_lcd_rgb_panel_get_frame_buffer(
+        stc_panel_handle, 2, &frame_buffers[0], &frame_buffers[1]);
+    if (error != ESP_OK) {
+        ESP_LOGE(TAG, "STC_SCREEN unavailable error=%d", static_cast<int>(error));
+        return;
+    }
+
+    DisplayLockGuard lock(Board::GetInstance().GetDisplay());
+    if (!lock) {
+        ESP_LOGE(TAG, "STC_SCREEN unavailable display_lock=0");
+        return;
+    }
+
+    for (int frame = 0; frame < 2; ++frame) {
+        const auto* pixels = static_cast<const uint16_t*>(frame_buffers[frame]);
+        uint64_t red_sum = 0;
+        uint64_t green_sum = 0;
+        uint64_t blue_sum = 0;
+        uint32_t samples = 0;
+        uint32_t white = 0;
+        uint32_t dark = 0;
+        for (int y = 0; y < DISPLAY_HEIGHT; y += 8) {
+            for (int x = 0; x < DISPLAY_WIDTH; x += 8) {
+                const uint16_t pixel = pixels[y * DISPLAY_WIDTH + x];
+                const uint8_t red = static_cast<uint8_t>(((pixel >> 11) & 0x1F) * 255 / 31);
+                const uint8_t green = static_cast<uint8_t>(((pixel >> 5) & 0x3F) * 255 / 63);
+                const uint8_t blue = static_cast<uint8_t>((pixel & 0x1F) * 255 / 31);
+                red_sum += red;
+                green_sum += green;
+                blue_sum += blue;
+                ++samples;
+                white += red >= 245 && green >= 245 && blue >= 245;
+                dark += red <= 30 && green <= 30 && blue <= 30;
+            }
+        }
+        ESP_LOGI(TAG,
+                 "STC_SCREEN fb=%d avg_r=%lu avg_g=%lu avg_b=%lu "
+                 "white_permille=%lu dark_permille=%lu",
+                 frame, static_cast<unsigned long>(red_sum * 1000 / samples),
+                 static_cast<unsigned long>(green_sum * 1000 / samples),
+                 static_cast<unsigned long>(blue_sum * 1000 / samples),
+                 static_cast<unsigned long>(white * 1000 / samples),
+                 static_cast<unsigned long>(dark * 1000 / samples));
+    }
+}
+
 static void HandleUartCommand(char* command) {
     command[strcspn(command, "\r\n")] = '\0';
     if (strcmp(command, "stc status") == 0) {
         LogStatus("uart");
+        return;
+    }
+    if (strcmp(command, "stc screen") == 0) {
+        LogScreenPixelStatistics();
         return;
     }
     if (strcmp(command, "stc voice") == 0) {
@@ -553,11 +611,13 @@ private:
         };
 
         ESP_ERROR_CHECK(esp_lcd_new_rgb_panel(&rgb_config, &panel_handle));
+        stc_panel_handle = panel_handle;
         ESP_ERROR_CHECK(esp_lcd_panel_init(panel_handle));
 
         display_ = new StcChatDisplay(panel_io, panel_handle, DISPLAY_WIDTH, DISPLAY_HEIGHT,
                                       DISPLAY_OFFSET_X, DISPLAY_OFFSET_Y, DISPLAY_MIRROR_X,
-                                      DISPLAY_MIRROR_Y, DISPLAY_SWAP_XY);
+                                      DISPLAY_MIRROR_Y, DISPLAY_SWAP_XY,
+                                      [](stc_mode_t mode) { RequestMode(mode, "touch"); });
     }
 
     void InitializeTouch() {
@@ -650,11 +710,6 @@ public:
         InitializeRgbDisplay();
         InitializeTouch();
         InitializeCamera();
-        const stc_err_t ui_error =
-            stc_shell_ui_init(display_, [](stc_mode_t mode) { RequestMode(mode, "touch"); });
-        if (ui_error != STC_OK) {
-            ESP_LOGE(TAG, "STC_SHELL_UI init failed: %d", static_cast<int>(ui_error));
-        }
         xTaskCreate(GameTask, "stc_shell", 8192, nullptr, 5, nullptr);
     }
 

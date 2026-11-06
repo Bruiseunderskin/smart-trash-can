@@ -25,6 +25,8 @@ Test date: 2026-11-05, updated 2026-11-06.
 | CHAT re-entry | PASS | After 60 s timeout returned to GAME, CHAT started again and reached `CHAT_READY` without a protocol-not-initialized race. |
 | Return to GAME | PASS | CHAT request reached ready, then `STC_NETWORK_GATE state=GAME action=stop` and `APP_STATE CHAT -> GAME`. |
 | Self-owned CHAT UI | PASS | `StcChatDisplay` logs `native_xiaozhi_ui=0`; the shell creates a dedicated CHAT page with `chat_page=1`. |
+| Soft-reset display init | PASS | After the display lifecycle fix, two consecutive hard resets reached the shell and UART tasks without a cold power cycle. |
+| Rendered framebuffer | PASS | `stc screen` sampled both RGB565 framebuffers as dark UI (`avg_r=13 avg_g=28 avg_b=47`, `white_permille=3`), not white. |
 | Runtime status display | PASS | Live status log moved through `网络连接中`, `网络已连接`, `连接中 · connecting`, `聆听中 · listening`, `回复中 · speaking`, then back to `待命 · idle`. |
 | Subtitle event routing | PASS | Real STT/TTS events reached the custom UI as `user`/`assistant` messages, including a multi-sentence assistant reply. |
 | Human voice answer | PASS | Real speech produced combined STT/TTS turns and returned audio while the custom status changed `listening -> speaking -> listening`. |
@@ -89,14 +91,38 @@ Application: << 哈喽～我在呢，今天过得怎么样呀？
 - The future CHAT visual redesign can replace `stc_shell_ui.cc` while preserving
   the small public update API in `stc_shell_ui.h`.
 
+## White-screen startup fix
+
+Repeated hard resets could stop at:
+
+```text
+LcdDisplay: Adding LCD display
+```
+
+The old shell bypassed `LcdDisplay::SetupUI()` and mounted only on
+`lv_layer_top()`. That is fragile with this RGB panel's direct-mode double
+framebuffers; the display could remain on the constructor's initial white
+buffer and the UART/task initialization would never finish.
+
+The fixed lifecycle is:
+
+1. Run `LcdDisplay::SetupUI()` so LVGL owns and initializes the native display
+   buffers normally.
+2. Hide the native XiaoZhi widgets.
+3. Mount the STC shell as a later child of `lv_screen_active()`.
+4. Keep all XiaoZhi text/status events routed into the STC shell.
+
+The previous known-good commit still reproduced the startup stall after a
+soft reset; the fixed image recovered repeatedly after a hard reset.
+
 ## Automated checks
 
 - `python -m unittest discover -s tools/tests -v`: **26/26 PASS**.
 - New app FSM test: pass.
 - ESP-IDF 6.1 canonical S31 build: pass.
-- Final application image: `0x32b690` bytes, 20% free.
+- Final application image: `0x32bb30` bytes, 19% free.
 - Final `xiaozhi.bin` SHA-256:
-  `99bba5aa78990e3faf11af75cf0437afc2488eacd55e2390d3c2fb79f6764aca`.
+  `e23f99fc3e34eabb88ef297fe3b0e128f111e1e35b041be43ab8e45b94b56a96`.
 - Flash and hash verification on `COM5`: pass.
 
 ## Evidence
@@ -105,9 +131,13 @@ Application: << 哈喽～我在呢，今天过得怎么样呀？
   creation, GAME network lock, contract versions.
 - [`evidence/serial-chat-ui-boot.log`](./evidence/serial-chat-ui-boot.log):
   current image boots the custom page and logs `native_xiaozhi_ui=0`.
+- [`evidence/serial-chat-ui-recovery.log`](./evidence/serial-chat-ui-recovery.log):
+  hard-reset boot completes and both RGB framebuffers contain the dark UI.
 - [`evidence/serial-chat-ui-runtime.log`](./evidence/serial-chat-ui-runtime.log):
   current custom CHAT page, network/DeviceState updates, live STT/TTS subtitle
   routing, and return to GAME.
+- [`evidence/serial-chat-ui-reset-fix.log`](./evidence/serial-chat-ui-reset-fix.log):
+  post-fix GAME/CHAT entry, live speech, subtitle routing, and return to GAME.
 - [`evidence/serial-shell-fsm.log`](./evidence/serial-shell-fsm.log): first CHAT,
   60 s timeout, second CHAT, and return to GAME.
 - [`evidence/serial-chat-debug-stats.log`](./evidence/serial-chat-debug-stats.log):

@@ -379,7 +379,7 @@ stc_err_t stc_shell_ui_init(Display* display, std::function<void(stc_mode_t)> re
     ui.display = display;
     ui.request_mode = std::move(request_mode);
 
-    lv_obj_t* top = lv_layer_top();
+    lv_obj_t* top = lv_screen_active();
     ui.root = lv_obj_create(top);
     lv_obj_set_size(ui.root, LV_HOR_RES, LV_VER_RES);
     lv_obj_align(ui.root, LV_ALIGN_TOP_LEFT, 0, 0);
