@@ -1,0 +1,101 @@
+{
+  "input_layout": "NHWC",
+  "dtype": "int8",
+  "exponent": -7,
+  "mean_rgb": [
+    123.67500305175781,
+    116.27999877929688,
+    103.52999877929688
+  ],
+  "std_rgb": [
+    58.39500045776367,
+    57.119998931884766,
+    57.375
+  ],
+  "cases": [
+    {
+      "case_id": "case_00",
+      "raw_sha256": "48735aa7bbf450cb40ec5a4bb86b4c2ff05261b270b6ea9205d452469a6b8024",
+      "host_qint8_crc32": "139ea69b",
+      "device_preprocessor_crc32": "139ea69b",
+      "match": true
+    },
+    {
+      "case_id": "case_01",
+      "raw_sha256": "69c4b78b155e13e09989ff421d88e356bf0afb76da6bb0b35291f535526dc1cc",
+      "host_qint8_crc32": "e65bcd86",
+      "device_preprocessor_crc32": "e65bcd86",
+      "match": true
+    },
+    {
+      "case_id": "case_02",
+      "raw_sha256": "d136082dd61d5976b62de687bbe256d2271e6ba199e4e32367c5c77b09ec7667",
+      "host_qint8_crc32": "7d4543ec",
+      "device_preprocessor_crc32": "7d4543ec",
+      "match": true
+    },
+    {
+      "case_id": "case_03",
+      "raw_sha256": "0bb67d90a918ad1d80ca43fa0589255900a629f4a6c0f4911ea5fa7d0dbfc2b5",
+      "host_qint8_crc32": "8bd1763f",
+      "device_preprocessor_crc32": "8bd1763f",
+      "match": true
+    },
+    {
+      "case_id": "case_04",
+      "raw_sha256": "253d296659798c517c094fc23a3cf55d09066a903bb2e132f41440792cc0ffdc",
+      "host_qint8_crc32": "9ff76069",
+      "device_preprocessor_crc32": "9ff76069",
+      "match": true
+    },
+    {
+      "case_id": "case_05",
+      "raw_sha256": "7c6aab727ff5133163d917cdcf449cf3c2fffbd12db8eb43556e53b7d05783f7",
+      "host_qint8_crc32": "0538eccd",
+      "device_preprocessor_crc32": "0538eccd",
+      "match": true
+    },
+    {
+      "case_id": "case_06",
+      "raw_sha256": "326309e2d2b7defc49d71cc64703c694510aee2bf7834f2616661688f8f6c371",
+      "host_qint8_crc32": "21ccfed4",
+      "device_preprocessor_crc32": "21ccfed4",
+      "match": true
+    },
+    {
+      "case_id": "case_07",
+      "raw_sha256": "7c9d36669ae99e64f8faf32d6a60adf650fda859796cb5ae8a32ffba6bae8f2d",
+      "host_qint8_crc32": "7ed818b3",
+      "device_preprocessor_crc32": "7ed818b3",
+      "match": true
+    },
+    {
+      "case_id": "case_08",
+      "raw_sha256": "ad2002709ab6e0079aef4352796e06ab9d740b905f8e23fa73f02b8f5f61a726",
+      "host_qint8_crc32": "95652692",
+      "device_preprocessor_crc32": "95652692",
+      "match": true
+    },
+    {
+      "case_id": "case_09",
+      "raw_sha256": "7fd7cd4c3499c59abcddaa8b816392b5622b38b8643da614ef287aec8933bb27",
+      "host_qint8_crc32": "f41539cf",
+      "device_preprocessor_crc32": "f41539cf",
+      "match": true
+    },
+    {
+      "case_id": "case_10",
+      "raw_sha256": "877d5e03f5bb10daa889251845722758ea394229f635c10d0cc3fa916821da5e",
+      "host_qint8_crc32": "079c25f5",
+      "device_preprocessor_crc32": "079c25f5",
+      "match": true
+    },
+    {
+      "case_id": "case_11",
+      "raw_sha256": "c9e46a5c1821c54ae8b6aedfb3e765c5a34f4bd2f6336bbf0e42fb20f9928106",
+      "host_qint8_crc32": "0bbe2c37",
+      "device_preprocessor_crc32": "0bbe2c37",
+      "match": true
+    }
+  ]
+}

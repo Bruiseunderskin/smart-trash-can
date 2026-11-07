@@ -1,0 +1,6 @@
+I (1326) tflite_real_input_probe: target=esp32s3 idf=v6.0.2 model_bytes=1087200 inputs_bytes=307200 samples=4 runs_per_sample=20 cpu_mhz=160 psram_bytes=8388608
+I (18846) tflite_real_input_probe: SAMPLE index=0 expected=food prediction=food logits=[127,-128,-128,-128] mean_us=858129 p50_us=858056 p95_us=858187
+I (36266) tflite_real_input_probe: SAMPLE index=1 expected=hazardous prediction=hazardous logits=[-128,127,-128,-128] mean_us=858120 p50_us=858065 p95_us=858157
+I (53686) tflite_real_input_probe: SAMPLE index=2 expected=other prediction=other logits=[-128,-128,127,-128] mean_us=858168 p50_us=858113 p95_us=858196
+I (71106) tflite_real_input_probe: SAMPLE index=3 expected=recyclable prediction=recyclable logits=[-128,-128,-128,127] mean_us=858110 p50_us=858061 p95_us=858141
+I (71106) tflite_real_input_probe: COMPLETE arena_used=507836; invoke-only; excludes camera, preprocessing, display and lid
