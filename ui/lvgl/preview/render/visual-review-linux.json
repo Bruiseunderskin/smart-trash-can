@@ -4,27 +4,27 @@
   "checks": {
     "visual_review": {
       "status": "PASS",
-      "details": "Inspected CI native nine-state overview, all four result/lesson variants, retry separation, padded cards and maximum-counter frames. No clipping, overlap or missing glyphs. All 17 Linux frames differ from inspected macOS frames by at most 1 per RGB channel; separate exact Linux hashes preserve strict comparison."
+      "details": "Inspected the CI-produced Linux frames for this branch: the nine-state overview (idle, capturing, classifying, result_ok, result_retry, error, category_guide, learning, summary) plus classifying.png at full size. All nine screens render with the expected copy; the seven-stage progress strip appears on capturing and classifying; the guide screen keeps the left ask and right home actions; learning keeps a single full-width next-round button; summary shows the five-correct gift line. No clipped, overlapping or missing glyphs found."
     }
   },
   "frame_hashes": {
     "idle": "cf898ccdfaf7e2f22a8e4ce96ca16e711137721c238c157a7e6e46f2cde177ec",
     "capturing": "9fc8f457047837fa01421227bff11ae217f02915b14f793eaad85a3231b2b4b2",
-    "classifying": "e6e2c230c3a4218ce2fb3728ae07fa3d5f2d510cd6555253618689a70ec1e82e",
+    "classifying": "aff84240abc15d944ae63a44a9e045ac6ee3d9a1f2878e89363aafa7374b12cd",
     "result_ok": "07969ad82e3f3a439efd91310ba2592b48b3077cbe6c32abeaa91cca50c13c62",
     "result_retry": "3192286d2022d35882113f5f9dcfbd72dacf5c59ee752b1ad66532ba47d41a0d",
     "error": "7df19ceb422ea12a94a46ba4116d31dc6f404843cdaf306ba54cea8493af08cc",
-    "category_guide": "3a1dcb1c5384cb4040d7abe66278050923e1b008c25825273daf17e2bb407cc2",
-    "learning": "4b4ccf4c4597aa0362cb92fdc642ef4d7626edc8c71e4349dcd45580838abbdc",
-    "summary": "f3feb1ac2884ef4b8e868560cb97e05bbed987be8f68a2ab514e61694a3e5fcd",
+    "category_guide": "6d9837c605772a268a8226470ad07290681752eb0de88ac19d5459a93db0789d",
+    "learning": "aad012f70c7d9bedd573bbebe20edae8b2c8ca62a72c000ae22e94d0912f15d0",
+    "summary": "cfb25c86b946b7093d49abea202269db920457ba9a102faca276d026825057f3",
     "result-cat-1": "7a5f46a4d6fecccaaddda5550bc9b00db24d949b7075995bffa4591f0a1fbd93",
     "result-cat-2": "958d6838c612537ab549b8a08975df8778c651e74035e6460dd4483b798b08ae",
     "result-cat-3": "98fcea1fc2cc4fe9c617a73d3219459fe4885011e9a2df9a4cc4d76b687bb66e",
-    "learning-cat-1": "09ab3e414f72cf066e6f2fac8031f6b50bcc694de8d98626fb701a79c216c5eb",
-    "learning-cat-2": "715c8be14fb3fa51655832c26866584c9665f926c3f9e69d03ed73992697fbf3",
-    "learning-cat-3": "19bb829e3df08008f945b69561588627e9ffc483374c723e2969289abe61fedd",
+    "learning-cat-1": "c71e7245100c3d61ecc5a560c4991bf1818355f0991af7fcf60135ea528bff2f",
+    "learning-cat-2": "d200524d402ca20b21dc8c5c6060db09684f9c557d45173f39c58805a7f86085",
+    "learning-cat-3": "8001a701211d6273d5e30f727ebf97ab4fc348cbc5d88fad2b08926755adf3a1",
     "result-max": "c3ca26508abe52516bd7c1f3a10e3523a78c3726645f2b968d8c45dcc46262b2",
-    "summary-max": "0bde3f43f1a5a31a5da8ea52db1c38a85ce6275bcafe21cc1655f8d1b8af9deb"
+    "summary-max": "9764b354f4950af288130d20623b6427f86a70cd90b863c2011378e2e2dafd63"
   },
   "frame_pixel_hashes": {
     "idle": "6c464941eea885b39609768164eb1cd554352d9374478fb14bf401a1afe35e1a",
@@ -49,8 +49,8 @@
     "Agent visual inspection, not human approval or measured child usability.",
     "No physical display/touch/camera/AI/servo or ESP32 target validation."
   ],
-  "platform": "Linux / SDL dummy software / RGB565",
-  "source_run": "https://github.com/Bruiseunderskin/smart-trash-can/actions/runs/41219979378",
+  "platform": "linux (GitHub Actions, lvgl-ui.yml)",
+  "source_run": "42321116479",
   "cross_platform_max_rgb_channel_delta": {
     "idle": 1,
     "capturing": 1,
