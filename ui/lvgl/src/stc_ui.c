@@ -57,6 +57,7 @@ static void action_event(lv_event_t *e) {
         else if(strcmp(name,"action/home")==0)action=STC_ACTION_HOME;
         else if(strcmp(name,"action/guide")==0)action=STC_ACTION_GUIDE;
         else if(strcmp(name,"action/finish")==0)action=STC_ACTION_FINISH;
+        else if(strcmp(name,"action/ask")==0)action=STC_ACTION_ASK;
         else if(strncmp(name,"action/learn-",13)==0){category=name[13]-'0';action=STC_ACTION_LEARN;}
         else return;
         if(!ui->action)return;
@@ -137,7 +138,9 @@ static void render(stc_ui_t *ui,stc_state_t state) {
             lv_obj_set_style_text_font(obj,n->font,0);lv_obj_set_style_text_color(obj,lv_color_hex(n->fg),0);
             lv_obj_set_style_text_letter_space(obj,0,0);
             int line_space=(n->font_px*14+5)/10-lv_font_get_line_height(n->font);
-            lv_obj_set_style_text_line_space(obj,line_space>0?line_space:0,0);lv_label_set_long_mode(obj,LV_LABEL_LONG_WRAP);lv_label_set_text(obj,n->text);
+            lv_obj_set_style_text_line_space(obj,line_space>0?line_space:0,0);
+            if(strncmp(n->name,"phase/",6)==0)lv_obj_set_style_text_align(obj,LV_TEXT_ALIGN_CENTER,0);
+            lv_label_set_long_mode(obj,LV_LABEL_LONG_WRAP);lv_label_set_text(obj,n->text);
         } else if(n->kind==STC_NODE_ICON) {
             lv_image_set_src(obj,n->asset<4?stc_icons[n->asset][n->w>48]:&stc_trophy_icon);
             lv_obj_set_style_image_recolor(obj,lv_color_hex((n->asset<4?category_color(n->asset):STC_COLOR_BRAND)),0);lv_obj_set_style_image_recolor_opa(obj,LV_OPA_COVER,0);
@@ -185,7 +188,7 @@ static bool transition(stc_ui_t *ui,stc_state_t to) {
     case STC_RESULT_OK:return to==STC_IDLE||to==STC_SUMMARY;
     case STC_RESULT_RETRY:return to==STC_IDLE||to==STC_CAPTURING;
     case STC_CATEGORY_GUIDE:return to==STC_IDLE||to==STC_LEARNING||to==STC_SUMMARY;
-    case STC_LEARNING:return to==STC_IDLE||to==STC_CATEGORY_GUIDE;
+    case STC_LEARNING:return to==STC_IDLE||to==STC_CAPTURING||to==STC_CATEGORY_GUIDE;
     case STC_SUMMARY:return to==STC_IDLE||to==STC_CATEGORY_GUIDE;
     default:return false;
     }

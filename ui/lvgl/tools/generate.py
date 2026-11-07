@@ -18,7 +18,10 @@ def walk(n):
 content=json.loads((ROOT/'design/content.json').read_text())
 texts=[n.get('text','') for s in layout['screens'] for n in walk(s)] + [c[k] for c in content['categories'] for k in ['example','tip','why','action']]
 extra='等待相機畫面連對例子相機未就緒連線中斷請檢查網絡裝置再按重試桶蓋已開請投放等待開蓋請勿推動桶蓋信心值連續答對次上一輪尚無結果目前分數不會自動開蓋'
-corpus=''.join(texts)+''.join(x[1] for x in labels)+extra
+supplement='問綠豆知多啲下一回合五題全對可換禮物掃描偵測開蓋投放緩衝關蓋倒數'
+base_corpus=''.join(texts)+''.join(x[1] for x in labels)+extra
+corpus=base_corpus+supplement
+base_cjk=''.join(sorted(c for c in set(base_corpus) if ord(c)>126))
 cjk=''.join(sorted(c for c in set(corpus) if ord(c)>126))
 (CACHE/'corpus.txt').write_text(corpus)
 converter=UI/'tools/node_modules/lv_font_conv/lv_font_conv.js'
@@ -32,7 +35,10 @@ for family,file,sizes in fontspec:
     for size in sizes:
         name=f'stc_font_{family}_{size}';args=['node',str(converter),'--font',str(static),'--size',str(size),'--bpp','4','--format','lvgl','--lv-include','lvgl.h','--lv-font-name',name,'--range','0x20-0x7e','--no-compress','-o',str(OUT/(name+'.c'))]
         # Category font needs category labels only; other sizes include the fixed corpus.
-        chars=''.join(x[1] for x in labels) if size==tokens['font']['cat_px'] else required
+        chars=''
+        if family=='tc':
+            chars=''.join(x[1] for x in labels) if size==tokens['font']['cat_px'] else base_cjk
+            if size in {tokens['font']['caption_px'],tokens['font']['body_px']}:chars+=supplement
         if chars:args+=['--symbols',chars]
         subprocess.run(args,check=True,capture_output=True)
         generated=OUT/(name+'.c')

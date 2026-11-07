@@ -23,7 +23,10 @@ SDL_RENDER_DRIVER=software ui/lvgl/preview/bin/main
 - `M`：切換 reduced motion；`R`：錯誤人手重試。
 - 點「開始挑戰」會執行**示範流程**：拍攝 → 辨識 → 四類輪流結果。資料是固定 fixture，沒有實際相機、AI 或舵機操作。
 - 首頁只提供「開始挑戰」。點結果頁「完成」查看總分；只有完成頁的「繼續學分類」可進入圖鑑。
-- 小百科提供「返回圖鑑」及「返回主頁」，圖鑑提供「返回成績」及「返回主頁」。延伸學習頁不能直接重開挑戰；回主頁後才可開始新一輪。
+- 圖鑑底部左鍵為「問綠豆知多啲」，只發出 `STC_ACTION_ASK` 意圖；右鍵為「返回主頁」。舊有返回結果字樣已移除。
+- 小百科只保留一粒全寬「下一回合」按鈕，發出 `STC_ACTION_START` 意圖，由控制程式確認後開新一輪；不再有第二粒返回按鈕。
+- 掃描／辨識頁底部列出七個回合階段：掃描、偵測、開蓋、投放、緩衝、關蓋、倒數；舊提示標題已移除。
+- 總分頁在標題與分數卡之間顯示「五題全對可換禮物」。
 - Tab／Enter 可操作按鈕，鍵盤焦點有深色外框。
 
 ## 自動評估 native 渲染
@@ -86,14 +89,14 @@ p.lid_open=false; /* true 只能來自真實蓋狀態 */
 stc_ui_apply(ui, &p);
 ```
 
-完成後學習轉移固定為 `result_ok → summary → category_guide → learning`；`learning → idle` 返回主頁。`idle` 不能直接進入圖鑑／小百科／完成頁。
+完成後學習轉移固定為 `result_ok → summary → category_guide → learning`；小百科的「下一回合」發出 `STC_ACTION_START`，控制程式接受後由 `learning → capturing` 開始新一輪。`idle` 不能直接進入圖鑑／小百科／完成頁。
 
 `labels.h` 唯一定義類別順序：0 可回收物／1 廚餘／2 有害／3 其他。`result_retry` 需要兩個不同有效 ID 及各自有限的 0–1 機率。`learning` 需要有效 ID。
 
 ## 狀態／控制程式責任
 
 - 所有 API 只能在 LVGL task 或同一把 `lvgl_port_lock` 下呼叫。
-- 操作 callback 只送意圖。控制程式確認後呼叫 `apply` 或 `show_guide`／`show_learning`／`show_summary`；UI 不樂觀切頁。
+- 操作 callback 只送意圖。控制程式確認後呼叫 `apply` 或 `show_guide`／`show_learning`／`show_summary`；`STC_ACTION_ASK` 交由外部問答介面處理，`STC_ACTION_START` 須經控制程式接受。UI 不樂觀切頁。
 - 控制程式在接收資料的邊界核對 `round_id`、目前工作及事件次序，丟棄舊推理結果後才套用。純 UI component 不解碼 SSE，也不提供工作排程器。尚未接上的 live backend 不在 native 驗證範圍。
 - Start 在控制程式接受新狀態前去重。控制程式拒絕開始時應送出明確 error，不能靜默留在 idle。
 - 每次 error 清除重試確認。按重試只確認本次 error，callback 每次錯誤最多一次；控制程式確認裝置可用後才送 idle。無 callback 時只記錄確認，不自動恢復。
