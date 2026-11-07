@@ -18,14 +18,21 @@
 
 ## 2. 資料：先查，再談生成
 
-repo 內已有真實標註照片：
+**repo 內追蹤的資料**（`git ls-files data`）：
+
+- `data/field-captures/`：少量實拍
+- `data/field-probe/`：獨立測試資料，**不得混入訓練、校準或閾值選擇**
+- `data/README.md`：資料規則與來源說明
+
+**只存在於本機、被 `.gitignore` 排除**（不入 repo，但仍可用）：
 
 - `data/waste4_ei_train/`：4 類 × 300（food / hazardous / other / recyclable）
 - `data/waste4_ei_test/`：4 類 × 200
 - `data/garbage265/`：265 類中國垃圾資料集
-- 合計約 8,000 個檔案
 
-**硬規則：任何資料集或模型工作開始前，先 `ls data/` 並寫出類別方案與四個桶的對應。** 沒有真實資料就停手報告「blocked，需要 N 張 X 照片」，不要用程序生成的合成圖代替。
+訓練資料由 `tools/build_dataset.py` 在本機建立。
+
+**硬規則：任何資料集或模型工作開始前，先 `ls data/`、讀 `data/README.md`，並寫出類別方案與四個桶的對應。** 沒有真實資料就停手報告「blocked，需要 N 張 X 照片」，不要用程序生成的合成圖代替。
 
 合成資料唯一的合法用途是驗證管線（上傳→特徵→訓練→量化→匯出→量測），不得以其準確率描述實物表現，而且要在同一句講明它是合成。
 
