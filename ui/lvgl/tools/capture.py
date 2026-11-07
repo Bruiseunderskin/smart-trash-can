@@ -1,8 +1,16 @@
 #!/usr/bin/env python3
-"""Convert actual native framebuffer BMP captures; build review contact sheets."""
+"""Capture current native framebuffers, convert them to PNG, and build contact sheets."""
+import os
+import subprocess
 from pathlib import Path
 from PIL import Image,ImageDraw
+preview=Path(__file__).resolve().parents[1]/'preview'
 folder=Path(__file__).resolve().parents[1]/'preview/render'
+subprocess.run(
+    [str(preview/'bin/main'),'--screenshots',str(folder)],
+    check=True,
+    env={**os.environ,'SDL_VIDEODRIVER':'dummy','SDL_RENDER_DRIVER':'software'},
+)
 for p in folder.glob('*.bmp'):
     image=Image.open(p).convert('RGB');assert image.size==(800,480);image.save(p.with_suffix('.png'))
 def sheet(files,name,columns):
