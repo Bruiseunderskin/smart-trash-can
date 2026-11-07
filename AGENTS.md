@@ -1,6 +1,8 @@
 # AGENTS.md — smart-trash-can
 
-給任何在此 repo 工作的 agent（含 Codex、Claude Code、Hermes）。先讀十行，再動手。
+給任何在此 repo 工作的 agent（含 Codex、Claude Code、Hermes）。先讀這份，再按需要往下鑽。
+
+**這份文件只放「事實」與「硬規則」。** 細節故意不塞進來，放在 `docs/agents/`，需要時才讀（漸進式披露，見第 8 節）。
 
 ## 0. 一句話
 
@@ -22,7 +24,7 @@
 
 - `data/field-captures/`：少量實拍
 - `data/field-probe/`：獨立測試資料，**不得混入訓練、校準或閾值選擇**
-- `data/README.md`：資料規則與來源說明
+- `data/README.md`：資料規則與來源
 
 **只存在於本機、被 `.gitignore` 排除**（不入 repo，但仍可用）：
 
@@ -56,7 +58,9 @@
 
 ## 5. 文件
 
-`docs/INDEX.md` 是唯一登記處。新增文件要加一行（現行／已被取代／歷史）；被取代的不要刪，改狀態。
+- **索引**：`docs/README.md`（現行文件的入口）
+- 新增文件要在索引加一行；被取代的不要刪，改狀態
+- 文件要寫「讀者」「何時讀」，唔好寫給自己睇
 
 ## 6. 慣例
 
@@ -64,3 +68,31 @@
 - 角色一律叫**綠豆**，「小智」永久禁用。
 - 主按鈕全寬貼底；不要放右下角落按鈕（小朋友手肘位）。
 - 文件與 commit 不要寫「已完成」而實際未驗；寫「已完成並附證據」或「未完成，卡在 X」。
+
+## 7. Commit 與 CHANGELOG（硬規則）
+
+1. **可以直接 commit 到工作分支**，不需要每一步都開 PR。
+2. **但每個 commit 必須同時更新 `CHANGELOG.md` 的 `[Unreleased]` 段落**，列明讀者見到什麼變化（Added / Changed / Fixed / Removed）。
+3. 沒有 changelog 條目的 commit 視為**未完成**，不要 push。
+4. commit message 與 changelog 條目要對得上：message 講範圍（`fix(ui): ...`），changelog 講影響（讀者會見到什麼）。
+5. 一個 commit 一件事。混合改動要拆開，changelog 逐條對應。
+6. **合併到 `main` 一定要經 PR，而且 CI 綠燈**。直接 commit 只准在工作分支。
+7. 發版時把 `[Unreleased]` 的內容移到版本標題下，加日期。
+
+> 細節與範例：`docs/agents/commits.md`
+
+## 8. Skills 與漸進式披露
+
+這份 AGENTS.md 故意保持短。**不要把所有細節塞進來**；需要時才讀對應文件。
+
+| 你想做什麼 | 先讀 |
+|---|---|
+| 改 UI、跑預覽、regen render | `docs/agents/skills.md` → `smart-trash-can-ui` skill |
+| 上傳資料、訓練、量化、匯出模型 | `docs/agents/skills.md` → `edge-impulse-project-setup` skill |
+| 經 SSH 叫 Mac 上的 Codex 做大批改動 | `docs/agents/skills.md` → `codex-remote-mac` skill |
+| 渲染驗收腳本、`evaluate_render.py` 用法 | `tools/skills/lvgl-preview/SKILL.md`（repo 內可攜 skill） |
+| Commit 格式、changelog 寫法 | `docs/agents/commits.md` |
+| 資料從哪來、可否混用 | `data/README.md` |
+| 文件全貌 | `docs/README.md` |
+
+**漸進式披露的做法**：AGENTS.md 只寫「事實＋硬規則＋去哪裡找」，細節一律放 `docs/agents/` 或其他專門文件。新規則到來時，先問「這條是否每次都要知？」是就寫這裡，不是就寫 `docs/agents/` 並在此加一行指路。
