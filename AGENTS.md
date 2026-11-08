@@ -92,6 +92,7 @@
 | 經 SSH 叫 Mac 上的 Codex 做大批改動 | `docs/agents/skills.md` → `codex-remote-mac` skill |
 | 渲染驗收腳本、`evaluate_render.py` 用法 | `tools/skills/lvgl-preview/SKILL.md`（repo 內可攜 skill） |
 | Commit 格式、changelog 寫法 | `docs/agents/commits.md` |
+| 準備開 PR、避免改錯對象或數字不一致 | `docs/agents/workflow.md` |
 | 資料從哪來、可否混用 | `data/README.md` |
 | 文件全貌 | `docs/README.md` |
 
