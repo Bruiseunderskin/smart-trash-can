@@ -28,7 +28,7 @@ typedef enum {
     STC_IN_CHAT_ENTER,  /* 分類圖鑑「問綠豆」；CHAT 的唯一入口 */
     STC_IN_ROUND_END,   /* 回合結束（由 stc_game 送） */
     STC_IN_SET_LONG,    /* SET 長按 ≥800 ms */
-    STC_IN_CHAT_TIMEOUT,/* CHAT 閒置 90 s */
+    STC_IN_CHAT_TIMEOUT,/* CHAT 閒置 60 s */
     STC_IN_CHAT_EXIT,   /* CHAT 內按 SET 或語音說「唔玩」 */
     STC_IN_FAULT,
     STC_IN_RESET,
@@ -52,7 +52,7 @@ const char *stc_mode_state_name(stc_state_t s);
 
 /* 唯一寫入者。非法轉移回 STC_ERR_NOT_READY 並保持原狀態，不得有任何副作用。 */
 stc_err_t   stc_mode_input(stc_input_t in, uint32_t now_ms);
-void        stc_mode_tick(uint32_t now_ms);   /* CHAT 90 s 閒置自動回 GAME */
+void        stc_mode_tick(uint32_t now_ms);   /* CHAT 60 s 閒置自動回 GAME */
 
 bool stc_mode_allows_game(void);
 bool stc_mode_allows_chat(void);

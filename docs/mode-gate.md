@@ -57,7 +57,7 @@
 | SUMMARY | `IN_PLAY` | GAME_IDLE | 清結算畫面 |
 | SUMMARY | `IN_SET_LONG` | （拒絕） | 無；結算頁不設聊天入口 |
 | CHAT | `IN_CHAT_EXIT` | GAME_IDLE | `exit_chat()`、`enter_game()` |
-| CHAT | `IN_CHAT_TIMEOUT`（90 s） | GAME_IDLE | 同上 |
+| CHAT | `IN_CHAT_TIMEOUT`（60 s） | GAME_IDLE | 同上 |
 | 任何 | `IN_FAULT` | FAULT | 停語音、開蓋？**不開**，顯示故障 |
 | FAULT | `IN_RESET` | BOOT | 重新 init |
 
@@ -98,10 +98,10 @@ counter > 0 時在結算畫面角落顯示警告，並寫 log。**不自動切 F
 
 ---
 
-## 6. 90 秒自動退出
+## 6. 60 秒自動退出
 
 - `CHAT` 進入時記 `t_enter`；每次偵測到語音活動（VAD／播放）更新 `t_last_activity`
-- `stc_mode_tick()` 內：`now - t_last_activity > 90000` → `IN_CHAT_TIMEOUT`
+- `stc_mode_tick()` 內：`now - t_last_activity > 60000` → `IN_CHAT_TIMEOUT`
 - 退出時播一句本地台詞「返去玩啦」，然後 `enter_game()`
 
 ---
@@ -120,7 +120,7 @@ GAME 模式下任何語音呼叫失敗（codec、佇列滿、檔案缺）→ 靜
 | M1 | `stc_mode` 狀態機 ＋ 轉移表 ＋ 10k 步 property test | **可以**（純 C，`tests/host/`） |
 | M2 | `stc_mode` 接上 `stc_voice_set_mode()`（stub 後端即可） | 可以 |
 | M3 | 序列埠命令 `mode` / `mode game` / `mode chat` / `mode reset` | 需要板 |
-| M4 | 真人由圖鑑「問綠豆」進 CHAT、90 s 自動退出 | 需要板 |
+| M4 | 真人由圖鑑「問綠豆」進 CHAT、60 s 自動退出 | 需要板 |
 
 **M1 先做，因為它不需要硬件、不需要模型，而且它決定後面所有東西的形狀。**
 M1 做完，#25 其他部分才有穩定的地基。
@@ -134,6 +134,6 @@ M1 做完，#25 其他部分才有穩定的地基。
 | G1 | 轉移表 | 表中每一格都有測試；非法格回 `STC_ERR_NOT_READY` 且狀態不變 |
 | G2 | 不變量 | 10,000 步隨機輸入，I1–I5 全過 |
 | G3 | 回合鎖 | `GAME_ROUND` 期間 `IN_SET_LONG` 100 次，0 次進 CHAT |
-| G4 | 自動退出 | CHAT 閒置 90 s ± 1 s 回 GAME_IDLE |
+| G4 | 自動退出 | CHAT 閒置 60 s ± 1 s 回 GAME_IDLE |
 | G5 | 語音失敗 | 拔掉 codec，5 回合照跑完，分數正確 |
 | G6 | 雲端零連線 | GAME 模式 10 分鐘，`stc_mode_cloud_violations() == 0` |

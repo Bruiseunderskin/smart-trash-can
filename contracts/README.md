@@ -28,4 +28,4 @@
 | 日期 | 版本 | 改動 |
 |---|---|---|
 | 2026-11-05 | v1.0.0 | `stc_mode.h` 初版：六個狀態、`SUMMARY`＋`SET_LONG` 進 CHAT、60 s 閒置退出 |
-| 2026-11-08 | v1.1.0 | 新增 `STC_IN_CHAT_ENTER`：`GAME_IDLE`＋`IN_CHAT_ENTER`（圖鑑「問綠豆」）進 CHAT；`SUMMARY`＋`SET_LONG` 改為拒絕；`IN_CHAT_TIMEOUT` 60 s → 90 s；不變量 I1 改寫為「CHAT 唯一入口＝圖鑑」 |
+| 2026-11-08 | v1.1.0 | 新增 `STC_IN_CHAT_ENTER`：`GAME_IDLE`＋`IN_CHAT_ENTER`（圖鑑「問綠豆」）進 CHAT；`SUMMARY`＋`SET_LONG` 改為拒絕；`IN_CHAT_TIMEOUT` 維持 60 s（經討論後不改）；不變量 I1 改寫為「CHAT 唯一入口＝圖鑑」 |
