@@ -32,6 +32,7 @@
 - [ei-baseline](ei-baseline/README.md)
 - [images](images/README.md)
 - [issue12](issue12/README.md)
+- [issue25](issue25/README.md)
 - [issue6](issue6/README.md)
 - [issue7](issue7/README.md)
 - [issue8](issue8/README.md)
