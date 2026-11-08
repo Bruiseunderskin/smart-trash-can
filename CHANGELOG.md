@@ -10,6 +10,11 @@
 
 ### Added
 
+- 補充整合決策地圖、YOLO／ESP-DL 模型交接、測試證據範本、CDC 向量及執行時責任表。
+
+- 補充整機整合介面對照、測試矩陣、I0 清單及硬件驗證交接表。
+- 整機整合需求、實施計劃、衝突記錄及驗收清單。
+
 - 由 PR #41 抽出六句粵語台詞（`firmware/assets/voice/`，16 kHz 單聲道 raw PCM）與台詞表，供 GAME 模式播報使用。
 - `tools/generate_stc_voice_assets.py`：由 WAV 或 Edge TTS 產生經驗證的 raw PCM，附單元測試；格式不符即報錯。
 - `docs/issue25/`：PR #41 的搶救記錄，列明抽了什麼、刻意不抽什麼（自製狀態機與對話畫面），以及未接手的部分。
@@ -25,6 +30,8 @@
 - `AGENTS.md` 第 8 節：skills 清單與漸進式披露的規則。
 
 ### Changed
+
+- 重寫專案入口與 agent 指引，更新 YOLO／ESP-DL 路線、整合現況及分類卡圖片連結。
 
 - Documentation CI 的 `guides` job 新增 `python3 tools/check_mode_gate.py`。
 - 模式閘契約 v1.1.0：新增 `STC_IN_CHAT_ENTER`（圖鑑「問綠豆」是 CHAT 唯一入口），`SUMMARY` 長按不再能進 CHAT，閒置自動退出維持 60 s，不變量 I1 同步改寫。

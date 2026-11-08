@@ -14,8 +14,8 @@
 |---|---|
 | 部署板 | **ESP32-S31**（RISC-V 雙核 @320 MHz、PIE/QACC 128-bit SIMD、512 KB SRAM、DDR PSRAM 250 MHz） |
 | 加速 | ESP-NN v1.3.0 起支援 S31，assembly 自動選用，與 ESP32-P4 共用 kernel |
-| 四個桶 | 可回收 `GPIO9`、廚餘 `GPIO10`、有害 `GPIO11`、其他 `GPIO12` |
-| 屏幕 | 4.3 吋 480×272 串口屏（TJC），另有大屏設計 800×480 LVGL |
+| 四個桶 | 桶位 0 可回收、1 廚餘、2 有害、3 其他；S3 直接 GPIO9–12 是舊測試路徑，目標為 S31 → USB CDC → S3 節點，尚未實測 |
+| 屏幕 | 目標 4.3 吋 800×480 LVGL（S31-Korvo-1）；實屏與觸控待驗證 |
 | 舊資料 | 文件寫 ESP32-S3 的延遲數字屬當時量測，**不可換算成 S31** |
 
 ## 2. 資料：先查，再談生成
@@ -40,13 +40,9 @@
 
 ## 3. 模型事實
 
-| 項目 | 值 |
-|---|---|
-| Edge Impulse 專案 | `Smart-Trash-Can`，ID `1157996` |
-| 現行 impulse | `S31-160`：160×160 RGB、Transfer Learning、16 neurons、dropout 0.1 |
-| int8 模型 | 1,005,632 bytes；`zero_point = -128`、`scale = 0.00390625` |
-| 六類標籤（實驗性） | `battery, bottle, can, carton, food_waste, other` — **與四個桶不一致，屬早期實驗，勿直接上機** |
-| 正確類別方案 | 四類：recyclable / food / hazardous / other，由四個桶固定 |
+- CV 路線：YOLO 分類模型及 ESP-DL `.espdl`。現有 YOLO11n-cls S31 int8 產物為 `models/mixed-card-object/mixed_s31.espdl`，同目錄有 `labels.txt` 和 `SHA256SUMS`；尚未在 S31 實機驗證。
+- 模型輸出 `food, hazardous, other, recyclable` 對應桶位 `1, 2, 3, 0`；現有 `contracts/model/classes.json` 尚待按 issue #53 對齊。不得把模型 index 當桶位。
+- 舊 Edge Impulse impulse、六類與 S3 數據是歷史記錄，不是現行模型參數。詳見 `docs/issue53/model-handoff.md` 與 `docs/experiments/mixed-card-object/README.md`。
 
 ## 4. 驗收規則
 
@@ -54,7 +50,7 @@
 2. 每個數字都要帶來源（哪個模型、哪個測試集、幾張）。
 3. 桌面預覽 `ctest` 過 ≠ 屏幕對。要拉 `ui/lvgl/preview/render/*.png` 親眼看過。
 4. 延遲只認實機量測（p50／p95）。估算可以寫，但要標明是估算，且不得寫進交付結論。
-5. 沒有檔案的「完成」不算完成：匯出模型要有 `.tflite` 與 `labels.txt`，量測要有 log。
+5. 沒有檔案的「完成」不算完成：本路線匯出模型要有 `.espdl`、`labels.txt` 與 hash，量測要有 log。
 
 ## 5. 文件
 
@@ -88,12 +84,13 @@
 | 你想做什麼 | 先讀 |
 |---|---|
 | 改 UI、跑預覽、regen render | `docs/agents/skills.md` → `smart-trash-can-ui` skill |
-| 上傳資料、訓練、量化、匯出模型 | `docs/agents/skills.md` → `edge-impulse-project-setup` skill |
+| YOLO 訓練、ESP-DL 量化、模型整合 | `docs/issue53/model-handoff.md`、`data/README.md` 及 `docs/agents/skills.md` |
 | 經 SSH 叫 Mac 上的 Codex 做大批改動 | `docs/agents/skills.md` → `codex-remote-mac` skill |
 | 渲染驗收腳本、`evaluate_render.py` 用法 | `tools/skills/lvgl-preview/SKILL.md`（repo 內可攜 skill） |
 | Commit 格式、changelog 寫法 | `docs/agents/commits.md` |
 | 準備開 PR、避免改錯對象或數字不一致 | `docs/agents/workflow.md` |
 | 資料從哪來、可否混用 | `data/README.md` |
+| 整機整合、契約衝突、驗收 | `docs/issue53/README.md` |
 | 文件全貌 | `docs/README.md` |
 
 **漸進式披露的做法**：AGENTS.md 只寫「事實＋硬規則＋去哪裡找」，細節一律放 `docs/agents/` 或其他專門文件。新規則到來時，先問「這條是否每次都要知？」是就寫這裡，不是就寫 `docs/agents/` 並在此加一行指路。

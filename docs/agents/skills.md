@@ -7,7 +7,7 @@
 | Skill | 位置 | 幾時用 | 主要內容 |
 |---|---|---|---|
 | `smart-trash-can-ui` | Hermes skill（`/config/.hermes/skills/engineering/`） | 改 UI、跑桌面預覽、重產 render 基準圖、操作 Figma | 檔案位置、build／ctest／capture 指令、九狀態與版面規則、Codex 派工方式、PR 流程 |
-| `edge-impulse-project-setup` | Hermes skill（同上） | 上傳資料、訓練、量化、匯出模型、查 EI 專案現況 | EI API／SDK 用法、**上傳一定要 `--label`**、特徵與訓練 job、int8 與 model testing 的坑、S31 尺寸與延遲參考 |
+| `yolo-training` | 使用者技能目錄 | YOLO 訓練、微調及驗證 | 現行 CV 路線；ESP-DL 產物與限制見 `docs/issue53/model-handoff.md`。Edge Impulse 資料屬歷史參考。 |
 | `codex-remote-mac` | Hermes skill | 要 Mac 上的 Codex 做大批改動（例如整份 UI 重構） | SSH 到 Mac、派工範圍寫法、成本估計、驗收方式 |
 | `lvgl-preview` | **repo 內**：`tools/skills/lvgl-preview/SKILL.md` | 改渲染或驗收腳本、理解 `evaluate_render.py` 與 visual review 的關係 | 可攜 skill，含 `preview.py`、`capture.py`、`evaluate_render.py` 的用法與失敗案例 |
 | `phone-recipes` | Hermes skill | 要用手機拍照、量測或重複操作 | 手機自動化流程；本 repo 的實拍採集會用到 |

@@ -4,6 +4,8 @@
 
 ## 閱讀路徑
 
+- [Issue 53 整機整合規劃](issue53/README.md)
+
 - [實物與模擬卡片混合模型實驗](experiments/mixed-card-object/README.md)
 
 - [目前架構、程式入口與整合邊界](architecture.md)
