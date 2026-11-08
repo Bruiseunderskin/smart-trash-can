@@ -1,6 +1,6 @@
 # 模式閘（Mode Gate）規格
 
-狀態：**v1.1.0，待實作**（2026-11-08）。契約：`contracts/stc_mode.h`（v1.1.0）。
+狀態：**v1.0.0，待實作**（2026-11-05）。契約：`contracts/stc_mode.h`。
 決策依據：`docs/PROJECT-PLAN.md` D2（小智在閘後）、D3（不新增 `kDeviceState`）。
 
 ---
@@ -31,9 +31,9 @@
 | 狀態 | 語義 | 遊戲 | 語音 | 可進 CHAT |
 |---|---|---|---|---|
 | `STC_ST_BOOT` | 初始化中 | ✗ | ✗ | ✗ |
-| `STC_ST_GAME_IDLE` | 等 PLAY | 可開局 | 本地台詞 | **✓ 經圖鑑「問綠豆」** |
+| `STC_ST_GAME_IDLE` | 等 PLAY | 可開局 | 本地台詞 | ✗ |
 | `STC_ST_GAME_ROUND` | 回合進行中 | **進行中** | 本地台詞 | **✗（硬性）** |
-| `STC_ST_SUMMARY` | 結算畫面 | ✗ | 本地台詞 | ✗ |
+| `STC_ST_SUMMARY` | 結算畫面 | ✗ | 本地台詞 | **✓ 唯一入口** |
 | `STC_ST_CHAT` | 小智原生語音 | **暫停** | 小智 ASR→LLM→TTS | — |
 | `STC_ST_FAULT` | 契約／硬件錯誤 | ✗ | ✗ | ✗ |
 
@@ -49,15 +49,14 @@
 | BOOT | init 成功 | GAME_IDLE | `enter_game()` |
 | BOOT | init 失敗 | FAULT | 顯示錯誤、蜂鳴 |
 | GAME_IDLE | `IN_PLAY` | GAME_ROUND | `enter_round()`、`stc_game_start()` |
-| GAME_IDLE | `IN_CHAT_ENTER`（分類圖鑑「問綠豆」） | CHAT | `enter_chat()` |
 | GAME_ROUND | `IN_PLAY` | （拒絕） | 無 |
 | GAME_ROUND | `IN_SET_LONG` | （拒絕） | 無；UI 提示「完咗先」 |
 | GAME_ROUND | `IN_ROUND_END`，未到最後一回合 | GAME_IDLE | `exit_round()` |
 | GAME_ROUND | `IN_ROUND_END`，最後一回合 | SUMMARY | `exit_round()`、播結算 |
 | SUMMARY | `IN_PLAY` | GAME_IDLE | 清結算畫面 |
-| SUMMARY | `IN_SET_LONG` | （拒絕） | 無；結算頁不設聊天入口 |
+| SUMMARY | `IN_SET_LONG` | CHAT | `enter_chat()` |
 | CHAT | `IN_CHAT_EXIT` | GAME_IDLE | `exit_chat()`、`enter_game()` |
-| CHAT | `IN_CHAT_TIMEOUT`（90 s） | GAME_IDLE | 同上 |
+| CHAT | `IN_CHAT_TIMEOUT`（60 s） | GAME_IDLE | 同上 |
 | 任何 | `IN_FAULT` | FAULT | 停語音、開蓋？**不開**，顯示故障 |
 | FAULT | `IN_RESET` | BOOT | 重新 init |
 
@@ -67,8 +66,7 @@
 
 ## 4. 不變量（用 property test 驗）
 
-- **I1**：`CHAT` 唯一入口 = 分類圖鑑「問綠豆」（`GAME_IDLE` ＋ `IN_CHAT_ENTER`）。
-  任何其他路徑（包括 `SUMMARY` ＋ `IN_SET_LONG`）都是 bug。
+- **I1**：`CHAT` 只能由 `SUMMARY` 進入（任何其他路徑都是 bug）
 - **I2**：`CHAT` 期間 `stc_game_tick()` 不被呼叫（或呼叫後分數不變）
 - **I3**：`GAME` 期間不開任何雲端連線（見 §5 的 counter）
 - **I4**：只有 `stc_mode_input()` 改狀態，其他模組只讀
@@ -98,10 +96,10 @@ counter > 0 時在結算畫面角落顯示警告，並寫 log。**不自動切 F
 
 ---
 
-## 6. 90 秒自動退出
+## 6. 60 秒自動退出
 
 - `CHAT` 進入時記 `t_enter`；每次偵測到語音活動（VAD／播放）更新 `t_last_activity`
-- `stc_mode_tick()` 內：`now - t_last_activity > 90000` → `IN_CHAT_TIMEOUT`
+- `stc_mode_tick()` 內：`now - t_last_activity > 60000` → `IN_CHAT_TIMEOUT`
 - 退出時播一句本地台詞「返去玩啦」，然後 `enter_game()`
 
 ---
@@ -120,7 +118,7 @@ GAME 模式下任何語音呼叫失敗（codec、佇列滿、檔案缺）→ 靜
 | M1 | `stc_mode` 狀態機 ＋ 轉移表 ＋ 10k 步 property test | **可以**（純 C，`tests/host/`） |
 | M2 | `stc_mode` 接上 `stc_voice_set_mode()`（stub 後端即可） | 可以 |
 | M3 | 序列埠命令 `mode` / `mode game` / `mode chat` / `mode reset` | 需要板 |
-| M4 | 真人由圖鑑「問綠豆」進 CHAT、90 s 自動退出 | 需要板 |
+| M4 | 真人按 SET 長按進 CHAT、60 s 自動退出 | 需要板 |
 
 **M1 先做，因為它不需要硬件、不需要模型，而且它決定後面所有東西的形狀。**
 M1 做完，#25 其他部分才有穩定的地基。
@@ -134,6 +132,6 @@ M1 做完，#25 其他部分才有穩定的地基。
 | G1 | 轉移表 | 表中每一格都有測試；非法格回 `STC_ERR_NOT_READY` 且狀態不變 |
 | G2 | 不變量 | 10,000 步隨機輸入，I1–I5 全過 |
 | G3 | 回合鎖 | `GAME_ROUND` 期間 `IN_SET_LONG` 100 次，0 次進 CHAT |
-| G4 | 自動退出 | CHAT 閒置 90 s ± 1 s 回 GAME_IDLE |
+| G4 | 自動退出 | CHAT 閒置 60 s ± 1 s 回 GAME_IDLE |
 | G5 | 語音失敗 | 拔掉 codec，5 回合照跑完，分數正確 |
 | G6 | 雲端零連線 | GAME 模式 10 分鐘，`stc_mode_cloud_violations() == 0` |
