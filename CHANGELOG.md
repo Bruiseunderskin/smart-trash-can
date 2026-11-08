@@ -10,6 +10,9 @@
 
 ### Added
 
+- 由 PR #41 抽出六句粵語台詞（`firmware/assets/voice/`，16 kHz 單聲道 raw PCM）與台詞表，供 GAME 模式播報使用。
+- `tools/generate_stc_voice_assets.py`：由 WAV 或 Edge TTS 產生經驗證的 raw PCM，附單元測試；格式不符即報錯。
+- `docs/issue25/`：PR #41 的搶救記錄，列明抽了什麼、刻意不抽什麼（自製狀態機與對話畫面），以及未接手的部分。
 - 新增實物與模擬卡片混合分類的 int8 實驗記錄，分別列出兩種輸入的主機結果及尚未完成的實機驗證。
 
 - `tools/check_mode_gate.py`：交叉核對 `contracts/stc_mode.h` 與 `docs/mode-gate.md` 的閒置超時與契約版本，
