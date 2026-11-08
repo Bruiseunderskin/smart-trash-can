@@ -9,6 +9,7 @@
 | `stc_voice.h` | 語音播報與對話（AI chat 主體） | 韌體 |
 | `stc_bin.h` | 舵機／ToF／ESP-NOW 手部 | 韌體 |
 | `stc_game.h` | 遊戲核心（唯一可改分數者） | 韌體 |
+| `stc_mode.h` | 模式閘：GAME／CHAT 的唯一切換者 | 韌體 |
 | `model/` | 模型輸入輸出契約、類別順序、預處理 | 訓練（W Ed）、韌體 |
 
 ## 鐵律
@@ -21,3 +22,10 @@
 ## 給訓練（W Ed）的一句話
 
 模型輸入、預處理、類別順序、輸出格式全部由 `model/preprocess.json` ＋ `model/classes.json` 定義；訓練完成後把 `model.onnx` 與 `eval.json` 放回同一位置，韌體只認這份契約。
+
+## 變更記錄
+
+| 日期 | 版本 | 改動 |
+|---|---|---|
+| 2026-11-05 | v1.0.0 | `stc_mode.h` 初版：六個狀態、`SUMMARY`＋`SET_LONG` 進 CHAT、60 s 閒置退出 |
+| 2026-11-08 | v1.1.0 | 新增 `STC_IN_CHAT_ENTER`：`GAME_IDLE`＋`IN_CHAT_ENTER`（圖鑑「問綠豆」）進 CHAT；`SUMMARY`＋`SET_LONG` 改為拒絕；`IN_CHAT_TIMEOUT` 60 s → 90 s；不變量 I1 改寫為「CHAT 唯一入口＝圖鑑」 |
