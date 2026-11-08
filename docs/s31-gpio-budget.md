@@ -1,7 +1,7 @@
 # S31-Korvo-1 GPIO 預算（結論：0 空閒）
 
 狀態：**已查證**，2026-11-04。作者：阿吉 the hermes（代 W Ed / sillysben）。
-歷史關聯文件：`docs/lid-detect-research.md`（未決項 L3）、`docs/sensor-node-wiring.md`（已由 2026-11-05 PROJECT-PLAN 取代）。
+關聯文件：`docs/lid-detect-research.md`（未決項 L3）、`docs/sensor-node-wiring.md`（解法）。
 
 ---
 
@@ -77,8 +77,8 @@ GPIO41 不存在，26–32 不導出，因此 54 條已經係全部。
 |---|---|---|
 | 直接接 Korvo-1 | ✗ | 0 空閒 GPIO |
 | 焊接飛線／拆卡座 | ✗ | 風險高、回報低 |
-| 外掛節點（USB CDC 有線） | 歷史方案 | 已由 ESP-NOW 方案取代 |
-| **外掛節點（ESP-NOW 無線）** | ✓ **採用** | S3-DevKitC-1，見 `PROJECT-PLAN.md` |
+| **外掛節點（USB CDC 有線）** | ✓ **採用** | 見 `docs/sensor-node-wiring.md` |
+| 外掛節點（ESP-NOW 無線） | ✓ 備選 | 需同頻道，多一個變數 |
 | 換 ESP32-S31-Function-CoreBoard-1 | ✓ | repo 已有 BSP；只用了 I²S 52–56、I²C 50/51、PA 57、LED 60、BOOT 61，GPIO 大量空閒（前提：有排針引出） |
 
 ---

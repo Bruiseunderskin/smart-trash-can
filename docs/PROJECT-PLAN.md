@@ -1,7 +1,7 @@
 # 智分桶 EDU — 總體計劃（Single Source of Truth）
 
 CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿吉 the hermes
-本文件整合所有分散決策與子計劃；子文件保留細節，但**範圍、優先級、驗收標準以本文件為準**。2026-11-05 起手部 bring-up 實作入口為 `firmware/esp32s3/tof_bringup/`。
+本文件整合所有分散決策與子計劃；子文件保留細節，但**範圍、優先級、驗收標準以本文件為準**。
 
 ---
 
@@ -10,6 +10,7 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 | 項目 | 內容 |
 |---|---|
 | 專案 | AI 垃圾分類桶，4 類別（可回收物／廚餘／有害垃圾／其他垃圾），4 個獨立蓋 |
+| 一局 | 3 分鐘、5 回合、25–30 張卡；揀卡 → 掃描 → 開蓋 → 投放 → 學習頁 → 計分 |
 | 主控 | ESP32-S31-Korvo-1（相機 SC101IOT、4.3″ 800×480 LCD、ES8389 音頻、Wi-Fi） |
 | 手部 | ESP32-S3-DevKitC-1（4 舵機、4 × TOF050C 經 TCA9548A） |
 | 板間 | ESP-NOW，協議 v1（seq／冪等／重同步） |
@@ -41,9 +42,10 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 └───────────────────────────┬────────────────────────────────────────┘
                             │ ESP-NOW（協議 v1：seq／冪等／GET_STATE）
 ┌───────────────────────────┴────────────────────────────────────────┐
-│                    ESP32-S3-DevKitC-1（手部）                       │
-│  LEDC ×4 舵機（5V/3A 獨立電源、每顆 470 µF、錯開開啟 80–120 ms）    │
+│                    ESP32-S3-DevKitC-1（手部節點）                   │
+│  PCA9685(0x40) CH0–3 → 4 舵機（V+ 獨立 5V/3A、每顆 470 µF）         │
 │  TCA9548A(0x70) CH0–CH3 → 4 × TOF050C(VL6180X, 0x29)               │
+│  同一條 I²C：SDA 8 / SCL 9 / 400 kHz（板上已有上拉）                │
 └────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -69,17 +71,26 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 | TOF050C（VL6180X） | 4 | ¥8/粒，0–50 cm，25° FoV，I²C |
 | TCA9548A mux | 1 | ¥5，0x70；四粒全留 0x29 |
 | 舵機＋獨立 5V/3A 電源 | 4 | 每顆 470 µF |
+| PCA9685（16 路 PWM） | 1 | ¥10；硬件波形、無 jitter、不食 CPU |
 | 10 kΩ、排線、杜邦 | — | ≈¥11 |
 | **新增合計** | | **≈ ¥48（HK$52）** |
 
 ### 3.2 ToF 接線與初始化要點
 
-- `S3 ─ I²C(SDA 8, SCL 9, 400 kHz) ─ TCA9548A(0x70) ─ CH0–CH3 ─ TOF(0x29)`
+- `S3 ─ I²C(SDA 8, SCL 9, 400 kHz) ─┬─ PCA9685(0x40) ─ CH0–3 舵機`
+- `                                  └─ TCA9548A(0x70) ─ CH0–CH3 ─ TOF(0x29)`
 - 通道 i = `stc_bin_t` i（0 可回收物 … 3 其他垃圾）
 - 每次切 channel 後 **≥100 µs** 才讀；量測週期 20 ms，四通道一輪 ≈ 80–90 ms
-- 每粒 init：讀 factory offset／crosstalk → `FRESH_OUT_OF_RESET` 為 1 時寫 AN4545 mandatory private registers → 套用 NVS offset／crosstalk → 開 continuous mode
-- 安裝位需要重做 offset 校正時，用 50 mm 白卡執行 `tof cal <ch> 50`；VL6180X 沒有 VL53L0X 式 `RefSpadManagement`，factory SPAD／NVM 校正由 driver init 載入
+- 每粒 init 四步：`FRESH_OUT_OF_RESET` 檢查 → AN4545 private registers → `RefSpadManagement` → `OffsetSimpleCalibration(50 mm)`；有保護窗加 `XTalkCalibration(100 mm)`；校正值存 NVS
 - **不用** SHDN 改址（已核實技術可行但需每次上電重做，程式多 150–200 行；方案存 git 歷史作後備）
+
+### 3.2b 相機策略（v1.2：只在掃卡時開）
+
+- **相機只在「掃卡」那一刻開**：開 → 連拍 **5 幀（間隔 50 ms）** → 逐幀推論 → 平均 softmax → 關
+- 一局 5 回合 = 相機開 5 次，`WAIT_DROP` 期間相機必須已關（驗收 J8）
+- 掃描總耗時 1.0–1.2 s（開機 300–500 ms ＋ 采集 200 ms ＋ 5 × 84 ms 推論）
+- 每回合寫 `runs/capture-*.csv`，提供「幀間一致率」作報告證據
+- 風險：相機與 RGB LCD 争 `LCD_CAM` → 掃描窗約 1.2 s，其間暫停 LCD 重繪即可
 
 ### 3.3 電源
 
@@ -110,14 +121,16 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 
 ### P0 手部 bring-up（ToF ＋ 舵機）— Issue #26
 
-- **範圍**：mux 切換、四粒 init＋NVS 校正、序列埠命令、`stc_bin` 實作、G1 量測工具
+- **範圍**：mux 切換、四粒 init＋校正、序列埠命令、`stc_bin` 實作、G1 量測工具　（節點板 = **S3-DevKitC-1**；舵機經 **PCA9685**）
 - **依賴**：無（不需要 S31、不需要模型、不需要 UI）
 - **驗收**：H1–H6（四粒辨識／100 mm σ ≤5 mm／每通道 ≥10 Hz／10 分鐘零錯誤／熱插拔 fault bit／NVS 校正持久）
 - **不做**：ESP-NOW、舵機實作（先回 `STC_ERR_UNSUPPORTED`）
 
 ### P1 語音與 AI chat — Issue #25
 
-- **範圍**：`stc_voice`（本地台詞、模式閘、CHAT 入口、60 s 自動退出）、`stc_game` 最小真實邏輯、stub vision/bin
+- **順序**：**先 M1 模式閘**（`stc_mode`，純 C ＋ host test，約 180 行），再台詞片段，最後 CHAT
+- **範圍**：`stc_mode`（狀態機、唯一寫入者）、`stc_voice`（本地台詞、片段拼接、CHAT 入口）、`stc_game` 最小真實邏輯、stub vision/bin
+- **規格**：`docs/mode-gate.md`、`contracts/stc_mode.h`
 - **依賴**：無（stub 可跑完整 5 回合）
 - **驗收**：A–G（5 回合 smoke／台詞 <50 ms／模式互斥／GAME 零連線／CHAT 真人語音／60 s 退出／契約版本）
 - **關鍵未知**：**真人語音路徑從未實測**（Codex 只確認 WakeNet 初始化成功）→ 11/07 必驗
@@ -141,11 +154,19 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 - **依賴**：P1 的事件順序（可先用 stub 資料）
 - **驗收**：每屏 <16 ms 重繪；字級符合簡報可讀性；GAME/CHAT 模式顯示正確
 
-### P5 遊戲核心整合
+### P5a 遊戲邏輯（stub，先做，無硬件依賴）— Issue #30
 
-- **範圍**：`stc_game` 完整狀態機（CAPTURE→OPEN→WAIT→SETTLE→CLOSE→NEXT）、5 回合、+10/−5/0、逾時、結算、分數存 NVS/SD
-- **依賴**：P0、P1、P2、P3、P4
-- **驗收**：連續 10 回合 0 人工介入；端到端 p95 ≤ 3 s
+- **範圍**：`stc_game` 完整狀態機（IDLE→PROMPT→SCAN→RESULT→OPEN→WAIT_DROP→SETTLE→CLOSE→LEARNING→SUMMARY）、5 回合／3 分鐘、+10/−5/0／floor 0、abstain 重試、學習頁、結算、`stc_result_t`
+- **介面**：`stc_vision`／`stc_bin`／`stc_voice` 全部走 stub；**佔位 UI**（`STC_UI_PLACEHOLDER`）經 `contracts/stc_ui.h`，隊友 UI 到貨只換 `.c`
+- **測試**：虛擬時鐘 ＋ 假事件，host 上跑 10 個情境 ＋ 1000 局隨機不變量
+- **依賴**：只有 P1 M1（模式閘）
+- **驗收**：J1–J7（見 `docs/game-logic-spec.md`）
+
+### P5b 真硬件整合（零件到齊後）
+
+- **範圍**：把 stub 換成真 vision／bin／voice，端到端跑 10 回合
+- **依賴**：P0、P2、P3、P5a
+- **驗收**：連續 10 回合 0 人工介入；PLAY→蓋全開 p95 ≤ 3 s
 
 ### P6 交付物
 
@@ -191,6 +212,9 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 | D5 | ToF 用 **TOF050C（VL6180X）＋ TCA9548A**，不用 SHDN 改址 | mux 省 150–200 行程式與 4 條 GPIO；SHDN 方案存 git 後備 | 11-04 |
 | D6 | 相機 `GetCamera()` 回 `nullptr`（不向 MCP 註冊） | 避免雲端 LLM 觸發 `take_photo`，延遲主因 | 11-04 |
 | D7 | 模型輸入 **160×160、中心裁切、不用 letterbox** | 與 PPA 管線一致，訓練/推論同構 | 11-04 |
+| D8 | 感測／舵機節點板用 **S3-DevKitC-1**，不用 XIAO C5；舵機走 **PCA9685**，不走 LEDC | S3 的 ESP-NOW 支援無疑問、GPIO 充足；PCA9685 已有合併程式（PR #16），硬件波形無 jitter，只佔 I²C。XIAO C5 + USB CDC 方案（`docs/sensor-node-wiring.md` 原稿）風險在 S31 USB host stack，4 日內不值得 | 11-05 |
+| D9 | 蓋位**不做感測** | ToF 裝桶身、只量掉落；蓋位靠舵機指令狀態即可（issue #22 澄清） | 11-05 |
+| D10 | 加**外層模式閘** `stc_mode`（BOOT／GAME_IDLE／GAME_ROUND／SUMMARY／CHAT／FAULT），**不改** 小智 `kDeviceState` | 閘是唯一有權決定「遊戲／聊天」的地方，才能驗證「回合中禁入 CHAT」與「GAME 零連線」；改 `kDeviceState` 要動 160 處且每次 rebase 重貼 | 11-05 |
 
 ---
 
@@ -240,11 +264,56 @@ CTEA 2026 香港區賽 · **高級組** ｜ 更新 2026-11-04 ｜ 維護：阿�
 
 | 文件 | 內容 |
 |---|---|
+| `docs/mode-gate.md` | 模式閘：狀態、轉移表、不變量、鎖小智的五步、驗收 G1–G6 |
+| `docs/game-logic-spec.md` | 回合狀態機、計分、stub 介面、虛擬時鐘測試、佔位 UI 與替換契約 |
 | `docs/plan-v3-tof050c.md` | ToF 選型、接線、校正、Codex 實作範圍 |
 | `docs/ai-chat-implementation-plan.md` | 語音／CHAT 模式與 stub 範圍 |
 | `docs/ai-chat-partition.md` | B1 vs B2 分析、模式閘、為何不加 DeviceState |
 | `contracts/` | 四條 seam 的 C 標頭 ＋ 模型契約 |
-| `firmware/esp32s3/tof_bringup/` | TOF050C×4／TCA9548A／`stc_bin` P0 實作與 G1 工具 |
-| `docs/sensor-node-wiring.md` | **歷史**：USB CDC／XIAO／VL53L0X 舊方案，不施工 |
 | `docs/ROADMAP.md` | 舊版日曆（以本文件 §6 為準） |
 | `docs/architecture.md` / `docs/development.md` | 架構與開發流程 |
+
+---
+
+## 12. 進度快照（2026-11-05 12:30 HKT）
+
+### 12.1 Issue 狀態
+
+| Issue | 內容 | 狀態 | 下一步 |
+|---|---|---|---|
+| #23 | B2 文字提問（板變體） | **完成，已被取代** | 關閉；結果併入 #24 |
+| #24 | 動態文字＋30 樣本＋延遲分解 | **完成，結論為「路線終止」** | Codex 開 PR；數字入報告 |
+| #25 | `stc_voice`（小智在閘後）＋ stub | **未開始** | Codex 開工，A–G 驗收 |
+| #26 | TOF050C＋TCA9548A bring-up | **未開始** | Codex 開工，H1–H6 驗收 |
+
+### 12.2 已量到的硬數字
+
+| 數字 | 值 | 出處 |
+|---|---|---|
+| A0 後相機 round trip | 0 次／30 樣本 | #24 |
+| 模式 S TTFB | median 532 ms／p95 571 ms（成功樣本 n=9） | #24 |
+| 模式 Q TTFB | median 563 ms／p95 592 ms（成功樣本 n=6） | #24 |
+| 文字注入成功率 | **15/30** | #24 |
+| `detect.text` 上限 | **約 16 字符** | #24 |
+| S 真正照讀 | **2/9** | #24 |
+| Q 播放長度 | median 10.7 s／max 19.95 s | #24 |
+| 裝置推理 | p50 83.8 ms／p95 83.9 ms | #12 |
+| int8 host macro-F1 | 0.833（float 0.865） | #12 |
+| SC101IOT 現場 smoke 準確率 | 0.25（4 張） | #12 |
+
+### 12.3 4 日內（11/05–11/09）唯一的工作序列
+
+1. **#26 節點 bring-up**（Codex）— 不需要模型、不需要 UI；H1–H6 通 = 硬件路線確定
+2. **#25 M1 模式閘**（Codex，可 host 測）→ 再 `stc_voice` ＋ 5 回合 stub 遊戲 — A–G 通 = 軟件骨架確定
+3. **模型 v1 重訓**（W Ed）— 現場資料入訓練集，交 `model.onnx` ＋ `eval.json`
+4. **11/08 整合**：stub 換真模型、舵機換真指令、跑 10 回合
+
+### 12.4 若 11/07 仍未通
+
+- #26 未通 → 保留 ToF 距離顯示但**不納入計分**，投放判定改「PLAY 後固定 8 s 開蓋＋舵機復位訊號」，並在問答明講此為簡化
+- #25 未通 → 語音降為「按鍵觸發單句」，CHAT 模式取消
+- 兩者都未通 → demo 改半自動：模型照跑、蓋用固定時序
+
+### 12.5 未解決的衝突（已由 D8 解決，記錄於此）
+
+`docs/sensor-node-wiring.md` 原稿寫 XIAO ESP32-C5 ＋ USB CDC ＋ VL53L0X XSHUT 改址，與 `plan-v3-tof050c.md` 的 TOF050C ＋ TCA9548A 不同。**以本文件與 D8 為準**：S3 節點、PCA9685、TCA9548A、TOF050C、ESP-NOW。該文件已加修訂註記，其 I²C 位址表與訊框協定仍可參考。

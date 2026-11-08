@@ -1,0 +1,29 @@
+test_accepts_console_double_carriage_return (test_capture_camera_serial.CameraStreamDecoderTest.test_accepts_console_double_carriage_return) ... ok
+test_decodes_binary_payload_and_checks_crc (test_capture_camera_serial.CameraStreamDecoderTest.test_decodes_binary_payload_and_checks_crc) ... ok
+test_decodes_when_header_and_payload_arrive_in_fragments (test_capture_camera_serial.CameraStreamDecoderTest.test_decodes_when_header_and_payload_arrive_in_fragments) ... ok
+test_detects_ready_marker_split_across_trimmed_log_buffer (test_capture_camera_serial.CameraStreamDecoderTest.test_detects_ready_marker_split_across_trimmed_log_buffer) ... ok
+test_reads_jpeg_dimensions_without_pillow (test_capture_camera_serial.CameraStreamDecoderTest.test_reads_jpeg_dimensions_without_pillow) ... ok
+test_rejects_crc_mismatch (test_capture_camera_serial.CameraStreamDecoderTest.test_rejects_crc_mismatch) ... ok
+test_rejects_truncated_payload (test_capture_camera_serial.CameraStreamDecoderTest.test_rejects_truncated_payload) ... ok
+test_trigger_is_terminated_for_board_fgets (test_capture_camera_serial.CameraStreamDecoderTest.test_trigger_is_terminated_for_board_fgets) ... ok
+test_imagefolder_records_use_stable_sorted_class_order (test_evaluate_classifier.EvaluateClassifierTest.test_imagefolder_records_use_stable_sorted_class_order) ... ok
+test_report_includes_closed_set_and_low_confidence_metrics (test_evaluate_classifier.EvaluateClassifierTest.test_report_includes_closed_set_and_low_confidence_metrics) ... ok
+test_loads_only_labeled_provenance_verified_captures (test_evaluate_live_camera.EvaluateLiveCameraTest.test_loads_only_labeled_provenance_verified_captures) ... ok
+test_rejects_capture_used_for_training (test_evaluate_live_camera.EvaluateLiveCameraTest.test_rejects_capture_used_for_training) ... ok
+test_rejects_missing_class (test_evaluate_live_camera.EvaluateLiveCameraTest.test_rejects_missing_class) ... ok
+test_analysis_summary_counts_duplicate_and_original_split_linkage (test_grouped_dataset.GroupedDatasetTest.test_analysis_summary_counts_duplicate_and_original_split_linkage) ... ok
+test_build_writes_group_manifest_and_imagefolder_splits (test_grouped_dataset.GroupedDatasetTest.test_build_writes_group_manifest_and_imagefolder_splits) ... ok
+test_cli_exposes_reproducible_build_arguments (test_grouped_dataset.GroupedDatasetTest.test_cli_exposes_reproducible_build_arguments) ... ok
+test_conflicting_duplicate_groups_are_quarantined (test_grouped_dataset.GroupedDatasetTest.test_conflicting_duplicate_groups_are_quarantined) ... ok
+test_group_split_is_deterministic_and_keeps_groups_together (test_grouped_dataset.GroupedDatasetTest.test_group_split_is_deterministic_and_keeps_groups_together) ... ok
+test_materialized_split_audit_detects_group_leakage (test_grouped_dataset.GroupedDatasetTest.test_materialized_split_audit_detects_group_leakage) ... ok
+test_modelscope_tree_records_keep_source_class_and_split (test_grouped_dataset.GroupedDatasetTest.test_modelscope_tree_records_keep_source_class_and_split) ... ok
+test_near_duplicate_images_share_object_group (test_grouped_dataset.GroupedDatasetTest.test_near_duplicate_images_share_object_group) ... ok
+test_near_duplicate_match_rejects_visual_collision (test_grouped_dataset.GroupedDatasetTest.test_near_duplicate_match_rejects_visual_collision) ... ok
+test_prepares_model_input_jpeg_for_hardware_decoder (test_select_on_device_cases.SelectOnDeviceCasesTest.test_prepares_model_input_jpeg_for_hardware_decoder) ... ok
+test_selects_low_median_and_high_confidence_correct_cases (test_select_on_device_cases.SelectOnDeviceCasesTest.test_selects_low_median_and_high_confidence_correct_cases) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 1.143s
+
+OK

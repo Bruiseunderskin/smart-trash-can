@@ -1,6 +1,6 @@
 # 方案 v3：改用 TOF050C（VL6180X）量落卡
 
-狀態：**取代 v2 的感測器選型，其餘架構不變** ｜ 2026-11-05 修正 driver／校正流程 ｜ 阿吉 the hermes
+狀態：**取代 v2 的感測器選型，其餘架構不變** ｜ 2026-11-04 ｜ 阿吉 the hermes
 v2（VL53L0X）保留作對照；`contracts/stc_bin.h` **不需要改**（介面只回 mm，與型號無關）
 
 ---
@@ -24,15 +24,24 @@ v2（VL53L0X）保留作對照；`contracts/stc_bin.h` **不需要改**（介面
 | 感測器 | 4 × TOF050C（VL6180X），0–50 cm，盲區 0–2 cm，25°，I²C |
 | 供電 | 3V3，**每粒 40 mA max → 4 粒 160 mA**，不可與舵機共用 5V rail |
 | I²C | SDA 8 / SCL 9，400 kHz |
-| 多工 | **TCA9548A 0x70**，CH0–CH3 各接一粒；四粒 SHDN 全部接 AVDD |
-| 位址 | 四粒全部保持 factory default 0x29，靠 mux channel 隔離 |
+| 改址腳 | **SHDN**（非 XSHUT），每條 **10 kΩ 下拉到 GND** |
+| 位址 | 預設 0x29 → 依序改為 0x2A、0x2B、0x2C、0x2D |
 | 安裝 | 桶口下 **8–12 cm**（盲區 0–2 cm，故必須 ≥5 cm），光軸橫切落卡路徑 |
 
-**歷史後備（不施工）**
+**改址順序（與 VL53L0X 不同，要留意）**
 
-SHDN＋0x212 改址已核實可行，但不是本專案主線。以下內容只保留作將來買不到 mux 時的 historical fallback；現行 firmware 不實作逐粒改址。
+```
+1. 四條 SHDN 全部拉低（全部關機）
+2. 放開 SHDN#0 → 等 ≥1.5 ms → 它出現在 0x29
+3. 寫 I2C_SLAVE_DEVICE_ADDRESS = 0x2A
+4. 放開 SHDN#1 → 改 0x2B；如此類推
+5. 全部完成後，逐粒做初始化與校正
+```
 
-### 1.1 歷史後備：SHDN 只係開關機，改址係另一個動作
+**VL6180X 的關鍵差別**：SHDN 放開後**設定全部丟失**，每次上電／每次 SHDN 循環都要重寫量測設定（VL53L0X 亦有類似行為，但 VL6180X 更明顯）。初始化函式必須冪等、可重入。
+
+
+### 1.1 已核實：SHDN 只係開關機，改址係另一個動作
 
 查 ST 官方 datasheet（DocID026171 Rev 6／Rev 7）與 Pololu 文件，結論明確：
 
@@ -131,13 +140,13 @@ esp_err_t tof_read_mm(uint8_t ch, uint16_t *out_mm) {
 
 依序：
 
-1. 選 mux channel，讀 factory `SYSRANGE_PART_TO_PART_RANGE_OFFSET` 與 `SYSRANGE_CROSSTALK_COMPENSATION_RATE`
-2. 若 `SYSTEM_FRESH_OUT_OF_RESET == 1`，寫入 AN4545 mandatory private registers 並清除 fresh flag
-3. 套用 driver recommended public settings、1× scaling 和 20 ms range period
-4. 從 NVS 讀 offset／xtalk；沒有紀錄時使用 factory NVM 值
-5. 開 continuous mode：`SYSRANGE_START=0x03`
+1. `VL6180X_Init()`（component 的預設初始化，含 private register 載入）
+2. `PerformRefSpadManagement()` — 出廠 SPAD 差异校正，**必須做**，否則近距靈敏度不穩
+3. `PerformOffsetSimpleCalibration(50)` — 用 50 mm 白卡做偏移校正
+4. **若有保護窗**：`PerformXTalkCalibration(100)` — 用 100 mm 目標做串擾補償；無窗可略
+5. 寫入連續量測模式：`SYSRANGE_START=0x03`，`INTERMEASUREMENT_PERIOD ≈ 20 ms`
 
-VL6180X API 沒有 VL53L0X 的 `PerformRefSpadManagement` / `PerformOffsetSimpleCalibration`；factory SPAD／NVM 校正已由 init 載入。runtime offset 用 `tof cal <ch> <mm>` 調整 `SYSRANGE_PART_TO_PART_RANGE_OFFSET`；結果寫入 NVS。換 sensor 或換安裝位置要重做。
+校正結果（offset、xtalk）**寫入 NVS**，下次上電直接套用；換 sensor 或換安裝位置要重做。
 
 ## 3. 取樣與判定（與 v2 相同的演算法，參數改為實測值）
 
@@ -184,23 +193,23 @@ baseline = 最近 10 個樣本中位數（每 2 s 更新，避開事件窗）
 
 **G5 通訊**：拔電／重插任一板 → 10 s 內重同步；100 次指令 0 次重複執行
 
-## 6. 驅動與建置（S3 target）
+## 6. 驅動與建置（S31 需先驗）
 
 | 選項 | 說明 |
 |---|---|
-| `kerikun11/ESP32_VL6180X` | C++ ESP-IDF component，MIT；可作 ST API 參考 |
-| ST 官方 VL6180X API | factory init＋offset／crosstalk register API；沒有 VL53L0X SPAD calibration API |
-| `firmware/esp32s3/tof_bringup` | 本專案 native `i2c_master` 實作，直接配合 TCA9548A |
+| `nestorit/vl6180x`（Espressif Component Registry） | native I²C，含 ALS；**registry 列出的 target 未見 esp32s31** |
+| `kerikun11/ESP32_VL6180X` | C++ ESP-IDF component，MIT |
+| ST 官方 VL6180X API | 完整校正函式（offset／xtalk／SPAD），需自行接 I²C 讀寫 |
 
-第一件事是在 **esp32s3** target 建置 `tof_bringup`。S31 是眼／腦，不直接接這四個 sensor。
+**第一件事**：在 `esp32s31` target 上試建一次。建不過就改用 ST 官方 API 直接移植校正函式（工作量約半日），**不要因為建不過就換回 VL53L0X**——先確認是哪個問題。
 
 ## 7. 風險
 
 | 風險 | 影響 | 對策 |
 |---|---|---|
-| mux 單點故障 | 四粒同時失去讀數 | 量 0x70 ACK；selftest 報 fault mask |
-| offset／xtalk 未按安裝位置校正 | 近距離讀數漂移，誤檢 | `tof cal`＋NVS＋G1／G2 實測 |
-| 20 ms 連續模式下快速落卡取樣不足 | 只剩 1–2 個樣本，漏檢 | G1 用真實幾何量波形；必要時調 measurement timing |
+| S31 target 無現成 component | 卡 1–2 日 | 先試建；不成用 ST API 手接 I²C |
+| 忘記做 SPAD／offset 校正 | 近距離讀數漂移，誤檢 | 列入初始化流程與驗收 |
+| SHDN 改址漏做 10 kΩ 下拉 | 上電時兩粒同時在 0x29，匯流排衝突 | 硬件檢查表第一項 |
 | 保護窗未做 xtalk 校正 | 固定偏差 | 有窗就必須校正 |
 | 幾何未驗就開工 | 全部白做 | **G1 先行** |
 
@@ -209,9 +218,9 @@ baseline = 最近 10 個樣本中位數（每 2 s 更新，避開事件窗）
 | 項目 | 數量 | 單價 | 小計 |
 |---|---|---|---|
 | TOF050C | 4 | ¥8 | ¥32 |
-| TCA9548A（0x70） | 1 | ¥5 | ¥5 |
+| 10 kΩ 電阻 | 4 | — | ~¥1 |
 | 排線／插座 | 4 組 | — | ~¥10 |
-| **合計** | | | **≈ ¥47（HK$51）** |
+| **合計** | | | **≈ ¥43（HK$47）** |
 
 ---
 
@@ -223,11 +232,11 @@ baseline = 最近 10 個樣本中位數（每 2 s 更新，避開事件窗）
 
 1. `mux_select(ch)`：`i2c_master_transmit(0x70, &(1<<ch), 1)`，之後 **≥100 µs** 才讀
 2. 每粒 init：
-   - 讀 factory offset／crosstalk 與 `SYSTEM__FRESH_OUT_OF_RESET`
-   - 等於 1 才寫 AN4545 mandatory private registers
-   - 套用 NVS offset／crosstalk；沒紀錄就用 factory 值
-   - `tof cal <ch> <known-mm>` 調整 offset 並寫 NVS；
-     key 為 `tof_ch<n>_offset`、`tof_ch<n>_xtalk`
+   - 讀 `SYSTEM__FRESH_OUT_OF_RESET`，等於 1 才寫 AN4545 mandatory private registers
+   - `PerformRefSpadManagement()`
+   - `PerformOffsetSimpleCalibration(50)`（50 mm 白卡）
+   - 有保護窗才做 `PerformXTalkCalibration(100)`
+   - 校正值寫 NVS（key: `tof_ch<n>_offset`、`tof_ch<n>_xtalk`）
 3. 連續量測：`INTERMEASUREMENT_PERIOD = 20 ms`；四通道輪詢一輪 ≈ 80–90 ms
 4. **序列埠命令**（dev 用）：
    - `tof info` — 四粒 ID、校正值、fault mask
@@ -268,4 +277,4 @@ baseline = 最近 10 個樣本中位數（每 2 s 更新，避開事件窗）
 
 ### 9.5 與 issue #25 的關係
 
-Issue #26 的真實作位於 `firmware/esp32s3/tof_bringup/`。Issue #25 可直接呼叫同一份 `stc_bin` 介面；在 S3 hardware 接好前，仍可用 stub `[0,1,2,3,0]` 跑 UI／遊戲 smoke。`stc_game` 不需要因 sensor 型號改簽名。
+issue #25 的 `stc_bin` **保持 stub**；本階段完成後，把 stub 換成真實作即可，`stc_game` 不需要改動。

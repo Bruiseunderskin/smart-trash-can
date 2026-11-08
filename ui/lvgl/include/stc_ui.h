@@ -22,14 +22,15 @@ typedef struct {
 } stc_payload_t;
 typedef struct stc_ui stc_ui_t;
 typedef enum { STC_ACTION_START, STC_ACTION_HOME, STC_ACTION_GUIDE,
-               STC_ACTION_LEARN, STC_ACTION_FINISH } stc_action_t;
+               STC_ACTION_LEARN, STC_ACTION_FINISH,
+               STC_ACTION_ASK } stc_action_t;
 typedef void (*stc_action_cb)(stc_action_t action, int category_id, void *user_data);
 /* Actions are intents only: the controller validates round_id, discards stale work,
  * then applies the accepted state. A callback may synchronously apply/update images.
  * Do not destroy the UI inside callbacks; defer destruction until callback returns. */
 void stc_ui_set_action_callback(stc_ui_t *ui, stc_action_cb callback);
 /* Extension learning is available only after result_ok -> summary.
- * Returning home ends that path; learning pages never start a new challenge. */
+ * Its single next-round action emits STC_ACTION_START for controller approval. */
 void stc_ui_show_guide(stc_ui_t *ui);
 void stc_ui_show_learning(stc_ui_t *ui, int category_id);
 void stc_ui_show_summary(stc_ui_t *ui);
