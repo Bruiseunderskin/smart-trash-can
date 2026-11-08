@@ -1,0 +1,44 @@
+{
+  "macro_f1": 1.0,
+  "per_class_f1": {
+    "food": 1.0,
+    "hazardous": 1.0,
+    "other": 1.0,
+    "recyclable": 1.0
+  },
+  "confusion_matrix": [
+    [
+      350,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      350,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      400,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      800
+    ]
+  ],
+  "sample_count": 1900,
+  "labels": [
+    "food",
+    "hazardous",
+    "other",
+    "recyclable"
+  ],
+  "domain": "simulated cards, same source-card identities as training",
+  "warning": "synthetic only, no real-world accuracy claim"
+}

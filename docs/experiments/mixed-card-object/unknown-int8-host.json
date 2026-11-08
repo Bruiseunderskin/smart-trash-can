@@ -1,0 +1,35 @@
+{
+  "description": "int8 PPQ host, illustrative fixed 0.55 only; not calibrated on these images; not implemented device rejection",
+  "rows": [
+    {
+      "id": "empty_camera",
+      "source": "docs/issue12/live-camera/20261102T221521_996982_001_unlabeled.jpg",
+      "sha256": "97af27f1fa4c67a5c8bc8f4470db90b2388e89076e9e4f0169c37b07b581a08f",
+      "truth": "unknown",
+      "prediction": "other",
+      "confidence": 0.5398016571998596,
+      "threshold": 0.55,
+      "accepted": false
+    },
+    {
+      "id": "card_cover",
+      "source": "docs/printable-cards/shared-cover.png",
+      "sha256": "1c6d7df208256cc557d4ead2cb4b929b11c721f8e76cb921945840ad057cfd29",
+      "truth": "unknown",
+      "prediction": "hazardous",
+      "confidence": 0.9829927086830139,
+      "threshold": 0.55,
+      "accepted": true
+    },
+    {
+      "id": "card_back",
+      "source": "docs/printable-cards/shared-back.png",
+      "sha256": "09332e4c179bab5145ea2cbb24f1ec9a0116ad9c84e08e50eef92bf351a58b59",
+      "truth": "unknown",
+      "prediction": "hazardous",
+      "confidence": 0.672614336013794,
+      "threshold": 0.55,
+      "accepted": true
+    }
+  ]
+}
