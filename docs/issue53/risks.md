@@ -27,3 +27,13 @@
 - 清楚安排 voice stub/本地 PCM、實際推理和 target frame source 接線的階段；獨立相機 bring-up 本身不證明整條路徑。
 - 定義 ToF stale、去抖、校準、重複投放和每回合一次計分；定義過期視覺結果和蓋命令如何取消。
 - 定義非致命節點故障時的可見提示及操作限制；loopback 成功不可當成實物投放或成功開蓋。
+
+## 再核對現有 header 後的重大衝突
+
+| 項目 | 現況 | 執行前處置 |
+|---|---|---|
+| 開蓋行為 | `contracts/stc_game.h` 的 `STC_PH_OPEN`、`contracts/stc_bin.h` 的 `stc_bin_open_all` 要求四蓋；issue 目標流程及 I5 卻稱開一個蓋。 | 兩者屬不同兒童互動與計分規則；owner 決定前不可默選，亦不可在不允許時修改契約。 |
+| C 型別衝突 | `contracts/stc_mode.h` 與 `ui/lvgl/include/stc_ui.h` 各自 typedef `stc_state_t`，枚舉語義不同。 | I0 先做同一 translation unit 編譯測試並提出命名或 adapter；評估 issue 只准兩個契約變更的限制。 |
+| 模式輸入不足 | issue 使用 `IN_BOOT_OK`，但現有 `stc_input_t` 沒有；`IN_ROUND_END` 亦無最後回合資料。 | 定義不修改契約的可行路徑或取得契約修訂決定；不要聲稱轉移表已可直接實作。 |
+| 活動刷新 | mode 文件要求語音活動刷新 CHAT idle 時鐘；header 沒有活動通知 API。 | 明確由哪個既有接口刷新；若需要擴展接口，依契約邊界先決定。 |
+| UI 資料缺口 | 現有 payload 與 game snapshot 欄位不完全對應，UI 對 state 及欄位嚴格驗證。 | 列出每個狀態的實際資料來源與缺省規則，不能捏造分數、候選類別或圖片。 |
