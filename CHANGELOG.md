@@ -9,6 +9,9 @@
 ## [Unreleased]
 
 ### Added
+- 整機整合需求、實施計劃、衝突記錄及驗收清單。
+
+### Added
 
 - 由 PR #41 抽出六句粵語台詞（`firmware/assets/voice/`，16 kHz 單聲道 raw PCM）與台詞表，供 GAME 模式播報使用。
 - `tools/generate_stc_voice_assets.py`：由 WAV 或 Edge TTS 產生經驗證的 raw PCM，附單元測試；格式不符即報錯。
