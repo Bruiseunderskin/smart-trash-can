@@ -10,6 +10,8 @@
 
 ### Added
 
+- 新增實物與模擬卡片混合分類的 int8 實驗記錄，分別列出兩種輸入的主機結果及尚未完成的實機驗證。
+
 - `tools/check_mode_gate.py`：交叉核對 `contracts/stc_mode.h` 與 `docs/mode-gate.md` 的閒置超時與契約版本，
   兩者不一致時 CI 直接失敗（今天發生的 60 s／90 s 混用就是這個檢查要攔的）。
 - `docs/agents/workflow.md`：六道閘的工作流程，逐步說明每個錯誤由哪一步攔住。

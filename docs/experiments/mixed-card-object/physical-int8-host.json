@@ -1,0 +1,46 @@
+{
+  "target": "esp32s31",
+  "quant_type": "w8a8",
+  "calibration_images": 200,
+  "test_images": 292,
+  "input_shape": [
+    1,
+    3,
+    160,
+    160
+  ],
+  "espdl_bytes": 1798288,
+  "macro_f1": 0.8203183910608408,
+  "per_class_f1": {
+    "food": 0.9261744966442953,
+    "hazardous": 0.8251748251748252,
+    "other": 0.7424242424242424,
+    "recyclable": 0.7875
+  },
+  "confusion_matrix": [
+    [
+      69,
+      1,
+      2,
+      3
+    ],
+    [
+      0,
+      59,
+      3,
+      9
+    ],
+    [
+      2,
+      10,
+      49,
+      10
+    ],
+    [
+      3,
+      2,
+      7,
+      63
+    ]
+  ]
+}

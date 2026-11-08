@@ -4,6 +4,8 @@
 
 ## 閱讀路徑
 
+- [實物與模擬卡片混合模型實驗](experiments/mixed-card-object/README.md)
+
 - [目前架構、程式入口與整合邊界](architecture.md)
 - [系統目標及驗收](system-architecture-decision.md)
 - [模型比較與限制](model-comparison.md)
