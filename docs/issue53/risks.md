@@ -37,3 +37,7 @@
 | 模式輸入不足 | issue 使用 `IN_BOOT_OK`，但現有 `stc_input_t` 沒有；`IN_ROUND_END` 亦無最後回合資料。 | 定義不修改契約的可行路徑或取得契約修訂決定；不要聲稱轉移表已可直接實作。 |
 | 活動刷新 | mode 文件要求語音活動刷新 CHAT idle 時鐘；header 沒有活動通知 API。 | 明確由哪個既有接口刷新；若需要擴展接口，依契約邊界先決定。 |
 | UI 資料缺口 | 現有 payload 與 game snapshot 欄位不完全對應，UI 對 state 及欄位嚴格驗證。 | 列出每個狀態的實際資料來源與缺省規則，不能捏造分數、候選類別或圖片。 |
+
+## 2026-11-08 方向更新
+
+使用者確認後續 CV 採 YOLO／ESP-DL；已有 `.espdl` 的事實與 host backend 尚未驗證是兩件事。Poe 建議增加決策索引、證據來源欄位及 CDC 測試向量；Poe 未讀取 PR diff 或本地 header，已按實際 repo 內容核對後整理。
