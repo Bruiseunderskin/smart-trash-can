@@ -1,4 +1,4 @@
-/* stc_mode.h — 模式閘（contract v1.0.0）
+/* stc_mode.h — 模式閘（contract v1.1.0）
  *
  * 唯一有權改「而家係遊戲定聊天」的地方。
  * 其他模組只可以讀 stc_mode_get()／stc_mode_layer()，不得自行切換。
@@ -25,6 +25,7 @@ typedef enum {
 
 typedef enum {
     STC_IN_PLAY = 0,    /* PLAY 短按 */
+    STC_IN_CHAT_ENTER,  /* 分類圖鑑「問綠豆」；CHAT 的唯一入口 */
     STC_IN_ROUND_END,   /* 回合結束（由 stc_game 送） */
     STC_IN_SET_LONG,    /* SET 長按 ≥800 ms */
     STC_IN_CHAT_TIMEOUT,/* CHAT 閒置 60 s */

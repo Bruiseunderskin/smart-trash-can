@@ -1,6 +1,6 @@
 # 模式閘（Mode Gate）規格
 
-狀態：**v1.0.0，待實作**（2026-11-05）。契約：`contracts/stc_mode.h`。
+狀態：**v1.1.0，待實作**（2026-11-08）。契約：`contracts/stc_mode.h`（v1.1.0）。
 決策依據：`docs/PROJECT-PLAN.md` D2（小智在閘後）、D3（不新增 `kDeviceState`）。
 
 ---
@@ -31,9 +31,9 @@
 | 狀態 | 語義 | 遊戲 | 語音 | 可進 CHAT |
 |---|---|---|---|---|
 | `STC_ST_BOOT` | 初始化中 | ✗ | ✗ | ✗ |
-| `STC_ST_GAME_IDLE` | 等 PLAY | 可開局 | 本地台詞 | ✗ |
+| `STC_ST_GAME_IDLE` | 等 PLAY | 可開局 | 本地台詞 | **✓ 經圖鑑「問綠豆」** |
 | `STC_ST_GAME_ROUND` | 回合進行中 | **進行中** | 本地台詞 | **✗（硬性）** |
-| `STC_ST_SUMMARY` | 結算畫面 | ✗ | 本地台詞 | **✓ 唯一入口** |
+| `STC_ST_SUMMARY` | 結算畫面 | ✗ | 本地台詞 | ✗ |
 | `STC_ST_CHAT` | 小智原生語音 | **暫停** | 小智 ASR→LLM→TTS | — |
 | `STC_ST_FAULT` | 契約／硬件錯誤 | ✗ | ✗ | ✗ |
 
@@ -49,12 +49,13 @@
 | BOOT | init 成功 | GAME_IDLE | `enter_game()` |
 | BOOT | init 失敗 | FAULT | 顯示錯誤、蜂鳴 |
 | GAME_IDLE | `IN_PLAY` | GAME_ROUND | `enter_round()`、`stc_game_start()` |
+| GAME_IDLE | `IN_CHAT_ENTER`（分類圖鑑「問綠豆」） | CHAT | `enter_chat()` |
 | GAME_ROUND | `IN_PLAY` | （拒絕） | 無 |
 | GAME_ROUND | `IN_SET_LONG` | （拒絕） | 無；UI 提示「完咗先」 |
 | GAME_ROUND | `IN_ROUND_END`，未到最後一回合 | GAME_IDLE | `exit_round()` |
 | GAME_ROUND | `IN_ROUND_END`，最後一回合 | SUMMARY | `exit_round()`、播結算 |
 | SUMMARY | `IN_PLAY` | GAME_IDLE | 清結算畫面 |
-| SUMMARY | `IN_SET_LONG` | CHAT | `enter_chat()` |
+| SUMMARY | `IN_SET_LONG` | （拒絕） | 無；結算頁不設聊天入口 |
 | CHAT | `IN_CHAT_EXIT` | GAME_IDLE | `exit_chat()`、`enter_game()` |
 | CHAT | `IN_CHAT_TIMEOUT`（60 s） | GAME_IDLE | 同上 |
 | 任何 | `IN_FAULT` | FAULT | 停語音、開蓋？**不開**，顯示故障 |
@@ -66,7 +67,8 @@
 
 ## 4. 不變量（用 property test 驗）
 
-- **I1**：`CHAT` 只能由 `SUMMARY` 進入（任何其他路徑都是 bug）
+- **I1**：`CHAT` 唯一入口 = 分類圖鑑「問綠豆」（`GAME_IDLE` ＋ `IN_CHAT_ENTER`）。
+  任何其他路徑（包括 `SUMMARY` ＋ `IN_SET_LONG`）都是 bug。
 - **I2**：`CHAT` 期間 `stc_game_tick()` 不被呼叫（或呼叫後分數不變）
 - **I3**：`GAME` 期間不開任何雲端連線（見 §5 的 counter）
 - **I4**：只有 `stc_mode_input()` 改狀態，其他模組只讀
@@ -118,7 +120,7 @@ GAME 模式下任何語音呼叫失敗（codec、佇列滿、檔案缺）→ 靜
 | M1 | `stc_mode` 狀態機 ＋ 轉移表 ＋ 10k 步 property test | **可以**（純 C，`tests/host/`） |
 | M2 | `stc_mode` 接上 `stc_voice_set_mode()`（stub 後端即可） | 可以 |
 | M3 | 序列埠命令 `mode` / `mode game` / `mode chat` / `mode reset` | 需要板 |
-| M4 | 真人按 SET 長按進 CHAT、60 s 自動退出 | 需要板 |
+| M4 | 真人由圖鑑「問綠豆」進 CHAT、60 s 自動退出 | 需要板 |
 
 **M1 先做，因為它不需要硬件、不需要模型，而且它決定後面所有東西的形狀。**
 M1 做完，#25 其他部分才有穩定的地基。
