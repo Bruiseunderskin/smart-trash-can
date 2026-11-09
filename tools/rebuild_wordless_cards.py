@@ -23,7 +23,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageStat
 FRAME_COLOUR = (63, 127, 79, 255)
 OUTER_MARGIN = 0.025
 FRAME = 0.095
-INNER_MARGIN = 0.030
+INNER_MARGIN = 0.015
 OUTER_RADIUS = 0.130
 INNER_RADIUS = 0.080
 
@@ -72,6 +72,11 @@ def build(src: Path, out_size: int, motif_ratio: float) -> Image.Image:
     box = (max(0, box[0] - pad), max(0, box[1] - pad),
            min(img.width, box[2] + pad), min(img.height, box[3] + pad))
     motif = img.crop(box)
+    # the source cards carry a thin grey rounded border; shave it so it does not
+    # reappear as a stray line inside the padded card
+    shave = max(1, int(round(min(motif.size) * 0.02)))
+    if motif.width > shave * 3 and motif.height > shave * 3:
+        motif = motif.crop((shave, shave, motif.width - shave, motif.height - shave))
 
     canvas = Image.new("RGBA", (out_size, out_size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(canvas)
@@ -111,7 +116,7 @@ def main() -> int:
     args = parser.parse_args()
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    files = sorted(p for p in args.src_dir.glob("*.jpg") if p.stem[:1].isalpha())
+    files = sorted(p for p in args.src_dir.iterdir() if p.suffix.lower() in (".png", ".jpg") and p.stem[:1].isalpha())
     for path in files:
         out = build(path, args.size, args.motif)
         out.save(args.out_dir / f"{path.stem}.png")

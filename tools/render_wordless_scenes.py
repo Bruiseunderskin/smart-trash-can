@@ -39,8 +39,11 @@ def main() -> int:
     counts = {"train": 0, "val": 0}
     missing = []
     for row in rows:
-        stem = row["card_id"].replace("-", "")
+        stem = row["card_id"]
         card_path = args.cards / f"{stem}.png"
+        if not card_path.exists():
+            card_path = args.cards / f"{stem.replace('-', '')}.png"
+            stem = stem.replace("-", "")
         if not card_path.exists():
             missing.append(stem)
             continue
