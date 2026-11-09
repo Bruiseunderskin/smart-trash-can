@@ -31,6 +31,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--save-native", action="store_true", help="save PPQ native graph for reproducible host evaluation")
     args = parser.parse_args()
     if args.imgsz < 1 or args.calib_images < 1:
         parser.error("--imgsz and --calib-images must be positive")
@@ -186,6 +187,9 @@ def main() -> int:
         export_test_values=True,
         verbose=1,
     )
+    if args.save_native:
+        from esp_ppq.parser.native import NativeExporter
+        NativeExporter().export(file_path=str(args.out.with_suffix(".native")), graph=quantized_graph)
     metrics = evaluate_quantized(quantized_graph, test_loader, test_classes, args.device)
     report = {
         "target": args.target,

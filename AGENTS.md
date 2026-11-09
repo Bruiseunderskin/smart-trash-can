@@ -40,7 +40,7 @@
 
 ## 3. 模型事實
 
-- CV 路線：YOLO 分類模型及 ESP-DL `.espdl`。現有 YOLO11n-cls S31 int8 產物為 `models/mixed-card-object/mixed_s31.espdl`，同目錄有 `labels.txt` 和 `SHA256SUMS`；尚未在 S31 實機驗證。
+- CV 路線：YOLO 分類模型及 ESP-DL `.espdl`。現行 YOLO11n-cls S31 int8 產物為 `models/mixed-card-object/mixed_s31.espdl`，同目錄有 `labels.txt` 和 `SHA256SUMS`；尚未在 S31 實機驗證。無額外卡片文字的 `wordless-v1` 候選、ONNX opset 18、`.espdl`／`.info`／`.json`、校驗雜湊與混淆矩陣均已納入 repo，詳見 `models/mixed-card-object/wordless-v1/README.md` 和 `docs/experiments/mixed-card-object/wordless-v1/README.md`；候選未取代現行模型，主機模擬結果只較舊 int8 多 1/292，且個別類別退步。
 - 模型輸出 `food, hazardous, other, recyclable` 對應桶位 `1, 2, 3, 0`；現有 `contracts/model/classes.json` 尚待按 issue #53 對齊。不得把模型 index 當桶位。
 - 舊 Edge Impulse impulse、六類與 S3 數據是歷史記錄，不是現行模型參數。詳見 `docs/issue53/model-handoff.md` 與 `docs/experiments/mixed-card-object/README.md`。
 

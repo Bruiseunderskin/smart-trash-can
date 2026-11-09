@@ -7,6 +7,7 @@
 - [Issue 53 整機整合規劃](issue53/README.md)
 
 - [實物與模擬卡片混合模型實驗](experiments/mixed-card-object/README.md)
+- [無額外文字卡面的模型比較與混淆矩陣](experiments/mixed-card-object/wordless-v1/README.md)
 
 - [目前架構、程式入口與整合邊界](architecture.md)
 - [系統目標及驗收](system-architecture-decision.md)

@@ -1,0 +1,78 @@
+name: Train wordless padded cards
+
+on:
+  push:
+    branches: ['feat/wordless-padded']
+    paths:
+      - '.github/workflows/train-wordless-padded.yml'
+      - 'tools/render_wordless_scenes.py'
+      - 'tools/train_card_classifier.py'
+      - 'data/mixed-card-object/wordless-v1/cards-padded/**'
+  workflow_dispatch:
+    inputs:
+      train_per_card:
+        description: 'Scenes per training card'
+        required: false
+        default: '60'
+      val_per_card:
+        description: 'Scenes per validation card'
+        required: false
+        default: '10'
+      epochs:
+        description: 'Training epochs'
+        required: false
+        default: '8'
+
+permissions:
+  contents: read
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install training stack
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pillow onnxruntime ultralytics
+
+      - name: Render padded wordless scenes
+        run: |
+          python3 tools/render_wordless_scenes.py \
+            --cards data/mixed-card-object/wordless-v1/cards-padded \
+            --manifest data/mixed-card-object/wordless-v1/cards.csv \
+            --out /tmp/wordless-dataset \
+            --train-per-card "${{ inputs.train_per_card || 60 }}" \
+            --val-per-card "${{ inputs.val_per_card || 10 }}" \
+            --size 160 --seed 20261109
+
+      - name: Show dataset size
+        run: |
+          for split in train val; do
+            echo "$split:"
+            for label in food hazardous other recyclable; do
+              echo "  $label $(find /tmp/wordless-dataset/$split/$label -name '*.jpg' | wc -l)"
+            done
+          done
+
+      - name: Train
+        run: |
+          python3 tools/train_card_classifier.py --data /tmp/wordless-dataset --out runs/wordless-padded --epochs "${{ inputs.epochs || 8 }}"
+
+      - name: Show metrics
+        run: cat runs/wordless-padded/metrics.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wordless-padded-model
+          path: |
+            runs/wordless-padded/metrics.json
+            runs/wordless-padded/model-float32.onnx
+            runs/wordless-padded/model-int8.onnx
+          if-no-files-found: warn

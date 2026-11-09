@@ -1,0 +1,9 @@
+image,truth,prediction,confidence,correct
+food/B-14_000.jpg,food,food,0.9999957084655762,1
+food/B-16_000.jpg,food,food,0.9999901056289673,1
+hazardous/B-19_000.jpg,hazardous,hazardous,0.9999510049819946,1
+hazardous/B-23_000.jpg,hazardous,hazardous,0.9995660185813904,1
+other/B-24_000.jpg,other,other,0.9953851103782654,1
+other/B-29_000.jpg,other,other,0.9993425011634827,1
+recyclable/B-02_000.jpg,recyclable,recyclable,0.998713493347168,1
+recyclable/B-08_000.jpg,recyclable,recyclable,0.9999678134918213,1

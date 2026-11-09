@@ -10,6 +10,11 @@
 
 ### Added
 
+- 加入 300 DPI A4 試印稿（`docs/print-300dpi/`）：Set A／Set B 正面與共用卡背，卡面與 `cards/` 逐張相同。
+- 加框無字卡 int8 模型（`models/wordless-padded/`）及 yolo11n-cls 訓練記錄；場景切分 682 張全對，未見卡 0.558。
+- 加框無字卡面：`data/mixed-card-object/wordless-v1/cards-padded/`（38 張，709×709）。移除舊卡底部名稱橫幅、圖案放大至內框 78%，外圍保留綠色圓角框與白邊；由 `tools/rebuild_wordless_cards.py` 產生。
+- 新增無額外卡片文字的 38 張卡面、合成變體及 YOLO／ESP-DL 候選模型，並提供逐圖結果與混淆矩陣。
+
 - 加入混合卡片及實物模型可尋回的訓練、驗證資料與來源清單，並標明缺失和授權限制。
 
 - 補充整合決策地圖、YOLO／ESP-DL 模型交接、測試證據範本、CDC 向量及執行時責任表。
@@ -32,6 +37,8 @@
 - `AGENTS.md` 第 8 節：skills 清單與漸進式披露的規則。
 
 ### Changed
+
+- 混合資料集目錄命名為 `mixed-card-object`；歷史實拍及 probe 保留原路徑並標明用途。
 
 - 重寫專案入口與 agent 指引，更新 YOLO／ESP-DL 路線、整合現況及分類卡圖片連結。
 
