@@ -55,6 +55,7 @@ def main() -> int:
     parser.add_argument("--size", type=int, default=160)
     parser.add_argument("--device", default=None, help="cuda / cpu / mps; default auto")
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--seeds", default="", help="comma separated seeds; each trains a model and the probabilities are averaged")
     parser.add_argument("--patience", type=int, default=4)
     parser.add_argument("--lr0", type=float, default=1e-4)
     parser.add_argument("--degrees", type=float, default=0.0)
@@ -66,17 +67,20 @@ def main() -> int:
     from ultralytics import YOLO
 
     args.out.mkdir(parents=True, exist_ok=True)
-    model = YOLO(args.weights)
-    train_kwargs = dict(
+    seeds = [int(s) for s in args.seeds.split(",")] if args.seeds else [args.seed]
+    best_models: list[Path] = []
+    for seed in seeds:
+        model = YOLO(args.weights)
+        train_kwargs = dict(
         data=str(args.data),
         epochs=args.epochs,
         imgsz=args.size,
         batch=args.batch,
         workers=2,
         project=str(args.out),
-        name="train",
+        name=f"train_s{seed}",
         exist_ok=True,
-        seed=args.seed,
+        seed=seed,
         pretrained=True,
         optimizer="AdamW",
         lr0=args.lr0,
@@ -88,25 +92,38 @@ def main() -> int:
         plots=False,
         verbose=True,
     )
-    if args.device:
-        train_kwargs["device"] = args.device
+        if args.device:
+            train_kwargs["device"] = args.device
 
-    model.train(**train_kwargs)
-    run_dir = Path(model.trainer.save_dir)
+        model.train(**train_kwargs)
+        run_dir = Path(model.trainer.save_dir)
+        best_models.append(run_dir / "weights" / "best.pt")
+
+    run_dir = best_models[0].parent.parent
 
     # ultralytics has no confusion matrix for classification, so build it from
     # predictions on the validation split
-    best_model = YOLO(str(run_dir / "weights" / "best.pt"))
-    names = best_model.names if isinstance(best_model.names, dict) else dict(enumerate(best_model.names))
     val_root = args.data / "val"
     classes = sorted(p.name for p in val_root.iterdir() if p.is_dir())
     index = {name: i for i, name in enumerate(classes)}
-    cm = np.zeros((len(classes), len(classes)), dtype=int)
     samples = [(p, index[d]) for d in classes for p in sorted((val_root / d).iterdir()) if p.is_file()]
-    results = best_model.predict([str(p) for p, _ in samples], imgsz=args.size, verbose=False)
-    for (path, true_index), result in zip(samples, results):
-        pred_name = names[int(result.probs.top1)]
-        cm[true_index, index[pred_name]] += 1
+    paths = [str(p) for p, _ in samples]
+
+    # average the class probabilities of every seed's best checkpoint
+    probs = np.zeros((len(samples), len(classes)), dtype=float)
+    best_model = None
+    for checkpoint in best_models:
+        best_model = YOLO(str(checkpoint))
+        names = best_model.names if isinstance(best_model.names, dict) else dict(enumerate(best_model.names))
+        for row, result in enumerate(best_model.predict(paths, imgsz=args.size, verbose=False)):
+            scores = result.probs.data.cpu().numpy()
+            for class_index, class_name in names.items():
+                probs[row, index[class_name]] += float(scores[class_index])
+    probs /= max(1, len(best_models))
+
+    cm = np.zeros((len(classes), len(classes)), dtype=int)
+    for (path, true_index), row_probs in zip(samples, probs):
+        cm[true_index, int(row_probs.argmax())] += 1
     accuracy = float(cm.trace() / cm.sum()) if cm.sum() else 0.0
 
     best = run_dir / "weights" / "best.pt"
@@ -136,7 +153,9 @@ def main() -> int:
         "input": f"{args.size}x{args.size} RGB",
         "classes": classes,
         "epochs": args.epochs,
-        "device": str(next(best_model.model.parameters()).device),
+        "device": str(next(best_model.model.parameters()).device) if best_model else "unknown",
+        "seeds": seeds,
+        "ensemble_size": len(best_models),
         "val_accuracy": round(accuracy, 4),
         "val_macro_f1": round(macro_f1(cm), 4),
         "val_top1": round(accuracy, 4),
