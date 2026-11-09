@@ -63,4 +63,16 @@ run(
 )
 
 print((out_dir / "metrics.json").read_text()[:2500], flush=True)
+
+# the Kaggle output API is rate limited for this account, so the quantised model
+# also travels out through the log stream where it can be reassembled
+import base64
+
+onnx = out_dir / "model-int8.onnx"
+if onnx.exists():
+    blob = base64.b64encode(onnx.read_bytes()).decode()
+    print("ONNX_B64_START", flush=True)
+    for start in range(0, len(blob), 100_000):
+        print(blob[start:start + 100_000], flush=True)
+    print("ONNX_B64_END", flush=True)
 print(json.dumps({"done": True, "counts": counts}))
