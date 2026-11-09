@@ -5,6 +5,8 @@
 
 ## 子目錄
 
+- [混合卡片／實物模型資料封存（未完整）](mixed-card-object-archive/README.md)
+
 - [field-probe](field-probe/README.md)
 
 [上層指南](../README.md) · [專案入口](../README.md)
