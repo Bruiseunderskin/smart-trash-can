@@ -49,8 +49,8 @@ jobs:
             --cards data/mixed-card-object/wordless-v1/cards-padded \
             --manifest data/mixed-card-object/wordless-v1/cards.csv \
             --out /tmp/wordless-dataset \
-            --train-per-card "${{ inputs.train_per_card }}" \
-            --val-per-card "${{ inputs.val_per_card }}" \
+            --train-per-card "${{ inputs.train_per_card || 60 }}" \
+            --val-per-card "${{ inputs.val_per_card || 10 }}" \
             --size 160 --seed 20261109
 
       - name: Show dataset size
@@ -64,7 +64,7 @@ jobs:
 
       - name: Train
         run: |
-          python3 tools/train_card_classifier.py --data /tmp/wordless-dataset --out runs/wordless-padded --epochs "${{ inputs.epochs }}" --workers 4
+          python3 tools/train_card_classifier.py --data /tmp/wordless-dataset --out runs/wordless-padded --epochs "${{ inputs.epochs || 8 }}" --workers 4
 
       - name: Show metrics
         run: cat runs/wordless-padded/metrics.json
