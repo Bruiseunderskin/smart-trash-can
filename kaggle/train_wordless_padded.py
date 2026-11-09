@@ -52,7 +52,6 @@ run(
     "--out", str(out_dir),
     "--epochs", "20",
     "--batch", "64",
-    "--workers", "2",
     cwd=SRC,
 )
 
