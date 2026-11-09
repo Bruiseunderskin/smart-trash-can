@@ -36,6 +36,10 @@ def main() -> int:
                         help="ImageFolder-style dir of real object photos added to train")
     parser.add_argument("--extra-repeat", type=int, default=1,
                         help="how many times each extra training image is repeated")
+    parser.add_argument("--balance-train-per-class", type=int, default=0,
+                        help="when >0, render this many training scenes per class instead of per card")
+    parser.add_argument("--balance-val-per-class", type=int, default=0,
+                        help="when >0, render this many validation scenes per class instead of per card")
     parser.add_argument("--scene-split", type=float, default=0.0,
                         help="when >0, render every card and split its scenes by this fraction instead of the manifest split")
     parser.add_argument("--size", type=int, default=160)
@@ -52,6 +56,20 @@ def main() -> int:
             raise SystemExit(f"no background images under {args.bg_dir}")
 
     counts = {"train": 0, "val": 0}
+
+    # class-balanced budget: cards per (class, split) decide how many scenes each card gets
+    class_budget = {}
+    if args.balance_train_per_class or args.balance_val_per_class:
+        for row in rows:
+            class_budget.setdefault((row["class"], row["split"]), 0)
+            class_budget[(row["class"], row["split"])] += 1
+
+    def scenes_for(row):
+        target = args.balance_train_per_class if row["split"] == "train" else args.balance_val_per_class
+        if not target:
+            return args.train_per_card if row["split"] == "train" else args.val_per_card
+        n_cards = class_budget[(row["class"], row["split"])]
+        return max(1, round(target / n_cards))
     missing = []
     for row in rows:
         stem = row["card_id"]
@@ -64,10 +82,7 @@ def main() -> int:
             continue
         card = Image.open(card_path).convert("RGBA")
         scene_split = args.scene_split
-        if scene_split > 0:
-            per_card = args.train_per_card
-        else:
-            per_card = args.train_per_card if row["split"] == "train" else args.val_per_card
+        per_card = args.train_per_card if scene_split > 0 else scenes_for(row)
         (args.out / "train" / row["class"]).mkdir(parents=True, exist_ok=True)
         (args.out / "val" / row["class"]).mkdir(parents=True, exist_ok=True)
         for i in range(per_card):

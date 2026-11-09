@@ -38,8 +38,8 @@ run(
     "--cards", "data/mixed-card-object/wordless-v1/cards-padded",
     "--manifest", "data/mixed-card-object/wordless-v1/cards.csv",
     "--out", str(DATA),
-    "--train-per-card", "120",
-    "--val-per-card", "12",
+    "--balance-train-per-class", "1200",
+    "--balance-val-per-class", "24",
     "--bg-dir", PHYSICAL,
     "--extra-train", PHYSICAL,
     "--extra-repeat", "8",
@@ -56,9 +56,9 @@ run(
     sys.executable, "tools/train_card_classifier.py",
     "--data", str(DATA),
     "--out", str(out_dir),
-    "--epochs", "15",
+    "--epochs", "20",
     "--batch", "64",
-    "--patience", "6",
+    "--patience", "7",
     cwd=SRC,
 )
 
