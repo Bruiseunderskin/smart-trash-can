@@ -43,7 +43,7 @@ run(
     "--bg-dir", PHYSICAL,
     "--extra-train", PHYSICAL,
     "--extra-repeat", "8",
-    "--size", "160",
+    "--size", "200",
     "--seed", "20261109",
     cwd=SRC,
 )
@@ -56,9 +56,15 @@ run(
     sys.executable, "tools/train_card_classifier.py",
     "--data", str(DATA),
     "--out", str(out_dir),
-    "--epochs", "20",
+    "--epochs", "30",
     "--batch", "64",
-    "--patience", "7",
+    "--patience", "10",
+    "--size", "192",
+    "--lr0", "0.0003",
+    "--degrees", "12",
+    "--translate", "0.08",
+    "--scale", "0.35",
+    "--erasing", "0.25",
     cwd=SRC,
 )
 

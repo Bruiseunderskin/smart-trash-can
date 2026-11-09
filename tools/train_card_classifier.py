@@ -56,6 +56,11 @@ def main() -> int:
     parser.add_argument("--device", default=None, help="cuda / cpu / mps; default auto")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--patience", type=int, default=4)
+    parser.add_argument("--lr0", type=float, default=1e-4)
+    parser.add_argument("--degrees", type=float, default=0.0)
+    parser.add_argument("--translate", type=float, default=0.0)
+    parser.add_argument("--scale", type=float, default=0.0)
+    parser.add_argument("--erasing", type=float, default=0.0)
     args = parser.parse_args()
 
     from ultralytics import YOLO
@@ -74,7 +79,11 @@ def main() -> int:
         seed=args.seed,
         pretrained=True,
         optimizer="AdamW",
-        lr0=1e-4,
+        lr0=args.lr0,
+        degrees=args.degrees,
+        translate=args.translate,
+        scale=args.scale,
+        erasing=args.erasing,
         patience=args.patience,
         plots=False,
         verbose=True,
