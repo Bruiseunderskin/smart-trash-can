@@ -85,9 +85,19 @@ def main() -> int:
     model.train(**train_kwargs)
     run_dir = Path(model.trainer.save_dir)
 
-    metrics = model.val(data=str(args.data), split="val", imgsz=args.size, plots=False, verbose=False)
-    cm = np.array(metrics.confusion_matrix.matrix, dtype=float)
-    classes = list(metrics.names.values()) if isinstance(metrics.names, dict) else list(metrics.names)
+    # ultralytics has no confusion matrix for classification, so build it from
+    # predictions on the validation split
+    best_model = YOLO(str(run_dir / "weights" / "best.pt"))
+    names = best_model.names if isinstance(best_model.names, dict) else dict(enumerate(best_model.names))
+    val_root = args.data / "val"
+    classes = sorted(p.name for p in val_root.iterdir() if p.is_dir())
+    index = {name: i for i, name in enumerate(classes)}
+    cm = np.zeros((len(classes), len(classes)), dtype=int)
+    samples = [(p, index[d]) for d in classes for p in sorted((val_root / d).iterdir()) if p.is_file()]
+    results = best_model.predict([str(p) for p, _ in samples], imgsz=args.size, verbose=False)
+    for (path, true_index), result in zip(samples, results):
+        pred_name = names[int(result.probs.top1)]
+        cm[true_index, index[pred_name]] += 1
     accuracy = float(cm.trace() / cm.sum()) if cm.sum() else 0.0
 
     best = run_dir / "weights" / "best.pt"
@@ -117,10 +127,10 @@ def main() -> int:
         "input": f"{args.size}x{args.size} RGB",
         "classes": classes,
         "epochs": args.epochs,
-        "device": str(metrics.speed) if hasattr(metrics, "speed") else "unknown",
+        "device": str(next(best_model.model.parameters()).device),
         "val_accuracy": round(accuracy, 4),
         "val_macro_f1": round(macro_f1(cm), 4),
-        "val_top1": round(float(metrics.top1), 4) if hasattr(metrics, "top1") else None,
+        "val_top1": round(accuracy, 4),
         "confusion_matrix": cm.astype(int).tolist(),
         "history": read_history(run_dir),
         "artifacts": {
