@@ -13,7 +13,7 @@
 
 ## 與 `cards/` 的關係
 
-PDF 內的卡面與 `../cards/` 的 38 張 PNG 相同（已逐張比對 MD5，例如 A-01、B-11 完全一致），所以訓練資料與本試印稿是同一版卡面，不需要重新訓練。
+PDF 內的卡面與 [`data/mixed-card-object/wordless-v1/cards/`](../../data/mixed-card-object/wordless-v1/cards/README.md) 的 38 張 PNG 相同（已逐張比對 SHA-256，38 張全等），所以訓練資料與本試印稿是同一版卡面，不需要重新訓練。
 
 ## 印前注意
 
