@@ -25,7 +25,7 @@ OUTER_MARGIN = 0.025
 FRAME = 0.095
 INNER_MARGIN = 0.015
 OUTER_RADIUS = 0.130
-INNER_RADIUS = 0.080
+INNER_RADIUS = 0.115
 
 
 def trim_label_band(img: Image.Image) -> Image.Image:
@@ -103,7 +103,15 @@ def build(src: Path, out_size: int, motif_ratio: float) -> Image.Image:
 
     x = inner[0] + (art_w - new[0]) // 2
     y = inner[1] + (art_h - new[1]) // 2
-    canvas.paste(motif, (x, y))
+
+    # clip the motif to the inner fillet so its corners follow the frame
+    motif_mask = Image.new("L", (new[0], new[1]), 0)
+    ImageDraw.Draw(motif_mask).rounded_rectangle(
+        (0, 0, new[0] - 1, new[1] - 1),
+        radius=int(round(out_size * INNER_RADIUS)),
+        fill=255,
+    )
+    canvas.paste(motif, (x, y), motif_mask)
     return canvas
 
 

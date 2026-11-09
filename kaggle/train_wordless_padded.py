@@ -26,7 +26,7 @@ if SRC.exists():
     shutil.rmtree(SRC)
 run("git", "clone", "--depth", "1", "--branch", BRANCH, REPO, str(SRC))
 
-subprocess.run([sys.executable, "-m", "pip", "install", "-q", "pillow", "onnxruntime"], check=False)
+subprocess.run([sys.executable, "-m", "pip", "install", "-q", "pillow", "onnxruntime", "ultralytics"], check=False)
 
 if DATA.exists():
     shutil.rmtree(DATA)
@@ -50,7 +50,7 @@ run(
     sys.executable, "tools/train_card_classifier.py",
     "--data", str(DATA),
     "--out", str(out_dir),
-    "--epochs", "14",
+    "--epochs", "20",
     "--batch", "64",
     "--workers", "2",
     cwd=SRC,
