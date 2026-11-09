@@ -10,6 +10,7 @@
 
 ### Added
 
+- 加框無字卡面：`data/mixed-card-object/wordless-v1/cards-padded/`（38 張，709×709）。移除舊卡底部名稱橫幅、圖案放大至內框 78%，外圍保留綠色圓角框與白邊；由 `tools/rebuild_wordless_cards.py` 產生。
 - 新增無額外卡片文字的 38 張卡面、合成變體及 YOLO／ESP-DL 候選模型，並提供逐圖結果與混淆矩陣。
 
 - 加入混合卡片及實物模型可尋回的訓練、驗證資料與來源清單，並標明缺失和授權限制。
