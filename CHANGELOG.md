@@ -10,6 +10,9 @@
 
 ### Added
 
+- `tools/apply_card_padding.py`：把卡片重排為加框版，幾何參數化並可重跑。
+- `tools/render_card_scenes.py`：由加框卡生成 160×160 訓練場景（隨機角度、縮放、光線、模糊），補回原本未入 repo 的模擬卡生成器。
+- 分類卡加框版：`docs/images/cards/set-a-padded/`、`set-b-padded/`，白卡置於 9.5% 綠色圓角外框內，四周留白（教學組要求，不再全白貼邊）；由 `tools/apply_card_padding.py` 產生。
 - 加入混合卡片及實物模型可尋回的訓練、驗證資料與來源清單，並標明缺失和授權限制。
 
 - 補充整合決策地圖、YOLO／ESP-DL 模型交接、測試證據範本、CDC 向量及執行時責任表。
