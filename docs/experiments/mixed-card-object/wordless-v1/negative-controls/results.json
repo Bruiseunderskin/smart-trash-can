@@ -1,0 +1,44 @@
+[
+  {
+    "model": "baseline",
+    "input": "cover",
+    "prediction": "hazardous",
+    "confidence": 0.9642125964164734,
+    "threshold_0_55_would_accept": true
+  },
+  {
+    "model": "baseline",
+    "input": "back",
+    "prediction": "hazardous",
+    "confidence": 0.6988824605941772,
+    "threshold_0_55_would_accept": true
+  },
+  {
+    "model": "baseline",
+    "input": "blank_white_synthetic",
+    "prediction": "other",
+    "confidence": 0.3500289022922516,
+    "threshold_0_55_would_accept": false
+  },
+  {
+    "model": "candidate",
+    "input": "cover",
+    "prediction": "hazardous",
+    "confidence": 0.9005159735679626,
+    "threshold_0_55_would_accept": true
+  },
+  {
+    "model": "candidate",
+    "input": "back",
+    "prediction": "hazardous",
+    "confidence": 0.3924376964569092,
+    "threshold_0_55_would_accept": false
+  },
+  {
+    "model": "candidate",
+    "input": "blank_white_synthetic",
+    "prediction": "hazardous",
+    "confidence": 0.4258861839771271,
+    "threshold_0_55_would_accept": false
+  }
+]

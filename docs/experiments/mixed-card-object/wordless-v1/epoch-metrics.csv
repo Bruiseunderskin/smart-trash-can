@@ -1,0 +1,11 @@
+checkpoint,physical_dev_correct,physical_dev_count,digital_cards_correct,digital_cards_count
+epoch0.pt,243,292,8,8
+epoch1.pt,241,292,8,8
+epoch2.pt,241,292,8,8
+epoch3.pt,243,292,8,8
+epoch4.pt,243,292,8,8
+epoch5.pt,242,292,8,8
+epoch6.pt,245,292,8,8
+epoch7.pt,245,292,8,8
+epoch8.pt,241,292,8,8
+epoch9.pt,243,292,8,8

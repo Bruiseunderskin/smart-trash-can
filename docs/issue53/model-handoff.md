@@ -6,6 +6,8 @@
 
 使用者決定後續電腦視覺採 YOLO 與 `.espdl` 路線。現有模型為 YOLO11n-cls 混合卡片與物件實驗、S31 目標 w8a8 int8：[模型檔](../../models/mixed-card-object/mixed_s31.espdl)、[標籤](../../models/mixed-card-object/labels.txt)、[hash 記錄](../../models/mixed-card-object/SHA256SUMS)。這是已提供的目標產物，不要求重訓或另交 `.tflite` 才能開始整合。
 
+無額外卡片文字候選與比較資料已收錄於 [wordless-v1 模型](../../models/mixed-card-object/wordless-v1/README.md) 及 [逐圖結果與混淆矩陣](../experiments/mixed-card-object/wordless-v1/README.md)。其可追溯流程為 Train (YOLO) → ONNX (opset 18) → `espdl_quantize_onnx()` → `.espdl`、`.info`、`.json` → S31 部署；候選仍未取代現行模型，且尚未在 S31 實機驗證。
+
 模型 SHA-256：`2edd8594b3ca4c3fbb1e4a471162f6768957e55fbac02482a596019ef3978557`；使用前以 `shasum -a 256 models/mixed-card-object/mixed_s31.espdl` 自行核對。標籤順序 food、hazardous、other、recyclable 對應桶位 1、2、3、0。輸入與前處理以 `contracts/model/preprocess.json` 和具體實測為準；舊 EI 六類模型數值不可套用至此模型。
 
 ## 已有評估與限制

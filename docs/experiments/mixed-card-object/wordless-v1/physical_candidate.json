@@ -1,0 +1,37 @@
+{
+  "backend": "ESP-PPQ native graph CPU simulation (not device execution)",
+  "classes": [
+    "food",
+    "hazardous",
+    "other",
+    "recyclable"
+  ],
+  "images": 292,
+  "correct": 241,
+  "confusion_matrix_rows_truth_columns_prediction": [
+    [
+      71,
+      1,
+      1,
+      2
+    ],
+    [
+      0,
+      57,
+      6,
+      8
+    ],
+    [
+      3,
+      8,
+      52,
+      8
+    ],
+    [
+      5,
+      2,
+      7,
+      61
+    ]
+  ]
+}
