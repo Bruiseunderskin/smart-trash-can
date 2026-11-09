@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import csv
 import random
+import shutil
 from pathlib import Path
 
 from PIL import Image
@@ -29,6 +30,12 @@ def main() -> int:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--train-per-card", type=int, default=60)
     parser.add_argument("--val-per-card", type=int, default=10)
+    parser.add_argument("--bg-dir", type=Path, default=None,
+                        help="folder of real photos used as blurred backgrounds")
+    parser.add_argument("--extra-train", type=Path, default=None,
+                        help="ImageFolder-style dir of real object photos added to train")
+    parser.add_argument("--extra-repeat", type=int, default=1,
+                        help="how many times each extra training image is repeated")
     parser.add_argument("--scene-split", type=float, default=0.0,
                         help="when >0, render every card and split its scenes by this fraction instead of the manifest split")
     parser.add_argument("--size", type=int, default=160)
@@ -37,6 +44,12 @@ def main() -> int:
 
     with args.manifest.open() as f:
         rows = list(csv.DictReader(f))
+
+    bg_paths: list[Path] = []
+    if args.bg_dir:
+        bg_paths = sorted(p for p in args.bg_dir.rglob("*") if p.suffix.lower() in (".jpg", ".jpeg", ".png"))
+        if not bg_paths:
+            raise SystemExit(f"no background images under {args.bg_dir}")
 
     counts = {"train": 0, "val": 0}
     missing = []
@@ -56,17 +69,30 @@ def main() -> int:
         else:
             per_card = args.train_per_card if row["split"] == "train" else args.val_per_card
         (args.out / "train" / row["class"]).mkdir(parents=True, exist_ok=True)
-        if scene_split > 0:
-            (args.out / "val" / row["class"]).mkdir(parents=True, exist_ok=True)
+        (args.out / "val" / row["class"]).mkdir(parents=True, exist_ok=True)
         for i in range(per_card):
             rng = random.Random(f"{args.seed}:{row['card_id']}:{i}")
-            scene = render(card, args.size, rng)
+            scene = render(card, args.size, rng, bg_paths or None)
             if scene_split > 0:
                 split = "val" if rng.random() < scene_split else "train"
             else:
                 split = row["split"]
             scene.save(args.out / split / row["class"] / f"{stem}_{i:03d}.jpg", quality=rng.randint(82, 94))
             counts[split] += 1
+
+    if args.extra_train:
+        for class_dir in sorted(p for p in args.extra_train.iterdir() if p.is_dir()):
+            label = class_dir.name
+            if label not in {row["class"] for row in rows}:
+                continue
+            dest = args.out / "train" / label
+            dest.mkdir(parents=True, exist_ok=True)
+            for path in sorted(class_dir.iterdir()):
+                if path.suffix.lower() not in (".jpg", ".jpeg", ".png"):
+                    continue
+                for rep in range(max(1, args.extra_repeat)):
+                    shutil.copy2(path, dest / f"physical_{path.stem}_{rep}{path.suffix.lower()}")
+                    counts["train"] += 1
 
     if missing:
         raise SystemExit(f"missing card art for: {sorted(set(missing))}")

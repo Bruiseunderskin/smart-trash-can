@@ -1,7 +1,9 @@
-"""Kaggle kernel: render the padded wordless card scenes and train the classifier.
+"""Kaggle kernel: render padded wordless card scenes and fine-tune YOLO11n-cls.
 
-Runs on a GPU Kaggle kernel; the repository is cloned at the branch under test so
-the cards, renderer and trainer are exactly the committed ones.
+Train scene backgrounds come from real object photos, and those photos are also
+added to the training split, so the model sees object appearance rather than only
+card artwork. Validation stays split by card identity, keeping the unseen-card
+number comparable with earlier runs.
 """
 
 import json
@@ -15,6 +17,7 @@ REPO = "https://github.com/Bruiseunderskin/smart-trash-can.git"
 WORK = Path("/kaggle/working")
 SRC = WORK / "src"
 DATA = WORK / "dataset"
+PHYSICAL = "data/mixed-card-object/images/train/physical"
 
 
 def run(*args, cwd=None):
@@ -36,7 +39,10 @@ run(
     "--manifest", "data/mixed-card-object/wordless-v1/cards.csv",
     "--out", str(DATA),
     "--train-per-card", "120",
-    "--scene-split", "0.15",
+    "--val-per-card", "12",
+    "--bg-dir", PHYSICAL,
+    "--extra-train", PHYSICAL,
+    "--extra-repeat", "8",
     "--size", "160",
     "--seed", "20261109",
     cwd=SRC,
@@ -52,8 +58,9 @@ run(
     "--out", str(out_dir),
     "--epochs", "15",
     "--batch", "64",
+    "--patience", "6",
     cwd=SRC,
 )
 
-print((out_dir / "metrics.json").read_text()[:2000], flush=True)
+print((out_dir / "metrics.json").read_text()[:2500], flush=True)
 print(json.dumps({"done": True, "counts": counts}))

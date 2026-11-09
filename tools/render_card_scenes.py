@@ -36,7 +36,24 @@ def label_from_name(name: str) -> str | None:
     return None
 
 
-def make_background(size: int, rng: random.Random) -> Image.Image:
+def photo_background(size: int, rng: random.Random, paths: list[Path]) -> Image.Image:
+    """Random crop of a real photo, blurred and darkened, used as the table surface."""
+    path = rng.choice(paths)
+    with Image.open(path) as source:
+        img = source.convert("RGB")
+        w, h = img.size
+        side = min(w, h)
+        left = rng.randint(0, max(0, w - side))
+        top = rng.randint(0, max(0, h - side))
+        img = img.crop((left, top, left + side, top + side)).resize((size, size), Image.LANCZOS)
+    img = img.filter(ImageFilter.GaussianBlur(rng.uniform(2.0, 5.0)))
+    img = ImageEnhance.Brightness(img).enhance(rng.uniform(0.7, 1.1))
+    return ImageEnhance.Color(img).enhance(rng.uniform(0.6, 1.0))
+
+
+def make_background(size: int, rng: random.Random, bg_paths: list[Path] | None = None) -> Image.Image:
+    if bg_paths:
+        return photo_background(size, rng, bg_paths)
     base = rng.choice([(232, 228, 219), (214, 208, 198), (200, 197, 190), (176, 170, 162), (235, 233, 228)])
     img = Image.new("RGB", (size, size), base)
     draw = ImageDraw.Draw(img)
@@ -59,8 +76,8 @@ def make_background(size: int, rng: random.Random) -> Image.Image:
     return img
 
 
-def render(card: Image.Image, size: int, rng: random.Random) -> Image.Image:
-    scene = make_background(size, rng)
+def render(card: Image.Image, size: int, rng: random.Random, bg_paths: list[Path] | None = None) -> Image.Image:
+    scene = make_background(size, rng, bg_paths)
 
     target = int(size * rng.uniform(0.52, 0.78))
     c = card.copy()
