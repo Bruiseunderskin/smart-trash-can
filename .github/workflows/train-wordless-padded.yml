@@ -1,6 +1,13 @@
 name: Train wordless padded cards
 
 on:
+  push:
+    branches: ['feat/wordless-padded']
+    paths:
+      - '.github/workflows/train-wordless-padded.yml'
+      - 'tools/render_wordless_scenes.py'
+      - 'tools/train_card_classifier.py'
+      - 'data/mixed-card-object/wordless-v1/cards-padded/**'
   workflow_dispatch:
     inputs:
       train_per_card:
