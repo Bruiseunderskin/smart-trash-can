@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Train a 4-class card classifier on the rendered card scenes (CPU friendly).
+"""Train a 4-class card classifier on the rendered card scenes.
 
-This exists so training can run on a hosted CPU runner (GitHub Actions) while the
-Mac is unavailable. It trains MobileNetV3-small on 160x160 scenes rendered from
-the padded cards, then writes float32 and dynamic-int8 ONNX plus a metrics file.
+Validation is split by card identity, so the reported number answers "does it work
+on a card the model has never seen", not "did it memorise these drawings". With so
+few identities the easy failure mode is memorisation, so the recipe leans on strong
+augmentation, label smoothing, class weights and best-checkpoint selection.
 
     python3 tools/train_card_classifier.py --data /tmp/dataset --out runs/card-cls
 """
@@ -11,6 +12,7 @@ the padded cards, then writes float32 and dynamic-int8 ONNX plus a metrics file.
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import time
 from pathlib import Path
@@ -28,11 +30,13 @@ IMAGENET_STD = (0.229, 0.224, 0.225)
 
 def build_loaders(root: Path, size: int, batch: int, workers: int):
     train_tf = transforms.Compose([
-        transforms.Resize((size, size)),
+        transforms.RandomResizedCrop(size, scale=(0.55, 1.0), ratio=(0.8, 1.25)),
         transforms.RandomHorizontalFlip(),
-        transforms.ColorJitter(0.2, 0.2, 0.1),
+        transforms.RandomAffine(degrees=20, translate=(0.08, 0.08), shear=8),
+        transforms.ColorJitter(0.35, 0.35, 0.25, 0.08),
         transforms.ToTensor(),
         transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD),
+        transforms.RandomErasing(p=0.25, scale=(0.02, 0.12)),
     ])
     val_tf = transforms.Compose([
         transforms.Resize((size, size)),
@@ -44,10 +48,18 @@ def build_loaders(root: Path, size: int, batch: int, workers: int):
     if train.classes != list(LABELS):
         raise SystemExit(f"unexpected class order {train.classes}, expected {LABELS}")
     return (
-        DataLoader(train, batch_size=batch, shuffle=True, num_workers=workers),
+        DataLoader(train, batch_size=batch, shuffle=True, num_workers=workers, drop_last=True),
         DataLoader(val, batch_size=batch, shuffle=False, num_workers=workers),
         train.classes,
+        train,
     )
+
+
+def class_weights(train_set: datasets.ImageFolder) -> torch.Tensor:
+    counts = np.bincount([label for _, label in train_set.samples], minlength=len(LABELS)).astype(float)
+    weights = counts.sum() / (counts + 1e-6)
+    weights = weights / weights.mean()
+    return torch.tensor(weights, dtype=torch.float32)
 
 
 def macro_f1(y_true: np.ndarray, y_pred: np.ndarray, n: int) -> float:
@@ -77,29 +89,46 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
-    parser.add_argument("--epochs", type=int, default=6)
-    parser.add_argument("--batch", type=int, default=32)
+    parser.add_argument("--epochs", type=int, default=12)
+    parser.add_argument("--batch", type=int, default=64)
     parser.add_argument("--size", type=int, default=160)
-    parser.add_argument("--lr", type=float, default=3e-4)
+    parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument("--workers", type=int, default=2)
     parser.add_argument("--seed", type=int, default=7)
+    parser.add_argument("--patience", type=int, default=4)
     args = parser.parse_args()
 
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    train_loader, val_loader, classes = build_loaders(args.data, args.size, args.batch, args.workers)
+    train_loader, val_loader, classes, train_set = build_loaders(args.data, args.size, args.batch, args.workers)
+    weights = class_weights(train_set).to(device)
+
     model = models.mobilenet_v3_small(weights=models.MobileNet_V3_Small_Weights.IMAGENET1K_V1)
     model.classifier[-1] = nn.Linear(model.classifier[-1].in_features, len(classes))
     model.to(device)
 
-    criterion = nn.CrossEntropyLoss()
-    optimiser = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
+    # freeze the trunk briefly so the new head settles before the backbone starts
+    # adapting to a small number of artworks
+    for param in model.features.parameters():
+        param.requires_grad = False
 
+    criterion = nn.CrossEntropyLoss(weight=weights, label_smoothing=0.05)
+    optimiser = torch.optim.AdamW(model.parameters(), lr=args.lr * 5, weight_decay=2e-4)
+    schedule = torch.optim.lr_scheduler.CosineAnnealingLR(optimiser, T_max=args.epochs)
+
+    best = {"score": -1.0, "state": None, "epoch": 0}
     history = []
     started = time.time()
+
     for epoch in range(1, args.epochs + 1):
+        if epoch == 3:
+            for param in model.features.parameters():
+                param.requires_grad = True
+            optimiser = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=2e-4)
+            schedule = torch.optim.lr_scheduler.CosineAnnealingLR(optimiser, T_max=max(2, args.epochs - 2))
+
         model.train()
         total, correct, loss_sum = 0, 0, 0.0
         for images, labels in train_loader:
@@ -112,20 +141,32 @@ def main() -> int:
             loss_sum += float(loss) * labels.size(0)
             correct += int((logits.argmax(1) == labels).sum())
             total += labels.size(0)
+        schedule.step()
+
         y_true, y_pred = evaluate(model, val_loader, device)
         val_acc = float((y_true == y_pred).mean())
+        f1 = macro_f1(y_true, y_pred, len(classes))
         entry = {
             "epoch": epoch,
             "train_loss": round(loss_sum / max(total, 1), 4),
             "train_acc": round(correct / max(total, 1), 4),
             "val_acc": round(val_acc, 4),
-            "val_macro_f1": round(macro_f1(y_true, y_pred, len(classes)), 4),
+            "val_macro_f1": round(f1, 4),
         }
         history.append(entry)
         print(json.dumps(entry), flush=True)
 
+        if f1 > best["score"]:
+            best = {"score": f1, "state": copy.deepcopy(model.state_dict()), "epoch": epoch}
+        elif epoch - best["epoch"] >= args.patience:
+            print(f"early stop at epoch {epoch} (best {best['epoch']})", flush=True)
+            break
+
+    model.load_state_dict(best["state"])
     args.out.mkdir(parents=True, exist_ok=True)
-    torch.save(model.state_dict(), args.out / "model.pt")
+    torch.save(best["state"], args.out / "model.pt")
+
+    y_true, y_pred = evaluate(model, val_loader, device)
 
     model.eval()
     onnx_path = args.out / "model-float32.onnx"
@@ -155,7 +196,8 @@ def main() -> int:
     metrics = {
         "classes": list(classes),
         "input": f"{args.size}x{args.size} RGB, ImageNet normalisation",
-        "epochs": args.epochs,
+        "best_epoch": best["epoch"],
+        "epochs_run": len(history),
         "device": str(device),
         "train_seconds": round(time.time() - started, 1),
         "val_accuracy": round(float((y_true == y_pred).mean()), 4),
@@ -168,12 +210,13 @@ def main() -> int:
             "onnx_int8": int8_path.name if int8_path else None,
         },
         "caveat": (
-            "Scenes are rendered from the same 22 card artworks used for training, so this measures "
-            "card-recognition on synthetic scenes only. It is not real-object or field accuracy."
+            "Validation is split by card identity; the classes come from the same 38 wordless "
+            "artworks. This measures recognition of unseen cards from this set, not real-object "
+            "or field accuracy."
         ),
     }
     (args.out / "metrics.json").write_text(json.dumps(metrics, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({k: metrics[k] for k in ("val_accuracy", "val_macro_f1", "train_seconds")}))
+    print(json.dumps({k: metrics[k] for k in ("best_epoch", "val_accuracy", "val_macro_f1")}))
     return 0
 
 
