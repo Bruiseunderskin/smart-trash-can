@@ -122,7 +122,7 @@ def render(card: Image.Image, size: int, rng: random.Random, bg_paths: list[Path
     # colour cast from indoor lighting
     if rng.random() < 0.5:
         gains = [rng.uniform(0.88, 1.08) for _ in range(3)]
-        bands = [scene.getchannel(c).point(lambda v, g=g: min(255, int(v * g))) for c in range(3)]
+        bands = [scene.getchannel(i).point(lambda v, gain=gains[i]: min(255, int(v * gain))) for i in range(3)]
         scene = Image.merge("RGB", bands)
 
     # motion blur, approximated by blurring a rotated copy
