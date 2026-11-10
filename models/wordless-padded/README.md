@@ -40,6 +40,8 @@
 
 此測試集與訓練集同源（同一批卡面渲染），只證明量化沒有明顯掉點，不是未見卡數字。完整報告見 `wordless_s31.metrics.json`。
 
+`wordless_s31.espdl` 由 `model-float32.onnx` 量化，而 `model-float32.onnx` 是同一配方的另一次訓練（Kaggle kernel `wedsamuel1230/stc-wordless-espdl`），與 `model-int8.onnx` 的權重不是同一份。兩者在 40 張 smoke 測試上分別為 39/40 與 40/40，差距在噪音範圍。
+
 ## 最終模型
 
 最後一輪用全部 158 張卡、以場景切分訓練（留 10% 場景驗證），驗證準確率 0.9985。此數字只證明流程正常，因為同一張卡同時出現在訓練與驗證，不可當作未見卡表現。

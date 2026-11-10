@@ -1,2 +1,3 @@
 ce0fe92bcd98d332a8ce6593bc8c4474d56bd413e052ddbf205085134ff64e96  model-int8.onnx
+42923484b130ff44aae9f2f111b59c9cbec3f82c5cc9bcdf51b5d66c919d8efa  model-float32.onnx
 eb2216aa6ebae1f31721cbfd9421958c164547eae5022a70ab4ac40956a9d27d  wordless_s31.espdl
