@@ -5,18 +5,21 @@
 
 #include "bringup_common.h"
 
-#include <fcntl.h>
 #include <string.h>
+
+#include "esp_log.h"
+
+/* esp-video 未加入本專案的依賴前，這兩個 header 不存在；整段真驅動以
+ * __has_include 守衛，令 bringup 專案在任何 IDF image 都可編譯。 */
+#if __has_include("esp_video_init.h") && __has_include("linux/videodev2.h")
+#define HAVE_ESP_VIDEO 1
+#include <fcntl.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-#include "esp_log.h"
 #include "esp_timer.h"
-#include "linux/videodev2.h"
-
-#if __has_include("esp_video_init.h")
 #include "esp_video_init.h"
-#define HAVE_ESP_VIDEO 1
+#include "linux/videodev2.h"
 #else
 #define HAVE_ESP_VIDEO 0
 #endif

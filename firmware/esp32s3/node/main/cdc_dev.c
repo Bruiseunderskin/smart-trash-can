@@ -1,6 +1,7 @@
 #include "cdc_dev.h"
 
 #include "driver/usb_serial_jtag.h"
+#include "freertos/FreeRTOS.h"
 #include "esp_log.h"
 
 static const char *TAG = "cdc_dev";
