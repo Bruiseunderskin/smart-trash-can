@@ -126,6 +126,37 @@ def main() -> int:
         cm[true_index, int(row_probs.argmax())] += 1
     accuracy = float(cm.trace() / cm.sum()) if cm.sum() else 0.0
 
+    # calibration: fit one temperature on half the validation set, report ECE on the other half
+    y_true = np.array([true_index for _, true_index in samples])
+    logits = np.log(np.clip(probs, 1e-9, 1.0))
+
+    def softmax(z):
+        z = z - z.max(axis=1, keepdims=True)
+        e = np.exp(z)
+        return e / e.sum(axis=1, keepdims=True)
+
+    def ece(p, y, bins=10):
+        conf = p.max(axis=1)
+        correct = (p.argmax(axis=1) == y)
+        total = 0.0
+        for b in range(bins):
+            mask = (conf > b / bins) & (conf <= (b + 1) / bins)
+            if mask.any():
+                total += mask.mean() * abs(correct[mask].mean() - conf[mask].mean())
+        return float(total)
+
+    order = np.random.default_rng(0).permutation(len(samples))
+    half = len(samples) // 2
+    fit_idx, eval_idx = order[:half], order[half:]
+    best_temp, best_nll = 1.0, float("inf")
+    for temp in np.arange(0.5, 4.001, 0.05):
+        p = softmax(logits[fit_idx] / temp)
+        nll = -np.log(np.clip(p[np.arange(len(fit_idx)), y_true[fit_idx]], 1e-9, 1.0)).mean()
+        if nll < best_nll:
+            best_nll, best_temp = float(nll), float(temp)
+    ece_raw = ece(softmax(logits[eval_idx]), y_true[eval_idx])
+    ece_cal = ece(softmax(logits[eval_idx] / best_temp), y_true[eval_idx])
+
     best = run_dir / "weights" / "best.pt"
     shutil.copy2(best, args.out / "model.pt") if best.exists() else None
 
@@ -160,6 +191,9 @@ def main() -> int:
         "val_macro_f1": round(macro_f1(cm), 4),
         "val_top1": round(accuracy, 4),
         "confusion_matrix": cm.astype(int).tolist(),
+        "temperature": round(best_temp, 3),
+        "ece_raw": round(ece_raw, 4),
+        "ece_calibrated": round(ece_cal, 4),
         "history": read_history(run_dir),
         "artifacts": {
             "best_pt": "model.pt",

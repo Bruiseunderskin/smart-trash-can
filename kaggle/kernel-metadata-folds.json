@@ -1,0 +1,13 @@
+{
+  "id": "wedsamuel1230/stc-wordless-folds",
+  "title": "STC wordless folds",
+  "code_file": "train_wordless_folds.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": []
+}
