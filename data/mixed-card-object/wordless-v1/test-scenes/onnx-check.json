@@ -1,0 +1,38 @@
+{
+  "model": "models/wordless-padded/model-int8.onnx",
+  "images": 40,
+  "accuracy": 1.0,
+  "mean_confidence": 0.986,
+  "confusion_matrix": [
+    [
+      10,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      10,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      10,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      10
+    ]
+  ],
+  "classes": [
+    "food",
+    "hazardous",
+    "other",
+    "recyclable"
+  ]
+}
