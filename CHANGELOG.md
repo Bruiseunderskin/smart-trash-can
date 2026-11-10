@@ -10,6 +10,14 @@
 
 ### Added
 
+- `firmware/common/stc_vision_map.c/.h`：模型 index → 桶位固定表 `{1,2,3,0}`，啟動時逐行核對 `labels.txt`，不符回 `STC_ERR_CONTRACT`。
+- `firmware/common/stc_preprocess.c` ＋ `stc_preprocess.h`：UYVY→RGB（BT.601）→ 中央正方形裁切 → bilinear 160，附 golden fixture 與 sha256 測試。
+- `firmware/common/stc_frame_source.h`、`stc_frame_replay.c`、`stc_frame_esp.c`：幀來源介面；ESP 路徑在 I6 前一律 `STC_ERR_UNSUPPORTED`。
+- `firmware/common/stc_mode.c`：六狀態模式閘，回合中 `IN_SET_LONG`／`IN_PLAY` 一律拒絕，CHAT 60 s 閒置自動回 GAME。
+- `firmware/common/stc_game.c`：回合狀態機、5 回合計分（+10／−5／floor 0）、abstain 重掃一次、學習頁 6 s。
+- `firmware/common/stc_lid.h`、`stc_lid_loopback.c`、`stc_lidmsg.h/.c`：16 bytes CDC 幀（CRC-16/CCITT-FALSE）與 host 回環實作。
+- `tools/evaluate_replay.py`：對 `data/field-probe` 逐圖輸出 truth／pred／conf，刻意不印總分。
+- `firmware/common/test/`：`test_label_map`、`test_preprocess_golden`、`test_mode_gate`、`test_game`、`test_lid`、`test_e2e` 共 8 個 ctest，全部通過。
 - 契約 `stc_ui.h` 升 **v2.0.0**：對齊 `ui/lvgl` 的 `stc_ui_create/apply` 與 action callback 模型，新增 `stc_ui_payload_t`、`stc_ui_state_t`、`stc_ui_action_t`（依 2026-11-08 決定 D1）。
 - 契約 `classes.json` 升 **v2.0.0**：類別次序改為模型次序 `food, hazardous, other, recyclable`，`key` 由 `hazard` 改 `hazardous`，加 `class_order_frozen`；桶位 0–3 不變（依決定 D2）。
 - 新增 `firmware/common/` 與 `firmware/common/test/`：CMake ＋ ctest，`test_contract_ui`（列舉次序／payload 佈局）與 `test_classes_order`（`classes.json` 對 `models/wordless-padded/labels.txt`）。

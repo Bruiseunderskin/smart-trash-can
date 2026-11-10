@@ -1,0 +1,4 @@
+food
+hazardous
+other
+recyclable
