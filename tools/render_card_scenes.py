@@ -108,6 +108,43 @@ def render(card: Image.Image, size: int, rng: random.Random, bg_paths: list[Path
     scene = scene.convert("RGB")
     scene = ImageEnhance.Brightness(scene).enhance(rng.uniform(0.86, 1.10))
     scene = ImageEnhance.Contrast(scene).enhance(rng.uniform(0.88, 1.12))
+
+    # specular glare: a bright elliptical hotspot, as when a lamp or window lands on the card
+    if rng.random() < 0.45:
+        glare = Image.new("L", (size, size), 0)
+        gd = ImageDraw.Draw(glare)
+        cx, cy = rng.randint(-size // 4, size + size // 4), rng.randint(-size // 4, size + size // 4)
+        rx, ry = rng.randint(size // 8, size // 2), rng.randint(size // 8, size // 2)
+        gd.ellipse([cx - rx, cy - ry, cx + rx, cy + ry], fill=rng.randint(70, 150))
+        glare = glare.filter(ImageFilter.GaussianBlur(size // 12))
+        scene = Image.composite(Image.new("RGB", (size, size), (255, 255, 255)), scene, glare)
+
+    # colour cast from indoor lighting
+    if rng.random() < 0.5:
+        gains = [rng.uniform(0.88, 1.08) for _ in range(3)]
+        bands = [scene.getchannel(i).point(lambda v, gain=gains[i]: min(255, int(v * gain))) for i in range(3)]
+        scene = Image.merge("RGB", bands)
+
+    # motion blur, approximated by blurring a rotated copy
+    if rng.random() < 0.3:
+        angle = rng.uniform(-25, 25)
+        blurred = scene.rotate(angle, resample=Image.BICUBIC).filter(
+            ImageFilter.GaussianBlur(rng.uniform(1.0, 2.6))
+        ).rotate(-angle, resample=Image.BICUBIC)
+        scene = Image.blend(scene, blurred, rng.uniform(0.45, 0.8))
+
+    # partial occlusion, as when a hand or a neighbouring card covers an edge
+    if rng.random() < 0.2:
+        layer = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+        od = ImageDraw.Draw(layer)
+        w = rng.randint(size // 8, size // 3)
+        h = rng.randint(size // 8, size // 3)
+        ox = rng.choice([0, size - w]) if rng.random() < 0.6 else rng.randint(0, size - w)
+        oy = rng.choice([0, size - h]) if rng.random() < 0.6 else rng.randint(0, size - h)
+        od.rectangle([ox, oy, ox + w, oy + h], fill=(40, 40, 40, rng.randint(120, 220)))
+        layer = layer.filter(ImageFilter.GaussianBlur(size // 60))
+        scene = Image.alpha_composite(scene.convert("RGBA"), layer).convert("RGB")
+
     scene = scene.filter(ImageFilter.GaussianBlur(rng.uniform(0.0, 1.1)))
     return scene
 

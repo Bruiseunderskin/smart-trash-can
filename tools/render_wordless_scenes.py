@@ -40,6 +40,8 @@ def main() -> int:
                         help="when >0, render this many training scenes per class instead of per card")
     parser.add_argument("--balance-val-per-class", type=int, default=0,
                         help="when >0, render this many validation scenes per class instead of per card")
+    parser.add_argument("--fold", type=int, default=-1,
+                        help="when >=0, split by the cards.csv fold column: this fold is validation")
     parser.add_argument("--scene-split", type=float, default=0.0,
                         help="when >0, render every card and split its scenes by this fraction instead of the manifest split")
     parser.add_argument("--size", type=int, default=160)
@@ -57,18 +59,25 @@ def main() -> int:
 
     counts = {"train": 0, "val": 0}
 
+    # the split is decided up front: fold mode, scene split, or the manifest column
+    for row in rows:
+        if args.fold >= 0:
+            row["_split"] = "val" if int(row.get("fold") or 0) == args.fold else "train"
+        else:
+            row["_split"] = row["split"]
+
     # class-balanced budget: cards per (class, split) decide how many scenes each card gets
     class_budget = {}
     if args.balance_train_per_class or args.balance_val_per_class:
         for row in rows:
-            class_budget.setdefault((row["class"], row["split"]), 0)
-            class_budget[(row["class"], row["split"])] += 1
+            class_budget.setdefault((row["class"], row["_split"]), 0)
+            class_budget[(row["class"], row["_split"])] += 1
 
     def scenes_for(row):
-        target = args.balance_train_per_class if row["split"] == "train" else args.balance_val_per_class
+        target = args.balance_train_per_class if row["_split"] == "train" else args.balance_val_per_class
         if not target:
-            return args.train_per_card if row["split"] == "train" else args.val_per_card
-        n_cards = class_budget[(row["class"], row["split"])]
+            return args.train_per_card if row["_split"] == "train" else args.val_per_card
+        n_cards = class_budget[(row["class"], row["_split"])]
         return max(1, round(target / n_cards))
     missing = []
     for row in rows:
@@ -88,10 +97,10 @@ def main() -> int:
         for i in range(per_card):
             rng = random.Random(f"{args.seed}:{row['card_id']}:{i}")
             scene = render(card, args.size, rng, bg_paths or None)
-            if scene_split > 0:
+            if scene_split > 0 and args.fold < 0:
                 split = "val" if rng.random() < scene_split else "train"
             else:
-                split = row["split"]
+                split = row["_split"]
             scene.save(args.out / split / row["class"] / f"{stem}_{i:03d}.jpg", quality=rng.randint(82, 94))
             counts[split] += 1
 

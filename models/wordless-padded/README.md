@@ -6,48 +6,67 @@
 
 | 檔案 | 說明 | 未見卡準確率 |
 |---|---|---:|
-| `model-int8.onnx` | **建議使用**。YOLO11n-cls 160×160，int8；班級平衡＋真實照片背景＋實物相加入訓練 | **0.6875** |
-| `model-int8-scene-split.onnx` | 早期版本：38 張卡全部入訓練的場景切分模型 | 0.558（場景切分本身 1.000） |
-| `labels.txt` | 輸出次序 `food, hazardous, other, recyclable`（按資料夾字母排序） |
+| `model-int8.onnx` | **建議使用**。YOLO11n-cls 160×160 int8，158 張卡面訓練 | **0.8251 ± 0.0632**（5 折） |
+| `wordless_s31.espdl` | ESP32-S31 用，w8a8 量化，目標 `esp32s31`，1,812,848 bytes | 見下方量化章節 |
+| `model-float32.onnx` | 量化前的 float32 版本，供對照與重新量化 | 同 int8 |
+| `model-int8-scene-split.onnx` | 舊版：38 張卡的場景切分模型 | 0.558 至 0.6875 |
+| `labels.txt` | 輸出次序 `food, hazardous, other, recyclable` | |
 
-輸入 `images`: `[1, 3, 160, 160]` float32；輸出 `output0`: `[1, 4]`。已用 onnxruntime 載入實跑過一次隨機輸入，形狀與輸出正常。
+輸入 `images`: `[1, 3, 160, 160]` float32；輸出 `output0`: `[1, 4]`，已是 softmax 機率。已用 onnxruntime 實跑驗證。
 
-## `model-int8.onnx` 的訓練設定
+## 5 折卡片身分交叉驗證
 
-Kaggle kernel `wedsamuel1230/stc-wordless-padded-cards` v8（與 v7 同配方）：
+每一折把整張卡抽出驗證集，所以分數代表「未見過的卡」。
 
-- 卡片身分切分：30 張卡入訓練、8 張卡留作驗證（未見過的卡）
-- 班級平衡：每類約 1,400 個訓練樣本（場景＋實物），驗證每類 24
-- 場景背景改用真實照片（模糊處理），另把 104 張實物相（每類 26）×8 加入訓練
-- YOLO11n-cls，160×160，AdamW，early stop（best epoch 2，共跑 9 epoch）
+| 折 | 驗證卡 | 準確率 | macro-F1 |
+|---|---:|---:|---:|
+| 0 | 31 | 0.7788 | 0.7800 |
+| 1 | 31 | 0.8521 | 0.8533 |
+| 2 | 32 | 0.7637 | 0.7605 |
+| 3 | 32 | 0.9207 | 0.9199 |
+| 4 | 32 | 0.8104 | 0.8120 |
+| **平均** | | **0.8251** | |
+| **標準差** | | **0.0632** | |
 
-結果：val 96 張，準確率 0.6875、macro-F1 0.6287。
+改善來源：卡面由 38 張增至 158 張（新增 120 張由實物相生成），每折驗證集由 96 張增至約 800 張。
 
-混淆矩陣（列＝真值，欄＝預測，次序 food／hazardous／other／recyclable）：
+## ESP32-S31 量化模型
 
-- food 24/24
-- hazardous 18/24（5 張判去 other、1 張判去 recyclable）
-- other 24/24
-- recyclable 24/24
+`wordless_s31.espdl` 由 `tools/quantize_espdl.py` 以 w8a8、`target=esp32s31`、240 張校準圖產生，檔案開頭為 `EDL2`，與既有 `mixed_s31.espdl` 同一格式。
 
-## 前後對照（同一驗證協議：8 張未見卡、96 張場景）
+- 單一測試集（163 張場景）：準確率 0.9509（155/163）、macro-F1 0.9556
+- 逐類 F1：food 1.00、hazardous 0.951、other 0.929、recyclable 0.942
+- 混淆：other 有 5 張判去 recyclable，hazardous 2 張判去 other，recyclable 1 張判去 hazardous
 
-| 版本 | 設定 | 準確率 | macro-F1 |
-|---|---|---:|---:|
-| v4 | MobileNetV3-small，6,000 場景 | 0.558 | — |
-| v5 | YOLO11n-cls，場景切分（已知卡） | 1.000 | 1.000 |
-| v6 | ＋真實照片背景＋實物相，未平衡 | 0.5521 | 0.4759 |
-| v7 / v8 | ＋班級平衡 | **0.6875** | **0.6287** |
+此測試集與訓練集同源（同一批卡面渲染），只證明量化沒有明顯掉點，不是未見卡數字。完整報告見 `wordless_s31.metrics.json`。
 
-v6 的教訓：加了真實照片但未平衡班級，模型傾向全判 `recyclable`（該類佔訓練卡 14/30），反而變差。平衡後才見改善。
+`wordless_s31.espdl` 由 `model-float32.onnx` 量化，而 `model-float32.onnx` 是同一配方的另一次訓練（Kaggle kernel `wedsamuel1230/stc-wordless-espdl`），與 `model-int8.onnx` 的權重不是同一份。兩者在 40 張 smoke 測試上分別為 39/40 與 40/40，差距在噪音範圍。
+
+## 最終模型
+
+最後一輪用全部 158 張卡、以場景切分訓練（留 10% 場景驗證），驗證準確率 0.9985。此數字只證明流程正常，因為同一張卡同時出現在訓練與驗證，不可當作未見卡表現。
+
+## 信心校準
+
+最終模型的溫度 `T = 0.65`，ECE 由 0.0036 降至 0.0015。此 ECE 在同一批卡面的場景驗證集上量度，數字偏樂觀；逐折校準未記錄。
+
+## 舊版本對照
+
+| 版本 | 設定 | 未見卡準確率 |
+|---|---|---:|
+| v4 | MobileNetV3-small，38 張卡 | 0.558 |
+| v7 / v8 | YOLO11n-cls，班級平衡＋真實背景 | 0.6875 |
+| v9 | 192 px，更強增強 | 0.6562 |
+| v10 | 雙 seed 平均 | 0.625 |
+| **現版** | 158 張卡，5 折 | **0.8251 ± 0.0632** |
 
 ## 限制
 
-- 驗證集與訓練集同源（同樣 38 張卡面渲染），不代表實物、現場或真正新卡表現。
-- 只有 8 張 held-out 卡，每張卡約 ±4%，0.6875 的置信區間寬。
-- 剩餘錯誤集中在 hazardous → other；該類只有 5 張訓練卡、26 張實物相，是瓶頸。
-- 未在 S31 實板載入，未量 RAM／PSRAM／延遲，未比較 float32 與 int8 的逐張差異。
+- 生成卡面由 Kaggle `sumn2u/garbage-classification-v2`（MIT）去背產生，個別卡有背景殘留或透明物件邊緣瑕疵
+- 未在 S31 實板載入，未量 RAM／PSRAM／延遲；未比較 int8 與 float32 的逐張差異
+- 卡面只有 158 張，5 折標準差 0.0632 仍偏大
+- 驗證集與訓練集同源（同一批卡面渲染），不代表實物或現場表現
 
 ## 重現
 
-見 [`../../data/mixed-card-object/wordless-v1/padded-training.md`](../../data/mixed-card-object/wordless-v1/padded-training.md)。
+Kaggle kernel `wedsamuel1230/stc-wordless-folds`（`kaggle/train_wordless_folds.py`）；資料與場景設定見 [`../../data/mixed-card-object/wordless-v1/padded-training.md`](../../data/mixed-card-object/wordless-v1/padded-training.md)。
