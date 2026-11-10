@@ -17,9 +17,10 @@ set(SRC_FRAME ${COMMON}/stc_frame_replay.c ${COMMON}/stc_frame_esp.c)
 
 add_library(stc_common STATIC
     ${SRC_VISION_MAP} ${SRC_PREPROCESS} ${SRC_FRAME} ${COMMON}/stc_game.c ${COMMON}/stc_mode.c
-    ${COMMON}/stc_lid_loopback.c ${COMMON}/stc_lidmsg.c)
+    ${COMMON}/stc_lid_loopback.c ${COMMON}/stc_lidmsg.c ${COMMON}/stc_lid_link.c
+    ${STC_ROOT}/app/stc_app.c)
 target_include_directories(stc_common PUBLIC
-    "${COMMON}" "${STC_ROOT}/contracts")
+    "${COMMON}" "${STC_ROOT}/contracts" "${STC_ROOT}/app")
 target_compile_definitions(stc_common PRIVATE STC_HOST_TEST=1)
 
 function(stc_test name)
@@ -36,6 +37,9 @@ stc_test(test_mode_gate)
 stc_test(test_game)
 stc_test(test_lid)
 stc_test(test_e2e)
+stc_test(test_app_wiring)
+stc_test(test_lid_retry)
+stc_test(test_node_offline)
 
 target_compile_definitions(test_classes_order PRIVATE
     CLASSES_JSON_PATH="${STC_ROOT}/contracts/model/classes.json"

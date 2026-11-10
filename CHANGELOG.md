@@ -10,6 +10,12 @@
 
 ### Added
 
+- `app/stc_app.c`：`stc_snapshot_t` → `stc_ui_payload_t` 映射，`test_app_wiring` 驗 4 個狀態與非法 phase。
+- `firmware/esp32s31/bringup/main/t2_camera.c`：esp-video／V4L2 實作（UYVY 640×480、30 幀、fps、`RESULT T2` 行），缺 `esp_video_init.h` 時回 `code=2`。
+- `firmware/common/stc_lid_link.c/.h`：CDC 協定（300 ms ACK 重試 2 次、500 ms 離線判定），附 `test_lid_retry`、`test_node_offline`。
+- `firmware/esp32s3/node/`：S3 節點專案（PCA9685 `0x40`、TCA9548A `0x70`、TOF050C、USB Serial/JTAG CDC），`sdkconfig.defaults` 關 Wi-Fi 與藍牙。
+- `docs/integration-runtime.md`：啟動次序、失敗碼對照、CDC 鏈路、電源預算（設計值，標明未測）。
+- CI：`firmware.yml` 新增 **Host C tests** job（cmake ＋ ctest），並把 `stc_node` 加入 esp32s3 編譯矩陣。
 - `firmware/common/stc_vision_map.c/.h`：模型 index → 桶位固定表 `{1,2,3,0}`，啟動時逐行核對 `labels.txt`，不符回 `STC_ERR_CONTRACT`。
 - `firmware/common/stc_preprocess.c` ＋ `stc_preprocess.h`：UYVY→RGB（BT.601）→ 中央正方形裁切 → bilinear 160，附 golden fixture 與 sha256 測試。
 - `firmware/common/stc_frame_source.h`、`stc_frame_replay.c`、`stc_frame_esp.c`：幀來源介面；ESP 路徑在 I6 前一律 `STC_ERR_UNSUPPORTED`。

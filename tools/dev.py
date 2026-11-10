@@ -8,7 +8,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 ARDUINO = ('ESP32S3_Mic_Test', 'MG90_LidServo_ESP32S3', 'PCA9685_4Servo_Test')
-IDF = ('pca9685_servo_test', 'tflite_probe', 'ei_latency_probe')
+IDF = ('pca9685_servo_test', 'tflite_probe', 'ei_latency_probe', 'stc_node')
 BOARDS = ('smart-trash-can', 'esp32-s31-korvo-1')
 S31 = ('s31_bringup', 'esp32-s31-korvo-1')
 
@@ -43,8 +43,8 @@ def compile_project(project):
     elif project in IDF:
         if not shutil.which('idf.py'):
             raise RuntimeError('Activate ESP-IDF 6.0.2 with export.sh first.')
-        path = ROOT / 'firmware' / 'esp32s3' / project
-        if project != 'pca9685_servo_test' and not (path / 'main/models/waste4_int8.tflite').is_file():
+        path = ROOT / 'firmware' / 'esp32s3' / ('node' if project == 'stc_node' else project)
+        if project in ('tflite_probe', 'ei_latency_probe') and not (path / 'main/models/waste4_int8.tflite').is_file():
             raise RuntimeError(f'Provide {path}/main/models/waste4_int8.tflite as described in its README.')
         # -D fixes the target without destructive set-target/fullclean.
         run('idf.py', '-C', str(path), '-B', str(ROOT / 'build/idf' / project), '-D', 'IDF_TARGET=esp32s3', 'build')
