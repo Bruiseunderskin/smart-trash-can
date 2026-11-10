@@ -10,6 +10,11 @@
 
 ### Added
 
+- 契約 `stc_ui.h` 升 **v2.0.0**：對齊 `ui/lvgl` 的 `stc_ui_create/apply` 與 action callback 模型，新增 `stc_ui_payload_t`、`stc_ui_state_t`、`stc_ui_action_t`（依 2026-11-08 決定 D1）。
+- 契約 `classes.json` 升 **v2.0.0**：類別次序改為模型次序 `food, hazardous, other, recyclable`，`key` 由 `hazard` 改 `hazardous`，加 `class_order_frozen`；桶位 0–3 不變（依決定 D2）。
+- 新增 `firmware/common/` 與 `firmware/common/test/`：CMake ＋ ctest，`test_contract_ui`（列舉次序／payload 佈局）與 `test_classes_order`（`classes.json` 對 `models/wordless-padded/labels.txt`）。
+- 新增 `tools/tests/test_contract_ui.py`：契約與 `ui/lvgl/include/stc_ui.h` 逐名同序比對。
+- `docs/plan-v3-tof050c.md` §1：改址方案由 SHDN 改為 **TCA9548A（0x70）**，四粒 TOF 固定 0x29（依決定 D6）。
 - 新增 S31 量化模型 `models/wordless-padded/wordless_s31.espdl`（w8a8、esp32s31、1,812,848 bytes），測試 155/163、macro-F1 0.9556。
 - 未見卡 5 折交叉驗證：158 張卡面下平均 top-1 0.8251（標準差 0.0632）；新 int8 模型覆蓋同一路徑 `models/wordless-padded/model-int8.onnx`。
 - 加入 300 DPI A4 試印稿（`docs/print-300dpi/`）：Set A／Set B 正面與共用卡背，卡面與 `cards/` 逐張相同。

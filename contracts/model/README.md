@@ -1,4 +1,4 @@
-# model contract v1.0.0
+# model contract v2.0.0
 
 訓練與推論的唯一接口。任何一項不符，韌體會拒絕載入（`stc_vision_init()` 回 `STC_ERR_CONTRACT`）。
 
@@ -14,12 +14,14 @@
 ## classes.json（已凍結，不要改順序）
 
 ```json
-{"version":"1.0.0","classes":[
- {"index":0,"key":"recyclable","zh":"可回收物","bin":0},
- {"index":1,"key":"food","zh":"廚餘","bin":1},
- {"index":2,"key":"hazard","zh":"有害垃圾","bin":2},
- {"index":3,"key":"other","zh":"其他垃圾","bin":3}]}
+{"version":"2.0.0","class_order_frozen":true,"classes":[
+ {"index":0,"key":"food","zh":"廚餘","bin":1},
+ {"index":1,"key":"hazardous","zh":"有害垃圾","bin":2},
+ {"index":2,"key":"other","zh":"其他垃圾","bin":3},
+ {"index":3,"key":"recyclable","zh":"可回收物","bin":0}]}
 ```
+
+v2.0.0（2026-11-08 決定 D2）：`index` 改跟模型 `labels.txt` 的次序，`key` 由 `hazard` 改為 `hazardous`（與模型一致），新增 `class_order_frozen`。桶位數值不變。韌體啟動時逐行比對 `labels.txt`，不符即 `STC_ERR_CONTRACT`，不會默認落 `other`。
 
 ## 預處理（推論必須逐步相同）
 
