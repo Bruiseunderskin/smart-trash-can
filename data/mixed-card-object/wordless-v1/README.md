@@ -2,7 +2,7 @@
 
 讀者：模型開發及資料審查人員。何時讀：重現或評估此版本前。這是現有 mixed-card-object 資料集的新增版本，不取代或宣稱補齊原資料。
 
-`cards/` 含 Set A 九張與 Set B 29 張 300 DPI 白底無卡片名稱 PNG；保留物件包裝本身文字，B-11、B-14、B-15 為使用者接納的 AI 修整圖。`cards.csv` 記錄分類、身份、split 和 SHA-256。模型四類：`recyclable → 桶 0`、`food → 桶 1`、`hazardous → 桶 2`、`other → 桶 3`。
+`cards/` 含 Set A 九張與 Set B 29 張 300 DPI 白底無卡片名稱 PNG；保留物件包裝本身文字，B-11、B-14、B-15 為使用者接納的 AI 修整圖。`cards.csv` 記錄分類、身份、split、SHA-256、來源與 `fold`（0 至 4 的卡片身分交叉驗證分組）。其中 `C-01` 至 `C-120` 由實物相生成，來源見各行 `source`。模型四類：`recyclable → 桶 0`、`food → 桶 1`、`hazardous → 桶 2`、`other → 桶 3`。
 
 A4 試印稿（兩套正面與共用卡背，卡面 60 × 60 mm）放在 [`docs/print-300dpi/`](../../../docs/print-300dpi/README.md)，卡面與 `cards/` 逐張 SHA-256 相同。
 
