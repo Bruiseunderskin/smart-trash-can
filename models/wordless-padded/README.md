@@ -7,6 +7,8 @@
 | 檔案 | 說明 | 未見卡準確率 |
 |---|---|---:|
 | `model-int8.onnx` | **建議使用**。YOLO11n-cls 160×160 int8，158 張卡面訓練 | **0.8251 ± 0.0632**（5 折） |
+| `wordless_s31.espdl` | ESP32-S31 用，w8a8 量化，目標 `esp32s31`，1,812,848 bytes | 見下方量化章節 |
+| `model-float32.onnx` | 量化前的 float32 版本，供對照與重新量化 | 同 int8 |
 | `model-int8-scene-split.onnx` | 舊版：38 張卡的場景切分模型 | 0.558 至 0.6875 |
 | `labels.txt` | 輸出次序 `food, hazardous, other, recyclable` | |
 
@@ -27,6 +29,16 @@
 | **標準差** | | **0.0632** | |
 
 改善來源：卡面由 38 張增至 158 張（新增 120 張由實物相生成），每折驗證集由 96 張增至約 800 張。
+
+## ESP32-S31 量化模型
+
+`wordless_s31.espdl` 由 `tools/quantize_espdl.py` 以 w8a8、`target=esp32s31`、240 張校準圖產生，檔案開頭為 `EDL2`，與既有 `mixed_s31.espdl` 同一格式。
+
+- 單一測試集（163 張場景）：準確率 0.9509（155/163）、macro-F1 0.9556
+- 逐類 F1：food 1.00、hazardous 0.951、other 0.929、recyclable 0.942
+- 混淆：other 有 5 張判去 recyclable，hazardous 2 張判去 other，recyclable 1 張判去 hazardous
+
+此測試集與訓練集同源（同一批卡面渲染），只證明量化沒有明顯掉點，不是未見卡數字。完整報告見 `wordless_s31.metrics.json`。
 
 ## 最終模型
 

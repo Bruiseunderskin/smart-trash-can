@@ -10,6 +10,7 @@
 
 ### Added
 
+- 新增 S31 量化模型 `models/wordless-padded/wordless_s31.espdl`（w8a8、esp32s31、1,812,848 bytes），測試 155/163、macro-F1 0.9556。
 - 未見卡 5 折交叉驗證：158 張卡面下平均 top-1 0.8251（標準差 0.0632）；新 int8 模型覆蓋同一路徑 `models/wordless-padded/model-int8.onnx`。
 - 加入 300 DPI A4 試印稿（`docs/print-300dpi/`）：Set A／Set B 正面與共用卡背，卡面與 `cards/` 逐張相同。
 - 加框無字卡 int8 模型（`models/wordless-padded/`）及 yolo11n-cls 訓練記錄；場景切分 682 張全對，未見卡 0.558。
