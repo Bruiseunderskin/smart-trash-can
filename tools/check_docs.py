@@ -14,6 +14,8 @@ ASSET_TREES = (
     Path('models/wordless-padded/cards-padded'),
     Path('models/wordless-padded/real-photos'),
     Path('models/wordless-padded/dataset'),
+    Path('docs/cards'),
+    Path('docs/Yolo-model'),
 )
 
 

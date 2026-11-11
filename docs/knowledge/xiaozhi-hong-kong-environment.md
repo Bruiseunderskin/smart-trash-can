@@ -63,4 +63,4 @@
 - [香港環保署：廚餘源頭分類指引](https://www.epd.gov.hk/epd/sites/default/files/epd/tc_chi/environmentinhk/waste/prob_solutions/images/OPark1%20Leaflet_2021.pdf)：可接收廚餘及非廚餘物料。
 - [香港環保署：減廢及回收教學資源](https://www.wastereduction.gov.hk/sites/default/files/werecycleschool/Teaching_Resource_Pack_WRR_P1_Chi.pdf)：避免產生、重用及回收。
 - [香港減廢網站：回收互動地圖](https://www.wastereduction.gov.hk/zh-hk/recycling-map)：查閱當前收集點及接收物料。
-- 本專案 [A0 概念簡報](../a0-concept-brief.md)：產品及遊戲設計。本文的 28 張遊戲卡加 8 張獨立測試卡，以及無字真照片卡面，依使用者後續確認。
+- 本專案 [A0 概念簡報](../planning/a0-concept-brief.md)：產品及遊戲設計。本文的 28 張遊戲卡加 8 張獨立測試卡，以及無字真照片卡面，依使用者後續確認。

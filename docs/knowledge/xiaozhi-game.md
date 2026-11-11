@@ -45,6 +45,6 @@
 
 ## 資料來源
 
-- 本專案 [A0 概念簡報](../a0-concept-brief.md)：產品及遊戲設計。28 張遊戲卡加 8 張獨立測試卡，以及無字真照片卡面，依使用者後續確認。
+- 本專案 [A0 概念簡報](../planning/a0-concept-brief.md)：產品及遊戲設計。28 張遊戲卡加 8 張獨立測試卡，以及無字真照片卡面，依使用者後續確認。
 - [香港環保署：綠在區區常見問題](https://www.wastereduction.gov.hk/zh-hk/recycling-faq/greencommunity-faq)：核對遊戲分類與實際回收安排的分別。
 - 更多真實回收資訊見 [香港環保與分類知識](xiaozhi-hong-kong-environment.md)。

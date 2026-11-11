@@ -6,7 +6,7 @@
 
 ## 資料和模型
 
-本次從現有 `mixed_s31` 對應的 YOLO11n-cls float32 權重繼續訓練。四類：food→廚餘桶 1、hazardous→有害桶 2、other→其他桶 3、recyclable→可回收桶 0。38 張白底卡沒有額外卡片名稱，但物件包裝本身的文字保留；B-11、B-14、B-15 經 AI 修整。來源及 hash 見 [mixed-card-object 新資料版本](../../../../data/mixed-card-object/wordless-v1/README.md)。
+本次從現有 `mixed_s31` 對應的 YOLO11n-cls float32 權重繼續訓練。四類：food→廚餘桶 1、hazardous→有害桶 2、other→其他桶 3、recyclable→可回收桶 0。38 張白底卡沒有額外卡片名稱，但物件包裝本身的文字保留；B-11、B-14、B-15 經 AI 修整。來源及 hash 見當時的 `data/mixed-card-object/wordless-v1/README.md`（已刪除，只留 git 歷史）。
 
 訓練使用 30 張卡產生的 **2,400 張合成卡片變體**，加 100 張真實物件訓練圖片（每張抽樣 5 次）。8 張數碼卡留作這次開發驗證，與本次訓練卡身份不重疊；但初始模型曾見過舊版相同身份，因此不能視作模型完全未見的獨立卡。沒有使用歷史 field-captures／field-probe 訓練、校準或選模型。
 
@@ -32,6 +32,6 @@
 
 ## 下一步
 
-保留現行模型；候選檔案見 [模型說明](../../../../models/mixed-card-object/wordless-v1/README.md)。用不同實物、印刷卡、拍攝場次、手持與光線收集未參與開發的實拍測試；核對權利及來源。S31 相機前處理、int8 推理、RAM、延遲 p50/p95 和完整操作均未測。
+保留現行模型；當時的候選檔案在 `models/mixed-card-object/wordless-v1/`（已刪除，只留 git 歷史）。用不同實物、印刷卡、拍攝場次、手持與光線收集未參與開發的實拍測試；核對權利及來源。S31 相機前處理、int8 推理、RAM、延遲 p50/p95 和完整操作均未測。
 
 方法參考：[Ultralytics 資料前處理與防止洩漏](https://docs.ultralytics.com/guides/preprocessing-annotated-data)；[Espressif ONNX 量化及 S31 目標](https://docs.espressif.com/projects/esp-dl/en/latest/tutorials/how_to_quantize_model.html)。

@@ -176,7 +176,7 @@ CRC 与板端逐个相同，因此板端归一化、量化和模型执行路径�
 
 无 microSD 时，T2 相机测试现可将 SC101IOT 的 UYVY 帧在板上编码成
 JPEG，经 COM5 串口带长度和 CRC32 下载。主机工具：
-[capture_camera_serial.py](../../tools/capture_camera_serial.py)。
+[capture_camera_serial.py](../../../tools/capture_camera_serial.py)。
 
 初始链路检查曾采集一张只包含天花板和窗帘的未标注图片；它被保留为链路
 证据，但在评估器中因 `unlabeled` 被排除：
@@ -195,7 +195,7 @@ python tools/capture_camera_serial.py `
 ```
 
 现场图评估入口为
-[evaluate_live_camera.py](../../tools/evaluate_live_camera.py)。它验证
+[evaluate_live_camera.py](../../../tools/evaluate_live_camera.py)。它验证
 manifest 中三类排除标记、图片 SHA-256、SC101IOT 来源和四类最低样本数，
 再输出逐类 precision/recall/F1、混淆矩阵和低信心统计：
 

@@ -21,7 +21,7 @@
 
 ## 已有評估與限制
 
-[實驗記錄](../experiments/mixed-card-object/README.md) 指明此前 ESP-PPQ CPU 執行量化 graph 的 host 評估；`tools/quantize_espdl.py` 的 `TorchExecutor(graph=graph)` 使用量化過程返回的 graph。這不單憑證明該工具可直接載入現有 `.espdl` 重播。原始訓練來源並非全部隨 repo 提供；需查明可重現後端、版本及模型／輸入 parity，不能靜默用另一個模型替代。
+[實驗記錄](../../experiments/mixed-card-object/README.md) 指明此前 ESP-PPQ CPU 執行量化 graph 的 host 評估；`tools/quantize_espdl.py` 的 `TorchExecutor(graph=graph)` 使用量化過程返回的 graph。這不單憑證明該工具可直接載入現有 `.espdl` 重播。原始訓練來源並非全部隨 repo 提供；需查明可重現後端、版本及模型／輸入 parity，不能靜默用另一個模型替代。
 
 此 `.espdl` 未經 S31 實機推論、端到端及延遲驗證。資料來源同域、未知物件拒判和素材權利仍有實驗記錄所述限制；不能據主機結果保證物件正確分類或安全開蓋。field-probe 不用於訓練、校準、閾值或選模，亦不應聲稱為完全獨立來源域。
 

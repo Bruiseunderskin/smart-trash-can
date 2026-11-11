@@ -88,4 +88,8 @@
 
 ### Fixed
 
+- 新增 `docs/README.md`（文件入口）同 `docs/issue/README.md`，改寫 `docs/planning/README.md` 為 planning 專用索引；
+  修好 76 條斷鏈並把指向已刪除資料集的連結改為文字說明。`python3 tools/check_docs.py` 由 81 errors 變成 0。
+- `tools/check_mode_gate.py` 改讀 `docs/planning/mode-gate.md`（文件曾移到 planning，檢查器未跟）。
+
 - `AGENTS.md` 原本聲稱 `data/waste4_ei_train`、`data/waste4_ei_test`、`data/garbage265` 在 repo 內，實際上三者被 `.gitignore` 排除，clone 下來的人不會見到。

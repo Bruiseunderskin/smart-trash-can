@@ -1,43 +1,50 @@
-# docs
+# planning
 
-專案設計與實驗證據入口。先閱讀 architecture.md 的現況邊界，再閱讀 system-architecture-decision.md 的目標設計。歷史 report 和 log 只證明其記錄的模型、版本與測試範圍。
+計劃、決策與規格。**現行決定與歷史草案並存**，每份檔案開頭都要寫狀態；引用前先看該檔的狀態行。
 
-## 閱讀路徑
+## 決策與架構
 
-- [Issue 53 整機整合規劃](issue53/README.md)
+| 檔案 | 內容 |
+|---|---|
+| [system-architecture-decision.md](system-architecture-decision.md) | 系統目標設計與驗收條件 |
+| [PROJECT-PLAN.md](PROJECT-PLAN.md) | 專案計劃與里程碑 |
+| [ROADMAP.md](ROADMAP.md) | 里程碑時間表 |
+| [mode-gate.md](mode-gate.md) | 模式閘：六狀態、閒置超時 |
+| [integration-runtime.md](integration-runtime.md) | 啟動次序、失敗碼、鏈路、電源預算 |
+| [s31-gpio-budget.md](s31-gpio-budget.md) | S31 GPIO 預算 |
+| [s31-bringup-path.md](s31-bringup-path.md) | S31 bring-up 路徑 |
 
-- [實物與模擬卡片混合模型實驗](experiments/mixed-card-object/README.md)
-- [無額外文字卡面的模型比較與混淆矩陣](experiments/mixed-card-object/wordless-v1/README.md)
+## 硬件與感測
 
-- [目前架構、程式入口與整合邊界](architecture.md)
-- [系統目標及驗收](system-architecture-decision.md)
-- [模型比較與限制](model-comparison.md)
-- [里程碑](ROADMAP.md)
+| 檔案 | 內容 |
+|---|---|
+| [sensor-node-wiring.md](sensor-node-wiring.md) | 節點接線與協定（初稿，部分已被取代） |
+| [plan-v3-tof050c.md](plan-v3-tof050c.md) | TOF050C 選型；2026-11 改為 XSHUT 改址 |
+| [plan-v2-tof.md](plan-v2-tof.md) | 舊 VL53L0X 方案（歷史） |
+| [lid-detect-research.md](lid-detect-research.md) | 蓋位偵測研究與選型 |
+| [embedded-ui-research.md](embedded-ui-research.md) | 嵌入式 UI 研究 |
 
-## 本層檔案
+## 遊戲與內容
 
-- [ROADMAP.md](ROADMAP.md)
-- [esp-ai-frameworks.md](esp-ai-frameworks.md)
-- [model-comparison.md](model-comparison.md)
-- [pr10-review-status.md](pr10-review-status.md)
-- [s31-bringup-path.md](s31-bringup-path.md)
-- [system-architecture-decision.md](system-architecture-decision.md)
-- [v2-voice-screen.md](v2-voice-screen.md)
-- [yolo-espdl-dedup.json](yolo-espdl-dedup.json)
-- [yolo-evaluation-manifest.json](yolo-evaluation-manifest.json)
-- [yolo-onnx-parity.json](yolo-onnx-parity.json)
-- [yolo-test-dedup.json](yolo-test-dedup.json)
-- [yolo-test-full.json](yolo-test-full.json)
+| 檔案 | 內容 |
+|---|---|
+| [edu-game-concept.md](edu-game-concept.md) | 教育遊戲概念 |
+| [game-logic-spec.md](game-logic-spec.md) | 遊戲邏輯規格 |
+| [a0-concept-brief.md](a0-concept-brief.md) | 概念簡報 |
+| [labels.md](labels.md) | 分類標籤 |
+| [model-comparison.md](model-comparison.md) | 模型比較與限制 |
+| [v2-voice-screen.md](v2-voice-screen.md) | V2 語音畫面 |
 
-## 子目錄
+## AI 與審查記錄
 
-- [agents](agents/README.md)
-- [ei-baseline](ei-baseline/README.md)
-- [images](images/README.md)
-- [issue12](issue12/README.md)
-- [issue25](issue25/README.md)
-- [issue6](issue6/README.md)
-- [issue7](issue7/README.md)
-- [issue8](issue8/README.md)
+| 檔案 | 內容 |
+|---|---|
+| [ai-chat-implementation-plan.md](ai-chat-implementation-plan.md) | AI 對話實作計劃 |
+| [ai-chat-partition.md](ai-chat-partition.md) | AI 對話分區 |
+| [esp-ai-frameworks.md](esp-ai-frameworks.md) | ESP AI 框架比較 |
+| [plan-review-2026-11-04.md](plan-review-2026-11-04.md) | 計劃審查（2026-11-04） |
+| [pr10-review-status.md](pr10-review-status.md) | PR #10 審查狀態 |
 
-[上層指南](../README.md) · [專案入口](../README.md)
+YOLO／ESP-DL 的證據 JSON 在 [../Yolo-model](../Yolo-model)。
+
+[上層指南](../README.md) · [專案入口](../../README.md)

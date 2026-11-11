@@ -8,9 +8,9 @@
 
 | 讀者／目的 | 入口 |
 |---|---|
-| 實作整機整合 | [Issue 53 整合規劃](docs/issue53/README.md)及 [GitHub issue](https://github.com/Bruiseunderskin/smart-trash-can/issues/53) |
+| 實作整機整合 | [Issue 53 整合規劃](docs/issue/issue53/README.md)及 [GitHub issue](https://github.com/Bruiseunderskin/smart-trash-can/issues/53) |
 | 了解現行入口、架構與限制 | [架構](docs/architecture.md)、[文件索引](docs/README.md) |
-| 讀取 YOLO 模型與部署限制 | [模型交接](docs/issue53/model-handoff.md)、[模型與資料唯一來源](models/wordless-padded/README.md) |
+| 讀取 YOLO 模型與部署限制 | [模型交接](docs/issue/issue53/model-handoff.md)、[模型與資料唯一來源](models/wordless-padded/README.md) |
 | 預覽畫面 | [LVGL UI 與 SDL 預覽](ui/lvgl/README.md) |
 | 檢查板級 bring-up | [S31 bring-up](firmware/esp32s31/bringup/README.md)、[S3 硬件測試](firmware/esp32s3/README.md) |
 | 進行資料集工作 | [資料來源和隔離規則](data/README.md)、[工具](tools/README.md) |
@@ -23,7 +23,7 @@
      → 遊戲狀態與計分 → LVGL 畫面 + 桶蓋／投放感測
 ```
 
-GAME 分類目標是本機離線；語音對話有獨立模式邊界。模型結果、UI 動作和感測器事件必須經控制器處理，不能由 UI 直接改分數或操作硬件。**單蓋與四蓋開啟的遊戲規格仍有衝突**，實作前須按[決策記錄](docs/issue53/decisions.md)釐清。
+GAME 分類目標是本機離線；語音對話有獨立模式邊界。模型結果、UI 動作和感測器事件必須經控制器處理，不能由 UI 直接改分數或操作硬件。**單蓋與四蓋開啟的遊戲規格仍有衝突**，實作前須按[決策記錄](docs/issue/issue53/decisions.md)釐清。
 
 | 部分 | 現有內容 | 未驗證或待整合 |
 |---|---|---|
@@ -48,16 +48,17 @@ GAME 分類目標是本機離線；語音對話有獨立模式邊界。模型結
 
 ## 分類卡圖片與印製
 
-[卡片圖片及印製說明](docs/images/cards/README.md)提供兩組圖片：
+印刷用的卡面在 `docs/cards/`：300 DPI 是原始解析度，600 DPI 是插值放大（不增加細節）。
 
-- [Set A 卡通拼版 PNG](docs/images/cards/set-a-cartoon-sheet.png)及[單張圖片](docs/images/cards/set-a/README.md)。
-- [Set B 實物照片拼版 PNG](docs/images/cards/set-b-photo-sheet.png)及[單張圖片](docs/images/cards/set-b/README.md)。
+- [300 DPI 試印套裝](docs/cards/300dpi/README.md)：Set A 9 張、Set B 29 張，加共用封面與卡背，另有 A4 拼版 PDF。
+- [600 DPI 試印套裝](docs/cards/600dpi/README.md)：同一批卡面的放大版，供高解析度打印。
 
-印製前請看[來源與授權](docs/images/cards/credits.md)及圖片說明；Set B 部分去背和解析度仍建議修整，使用照片須遵守各自授權與署名要求。圖片存在不代表模型已驗證能辨識實體印刷卡。
+物料已定為**珠光紙**（60 × 60 mm、單面印刷、激光切割、彩窗效果）；模型訓練用的 sprite 已模擬此材質。
+印製前先看各套裝的來源與授權段落；圖片存在不代表模型已驗證能辨識實體印刷卡。
 
 ## 硬件方向
 
-目標板為 ESP32-S31，目標介面為 4.3 吋 800×480 LVGL；實物型號、顯示及觸控待核對。issue #53 設計以 S31 USB host 連接 S3 CDC 節點，節點使用 PCA9685 和 TCA9548A 接四個 ToF；此拓撲尚未完成整合及實測。既有 S3 GPIO 直接驅動是另一條測試路徑，不能假設與目標節點已接通。接線及量測記錄見[硬件交接表](docs/issue53/hardware-runbook.md)。
+目標板為 ESP32-S31，目標介面為 4.3 吋 800×480 LVGL；實物型號、顯示及觸控待核對。issue #53 設計以 S31 USB host 連接 S3 CDC 節點，節點使用 PCA9685 和 TCA9548A 接四個 ToF；此拓撲尚未完成整合及實測。既有 S3 GPIO 直接驅動是另一條測試路徑，不能假設與目標節點已接通。接線及量測記錄見[硬件交接表](docs/issue/issue53/hardware-runbook.md)。
 
 ## 專案目錄
 

@@ -2,7 +2,7 @@
 """Cross-check the mode-gate contract against its spec document.
 
 The idle timeout is written in two places: `contracts/stc_mode.h` (the contract)
-and `docs/mode-gate.md` (the spec plus its acceptance rows). When someone edits
+and `docs/planning/mode-gate.md` (the spec plus its acceptance rows). When someone edits
 one and forgets the other, the firmware is written against a number the spec
 does not agree with — which is exactly how a 60 s / 90 s mix-up shipped once.
 
@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 
 HEADER = Path("contracts/stc_mode.h")
-DOC = Path("docs/mode-gate.md")
+DOC = Path("docs/planning/mode-gate.md")
 
 HEADER_SECONDS = re.compile(r"CHAT 閒置 (\d+) s")
 HEADER_VERSION = re.compile(r"contract v(\d+\.\d+\.\d+)")
