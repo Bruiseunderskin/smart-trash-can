@@ -40,9 +40,9 @@ DOC_OK = """# 模式閘
 
 def build(root: Path, header: str, doc: str) -> Path:
     (root / "contracts").mkdir(parents=True, exist_ok=True)
-    (root / "docs").mkdir(parents=True, exist_ok=True)
+    (root / "docs" / "planning").mkdir(parents=True, exist_ok=True)
     (root / "contracts/stc_mode.h").write_text(header, encoding="utf-8")
-    (root / "docs/mode-gate.md").write_text(doc, encoding="utf-8")
+    (root / "docs/planning/mode-gate.md").write_text(doc, encoding="utf-8")
     return root
 
 
