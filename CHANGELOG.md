@@ -11,6 +11,8 @@
 ### Added
 
 - `docs/game-implementation-plan.md`：以 PR #61 的現況為基礎，列出遊戲核心缺口、UI／模型整合界線、分階段實作及上板驗收。
+- `docs/research/espnow-s31-feasibility.md`：依 ESP-IDF v6.1 官方文檔與 source 記錄 ESP-NOW 的 channel、callback、ACK、加密與供電限制。
+- `firmware/espnow_link_spike/`：ESP32-S31 與 ESP32-S3 的 ESP-NOW 傳輸實驗；重用 16-byte `stc_lidmsg`、固定信道、自動發現、心跳與 ACK，暫不驅動伺服機／TOF。
 - `app/stc_app.c`：`stc_snapshot_t` → `stc_ui_payload_t` 映射，`test_app_wiring` 驗 4 個狀態與非法 phase。
 - `firmware/esp32s31/bringup/main/t2_camera.c`：esp-video／V4L2 實作（UYVY 640×480、30 幀、fps、`RESULT T2` 行），缺 `esp_video_init.h` 時回 `code=2`。
 - `firmware/common/stc_lid_link.c/.h`：CDC 協定（300 ms ACK 重試 2 次、500 ms 離線判定），附 `test_lid_retry`、`test_node_offline`。

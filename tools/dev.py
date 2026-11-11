@@ -10,7 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 ARDUINO = ('ESP32S3_Mic_Test', 'MG90_LidServo_ESP32S3', 'PCA9685_4Servo_Test')
 IDF = ('pca9685_servo_test', 'tflite_probe', 'ei_latency_probe', 'stc_node')
 BOARDS = ('smart-trash-can', 'esp32-s31-korvo-1')
-S31 = ('s31_bringup', 'esp32-s31-korvo-1')
+ESPNOW = ('espnow_s31', 'espnow_s3')
+S31 = ('s31_bringup', 'esp32-s31-korvo-1', 'espnow_s31')
 
 
 def run(*args, cwd=ROOT):
@@ -30,6 +31,28 @@ def compile_project(project):
     if project == 's31_bringup':
         run('idf.py', '--preview', '-C', str(ROOT / 'firmware/esp32s31/bringup'),
             '-B', str(ROOT / 'build/idf/s31_bringup'), '-D', 'IDF_TARGET=esp32s31', 'build')
+        return
+    if project in ESPNOW:
+        if not shutil.which('idf.py'):
+            raise RuntimeError('Activate ESP-IDF 6.1 for the ESP-NOW spike.')
+        spike = ROOT / 'firmware/espnow_link_spike'
+        build = ROOT / 'build/idf' / project
+        target = 'esp32s31' if project == 'espnow_s31' else 'esp32s3'
+        defaults = spike / 'sdkconfig.defaults'
+        if project == 'espnow_s3':
+            defaults = str(defaults) + ';' + str(spike / 'sdkconfig.defaults.node')
+        args = ['idf.py']
+        if project == 'espnow_s31':
+            args.append('--preview')
+        args += [
+            '-C', str(spike),
+            '-B', str(build),
+            '-D', f'IDF_TARGET={target}',
+            '-D', f'SDKCONFIG={build / "sdkconfig"}',
+            '-D', f'SDKCONFIG_DEFAULTS={defaults}',
+            'build',
+        ]
+        run(*args)
         return
     if project in ARDUINO:
         if not shutil.which('arduino-cli'):
@@ -87,6 +110,9 @@ def checks(stage, base):
         compile_project('smart-trash-can')
     if any(p.startswith('firmware/esp32s31/') and not p.endswith('.md') for p in changed):
         compile_project('s31_bringup')
+    if any(p.startswith('firmware/espnow_link_spike/') and not p.endswith('.md') for p in changed):
+        compile_project('espnow_s31')
+        compile_project('espnow_s3')
     if any(p.startswith('firmware/xiaozhi-esp32/') and not p.endswith('.md') for p in changed):
         compile_project('esp32-s31-korvo-1')
 
@@ -95,7 +121,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=('pre-commit', 'pre-push', 'pre-pr', 'compile', 'install-hooks', 'pr'))
     parser.add_argument('--base', default='origin/main')
-    parser.add_argument('--project', choices=ARDUINO + IDF + BOARDS + ('s31_bringup',))
+    parser.add_argument('--project', choices=ARDUINO + IDF + BOARDS + ESPNOW + ('s31_bringup',))
     args, extra = parser.parse_known_args()
     if args.action != 'pr' and extra:
         parser.error('unrecognized arguments: ' + ' '.join(extra))

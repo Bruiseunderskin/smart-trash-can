@@ -1,0 +1,22 @@
+menu "STC ESP-NOW link spike"
+
+choice STC_ESPNOW_ROLE
+    prompt "Board role"
+    default STC_ESPNOW_ROLE_CONTROLLER
+
+config STC_ESPNOW_ROLE_CONTROLLER
+    bool "S31 controller"
+
+config STC_ESPNOW_ROLE_NODE
+    bool "S3 actuator node"
+endchoice
+
+config STC_ESPNOW_CHANNEL
+    int "Fixed Wi-Fi channel"
+    range 1 13
+    default 6
+    help
+        Both boards must use the same primary Wi-Fi channel. This spike does
+        not follow a home router's channel changes.
+
+endmenu

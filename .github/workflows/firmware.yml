@@ -80,3 +80,19 @@ jobs:
         run: |
           . "$IDF_PATH/export.sh"
           python tools/dev.py compile --project ${{ matrix.project }}
+  espnow-spike:
+    name: ESP-NOW (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    container: espressif/idf:v6.1
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [espnow_s31, espnow_s3]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Compile link spike
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          python tools/dev.py compile --project ${{ matrix.project }}

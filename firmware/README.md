@@ -5,6 +5,7 @@ ESP32-S31-Korvo-1 是整機目標板，ESP32-S3 保留作子系統測試及模�
 | 目錄 | 用途 | 編譯方式 |
 | --- | --- | --- |
 | [esp32s31](esp32s31/README.md) | S31 外設 bring-up | ESP-IDF 6.1：`python3 tools/dev.py compile --project s31_bringup` |
+| [espnow_link_spike](espnow_link_spike/README.md) | S31 ↔ S3 ESP-NOW 傳輸實驗（無伺服機） | ESP-IDF 6.1：`espnow_s31`、`espnow_s3` 各自建置 |
 | [xiaozhi-esp32](xiaozhi-esp32/README.md) | 上游框架、自訂 S3 板及 S31 Korvo 板 | ESP-IDF 6.1：`python3 tools/dev.py compile --project esp32-s31-korvo-1` |
 | [esp32s3](esp32s3/README.md) | PCA9685 及模型 probe | 依各專案指南使用 ESP-IDF |
 | [arduino](arduino/README.md) | S3 伺服與麥克風測試 | Arduino IDE／arduino-cli |
