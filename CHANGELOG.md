@@ -57,6 +57,7 @@
 - `models/wordless-padded/DATA-LICENSES.md`：卡面同真實相片的來源、授權，以及明確停用的資料。
 - `tools/rebuild_wordless_cards.py`：新增 `cutout()` 同 `pearl_paper()`——把印刷卡由白紙底裁出，再上珠光紙效果。
 - `tools/render_wordless_scenes.py`：新增 `--manifest-out`，逐張場景輸出 card_id、seed 同 SHA-256。
+- `docs/ui/figma-vs-lvgl.md`：九個狀態的 Figma／design JSON 與實際 800×480 LVGL framebuffer 逐屏對照、差異排名、未能比對項目。
 
 ### Changed
 

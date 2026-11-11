@@ -5,6 +5,7 @@
 | 檔案 | 內容 |
 |---|---|
 | `info-mode-flow.md` | 資訊模式使用流程 v1.3：入口、對話記憶、字幕、離線處理、小精靈 |
+| `figma-vs-lvgl.md` | 九個狀態的 Figma／design JSON 與實際 LVGL 800×480 framebuffer 對照、差異排名、未能比對項目 |
 | `../images/info-mode-flow.pdf` | 同上流程圖（3 頁） |
 
 契約與實作見 `contracts/stc_ui.h`、`contracts/stc_mode.h`、`docs/mode-gate.md`。
