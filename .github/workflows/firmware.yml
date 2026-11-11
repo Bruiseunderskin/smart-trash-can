@@ -1,9 +1,9 @@
 name: Firmware compile
 on:
   push:
-    paths: ['firmware/arduino/**', 'firmware/esp32s3/**', 'firmware/esp32s31/**', 'firmware/xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
+    paths: ['firmware/**', 'app/**', 'contracts/**', 'tools/dev.py', '.github/workflows/firmware.yml']
   pull_request:
-    paths: ['firmware/arduino/**', 'firmware/esp32s3/**', 'firmware/esp32s31/**', 'firmware/xiaozhi-esp32/**', 'tools/dev.py', '.github/workflows/firmware.yml']
+    paths: ['firmware/**', 'app/**', 'contracts/**', 'tools/dev.py', '.github/workflows/firmware.yml']
   workflow_dispatch:
 concurrency:
   group: firmware-${{ github.head_ref || github.ref_name }}
@@ -11,6 +11,20 @@ concurrency:
 permissions:
   contents: read
 jobs:
+  common-tests:
+    name: Host C tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install toolchain
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends cmake gcc
+      - name: Configure
+        run: cmake -S firmware/common/test -B build/common-test -DCMAKE_BUILD_TYPE=Debug
+      - name: Build
+        run: cmake --build build/common-test -j
+      - name: Run ctest
+        run: ctest --test-dir build/common-test --output-on-failure
   arduino:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -36,7 +50,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: [pca9685_servo_test, tflite_probe, smart-trash-can]
+        project: [pca9685_servo_test, tflite_probe, smart-trash-can, stc_node]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Prepare public latency model

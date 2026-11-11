@@ -1,29 +1,152 @@
-// T2 — Camera（SC101IOT，DVP）：初始化 → 抓 30 幀 → 存 3 張 JPEG → 印 fps。
+// T2 — Camera（SC101IOT，DVP）：初始化 → 抓 30 幀 → 印 fps 與 RESULT 行。
 //
-// 狀態：**未實作**。這塊板在 ESP-IDF 6.1 上應該用 esp-video（V4L2）而不是舊的
-// esp32-camera 驅動。要接的順序如下，執行者請照做並把實際 API 貼回 issue。
-//
-// TODO(camera):
-//   1) 加入依賴：esp_video（espressif/esp_video）與 sensor 驅動（SC101IOT）
-//   2) 建立 video device：esp_video_init() 或 V4L2 的 /dev/video0
-//   3) open() → VIDIOC_S_FMT（800×640 或 640×480，V4L2_PIX_FMT_JPEG）
-//   4) VIDIOC_REQBUFS / QBUF / DQBUF 抓 30 幀，計 fps
-//   5) 把其中 3 幀寫入 SD（mount SD 需先確認腳位）
-//
-// 參考（同 repo）：xiaozhi-esp32/main/boards/common/esp_video.cc
-// 參考（上游）：xiaozhi-esp32/main/boards/espressif/esp32-s31-korvo-1/config.h 的 CAMERA_PIN_*
+// 用 esp-video 的 V4L2 介面（/dev/video0）。若 IDF 6.1 image 未帶 esp_video_init.h，
+// 本檔仍然編譯，但會印 RESULT T2 FAIL code=2 並說明缺少依賴 —— 不會假裝成功。
 
 #include "bringup_common.h"
 
+#include <string.h>
+
 #include "esp_log.h"
 
+/* esp-video 未加入本專案的依賴前，這兩個 header 不存在；整段真驅動以
+ * __has_include 守衛，令 bringup 專案在任何 IDF image 都可編譯。 */
+#if __has_include("esp_video_init.h") && __has_include("linux/videodev2.h")
+#define HAVE_ESP_VIDEO 1
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+
+#include "esp_timer.h"
+#include "esp_video_init.h"
+#include "linux/videodev2.h"
+#else
+#define HAVE_ESP_VIDEO 0
+#endif
+
 static const char *TAG = "t2_camera";
+#define FRAMES 30
 
 void t2_camera_run(void) {
-  ESP_LOGW(TAG, "camera test not implemented yet");
-  ESP_LOGW(TAG, "pins: XCLK=%d PCLK=%d VSYNC=%d HREF=%d D0..D7=%d,%d,%d,%d,%d,%d,%d,%d",
+  ESP_LOGI(TAG, "pins: XCLK=%d PCLK=%d VSYNC=%d HREF=%d D0..D7=%d,%d,%d,%d,%d,%d,%d,%d",
            BRINGUP_CAM_XCLK, BRINGUP_CAM_PCLK, BRINGUP_CAM_VSYNC, BRINGUP_CAM_HREF,
            BRINGUP_CAM_D0, BRINGUP_CAM_D1, BRINGUP_CAM_D2, BRINGUP_CAM_D3,
            BRINGUP_CAM_D4, BRINGUP_CAM_D5, BRINGUP_CAM_D6, BRINGUP_CAM_D7);
-  BRINGUP_BLOCKED("T2", "esp_video init not implemented (see TODO in t2_camera.c)");
+
+#if HAVE_ESP_VIDEO
+  esp_video_init_config_t cfg = {0};
+  esp_err_t err = esp_video_init(&cfg);
+  if (err != ESP_OK) {
+    ESP_LOGE(TAG, "esp_video_init failed: %s", esp_err_to_name(err));
+    printf("RESULT T2 FAIL code=3\n");
+    BRINGUP_BLOCKED("T2", "esp_video_init returned an error");
+    return;
+  }
+
+  int fd = open("/dev/video0", O_RDWR);
+  if (fd < 0) {
+    ESP_LOGE(TAG, "open /dev/video0 failed");
+    printf("RESULT T2 FAIL code=4\n");
+    BRINGUP_BLOCKED("T2", "no /dev/video0");
+    return;
+  }
+
+  struct v4l2_format fmt;
+  memset(&fmt, 0, sizeof fmt);
+  fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+  fmt.fmt.pix.width = 640;
+  fmt.fmt.pix.height = 480;
+  fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_UYVY;
+  fmt.fmt.pix.field = V4L2_FIELD_NONE;
+  if (ioctl(fd, VIDIOC_S_FMT, &fmt) != 0) {
+    ESP_LOGE(TAG, "VIDIOC_S_FMT UYVY 640x480 failed");
+    close(fd);
+    printf("RESULT T2 FAIL code=5\n");
+    return;
+  }
+
+  struct v4l2_requestbuffers req;
+  memset(&req, 0, sizeof req);
+  req.count = 4;
+  req.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+  req.memory = V4L2_MEMORY_MMAP;
+  if (ioctl(fd, VIDIOC_REQBUFS, &req) != 0 || req.count < 2) {
+    ESP_LOGE(TAG, "VIDIOC_REQBUFS failed");
+    close(fd);
+    printf("RESULT T2 FAIL code=6\n");
+    return;
+  }
+
+  static void *buffers[8];
+  static size_t lengths[8];
+  for (uint32_t i = 0; i < req.count && i < 8; ++i) {
+    struct v4l2_buffer buf;
+    memset(&buf, 0, sizeof buf);
+    buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+    buf.memory = V4L2_MEMORY_MMAP;
+    buf.index = i;
+    if (ioctl(fd, VIDIOC_QUERYBUF, &buf) != 0) {
+      close(fd);
+      printf("RESULT T2 FAIL code=7\n");
+      return;
+    }
+    buffers[i] = mmap(NULL, buf.length, PROT_READ | PROT_WRITE, MAP_SHARED, fd, buf.m.offset);
+    lengths[i] = buf.length;
+    if (buffers[i] == MAP_FAILED) {
+      close(fd);
+      printf("RESULT T2 FAIL code=8\n");
+      return;
+    }
+    if (ioctl(fd, VIDIOC_QBUF, &buf) != 0) {
+      close(fd);
+      printf("RESULT T2 FAIL code=9\n");
+      return;
+    }
+  }
+
+  enum v4l2_buf_type type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+  if (ioctl(fd, VIDIOC_STREAMON, &type) != 0) {
+    close(fd);
+    printf("RESULT T2 FAIL code=10\n");
+    return;
+  }
+
+  const int64_t t0 = esp_timer_get_time();
+  int valid = 0;
+  for (int i = 0; i < FRAMES; ++i) {
+    struct v4l2_buffer buf;
+    memset(&buf, 0, sizeof buf);
+    buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+    buf.memory = V4L2_MEMORY_MMAP;
+    if (ioctl(fd, VIDIOC_DQBUF, &buf) != 0) {
+      continue;
+    }
+    const size_t want = 640u * 480u * 2u;
+    if (buf.bytesused >= want) {
+      valid++;
+    }
+    (void)ioctl(fd, VIDIOC_QBUF, &buf);
+  }
+  const int64_t dt_us = esp_timer_get_time() - t0;
+  const double fps = (dt_us > 0) ? (FRAMES * 1e6 / (double)dt_us) : 0.0;
+
+  ioctl(fd, VIDIOC_STREAMOFF, &type);
+  for (uint32_t i = 0; i < req.count && i < 8; ++i) {
+    if (buffers[i] && buffers[i] != MAP_FAILED) {
+      munmap(buffers[i], lengths[i]);
+    }
+  }
+  close(fd);
+
+  ESP_LOGI(TAG, "valid %d/%d frames, %.1f fps", valid, FRAMES, fps);
+  if (valid >= 28) {
+    printf("RESULT T2 PASS frames=%d/%d fps=%.1f\n", valid, FRAMES, fps);
+  } else {
+    printf("RESULT T2 FAIL code=11 frames=%d/%d\n", valid, FRAMES);
+  }
+#else
+  ESP_LOGW(TAG, "esp_video_init.h not available in this IDF image");
+  printf("RESULT T2 FAIL code=2\n");
+  BRINGUP_BLOCKED("T2", "esp_video component missing (see TODO in t2_camera.c)");
+#endif
 }

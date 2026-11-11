@@ -10,6 +10,25 @@
 
 ### Added
 
+- `app/stc_app.c`：`stc_snapshot_t` → `stc_ui_payload_t` 映射，`test_app_wiring` 驗 4 個狀態與非法 phase。
+- `firmware/esp32s31/bringup/main/t2_camera.c`：esp-video／V4L2 實作（UYVY 640×480、30 幀、fps、`RESULT T2` 行），缺 `esp_video_init.h` 時回 `code=2`。
+- `firmware/common/stc_lid_link.c/.h`：CDC 協定（300 ms ACK 重試 2 次、500 ms 離線判定），附 `test_lid_retry`、`test_node_offline`。
+- `firmware/esp32s3/node/`：S3 節點專案（PCA9685 `0x40`、TCA9548A `0x70`、TOF050C、USB Serial/JTAG CDC），`sdkconfig.defaults` 關 Wi-Fi 與藍牙。
+- `docs/integration-runtime.md`：啟動次序、失敗碼對照、CDC 鏈路、電源預算（設計值，標明未測）。
+- CI：`firmware.yml` 新增 **Host C tests** job（cmake ＋ ctest），並把 `stc_node` 加入 esp32s3 編譯矩陣。
+- `firmware/common/stc_vision_map.c/.h`：模型 index → 桶位固定表 `{1,2,3,0}`，啟動時逐行核對 `labels.txt`，不符回 `STC_ERR_CONTRACT`。
+- `firmware/common/stc_preprocess.c` ＋ `stc_preprocess.h`：UYVY→RGB（BT.601）→ 中央正方形裁切 → bilinear 160，附 golden fixture 與 sha256 測試。
+- `firmware/common/stc_frame_source.h`、`stc_frame_replay.c`、`stc_frame_esp.c`：幀來源介面；ESP 路徑在 I6 前一律 `STC_ERR_UNSUPPORTED`。
+- `firmware/common/stc_mode.c`：六狀態模式閘，回合中 `IN_SET_LONG`／`IN_PLAY` 一律拒絕，CHAT 60 s 閒置自動回 GAME。
+- `firmware/common/stc_game.c`：回合狀態機、5 回合計分（+10／−5／floor 0）、abstain 重掃一次、學習頁 6 s。
+- `firmware/common/stc_lid.h`、`stc_lid_loopback.c`、`stc_lidmsg.h/.c`：16 bytes CDC 幀（CRC-16/CCITT-FALSE）與 host 回環實作。
+- `tools/evaluate_replay.py`：對 `data/field-probe` 逐圖輸出 truth／pred／conf，刻意不印總分。
+- `firmware/common/test/`：`test_label_map`、`test_preprocess_golden`、`test_mode_gate`、`test_game`、`test_lid`、`test_e2e` 共 8 個 ctest，全部通過。
+- 契約 `stc_ui.h` 升 **v2.0.0**：對齊 `ui/lvgl` 的 `stc_ui_create/apply` 與 action callback 模型，新增 `stc_ui_payload_t`、`stc_ui_state_t`、`stc_ui_action_t`（依 2026-11-08 決定 D1）。
+- 契約 `classes.json` 升 **v2.0.0**：類別次序改為模型次序 `food, hazardous, other, recyclable`，`key` 由 `hazard` 改 `hazardous`，加 `class_order_frozen`；桶位 0–3 不變（依決定 D2）。
+- 新增 `firmware/common/` 與 `firmware/common/test/`：CMake ＋ ctest，`test_contract_ui`（列舉次序／payload 佈局）與 `test_classes_order`（`classes.json` 對 `models/wordless-padded/labels.txt`）。
+- 新增 `tools/tests/test_contract_ui.py`：契約與 `ui/lvgl/include/stc_ui.h` 逐名同序比對。
+- `docs/plan-v3-tof050c.md` §1：改址方案由 SHDN 改為 **TCA9548A（0x70）**，四粒 TOF 固定 0x29（依決定 D6）。
 - 新增 S31 量化模型 `models/wordless-padded/wordless_s31.espdl`（w8a8、esp32s31、1,812,848 bytes），測試 155/163、macro-F1 0.9556。
 - 未見卡 5 折交叉驗證：158 張卡面下平均 top-1 0.8251（標準差 0.0632）；新 int8 模型覆蓋同一路徑 `models/wordless-padded/model-int8.onnx`。
 - 加入 300 DPI A4 試印稿（`docs/print-300dpi/`）：Set A／Set B 正面與共用卡背，卡面與 `cards/` 逐張相同。

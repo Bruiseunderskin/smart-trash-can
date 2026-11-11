@@ -1,62 +1,74 @@
-/* stc_ui.h — 畫面（contract v1.1.0）
+/* stc_ui.h — 畫面（contract v2.0.0）
  *
- * UI 只做兩件事：讀 snapshot、畫。不得改分數、不得切模式、不得觸發硬件。
- * 佔位 UI 與隊友的正式 UI 都實作同一組函式，替換時只換 .c。
- *
- * v1.1：加入 PROMPT（揀卡）、SCAN（掃描中）、LEARNING（學習頁）三個畫面。
+ * UI 只做兩件事：讀 payload、畫。不得改分數、不得切模式、不得觸發硬件。
+ * v2.0.0：依 2026-11-08 決定 D1，對齊 ui/lvgl 的 create/apply/callback 模型。
+ * 本檔不依賴 LVGL；ui/lvgl 把 stc_ui_payload_t 映射到自己的 stc_payload_t。
  */
 #pragma once
-#include "stc_game.h"
+#include <stdbool.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 typedef enum {
-    STC_UI_EV_CORRECT = 0,
-    STC_UI_EV_WRONG,
-    STC_UI_EV_TIMEOUT,
-    STC_UI_EV_ABSTAIN,
-    STC_UI_EV_MODE_CHANGED,   /* arg = stc_mode_t */
-    STC_UI_EV_BIN_FAULT,      /* arg = fault mask */
-    STC_UI_EV_ERROR,          /* arg = stc_err_t */
-    STC_UI_EV_COUNT
-} stc_ui_event_t;
+    STC_UI_IDLE = 0,
+    STC_UI_CAPTURING,
+    STC_UI_CLASSIFYING,
+    STC_UI_RESULT_OK,
+    STC_UI_RESULT_RETRY,
+    STC_UI_ERROR,
+    STC_UI_CATEGORY_GUIDE,
+    STC_UI_LEARNING,
+    STC_UI_SUMMARY,
+    STC_UI_STATE_COUNT
+} stc_ui_state_t;
+
+typedef struct {
+    int32_t category_id;
+    float   p;
+} stc_ui_candidate_t;
+
+typedef struct {
+    stc_ui_state_t      state;
+    int32_t             category_id;
+    float               confidence;
+    stc_ui_candidate_t  candidates[2];
+    uint32_t            score;
+    uint32_t            streak;
+    bool                lid_open;
+    const char         *error_code;   /* 同步複製；只顯示有限 ASCII */
+} stc_ui_payload_t;
 
 typedef enum {
-    STC_SCR_BOOT = 0,
-    STC_SCR_IDLE,        /* 等 PLAY */
-    STC_SCR_PROMPT,      /* 「揀一張卡，放喺相機前」 */
-    STC_SCR_SCAN,        /* 掃描中（進度／轉圈，可顯示原始縮圖） */
-    STC_SCR_RESULT,      /* 掃到嘅類別，等開蓋 */
-    STC_SCR_WAIT_DROP,   /* 蓋已開，等放入 */
-    STC_SCR_LEARNING,    /* 學習頁：對答案＋小知識＋分數變化 */
-    STC_SCR_SUMMARY,     /* 5 回合／3 分鐘結算 */
-    STC_SCR_CHAT,
-    STC_SCR_FAULT,
-    STC_SCR_COUNT
-} stc_screen_t;
+    STC_UI_ACTION_START = 0,
+    STC_UI_ACTION_HOME,
+    STC_UI_ACTION_GUIDE,
+    STC_UI_ACTION_LEARN,
+    STC_UI_ACTION_FINISH,
+    STC_UI_ACTION_ASK,
+    STC_UI_ACTION_COUNT
+} stc_ui_action_t;
 
-/* 學習頁內容（由 game 提供，UI 只負責排版） */
-typedef struct {
-    stc_bin_t scanned;      /* 模型判定 */
-    stc_bin_t dropped;      /* 玩家投放 */
-    stc_bin_t correct;      /* 正確桶（= scanned） */
-    float     conf;
-    uint8_t   agreement;    /* 0–5 */
-    int16_t   delta;        /* 本回合加減分 */
-    int16_t   score;        /* 累計 */
-    bool      abstained;
-    const char *tip;        /* 一句小知識（UTF-8，≤40 字） */
-} stc_learning_t;
+typedef void (*stc_ui_action_cb)(stc_ui_action_t action, int32_t category_id, void *user_data);
+typedef void (*stc_ui_retry_cb)(void *user_data);
 
-stc_err_t     stc_ui_init(void);
-void          stc_ui_tick(const stc_snapshot_t *snap, uint32_t now_ms);
-void          stc_ui_notify(stc_ui_event_t ev, int32_t arg);
-void          stc_ui_learning(const stc_learning_t *info);  /* 進 LEARNING 前呼叫一次 */
-stc_screen_t  stc_ui_screen(void);
+typedef struct stc_ui stc_ui_t;   /* opaque；實作在 ui/lvgl */
 
-#define STC_UI_PLACEHOLDER 1
+/* parent 在 LVGL 實作內是 lv_obj_t*；契約層用 void* 以免依賴 LVGL。 */
+stc_ui_t   *stc_ui_create(void *parent, stc_ui_retry_cb retry, void *user_data);
+void        stc_ui_destroy(stc_ui_t *ui);
+void        stc_ui_set_action_callback(stc_ui_t *ui, stc_ui_action_cb cb);
+bool        stc_ui_apply(stc_ui_t *ui, const stc_ui_payload_t *payload);
+void        stc_ui_retry(stc_ui_t *ui);
+void        stc_ui_show_guide(stc_ui_t *ui);
+void        stc_ui_show_learning(stc_ui_t *ui, int32_t category_id);
+void        stc_ui_show_summary(stc_ui_t *ui);
+void        stc_ui_set_reduced_motion(stc_ui_t *ui, bool reduced);
+stc_ui_state_t stc_ui_state(const stc_ui_t *ui);
+bool        stc_ui_check_layout(const stc_ui_t *ui);
+const char *stc_ui_state_name(stc_ui_state_t state);
 
 #ifdef __cplusplus
 }
