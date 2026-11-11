@@ -1,0 +1,66 @@
+menu "STC node"
+
+    menu "Servo pins (one GPIO per lid)"
+
+        config STC_SERVO_GPIO_0
+            int "Servo GPIO for bin 0 (recyclable)"
+            range 0 48
+            default 4
+
+        config STC_SERVO_GPIO_1
+            int "Servo GPIO for bin 1 (food)"
+            range 0 48
+            default 5
+
+        config STC_SERVO_GPIO_2
+            int "Servo GPIO for bin 2 (hazardous)"
+            range 0 48
+            default 6
+
+        config STC_SERVO_GPIO_3
+            int "Servo GPIO for bin 3 (other)"
+            range 0 48
+            default 7
+
+        config STC_SERVO_CLOSED_US
+            int "Closed pulse width (us)"
+            range 500 2500
+            default 1000
+
+        config STC_SERVO_OPEN_US
+            int "Open pulse width (us)"
+            range 500 2500
+            default 1500
+
+    endmenu
+
+    menu "TOF050C XSHUT pins"
+
+        config STC_TOF_XSHUT_GPIO_0
+            int "XSHUT GPIO for bin 0"
+            range 0 48
+            default 15
+
+        config STC_TOF_XSHUT_GPIO_1
+            int "XSHUT GPIO for bin 1"
+            range 0 48
+            default 16
+
+        config STC_TOF_XSHUT_GPIO_2
+            int "XSHUT GPIO for bin 2"
+            range 0 48
+            default 17
+
+        config STC_TOF_XSHUT_GPIO_3
+            int "XSHUT GPIO for bin 3"
+            range 0 48
+            default 18
+
+    endmenu
+
+    config STC_NOW_CHANNEL
+        int "Wi-Fi channel used by ESP-NOW"
+        range 1 13
+        default 1
+
+endmenu

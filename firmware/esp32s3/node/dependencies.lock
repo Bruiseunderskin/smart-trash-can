@@ -1,0 +1,38 @@
+dependencies:
+  idf:
+    source:
+      type: idf
+    version: 6.0.2
+  nestorit/vl6180x:
+    component_hash: 0b808faaf481f278e1c5ae4d39aaaffb8f0e3c25cc91ac336fb95c38e4e2950e
+    dependencies:
+    - name: espressif/i2c_bus
+      registry_url: https://components.espressif.com
+      require: private
+      rules:
+      - if: $CONFIG{VL6180X_USE_I2C_BUS} == True
+      version: '*'
+    - name: idf
+      require: private
+      version: '>=5.3.0'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    targets:
+    - esp32
+    - esp32c2
+    - esp32c3
+    - esp32c5
+    - esp32c61
+    - esp32c6
+    - esp32h2
+    - esp32p4
+    - esp32s2
+    - esp32s3
+    version: 1.0.0
+direct_dependencies:
+- idf
+- nestorit/vl6180x
+manifest_hash: 81f3e933b2cafd7499627d6d1c6c36c48036a841e6bd8337969ca56631a4dbbf
+target: esp32s3
+version: 3.0.0

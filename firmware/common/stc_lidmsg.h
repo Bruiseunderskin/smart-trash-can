@@ -1,4 +1,4 @@
-/* stc_lidmsg.h — CDC 16 bytes 幀（#53 §6.4）；S31 與 S3 編譯同一份 */
+/* stc_lidmsg.h — 16 bytes 控制幀（#53 §6.4），傳輸中立；S31 與 S3 編譯同一份 */
 #pragma once
 #include <stdbool.h>
 #include <stdint.h>

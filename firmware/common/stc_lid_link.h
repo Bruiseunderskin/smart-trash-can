@@ -1,4 +1,4 @@
-/* stc_lid_link.h — CDC 鏈路協定：重試、離線判定（#53 §6.4）
+/* stc_lid_link.h — 鏈路協定：重試、離線判定（#53 §6.4）
  * 傳輸由呼叫者注入，所以 host 可以完整測試，不需要 USB。 */
 #pragma once
 #include "stc_lidmsg.h"

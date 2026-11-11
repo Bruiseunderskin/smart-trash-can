@@ -1,6 +1,8 @@
 # 方案 v3：改用 TOF050C（VL6180X）量落卡
 
 狀態：**取代 v2 的感測器選型，其餘架構不變** ｜ 2026-11-04 ｜ 阿吉 the hermes
+
+> **2026-11 硬件改版（取代 §1 的接線）：** 4 粒 TOF050C 不再經 TCA9548A。四粒共用一條 I²C，開機時全部 XSHUT 拉低，再逐粒放行並把 `0x212 I2C_SLAVE__DEVICE_ADDRESS` 寫成 **0x30–0x33**。舵機亦改為 GPIO 直出 PWM，S31 ↔ 節點改走 ESP-NOW。實作見 `firmware/esp32s3/node/`。
 v2（VL53L0X）保留作對照；`contracts/stc_bin.h` **不需要改**（介面只回 mm，與型號無關）
 
 ---

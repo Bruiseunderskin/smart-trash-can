@@ -11,6 +11,7 @@
 ### Added
 
 - `models/wordless-padded/`：158 張卡面（38 印刷 ＋ 120 輔助）、珠光紙 sprite、每張 200 張場景、470 張持牌真實相片與 SHA-256 清單，成為訓練資料唯一來源。
+- `firmware/esp32s3/node/`：S3 節點專案。2026-11 硬件改版後為 GPIO 直出舵機 PWM、4 × TOF050C（VL6180X）用 XSHUT 改址、S31 ↔ 節點走 ESP-NOW。
 - 加入 300 DPI 試印卡（`docs/cards/300dpi`）：Set A／Set B 正面與共用卡背，卡面與 `cards/` 逐張相同。
 - `app/stc_app.c`：`stc_snapshot_t` → `stc_ui_payload_t` 映射，`test_app_wiring` 驗 4 個狀態與非法 phase。
 - `firmware/esp32s31/bringup/main/t2_camera.c`：esp-video／V4L2 實作（UYVY 640×480、30 幀、fps、`RESULT T2` 行），缺 `esp_video_init.h` 時回 `code=2`。
@@ -65,6 +66,9 @@
 
 - Documentation CI 的 `guides` job 新增 `python3 tools/check_mode_gate.py`。
 - 模式閘契約 v1.1.0：新增 `STC_IN_CHAT_ENTER`（圖鑑「問綠豆」是 CHAT 唯一入口），`SUMMARY` 長按不再能進 CHAT，閒置自動退出維持 60 s，不變量 I1 同步改寫。
+- `firmware/esp32s3/node/`：舵機改用 GPIO 直出 PWM（LEDC 50 Hz，腳位可在 menuconfig 改），刪除 PCA9685 驅動。
+- `firmware/esp32s3/node/`：4 粒 TOF050C（VL6180X）改用 XSHUT 逐支改址 0x30–0x33，刪除 TCA9548A 驅動。
+- `firmware/esp32s3/node/`：S31 ↔ 節點由 USB CDC 改為 **ESP-NOW**（S31 是 host），16 bytes `stc_lidmsg` 幀與 CRC 不變。
 - 模型改為珠光紙材質、158 張卡面（38 印刷 ＋ 120 輔助）、每卡 200 張場景 ＋ 470 張持牌真實相片；未見卡準確率由 0.5465 升到 0.739。
 - `AGENTS.md` 第 2 節：分清「repo 內追蹤的資料」與「只在本機、已 gitignore 的資料」，並要求開工前讀 `data/README.md`。
 - `AGENTS.md` 第 5 節：文件索引由 `docs/INDEX.md` 改為實際存在的 `docs/README.md`。

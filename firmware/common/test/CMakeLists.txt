@@ -18,6 +18,7 @@ set(SRC_FRAME ${COMMON}/stc_frame_replay.c ${COMMON}/stc_frame_esp.c)
 add_library(stc_common STATIC
     ${SRC_VISION_MAP} ${SRC_PREPROCESS} ${SRC_FRAME} ${COMMON}/stc_game.c ${COMMON}/stc_mode.c
     ${COMMON}/stc_lid_loopback.c ${COMMON}/stc_lidmsg.c ${COMMON}/stc_lid_link.c
+    ${COMMON}/stc_lid_link_now.c
     ${STC_ROOT}/app/stc_app.c)
 target_include_directories(stc_common PUBLIC
     "${COMMON}" "${STC_ROOT}/contracts" "${STC_ROOT}/app")
