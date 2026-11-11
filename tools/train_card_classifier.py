@@ -201,9 +201,9 @@ def main() -> int:
             "onnx_int8": int8_path.name if int8_path else None,
         },
         "caveat": (
-            "Validation is split by card identity; all classes come from the same 38 wordless "
-            "artworks. This measures recognition of unseen cards from this set, not real-object "
-            "or field accuracy."
+            "Images are rendered from the card artworks that ship with this model. Unless the "
+            "dataset was split by card identity, validation scenes reuse training cards; either "
+            "way this is not real-object, printed-card or field accuracy."
         ),
     }
     (args.out / "metrics.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

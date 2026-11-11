@@ -2,46 +2,46 @@
   "target": "esp32s31",
   "quant_type": "w8a8",
   "calibration_images": 240,
-  "test_images": 163,
+  "test_images": 4738,
   "input_shape": [
     1,
     3,
     160,
     160
   ],
-  "espdl_path": "/config/work/out-espdl/wordless_s31.espdl",
-  "espdl_bytes": 1812848,
-  "macro_f1": 0.9556050734329422,
+  "espdl_path": "/tmp/stc-quant2/wordless_s31.espdl",
+  "espdl_bytes": 1795232,
+  "macro_f1": 0.9983341640847107,
   "per_class_f1": {
-    "food": 1.0,
-    "hazardous": 0.9508196721311475,
-    "other": 0.9292929292929293,
-    "recyclable": 0.9423076923076923
+    "food": 0.9995423340961098,
+    "hazardous": 0.9986672589960017,
+    "other": 0.996947230702137,
+    "recyclable": 0.9981798325445941
   },
   "confusion_matrix": [
     [
-      31,
-      0,
-      0,
-      0
-    ],
-    [
-      0,
-      29,
-      2,
-      0
-    ],
-    [
-      0,
-      0,
-      46,
-      5
-    ],
-    [
+      1092,
       0,
       1,
+      0
+    ],
+    [
       0,
-      49
+      1124,
+      2,
+      1
+    ],
+    [
+      0,
+      0,
+      1143,
+      2
+    ],
+    [
+      0,
+      0,
+      2,
+      1371
     ]
   ]
 }

@@ -14,7 +14,7 @@
 |---|---|
 | 部署板 | **ESP32-S31**（RISC-V 雙核 @320 MHz、PIE/QACC 128-bit SIMD、512 KB SRAM、DDR PSRAM 250 MHz） |
 | 加速 | ESP-NN v1.3.0 起支援 S31，assembly 自動選用，與 ESP32-P4 共用 kernel |
-| 四個桶 | 桶位 0 可回收、1 廚餘、2 有害、3 其他；S3 直接 GPIO9–12 是舊測試路徑，目標為 S31 → USB CDC → S3 節點，尚未實測 |
+| 四個桶 | 桶位 0 可回收、1 廚餘、2 有害、3 其他。2026-11 硬件改版：S3 節點用 **GPIO 直出 PWM 驅動舵機**（無 PCA9685）、4 × TOF050C（VL6180X）用 **XSHUT 逐支改址 0x30–0x33**（無 TCA9548A）、S31 ↔ 節點走 **ESP-NOW**（S31 是 host）。尚未實測 |
 | 屏幕 | 目標 4.3 吋 800×480 LVGL（S31-Korvo-1）；實屏與觸控待驗證 |
 | 舊資料 | 文件寫 ESP32-S3 的延遲數字屬當時量測，**不可換算成 S31** |
 
@@ -22,17 +22,21 @@
 
 **repo 內追蹤的資料**（`git ls-files data`）：
 
-- `data/field-captures/`：少量實拍
+- `data/field-captures/`：33 張自拍實物相，只作場景背景
 - `data/field-probe/`：獨立測試資料，**不得混入訓練、校準或閾值選擇**
 - `data/README.md`：資料規則與來源
 
-**只存在於本機、被 `.gitignore` 排除**（不入 repo，但仍可用）：
+**訓練資料唯一 source of truth**：`models/wordless-padded/`（158 張卡面 → 珠光紙剪影 sprite → 每張 200 張場景 ＋ 470 張持牌真實相片）。
+由 `tools/build_wordless_padded.py` 重建，38 張印刷卡 hash 逐張對 `docs/cards/300dpi`；真實相片由 `tools/fetch_real_photos.py` 收集並在 `real-photos.csv` 逐張記授權。
+**授權規則：來源或授權唔清楚嘅相片一律唔用。** 詳見 `models/wordless-padded/DATA-LICENSES.md`。
+`data/mixed-card-object/` 與 `models/mixed-card-object/` 已於 2026-11-11 移除，理由見 `data/README.md`。
 
-- `data/waste4_ei_train/`：4 類 × 300（food / hazardous / other / recyclable）
-- `data/waste4_ei_test/`：4 類 × 200
-- `data/garbage265/`：265 類中國垃圾資料集
+**只存在於本機、被 `.gitignore` 排除**（不入 repo）：
 
-訓練資料由 `tools/build_dataset.py` 在本機建立。
+- `data/modelscope_cache/`：下載快取（約 631 MB），可刪。
+- `data/waste4_ei_*`、`data/garbage265`：舊 Edge Impulse／garbage265 路線的資料，2026-11-11 檢查時本機已經冇。
+
+訓練資料由 `tools/build_wordless_padded.py` 在 `models/wordless-padded/` 建立。
 
 **硬規則：任何資料集或模型工作開始前，先 `ls data/`、讀 `data/README.md`，並寫出類別方案與四個桶的對應。** 沒有真實資料就停手報告「blocked，需要 N 張 X 照片」，不要用程序生成的合成圖代替。
 
@@ -40,9 +44,10 @@
 
 ## 3. 模型事實
 
-- CV 路線：YOLO 分類模型及 ESP-DL `.espdl`。現行 YOLO11n-cls S31 int8 產物為 `models/mixed-card-object/mixed_s31.espdl`，同目錄有 `labels.txt` 和 `SHA256SUMS`；尚未在 S31 實機驗證。無額外卡片文字的 `wordless-v1` 候選、ONNX opset 18、`.espdl`／`.info`／`.json`、校驗雜湊與混淆矩陣均已納入 repo，詳見 `models/mixed-card-object/wordless-v1/README.md` 和 `docs/experiments/mixed-card-object/wordless-v1/README.md`；候選未取代現行模型，主機模擬結果只較舊 int8 多 1/292，且個別類別退步。
-- 模型輸出 `food, hazardous, other, recyclable` 對應桶位 `1, 2, 3, 0`；現有 `contracts/model/classes.json` 尚待按 issue #53 對齊。不得把模型 index 當桶位。
-- 舊 Edge Impulse impulse、六類與 S3 數據是歷史記錄，不是現行模型參數。詳見 `docs/issue53/model-handoff.md` 與 `docs/experiments/mixed-card-object/README.md`。
+- CV 路線：YOLO11n-cls 160×160 + ESP-DL `.espdl`。**現行產物是 `models/wordless-padded/`**：`wordless_s31.espdl`（w8a8、`esp32s31`、1,794,896 bytes）、`model-float32.onnx`、`model-int8.onnx`、`labels.txt`、`cards.csv`、`dataset/`、`SHA256SUMS`。訓練只用 38 張印刷白底卡（`docs/cards/300dpi`）。**尚未在 S31 實機驗證**。
+- 已量測：已知卡未見場景 769 張，float32 769/769、int8 768/769（macro-F1 0.9988）。未見卡（10 張 held-out 身份）數字見 `models/wordless-padded/README.md`。未有印刷卡實拍，實物表現未測。
+- 模型輸出 `food, hazardous, other, recyclable` 對應桶位 `1, 2, 3, 0`；`contracts/model/classes.json` 已同序對齊（`class_order_frozen`），`labels.txt` 由 `tools/build_wordless_padded.py` 產生。不得把模型 index 當桶位。
+- 舊 Edge Impulse impulse、六類與 S3 數據是歷史記錄，不是現行模型參數。詳見 `docs/issue53/model-handoff.md`。舊 `mixed-card-object` 模型與資料已於 2026-11-11 移除。
 
 ## 4. 驗收規則
 

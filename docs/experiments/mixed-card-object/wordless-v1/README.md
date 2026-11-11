@@ -2,6 +2,8 @@
 
 讀者：模型開發者、整合者及審查者。何時讀：使用此候選模型或比較結果前。這是開發實驗，**未有 S31 實機或獨立現場驗證**。
 
+> **狀態：已被取代（2026-11-11）。** 本文描述嘅資料集同模型路徑已經刪除；現行模型同唯一資料來源係 [`models/wordless-padded/`](../../../../models/wordless-padded/README.md)。保留本文只作歷史記錄。
+
 ## 資料和模型
 
 本次從現有 `mixed_s31` 對應的 YOLO11n-cls float32 權重繼續訓練。四類：food→廚餘桶 1、hazardous→有害桶 2、other→其他桶 3、recyclable→可回收桶 0。38 張白底卡沒有額外卡片名稱，但物件包裝本身的文字保留；B-11、B-14、B-15 經 AI 修整。來源及 hash 見 [mixed-card-object 新資料版本](../../../../data/mixed-card-object/wordless-v1/README.md)。

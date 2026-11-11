@@ -1,0 +1,46 @@
+{
+  "cards": 158,
+  "printed": 38,
+  "auxiliary": 120,
+  "classes": [
+    "food",
+    "hazardous",
+    "other",
+    "recyclable"
+  ],
+  "card_class_counts": {
+    "food": 37,
+    "hazardous": 37,
+    "other": 38,
+    "recyclable": 46
+  },
+  "real_photos": {
+    "other": 137,
+    "recyclable": 300
+  },
+  "real_repeat": 1,
+  "card_size": [
+    709,
+    709
+  ],
+  "material": "pearl paper (translucent ink, glitter stock, broad sheen) baked into the sprite",
+  "scene_size": 160,
+  "train_per_card": 200,
+  "scene_split": 0.15,
+  "seed": 20261111,
+  "counts": {
+    "train": {
+      "food": 6307,
+      "hazardous": 6273,
+      "other": 6592,
+      "recyclable": 8127
+    },
+    "val": {
+      "food": 1093,
+      "hazardous": 1127,
+      "other": 1145,
+      "recyclable": 1373
+    }
+  },
+  "command": "/Users/wed/Documents/project/GitHub/smart-trash-can/tools/render_wordless_scenes.py --cards models/wordless-padded/cards-padded --manifest models/wordless-padded/cards.csv --out models/wordless-padded/dataset --scene-split 0.15 --train-per-card 200 --extra-train models/wordless-padded/real-photos --extra-repeat 1 --bg-dir models/wordless-padded/real-photos --size 160 --seed 20261111 --manifest-out models/wordless-padded/dataset.csv"
+}
