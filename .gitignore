@@ -31,3 +31,8 @@ desktop.ini
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Derived renders: reproducible from cards/ + real-photos + one command.
+# dataset.csv records every scene's card, seed and SHA-256.
+/models/wordless-padded/cards-padded/
+/models/wordless-padded/dataset/

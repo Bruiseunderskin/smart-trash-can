@@ -5,6 +5,7 @@ ESP32-S3 獨立 ESP-IDF 測試專案。每個子目錄都有自己的 CMakeLists
 
 ## 子目錄
 
+- [node](node/README.md) — 四蓋節點（ESP-NOW 命令、GPIO LEDC 舵機、4 × VL6180X）
 - [ei_latency_probe](ei_latency_probe/README.md)
 - [pca9685_servo_test](pca9685_servo_test/README.md)
 - [tflite_probe](tflite_probe/README.md)

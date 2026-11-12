@@ -18,7 +18,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageDraw, ImageStat
+import numpy as np
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageStat
 
 FRAME_COLOUR = (63, 127, 79, 255)
 OUTER_MARGIN = 0.025
@@ -113,6 +114,74 @@ def build(src: Path, out_size: int, motif_ratio: float) -> Image.Image:
     )
     canvas.paste(motif, (x, y), motif_mask)
     return canvas
+
+
+def cutout(src: Path, threshold: int = 250) -> Image.Image:
+    """Cut the printed card out of its white page, keeping the printed layout.
+
+    The print art is edge to edge with a thin rounded border, so the card
+    silhouette is the filled region enclosed by the per-row and per-column
+    extents of the non-white pixels. Nothing is cropped, rescaled or re-framed:
+    the sprite is what the printer produces.
+    """
+    img = Image.open(src).convert("RGB")
+    dark = np.asarray(img.convert("L")) < threshold
+    height, width = dark.shape
+    first = np.where(dark.any(axis=1), dark.argmax(axis=1), width)
+    last = np.where(dark.any(axis=1), width - 1 - dark[:, ::-1].argmax(axis=1), -1)
+    first_col = np.where(dark.any(axis=0), dark.argmax(axis=0), height)
+    last_col = np.where(dark.any(axis=0), height - 1 - dark[::-1].argmax(axis=0), -1)
+    ys, xs = np.mgrid[0:height, 0:width]
+    mask = (xs >= first[:, None]) & (xs <= last[:, None]) & (ys >= first_col[None, :]) & (ys <= last_col[None, :])
+    sprite = img.convert("RGBA")
+    sprite.putalpha(Image.fromarray((mask * 255).astype(np.uint8)))
+    return sprite
+
+
+PAPER_PEARL = (247, 245, 238)
+
+
+def rounded_mask(size: tuple[int, int], radius: int) -> Image.Image:
+    mask = Image.new("L", size, 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, size[0] - 1, size[1] - 1), radius=radius, fill=255)
+    return mask
+
+
+def pearl_paper(img: Image.Image, seed: int, radius: int = 44, strength: float = 1.0) -> Image.Image:
+    """Put the printed face on pearl stock, the way the laser-cut cards look.
+
+    The stock is off-white with a fine glitter, the ink sits translucent so the
+    paper shows through, and a broad sheen crosses the sheet. The effect is
+    baked into the sprite because it belongs to the physical card, not the scene.
+    """
+    rng = np.random.default_rng(seed)
+    rgb = np.asarray(img.convert("RGB"), dtype=np.float32)
+    height, width = rgb.shape[:2]
+
+    out = rgb * 0.78 + np.array(PAPER_PEARL, dtype=np.float32) * 0.22
+    grey = out.mean(axis=2, keepdims=True)
+    out = grey + (out - grey) * 0.86          # translucent ink: less saturated
+    out = grey * 0.10 + out * 0.90            # keep some contrast
+
+    yy, xx = np.mgrid[0:height, 0:width].astype(np.float32)
+    angle = rng.uniform(0, np.pi)
+    wave = np.sin(
+        rng.uniform(1.1, 2.3) * 2 * np.pi * (np.cos(angle) * xx + np.sin(angle) * yy) / width
+        + rng.uniform(0, 2 * np.pi)
+    )
+    out = out + wave[:, :, None] * (6.5 * strength)
+
+    specks = rng.random((height, width)) < 0.020
+    glitter = np.zeros((height, width), dtype=np.float32)
+    glitter[specks] = rng.uniform(20, 58, int(specks.sum()))
+    glitter = np.asarray(
+        Image.fromarray(glitter.astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.6)),
+        dtype=np.float32,
+    )
+    out = out + glitter[:, :, None] + rng.normal(0, 3.0, (height, width, 1))
+
+    alpha = np.minimum(np.asarray(img.getchannel("A")), np.asarray(rounded_mask((width, height), radius)))
+    return Image.fromarray(np.dstack([np.clip(out, 0, 255).astype(np.uint8), alpha]), "RGBA")
 
 
 def main() -> int:

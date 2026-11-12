@@ -17,7 +17,7 @@
 
 ## 來源
 
-素材自 PR #41 分支（`codex/issue25-voice-chat`，commit `02d7f81`）抽出，原位置在該分支的 S31 板目錄 `assets/`。抽取決定見 [docs/issue25](../../../docs/issue25/README.md)：只保留語音素材與產生工具，該分支的狀態機與自製畫面不採用。
+素材自 PR #41 分支（`codex/issue25-voice-chat`，commit `02d7f81`）抽出，原位置在該分支的 S31 板目錄 `assets/`。抽取決定見 [docs/issue25](../../../docs/issue/issue25/README.md)：只保留語音素材與產生工具，該分支的狀態機與自製畫面不採用。
 
 音色與錄音來源未在該分支記錄；重新產生時要自己指定 voice（見下）。以下 hash 供辨識是否被改過：
 
@@ -52,4 +52,4 @@ python3 tools/generate_stc_voice_assets.py \
 ## 限制
 
 - 這六句是「整句預錄」，不是任意組合。`contracts/stc_voice.h` 的 `stc_voice_say()` 按 `stc_line_t` 取值；要做句子拼接（14 段組合）屬 issue #25 的 M3，尚未實作。
-- 未在 S31 實機驗證過播放（素材來自分支建置，見 [docs/issue25](../../../docs/issue25/README.md)）。
+- 未在 S31 實機驗證過播放（素材來自分支建置，見 [docs/issue25](../../../docs/issue/issue25/README.md)）。

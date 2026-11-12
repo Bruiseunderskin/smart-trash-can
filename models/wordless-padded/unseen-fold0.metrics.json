@@ -1,0 +1,123 @@
+{
+  "model": "yolo11n-cls",
+  "weights": "yolo11n-cls.pt",
+  "input": "160x160 RGB",
+  "classes": [
+    "food",
+    "hazardous",
+    "other",
+    "recyclable"
+  ],
+  "epochs": 10,
+  "device": "cpu",
+  "seeds": [
+    20261112
+  ],
+  "ensemble_size": 1,
+  "val_accuracy": 0.739,
+  "val_macro_f1": 0.7378,
+  "val_top1": 0.739,
+  "confusion_matrix": [
+    [
+      252,
+      14,
+      18,
+      36
+    ],
+    [
+      40,
+      238,
+      18,
+      24
+    ],
+    [
+      56,
+      34,
+      211,
+      19
+    ],
+    [
+      24,
+      72,
+      0,
+      304
+    ]
+  ],
+  "temperature": 3.55,
+  "ece_raw": 0.1942,
+  "ece_calibrated": 0.0404,
+  "history": [
+    {
+      "epoch": "1",
+      "time": "248.263",
+      "train/loss": "0.31824",
+      "metrics/accuracy_top1": "0.70809",
+      "metrics/accuracy_top5": "1",
+      "val/loss": "1.12468",
+      "lr/pg0": "3.32489e-05",
+      "lr/pg1": "3.32489e-05",
+      "lr/pg2": "0.0667843"
+    },
+    {
+      "epoch": "2",
+      "time": "472.137",
+      "train/loss": "0.09886",
+      "metrics/accuracy_top1": "0.70662",
+      "metrics/accuracy_top5": "1",
+      "val/loss": "1.47231",
+      "lr/pg0": "5.99906e-05",
+      "lr/pg1": "5.99906e-05",
+      "lr/pg2": "0.0334777"
+    },
+    {
+      "epoch": "3",
+      "time": "694.876",
+      "train/loss": "0.05315",
+      "metrics/accuracy_top1": "0.73897",
+      "metrics/accuracy_top5": "1",
+      "val/loss": "1.484",
+      "lr/pg0": "8.01323e-05",
+      "lr/pg1": "8.01323e-05",
+      "lr/pg2": "0.000164521"
+    },
+    {
+      "epoch": "4",
+      "time": "1010.37",
+      "train/loss": "0.03626",
+      "metrics/accuracy_top1": "0.71029",
+      "metrics/accuracy_top5": "1",
+      "val/loss": "1.63351",
+      "lr/pg0": "7.03e-05",
+      "lr/pg1": "7.03e-05",
+      "lr/pg2": "7.03e-05"
+    },
+    {
+      "epoch": "5",
+      "time": "1396.93",
+      "train/loss": "0.02711",
+      "metrics/accuracy_top1": "0.71176",
+      "metrics/accuracy_top5": "1",
+      "val/loss": "1.70903",
+      "lr/pg0": "6.04e-05",
+      "lr/pg1": "6.04e-05",
+      "lr/pg2": "6.04e-05"
+    },
+    {
+      "epoch": "6",
+      "time": "1699.62",
+      "train/loss": "0.02206",
+      "metrics/accuracy_top1": "0.71544",
+      "metrics/accuracy_top5": "1",
+      "val/loss": "1.60372",
+      "lr/pg0": "5.05e-05",
+      "lr/pg1": "5.05e-05",
+      "lr/pg2": "5.05e-05"
+    }
+  ],
+  "artifacts": {
+    "best_pt": "model.pt",
+    "onnx_float32": "model-float32.onnx",
+    "onnx_int8": "model-int8.onnx"
+  },
+  "caveat": "Images are rendered from the card artworks that ship with this model. Unless the dataset was split by card identity, validation scenes reuse training cards; either way this is not real-object, printed-card or field accuracy."
+}

@@ -21,7 +21,7 @@
 
 ## 與 YOLO 共用去重測試集的 int8 host 評估
 
-使用匯出的 v1 `.tflite`（SHA-256 `a213846fc867f8e2e4a1a032ac79bea858cfc75668dcd02f6e8c55af2b26dd94`），在與 YOLO 相同的 980 張 test manifest 上以 LiteRT 2.3.0 執行。980 張影像 SHA-256 全部與 manifest 相符；與本地 1,198 張 EI 訓練影像的完全相同 hash 數為 0。manifest 與逐類混淆矩陣見 [`shared-dedup-test.json`](../ei-baseline/shared-dedup-test.json)。
+使用匯出的 v1 `.tflite`（SHA-256 `a213846fc867f8e2e4a1a032ac79bea858cfc75668dcd02f6e8c55af2b26dd94`），在與 YOLO 相同的 980 張 test manifest 上以 LiteRT 2.3.0 執行。980 張影像 SHA-256 全部與 manifest 相符；與本地 1,198 張 EI 訓練影像的完全相同 hash 數為 0。manifest 與逐類混淆矩陣見 [`shared-dedup-test.json`](../../ei-baseline/shared-dedup-test.json)。
 
 | 指標 | EI int8 TFLite host 結果 |
 |---|---:|
@@ -32,7 +32,7 @@
 | Other F1 | 0.722581 |
 | Recyclable F1 | 0.781377 |
 
-輸入按 EI `FIT_SHORTEST` 中央裁切及 RGB 固定點 bilinear resize，再依模型 scale/zero-point 量化；18 張原圖須上採樣，host evaluator 對超出影像範圍的鄰點使用 edge clamp。這是明確記錄的 deterministic host 邊界規則，不是 EI SDK 對小圖的逐位重現。這組分數是在主機 LiteRT 上測準確率，不能當作 S3/S31 延遲或相機實拍結果。與 YOLO 的 shared-set macro-F1 對照見 [`../model-comparison.md`](../model-comparison.md)。近重複及訓練/驗證選模洩漏仍未排除。
+輸入按 EI `FIT_SHORTEST` 中央裁切及 RGB 固定點 bilinear resize，再依模型 scale/zero-point 量化；18 張原圖須上採樣，host evaluator 對超出影像範圍的鄰點使用 edge clamp。這是明確記錄的 deterministic host 邊界規則，不是 EI SDK 對小圖的逐位重現。這組分數是在主機 LiteRT 上測準確率，不能當作 S3/S31 延遲或相機實拍結果。與 YOLO 的 shared-set macro-F1 對照見 [`../model-comparison.md`](../../planning/model-comparison.md)。近重複及訓練/驗證選模洩漏仍未排除。
 
 ## C++ library 匯出與推理引擎
 

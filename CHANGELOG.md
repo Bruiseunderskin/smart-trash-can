@@ -10,10 +10,12 @@
 
 ### Added
 
+- `models/wordless-padded/`：158 張卡面（38 印刷 ＋ 120 輔助）、珠光紙 sprite、每張 200 張場景、470 張持牌真實相片與 SHA-256 清單，成為訓練資料唯一來源。
+- `firmware/esp32s3/node/`：S3 節點專案。2026-11 硬件改版後為 GPIO 直出舵機 PWM、4 × TOF050C（VL6180X）用 XSHUT 改址、S31 ↔ 節點走 ESP-NOW。
+- 加入 300 DPI 試印卡（`docs/cards/300dpi`）：Set A／Set B 正面與共用卡背，卡面與 `cards/` 逐張相同。
 - `app/stc_app.c`：`stc_snapshot_t` → `stc_ui_payload_t` 映射，`test_app_wiring` 驗 4 個狀態與非法 phase。
 - `firmware/esp32s31/bringup/main/t2_camera.c`：esp-video／V4L2 實作（UYVY 640×480、30 幀、fps、`RESULT T2` 行），缺 `esp_video_init.h` 時回 `code=2`。
-- `firmware/common/stc_lid_link.c/.h`：CDC 協定（300 ms ACK 重試 2 次、500 ms 離線判定），附 `test_lid_retry`、`test_node_offline`。
-- `firmware/esp32s3/node/`：S3 節點專案（PCA9685 `0x40`、TCA9548A `0x70`、TOF050C、USB Serial/JTAG CDC），`sdkconfig.defaults` 關 Wi-Fi 與藍牙。
+- `firmware/common/stc_lid_link.c/.h`：傳輸無關的鏈路協定（300 ms ACK 重試 2 次、500 ms 離線判定），傳輸由呼叫者注入；ESP-NOW 實作在 `stc_lid_link_now.c`，附 `test_lid_retry`、`test_node_offline`。
 - `docs/integration-runtime.md`：啟動次序、失敗碼對照、CDC 鏈路、電源預算（設計值，標明未測）。
 - CI：`firmware.yml` 新增 **Host C tests** job（cmake ＋ ctest），並把 `stc_node` 加入 esp32s3 編譯矩陣。
 - `firmware/common/stc_vision_map.c/.h`：模型 index → 桶位固定表 `{1,2,3,0}`，啟動時逐行核對 `labels.txt`，不符回 `STC_ERR_CONTRACT`。
@@ -28,13 +30,6 @@
 - 契約 `classes.json` 升 **v2.0.0**：類別次序改為模型次序 `food, hazardous, other, recyclable`，`key` 由 `hazard` 改 `hazardous`，加 `class_order_frozen`；桶位 0–3 不變（依決定 D2）。
 - 新增 `firmware/common/` 與 `firmware/common/test/`：CMake ＋ ctest，`test_contract_ui`（列舉次序／payload 佈局）與 `test_classes_order`（`classes.json` 對 `models/wordless-padded/labels.txt`）。
 - 新增 `tools/tests/test_contract_ui.py`：契約與 `ui/lvgl/include/stc_ui.h` 逐名同序比對。
-- `docs/plan-v3-tof050c.md` §1：改址方案由 SHDN 改為 **TCA9548A（0x70）**，四粒 TOF 固定 0x29（依決定 D6）。
-- 新增 S31 量化模型 `models/wordless-padded/wordless_s31.espdl`（w8a8、esp32s31、1,812,848 bytes），測試 155/163、macro-F1 0.9556。
-- 未見卡 5 折交叉驗證：158 張卡面下平均 top-1 0.8251（標準差 0.0632）；新 int8 模型覆蓋同一路徑 `models/wordless-padded/model-int8.onnx`。
-- 加入 300 DPI A4 試印稿（`docs/print-300dpi/`）：Set A／Set B 正面與共用卡背，卡面與 `cards/` 逐張相同。
-- 加框無字卡 int8 模型（`models/wordless-padded/`）及 yolo11n-cls 訓練記錄；場景切分 682 張全對，未見卡 0.558。
-- 加框無字卡面：`data/mixed-card-object/wordless-v1/cards-padded/`（38 張，709×709）。移除舊卡底部名稱橫幅、圖案放大至內框 78%，外圍保留綠色圓角框與白邊；由 `tools/rebuild_wordless_cards.py` 產生。
-- 新增無額外卡片文字的 38 張卡面、合成變體及 YOLO／ESP-DL 候選模型，並提供逐圖結果與混淆矩陣。
 
 - 加入混合卡片及實物模型可尋回的訓練、驗證資料與來源清單，並標明缺失和授權限制。
 
@@ -56,6 +51,13 @@
 - `CHANGELOG.md`：本檔案，由今次開始作為所有改動的單一記錄。
 - `AGENTS.md` 第 7 節：工作分支可直接 commit，但每個 commit 必須附 changelog 條目；合併到 `main` 仍須 PR ＋ CI 綠燈。
 - `AGENTS.md` 第 8 節：skills 清單與漸進式披露的規則。
+- `models/wordless-padded/`：158 張卡面（38 印刷 ＋ 120 輔助）、珠光紙 sprite、每張 200 張場景、470 張持牌真實相片與 SHA-256 清單，成為訓練資料唯一來源；由 `tools/build_wordless_padded.py` 重建。
+- `tools/build_wordless_padded.py`：由 `docs/cards/300dpi`、`cards/` 同 `real-photos/` 組出資料集，卡面 hash 逐張核對。
+- `tools/fetch_real_photos.py`：收集持牌真實相片（`data/field-captures` 自有 ＋ TrashNet MIT），逐張寫入 `real-photos.csv`。
+- `models/wordless-padded/DATA-LICENSES.md`：卡面同真實相片的來源、授權，以及明確停用的資料。
+- `tools/rebuild_wordless_cards.py`：新增 `cutout()` 同 `pearl_paper()`——把印刷卡由白紙底裁出，再上珠光紙效果。
+- `tools/render_wordless_scenes.py`：新增 `--manifest-out`，逐張場景輸出 card_id、seed 同 SHA-256。
+- `docs/ui/figma-vs-lvgl.md`：九個狀態的 Figma／design JSON 與實際 800×480 LVGL framebuffer 逐屏對照、差異排名、未能比對項目。
 
 ### Changed
 
@@ -65,9 +67,29 @@
 
 - Documentation CI 的 `guides` job 新增 `python3 tools/check_mode_gate.py`。
 - 模式閘契約 v1.1.0：新增 `STC_IN_CHAT_ENTER`（圖鑑「問綠豆」是 CHAT 唯一入口），`SUMMARY` 長按不再能進 CHAT，閒置自動退出維持 60 s，不變量 I1 同步改寫。
+- `firmware/esp32s3/node/`：舵機改用 GPIO 直出 PWM（LEDC 50 Hz，腳位可在 menuconfig 改），刪除 PCA9685 驅動。
+- `firmware/esp32s3/node/`：4 粒 TOF050C（VL6180X）改用 XSHUT 逐支改址 0x30–0x33，刪除 TCA9548A 驅動。
+- `firmware/esp32s3/node/`：S31 ↔ 節點由 USB CDC 改為 **ESP-NOW**（S31 是 host），16 bytes `stc_lidmsg` 幀與 CRC 不變。
+- 模型改為珠光紙材質、158 張卡面（38 印刷 ＋ 120 輔助）、每卡 200 張場景 ＋ 470 張持牌真實相片；未見卡準確率由 0.5465 升到 0.739。
 - `AGENTS.md` 第 2 節：分清「repo 內追蹤的資料」與「只在本機、已 gitignore 的資料」，並要求開工前讀 `data/README.md`。
 - `AGENTS.md` 第 5 節：文件索引由 `docs/INDEX.md` 改為實際存在的 `docs/README.md`。
+- 卡片 sprite 改為印刷版面剪影，不再加綠色外框或把圖案放大到內框 78%（舊 `cards-padded` 同印刷卡對不上）。
+- 場景背景改用 `data/field-captures` 自拍相，不再用帶水印的商品圖。
+- `render_wordless_scenes.py`：`--scene-split` 現在同 `--balance-*-per-class` 一齊生效（之前 scene-split 會靜默忽略班級平衡）。
+- 資料集改為每張卡 200 張場景（158 張卡）、再加入 470 張持牌真實相片；場景目錄 `models/wordless-padded/dataset/` 唔再入 git，`dataset.csv` 保留逐張 seed 同 hash。
+- Set C 120 張輔助卡面還原：佢係為未見卡泛化而設，之前同無授權商品圖一齊移除係判斷錯誤；`cards.csv` 用 `kind` 分開 `printed` 同 `auxiliary`。
+- `tools/check_docs.py`：衍生資產目錄（`models/wordless-padded/{cards,cards-padded,real-photos,dataset}`）唔再要求 README.md，圖文由上一層說明。
+- 重新訓練並量化 `models/wordless-padded/wordless_s31.espdl`；`AGENTS.md` 第 2、3 節同步改成新路徑同新數字。
+
+### Removed
+
+- `data/mixed-card-object/`：舊 8,360 張細卡場景、396 張商品圖、158 張卡面清單同 inventory／calibration CSV。
+- `models/mixed-card-object/`：舊混合模型與舊無字候選（`mixed_s31.espdl` 等）。
 
 ### Fixed
+
+- 新增 `docs/README.md`（文件入口）同 `docs/issue/README.md`，改寫 `docs/planning/README.md` 為 planning 專用索引；
+  修好 76 條斷鏈並把指向已刪除資料集的連結改為文字說明。`python3 tools/check_docs.py` 由 81 errors 變成 0。
+- `tools/check_mode_gate.py` 改讀 `docs/planning/mode-gate.md`（文件曾移到 planning，檢查器未跟）。
 
 - `AGENTS.md` 原本聲稱 `data/waste4_ei_train`、`data/waste4_ei_test`、`data/garbage265` 在 repo 內，實際上三者被 `.gitignore` 排除，clone 下來的人不會見到。

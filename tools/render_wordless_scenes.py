@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import random
 import shutil
 from pathlib import Path
@@ -46,6 +47,8 @@ def main() -> int:
                         help="when >0, render every card and split its scenes by this fraction instead of the manifest split")
     parser.add_argument("--size", type=int, default=160)
     parser.add_argument("--seed", type=int, default=20261109)
+    parser.add_argument("--manifest-out", type=Path, default=None,
+                        help="write one CSV row per rendered scene: path, split, class, card_id, seed, sha256")
     args = parser.parse_args()
 
     with args.manifest.open() as f:
@@ -58,13 +61,17 @@ def main() -> int:
             raise SystemExit(f"no background images under {args.bg_dir}")
 
     counts = {"train": 0, "val": 0}
+    manifest_rows: list[dict[str, str]] = []
 
     # the split is decided up front: fold mode, scene split, or the manifest column
     for row in rows:
         if args.fold >= 0:
             row["_split"] = "val" if int(row.get("fold") or 0) == args.fold else "train"
+        elif args.scene_split > 0:
+            # every card feeds the budget; the split is drawn per rendered scene
+            row["_split"] = "train"
         else:
-            row["_split"] = row["split"]
+            row["_split"] = row.get("split", "train")
 
     # class-balanced budget: cards per (class, split) decide how many scenes each card gets
     class_budget = {}
@@ -91,7 +98,7 @@ def main() -> int:
             continue
         card = Image.open(card_path).convert("RGBA")
         scene_split = args.scene_split
-        per_card = args.train_per_card if scene_split > 0 else scenes_for(row)
+        per_card = scenes_for(row)
         (args.out / "train" / row["class"]).mkdir(parents=True, exist_ok=True)
         (args.out / "val" / row["class"]).mkdir(parents=True, exist_ok=True)
         for i in range(per_card):
@@ -101,7 +108,17 @@ def main() -> int:
                 split = "val" if rng.random() < scene_split else "train"
             else:
                 split = row["_split"]
-            scene.save(args.out / split / row["class"] / f"{stem}_{i:03d}.jpg", quality=rng.randint(82, 94))
+            quality = rng.randint(82, 94)
+            scene.save(args.out / split / row["class"] / f"{stem}_{i:03d}.jpg", quality=quality)
+            manifest_rows.append({
+                "path": f"{split}/{row['class']}/{stem}_{i:03d}.jpg",
+                "split": split,
+                "kind": "render",
+                "class": row["class"],
+                "card_id": row["card_id"],
+                "seed": f"{args.seed}:{row['card_id']}:{i}",
+                "sha256": hashlib.sha256((args.out / split / row["class"] / f"{stem}_{i:03d}.jpg").read_bytes()).hexdigest(),
+            })
             counts[split] += 1
 
     if args.extra_train:
@@ -115,11 +132,29 @@ def main() -> int:
                 if path.suffix.lower() not in (".jpg", ".jpeg", ".png"):
                     continue
                 for rep in range(max(1, args.extra_repeat)):
-                    shutil.copy2(path, dest / f"physical_{path.stem}_{rep}{path.suffix.lower()}")
+                    copy = dest / f"physical_{path.stem}_{rep}{path.suffix.lower()}"
+                    shutil.copy2(path, copy)
+                    manifest_rows.append({
+                        "path": f"train/{label}/{copy.name}",
+                        "split": "train",
+                        "kind": "real",
+                        "class": label,
+                        "card_id": "",
+                        "seed": "",
+                        "sha256": hashlib.sha256(copy.read_bytes()).hexdigest(),
+                    })
                     counts["train"] += 1
 
     if missing:
         raise SystemExit(f"missing card art for: {sorted(set(missing))}")
+    if args.manifest_out:
+        args.manifest_out.parent.mkdir(parents=True, exist_ok=True)
+        with args.manifest_out.open("w", newline="") as handle:
+            writer = csv.DictWriter(
+                handle, fieldnames=["path", "split", "kind", "class", "card_id", "seed", "sha256"]
+            )
+            writer.writeheader()
+            writer.writerows(sorted(manifest_rows, key=lambda item: item["path"]))
     print(f"rendered {counts} scenes into {args.out}")
     return 0
 

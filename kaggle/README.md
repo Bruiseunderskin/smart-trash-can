@@ -2,6 +2,8 @@
 
 讀者：要在 Kaggle GPU 上重跑加框無字卡訓練的人。何時讀：重跑或改動訓練設定時。
 
+> **狀態：已被取代（2026-11-11）。** 本文描述嘅資料集同模型路徑已經刪除；現行模型同唯一資料來源係 [`models/wordless-padded/`](../models/wordless-padded/README.md)。保留本文只作歷史記錄。
+
 - `train_wordless_padded.py`：kernel 進入點。clone `feat/wordless-padded`，用 repo 內的 renderer 產生場景，再訓 YOLO11n-cls。
 - `kernel-metadata.json`：kernel slug `wedsamuel1230/stc-wordless-padded-cards`，GPU、私人。
 

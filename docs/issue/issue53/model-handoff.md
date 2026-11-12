@@ -4,15 +4,24 @@
 
 ## 已提供產物
 
-使用者決定後續電腦視覺採 YOLO 與 `.espdl` 路線。現有模型為 YOLO11n-cls 混合卡片與物件實驗、S31 目標 w8a8 int8：[模型檔](../../models/mixed-card-object/mixed_s31.espdl)、[標籤](../../models/mixed-card-object/labels.txt)、[hash 記錄](../../models/mixed-card-object/SHA256SUMS)。這是已提供的目標產物，不要求重訓或另交 `.tflite` 才能開始整合。
+使用者決定後續電腦視覺採 YOLO 與 `.espdl` 路線。**2026-11-11 起現行模型係**
+[`models/wordless-padded/`](../../../models/wordless-padded/README.md)：YOLO11n-cls 160×160、S31 目標 w8a8 int8，
+[模型檔](../../../models/wordless-padded/wordless_s31.espdl)、[標籤](../../../models/wordless-padded/labels.txt)、
+[hash 記錄](../../../models/wordless-padded/SHA256SUMS)。同目錄亦係訓練資料唯一來源（38 張印刷白底卡）。
 
-無額外卡片文字候選與比較資料已收錄於 [wordless-v1 模型](../../models/mixed-card-object/wordless-v1/README.md) 及 [逐圖結果與混淆矩陣](../experiments/mixed-card-object/wordless-v1/README.md)。其可追溯流程為 Train (YOLO) → ONNX (opset 18) → `espdl_quantize_onnx()` → `.espdl`、`.info`、`.json` → S31 部署；候選仍未取代現行模型，且尚未在 S31 實機驗證。
+可追溯流程：Train (YOLO) → ONNX (opset 17) → `espdl_quantize_onnx()` → `.espdl`、`.json` → S31 部署。
+**尚未在 S31 實機驗證。**
 
-模型 SHA-256：`2edd8594b3ca4c3fbb1e4a471162f6768957e55fbac02482a596019ef3978557`；使用前以 `shasum -a 256 models/mixed-card-object/mixed_s31.espdl` 自行核對。標籤順序 food、hazardous、other、recyclable 對應桶位 1、2、3、0。輸入與前處理以 `contracts/model/preprocess.json` 和具體實測為準；舊 EI 六類模型數值不可套用至此模型。
+模型 SHA-256 見 `models/wordless-padded/SHA256SUMS`；使用前以 `shasum -a 256 models/wordless-padded/wordless_s31.espdl`
+自行核對。標籤順序 food、hazardous、other、recyclable 對應桶位 1、2、3、0。輸入與前處理以
+`contracts/model/preprocess.json` 和具體實測為準；舊 EI 六類模型數值不可套用至此模型。
+
+舊 `models/mixed-card-object/`（`mixed_s31.espdl`、`wordless-v1`）已刪除，只留 git 歷史；
+其歷史評估見[舊實驗記錄](../../experiments/mixed-card-object/README.md)。
 
 ## 已有評估與限制
 
-[實驗記錄](../experiments/mixed-card-object/README.md) 指明此前 ESP-PPQ CPU 執行量化 graph 的 host 評估；`tools/quantize_espdl.py` 的 `TorchExecutor(graph=graph)` 使用量化過程返回的 graph。這不單憑證明該工具可直接載入現有 `.espdl` 重播。原始訓練來源並非全部隨 repo 提供；需查明可重現後端、版本及模型／輸入 parity，不能靜默用另一個模型替代。
+[實驗記錄](../../experiments/mixed-card-object/README.md) 指明此前 ESP-PPQ CPU 執行量化 graph 的 host 評估；`tools/quantize_espdl.py` 的 `TorchExecutor(graph=graph)` 使用量化過程返回的 graph。這不單憑證明該工具可直接載入現有 `.espdl` 重播。原始訓練來源並非全部隨 repo 提供；需查明可重現後端、版本及模型／輸入 parity，不能靜默用另一個模型替代。
 
 此 `.espdl` 未經 S31 實機推論、端到端及延遲驗證。資料來源同域、未知物件拒判和素材權利仍有實驗記錄所述限制；不能據主機結果保證物件正確分類或安全開蓋。field-probe 不用於訓練、校準、閾值或選模，亦不應聲稱為完全獨立來源域。
 

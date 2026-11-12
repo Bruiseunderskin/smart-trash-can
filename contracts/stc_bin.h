@@ -1,8 +1,9 @@
 /* stc_bin.h — 手部：舵機／ToF／ESP-NOW（contract v1.2.0）
  *
- * 感測器實作：4 × TOF050C（VL6180X）經 TCA9548A（0x70）分 CH0–CH3，
- * 四粒全部停留在預設地址 0x29；切 channel 即選中對應桶。
- * 通道 i 對應 stc_bin_t = i（0 可回收物 … 3 其他垃圾）。
+ * 2026-11 硬件：四支舵機各自一條 GPIO 直出 LEDC PWM；4 × TOF050C（VL6180X）
+ * 共用同一條 I²C 匯流排（SDA 8 / SCL 9），開機時逐支拉高 XSHUT 放行，寫暫存器
+ * 0x212 把四粒由預設 0x29 改址成 0x30–0x33；S31 與節點之間走 ESP-NOW。
+ * 地址 0x30 + i 對應 stc_bin_t = i（0 可回收物 … 3 其他垃圾）。
  *
  * 本模組不得改分數；失敗時回錯誤並由 stc_game 決定如何處理。
  */
@@ -13,7 +14,7 @@
 extern "C" {
 #endif
 
-stc_err_t stc_bin_init(void);          /* mux 初始化、四粒 init、載入 NVS 校正值 */
+stc_err_t stc_bin_init(void);          /* I²C 匯流排與四粒 init、載入 NVS 校正值 */
 stc_err_t stc_bin_selftest(void);      /* 四粒各讀一次，回第一個失敗碼；全通回 STC_OK */
 uint8_t   stc_bin_fault_mask(void);    /* bit i = 1 → bin i 故障（位元對應 stc_bin_t） */
 

@@ -7,6 +7,17 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 
+# Generated asset trees: images only, no prose of their own. The parent guide
+# (models/wordless-padded/README.md, data/README.md) documents them.
+ASSET_TREES = (
+    Path('models/wordless-padded/cards'),
+    Path('models/wordless-padded/cards-padded'),
+    Path('models/wordless-padded/real-photos'),
+    Path('models/wordless-padded/dataset'),
+    Path('docs/cards'),
+    Path('docs/Yolo-model'),
+)
+
 
 def check(root):
     tracked = subprocess.check_output(
@@ -21,6 +32,8 @@ def check(root):
                            if not p.is_relative_to(Path('firmware/xiaozhi-esp32')) or p.is_relative_to(board_prefix))
     errors = []
     for directory in sorted(directories):
+        if any(directory.is_relative_to(tree) for tree in ASSET_TREES):
+            continue
         guide = root / directory / 'README.md'
         if not guide.is_file() or directory / 'README.md' not in paths:
             errors.append(f'{directory}: missing README.md')

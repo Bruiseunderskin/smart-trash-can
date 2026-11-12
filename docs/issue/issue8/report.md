@@ -9,7 +9,7 @@
 - ultralytics 8.4.197、torch 2.15.0
 - torchvision 0.29.2、onnx 1.19.1、onnxruntime 1.31.1、esp-ppq 1.3.14
 - macOS Apple Silicon（訓練用 MPS）
-- 完整 pip 版本鎖：[`../tools/requirements-train-macos-arm64.lock.txt`](../../tools/requirements-train-macos-arm64.lock.txt)（macOS arm64 / Python 3.11 專用）
+- 完整 pip 版本鎖：[`../tools/requirements-train-macos-arm64.lock.txt`](../../../tools/requirements-train-macos-arm64.lock.txt)（macOS arm64 / Python 3.11 專用）
 
 ## Step 2 — 訓練
 
@@ -147,9 +147,9 @@ ESP-PPQ TorchExecutor host simulation 的逐類 F1：其他 0.7967、可回收�
 
 ## 與 Edge Impulse 共用測試集比較
 
-在同一份 980 張 SHA-256 去重 test manifest 上，EI MobileNetV2 0.5 int8 TFLite 以 LiteRT 2.3.0 host 評估的 macro-F1 為 **0.805371**（accuracy 0.807143）；本模型 PyTorch/ONNX macro-F1 為 **0.862707**，ESP-PPQ 模擬為 **0.858549**。同圖 EI 與 YOLO ONNX 的 macro-F1 差為 5.73 個百分點，量化 ESP-PPQ YOLO 與 EI 差為 5.32 個百分點。EI 完整結果及 confusion matrix 見 [`../ei-baseline/shared-dedup-test.json`](../ei-baseline/shared-dedup-test.json)。
+在同一份 980 張 SHA-256 去重 test manifest 上，EI MobileNetV2 0.5 int8 TFLite 以 LiteRT 2.3.0 host 評估的 macro-F1 為 **0.805371**（accuracy 0.807143）；本模型 PyTorch/ONNX macro-F1 為 **0.862707**，ESP-PPQ 模擬為 **0.858549**。同圖 EI 與 YOLO ONNX 的 macro-F1 差為 5.73 個百分點，量化 ESP-PPQ YOLO 與 EI 差為 5.32 個百分點。EI 完整結果及 confusion matrix 見 [`../ei-baseline/shared-dedup-test.json`](../../ei-baseline/shared-dedup-test.json)。
 
-因此同一測試集的準確率證據目前偏向 YOLO11n-cls，適合作為 S31 `.espdl` 實板候選；這不代表 ESP-PPQ 主機模擬已在 S31 達到該精度或速度。EI TFLite 原先只驗證 S3 零輸入 p95 858.635 ms；後續 S3 YOLO 實測見下節。兩者都未以實際相機至開蓋流程驗收 3 秒 p95、4.3 吋畫面、斷網流程或連續 10 次。EI host 前處理有 18 張小圖採邊界 edge clamp，詳細限制及建議見 [`../model-comparison.md`](../model-comparison.md)。
+因此同一測試集的準確率證據目前偏向 YOLO11n-cls，適合作為 S31 `.espdl` 實板候選；這不代表 ESP-PPQ 主機模擬已在 S31 達到該精度或速度。EI TFLite 原先只驗證 S3 零輸入 p95 858.635 ms；後續 S3 YOLO 實測見下節。兩者都未以實際相機至開蓋流程驗收 3 秒 p95、4.3 吋畫面、斷網流程或連續 10 次。EI host 前處理有 18 張小圖採邊界 edge clamp，詳細限制及建議見 [`../model-comparison.md`](../../planning/model-comparison.md)。
 
 ## ESP32-S3 專用量化與板端 smoke test
 
