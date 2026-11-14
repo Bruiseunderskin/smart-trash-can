@@ -1,0 +1,15 @@
+{
+  "class": "unknown",
+  "counts": {
+    "train": 6200,
+    "val": 1093,
+    "holdout": 300
+  },
+  "holdout_dir": "models/wordless-padded/dataset/holdout",
+  "surfaces": "procedural (desk, concrete, wood, bin plastic, fabric, wall, metal, tile); no photo surfaces, because the repo photo pool holds no empty scene",
+  "holdout_disjoint_from": "separate RNG stream and surface parameters; no shared photo files are involved",
+  "transforms": "render_empty(): tilt, shear, 0.35-1.60 brightness (10% dim), colour cast, shadow ramp, 0-2 glare hotspots, blur, motion blur, noise sigma 0-12, JPEG q40-95, 10% covered lens",
+  "dataset": "models/wordless-padded/dataset",
+  "note": "train/val \u6578\u91cf\u8ddf\u5176\u4ed6\u56db\u985e\u7684\u6700\u5c11\u8005\u5c0d\u9f4a\uff1bholdout \u53ea\u91cf false-accept\uff0c\u6c38\u4e0d\u8a13\u7df4\u3002",
+  "reproduce": "python3 tools/render_none_scenes.py --dataset models/wordless-padded/dataset --train 6200 --val 1093 --holdout 300 --size 160"
+}

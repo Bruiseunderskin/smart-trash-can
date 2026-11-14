@@ -14,7 +14,7 @@
 
 ## 鐵律
 
-1. **類別順序凍結**：`0` 可回收物、`1` 廚餘、`2` 有害垃圾、`3` 其他垃圾。UI、ToF 桶位、模型輸出全部用同一順序。
+1. **類別順序凍結**：`0` 可回收物、`1` 廚餘、`2` 有害垃圾、`3` 其他垃圾。UI、ToF 桶位、模型輸出全部用同一順序。模型 `classes.json` 另有一個獨立次序（`food,hazardous,other,recyclable,unknown`），兩者由 `stc_vision_map` 對映，不要混用。
 2. **只有 `stc_game.h` 的實作可以改分數與回合**；其他模組只出事件。
 3. **每個 seam 必須有 stub**，另一邊未完成時仍可跑完整流程。
 4. 改契約要升 `contract_version`，並同時改 `model/preprocess.json` 與韌體檢查；唔可以只改一邊。
@@ -29,3 +29,4 @@
 |---|---|---|
 | 2026-11-05 | v1.0.0 | `stc_mode.h` 初版：六個狀態、`SUMMARY`＋`SET_LONG` 進 CHAT、60 s 閒置退出 |
 | 2026-11-08 | v1.1.0 | 新增 `STC_IN_CHAT_ENTER`：`GAME_IDLE`＋`IN_CHAT_ENTER`（圖鑑「問綠豆」）進 CHAT；`SUMMARY`＋`SET_LONG` 改為拒絕；`IN_CHAT_TIMEOUT` 維持 60 s（經討論後不改）；不變量 I1 改寫為「CHAT 唯一入口＝圖鑑」 |
+| 2026-11-14 | v3.0.0 | 模型契約加第五類 `unknown`（冇卡）：`classes.json` index 4、`bin` 4（＝`STC_BIN_COUNT`，不開桶）、`abstain: true`；`preprocess.json` 輸出 `[1,5]`；`STC_MODEL_CLASSES` 5 |

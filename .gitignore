@@ -14,6 +14,7 @@ compile_commands.json
 /data/waste4_ei_train/
 /data/waste4_ei_test/
 /runs/waste4/
+/runs/unknown-v1/
 /runs/classify/
 /yolo11n-cls.pt
 /tools/__pycache__/

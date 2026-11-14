@@ -14,7 +14,16 @@ import argparse
 import sys
 from pathlib import Path
 
-LABELS = ["food", "hazardous", "other", "recyclable"]
+DEFAULT_LABELS = ["food", "hazardous", "other", "recyclable", "unknown"]
+
+
+def model_labels(model: Path) -> list[str]:
+    """Class order comes from the model directory's labels.txt, not from this file."""
+    path = model.parent / "labels.txt"
+    if not path.is_file():
+        return DEFAULT_LABELS
+    names = [line.strip() for line in path.read_text().splitlines() if line.strip()]
+    return names or DEFAULT_LABELS
 
 
 def load_session(model: Path):
@@ -49,6 +58,7 @@ def main() -> int:
         return 2
     session = load_session(args.model)
     input_name = session.get_inputs()[0].name
+    LABELS = model_labels(args.model)
 
     images = sorted(p for p in args.dir.rglob("*") if p.suffix.lower() in {".jpg", ".jpeg", ".png"})
     print("| file | truth | pred | conf | correct |")

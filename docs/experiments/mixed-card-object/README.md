@@ -8,6 +8,8 @@
 
 [無額外卡片文字的後續實驗與混淆矩陣](wordless-v1/README.md)
 
+[第五類 `unknown`（冇卡）實驗](unknown-v1/README.md)：四類模型對 300 張程序化空場景中位信心 0.970、283 張仍過 0.55 門檻、任何門檻都分唔開；改為五類後空場景 1,092/1,093（float32）與 1,093/1,093（int8 圖模擬）拒判，模型在 `models/wordless-unknown/`，契約升 `classes.json` v3.0.0。
+
 ## 資料及方法
 
 四類固定映射：`food`→廚餘、`hazardous`→有害、`other`→其他、`recyclable`→可回收。未知是拒絕狀態，不是 `other`。

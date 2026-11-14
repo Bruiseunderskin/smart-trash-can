@@ -199,6 +199,7 @@ def main() -> int:
             "best_pt": "model.pt",
             "onnx_float32": onnx_path.name if onnx_path else None,
             "onnx_int8": int8_path.name if int8_path else None,
+            "labels": "labels.txt",
         },
         "caveat": (
             "Images are rendered from the card artworks that ship with this model. Unless the "
@@ -206,6 +207,7 @@ def main() -> int:
             "way this is not real-object, printed-card or field accuracy."
         ),
     }
+    (args.out / "labels.txt").write_text("\n".join(classes) + "\n", encoding="utf-8")
     (args.out / "metrics.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({k: report[k] for k in ("val_accuracy", "val_macro_f1", "val_top1")}))
     return 0

@@ -1,0 +1,5 @@
+image,group,prediction,confidence,false_accept
+blank-white.png,blank-white,unknown,1.0,0
+empty-camera-s31.jpg,empty-camera-s31,unknown,0.999371349811554,0
+shared-back.png,shared-back,hazardous,0.9079066514968872,1
+shared-cover.png,shared-cover,recyclable,0.6256595253944397,1

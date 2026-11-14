@@ -13,6 +13,15 @@
 - `models/wordless-padded/`：158 張卡面（38 印刷 ＋ 120 輔助）、珠光紙 sprite、每張 200 張場景、470 張持牌真實相片與 SHA-256 清單，成為訓練資料唯一來源。
 - `firmware/esp32s3/node/`：S3 節點專案。2026-11 硬件改版後為 GPIO 直出舵機 PWM、4 × TOF050C（VL6180X）用 XSHUT 改址、S31 ↔ 節點走 ESP-NOW。
 - 加入 300 DPI 試印卡（`docs/cards/300dpi`）：Set A／Set B 正面與共用卡背，卡面與 `cards/` 逐張相同。
+- 五類模型 `models/wordless-unknown/`：`model-float32.onnx`、`wordless_s31.espdl`（1,796,240 bytes、w8a8、esp32s31）、`metrics.json`、`labels.txt`、`SHA256SUMS`。5,831 張留起場景：float32 4,736/4,738 卡面正確、空場景 1,092/1,093 拒判（1 張漏放）；int8 圖模擬 4,690/4,738 卡面正確（40 張改判 `unknown`）、空場景 1,093/1,093 拒判。`.espdl` 在 1,500 張平衡測試集 macro-F1 0.9874。
+- `tools/add_unknown_row.py`：直接改 ONNX `Gemm`，四個已知 row 與其他 initializer 不動，第五行由凍結特徵的 logistic probe 擬合。整 head 重訓會令真實物件由 240/292 跌到 194/292（舊資料集實測），已放棄。
+- `tools/evaluate_cards.py`、`docs/experiments/mixed-card-object/unknown-v1/`（逐圖 CSV、負面檢查、場景 manifest 與重現步驟）。
+- 第五類 `unknown`（冇卡）：`contracts/model/classes.json` 升 **v3.0.0**，index 4、`bin` 4（＝`STC_BIN_COUNT`，不開桶）、`abstain: true`；前四類索引與桶位不變（`unknown` 按字母序排在最後）。`contracts/model/preprocess.json` 輸出改 `[1,5]`。
+- `firmware/common/stc_vision_map.c/.h`：`STC_MODEL_CLASSES` 4→5，映射表 `{1,2,3,0,STC_BIN_COUNT}`，`labels.txt` 少於五行即 `STC_ERR_CONTRACT`；`test_label_map`／`test_classes_order` 同步至五類。
+- `tools/render_card_scenes.py` 加 `render_empty()` 與 `make_surface()`：程序化空枱面／牆／地磚／木紋／布／金屬／垃圾桶內壁，加傾斜、剪切、暗場景、色溫、陰影、眩光、模糊、雜訊、10% 鏡頭被遮。
+- `tools/render_none_scenes.py`：生成 `unknown` train／val／holdout 場景，holdout 永不訓練。
+- `tools/evaluate_none_scenes.py`：逐圖輸出空鏡頭的預測、信心與 false-accept，並出分組表。
+- `tools/evaluate_replay.py`：類別名改讀模型目錄的 `labels.txt`，不再硬編四類。
 - `app/stc_app.c`：`stc_snapshot_t` → `stc_ui_payload_t` 映射，`test_app_wiring` 驗 4 個狀態與非法 phase。
 - `firmware/esp32s31/bringup/main/t2_camera.c`：esp-video／V4L2 實作（UYVY 640×480、30 幀、fps、`RESULT T2` 行），缺 `esp_video_init.h` 時回 `code=2`。
 - `firmware/common/stc_lid_link.c/.h`：傳輸無關的鏈路協定（300 ms ACK 重試 2 次、500 ms 離線判定），傳輸由呼叫者注入；ESP-NOW 實作在 `stc_lid_link_now.c`，附 `test_lid_retry`、`test_node_offline`。

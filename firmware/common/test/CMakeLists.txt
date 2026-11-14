@@ -44,4 +44,4 @@ stc_test(test_node_offline)
 
 target_compile_definitions(test_classes_order PRIVATE
     CLASSES_JSON_PATH="${STC_ROOT}/contracts/model/classes.json"
-    LABELS_PATH="${STC_ROOT}/models/wordless-padded/labels.txt")
+    LABELS_PATH="${STC_ROOT}/models/wordless-unknown/labels.txt")

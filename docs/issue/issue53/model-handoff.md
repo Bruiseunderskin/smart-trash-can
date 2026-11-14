@@ -19,6 +19,12 @@
 舊 `models/mixed-card-object/`（`mixed_s31.espdl`、`wordless-v1`）已刪除，只留 git 歷史；
 其歷史評估見[舊實驗記錄](../../experiments/mixed-card-object/README.md)。
 
+## 五類模型（`unknown`，2026-11-14）
+
+現行四類模型對「完全冇卡」的畫面會硬判成某一類（300 張程序化空場景中位信心 0.970、283 張仍過 0.55 門檻），已提供[五類產物](../../../models/wordless-unknown/README.md)：`labels.txt` 為 `food, hazardous, other, recyclable, unknown`，輸出 `[1,5]`，`unknown`（index 4）對應 `bin = STC_BIN_COUNT`、`abstain = true`。契約已升 `classes.json` **v3.0.0**、`preprocess.json` **1.1.0**，韌體 `STC_MODEL_CLASSES` 改 5。
+
+仍然未在 S31 實機載入或量測；數碼卡背／封面仍誤判為 `hazardous` 並放行。整合前先核對 `labels.txt` 與 `contracts/model/classes.json` 同序，`test_classes_order` 會拒絕少過五行。
+
 ## 已有評估與限制
 
 [實驗記錄](../../experiments/mixed-card-object/README.md) 指明此前 ESP-PPQ CPU 執行量化 graph 的 host 評估；`tools/quantize_espdl.py` 的 `TorchExecutor(graph=graph)` 使用量化過程返回的 graph。這不單憑證明該工具可直接載入現有 `.espdl` 重播。原始訓練來源並非全部隨 repo 提供；需查明可重現後端、版本及模型／輸入 parity，不能靜默用另一個模型替代。

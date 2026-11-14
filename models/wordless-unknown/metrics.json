@@ -1,0 +1,59 @@
+{
+  "target": "esp32s31",
+  "quant_type": "w8a8",
+  "calibration_images": 240,
+  "test_images": 1500,
+  "input_shape": [
+    1,
+    3,
+    160,
+    160
+  ],
+  "espdl_path": "models/wordless-unknown/wordless_s31.espdl",
+  "espdl_bytes": 1796240,
+  "macro_f1": 0.9873862674006638,
+  "per_class_f1": {
+    "food": 0.9932885906040269,
+    "hazardous": 0.9983361064891847,
+    "other": 0.984873949579832,
+    "recyclable": 0.984822934232715,
+    "unknown": 0.975609756097561
+  },
+  "confusion_matrix": [
+    [
+      296,
+      0,
+      0,
+      0,
+      4
+    ],
+    [
+      0,
+      300,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      293,
+      1,
+      5
+    ],
+    [
+      0,
+      0,
+      2,
+      292,
+      6
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      300
+    ]
+  ]
+}

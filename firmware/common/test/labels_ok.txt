@@ -2,3 +2,4 @@ food
 hazardous
 other
 recyclable
+unknown

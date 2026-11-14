@@ -1,0 +1,25 @@
+{
+  "model": "models/wordless-unknown/model-float32.onnx",
+  "labels": [
+    "food",
+    "hazardous",
+    "other",
+    "recyclable",
+    "unknown"
+  ],
+  "threshold": 0.55,
+  "groups": {
+    "unknown": {
+      "images": 300,
+      "false_accept": 1,
+      "false_accept_rate": 0.0033333333333333335,
+      "predicted_unknown": 299,
+      "confidence_p50": 1.0,
+      "confidence_p95": 1.0,
+      "predictions": {
+        "recyclable": 1,
+        "unknown": 299
+      }
+    }
+  }
+}
