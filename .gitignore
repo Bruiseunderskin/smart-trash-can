@@ -15,6 +15,11 @@ compile_commands.json
 /data/waste4_ei_test/
 /runs/waste4/
 /runs/unknown-v1/
+/runs/fold0/
+/runs/fold0t/
+/runs/fold0t-4cls/
+/runs/fold0t-model/
+/runs/fold0t-4cls-model/
 /runs/classify/
 /yolo11n-cls.pt
 /tools/__pycache__/

@@ -1,0 +1,36 @@
+{
+  "model": "runs/fold0t-model/model-float32.onnx",
+  "dir": "runs/fold0/val",
+  "threshold": 0.55,
+  "per_class": {
+    "food": {
+      "images": 320,
+      "correct": 278,
+      "wrong": 15,
+      "abstained": 27
+    },
+    "hazardous": {
+      "images": 320,
+      "correct": 226,
+      "wrong": 82,
+      "abstained": 12
+    },
+    "other": {
+      "images": 320,
+      "correct": 230,
+      "wrong": 71,
+      "abstained": 19
+    },
+    "recyclable": {
+      "images": 400,
+      "correct": 329,
+      "wrong": 62,
+      "abstained": 9
+    }
+  },
+  "totals": {
+    "images": 1360,
+    "accepted": 1293,
+    "correct": 1063
+  }
+}

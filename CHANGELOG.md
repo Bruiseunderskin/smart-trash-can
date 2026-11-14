@@ -13,6 +13,7 @@
 - `models/wordless-padded/`：158 張卡面（38 印刷 ＋ 120 輔助）、珠光紙 sprite、每張 200 張場景、470 張持牌真實相片與 SHA-256 清單，成為訓練資料唯一來源。
 - `firmware/esp32s3/node/`：S3 節點專案。2026-11 硬件改版後為 GPIO 直出舵機 PWM、4 × TOF050C（VL6180X）用 XSHUT 改址、S31 ↔ 節點走 ESP-NOW。
 - 加入 300 DPI 試印卡（`docs/cards/300dpi`）：Set A／Set B 正面與共用卡背，卡面與 `cards/` 逐張相同。
+- 未見卡（fold 0）量度：同協議重訓（未見過 fold 0 的 34 張卡）4 類 1,066/1,360 = 0.784、5 類 1,085/1,360 = 0.798、5 類 int8 1,066/1,360 = 0.784；shipped 模型的 fold-0 0.9985 只反映「卡見過」，唔係 generalisation。逐圖證據在 `docs/experiments/mixed-card-object/unknown-v1/fold0/`。`unknown` 類亦只有程序生成負面樣本加 1 張未訓練的真實空鏡頭。
 - 五類模型 `models/wordless-unknown/`：`model-float32.onnx`、`wordless_s31.espdl`（1,796,240 bytes、w8a8、esp32s31）、`metrics.json`、`labels.txt`、`SHA256SUMS`。5,831 張留起場景：float32 4,736/4,738 卡面正確、空場景 1,092/1,093 拒判（1 張漏放）；int8 圖模擬 4,690/4,738 卡面正確（40 張改判 `unknown`）、空場景 1,093/1,093 拒判。`.espdl` 在 1,500 張平衡測試集 macro-F1 0.9874。
 - `tools/add_unknown_row.py`：直接改 ONNX `Gemm`，四個已知 row 與其他 initializer 不動，第五行由凍結特徵的 logistic probe 擬合。整 head 重訓會令真實物件由 240/292 跌到 194/292（舊資料集實測），已放棄。
 - `tools/evaluate_cards.py`、`docs/experiments/mixed-card-object/unknown-v1/`（逐圖 CSV、負面檢查、場景 manifest 與重現步驟）。
