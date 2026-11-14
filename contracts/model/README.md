@@ -1,4 +1,4 @@
-# model contract v2.0.0
+# model contract v3.0.0
 
 訓練與推論的唯一接口。任何一項不符，韌體會拒絕載入（`stc_vision_init()` 回 `STC_ERR_CONTRACT`）。
 
@@ -14,14 +14,17 @@
 ## classes.json（已凍結，不要改順序）
 
 ```json
-{"version":"2.0.0","class_order_frozen":true,"classes":[
+{"version":"3.0.0","class_order_frozen":true,"classes":[
  {"index":0,"key":"food","zh":"廚餘","bin":1},
  {"index":1,"key":"hazardous","zh":"有害垃圾","bin":2},
  {"index":2,"key":"other","zh":"其他垃圾","bin":3},
- {"index":3,"key":"recyclable","zh":"可回收物","bin":0}]}
+ {"index":3,"key":"recyclable","zh":"可回收物","bin":0},
+ {"index":4,"key":"unknown","zh":"冇卡","bin":4,"abstain":true}]}
 ```
 
 v2.0.0（2026-11-08 決定 D2）：`index` 改跟模型 `labels.txt` 的次序，`key` 由 `hazard` 改為 `hazardous`（與模型一致），新增 `class_order_frozen`。桶位數值不變。韌體啟動時逐行比對 `labels.txt`，不符即 `STC_ERR_CONTRACT`，不會默認落 `other`。
+
+v3.0.0（2026-11-14）：新增第五類 `unknown`（冇卡／非四類卡）。原因：空鏡頭會被四類模型以 0.76–1.00 信心硬判成某一類，門檻無法分開。`unknown` 必須排在字母序最後（`recyclable` < `unknown`），前四個 `index` 與 `bin` 完全不變；`bin: 4` 等於 `STC_BIN_COUNT`，即「不開桶」，配合 `abstain: true` 由 `stc_game` 重試一次。
 
 ## 預處理（推論必須逐步相同）
 
@@ -35,9 +38,10 @@ v2.0.0（2026-11-08 決定 D2）：`index` 改跟模型 `labels.txt` 的次序�
 
 ## 輸出
 
-- `float32[1,4]` softmax（量化版為 int8/uint8 + scale/zero_point，由 `quant.json` 描述）
+- `float32[1,5]` softmax（v3.0.0；v2.0.0 為 `[1,4]`）（量化版為 int8/uint8 + scale/zero_point，由 `quant.json` 描述）
 - 索引對應 `classes.json`
 - 低於 `abstain_threshold`（預設 0.55）→ 標記為不確定，遊戲計 0 分並提示重試
+- `index 4`（`unknown`）→ `stc_label_t.bin = STC_BIN_COUNT`、`abstain = true`，不開任何桶
 
 ## 評估門檻（寫入 eval.json）
 

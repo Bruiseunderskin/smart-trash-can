@@ -1,0 +1,57 @@
+{
+  "model": "models/wordless-unknown/model-float32.onnx",
+  "labels": [
+    "food",
+    "hazardous",
+    "other",
+    "recyclable",
+    "unknown"
+  ],
+  "threshold": 0.55,
+  "groups": {
+    "blank-white": {
+      "images": 1,
+      "false_accept": 0,
+      "false_accept_rate": 0.0,
+      "predicted_unknown": 1,
+      "confidence_p50": 1.0,
+      "confidence_p95": 1.0,
+      "predictions": {
+        "unknown": 1
+      }
+    },
+    "empty-camera-s31": {
+      "images": 1,
+      "false_accept": 0,
+      "false_accept_rate": 0.0,
+      "predicted_unknown": 1,
+      "confidence_p50": 0.999371349811554,
+      "confidence_p95": 0.999371349811554,
+      "predictions": {
+        "unknown": 1
+      }
+    },
+    "shared-back": {
+      "images": 1,
+      "false_accept": 1,
+      "false_accept_rate": 1.0,
+      "predicted_unknown": 0,
+      "confidence_p50": 0.9079066514968872,
+      "confidence_p95": 0.9079066514968872,
+      "predictions": {
+        "hazardous": 1
+      }
+    },
+    "shared-cover": {
+      "images": 1,
+      "false_accept": 1,
+      "false_accept_rate": 1.0,
+      "predicted_unknown": 0,
+      "confidence_p50": 0.6256595253944397,
+      "confidence_p95": 0.6256595253944397,
+      "predictions": {
+        "recyclable": 1
+      }
+    }
+  }
+}

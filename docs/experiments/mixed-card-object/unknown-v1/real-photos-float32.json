@@ -1,0 +1,24 @@
+{
+  "model": "models/wordless-unknown/model-float32.onnx",
+  "dir": "models/wordless-padded/real-photos",
+  "threshold": 0.55,
+  "per_class": {
+    "other": {
+      "images": 155,
+      "correct": 125,
+      "wrong": 19,
+      "abstained": 11
+    },
+    "recyclable": {
+      "images": 315,
+      "correct": 306,
+      "wrong": 3,
+      "abstained": 6
+    }
+  },
+  "totals": {
+    "images": 470,
+    "accepted": 453,
+    "correct": 431
+  }
+}

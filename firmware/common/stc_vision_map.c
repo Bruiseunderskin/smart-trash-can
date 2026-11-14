@@ -3,10 +3,10 @@
 #include <stdio.h>
 #include <string.h>
 
-const uint8_t stc_model_to_bin[STC_MODEL_CLASSES] = {1u, 2u, 3u, 0u};
+const uint8_t stc_model_to_bin[STC_MODEL_CLASSES] = {1u, 2u, 3u, 0u, STC_BIN_COUNT};
 
 static const char *const k_expected[STC_MODEL_CLASSES] = {
-    "food", "hazardous", "other", "recyclable"
+    "food", "hazardous", "other", "recyclable", "unknown"
 };
 
 static char g_loaded[STC_MODEL_CLASSES][16];
@@ -44,7 +44,7 @@ stc_err_t stc_vision_map_load_labels(const char *path)
     fclose(f);
 
     if (rc == STC_OK && index != STC_MODEL_CLASSES) {
-        rc = STC_ERR_CONTRACT;   /* 少過四行 = 契約不符，不默認 */
+        rc = STC_ERR_CONTRACT;   /* 少過五行 = 契約不符，不默認 */
     }
     g_ready = (rc == STC_OK);
     return rc;

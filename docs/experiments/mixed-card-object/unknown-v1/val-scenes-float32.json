@@ -1,0 +1,42 @@
+{
+  "model": "models/wordless-unknown/model-float32.onnx",
+  "dir": "models/wordless-padded/dataset/val",
+  "threshold": 0.55,
+  "per_class": {
+    "food": {
+      "images": 1093,
+      "correct": 1093,
+      "wrong": 0,
+      "abstained": 0
+    },
+    "hazardous": {
+      "images": 1127,
+      "correct": 1127,
+      "wrong": 0,
+      "abstained": 0
+    },
+    "other": {
+      "images": 1145,
+      "correct": 1143,
+      "wrong": 2,
+      "abstained": 0
+    },
+    "recyclable": {
+      "images": 1373,
+      "correct": 1373,
+      "wrong": 0,
+      "abstained": 0
+    },
+    "unknown": {
+      "images": 1093,
+      "correct": 0,
+      "wrong": 1,
+      "abstained": 1092
+    }
+  },
+  "totals": {
+    "images": 5831,
+    "accepted": 4739,
+    "correct": 4736
+  }
+}
