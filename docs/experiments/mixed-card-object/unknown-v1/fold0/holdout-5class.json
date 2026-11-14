@@ -1,0 +1,24 @@
+{
+  "model": "runs/fold0t-model/model-float32.onnx",
+  "labels": [
+    "food",
+    "hazardous",
+    "other",
+    "recyclable",
+    "unknown"
+  ],
+  "threshold": 0.55,
+  "groups": {
+    "unknown": {
+      "images": 300,
+      "false_accept": 0,
+      "false_accept_rate": 0.0,
+      "predicted_unknown": 300,
+      "confidence_p50": 0.9999010562896729,
+      "confidence_p95": 0.9999879598617554,
+      "predictions": {
+        "unknown": 300
+      }
+    }
+  }
+}

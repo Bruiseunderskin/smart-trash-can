@@ -10,8 +10,14 @@ from esp_ppq.executor.torch import TorchExecutor
 from quantize_espdl import image_files,TestDataset
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--graph',type=Path,required=True);p.add_argument('--data',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
- files,labels,names=image_files(a.data);loader=DataLoader(TestDataset(files,labels,classify_transforms(160)),batch_size=1,shuffle=False,num_workers=0);graph=NativeImporter().build(str(a.graph));executor=TorchExecutor(graph=graph,device='cpu');torch.set_num_threads(2);rows=[];matrix=[[0]*len(names) for _ in names]
+ p=argparse.ArgumentParser();p.add_argument('--graph',type=Path,required=True);p.add_argument('--data',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--labels',type=Path,default=None,help='class order of the model; defaults to the data folders');a=p.parse_args()
+ files,labels,names=image_files(a.data)
+ if a.labels:
+  model_names=[line.strip() for line in a.labels.read_text().splitlines() if line.strip()]
+  if not set(names) <= set(model_names):
+   raise SystemExit(f'data classes {names} missing from {a.labels}')
+  names=model_names
+ loader=DataLoader(TestDataset(files,labels,classify_transforms(160)),batch_size=1,shuffle=False,num_workers=0);graph=NativeImporter().build(str(a.graph));executor=TorchExecutor(graph=graph,device='cpu');torch.set_num_threads(2);rows=[];matrix=[[0]*len(names) for _ in names]
  with torch.no_grad():
   for idx,(x,y) in enumerate(loader):
    result=executor(x);result=result[0] if isinstance(result,(list,tuple)) else result;values=result[0].float();pred=int(values.argmax());truth=int(y[0]);matrix[truth][pred]+=1;rows.append({'image':str(files[idx].relative_to(a.data)),'truth':names[truth],'prediction':names[pred],'confidence':float(values[pred]),'correct':int(truth==pred)})
