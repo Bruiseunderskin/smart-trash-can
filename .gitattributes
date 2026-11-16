@@ -1,0 +1,32 @@
+# 讓 GitHub 認得哪些檔案不是我們寫的、哪些是機器生成的
+
+## 第三方碼：不計入語言統計、預設摺疊 diff
+# firmware/xiaozhi-esp32 是上游 Xiaozhi-ESP32 專案（1,732 個檔案，佔全 repo 已追蹤檔案的 53%）。
+# 見 firmware/xiaozhi-esp32/VENDORED.md。改之前先確認上游是否已修。
+firmware/xiaozhi-esp32/** linguist-vendored
+
+## 生成物：不計入語言統計、預設摺疊 diff
+# ui/lvgl/generated 由 ui/lvgl/tools/generate.py 從 design/ 與 layout.json 產生。
+ui/lvgl/generated/** linguist-generated
+
+## 文件用的圖：不計入語言統計
+docs/images/** linguist-documentation
+docs/cards/**/PNG/** linguist-documentation
+
+## 二進位：diff 只顯示「Binary files differ」
+*.pdf binary
+*.zip binary
+*.onnx binary
+*.espdl binary
+*.ttf binary
+*.otf binary
+*.rgb565 binary
+*.bin binary
+
+## 行尾：Linux/macOS 開發，硬體工具鏈要 LF
+*.c text eol=lf
+*.h text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.json text eol=lf

@@ -18,6 +18,15 @@ ASSET_TREES = (
     Path('docs/Yolo-model'),
 )
 
+# Tool-managed trees: the LVGL Pro Editor creates and owns these directories
+# (components/<widget>/, screens/, images/, fonts/, .lvgl-flow/, .vscode/).
+# One README per generated widget folder would be noise, not documentation.
+# The project guide (ui/lvgl_ui_project/README.md) and its AGENTS.md document
+# the tree, and the exported C is checked into ui/lvgl/generated/.
+DESIGNER_TREES = (
+    Path('ui/lvgl_ui_project'),
+)
+
 
 def check(root):
     tracked = subprocess.check_output(
@@ -32,7 +41,10 @@ def check(root):
                            if not p.is_relative_to(Path('firmware/xiaozhi-esp32')) or p.is_relative_to(board_prefix))
     errors = []
     for directory in sorted(directories):
-        if any(directory.is_relative_to(tree) for tree in ASSET_TREES):
+        # Hidden directories (.vscode, .lvgl-flow) hold tool state, never prose.
+        if any(part.startswith('.') for part in directory.parts):
+            continue
+        if any(directory.is_relative_to(tree) for tree in ASSET_TREES + DESIGNER_TREES):
             continue
         guide = root / directory / 'README.md'
         if not guide.is_file() or directory / 'README.md' not in paths:

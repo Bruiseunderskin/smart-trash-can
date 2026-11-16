@@ -8,7 +8,17 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- `tools/check_docs.py` 對 `ui/lvgl_ui_project/` 報 28 個「missing README.md」，令 `main` 的 Documentation CI 一直紅。原因是 LVGL Pro Editor 會自動建立 `components/<widget>/`、`screens/`、`.lvgl-flow/`、`.vscode/` 等目錄，逐個要求 README 只是噪音。改為：hidden 目錄（`.vscode`、`.lvgl-flow`）一律不檢查；`ui/lvgl_ui_project/` 列為 tool-managed tree，文件責任在該目錄的 `README.md` 與 `AGENTS.md`。檢查結果由 **28 errors（exit 1）變成 0 errors（exit 0）**。
+- `ui/lvgl_ui_project/README.md` 原本是 LVGL Pro 的空白範本（寫「nothing in it yet」），與實際內容不符。改寫為真實專案指引：說明這是**最新一版設計、由 Figma 同步、UI 的 source of truth**，列出各子目錄誰維護、不要手改生成的 C、如何驗證。
+
 ### Added
+
+- `.gitattributes`：標記 `firmware/xiaozhi-esp32/**` 為 `linguist-vendored`、`ui/lvgl/generated/**` 為 `linguist-generated`，二進位檔（PDF／zip／ONNX／espdl／字型）標 `binary`，行尾統一 LF。在此之前語言統計把 1,732 個上游檔案算成本專案程式碼。
+- `firmware/xiaozhi-esp32/VENDORED.md`：寫明該目錄是上游 Xiaozhi-ESP32 原樣拷入，附「不要當自家碼改」的四條硬規則與為何不用 submodule。
+- `docs/repo-map.md`：目錄職責表、五類檔案（原始碼／第三方／資料／生成物／交付物）的處理規則、大小門檻（>2 MB 先分類、>10 MB 不進 git）、永不提交清單，以及四項已知債務與其量測數字。
+- `docs/README.md`：導覽表加入 `repo-map.md` 入口。
 
 - `models/wordless-padded/`：158 張卡面（38 印刷 ＋ 120 輔助）、珠光紙 sprite、每張 200 張場景、470 張持牌真實相片與 SHA-256 清單，成為訓練資料唯一來源。
 - `firmware/esp32s3/node/`：S3 節點專案。2026-11 硬件改版後為 GPIO 直出舵機 PWM、4 × TOF050C（VL6180X）用 XSHUT 改址、S31 ↔ 節點走 ESP-NOW。

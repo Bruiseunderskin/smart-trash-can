@@ -60,12 +60,17 @@
 ## 5. 文件
 
 - **索引**：`docs/README.md`（現行文件的入口）
+- **目錄與檔案規則**：`docs/repo-map.md`（新檔案放哪裡、可否進 git、> 10 MB 怎麼辦）
 - 新增文件要在索引加一行；被取代的不要刪，改狀態
 - 文件要寫「讀者」「何時讀」，唔好寫給自己睇
 
 ## 6. 慣例
 
 - 語言：繁體中文；程式與 commit message 用英文。
+- **UI 設計來源是 `ui/lvgl_ui_project/`（LVGL Pro 專案），畫面在 Figma 設計後同步進來，係最新一版。**
+  `ui/lvgl/generated/` 的 C 由它匯出，不是手寫；改畫面改圖，不要改生成的 C。
+  該目錄下的 `components/<widget>/`、`screens/`、`.lvgl-flow/`、`.vscode/` 由 LVGL Pro Editor 管理，
+  **不要為它們逐個補 README**（`tools/check_docs.py` 已列為 tool-managed tree）。
 - 角色一律叫**綠豆**，「小智」永久禁用。
 - 主按鈕全寬貼底；不要放右下角落按鈕（小朋友手肘位）。
 - 文件與 commit 不要寫「已完成」而實際未驗；寫「已完成並附證據」或「未完成，卡在 X」。
@@ -97,5 +102,7 @@
 | 資料從哪來、可否混用 | `data/README.md` |
 | 整機整合、契約衝突、驗收 | `docs/issue53/README.md` |
 | 文件全貌 | `docs/README.md` |
+| **新檔案該放哪裡、可否進 git、大檔怎麼辦** | **`docs/repo-map.md`** |
+| UI 設計在哪、為什麼不要手改生成的 C | `ui/lvgl_ui_project/README.md`（最新一版設計，Figma 同步） |
 
 **漸進式披露的做法**：AGENTS.md 只寫「事實＋硬規則＋去哪裡找」，細節一律放 `docs/agents/` 或其他專門文件。新規則到來時，先問「這條是否每次都要知？」是就寫這裡，不是就寫 `docs/agents/` 並在此加一行指路。

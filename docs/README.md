@@ -4,6 +4,7 @@
 
 | 你想做什麼 | 先讀 |
 |---|---|
+| **新檔案該放哪裡、可否進 git、大檔怎麼辦** | **[repo-map.md](repo-map.md)** |
 | 了解現況邊界、程式入口 | [architecture.md](architecture.md) |
 | 看目標設計、驗收條件 | [planning/system-architecture-decision.md](planning/system-architecture-decision.md) |
 | 實作整機整合 | [issue/issue53/README.md](issue/issue53/README.md) |
