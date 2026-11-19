@@ -23,6 +23,8 @@ from PIL import Image
 
 from render_card_scenes import render
 
+JPEG_QUALITY_RANGE = (74, 94)
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -108,7 +110,7 @@ def main() -> int:
                 split = "val" if rng.random() < scene_split else "train"
             else:
                 split = row["_split"]
-            quality = rng.randint(82, 94)
+            quality = rng.randint(*JPEG_QUALITY_RANGE)
             scene.save(args.out / split / row["class"] / f"{stem}_{i:03d}.jpg", quality=quality)
             manifest_rows.append({
                 "path": f"{split}/{row['class']}/{stem}_{i:03d}.jpg",

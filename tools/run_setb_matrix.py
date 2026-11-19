@@ -43,9 +43,7 @@ from typing import Iterable, Sequence
 
 LABELS: tuple[str, ...] = ("food", "hazardous", "other", "recyclable")
 ROOT = Path(__file__).resolve().parent.parent
-PROBLEM_CARDS = ("B-14", "B-15", "B-16", "B-17", "B-18", "B-22", "B-28")
-IMAGENET_MEAN = (0.485, 0.456, 0.406)
-IMAGENET_STD = (0.229, 0.224, 0.225)
+PROBLEM_CARDS = ("B-14", "B-15", "B-16", "B-17", "B-18", "B-22", "B-28", "B-19")
 
 
 # --------------------------------------------------------------------------- #
@@ -188,25 +186,21 @@ def load_manifest(manifest: Path) -> list[dict[str, str]]:
 
 
 def preprocess(path: Path, size: int, normalise: str = "div255"):
-    """RGB, resize to the model input, scale to 0-1 (or ImageNet-normalise), CHW.
+    """RGB, contract crop/resize, scale to 0-1 (or ImageNet-normalise), NCHW.
 
-    The exported ONNX graphs in `models/wordless-padded/` already contain the
-    resize/normalise steps, so the input tensor must be plain 0-1 RGB. Feeding
-    ImageNet-normalised values scored 0.625 where 0-1 scored 1.000 on the same
-    120 images, so `div255` is the default and `imagenet` exists only to
-    reproduce the mistake.
+    Delegates to `stc_preprocess`, the single definition shared with the int8
+    calibration path. `div255` is what the exported graph expects; `imagenet`
+    exists only to reproduce the old mistake.
     """
-    if normalise not in ("div255", "imagenet"):
-        raise SystemExit(f"unknown normalisation: {normalise}")
-    import numpy as np  # local import: keeps this module importable without numpy
-    from PIL import Image
+    tools_dir = str(Path(__file__).resolve().parent)
+    if tools_dir not in sys.path:
+        sys.path.insert(0, tools_dir)
+    from stc_preprocess import load_batch  # local import: keeps this module importable without numpy
 
-    with Image.open(path) as image:
-        frame = image.convert("RGB").resize((size, size), Image.Resampling.BILINEAR)
-        array = np.asarray(frame, dtype=np.float32) / 255.0
-    if normalise == "imagenet":
-        array = (array - np.array(IMAGENET_MEAN, dtype=np.float32)) / np.array(IMAGENET_STD, dtype=np.float32)
-    return np.transpose(array, (2, 0, 1))[None, ...]
+    try:
+        return load_batch(path, size, normalise)
+    except ValueError as error:
+        raise SystemExit(str(error)) from error
 
 
 def infer(

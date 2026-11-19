@@ -32,6 +32,8 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from rebuild_wordless_cards import cutout, pearl_paper  # noqa: E402
+from render_card_scenes import SCALE_RANGE  # noqa: E402
+from render_wordless_scenes import JPEG_QUALITY_RANGE  # noqa: E402
 
 CLASSES = ("food", "hazardous", "other", "recyclable")
 
@@ -144,6 +146,13 @@ def main() -> int:
         "card_size": [709, 709],
         "material": "pearl paper (translucent ink, glitter stock, broad sheen) baked into the sprite",
         "scene_size": args.size,
+        "render": {
+            "scale_range": list(SCALE_RANGE),
+            "sheen": "per-scene broad specular gain, 0-16% brightness, random direction",
+            "phone_isp": "unsharp 50-150% + saturation 1.00-1.25 + contrast 1.00-1.12 at p=0.5",
+            "sensor_noise_sigma": [1.0, 5.0],
+            "jpeg_quality": list(JPEG_QUALITY_RANGE),
+        },
         "train_per_card": args.train_per_card,
         "scene_split": args.scene_split,
         "seed": args.seed,

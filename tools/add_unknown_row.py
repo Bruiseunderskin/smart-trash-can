@@ -52,7 +52,14 @@ def features(session, paths, size: int, feature_name: str):
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", type=Path, required=True, help="four-class float32 ONNX")
-    parser.add_argument("--data", type=Path, required=True, help="ImageFolder root with train/unknown")
+    parser.add_argument("--data", type=Path, required=True, help="ImageFolder root holding the four card classes under train/")
+    parser.add_argument(
+        "--unknown-dir",
+        type=Path,
+        default=None,
+        help="folder of empty-scene images; defaults to <data>/train/unknown, which makes the four-class "
+             "dataset look five-class to any tool that reads it",
+    )
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--size", type=int, default=160)
     parser.add_argument("--holdout", type=Path, default=None,
@@ -80,14 +87,24 @@ def main() -> int:
     session = ort.InferenceSession(probe_model.SerializeToString(), providers=["CPUExecutionProvider"])
 
     train = args.data / "train"
+    if not train.is_dir():
+        raise SystemExit(f"missing four-class training split: {train}")
+    unknown_dir = args.unknown_dir or (train / UNKNOWN)
     paths, labels = [], []
-    for folder in sorted(p for p in train.iterdir() if p.is_dir()):
+    for folder in sorted(p for p in train.iterdir() if p.is_dir() and p.name != UNKNOWN):
         for path in sorted(folder.rglob("*")):
             if path.suffix.lower() in {".jpg", ".jpeg", ".png"}:
                 paths.append(path)
-                labels.append(1.0 if folder.name == UNKNOWN else 0.0)
-    if not paths or sum(labels) == 0:
-        raise SystemExit(f"{train} must hold the four card classes plus {UNKNOWN}")
+                labels.append(0.0)
+    negatives = len(paths)
+    if not unknown_dir.is_dir():
+        raise SystemExit(f"missing empty-scene folder: {unknown_dir}")
+    for path in sorted(unknown_dir.rglob("*")):
+        if path.suffix.lower() in {".jpg", ".jpeg", ".png"}:
+            paths.append(path)
+            labels.append(1.0)
+    if negatives == 0 or sum(labels) == 0:
+        raise SystemExit(f"need four card classes under {train} and empty scenes under {unknown_dir}")
 
     x = features(session, paths, args.size, feature_name)
     y = np.asarray(labels, dtype=np.float32)
