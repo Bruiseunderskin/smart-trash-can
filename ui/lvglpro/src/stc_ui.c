@@ -67,6 +67,11 @@ struct stc_ui {
     bool lid_open;
     bool reduced;
     bool acknowledged;
+    lv_timer_t *auto_timer;
+    lv_obj_t *auto_bar;
+    uint8_t auto_left;
+    bool auto_armed;
+    bool auto_done;
     uint8_t debug_flags;
     int learned_scanned_bin;
     int learned_dropped_bin;
@@ -90,9 +95,11 @@ static const uint32_t category_tints[STC_CATEGORY_COUNT] = {
     0xE6E8EA, 0xE5EBDC, 0xF5E7D9, 0xEBE9DF,
 };
 
+extern const lv_image_dsc_t stc_icon_food; /* 廚餘, drawn to match the set */
+
 static const lv_image_dsc_t *const category_images[STC_CATEGORY_COUNT] = {
     &stc_lp_img_cat_0,
-    &stc_lp_img_cat_1,
+    &stc_icon_food,
     &stc_lp_img_cat_2,
     &stc_lp_img_cat_3,
 };
@@ -290,6 +297,10 @@ static void container_deleted(lv_event_t *event) {
     if (ui->scan != NULL) {
         lv_anim_delete(ui->scan, scan_opacity);
     }
+    if (ui->auto_timer != NULL) {
+        lv_timer_del(ui->auto_timer);
+        ui->auto_timer = NULL;
+    }
     ui->container = NULL;
     ui->camera = NULL;
     ui->camera_image = NULL;
@@ -445,10 +456,58 @@ static void progress_bar(stc_ui_t *ui) {
         COLOR_ACCENT);
 }
 
+/* Round exit -------------------------------------------------------------
+ * The result screen is the round boundary: one 752x88 primary action, plus a
+ * three-second auto-advance with a shrinking bar. The timer is cancelled from
+ * clear_screen(), so every state change (including an error or a retry) kills
+ * it; a lid that is open means the card is still on its way into the bin, so
+ * the countdown does not start until the controller reports the lid closed.
+ */
+#define AUTO_ADVANCE_TICKS 30 /* 30 x 100 ms */
+
+static void auto_disarm(stc_ui_t *ui) {
+    ui->auto_armed = false;
+    ui->auto_left = 0;
+    ui->auto_bar = NULL;
+}
+
+/* One persistent 100 ms timer, created with the UI and armed only on the
+ * result screen. Nothing is deleted from inside the callback, so a state
+ * change during a tick cannot free the timer that is running. */
+static void auto_tick(lv_timer_t *timer) {
+    stc_ui_t *ui = (stc_ui_t *)lv_timer_get_user_data(timer);
+    if (ui == NULL || !ui->auto_armed) {
+        return;
+    }
+    if (ui->state != STC_RESULT_OK || ui->auto_done) {
+        auto_disarm(ui);
+        return;
+    }
+    if (ui->auto_left > 0) {
+        ui->auto_left--;
+    }
+    if (ui->auto_bar != NULL) {
+        lv_bar_set_value(ui->auto_bar, ui->auto_left, LV_ANIM_OFF);
+    }
+    if (ui->auto_left == 0) {
+        ui->auto_done = true;
+        auto_disarm(ui);
+        if (ui->action != NULL) {
+            ui->action(STC_ACTION_NEXT, -1, ui->user);
+        }
+    }
+}
+
+static bool result_is_last_round(const stc_ui_t *ui) {
+    return ui->rounds_total > 0 && ui->round >= ui->rounds_total;
+}
+
 static void result_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
     progress_bar(ui);
+    ui->auto_bar = NULL;
+    ui->auto_done = false;
     const int category =
         ui->category_value >= 0 && ui->category_value < STC_CATEGORY_COUNT
             ? ui->category_value
@@ -461,31 +520,60 @@ static void result_screen(stc_ui_t *ui) {
         } else {
             snprintf(title, sizeof(title), "請投入正確垃圾桶");
         }
-        lv_obj_t *headline =
-            label(ui->container, title, 32, 128, 736, 64, FONT_H2, COLOR_FG,
-                  LV_TEXT_ALIGN_LEFT);
-        (void)headline;
+        label(ui->container, title, 32, 126, 736, 60, FONT_H2, COLOR_FG,
+              LV_TEXT_ALIGN_LEFT);
     } else {
-        label(ui->container, "正在開啟桶蓋", 32, 128, 736, 68, FONT_H1,
+        label(ui->container, "正在開啟桶蓋", 32, 126, 736, 60, FONT_H1,
               COLOR_FG, LV_TEXT_ALIGN_LEFT);
     }
     ui->confidence =
-        label(ui->container, "", 32, 188, 736, 28, FONT_CAPTION, COLOR_MUTED,
+        label(ui->container, "", 32, 182, 736, 24, FONT_CAPTION, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
         const int x = 32 + i * 190;
         const bool selected = i == category;
         lv_obj_t *card =
-            box(ui->container, x, 232, 166, 220,
+            box(ui->container, x, 210, 166, 160,
                 selected ? category_tints[i] : COLOR_SURFACE, 16,
                 selected ? 6 : 2, category_colors[i]);
-        image(card, category_images[i], 39, 30, 88, 88);
-        label(card, stc_category_label(i), 8, 130, 150, 48, FONT_BODY_BOLD,
+        image(card, category_images[i], 47, 14, 72, 72);
+        label(card, stc_category_label(i), 8, 92, 150, 44, FONT_BODY_BOLD,
               COLOR_FG, LV_TEXT_ALIGN_CENTER);
         if (selected) {
-            label(card, "AI 判斷", 20, 178, 126, 28, FONT_CAPTION,
+            label(card, "AI 判斷", 20, 132, 126, 24, FONT_CAPTION,
                   category_colors[i], LV_TEXT_ALIGN_CENTER);
         }
+    }
+
+    const bool last = result_is_last_round(ui);
+    ui->auto_bar = lv_bar_create(ui->container);
+    lv_obj_remove_style_all(ui->auto_bar);
+    lv_obj_set_pos(ui->auto_bar, 32, 378);
+    lv_obj_set_size(ui->auto_bar, 736, 6);
+    lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
+    lv_bar_set_value(ui->auto_bar, 0, LV_ANIM_OFF);
+    lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_LINE), 0);
+    lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, 0);
+    lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_BRAND),
+                              LV_PART_INDICATOR);
+    lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, LV_PART_INDICATOR);
+    lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE,
+                            LV_PART_INDICATOR);
+
+    lv_obj_t *next = button(ui->container, last ? "完成 · 睇總分" : "下一回合",
+                            32, 390, 736, 82, true);
+    bind_action(ui, next, last ? STC_ACTION_FINISH : STC_ACTION_NEXT, -1, false);
+
+    if (ui->lid_open) {
+        label(ui->container, "投入卡牌後自動繼續 · 亦可直接點按按鈕", 32, 340,
+              704, 28, FONT_CAPTION, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
+    } else if (!last) {
+        label(ui->container, "3 秒後自動繼續 · 點按可即時前進", 32, 340, 704, 28,
+              FONT_CAPTION, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
+        ui->auto_left = AUTO_ADVANCE_TICKS;
+        ui->auto_armed = true;
+        lv_bar_set_value(ui->auto_bar, AUTO_ADVANCE_TICKS, LV_ANIM_OFF);
     }
 }
 
@@ -734,6 +822,7 @@ static void summary_screen(stc_ui_t *ui) {
 }
 
 static void clear_screen(stc_ui_t *ui) {
+    auto_disarm(ui);
     if (ui->scan != NULL) {
         lv_anim_delete(ui->scan, scan_opacity);
     }
@@ -928,6 +1017,7 @@ stc_ui_t *stc_ui_create(lv_obj_t *parent, stc_retry_cb retry, void *user) {
     lv_obj_remove_flag(ui->container, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_add_flag(ui->container, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_add_event_cb(ui->container, container_deleted, LV_EVENT_DELETE, ui);
+    ui->auto_timer = lv_timer_create(auto_tick, 100, ui);
     render(ui, STC_IDLE, NULL);
     return ui;
 }

@@ -10,6 +10,8 @@
 
 ### Added
 
+- `ui/lvglpro`：回合結果頁改為回合出口——底部 736×82 主動作（下一回合／最後一回合為「完成」）、3 秒自動繼續（100 ms tick 的收縮進度條）、蓋門未關時不計時。計時器由 `stc_ui_create()` 建立、`container_deleted` 釋放，全程不解構中的 timer。
+- 新增 `ui/lvglpro/src/stc_icon_food.c`：廚餘圖示（蘋果芯），ARGB8888 96×96，格式與 `stc_lvglpro_assets.c` 內既有分類圖示一致；`category_images[1]` 改指向它。
 - Added a two-state outer application shell, `GAME` and `CHAT`. GAME owns the current touch game; CHAT pauses game ticks, has a 60-second timeout, and returns to the same game state. The current local voice backend reports `STC_ERR_UNSUPPORTED` for CHAT and the UI states this explicitly.
 - Added GAME/CHAT touch navigation: `分類圖鑑`, `問綠豆`, and the CHAT `返回遊戲` screen. Added `STC_UI_CHAT` as an appended UI state without renumbering existing values.
 - Added the local `STC_GAME_TOUCH_BIN=ON` game mode: continuous SC101IOT preview, four on-screen bin buttons, human DROP selection, hidden-answer learning feedback, and no ESP-NOW dependency. The selected category is still validated and scored only by the game controller.

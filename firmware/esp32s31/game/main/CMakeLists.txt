@@ -35,6 +35,7 @@ set(MODEL_CRC "0x401b7655")
 
 file(GLOB STC_UI_SOURCES
      "${STC_UI_ROOT}/src/stc_ui.c"
+     "${STC_UI_ROOT}/src/stc_icon_food.c"
      "${STC_UI_ROOT}/generated/stc_lp_*.c"
      "${STC_UI_ROOT}/generated/stc_lvglpro_assets.c")
 
