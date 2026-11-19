@@ -90,6 +90,8 @@
 
 ### Changed
 
+- `tools/render_card_matrix.py`：把兩個條件校回訓練分佈附近——`glare` 改用與訓練同族的橢圓高光（alpha 150–220，訓練為 70–150），`low_light` 由亮度 0.35 改為 0.55–0.65（訓練下限 0.86）；原本的設定等於用超出規格的輸入評分。
+- `tools/run_setb_matrix.py`：新增 `--cards-padded` 直通，令矩陣可以用珠光／透明 sprite（訓練分佈）而不是原卡面。
 - 混合資料集目錄命名為 `mixed-card-object`；歷史實拍及 probe 保留原路徑並標明用途。
 
 - 重寫專案入口與 agent 指引，更新 YOLO／ESP-DL 路線、整合現況及分類卡圖片連結。
