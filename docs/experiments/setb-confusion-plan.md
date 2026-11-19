@@ -4,6 +4,11 @@
 
 對應 issue：[#67](https://github.com/Bruiseunderskin/smart-trash-can/issues/67)。症狀由隊友實測提供（Set B 卡），本文件只描述**如何在沒有實卡的情況下量度與修正**。
 
+> **2026-11-19 更新：本文件的「原因 1 先驗偏置」已被量測否定。**
+> 真正的主因是擷取包絡：卡佔畫面 52–78% 才有 1.000，卡填滿畫面時 float32 0.684、int8 0.526，`hazardous→recyclable` 18 次。
+> 先驗校正只值 +2.5 點（PR #71）。現行修法與數字見 [setb-capture-envelope.md](setb-capture-envelope.md)。
+> 本文件保留作歷史記錄；S1 的矩陣工具仍然有效，但 S2 之後的判讀要改用新文件的八個 regime。
+
 ## 症狀
 
 | 卡 | 真實類別 | 實測被判 |

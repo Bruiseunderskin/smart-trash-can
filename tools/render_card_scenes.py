@@ -2,12 +2,20 @@
 """Render training scenes from the padded classification cards.
 
 The original simulated-card generator was never committed, so this is a small
-reimplementation with the two properties that matter for the classifier:
+reimplementation whose job is to cover the captures the classifier will see:
 
-  * the card sits inside the frame with background visible on all four sides,
-    which is what the padded artwork is for;
-  * viewpoint, scale, light and blur vary, so the model learns the card rather
-    than one fixed crop.
+  * scale 0.45-1.15 of the frame — the card may sit small on a desk, fill the
+    frame, or run off the edge after the camera's 4:3-to-square crop. The old
+    0.52-0.78 window made the model depend on background being visible, and a
+    card held up to the lens scored 0.68 float32 / 0.53 int8 on the printed Set B
+    cards (see docs/experiments/setb-capture-envelope.md);
+  * viewpoint, shear, light, blur, glare, occlusion and colour cast vary, so the
+    model learns the motif rather than one fixed crop;
+  * the pearl stock's sheen is re-applied per scene (`relight`), because a baked
+    sheen turns into a card-identity cue that a real card does not have;
+  * a camera pipeline (`phone_isp`) and sensor noise are applied to half the
+    scenes, because phones sharpen and saturate before the model ever sees the
+    frame.
 
 Class comes from the file name (`card-04-food.png`, `b-07-hazardous.png`).
 Back, cover and sheet images are skipped.
@@ -27,6 +35,13 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 
 LABELS = ("recyclable", "food", "hazardous", "other")
+
+# Card size as a fraction of the frame. The old range stopped at 0.78, which made
+# the classifier depend on background being visible: a card filling the frame
+# (a child holding it up to the camera) scored 0.68 float32 / 0.53 int8, with
+# hazardous collapsing into recyclable. 1.15 allows the card to run off the frame,
+# which is what the 4:3-to-square camera crop does.
+SCALE_RANGE = (0.45, 1.15)
 
 
 def label_from_name(name: str) -> str | None:
@@ -77,11 +92,53 @@ def make_background(size: int, rng: random.Random, bg_paths: list[Path] | None =
     return img
 
 
-def render(card: Image.Image, size: int, rng: random.Random, bg_paths: list[Path] | None = None) -> Image.Image:
+def relight(card: Image.Image, rng: random.Random) -> Image.Image:
+    """Slide a broad specular sheen across the card.
+
+    The pearl stock reflects the room, so the same physical card looks different
+    from one shot to the next. `rebuild_wordless_cards.pearl_paper` bakes one
+    sheen per artwork (seeded by the card hash), which turns the sheen into an
+    identity cue that does not exist on a real card and disappears when the light
+    moves. This puts a per-scene low-frequency gain on top, so the model has to
+    read the motif rather than the reflection.
+    """
+    strength = rng.uniform(0.0, 0.16)
+    if strength < 0.02:
+        return card
+    ramp = Image.linear_gradient("L").resize(card.size, Image.BILINEAR)
+    ramp = ramp.rotate(rng.uniform(0, 360), resample=Image.BILINEAR)
+    gain = 1.0 - strength + 2.0 * strength * (np.asarray(ramp, dtype=np.float32) / 255.0)[:, :, None]
+    pixels = np.asarray(card, dtype=np.float32).copy()
+    pixels[:, :, :3] = np.clip(pixels[:, :, :3] * gain, 0, 255)
+    return Image.fromarray(pixels.astype(np.uint8), "RGBA")
+
+
+def phone_isp(scene: Image.Image, rng: random.Random) -> Image.Image:
+    """Approximate the camera pipeline between the sensor and the JPEG.
+
+    Phones sharpen and punch saturation before the frame ever reaches the model.
+    Without this, a sharpened capture of the same card lands outside the training
+    distribution: `art at 100% of frame + unsharp` dropped float32 to 0.895 and
+    int8 to 0.706 on cards the render distribution scores 1.000.
+    """
+    scene = scene.filter(
+        ImageFilter.UnsharpMask(radius=rng.uniform(1.0, 2.0), percent=rng.randint(50, 150), threshold=2)
+    )
+    scene = ImageEnhance.Color(scene).enhance(rng.uniform(1.0, 1.25))
+    return ImageEnhance.Contrast(scene).enhance(rng.uniform(1.0, 1.12))
+
+
+def render(
+    card: Image.Image,
+    size: int,
+    rng: random.Random,
+    bg_paths: list[Path] | None = None,
+    scale_range: tuple[float, float] = SCALE_RANGE,
+) -> Image.Image:
     scene = make_background(size, rng, bg_paths)
 
-    target = int(size * rng.uniform(0.52, 0.78))
-    c = card.copy()
+    target = int(size * rng.uniform(*scale_range))
+    c = relight(card.copy(), rng)
     c.thumbnail((target, target), Image.LANCZOS)
     c = c.rotate(rng.uniform(-22, 22), expand=True, resample=Image.BICUBIC)
 
@@ -107,7 +164,7 @@ def render(card: Image.Image, size: int, rng: random.Random, bg_paths: list[Path
     scene.paste(c, (x, y), c)
 
     scene = scene.convert("RGB")
-    scene = ImageEnhance.Brightness(scene).enhance(rng.uniform(0.86, 1.10))
+    scene = ImageEnhance.Brightness(scene).enhance(rng.uniform(0.70, 1.12))
     scene = ImageEnhance.Contrast(scene).enhance(rng.uniform(0.88, 1.12))
 
     # specular glare: a bright elliptical hotspot, as when a lamp or window lands on the card
@@ -147,6 +204,14 @@ def render(card: Image.Image, size: int, rng: random.Random, bg_paths: list[Path
         scene = Image.alpha_composite(scene.convert("RGBA"), layer).convert("RGB")
 
     scene = scene.filter(ImageFilter.GaussianBlur(rng.uniform(0.0, 1.1)))
+
+    # sensor noise, then the camera's own sharpening and colour punch
+    if rng.random() < 0.6:
+        noise = np.asarray(scene, dtype=np.float32)
+        noise += np.random.default_rng(rng.randrange(1 << 30)).normal(0, rng.uniform(1.0, 5.0), noise.shape[:2])[:, :, None]
+        scene = Image.fromarray(np.clip(noise, 0, 255).astype(np.uint8), "RGB")
+    if rng.random() < 0.5:
+        scene = phone_isp(scene, rng)
     return scene
 
 

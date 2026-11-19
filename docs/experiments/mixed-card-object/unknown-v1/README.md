@@ -4,6 +4,10 @@
 
 **症狀已解決（空場景不再被放行），但未在 S31 實機驗證，真實鏡頭的整體 false-accept 也未量。** 下面數字全部係 host 執行，場景係程序化合成。
 
+> **2026-11-19：四類基座已重訓（issue #67 的擷取包絡修正），`models/wordless-unknown/` 已由新基座重新導出。**
+> 下面「結果」段係 2026-11-14 的舊基座數字，保留作方法記錄；新數字見 `models/wordless-unknown/README.md`。
+> 導出方式亦已改為 `tools/add_unknown_row.py --unknown-dir`，唔再需要把 `unknown` 放入四類資料集。
+
 ## 症狀與診斷
 
 用四類 `models/wordless-padded/model-float32.onnx` 打 300 張程序化空場景：

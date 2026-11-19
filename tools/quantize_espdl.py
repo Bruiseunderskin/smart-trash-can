@@ -13,7 +13,8 @@ from typing import Any
 import torch
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
-from ultralytics.data.augment import classify_transforms
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
@@ -23,6 +24,13 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--onnx", type=Path, required=True)
     parser.add_argument("--calib", type=Path, required=True, help="ImageFolder training split; never use test images here")
+    parser.add_argument(
+        "--calib-extra",
+        type=Path,
+        action="append",
+        default=[],
+        help="extra ImageFolder root whose images join the calibration pool, e.g. simulated captures of training cards",
+    )
     parser.add_argument("--test", type=Path, required=True, help="Held-out ImageFolder test split")
     parser.add_argument("--out", type=Path, required=True, help="Output .espdl path")
     parser.add_argument("--imgsz", type=int, default=160)
@@ -30,6 +38,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--target", default="esp32s31")
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--normalise",
+        choices=("div255", "imagenet"),
+        default="div255",
+        help="input space of the ONNX graph; the exported graphs take 0-1 RGB (see stc_preprocess)",
+    )
+    parser.add_argument(
+        "--calib-algorithm",
+        choices=("kl", "minmax", "percentile", "mse"),
+        default="kl",
+        help="activation range observer; kl is the ESP-PPQ default, percentile clips outliers",
+    )
+    parser.add_argument("--bias-correct", action="store_true", help="enable ESP-PPQ bias correction")
+    parser.add_argument("--equalization", action="store_true", help="enable cross-layer equalisation before quantising")
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--save-native", action="store_true", help="save PPQ native graph for reproducible host evaluation")
     args = parser.parse_args()
@@ -88,7 +110,7 @@ class ImageDataset(Dataset[torch.Tensor]):
 
     def __getitem__(self, index: int) -> torch.Tensor:
         with Image.open(self.paths[index]) as image:
-            return self.transform(image.convert("RGB"))
+            return self.transform(image)
 
 
 class TestDataset(Dataset[tuple[torch.Tensor, int]]):
@@ -102,7 +124,23 @@ class TestDataset(Dataset[tuple[torch.Tensor, int]]):
 
     def __getitem__(self, index: int) -> tuple[torch.Tensor, int]:
         with Image.open(self.paths[index]) as image:
-            return self.transform(image.convert("RGB")), self.labels[index]
+            return self.transform(image), self.labels[index]
+
+
+def contract_transform(size: int, normalise: str = "div255"):
+    """Callable that reproduces `contracts/model/preprocess.json` as a tensor.
+
+    This used to be `classify_transforms`, which appends ImageNet normalisation.
+    The exported ONNX has no normalisation node, so calibration and scoring were
+    both fed an input space the graph never sees; the quantised activation ranges
+    came out roughly 2.5x too wide and int8 collapsed on any shifted input.
+    """
+    from stc_preprocess import to_tensor
+
+    def transform(image: Image.Image) -> torch.Tensor:
+        return to_tensor(image, size, normalise)
+
+    return transform
 
 
 def f1_report(confusion: list[list[int]], class_names: list[str]) -> dict[str, Any]:
@@ -144,14 +182,25 @@ def main() -> int:
     test_paths, test_labels, test_classes = image_files(args.test)
     if calib_classes != test_classes:
         raise ValueError(f"class order differs between calibration and test data: {calib_classes} vs {test_classes}")
+    for extra in args.calib_extra:
+        extra_paths, extra_labels, extra_classes = image_files(extra)
+        if extra_classes != calib_classes:
+            raise ValueError(f"class order differs between {extra} and {args.calib}: {extra_classes} vs {calib_classes}")
+        calib_paths.extend(extra_paths)
+        calib_labels.extend(extra_labels)
     selected = balanced_sample(calib_paths, calib_labels, calib_classes, args.calib_images, args.seed)
-    # The pinned Ultralytics classify_transforms is deterministic: resize, center crop, tensor, normalize.
-    transform = classify_transforms(args.imgsz)
+    # Calibration must see the same input space the graph is deployed with.
+    transform = contract_transform(args.imgsz, args.normalise)
     calib_loader = DataLoader(ImageDataset(selected, transform), batch_size=1, shuffle=False, num_workers=0)
     test_loader = DataLoader(TestDataset(test_paths, test_labels, transform), batch_size=1, shuffle=False, num_workers=0)
 
     from esp_ppq import QuantizationSettingFactory
     from esp_ppq.api import espdl_quantize_onnx
+
+    setting = QuantizationSettingFactory.espdl_setting()
+    setting.quantize_activation_setting.calib_algorithm = args.calib_algorithm
+    setting.bias_correct = bool(args.bias_correct)
+    setting.equalization = bool(args.equalization)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
 
@@ -180,7 +229,7 @@ def main() -> int:
         input_shape=[1, 3, args.imgsz, args.imgsz],
         target=args.target,
         quant_type="w8a8",
-        setting=QuantizationSettingFactory.espdl_setting(),
+        setting=setting,
         collate_fn=collate_fn,
         device=args.device,
         error_report=True,
@@ -195,6 +244,10 @@ def main() -> int:
         "target": args.target,
         "quant_type": "w8a8",
         "calibration_images": len(selected),
+        "calibration_extra": [str(path) for path in args.calib_extra],
+        "calib_algorithm": args.calib_algorithm,
+        "bias_correct": bool(args.bias_correct),
+        "equalization": bool(args.equalization),
         "test_images": len(test_paths),
         "input_shape": [1, 3, args.imgsz, args.imgsz],
         "espdl_path": str(args.out),

@@ -21,6 +21,7 @@ compile_commands.json
 /runs/fold0t-model/
 /runs/fold0t-4cls-model/
 /runs/classify/
+/runs/wordless-padded-envelope/
 /yolo11n-cls.pt
 /tools/__pycache__/
 
@@ -42,3 +43,9 @@ __pycache__/
 # dataset.csv records every scene's card, seed and SHA-256.
 /models/wordless-padded/cards-padded/
 /models/wordless-padded/dataset/
+# PPQ native graphs and ESP-DL debug info are host-side byproducts above 10 MB,
+# regenerate with tools/quantize_espdl.py --save-native (see docs/repo-map.md).
+/models/wordless-padded/wordless_s31.native
+/models/wordless-padded/wordless_s31.info
+/models/wordless-unknown/wordless_s31.native
+/models/wordless-unknown/wordless_s31.info

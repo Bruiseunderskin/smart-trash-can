@@ -8,8 +8,20 @@
 
 ## [Unreleased]
 
+### Changed
+
+- **模型重訓（四類，issue #67）**：改用新的擷取包絡資料（卡佔畫面 0.45–1.15、每場景珠光反光、手機 ISP、感測器噪聲）後重訓 12 epoch。已知卡、未見場景 4,698 張：float32 4,696/4,698（macro-F1 0.9995）、`wordless_s31.espdl` 4,692/4,698（macro-F1 0.9977）。擷取包絡八個 regime 全部 ≥0.96，`tight_pearl` 0.993；被點名的 B-14 至 B-19、B-22、B-28 在新 `.espdl` 上每個 regime 4/4（B-19 於 `tight` 為 3/4）。舊模型同一批影像 `tight_pearl` 0.711。
+- **`wordless_s31.espdl` 量化設定**：`tools/quantize_espdl.py` 加 `--bias-correct`、`--equalization`、`--calib-algorithm`、`--calib-extra`、`--normalise`。交付的 `.espdl` 用 1,200 張 0–1 RGB 校準 ＋ cross-layer equalisation ＋ bias correction；冇這兩項時同一份權重 `tight_pearl` 只有 0.928、`held` 0.934。
+- **五類模型（`models/wordless-unknown/`）由新四類模型重新導出**：5,791 張留起場景 float32 5,786（0.9991）、`.espdl` 5,755（macro-F1 0.9939）；空場景 1,093 張拒判 1,090。擷取包絡八個 regime 0.921–0.987，八張被點名卡每 regime 4/4（B-16 於 `tight` 為 3/4）。`tools/add_unknown_row.py` 加 `--unknown-dir`，衍生時唔再需要把 `unknown` 放入四類資料集；`render_none_scenes.py` 產生的空場景改放獨立目錄。
+
+### Removed
+
+- `models/wordless-unknown/metrics.json`：1,500 張平衡測試集的舊量化報告，測試協議同其他量化報告唔一致，已由 `wordless_s31.metrics.json`（5,791 張留起場景）取代。
+
 ### Fixed
 
+- **int8 量化與 native 評估餵錯輸入空間**：`tools/quantize_espdl.py` 與 `tools/evaluate_espdl_native.py` 都用 Ultralytics `classify_transforms`，它會在 `/255` 之後再加 ImageNet 正規化；但導出圖由 `Conv` 開始、要的是 0–1 RGB。校準（決定每一層 activation scale）與評分因此都餵了模型從未見過的輸入。新增 `--normalise` 參數，預設 `div255`；修正前後的實測見 `docs/experiments/setb-capture-envelope.md`。
+- **模型只在「卡佔畫面 52–78%」的輸入上可靠**：訓練 renderer 由 `0.52–0.78` 改為 `0.45–1.15`（卡可以貼邊、可以出框），並加每場景珠光反光、手機 ISP（銳化／飽和／對比）與 sensor noise。在此之前，同一張卡填滿畫面（小朋友把卡舉到鏡頭前）float32 0.684、int8 0.526，hazardous 以 0.99 信心被判可回收——與隊友回報的「廚餘／藥物／鋁箔／電池 → 可回收」一致。
 - `tools/run_setb_matrix.py` 的輸入前處理錯誤：對 `models/wordless-padded/*.onnx` 施加 ImageNet 正規化，但該導出圖已內含正規化，正確輸入是 0–1 RGB。同一批 120 張影像，`div255` 得 1.000、ImageNet 正規化得 0.625。預設改為 `div255`，另加 `--normalise imagenet` 只為重現舊錯；錯誤值＝／＝模型能力。
 - `tools/render_card_matrix.py` 在 Kaggle 的 Pillow 上升 `ValueError: bad transparency mask`：`render_card_scenes.render()` 用卡片本身做 alpha mask 貼圖，只接受 RGBA 來源，而本工具傳入 RGB。改為以 RGBA 開啟，並在有 `cards-padded/` 透明 sprite 時優先使用。
 - `tools/check_docs.py` 對 `ui/lvgl_ui_project/` 報 28 個「missing README.md」，令 `main` 的 Documentation CI 一直紅。原因是 LVGL Pro Editor 會自動建立 `components/<widget>/`、`screens/`、`.lvgl-flow/`、`.vscode/` 等目錄，逐個要求 README 只是噪音。改為：hidden 目錄（`.vscode`、`.lvgl-flow`）一律不檢查；`ui/lvgl_ui_project/` 列為 tool-managed tree，文件責任在該目錄的 `README.md` 與 `AGENTS.md`。檢查結果由 **28 errors（exit 1）變成 0 errors（exit 0）**。
@@ -17,6 +29,9 @@
 
 ### Added
 
+- `tools/evaluate_capture_stress.py`：把「實拍擷取」拆成八個可重建的 regime（`nominal`／`tight`／`tight_pearl`／`held`／`isp`／`low_light`／`motion`／`jpeg60`），逐 regime 出每類準確率、最差卡與混淆對，低於門檻即 exit 1。不需要實卡，用 seed 重建；用來阻止「訓練分佈內 1.000、實拍塌陷」再發生。
+- `tools/stc_preprocess.py`：模型輸入的唯一來源（center-crop-square → bilinear resize → 0–1 RGB），`run_setb_matrix`、`quantize_espdl`、`evaluate_espdl_native` 共用，杜絕第二個前處理定義。
+- `tools/tests/test_stc_preprocess.py`（8 個測試）與 `tools/tests/test_evaluate_capture_stress.py`（13 個測試）：不需 torch／onnxruntime。
 - `tools/run_setb_matrix.py`：一鍵跑 issue #67 的 S1 至 S3（矩陣 → ONNX 推論 → `tau`／拒判掃描 → `summary.md`），含 PASS/FAIL 判斷；重依賴（numpy、onnxruntime）以函式內 import，保持可測。
 - `notebooks/kaggle-setb-matrix.ipynb` 與 `notebooks/README.md`：Kaggle（CPU、需開 Internet）跑同一條命令，只保留 CSV／JSON 輸出。
 
