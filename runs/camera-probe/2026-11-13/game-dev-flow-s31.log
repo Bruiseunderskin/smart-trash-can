@@ -1,0 +1,263 @@
+20626.984 ESP-ROM:esp32s31-20251218
+20626.984 Build:Dec 18 2025
+20627.000 rst:0x1 (POWERON),boot:0x79 (SPI_FAST_FLASH_BOOT)
+20627.000 SPI mode:DIO, clock div:1
+20627.000 load:0x2f0740c0,len:0x17e4
+20627.000 load:0x2f06a2b0,len:0xde0
+20627.000 load:0x2f06cfb0,len:0x3460
+20627.000 entry 0x2f06a2ba
+20627.000 I (26) boot: ESP-IDF v6.1 2nd stage bootloader
+20627.000 I (26) boot: compile time Nov 11 2026 21:47:57
+20627.000 I (27) boot: Multicore bootloader
+20627.000 I (29) boot: chip revision: v0.0
+20627.000 I (29) boot: efuse block revision: v0.1
+20627.000 I (33) qio_mode: Enabling default flash chip QIO
+20627.015 I (37) boot.esp32s31: SPI Speed      : 80MHz
+20627.015 I (41) boot.esp32s31: SPI Mode       : QIO
+20627.015 �ESP-ROM:esp32s31-20251218
+20627.015 Build:Dec 18 2025
+20627.015 rst:0x1 (POWERON),boot:0x79 (SPI_FAST_FLASH_BOOT)
+20627.015 SPI mode:DIO, clock div:1
+20627.015 load:0x2f0740c0,len:0x17e4
+20627.015 load:0x2f06a2b0,len:0xde0
+20627.015 load:0x2f06cfb0,len:0x3460
+20627.015 entry 0x2f06a2ba
+20627.015 I (26) boot: ESP-IDF v6.1 2nd stage bootloader
+20627.015 I (26) boot: compile time Nov 11 2026 21:47:57
+20627.015 I (27) boot: Multicore bootloader
+20627.031 I (29) boot: chip revision: v0.0
+20627.031 I (29) boot: efuse block revision: v0.1
+20627.031 I (33) qio_mode: Enabling default flash chip QIO
+20627.031 I (37) boot.esp32s31: SPI Speed      : 80MHz
+20627.031 I (41) boot.esp32s31: SPI Mode       : QIO
+20627.031 I (45) boot.esp32s31: SPI Flash Size : 16MB
+20627.031 I (49) boot: Enabling RNG early entropy source...
+20627.031 I (53) boot: Partition Table:
+20627.031 I (56) boot: ## Label            Usage          Type ST Offset   Length
+20627.046 I (62) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+20627.046 I (69) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+20627.046 I (75) boot:  2 factory          factory app      00 00 00010000 00c00000
+20627.046 I (83) boot: End of partition table
+20627.046 I (85) esp_image: segment 0: paddr=00010020 vaddr=40330020 size=4bc3a4h (4965284) map
+20627.046 ESP-ROM:esp32s31-20251218
+20627.046 Build:Dec 18 2025
+20627.046 rst:0x1 (POWERON),boot:0x79 (SPI_FAST_FLASH_BOOT)
+20627.046 SPI mode:DIO, clock div:1
+20627.062 load:0x2f0740c0,len:0x17e4
+20627.062 load:0x2f06a2b0,len:0xde0
+20627.062 load:0x2f06cfb0,len:0x3460
+20627.062 entry 0x2f06a2ba
+20627.062 I (26) boot: ESP-IDF v6.1 2nd stage bootloader
+20627.062 I (26) boot: compile time Nov 11 2026 21:47:57
+20627.062 I (27) boot: Multicore bootloader
+20627.062 I (29) boot: chip revision: v0.0
+20627.062 I (29) boot: efuse block revision: v0.1
+20627.062 I (33) qio_mode: Enabling default flash chip QIO
+20627.062 I (37) boot.esp32s31: SPI Speed      : 80MHz
+20627.062 I (41) boot.esp32s31: SPI Mode       : QIO
+20627.078 I (45) boot.esp32s31: SPI Flash Size : 16MB
+20627.078 I (49) boot: Enabling RNG early entropy source...
+20627.078 I (53) boot: Partition Table:
+20627.078 I (56) boot: ## Label            Usage          Type ST Offset   Length
+20627.078 I (62) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+20627.078 I (69) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+20627.093 I (75) boot:  2 factory          factory app      00 00 00010000 00c00000
+20627.093 I (83) boot: End of partition table
+20627.109 I (85) esp_image: segment 0: paddr=00010020 vaddr=40330020 size=4bc3a4h (4965284) map
+20627.875 I (860) esp_image: segment 1: paddr=004cc3cc vaddr=2e000000 size=00024h (    36) load
+20627.875 I (862) esp_image: segment 2: paddr=004cc3f8 vaddr=2f000000 size=03c20h ( 15392) load
+20627.875 I (868) esp_image: segment 3: paddr=004d0020 vaddr=40000020 size=32c6b4h (3327668) map
+20628.390 I (1387) esp_image: segment 4: paddr=007fc6dc vaddr=2f003c20 size=113b4h ( 70580) load
+20628.406 I (1401) esp_image: segment 5: paddr=0080da98 vaddr=2f015000 size=056c4h ( 22212) load
+20628.421 I (1412) boot: Loaded app from partition at offset 0x10000
+20628.421 I (1412) boot: Disabling RNG early entropy source...
+20628.421 I (1424) oct_psram: vendor id    : 0x0d (AP)
+20628.437 I (1424) oct_psram: Latency      : 0x01 (Fixed)
+20628.437 I (1424) oct_psram: DriveStr.    : 0x00 (25 Ohm)
+20628.437 I (1425) oct_psram: dev id       : 0x03 (generation 4)
+20628.437 I (1430) oct_psram: density      : 0x05 (128 Mbit)
+20628.453 I (1435) oct_psram: good-die     : 0x06 (Pass)
+20628.453 I (1439) oct_psram: SRF          : 0x02 (Slow Refresh)
+20628.453 I (1444) oct_psram: BurstType    : 0x00 ( Wrap)
+20628.468 I (1448) oct_psram: BurstLen     : 0x03 (2048 Byte)
+20628.468 I (1452) oct_psram: BitMode      : 0x00 (X8 Mode)
+20628.468 I (1457) oct_psram: Readlatency  : 0x04 (14 cycles@Fixed)
+20628.484 I (1462) oct_psram: DriveStrength: 0x00 (1/1)
+20628.484 I (1466) MSPI Timing: Enter psram timing tuning
+20628.625 I (1623) esp_psram: Found 16MB PSRAM device
+20628.625 I (1623) esp_psram: Speed: 200MHz
+20628.625 I (1624) oct_psram: psram CS IO is dedicated
+20628.640 I (1624) cpu_start: Multicore app
+20628.937 I (1939) esp_psram: SPI SRAM memory test OK
+20628.953 I (1948) cpu_start: GPIO 59 and 58 are used as console UART I/O pins
+20628.953 I (1948) cpu_start: Pro cpu start user code
+20628.968 I (1948) cpu_start: cpu freq: 320000000 Hz
+20628.968 I (1950) app_init: Application information:
+20628.968 I (1954) app_init: Project name:     stc_s31_game
+20628.968 I (1959) app_init: App version:      1
+20628.984 I (1962) app_init: Compile time:     Nov 13 2026 17:14:07
+20628.984 I (1967) app_init: ELF file SHA256:  5fe333efd...
+20628.984 I (1972) app_init: ESP-IDF:          v6.1
+20628.984 I (1975) efuse_init: Min chip rev:     v0.0
+20629.000 I (1979) efuse_init: Max chip rev:     v0.99 
+20629.000 I (1983) efuse_init: Chip rev:         v0.0
+20629.000 I (1987) heap_init: Initializing. RAM available for dynamic allocation:
+20629.015 I (1994) heap_init: At 2F035020 len 00045F90 (279 KiB): RAM
+20629.015 I (1999) heap_init: At 2F07AFB0 len 000041C0 (16 KiB): RAM
+20629.015 I (2004) heap_init: At 2E000024 len 00007FC4 (31 KiB): RTCRAM
+20629.031 I (2010) esp_psram: Adding pool of 16384K of PSRAM memory to heap allocator
+20629.031 I (2017) spi_flash: detected chip: generic
+20629.031 I (2020) spi_flash: flash io: qio
+20629.031 I (2024) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+20629.046 I (2030) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+20629.046 I (2036) oct_psram: psram CS IO is dedicated
+20629.062 I (2040) coexist: coex firmware version: a830d28
+20629.062 I (2045) coexist: coexist rom version cdcf52b
+20629.062 I (2049) main_task: Started on CPU0
+20629.078 I (2060) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+20629.078 I (2060) main_task: Calling app_main()
+20629.078 I (2073) LVGL: Starting LVGL task
+20629.078 I (2073) ESP32-S31-Korvo-1: Initialize RGB panel
+20629.093 I (2082) ESP32-S31-Korvo-1: Display initialized with resolution 800x480
+20629.109 I (2103) gt1151: IC version: GT1158_000101(Patch)_0102(Mask)_00(SensorID)
+20629.109 W (2103) ESP32-S31-Korvo-1: This board doesn't support to change brightness of LCD
+20629.171 I (2168) stc_ui_port: 800x480 UI ready
+20629.171 W (2169) i2s_common: the rx channel on I2S1 is switched from master to slave for full-duplex mode
+20629.203 I (2193) ES8389: Work in Slave mode
+20629.203 I (2196) ES8389: Set internal reference signal
+20629.218 I (2197) I2S_IF: Paired data: 0x2f055788, current mode: playback, paired in_enable: 0, paired out_enable: 0
+20629.218 I (2199) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: STEREO, slot_mask: 0x3
+20629.218 I (2208) I2S_IF: STD: TX, sample_rate_hz: 16000, mclk_multiple: 256, clk_src: 16
+20629.234 I (2233) Adev_Codec: Open codec device OK
+20629.250 I (2234) stc_voice: local PCM voice ready (16 kHz stereo, cloud disabled)
+20629.859 I (2847) stc_game_model: model_crc=6e1f6dec pack=232915 bytes seed=20261111 labels=OK input_dtype=3 input_exp=-7 input_shape=[1,160,160,3] output_dtype=1 output_exp=0 output_size=4
+20629.953 I (2949) stc_game_model: SELFTEST index=0 card=A-03 expected=3 predicted=3 conf=0.999670 PASS
+20630.046 I (3044) stc_game_model: SELFTEST index=1 card=A-03 expected=3 predicted=3 conf=0.999974 PASS
+20630.140 I (3140) stc_game_model: SELFTEST index=2 card=A-03 expected=3 predicted=3 conf=0.999998 PASS
+20630.250 I (3235) stc_game_model: SELFTEST index=3 card=A-03 expected=3 predicted=3 conf=0.999615 PASS
+20630.343 I (3330) stc_game_model: SELFTEST index=4 card=A-03 expected=3 predicted=3 conf=0.999493 PASS
+20630.437 I (3425) stc_game_model: SELFTEST index=5 card=A-03 expected=3 predicted=3 conf=0.812991 PASS
+20630.531 I (3520) stc_game_model: SELFTEST index=6 card=A-03 expected=3 predicted=3 conf=0.999989 PASS
+20630.625 I (3615) stc_game_model: SELFTEST index=7 card=A-03 expected=3 predicted=3 conf=0.998050 PASS
+20630.718 I (3710) stc_game_model: SELFTEST index=8 card=A-03 expected=3 predicted=3 conf=0.999915 PASS
+20630.812 I (3805) stc_game_model: SELFTEST index=9 card=B-05 expected=3 predicted=3 conf=0.999999 PASS
+20630.906 I (3901) stc_game_model: SELFTEST index=10 card=B-14 expected=0 predicted=0 conf=0.999948 PASS
+20631.000 I (3996) stc_game_model: SELFTEST index=11 card=B-14 expected=0 predicted=0 conf=0.999992 PASS
+20631.093 I (4091) stc_game_model: SELFTEST index=12 card=B-14 expected=0 predicted=0 conf=0.816672 PASS
+20631.187 I (4186) stc_game_model: SELFTEST index=13 card=B-14 expected=0 predicted=0 conf=0.880234 PASS
+20631.281 I (4282) stc_game_model: SELFTEST index=14 card=B-14 expected=0 predicted=0 conf=0.995898 PASS
+20631.390 I (4377) stc_game_model: SELFTEST index=15 card=B-14 expected=0 predicted=0 conf=0.995357 PASS
+20631.484 I (4472) stc_game_model: SELFTEST index=16 card=B-14 expected=0 predicted=0 conf=0.999988 PASS
+20631.578 I (4567) stc_game_model: SELFTEST index=17 card=B-14 expected=0 predicted=0 conf=0.999771 PASS
+20631.671 I (4662) stc_game_model: SELFTEST index=18 card=B-14 expected=0 predicted=0 conf=0.998827 PASS
+20631.765 I (4757) stc_game_model: SELFTEST index=19 card=B-14 expected=0 predicted=0 conf=0.999875 PASS
+20631.859 I (4852) stc_game_model: SELFTEST index=20 card=B-19 expected=1 predicted=1 conf=0.997298 PASS
+20631.953 I (4947) stc_game_model: SELFTEST index=21 card=B-19 expected=1 predicted=1 conf=0.999727 PASS
+20632.046 I (5043) stc_game_model: SELFTEST index=22 card=B-19 expected=1 predicted=1 conf=0.993994 PASS
+20632.140 I (5138) stc_game_model: SELFTEST index=23 card=B-19 expected=1 predicted=3 conf=0.910221 FAIL
+20632.234 I (5233) stc_game_model: SELFTEST index=24 card=B-19 expected=1 predicted=1 conf=0.722150 PASS
+20632.328 I (5328) stc_game_model: SELFTEST index=25 card=B-19 expected=1 predicted=1 conf=0.979194 PASS
+20632.437 I (5423) stc_game_model: SELFTEST index=26 card=B-19 expected=1 predicted=1 conf=0.976211 PASS
+20632.531 I (5518) stc_game_model: SELFTEST index=27 card=B-19 expected=1 predicted=1 conf=0.995333 PASS
+20632.625 I (5613) stc_game_model: SELFTEST index=28 card=B-19 expected=1 predicted=1 conf=0.771245 PASS
+20632.718 I (5708) stc_game_model: SELFTEST index=29 card=B-19 expected=1 predicted=1 conf=0.997587 PASS
+20632.812 I (5804) stc_game_model: SELFTEST index=30 card=B-24 expected=2 predicted=2 conf=0.999534 PASS
+20632.906 I (5899) stc_game_model: SELFTEST index=31 card=B-24 expected=2 predicted=2 conf=0.582708 PASS
+20633.000 I (5994) stc_game_model: SELFTEST index=32 card=B-24 expected=2 predicted=2 conf=0.972095 PASS
+20633.093 I (6089) stc_game_model: SELFTEST index=33 card=B-24 expected=2 predicted=2 conf=0.984591 PASS
+20633.187 I (6184) stc_game_model: SELFTEST index=34 card=B-24 expected=2 predicted=2 conf=0.988775 PASS
+20633.281 I (6280) stc_game_model: SELFTEST index=35 card=B-24 expected=2 predicted=2 conf=0.999949 PASS
+20633.375 I (6374) stc_game_model: SELFTEST index=36 card=B-24 expected=2 predicted=2 conf=0.999721 PASS
+20633.484 I (6469) stc_game_model: SELFTEST index=37 card=B-24 expected=2 predicted=2 conf=0.999503 PASS
+20633.578 I (6564) stc_game_model: SELFTEST index=38 card=B-24 expected=2 predicted=2 conf=0.980723 PASS
+20633.671 I (6660) stc_game_model: SELFTEST index=39 card=B-24 expected=2 predicted=2 conf=0.977569 PASS
+20633.671 I (6660) stc_game_model: REPLAY_SELFTEST=FAIL correct=39 total=40
+20633.671 I (6663) stc_game: MODEL_SELFTEST=FAIL correct=39 total=40
+20633.687 W (6668) stc_game: MODEL_SELFTEST=FAIL correct=39 total=40 DEV_BYPASS=1 reason=STC_GAME_DEV_FLOW
+20633.718 I (6711) sc101iot: Detected Camera sensor PID=0xda4a
+20634.328 I (7322) stc_camera: SC101IOT stream on, 640x480 UYVY
+20634.640 I (7631) stc_game: LIVE_CAMERA_FRAME=0
+20634.906 I (7908) stc_game: LIVE_CAMERA_FRAME=1
+20635.187 I (8184) stc_game: LIVE_CAMERA_FRAME=2
+20635.468 I (8460) stc_game: LIVE_CAMERA_FRAME=3
+20635.734 I (8736) stc_game: LIVE_CAMERA_FRAME=4
+20635.750 I (8749) stc_game: LIVE_CAMERA_SMOKE=PASS frames=5/5
+20635.750 I (8750) pp: pp rom version: 395df10
+20635.765 I (8751) net80211: net80211 rom version: 395df10
+20635.765 I (8752) wifi:wifi driver task: 2f06e370, prio:23, stack:6656, core=0
+20635.765 I (8759) wifi:wifi firmware version: e12a754
+20635.781 I (8761) wifi:wifi certification version: v7.0
+20635.781 I (8765) wifi:config NVS flash: enabled
+20635.781 I (8769) wifi:config nano formatting: disabled
+20635.796 I (8773) wifi:mac_version:HAL_MAC_ESP32AX_764,ut_version:N, band mode:0x1
+20635.796 I (8779) wifi:Init data frame dynamic rx buffer num: 32
+20635.796 I (8784) wifi:Init static rx mgmt buffer num: 5
+20635.796 I (8788) wifi:Init management short buffer num: 32
+20635.812 I (8793) wifi:Init dynamic tx buffer num: 32
+20635.812 I (8797) wifi:Init static tx FG buffer num: 2
+20635.812 I (8801) wifi:Init static rx buffer size: 1700 (rxctrl:64, csi:512)
+20635.828 I (8807) wifi:Init static rx buffer num: 10
+20635.828 I (8811) wifi:Init dynamic rx buffer num: 32
+20635.828 I (8815) wifi_init: rx ba win: 6
+20635.828 I (8818) wifi_init: accept mbox: 6
+20635.828 I (8821) wifi_init: tcpip mbox: 32
+20635.843 I (8824) wifi_init: udp mbox: 6
+20635.843 I (8827) wifi_init: tcp mbox: 6
+20635.843 I (8830) wifi_init: tcp tx win: 5760
+20635.843 I (8833) wifi_init: tcp rx win: 5760
+20635.859 I (8836) wifi_init: tcp mss: 1440
+20635.859 I (8840) wifi_init: WiFi IRAM OP enabled
+20635.859 I (8843) wifi_init: WiFi RX IRAM OP enabled
+20635.859 I (8847) wifi_init: WiFi SLP IRAM OP enabled
+20635.859 I (8851) phy_init: phy_version 100,dd4c590,Jul 14 2026,10:33:03
+20635.921 W (8925) wifi:(phy)rate:0x0(  LP-1Mbps), pwr:20, txing:20
+20635.937 W (8925) wifi:(phy)rate:0x1(  LP-2Mbps), pwr:20, txing:20
+20635.937 W (8925) wifi:(phy)rate:0x2(LP-5.5Mbps), pwr:20, txing:20
+20635.937 W (8929) wifi:(phy)rate:0x3( LP-11Mbps), pwr:20, txing:20
+20635.953 W (8934) wifi:(phy)rate:0x5(  SP-2Mbps), pwr:20, txing:20
+20635.953 W (8939) wifi:(phy)rate:0x6(SP-5.5Mbps), pwr:20, txing:20
+20635.953 W (8944) wifi:(phy)rate:0x7( SP-11Mbps), pwr:20, txing:20
+20635.968 W (8949) wifi:(phy)rate:0x8(    48Mbps), pwr:18, txing:18
+20635.968 W (8955) wifi:(phy)rate:0x9(    24Mbps), pwr:19, txing:19
+20635.968 W (8960) wifi:(phy)rate:0xa(    12Mbps), pwr:20, txing:20
+20635.984 W (8965) wifi:(phy)rate:0xb(     6Mbps), pwr:20, txing:20
+20635.984 W (8970) wifi:(phy)rate:0xc(    54Mbps), pwr:18, txing:18
+20635.984 W (8975) wifi:(phy)rate:0xd(    36Mbps), pwr:19, txing:19
+20636.000 W (8980) wifi:(phy)rate:0xe(    18Mbps), pwr:20, txing:20
+20636.000 W (8985) wifi:(phy)rate:0xf(     9Mbps), pwr:20, txing:20
+20636.000 W (8990) wifi:(phy)rate:0x10, mcs:0x0, pwr(bw20:20, bw40:19), txing:20
+20636.015 W (8997) wifi:(phy)rate:0x11, mcs:0x1, pwr(bw20:20, bw40:19), txing:20
+20636.015 W (9003) wifi:(phy)rate:0x12, mcs:0x2, pwr(bw20:20, bw40:19), txing:20
+20636.031 W (9009) wifi:(phy)rate:0x13, mcs:0x3, pwr(bw20:20, bw40:19), txing:20
+20636.031 W (9015) wifi:(phy)rate:0x14, mcs:0x4, pwr(bw20:19, bw40:18), txing:19
+20636.031 W (9022) wifi:(phy)rate:0x15, mcs:0x5, pwr(bw20:19, bw40:18), txing:19
+20636.046 W (9028) wifi:(phy)rate:0x16, mcs:0x6, pwr(bw20:18, bw40:17), txing:18
+20636.046 W (9034) wifi:(phy)rate:0x17, mcs:0x7, pwr(bw20:18, bw40:17), txing:18
+20636.046 W (9040) wifi:(phy)rate:0x18, mcs:0x8, pwr(bw20:16, bw40:16), txing:16
+20636.062 W (9047) wifi:(phy)rate:0x19, mcs:0x9, pwr(bw20:15, bw40:15), txing:15
+20636.078 I (9053) wifi:11ax coex: WDEVAX_PTI0(0x55777555), WDEVAX_PTI1(0x00003377).
+20636.078 
+20636.078 I (9060) wifi:mode : sta (1c:29:04:d0:58:a0)
+20636.078 I (9064) wifi:enable tsf
+20636.078 I (9067) wifi:Set ps type: 0, coexist: 0
+20636.078 
+20636.078 I (9071) ESPNOW: espnow [version: 2.0] init
+20636.093 I (9074) stc_espnow_s31: controller ready channel=6 encryption=off
+20636.312 I (9303) stc_espnow_s31: virtual hand discovered 90:e5:b1:d5:fd:88
+20636.359 I (9350) stc_game: DEV_AUTOPILOT action=START result=0 round_id=1 phase=1
+20636.390 I (9386) stc_camera: SC101IOT stream on, 640x480 UYVY
+20636.421 I (9413) stc_game: DEV_AUTOPILOT action=SCAN result=0 round_id=2 phase=2
+20644.609 I (17603) stc_game: DEV_AUTOPILOT action=NEXT result=0 round_id=3 phase=1
+20644.640 I (17638) stc_camera: SC101IOT stream on, 640x480 UYVY
+20644.671 I (17662) stc_game: DEV_AUTOPILOT action=SCAN result=0 round_id=4 phase=2
+20652.859 I (25850) stc_game: DEV_AUTOPILOT action=NEXT result=0 round_id=5 phase=1
+20652.890 I (25884) stc_camera: SC101IOT stream on, 640x480 UYVY
+20652.906 I (25907) stc_game: DEV_AUTOPILOT action=SCAN result=0 round_id=6 phase=2
+20661.140 I (34142) stc_game: DEV_AUTOPILOT action=NEXT result=0 round_id=7 phase=1
+20661.171 I (34176) stc_camera: SC101IOT stream on, 640x480 UYVY
+20661.187 I (34179) stc_game: DEV_AUTOPILOT action=SCAN result=0 round_id=8 phase=2
+20669.390 I (42395) stc_game: DEV_AUTOPILOT action=NEXT result=0 round_id=9 phase=1
+20669.437 I (42429) stc_camera: SC101IOT stream on, 640x480 UYVY
+20669.453 I (42453) stc_game: DEV_AUTOPILOT action=SCAN result=0 round_id=10 phase=2
+20677.703 I (50694) stc_game: DEV_AUTOPILOT action=NEXT result=0 round_id=10 phase=9
+20677.718 I (50714) stc_game: DEV_FLOW=COMPLETE score=5 streak=0 rounds=5 correct=2 wrong=3 timed_out=0 duration_ms=41309 ended_by_time=0

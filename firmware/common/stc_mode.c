@@ -103,7 +103,7 @@ stc_err_t stc_mode_input(stc_input_t in, uint32_t now_ms)
     case STC_ST_GAME_IDLE:
         if (in == STC_IN_PLAY) {
             call(g_hooks.enter_round);
-            (void)stc_game_start();
+            (void)stc_game_start(now_ms);
             g_state = STC_ST_GAME_ROUND;
             return STC_OK;
         }

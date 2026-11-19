@@ -6,15 +6,15 @@
 
 | 檔案 | 說明 | 未見卡準確率 |
 |---|---|---:|
-| `model-int8.onnx` | **建議使用**。YOLO11n-cls 160×160 int8，158 張卡面訓練 | **0.8251 ± 0.0632**（5 折） |
-| `wordless_s31.espdl` | ESP32-S31 用，w8a8 量化，目標 `esp32s31`，1,812,848 bytes | 見下方量化章節 |
-| `model-float32.onnx` | 量化前的 float32 版本，供對照與重新量化 | 同 int8 |
+| `model-int8.onnx` | YOLO11n-cls 160×160 int8，158 卡珠光紙資料重訓（`main@d4440b3`） | **0.739**（未見卡 fold 0） |
+| `wordless_s31.espdl` | ESP32-S31 用，w8a8 量化，目標 `esp32s31`，1,795,232 bytes（`main@d4440b3`） | 見下方量化章節 |
+| `model-float32.onnx` | 量化前 float32 版本，供對照與重新量化 | 同 int8 |
 | `model-int8-scene-split.onnx` | 舊版：38 張卡的場景切分模型 | 0.558 至 0.6875 |
 | `labels.txt` | 輸出次序 `food, hazardous, other, recyclable` | |
 
 輸入 `images`: `[1, 3, 160, 160]` float32；輸出 `output0`: `[1, 4]`，已是 softmax 機率。已用 onnxruntime 實跑驗證。
 
-## 5 折卡片身分交叉驗證
+## 上一版 5 折卡片身分交叉驗證
 
 每一折把整張卡抽出驗證集，所以分數代表「未見過的卡」。
 
@@ -32,21 +32,28 @@
 
 ## ESP32-S31 量化模型
 
-`wordless_s31.espdl` 由 `tools/quantize_espdl.py` 以 w8a8、`target=esp32s31`、240 張校準圖產生，檔案開頭為 `EDL2`，與既有 `mixed_s31.espdl` 同一格式。
+`main@d4440b3`（PR #63）上傳了珠光紙 158 卡重訓模型。`wordless_s31.espdl`
+由 `tools/quantize_espdl.py` 以 w8a8、`target=esp32s31`、240 張訓練圖校準：
 
-- 單一測試集（163 張場景）：準確率 0.9509（155/163）、macro-F1 0.9556
-- 逐類 F1：food 1.00、hazardous 0.951、other 0.929、recyclable 0.942
-- 混淆：other 有 5 張判去 recyclable，hazardous 2 張判去 other，recyclable 1 張判去 hazardous
+- 官方同源場景驗證：4,730/4,738、macro-F1 0.9983
+- 未見卡 fold 0：0.739 top-1、0.7378 macro-F1
+- 官方文件限制：未在 S31 實板量延遲；數字不代表印刷卡實拍或現場準確率
 
-此測試集與訓練集同源（同一批卡面渲染），只證明量化沒有明顯掉點，不是未見卡數字。完整報告見 `wordless_s31.metrics.json`。
+在本機舊 40 張場景上，最新 `model-float32.onnx` host 為 40/40，
+`model-int8.onnx` host 為 39/40。這 40 張是舊測試集，不能和上面的 4,738
+張結果直接比較。
 
-`wordless_s31.espdl` 由 `model-float32.onnx` 量化，而 `model-float32.onnx` 是同一配方的另一次訓練（Kaggle kernel `wedsamuel1230/stc-wordless-espdl`），與 `model-int8.onnx` 的權重不是同一份。兩者在 40 張 smoke 測試上分別為 39/40 與 40/40，差距在噪音範圍。
+2026-11-12 在 ESP32-S31-Korvo-1 實板以正確的 uint8→`0..1` 前處理（ESP-DL
+preprocessor mean `0`、std `255`、model input exponent `-7`）重跑同一批 40 張
+場景，最新 checkpoint 為 **39/40**；唯一錯誤是 `B-19_003`，expected
+hazardous、predicted recyclable。遊戲的 40/40 啟動閘因此保持關閉，唔可以透過
+降低門檻或排除錯誤類別來變成通過。
 
-## 最終模型
+## 上一版最終模型
 
 最後一輪用全部 158 張卡、以場景切分訓練（留 10% 場景驗證），驗證準確率 0.9985。此數字只證明流程正常，因為同一張卡同時出現在訓練與驗證，不可當作未見卡表現。
 
-## 信心校準
+## 上一版信心校準
 
 最終模型的溫度 `T = 0.65`，ECE 由 0.0036 降至 0.0015。此 ECE 在同一批卡面的場景驗證集上量度，數字偏樂觀；逐折校準未記錄。
 
@@ -63,7 +70,7 @@
 ## 限制
 
 - 生成卡面由 Kaggle `sumn2u/garbage-classification-v2`（MIT）去背產生，個別卡有背景殘留或透明物件邊緣瑕疵
-- 未在 S31 實板載入，未量 RAM／PSRAM／延遲；未比較 int8 與 float32 的逐張差異
+- 最新 S31 artefact 已在 Korvo-1 載入；舊 40 張 smoke 為 39/40，未量正式 p50／p95
 - 卡面只有 158 張，5 折標準差 0.0632 仍偏大
 - 驗證集與訓練集同源（同一批卡面渲染），不代表實物或現場表現
 

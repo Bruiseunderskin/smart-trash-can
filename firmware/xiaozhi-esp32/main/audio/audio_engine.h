@@ -19,6 +19,7 @@ public:
     virtual void Feed(std::vector<int16_t>&& data) = 0;
 
     virtual void EnableWakeWordDetection(bool enable) = 0;
+    virtual void SetWakeWordAllowed(bool allowed) { (void)allowed; }
     virtual void EnableVoiceProcessing(bool enable) = 0;
     virtual void EnableDeviceAec(bool enable) = 0;
 

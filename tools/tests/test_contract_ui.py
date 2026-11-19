@@ -25,11 +25,20 @@ class ContractUiTest(unittest.TestCase):
         self.assertEqual([name.removeprefix("STC_UI_") for name in contract],
                          [name.removeprefix("STC_") for name in impl])
 
+    def test_bin_choice_state_is_appended_without_renumbering(self):
+        states = enum_names(CONTRACT.read_text(), "stc_ui_state_t")
+        self.assertEqual(states[-3:], ["STC_UI_SCAN_READY", "STC_UI_BIN_CHOICE",
+                                      "STC_UI_CHAT"])
+
     def test_actions_match_implementation_order(self):
         contract = enum_names(CONTRACT.read_text(), "stc_ui_action_t")
         impl = enum_names(IMPLEMENTATION.read_text(), "stc_action_t")
         self.assertEqual([name.removeprefix("STC_UI_ACTION_") for name in contract],
                          [name.removeprefix("STC_ACTION_") for name in impl])
+
+    def test_bin_action_is_appended_without_renumbering(self):
+        actions = enum_names(CONTRACT.read_text(), "stc_ui_action_t")
+        self.assertEqual(actions[-2:], ["STC_UI_ACTION_NEXT", "STC_UI_ACTION_SELECT_BIN"])
 
     def test_contract_declares_the_create_apply_api(self):
         text = CONTRACT.read_text()

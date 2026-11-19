@@ -3,7 +3,7 @@ import hashlib,json,re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[3];UI=ROOT/'ui/lvgl'
 t=json.loads((ROOT/'design/tokens.json').read_text());l=json.loads((ROOT/'design/layout.json').read_text());m=json.loads((UI/'generated/manifest.json').read_text())
-expected=['idle','capturing','classifying','result_ok','result_retry','error','category_guide','learning','summary']
+expected=['idle','capturing','classifying','result_ok','result_retry','error','category_guide','learning','summary','scan_ready','bin_choice','chat']
 assert [s['name'][6:]for s in l['screens']]==expected
 assert (l['width'],l['height'],l['rotation'],l['color_depth'])==(800,480,0,16)
 assert len(t['color'])>=11 and t['font']['cat_px']>=112 and t['font']['body_px']>=32
@@ -65,9 +65,20 @@ for i in range(2):
     card=named(screens['summary'],'comp/summary-'+str(i));label=card['children'][0];value=card['children'][1]
     assert label['x']==24 and label['y']==24 and value['x']==24
     assert value['y']-(label['y']+label['h'])==8 and card['h']-(value['y']+value['h'])==24;spacing_checks+=1
-assert not any(n['name']=='action/guide'for n in nodes(screens['idle']))
+assert named(screens['idle'],'action/guide')['text']=='分類圖鑑'
+assert named(screens['category_guide'],'action/ask')['text']=='問綠豆'
+assert named(screens['chat'],'action/home')['text']=='返回遊戲'
 assert not any(n['name']=='action/start'for key in ['category_guide','learning']for n in nodes(screens[key]))
-assert named(screens['learning'],'action/home')['text']=='返回主頁';spacing_checks+=3
-report={'states':9,'text_contrast_checks':texts,'touch_targets':buttons,'minimum_contrast':min(c['contrast']for c in checks),'input_hashes':'PASS','svg_embedded_raster':'none','physical_hardware':'NOT_TESTED','contrast':checks,'spacing_checks':spacing_checks,'post_completion_learning':'PASS'}
+assert named(screens['learning'],'action/next')['text']=='下一回合'
+assert named(screens['scan_ready'],'action/scan')['text']=='掃描卡牌'
+assert named(screens['bin_choice'],'action/bin-0')['text']=='可回收物'
+assert named(screens['bin_choice'],'action/bin-1')['text']=='廚餘'
+assert named(screens['bin_choice'],'action/bin-2')['text']=='有害'
+assert named(screens['bin_choice'],'action/bin-3')['text']=='其他'
+for screen in l['screens']:
+    badge=named(screen,'debug-badge')
+    assert badge['y']>=370 and badge['y']+badge['h']<=400
+spacing_checks+=5
+report={'states':len(expected),'text_contrast_checks':texts,'touch_targets':buttons,'minimum_contrast':min(c['contrast']for c in checks),'input_hashes':'PASS','svg_embedded_raster':'none','physical_hardware':'NOT_TESTED','contrast':checks,'spacing_checks':spacing_checks,'post_completion_learning':'PASS','stage1_round_feedback':'PASS','replay_badge':'PASS'}
 (UI/'preview/render/design-checks.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
-print(f'PASS 9 states; {texts} text contrasts >=4.5; {buttons} touch targets >=44x44; {spacing_checks} spacing/navigation checks; generated hashes; asset limits.')
+print(f'PASS {len(expected)} states; {texts} text contrasts >=4.5; {buttons} touch targets >=44x44; {spacing_checks} spacing/navigation checks; generated hashes; asset limits.')

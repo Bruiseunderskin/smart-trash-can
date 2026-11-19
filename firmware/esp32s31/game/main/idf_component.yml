@@ -1,0 +1,7 @@
+dependencies:
+  espressif/esp32_s31_korvo_1: ~1.1.0
+  espressif/esp-dl: ^3.3.14
+  espressif/esp_new_jpeg: ^1.0.2
+  lvgl/lvgl: ~9.5.0
+  espressif/esp_lvgl_port: ~2.9.0
+  idf: ">=6.1.0"

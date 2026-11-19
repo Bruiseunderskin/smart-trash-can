@@ -1,0 +1,147 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x2b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2820,len:0x14f0
+load:0x403c8700,len:0xde4
+load:0x403cb700,len:0x2f58
+entry 0x403c8904
+I (32) boot: ESP-IDF v6.1 2nd stage bootloader
+I (32) boot: compile time Nov 14 2026 12:10:07
+I (32) boot: Multicore bootloader
+I (33) boot: chip revision: v0.2
+I (35) boot: efuse block revision: v1.3
+I (39) boot.esp32s3: Boot SPI Speed : 80MHz
+I (43) boot.esp32s3: SPI Mode       : SLOW READ
+I (47) boot.esp32s3: SPI Flash Size : 4MB
+I (51) boot: Enabling RNG early entropy source...
+I (55) boot: Partition Table:
+I (58) boot: ## Label            Usage          Type ST Offset   Length
+I (64) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (71) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (77) boot:  2 factory          factory app      00 00 00010000 00100000
+I (84) boot: End of partition table
+I (87) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b450h ( 46160) map
+I (106) esp_image: segment 1: paddr=0001b478 vaddr=3fc90700 size=03238h ( 12856) load
+I (109) esp_image: segment 2: paddr=0001e6b8 vaddr=40374000 size=01960h (  6496) load
+I (112) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=16c7ch ( 93308) map
+I (140) esp_image: segment 4: paddr=00036ca4 vaddr=40375960 size=0ad7ch ( 44412) load
+I (153) esp_image: segment 5: paddr=00041a28 vaddr=50000000 size=00024h (    36) load
+I (158) boot: Loaded app from partition at offset 0x10000
+I (158) boot: Disabling RNG early entropy source...
+I (171) cpu_start: Multicore app
+I (179) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (179) cpu_start: Pro cpu start user code
+I (179) cpu_start: cpu freq: 160000000 Hz
+I (181) app_init: Application information:
+I (185) app_init: Project name:     stc_tof4_probe
+I (190) app_init: App version:      1
+I (193) app_init: Compile time:     Nov 14 2026 12:10:23
+I (198) app_init: ELF file SHA256:  3936ece1f...
+I (202) app_init: ESP-IDF:          v6.1
+I (206) efuse_init: Min chip rev:     v0.0
+I (210) efuse_init: Max chip rev:     v0.99 
+I (214) efuse_init: Chip rev:         v0.2
+I (218) heap_init: Initializing. RAM available for dynamic allocation:
+I (224) heap_init: At 3FC943D0 len 00055340 (340 KiB): RAM
+I (229) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (234) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (239) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+W (245) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode
+I (255) spi_flash: detected chip: mxic (opi)
+I (258) spi_flash: flash io: opi_str
+W (262) spi_flash: Detected size(32768k) larger than the size in the binary image header(4096k). Using the size in the binary image header.
+I (274) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (280) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (287) main_task: Started on CPU0
+I (295) main_task: Calling app_main()
+I (305) TOF4: TOF4_PROBE pins sda=8 scl=9 xshut=4,5,6,7 addrs=0x30..0x33
+I (312) TOF4: TOF_READY index=0 xshut=4 addr=0x30 model=0xb4 fresh=1
+I (319) TOF4: TOF_READY index=1 xshut=5 addr=0x31 model=0xb4 fresh=1
+I (326) TOF4: TOF_READY index=2 xshut=6 addr=0x32 model=0xb4 fresh=1
+I (333) TOF4: TOF_READY index=3 xshut=7 addr=0x33 model=0xb4 fresh=1
+I (350) TOF4: TOF_I2C_SCAN found=0x30,0x31,0x32,0x33
+I (350) TOF4: TOF_INIT_SUMMARY ready=4/4
+I (379) TOF4: TOF_SCALER index=0 range_scaler=0 result_scaler=257 expected_1x=0
+I (387) TOF4: TOF_SCALER index=1 range_scaler=0 result_scaler=285 expected_1x=0
+I (395) TOF4: TOF_SCALER index=2 range_scaler=0 result_scaler=285 expected_1x=0
+I (403) TOF4: TOF_SCALER index=3 range_scaler=0 result_scaler=256 expected_1x=0
+I (731) TOF4: DETECTOR_BASELINE sensor=0 gpio=4 addr=0x30 range_mm=14 return_rate=5328
+I (731) TOF4: DETECTOR_BASELINE sensor=1 gpio=5 addr=0x31 range_mm=18 return_rate=4383
+I (735) TOF4: DETECTOR_BASELINE sensor=2 gpio=6 addr=0x32 range_mm=11 return_rate=2006
+I (743) TOF4: DETECTOR_BASELINE sensor=3 gpio=7 addr=0x33 range_mm=19 return_rate=2806
+I (750) TOF4: OBJECT_DETECTOR=ARMED sensors=4 sample_period_ms=10 confirm_samples=3 timeout=none
+I (1766) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=1000
+I (2785) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=2000
+I (3804) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=3000
+I (4823) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=4000
+I (5843) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=5000
+I (6862) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=6000
+I (7882) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=7000
+I (8901) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=8000
+I (9921) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=9000
+I (10940) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=10000
+I (11960) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=11000
+I (12979) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=12000
+W (13479) TOF4: DETECTOR_SENSOR_MISS gpio_mask=0x01 last=0x00
+I (19539) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=13000
+I (29639) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=14000
+I (39739) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=15000
+I (49839) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=16000
+I (59939) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=17000
+I (70039) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=18000
+I (80139) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=19000
+I (90239) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=20000
+I (100339) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=21000
+I (110439) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=22000
+I (120539) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=23000
+I (130639) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=24000
+I (140739) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=25000
+I (150839) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=26000
+I (160939) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=27000
+I (171039) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=28000
+I (181139) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=29000
+I (191239) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=30000
+I (201339) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=31000
+I (211439) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=32000
+I (221539) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=33000
+I (231639) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=34000
+I (241739) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=35000
+I (251839) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=36000
+I (261939) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=37000
+I (272039) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=38000
+I (282139) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=39000
+I (292239) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=40000
+I (302339) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=41000
+I (312439) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=42000
+I (322539) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=43000
+I (332639) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=44000
+I (342739) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=45000
+I (352839) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=46000
+I (362939) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=47000
+I (373039) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=48000
+I (383139) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=49000
+I (393239) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=50000
+I (403339) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=51000
+I (413439) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=52000
+I (423539) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=53000
+I (433639) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=54000
+I (443739) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=55000
+I (453839) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=56000
+I (463939) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=57000
+I (474039) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=58000
+I (484139) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=59000
+I (494239) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=60000
+I (504339) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=61000
+I (514439) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=62000
+I (524539) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=63000
+I (534639) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=64000
+I (544739) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=65000
+I (554839) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=66000
+I (564939) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=67000
+I (575039) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=68000
+I (585139) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=69000
+I (595239) TOF4: OBJECT_DETECTOR=WAIT elapsed_ms=70000

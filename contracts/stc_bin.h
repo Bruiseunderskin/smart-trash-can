@@ -1,4 +1,4 @@
-/* stc_bin.h — 手部：舵機／ToF／ESP-NOW（contract v1.2.0）
+/* stc_bin.h — 手部：舵機／ToF／ESP-NOW（contract v1.3.0）
  *
  * 感測器實作：4 × TOF050C（VL6180X）經 TCA9548A（0x70）分 CH0–CH3，
  * 四粒全部停留在預設地址 0x29；切 channel 即選中對應桶。

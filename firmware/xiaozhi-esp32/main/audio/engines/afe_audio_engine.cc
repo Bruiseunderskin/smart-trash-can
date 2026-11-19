@@ -72,7 +72,7 @@ bool AfeAudioEngine::Initialize(AudioCodec* codec, int frame_duration_ms,
 
     char* wakenet_model_name = nullptr;
     char* multinet_model_name = nullptr;
-    if (models_ != nullptr && models_->num > 0) {
+    if (wake_word_allowed_.load() && models_ != nullptr && models_->num > 0) {
         wakenet_model_name = esp_srmodel_filter(models_, ESP_WN_PREFIX, nullptr);
         multinet_model_name = esp_srmodel_filter(models_, ESP_MN_PREFIX, nullptr);
         for (int i = 0; i < models_->num; ++i) {
@@ -291,6 +291,17 @@ void AfeAudioEngine::EnableWakeWordDetection(bool enable) {
     UpdateActiveState();
 }
 
+void AfeAudioEngine::SetWakeWordAllowed(bool allowed) {
+    wake_word_allowed_.store(allowed);
+    if (!allowed) {
+        wake_detector_ = WakeDetector::kNone;
+        wake_words_.clear();
+        if (afe_data_ != nullptr && afe_iface_ != nullptr) {
+            afe_iface_->disable_wakenet(afe_data_);
+        }
+    }
+}
+
 void AfeAudioEngine::EnableVoiceProcessing(bool enable) {
     if (enable) {
         xEventGroupSetBits(event_group_, kVoiceProcessingEnabled);
@@ -309,7 +320,10 @@ void AfeAudioEngine::EnableDeviceAec(bool enable) {
     UpdateAecState();
 }
 
-bool AfeAudioEngine::HasWakeWord() const { return wake_detector_ != WakeDetector::kNone; }
+bool AfeAudioEngine::HasWakeWord() const {
+    return wake_word_allowed_.load() &&
+           wake_detector_ != WakeDetector::kNone;
+}
 
 bool AfeAudioEngine::IsWakeWordDetectionEnabled() const {
     return event_group_ != nullptr && (xEventGroupGetBits(event_group_) & kWakeWordEnabled) != 0;

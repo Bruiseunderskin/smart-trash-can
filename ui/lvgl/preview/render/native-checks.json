@@ -1,5 +1,5 @@
 {
-  "executable_sha256": "1bf9a89b4f5bb5958501eb40768d335ee5d752d06cbccbd9d01bc1b52fd87648",
+  "executable_sha256": "c81b3dfbe38c286726bbd3dab8c39ce1f086938f2985135095ded1719171195c",
   "checks": {
     "build": {
       "status": "PASS",
@@ -15,9 +15,9 @@
     },
     "interaction": {
       "status": "PASS",
-      "details": "50 native scenarios; state/actions, post-completion navigation, counters and lifecycle"
+      "details": "56 native scenarios; state/actions, post-completion navigation, counters and lifecycle"
     }
   },
   "exit_code": 0,
-  "scenario_count": 50
+  "scenario_count": 56
 }

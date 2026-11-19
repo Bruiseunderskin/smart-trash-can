@@ -1,4 +1,4 @@
-/* stc_vision.h — 影像 → 標籤（contract v1.2.0）
+/* stc_vision.h — 影像 → 標籤（contract v1.3.0）
  *
  * 實作責任：**按需要開相機**、連拍 5 幀（每 50 ms 一張）、逐幀前處理＋推論、聚合、回 1 個標籤、關相機。
  * 不得：長期佔用相機、觸碰 LCD、改分數、阻塞超過 timeout。
@@ -15,13 +15,16 @@ extern "C" {
 
 #define STC_VISION_BURST_FRAMES      5
 #define STC_VISION_BURST_INTERVAL_MS 50
+#define STC_MODEL_CLASSES            5
 
 /* 每幀明細（報告證據用；可傳 NULL 省略） */
 typedef struct {
-    uint8_t  frame_bin[STC_VISION_BURST_FRAMES];   /* 逐幀 argmax（0–3，255=無效） */
+    uint8_t  frame_bin[STC_VISION_BURST_FRAMES];   /* 逐幀 argmax（0–4，255=無效） */
     float    frame_conf[STC_VISION_BURST_FRAMES];
     uint8_t  frames_ok;                            /* 成功解碼幀數 */
     uint8_t  agreement;                            /* 與最終標籤一致的幀數 */
+    uint8_t  top2_bin;                             /* second model index */
+    float    top2_conf;
     uint32_t t_open_ms;                            /* 相機開啟耗時 */
     uint32_t t_capture_ms;                         /* 采集窗實際長度 */
     uint32_t t_infer_ms;                           /* 5 幀推論總時間 */

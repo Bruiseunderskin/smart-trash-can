@@ -8,8 +8,8 @@
 
 #include "stc_ui.h"
 
-_Static_assert(STC_UI_STATE_COUNT == 9, "nine UI states");
-_Static_assert(STC_UI_ACTION_COUNT == 6, "six UI actions");
+_Static_assert(STC_UI_STATE_COUNT == 12, "twelve UI states");
+_Static_assert(STC_UI_ACTION_COUNT == 9, "nine UI actions");
 
 _Static_assert(STC_UI_IDLE == 0, "idle is zero");
 _Static_assert(STC_UI_CAPTURING == 1, "capturing follows idle");
@@ -20,15 +20,20 @@ _Static_assert(STC_UI_ERROR == 5, "error after retry");
 _Static_assert(STC_UI_CATEGORY_GUIDE == 6, "guide after error");
 _Static_assert(STC_UI_LEARNING == 7, "learning after guide");
 _Static_assert(STC_UI_SUMMARY == 8, "summary last");
+_Static_assert(STC_UI_SCAN_READY == 9, "scan_ready appended");
 
 _Static_assert(STC_UI_ACTION_START == 0, "start is zero");
 _Static_assert(STC_UI_ACTION_ASK == 5, "ask last");
+_Static_assert(STC_UI_ACTION_SCAN == 6, "scan appended");
+_Static_assert(STC_UI_ACTION_NEXT == 7, "next appended");
 
 _Static_assert(sizeof(((stc_ui_payload_t *)0)->state) == sizeof(int), "state is an int-sized enum");
 _Static_assert(sizeof(((stc_ui_payload_t *)0)->candidates) == 2 * sizeof(stc_ui_candidate_t),
                "exactly two candidates");
 _Static_assert(sizeof(((stc_ui_payload_t *)0)->error_code) == sizeof(const char *),
                "error_code is a borrowed pointer");
+_Static_assert(sizeof(((stc_ui_payload_t *)0)->debug_flags) == sizeof(uint8_t),
+               "debug flags are one byte");
 
 int main(void)
 {

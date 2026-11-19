@@ -17,7 +17,7 @@ def walk(n):
     for c in n.get('children',[]):yield from walk(c)
 content=json.loads((ROOT/'design/content.json').read_text())
 texts=[n.get('text','') for s in layout['screens'] for n in walk(s)] + [c[k] for c in content['categories'] for k in ['example','tip','why','action']]
-extra='等待相機畫面連對例子相機未就緒連線中斷請檢查網絡裝置再按重試桶蓋已開請投放等待開蓋請勿推動桶蓋信心值連續答對次上一輪尚無結果目前分數不會自動開蓋'
+extra='等待相機畫面連對例子相機未就緒連線中斷請檢查網絡裝置再按重試桶蓋已開請投放等待開蓋請勿推動桶蓋信心值連續答對次上一輪尚無結果目前分數不會自動開蓋答錯喇冇到未掃描未能辨識沒有投放未開始下次記得先掃描卡牌正確'
 supplement='問綠豆知多啲下一回合五題全對可換禮物掃描偵測開蓋投放緩衝關蓋倒數'
 base_corpus=''.join(texts)+''.join(x[1] for x in labels)+extra
 corpus=base_corpus+supplement
@@ -78,7 +78,7 @@ for si,s in enumerate(layout['screens']):
         font=n.get('font',32);family='num'if num else'tc'; fontptr=f'&stc_font_{family}_{font}'if kind=='TEXT'else'&stc_font_tc_32'
         code.append('  {'+f'.kind=STC_NODE_{kind},.parent={parent},.x={n["x"] if parent>=0 else 0},.y={n["y"] if parent>=0 else 0},.w={n["w"]},.h={n["h"]},.radius={n.get("radius",16) if kind!="TEXT"else 0},.name={quoted(n["name"])},.text={quoted(n.get("text",""))},.font={fontptr},.font_px={font},.fg=STC_COLOR_{fg.upper()},.bg=STC_COLOR_{(bg or "bg").upper()},.has_bg={str(bool(bg)).lower()},.asset={int(n.get("asset","cat/-1").split("/")[-1])}'+ '},')
     code.append('};')
-code.append('const stc_layout_t stc_layouts[9] = {'+','.join(f'{{state_{i},sizeof(state_{i})/sizeof(state_{i}[0])}}'for i in range(9))+'};')
+code.append(f'const stc_layout_t stc_layouts[{len(layout["screens"])}] = {{'+','.join(f'{{state_{i},sizeof(state_{i})/sizeof(state_{i}[0])}}'for i in range(len(layout['screens'])))+'};')
 for key in ['tip','example']:
     code.append('const char *stc_'+key+'s[4] = {'+','.join(quoted(c[key]) for c in content['categories'])+'};')
 (OUT/'stc_layout.c').write_text('\n'.join(code)+'\n')

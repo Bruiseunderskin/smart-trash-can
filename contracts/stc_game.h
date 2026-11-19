@@ -1,4 +1,4 @@
-/* stc_game.h — 遊戲核心（contract v1.2.0）
+/* stc_game.h — 遊戲核心（contract v1.3.0）
  * 唯一可以改分數與回合的地方。其他模組只出事件。 */
 #pragma once
 #include "stc_types.h"
@@ -23,6 +23,15 @@ typedef enum {
     STC_PH_COUNT
 } stc_phase_t;
 
+typedef enum {
+    STC_ROUND_NONE = 0,
+    STC_ROUND_CORRECT,
+    STC_ROUND_WRONG,
+    STC_ROUND_TIMEOUT,
+    STC_ROUND_ABSTAIN,
+    STC_ROUND_NO_SCAN,
+} stc_round_outcome_t;
+
 typedef struct {
     uint8_t  rounds_total;       /* 5 */
     uint32_t total_time_ms;      /* 180000（3 分鐘硬上限，超時做完本回合即結算） */
@@ -43,7 +52,10 @@ typedef struct {
 typedef struct {
     uint8_t       round;         /* 0-based */
     uint8_t       rounds_total;
+    uint32_t      round_id;      /* monotonic scan/round generation */
     int16_t       score;
+    int16_t       round_delta;
+    uint8_t       streak;        /* consecutive correct rounds */
     stc_phase_t   phase;
     uint32_t      elapsed_ms;    /* 本局已用時間 */
     stc_bin_t     truth;         /* 本回合模型判定類別 */
@@ -53,6 +65,7 @@ typedef struct {
     bool          lid_open;
     bool          voice_busy;
     bool          abstained;
+    stc_round_outcome_t last_outcome;
     uint16_t      dist_mm;
     stc_source_t  src;           /* STUB / REAL，UI 角落顯示 */
 } stc_snapshot_t;
@@ -61,7 +74,7 @@ stc_err_t         stc_game_init(void);
 stc_err_t         stc_game_set_config(const stc_game_config_t *cfg);
 stc_game_config_t stc_game_get_config(void);
 
-stc_err_t         stc_game_start(void);
+stc_err_t         stc_game_start(uint32_t now_ms);
 void              stc_game_tick(uint32_t now_ms);
 stc_err_t         stc_game_input(const stc_event_t *ev);
 stc_err_t         stc_game_reset(void);
@@ -77,6 +90,7 @@ typedef struct {
     int16_t  score_raw;      /* 真實加總（報告用） */
     uint32_t duration_ms;
     bool     ended_by_time;  /* true = 3 分鐘到 */
+    uint8_t  best_streak;
 } stc_result_t;
 stc_result_t      stc_game_result(void);
 

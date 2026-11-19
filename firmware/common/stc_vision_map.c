@@ -3,10 +3,12 @@
 #include <stdio.h>
 #include <string.h>
 
-const uint8_t stc_model_to_bin[STC_MODEL_CLASSES] = {1u, 2u, 3u, 0u};
+const uint8_t stc_model_to_bin[STC_MODEL_CLASSES] = {
+    1u, 2u, 3u, 0u, (uint8_t)STC_BIN_COUNT
+};
 
 static const char *const k_expected[STC_MODEL_CLASSES] = {
-    "food", "hazardous", "other", "recyclable"
+    "food", "hazardous", "other", "recyclable", "unknown"
 };
 
 static char g_loaded[STC_MODEL_CLASSES][16];
@@ -44,9 +46,50 @@ stc_err_t stc_vision_map_load_labels(const char *path)
     fclose(f);
 
     if (rc == STC_OK && index != STC_MODEL_CLASSES) {
-        rc = STC_ERR_CONTRACT;   /* 少過四行 = 契約不符，不默認 */
+        rc = STC_ERR_CONTRACT;   /* 少過五行 = 契約不符，不默認 */
     }
     g_ready = (rc == STC_OK);
+    return rc;
+}
+
+stc_err_t stc_vision_map_load_text(const char *text, size_t len)
+{
+    if (!text) {
+        g_ready = false;
+        return STC_ERR_CONTRACT;
+    }
+    size_t cursor = 0;
+    int index = 0;
+    stc_err_t rc = STC_OK;
+    while (cursor < len && index < STC_MODEL_CLASSES) {
+        size_t start = cursor;
+        while (cursor < len && text[cursor] != '\n' && text[cursor] != '\r') {
+            cursor++;
+        }
+        size_t line_len = cursor - start;
+        while (line_len && text[start + line_len - 1] == ' ') {
+            line_len--;
+        }
+        while (cursor < len && (text[cursor] == '\n' || text[cursor] == '\r')) {
+            cursor++;
+        }
+        if (line_len == 0) {
+            continue;
+        }
+        if (line_len >= sizeof(g_loaded[index]) ||
+            line_len != strlen(k_expected[index]) ||
+            memcmp(text + start, k_expected[index], line_len) != 0) {
+            rc = STC_ERR_CONTRACT;
+            break;
+        }
+        memcpy(g_loaded[index], text + start, line_len);
+        g_loaded[index][line_len] = '\0';
+        index++;
+    }
+    if (rc == STC_OK && index != STC_MODEL_CLASSES) {
+        rc = STC_ERR_CONTRACT;
+    }
+    g_ready = rc == STC_OK;
     return rc;
 }
 

@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "class_order_frozen": true,
   "classes": [
     {
@@ -25,6 +25,13 @@
       "key": "recyclable",
       "zh": "可回收物",
       "bin": 0
+    },
+    {
+      "index": 4,
+      "key": "unknown",
+      "zh": "冇卡",
+      "bin": 4,
+      "abstain": true
     }
   ]
 }

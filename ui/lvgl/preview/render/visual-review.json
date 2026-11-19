@@ -4,49 +4,51 @@
   "checks": {
     "visual_review": {
       "status": "PASS",
-      "details": "Inspected native nine-state overview, all four result/lesson variants, the guide's left ask and right home actions, retry icon/text separation, padded score cards, next-round learning flow, and maximum counter frames. No clipping, overlapping labels, blank captures or missing glyphs observed."
+      "details": "Inspected 18 native captures from the 10-state stage-one UI: scan-ready action, round-feedback learning data, replay/virtual-hand badges, retry/error states, guide and summary. No clipping, blank captures, missing glyphs or overlapping labels observed."
     }
   },
   "frame_hashes": {
-    "idle": "a1d3483bc0fe95e1b35627924f41a91f0c30d812fc120316542864617efa2b39",
-    "capturing": "b5811ba2c7823f67cc961e24c4530974d37a2dca292258fde8f84bd4d60f28d4",
-    "classifying": "497df622a7f03acccb5ecb49faec8e6eb9e190cb9dd32933174d022391b2997b",
-    "result_ok": "49f7fbc435cd8e20ce89a36f8dbf4f90f9e4e46edae8357684554374772c178b",
-    "result_retry": "8971cc9d57dc9b19c5de16cef7d3e5353a01176f71f702bce0191ecbf13a5be8",
-    "error": "0d7c37e6428b5e3007252d5d9703a890ae34439c0b02d566b6da0d0a1a9c6890",
-    "category_guide": "dc8bb4e322d6bfc599753d053b11fe8edbc6bca147284bf0655364705c059dd9",
-    "learning": "18b56d056e6e0057846bcb8caeba348ebe72672a0d37706d286b7807c350b2b0",
-    "summary": "e5d5e4b6a63d24aa90adbf958ac80876a16c7303dddbd66489244a986a71cd66",
-    "result-cat-1": "78c262544a4986eebe78228aec365ab6978cfcca3a39f832e3f769c862e8c997",
-    "result-cat-2": "847c2aa1b5b71248393ff7806b2b95a6b8bd53324ceb7851234a82dc7f3e6f82",
-    "result-cat-3": "30f1740f52ba24609dc16d59e042fcb726e09cfb41e938d7a13104b4a1eed228",
-    "learning-cat-1": "2ebd159aa8220cfa02fdcd1d129dadb457d047245cc5e2c8ffeb35d154d7b11d",
-    "learning-cat-2": "06344d1cdcd1436cb104d9f61d85a7d9991537df0ad8513d6f4c6a77d95733a3",
-    "learning-cat-3": "4e6411bc20e038abc8a27a6b0398f069def9e140751aebc19ab90c2ade546eff",
-    "result-max": "c88dfdbb71516659e4cc227e8a6dca05e518e08043c2b6b6aa3bcf50bb38ae60",
-    "summary-max": "4be6f25e52492080c3e48d2c7f84c58c0ca6173979cc5a0810baa142c240a54c"
+    "idle": "9d1062bedf8c5e26b96f6db8cc21a9cea4e80df208b50e9c0ce8455890ebbbd7",
+    "capturing": "c11e52257ed862732c67df8c59066324b12dcab03b9be6ea5af10a1017964b0b",
+    "classifying": "df2f90279e2dc97ff9b069172619fd2d271745e80687e3512ded4369ef1d4520",
+    "result_ok": "a694647b22e271acb6ad080d0ef8ab20cf619c16dd01e52811e06b7215cdc22c",
+    "result_retry": "d55c28b5046155da9e282e91607eb2d0cafbb75dc85a93aed1b8df2abedbe159",
+    "error": "b0bde17e8b9ee09af657816080196d2d9eb43d05227a0c5992af1eb03813b7c1",
+    "category_guide": "fc5a9ae19551ba8c59d2bfc3e48214199b1f65a389542070c52f4fc8f1bedb4e",
+    "learning": "846ccd2a8592dc76b0fca12414b1704d49ff89361c202080c0865549bc739835",
+    "summary": "9b129c5a7997f13ffd2c21de0ac4ff256bf6e79a9e994f791bd1657709fd55b0",
+    "scan_ready": "0a7337d4652f2bacc2a4d4d6019a4ae7ff478b60f579cb382a595d2e8a41671a",
+    "result-cat-1": "653064b8bec19497cd7fb05491b283e6131346f581797525b5bd5900d8ce3981",
+    "result-cat-2": "0582a2495d9b14ed5f3031af6627fec12d311aad6a31c8e67653998b23249bbf",
+    "result-cat-3": "b92eb750fdf373a56fe0a2491071514761a4ea9e4771dabd292b5d9e35ea49c0",
+    "learning-cat-1": "7a5cb55ab7d91deed5d0d826b83f189b90e691e34f1c5a3a71ea2d48717fc2eb",
+    "learning-cat-2": "3235c5b0f93d7de8d8095e8051bf66b29f6c48c5ff9e8addfd88402b71dfe667",
+    "learning-cat-3": "2060eecd9b65adbc3795ae833c9a8d20742792a7b902eadb1ab4fc102f1e65d3",
+    "result-max": "6f9d65735a0d98d64cf0064a5467b1b2af5148f6808eec1d853fe6cb1eb7bb1d",
+    "summary-max": "085769ff89d04cd9f6e05024b85b5f5b09878858b238f5e7fb209cde8fdd1295"
   },
   "frame_pixel_hashes": {
-    "idle": "8b4a4b3e4fce0532db97302e3e06d8b5a3130044d8932861168dca0d0b6eb1ed",
-    "capturing": "5bef253c7271c1133808b1311afbc2a194b19216cb27249b4dbb14eefa2ffa4b",
-    "classifying": "7eb2b564bcc0258b3cde744c1f9abb0300660b4fc92f4c4c0e26af7571ed60f1",
-    "result_ok": "b562370d21389c99e0187516ea51958af7aaf41f9996b285717ebac7da99cb12",
-    "result_retry": "c4c43ac8cfd6d49163d823c04d8eeeeb779bf6c1b0a8df1741c35eaa54efb108",
-    "error": "2b0c33e451db283aacae90f0a4a474a99c6a0ec36b810f19da5ab306a38d32ec",
-    "category_guide": "c36252e3e4989def1bb459f004ca6b42e2807f33f1344563d0ee707edcdab89a",
-    "learning": "c02b401a5308254d34a6d477e6a337da98bebacd420faf2ddf37ad5baaf2215b",
-    "summary": "bff0385eb1262ea0ec91072a9dabd57af1a91c9833c966d720bd74fd8d43da72",
-    "result-cat-1": "6ac8c45fb0ceb72c63e445b0635b3a671a9c334e2afcaaea433af6f34434d88b",
-    "result-cat-2": "9f665d6d650c13288568c757da6558e437c6a41e3afba85ad828780e48f2af8f",
-    "result-cat-3": "02c253adc8c4359c2fe80fed85bb287c90163a1f8750b08637c7e7a7bd0417bc",
-    "learning-cat-1": "63206c12fe2753c0c85f9547e369ad38c52e62b6fe03e939936dd2d2a87988d7",
-    "learning-cat-2": "ee4d086c7e7caf7e4df1dd4ff69cfcf7a00ea836d0d17f46fd25a4da47ab0c89",
-    "learning-cat-3": "9456b14622ce12a34dc1f5b151bf4961784f5d92d955548b5f07e9cf2871e66a",
-    "result-max": "a9a6e4f15a40e95569dbee0623b7b22546e45637bd5acacaf8f37ac9c87d8bc5",
-    "summary-max": "4508eea0a6de9041d1134e6d3bcae3a20e10081a2c23a3c2fb4f0ac4e24cbc8a"
+    "idle": "e012d335942d41834db9d2d674033a5c7287647c20b874f0da938047f2d1e9b2",
+    "capturing": "d421212274780baf3e3fd850f95f62428e1065f83856979ed05e19ffa1498189",
+    "classifying": "dc7bd0814a1ba9e76c595de223dfac6c3fa635ad58f1d989db44f74ad67d3ad5",
+    "result_ok": "17b7c36d3bd897ee9f9557c9016a6113c3aa56f5aa139c33bf75f47565b84791",
+    "result_retry": "d56aa72640dbf64150f27617a3566dddf79be91344a4e365d5400254c438a8a2",
+    "error": "027e57ada130f8d4f3a8493978aaf089308c5e2b232ff3e2c5f0ce3f3cd7929a",
+    "category_guide": "78c2abc1632327c30c412c80e2db37cf16f9045c2a01848bf2d112a652c76980",
+    "learning": "68ed82f6845201a913e51fbb9b9c8261d306e2df716efb3fb2af5336c4ddb058",
+    "summary": "110e5f9d76bb033232ed4a31a76f2ab65d84c0b157c31e1cdc5ca81e929cfacd",
+    "scan_ready": "6fe2b0aacbe581fed309a672db5e8823adb0c06740c8a0def62d5f934f521750",
+    "result-cat-1": "dd9853b3f41d0b3f83de254e20ba2caf56e55b38df482dc929b20d4af349a54c",
+    "result-cat-2": "892c2ea2d586ac86c51f7e5d82f9f88499cddcda804051dfdcf8e29e5811e26e",
+    "result-cat-3": "57d7df37daabb5905c9c8d92df7186c8678a0005870192f569cc21cb52bd7f2e",
+    "learning-cat-1": "739b4bdca0c3fb9368b2a5d2045027053350ca17818251c24cd6b40181c973d0",
+    "learning-cat-2": "37397f6ddaedb3bf626940663f9ba6eb92bf130eabbef6be34c004a91dfbc8ac",
+    "learning-cat-3": "eb21773955eae58c35324e7a16060177346e69cc0289fa59372b7c5edc766213",
+    "result-max": "1068056b9fd2c2c2a554d69c7042825b0b44472a2c55ef37d391554458afcf4c",
+    "summary-max": "579ceb2a5b98eb111b19bbeeafc90257a1326332dac0973c10d15449ea68f1bb"
   },
   "limitations": [
     "Agent visual inspection, not human approval or measured child usability.",
-    "No physical display/touch/camera/AI/servo or ESP32 target validation."
+    "No physical display/touch/camera/AI/servo, ESP32 target, ESP-NOW radio or audio playback validation."
   ]
 }

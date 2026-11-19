@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 32 px
  * Bpp: 4
- * Opts: --font ui/lvgl/tools/.cache/num-bold.ttf --size 32 --bpp 4 --format lvgl --lv-include lvgl.h --lv-font-name stc_font_num_32 --range 0x20-0x7e --no-compress -o ui/lvgl/generated/stc_font_num_32.c
+ * Opts: --font C:\smart_trash_can_espnow\ui\lvgl\tools\.cache\num-bold.ttf --size 32 --bpp 4 --format lvgl --lv-include lvgl.h --lv-font-name stc_font_num_32 --range 0x20-0x7e --no-compress -o C:\smart_trash_can_espnow\ui\lvgl\generated\stc_font_num_32.c
  ******************************************************************************/
 
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE

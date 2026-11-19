@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 112 px
  * Bpp: 4
- * Opts: --font ui/lvgl/tools/.cache/tc-bold.ttf --size 112 --bpp 4 --format lvgl --lv-include lvgl.h --lv-font-name stc_font_tc_112 --range 0x20-0x7e --no-compress -o ui/lvgl/generated/stc_font_tc_112.c --symbols 可回收物廚餘有害其他
+ * Opts: --font C:\smart_trash_can_espnow\ui\lvgl\tools\.cache\tc-bold.ttf --size 112 --bpp 4 --format lvgl --lv-include lvgl.h --lv-font-name stc_font_tc_112 --range 0x20-0x7e --no-compress -o C:\smart_trash_can_espnow\ui\lvgl\generated\stc_font_tc_112.c --symbols 可回收物廚餘有害其他
  ******************************************************************************/
 
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE

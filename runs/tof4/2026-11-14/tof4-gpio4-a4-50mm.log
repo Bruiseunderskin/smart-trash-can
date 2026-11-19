@@ -1,0 +1,110 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x2b (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2820,len:0x14f0
+load:0x403c8700,len:0xde4
+load:0x403cb700,len:0x2f58
+entry 0x403c8904
+I (32) boot: ESP-IDF v6.1 2nd stage bootloader
+I (32) boot: compile time Nov 14 2026 12:10:07
+I (32) boot: Multicore bootloader
+I (33) boot: chip revision: v0.2
+I (35) boot: efuse block revision: v1.3
+I (39) boot.esp32s3: Boot SPI Speed : 80MHz
+I (43) boot.esp32s3: SPI Mode       : SLOW READ
+I (47) boot.esp32s3: SPI Flash Size : 4MB
+I (51) boot: Enabling RNG early entropy source...
+I (55) boot: Partition Table:
+I (58) boot: ## Label            Usage          Type ST Offset   Length
+I (64) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (71) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (77) boot:  2 factory          factory app      00 00 00010000 00100000
+I (84) boot: End of partition table
+I (87) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b340h ( 45888) map
+I (106) esp_image: segment 1: paddr=0001b368 vaddr=3fc90700 size=03238h ( 12856) load
+I (109) esp_image: segment 2: paddr=0001e5a8 vaddr=40374000 size=01a70h (  6768) load
+I (112) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=16b14h ( 92948) map
+I (139) esp_image: segment 4: paddr=00036b3c vaddr=40375a70 size=0ac6ch ( 44140) load
+I (152) esp_image: segment 5: paddr=000417b0 vaddr=50000000 size=00024h (    36) load
+I (158) boot: Loaded app from partition at offset 0x10000
+I (158) boot: Disabling RNG early entropy source...
+I (170) cpu_start: Multicore app
+I (179) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (179) cpu_start: Pro cpu start user code
+I (179) cpu_start: cpu freq: 160000000 Hz
+I (181) app_init: Application information:
+I (185) app_init: Project name:     stc_tof4_probe
+I (189) app_init: App version:      1
+I (193) app_init: Compile time:     Nov 14 2026 12:10:23
+I (198) app_init: ELF file SHA256:  456913b82...
+I (202) app_init: ESP-IDF:          v6.1
+I (206) efuse_init: Min chip rev:     v0.0
+I (210) efuse_init: Max chip rev:     v0.99 
+I (214) efuse_init: Chip rev:         v0.2
+I (217) heap_init: Initializing. RAM available for dynamic allocation:
+I (224) heap_init: At 3FC94560 len 000551B0 (340 KiB): RAM
+I (229) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (234) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (239) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+W (245) spi_flash: Octal flash chip is using but dio mode is selected, will automatically switch to Octal mode
+I (254) spi_flash: detected chip: mxic (opi)
+I (258) spi_flash: flash io: opi_str
+W (262) spi_flash: Detected size(32768k) larger than the size in the binary image header(4096k). Using the size in the binary image header.
+I (274) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (280) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (287) main_task: Started on CPU0
+I (295) main_task: Calling app_main()
+I (305) TOF4: TOF4_PROBE pins sda=8 scl=9 xshut=4,5,6,7 addrs=0x30..0x33
+I (312) TOF4: TOF_READY index=0 xshut=4 addr=0x30 model=0xb4 fresh=1
+I (319) TOF4: TOF_READY index=1 xshut=5 addr=0x31 model=0xb4 fresh=1
+I (326) TOF4: TOF_READY index=2 xshut=6 addr=0x32 model=0xb4 fresh=1
+I (333) TOF4: TOF_READY index=3 xshut=7 addr=0x33 model=0xb4 fresh=1
+I (350) TOF4: TOF_I2C_SCAN found=0x30,0x31,0x32,0x33
+I (350) TOF4: TOF_INIT_SUMMARY ready=4/4
+I (419) TOF4: TOF_SCALER index=0 range_scaler=0 result_scaler=285 expected_1x=0
+I (427) TOF4: TOF_SCALER index=1 range_scaler=0 result_scaler=285 expected_1x=0
+I (435) TOF4: TOF_SCALER index=2 range_scaler=0 result_scaler=285 expected_1x=0
+I (443) TOF4: TOF_SCALER index=3 range_scaler=0 result_scaler=256 expected_1x=0
+I (647) TOF4: TOF_ROUND n=0 dt_us=38003 d0=14/s0/raw14/rr7897/ref10875 d1=18/s0/raw18/rr4260/ref14606 d2=11/s0/raw11/rr2019/ref17637 d3=19/s0/raw19/rr2783/ref19862
+I (696) TOF4: TOF_ROUND n=1 dt_us=44998 d0=14/s0/raw14/rr7904/ref10812 d1=18/s0/raw18/rr4406/ref14655 d2=11/s0/raw11/rr2007/ref17699 d3=19/s0/raw19/rr2781/ref19965
+I (744) TOF4: TOF_ROUND n=2 dt_us=44768 d0=14/s0/raw14/rr8048/ref10957 d1=18/s0/raw18/rr4440/ref14525 d2=11/s0/raw11/rr1990/ref17718 d3=19/s0/raw19/rr2822/ref19942
+I (793) TOF4: TOF_ROUND n=3 dt_us=45584 d0=14/s0/raw14/rr7859/ref10876 d1=18/s0/raw18/rr4360/ref14577 d2=11/s0/raw11/rr1983/ref17625 d3=19/s0/raw19/rr2817/ref19894
+I (842) TOF4: TOF_ROUND n=4 dt_us=45606 d0=14/s0/raw14/rr7753/ref10869 d1=18/s0/raw18/rr4347/ref14618 d2=11/s0/raw11/rr2009/ref17577 d3=19/s0/raw19/rr2819/ref19840
+I (5567) TOF4: TOF_BENCH maxconv_ms=50 period_ms=50 attempts=100 ready=100 valid=100 min_us=38003 p50_us=49847 p95_us=50005 max_us=50047 avg_us=49409
+I (5613) TOF4: TOF_SCALER index=0 range_scaler=0 result_scaler=285 expected_1x=0
+I (5616) TOF4: TOF_SCALER index=1 range_scaler=0 result_scaler=256 expected_1x=0
+I (5620) TOF4: TOF_SCALER index=2 range_scaler=0 result_scaler=285 expected_1x=0
+I (5627) TOF4: TOF_SCALER index=3 range_scaler=0 result_scaler=256 expected_1x=0
+I (5757) TOF4: TOF_ROUND n=0 dt_us=21140 d0=14/s0/raw14/rr7734/ref10785 d1=18/s0/raw18/rr4167/ref14819 d2=11/s0/raw11/rr2001/ref17564 d3=19/s0/raw19/rr2796/ref19775
+I (5786) TOF4: TOF_ROUND n=1 dt_us=25703 d0=14/s0/raw14/rr7849/ref10724 d1=18/s0/raw18/rr4285/ref14869 d2=11/s0/raw11/rr2012/ref17456 d3=19/s0/raw19/rr2784/ref19800
+I (5815) TOF4: TOF_ROUND n=2 dt_us=25487 d0=14/s0/raw14/rr7645/ref10797 d1=18/s0/raw18/rr4236/ref14885 d2=11/s0/raw11/rr2017/ref17548 d3=19/s0/raw19/rr2766/ref19802
+I (5845) TOF4: TOF_ROUND n=3 dt_us=25699 d0=14/s0/raw14/rr7720/ref10769 d1=18/s0/raw18/rr4263/ref14773 d2=11/s0/raw11/rr2010/ref17483 d3=19/s0/raw19/rr2825/ref19736
+I (5873) TOF4: TOF_ROUND n=4 dt_us=25483 d0=14/s0/raw14/rr7825/ref10751 d1=18/s0/raw18/rr4264/ref14871 d2=11/s0/raw11/rr1993/ref17539 d3=19/s0/raw19/rr2808/ref19851
+I (8716) TOF4: TOF_BENCH maxconv_ms=30 period_ms=30 attempts=100 ready=100 valid=100 min_us=21140 p50_us=30004 p95_us=30132 max_us=30370 avg_us=29621
+I (8752) TOF4: TOF_SCALER index=0 range_scaler=0 result_scaler=257 expected_1x=0
+I (8755) TOF4: TOF_SCALER index=1 range_scaler=0 result_scaler=256 expected_1x=0
+I (8759) TOF4: TOF_SCALER index=2 range_scaler=0 result_scaler=285 expected_1x=0
+I (8766) TOF4: TOF_SCALER index=3 range_scaler=0 result_scaler=256 expected_1x=0
+I (8864) TOF4: TOF_ROUND n=0 dt_us=18861 d0=14/s0/raw14/rr7696/ref10896 d1=18/s0/raw18/rr4239/ref14850 d2=11/s0/raw11/rr2027/ref17599 d3=19/s0/raw19/rr2792/ref19765
+I (8883) TOF4: TOF_ROUND n=1 dt_us=15847 d0=14/s0/raw14/rr7637/ref10744 d1=18/s0/raw18/rr4223/ref14907 d2=11/s0/raw11/rr1999/ref17537 d3=19/s0/raw19/rr2800/ref19802
+I (8903) TOF4: TOF_ROUND n=2 dt_us=16639 d0=14/s0/raw14/rr7666/ref10722 d1=18/s0/raw18/rr4262/ref14844 d2=11/s0/raw11/rr1991/ref17503 d3=19/s0/raw19/rr2810/ref19812
+I (8923) TOF4: TOF_ROUND n=3 dt_us=16651 d0=14/s0/raw14/rr7689/ref10724 d1=18/s0/raw18/rr4196/ref14830 d2=11/s0/raw11/rr1982/ref17542 d3=19/s0/raw19/rr2789/ref19802
+I (8944) TOF4: TOF_ROUND n=4 dt_us=16652 d0=14/s0/raw14/rr7792/ref10755 d1=18/s0/raw18/rr4198/ref14794 d2=11/s0/raw11/rr1997/ref17595 d3=19/s0/raw19/rr2835/ref19798
+I (10855) TOF4: TOF_BENCH maxconv_ms=20 period_ms=20 attempts=100 ready=100 valid=100 min_us=15847 p50_us=20148 p95_us=20234 max_us=21456 avg_us=19924
+I (10881) TOF4: TOF_SCALER index=0 range_scaler=0 result_scaler=257 expected_1x=0
+I (10884) TOF4: TOF_SCALER index=1 range_scaler=0 result_scaler=256 expected_1x=0
+I (10888) TOF4: TOF_SCALER index=2 range_scaler=0 result_scaler=285 expected_1x=0
+I (10895) TOF4: TOF_SCALER index=3 range_scaler=0 result_scaler=256 expected_1x=0
+I (10956) TOF4: TOF_ROUND n=0 dt_us=11472 d0=14/s0/raw14/rr7725/ref10588 d1=18/s0/raw18/rr4258/ref14845 d2=11/s0/raw11/rr1984/ref17647 d3=19/s0/raw19/rr2766/ref19814
+I (10966) TOF4: TOF_ROUND n=1 dt_us=6807 d0=14/s0/raw14/rr7690/ref10371 d1=18/s0/raw18/rr4163/ref14793 d2=11/s0/raw11/rr1985/ref17605 d3=19/s0/raw19/rr2825/ref19861
+I (10979) TOF4: TOF_ROUND n=2 dt_us=5777 d0=14/s0/raw14/rr7684/ref10509 d1=18/s0/raw18/rr4195/ref14788 d2=11/s0/raw11/rr1984/ref17621 d3=19/s0/raw19/rr2788/ref19882
+I (10994) TOF4: TOF_ROUND n=3 dt_us=5776 d0=14/s0/raw14/rr7788/ref10464 d1=18/s0/raw18/rr4206/ref14801 d2=11/s0/raw11/rr2007/ref17589 d3=19/s0/raw19/rr2793/ref19922
+I (11008) TOF4: TOF_ROUND n=4 dt_us=5777 d0=14/s0/raw14/rr7815/ref10434 d1=18/s0/raw18/rr4189/ref14829 d2=11/s0/raw11/rr1967/ref17707 d3=19/s0/raw19/rr2822/ref19882
+I (11972) TOF4: TOF_BENCH maxconv_ms=10 period_ms=10 attempts=100 ready=100 valid=100 min_us=3109 p50_us=10120 p95_us=10317 max_us=11472 avg_us=9907
+I (11974) TOF4: TOF_FASTEST_READY maxconv_ms=10 period_ms=10 min_us=3109 p50_us=10120 p95_us=10317 valid=100/100
+I (11984) TOF4: TOF_FASTEST_VALID maxconv_ms=10 period_ms=10 min_us=3109 p50_us=10120 p95_us=10317 valid=100/100
+I (11994) TOF4: TOF4_PROBE=PASS

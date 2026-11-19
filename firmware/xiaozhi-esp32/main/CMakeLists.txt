@@ -583,6 +583,21 @@ elseif(CONFIG_BOARD_TYPE_ESP32_S31_KORVO_1)
     set(BUILTIN_TEXT_FONT font_noto_sans_basic_30_4)
     set(BUILTIN_ICON_FONT font_material_symbols_30_4)
     set(DEFAULT_EMOJI_COLLECTION noto-color-emoji_64)
+elseif(CONFIG_BOARD_TYPE_ESP32_S31_KORVO_1_STC)
+    set(BOARD_DIR "espressif/esp32-s31-korvo-1-stc")
+    set(BUILTIN_TEXT_FONT font_noto_sans_basic_30_4)
+    set(BUILTIN_ICON_FONT font_material_symbols_30_4)
+    set(DEFAULT_EMOJI_COLLECTION noto-color-emoji_64)
+    set(DEFAULT_ASSETS_EXTRA_FILES
+        "${CMAKE_CURRENT_LIST_DIR}/../../assets/voice")
+    list(APPEND INCLUDE_DIRS
+        "${CMAKE_CURRENT_LIST_DIR}/../../../contracts"
+        "${CMAKE_CURRENT_LIST_DIR}/../../../app"
+        "${CMAKE_CURRENT_LIST_DIR}/../../common"
+        "${CMAKE_CURRENT_LIST_DIR}/../../esp32s31/game/main"
+        "${CMAKE_CURRENT_LIST_DIR}/../../../ui/lvglpro/include"
+        "${CMAKE_CURRENT_LIST_DIR}/../../../ui/lvglpro/src"
+        "${CMAKE_CURRENT_LIST_DIR}/../../../ui/lvglpro/generated")
 elseif(CONFIG_BOARD_TYPE_ESP_MOSAICO)
     set(BOARD_DIR "espressif/esp-mosaico")
     set(BUILTIN_TEXT_FONT font_noto_sans_basic_30_4)
@@ -928,6 +943,37 @@ file(GLOB BOARD_SOURCES
 )
 list(APPEND SOURCES ${BOARD_SOURCES})
 
+if(CONFIG_BOARD_TYPE_ESP32_S31_KORVO_1_STC)
+    set(STC_GAME_ROOT "${CMAKE_CURRENT_LIST_DIR}/../../esp32s31/game")
+    set(STC_UI_ROOT "${CMAKE_CURRENT_LIST_DIR}/../../../ui/lvglpro")
+    file(GLOB STC_UI_GENERATED_SOURCES
+         "${STC_UI_ROOT}/generated/stc_lp_*.c")
+    list(APPEND STC_UI_GENERATED_SOURCES
+         "${STC_UI_ROOT}/generated/stc_lvglpro_assets.c")
+    list(APPEND SOURCES
+        "${STC_GAME_ROOT}/main/camera_capture.cpp"
+        "${STC_GAME_ROOT}/main/replay_classifier.cpp"
+        "${STC_GAME_ROOT}/main/espnow_controller.c"
+        "${STC_GAME_ROOT}/main/ui_bridge.c"
+        "${CMAKE_CURRENT_LIST_DIR}/../../../app/stc_app.c"
+        "${CMAKE_CURRENT_LIST_DIR}/../../../app/stc_game_controller.c"
+        "../../../app/stc_shell_mode.c"
+        "../../../app/stc_mode_request.c"
+        "../../../firmware/common/stc_game.c"
+        "../../../firmware/common/stc_hand_link.c"
+        "../../../firmware/common/stc_hand_msg.c"
+        "../../../firmware/common/stc_lidmsg.c"
+        "../../../firmware/common/stc_preprocess.c"
+        "../../../firmware/common/stc_replay_pack.c"
+        "../../../firmware/common/stc_vision_aggregate.c"
+        "../../../firmware/common/stc_vision_map.c"
+        "${STC_UI_ROOT}/src/stc_ui.c"
+        "${STC_UI_ROOT}/src/stc_chat_ui.c"
+        ${STC_UI_GENERATED_SOURCES}
+        "boards/espressif/esp32-s31-korvo-1/esp32_s31_adc_calibration.c"
+    )
+endif()
+
 # Select one audio engine for each chip family
 if(CONFIG_IDF_TARGET_ESP32S3 OR CONFIG_IDF_TARGET_ESP32P4 OR CONFIG_IDF_TARGET_ESP32S31)
     list(APPEND SOURCES "audio/engines/afe_audio_engine.cc")
@@ -1112,6 +1158,47 @@ if(CONFIG_BOARD_TYPE_ESP32_P4_FUNCTION_EV_BOARD)
         sdmmc
     )
 endif()
+if(CONFIG_BOARD_TYPE_ESP32_S31_KORVO_1_STC)
+    list(APPEND MAIN_PRIV_REQUIRES_EXTRA
+        espressif__esp-dl
+        espressif__esp_video
+        esp_wifi
+        esp_event
+        esp_netif
+        esp_timer
+    )
+    set(STC_MODEL_FILE
+        "${CMAKE_CURRENT_LIST_DIR}/../../../models/wordless-unknown/wordless_s31.espdl")
+    set(STC_REPLAY_PACK
+        "${CMAKE_CURRENT_BINARY_DIR}/game_replay_pack.bin")
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    execute_process(
+        COMMAND "${Python3_EXECUTABLE}"
+                "${CMAKE_CURRENT_LIST_DIR}/../../../tools/game_replay.py"
+                --scene-dir
+                "${CMAKE_CURRENT_LIST_DIR}/../../../data/mixed-card-object/wordless-v1/test-scenes"
+                --output "${STC_REPLAY_PACK}"
+                --seed 20261111
+        RESULT_VARIABLE STC_REPLAY_RESULT
+        OUTPUT_QUIET
+        ERROR_VARIABLE STC_REPLAY_ERROR)
+    if(NOT STC_REPLAY_RESULT EQUAL 0)
+        message(FATAL_ERROR
+            "Could not build S31 replay pack: ${STC_REPLAY_ERROR}")
+    endif()
+    file(SHA256 "${STC_MODEL_FILE}" STC_MODEL_SHA)
+    if(NOT STC_MODEL_SHA STREQUAL
+       "cd8435624febc592a28053b20450a434b82a04c0642a70cb09c037e0b43910c3")
+        message(FATAL_ERROR
+            "wordless_s31.espdl SHA256 mismatch: ${STC_MODEL_SHA}")
+    endif()
+    file(SHA256 "${STC_REPLAY_PACK}" STC_REPLAY_SHA)
+    if(NOT STC_REPLAY_SHA STREQUAL
+       "287c8106c4be0569d15c06c1498d69f562af216030e2ccfe165545c9dd62722e")
+        message(FATAL_ERROR
+            "game_replay_pack.bin SHA256 mismatch: ${STC_REPLAY_SHA}")
+    endif()
+endif()
 idf_component_register(SRCS ${SOURCES}
                     EMBED_FILES ${LANG_SOUNDS} ${COMMON_SOUNDS}
                     INCLUDE_DIRS ${INCLUDE_DIRS}
@@ -1141,6 +1228,21 @@ idf_component_register(SRCS ${SOURCES}
                         xiaozhi-fonts
                         ${MAIN_PRIV_REQUIRES_EXTRA}
                     )
+
+if(CONFIG_BOARD_TYPE_ESP32_S31_KORVO_1_STC)
+    idf_component_get_property(espdl_dir espressif__esp-dl COMPONENT_DIR)
+    set(cmake_dir "${espdl_dir}/fbs_loader/cmake")
+    include("${cmake_dir}/utilities.cmake")
+    target_add_aligned_binary_data(
+        ${COMPONENT_LIB} "${STC_MODEL_FILE}" BINARY
+        RENAME_TO wordless_s31_espdl)
+    target_add_aligned_binary_data(
+        ${COMPONENT_LIB} "${STC_REPLAY_PACK}" BINARY)
+    target_compile_definitions(${COMPONENT_LIB} PRIVATE
+        STC_GAME_MODEL_CRC=0x401b7655
+        STC_GAME_LIVE_CAMERA=1
+        STC_GAME_IGNORE_MODEL_SELFTEST=1)
+endif()
 
 # Keep project-owned C++ on GNU C++23. ESP-IDF 6 may default to a newer
 # dialect; pin the baseline so main/ does not depend on it.

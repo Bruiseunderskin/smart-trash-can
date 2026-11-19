@@ -1,6 +1,6 @@
 /* test_classes_order.c — classes.json 必須與模型的 labels.txt 同序，且 bin 值固定。
 
- * 這正是 #53 §6.1 要釘死的東西：模型 index 0..3 → 桶位 {1, 2, 3, 0}。
+ * 這正是 #53 §6.1 要釘死的東西：模型 index 0..4 → 桶位 {1, 2, 3, 0, 4}。
  * 次序錯了就拒絕啟動，不可以在運行時猜。
  */
 #include <stdio.h>
@@ -59,27 +59,28 @@ int main(void)
         p = q2 + 1;
     }
 
-    if (count != 4) {
-        fprintf(stderr, "expected 4 classes, parsed %d\n", count);
+    if (count != 5) {
+        fprintf(stderr, "expected 5 classes, parsed %d\n", count);
         return 1;
     }
 
-    char expected[4][MAX_KEY];
+    char expected[5][MAX_KEY];
     int lines = 0;
     char *save = NULL;
-    for (char *line = strtok_r(labels, "\r\n", &save); line && lines < 4;
+    for (char *line = strtok_r(labels, "\r\n", &save); line && lines < 5;
          line = strtok_r(NULL, "\r\n", &save)) {
         if (*line == '\0') continue;
         snprintf(expected[lines], MAX_KEY, "%s", line);
         lines++;
     }
-    if (lines != 4) {
-        fprintf(stderr, "labels.txt must hold 4 lines, found %d\n", lines);
+    if (lines != 5) {
+        fprintf(stderr, "labels.txt must hold 5 lines, found %d\n", lines);
         return 1;
     }
 
-    static const int expected_bins[4] = {1, 2, 3, 0};   /* food, hazardous, other, recyclable */
-    for (int i = 0; i < 4; i++) {
+    /* food, hazardous, other, recyclable, unknown; bin 4 = STC_BIN_COUNT = 不開桶 */
+    static const int expected_bins[5] = {1, 2, 3, 0, 4};
+    for (int i = 0; i < 5; i++) {
         if (strcmp(keys[i], expected[i]) != 0) {
             fprintf(stderr, "index %d: classes.json has %s, labels.txt has %s\n",
                     i, keys[i], expected[i]);
@@ -92,7 +93,7 @@ int main(void)
         }
     }
 
-    printf("test_classes_order: %s,%s,%s,%s -> bins 1,2,3,0\n",
-           keys[0], keys[1], keys[2], keys[3]);
+    printf("test_classes_order: %s,%s,%s,%s,%s -> bins 1,2,3,0,4\n",
+           keys[0], keys[1], keys[2], keys[3], keys[4]);
     return 0;
 }

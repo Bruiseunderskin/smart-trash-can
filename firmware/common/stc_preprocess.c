@@ -87,3 +87,20 @@ stc_err_t stc_preprocess_uyvy_to_rgb(const uint8_t *uyvy, int width, int height,
     free(rgb);
     return STC_OK;
 }
+
+stc_err_t stc_preprocess_rgb_to_rgb565(const uint8_t *rgb, int pixels,
+                                      uint16_t *rgb565_out)
+{
+    if (!rgb || !rgb565_out || pixels <= 0) {
+        return STC_ERR_CONTRACT;
+    }
+    for (int i = 0; i < pixels; ++i) {
+        const uint8_t r = rgb[i * 3 + 0];
+        const uint8_t g = rgb[i * 3 + 1];
+        const uint8_t b = rgb[i * 3 + 2];
+        rgb565_out[i] = (uint16_t)(((uint16_t)(r >> 3) << 11) |
+                                  ((uint16_t)(g >> 2) << 5) |
+                                  (uint16_t)(b >> 3));
+    }
+    return STC_OK;
+}

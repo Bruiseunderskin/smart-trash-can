@@ -1,7 +1,7 @@
 {
-  "states": 9,
-  "text_contrast_checks": 75,
-  "touch_targets": 13,
+  "states": 12,
+  "text_contrast_checks": 114,
+  "touch_targets": 20,
   "minimum_contrast": 4.51,
   "input_hashes": "PASS",
   "svg_embedded_raster": "none",
@@ -57,6 +57,20 @@
       "contrast": 12.4
     },
     {
+      "state": "state/idle",
+      "node": "action/guide",
+      "fg": "brand",
+      "bg": "surface",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/idle",
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
+    },
+    {
       "state": "state/capturing",
       "node": "brand",
       "fg": "on_brand",
@@ -90,6 +104,13 @@
       "fg": "fg",
       "bg": "surface",
       "contrast": 17.74
+    },
+    {
+      "state": "state/capturing",
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
     },
     {
       "state": "state/classifying",
@@ -132,6 +153,13 @@
       "fg": "fg",
       "bg": "surface",
       "contrast": 17.74
+    },
+    {
+      "state": "state/classifying",
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
     },
     {
       "state": "state/result_ok",
@@ -197,6 +225,13 @@
       "contrast": 10.81
     },
     {
+      "state": "state/result_ok",
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
+    },
+    {
       "state": "state/result_retry",
       "node": "brand",
       "fg": "on_brand",
@@ -260,6 +295,13 @@
       "contrast": 5.02
     },
     {
+      "state": "state/result_retry",
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
+    },
+    {
       "state": "state/error",
       "node": "brand",
       "fg": "on_brand",
@@ -300,6 +342,13 @@
       "fg": "bg",
       "bg": "brand",
       "contrast": 11.15
+    },
+    {
+      "state": "state/error",
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
     },
     {
       "state": "state/category_guide",
@@ -408,6 +457,13 @@
     },
     {
       "state": "state/category_guide",
+      "node": "action/ask",
+      "fg": "on_accent",
+      "bg": "accent",
+      "contrast": 10.81
+    },
+    {
+      "state": "state/category_guide",
       "node": "action/finish",
       "fg": "brand",
       "bg": "surface",
@@ -419,6 +475,13 @@
       "fg": "on_brand",
       "bg": "brand",
       "contrast": 12.4
+    },
+    {
+      "state": "state/category_guide",
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
     },
     {
       "state": "state/learning",
@@ -437,37 +500,65 @@
     {
       "state": "state/learning",
       "node": "category",
-      "fg": "cat0",
+      "fg": "fg",
       "bg": "bg",
-      "contrast": 6.03
+      "contrast": 15.96
     },
     {
       "state": "state/learning",
-      "node": "tip",
+      "node": "result",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/learning",
+      "node": "scanned",
       "fg": "fg",
       "bg": "surface",
       "contrast": 17.74
     },
     {
       "state": "state/learning",
-      "node": "example",
+      "node": "dropped",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/learning",
+      "node": "answer",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/learning",
+      "node": "score",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/learning",
+      "node": "tip",
       "fg": "fg_muted",
       "bg": "surface",
       "contrast": 6.12
     },
     {
       "state": "state/learning",
-      "node": "action/guide",
-      "fg": "brand",
-      "bg": "surface",
+      "node": "action/next",
+      "fg": "on_brand",
+      "bg": "brand",
       "contrast": 12.4
     },
     {
       "state": "state/learning",
-      "node": "action/home",
-      "fg": "on_brand",
-      "bg": "brand",
-      "contrast": 12.4
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
     },
     {
       "state": "state/summary",
@@ -531,14 +622,192 @@
       "fg": "on_brand",
       "bg": "brand",
       "contrast": 12.4
+    },
+    {
+      "state": "state/summary",
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
+    },
+    {
+      "state": "state/scan_ready",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/scan_ready",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/scan_ready",
+      "node": "prompt",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/scan_ready",
+      "node": "hint",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/scan_ready",
+      "node": "score-label",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/scan_ready",
+      "node": "score",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/scan_ready",
+      "node": "action/scan",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/scan_ready",
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
+    },
+    {
+      "state": "state/bin_choice",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/bin_choice",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/bin_choice",
+      "node": "prompt",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/bin_choice",
+      "node": "action/bin-0",
+      "fg": "on_brand",
+      "bg": "cat0",
+      "contrast": 6.7
+    },
+    {
+      "state": "state/bin_choice",
+      "node": "action/bin-1",
+      "fg": "on_brand",
+      "bg": "cat1",
+      "contrast": 5.02
+    },
+    {
+      "state": "state/bin_choice",
+      "node": "action/bin-2",
+      "fg": "on_brand",
+      "bg": "cat2",
+      "contrast": 6.47
+    },
+    {
+      "state": "state/bin_choice",
+      "node": "action/bin-3",
+      "fg": "on_brand",
+      "bg": "cat3",
+      "contrast": 7.56
+    },
+    {
+      "state": "state/bin_choice",
+      "node": "hint",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
+    },
+    {
+      "state": "state/bin_choice",
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
+    },
+    {
+      "state": "state/chat",
+      "node": "brand",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/chat",
+      "node": "status",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/chat",
+      "node": "prompt",
+      "fg": "fg",
+      "bg": "bg",
+      "contrast": 15.96
+    },
+    {
+      "state": "state/chat",
+      "node": "hint",
+      "fg": "ok",
+      "bg": "bg",
+      "contrast": 4.51
+    },
+    {
+      "state": "state/chat",
+      "node": "chat-title",
+      "fg": "fg",
+      "bg": "surface",
+      "contrast": 17.74
+    },
+    {
+      "state": "state/chat",
+      "node": "chat-detail",
+      "fg": "fg_muted",
+      "bg": "surface",
+      "contrast": 6.12
+    },
+    {
+      "state": "state/chat",
+      "node": "action/home",
+      "fg": "on_brand",
+      "bg": "brand",
+      "contrast": 12.4
+    },
+    {
+      "state": "state/chat",
+      "node": "debug-badge",
+      "fg": "fg_muted",
+      "bg": "bg",
+      "contrast": 5.51
     }
   ],
-  "spacing_checks": 27,
+  "spacing_checks": 32,
   "post_completion_learning": "PASS",
-  "checks": {
-    "contrast_touch": {
-      "status": "PASS",
-      "details": "75 contrast checks, 13 touch targets, 27 spacing/navigation assertions"
-    }
-  }
+  "stage1_round_feedback": "PASS",
+  "replay_badge": "PASS"
 }

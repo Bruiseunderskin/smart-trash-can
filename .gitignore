@@ -1,6 +1,7 @@
 # ---- Build outputs / generated files (regenerable) ----
 build/
 managed_components/
+managed_components.wsl-link.bak
 sdkconfig
 sdkconfig.old
 compile_commands.json

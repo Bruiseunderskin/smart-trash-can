@@ -7,6 +7,16 @@
 的計劃：PR #61 已合併最小遊戲核心、模式閘、UI adapter 與測試，但目前只證明
 host 上的分段行為，尚未證明一局真實遊戲。
 
+> **2026-11-11 stage-one implementation status:** this branch now contains
+> `firmware/esp32s31/game/` and `firmware/esp32s3/virtual_hand/`. The shared
+> C suite is 18/18 passing, replay/layout Python checks pass, the LVGL native
+> test passes, and both ESP-IDF 6.1 target builds succeed. The S31 image embeds
+> the real ESP-DL model and generated replay pack; S3 implements the virtual
+> hand over ESP-NOW. Physical S31/S3 flashing, the required 40/40 on-device
+> model self-test, five-round RF smoke, audio, touch, ACK RTT, and p50/p95
+> measurements remain `NOT_TESTED`. The sections below preserve the original
+> gap analysis and the reasoning that led to this implementation.
+
 ## 1. 目標與完成界線
 
 目標流程：
@@ -35,7 +45,7 @@ PLAY → 揀卡提示 → 5 幀掃描 → 類別結果 → 四蓋開啟
 | 部件 | `main` 現況 | 界線 |
 |---|---|---|
 | 遊戲狀態與計分 | `firmware/common/stc_game.c` 已有 10 階段、5 回合、+10／-5、floor、abstain 重掃一次 | 只有少量 happy-path 測試；總時限、真實時鐘與部分轉移未實作 |
-| 模式閘 | `firmware/common/stc_mode.c` 已有 6 狀態與 CHAT 60 秒退出 | 尚未接真正 UI 與語音 |
+| 模式閘 | 已加 `app/stc_shell_mode.c` 的 GAME／CHAT 外層 shell；回合中不可入 CHAT，CHAT 暫停 game tick，60 秒退出 | CHAT 語音 backend 仍然 unsupported |
 | UI | `ui/lvgl/` 已有 800×480、9 狀態、17 張 framebuffer、50 個 native scenarios | `result_ok` 不能直接到 `learning`，`RESULT_RETRY` 需要兩個候選，現 adapter 沒有提供 |
 | 模型 | YOLO11n-cls，S31 w8a8 `models/wordless-padded/wordless_s31.espdl` | 未在 S31 載入；`stc_vision_scan()` 與 ESP 相機 frame source 尚未接成真路徑 |
 | 前處理 | UYVY→RGB、中央正方形、160×160 bilinear 已有 golden fixture | 只證明純 C golden，不代表 SC101IOT／PPA／模型整鏈一致 |

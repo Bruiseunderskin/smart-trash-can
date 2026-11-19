@@ -1,0 +1,139 @@
+ESP-ROM:esp32s31-20251218
+Build:Dec 18 2025
+rst:0x1 (POWERON),boot:0x79 (SPI_FAST_FLASH_BOOT)
+SPI mode:DIO, clock div:1
+load:0x2f0740c0,len:0x17e4
+load:0x2f06a2b0,len:0xde0
+load:0x2f06cfb0,len:0x3460
+entry 0x2f06a2ba
+I (26) boot: ESP-IDF v6.1 2nd stage bootloader
+I (26) boot: compile time Nov 11 2026 21:47:57
+I (27) boot: Multicore bootloader
+I (29) boot: chip revision: v0.0
+I (29) boot: efuse block revision: v0.1
+I (33) qio_mode: Enabling default flash chip QIO
+I (37) boot.esp32s31: SPI Speed      : 80MHz
+I (41) boot.esp32s31: SPI Mode       : QIO
+I (45) boot.esp32s31: SPI Flash Size : 16MB
+I (49) boot: Enabling RNG early entropy source...
+I (53) boot: Partition Table:
+I (56) boot: ## Label            Usage          Type ST Offset   Length
+I (62) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (69) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (75) boot:  2 factory          factory app      00 00 00010000 00c00000
+I (83) boot: End of partition table
+I (85) esp_image: segment 0: paddr=00010020 vaddr=402c0020 size=4b6574h (4941172) map
+I (857) esp_image: segment 1: paddr=004c659c vaddr=2e000000 size=00024h (    36) load
+I (859) esp_image: segment 2: paddr=004c65c8 vaddr=2f000000 size=09a50h ( 39504) load
+I (869) esp_image: segment 3: paddr=004d0020 vaddr=40000020 size=2bb480h (2864256) map
+I (1313) esp_image: segment 4: paddr=0078b4a8 vaddr=2f009a50 size=0656ch ( 25964) load
+I (1319) esp_image: segment 5: paddr=00791a1c vaddr=2f010000 size=03994h ( 14740) load
+I (1328) boot: Loaded app from partition at offset 0x10000
+I (1328) boot: Disabling RNG early entropy source...
+I (1340) oct_psram: vendor id    : 0x0d (AP)
+I (1341) oct_psram: Latency      : 0x01 (Fixed)
+I (1341) oct_psram: DriveStr.    : 0x00 (25 Ohm)
+I (1342) oct_psram: dev id       : 0x03 (generation 4)
+I (1346) oct_psram: density      : 0x05 (128 Mbit)
+I (1351) oct_psram: good-die     : 0x06 (Pass)
+I (1355) oct_psram: SRF          : 0x02 (Slow Refresh)
+I (1360) oct_psram: BurstType    : 0x00 ( Wrap)
+I (1364) oct_psram: BurstLen     : 0x03 (2048 Byte)
+I (1369) oct_psram: BitMode      : 0x00 (X8 Mode)
+I (1373) oct_psram: Readlatency  : 0x04 (14 cycles@Fixed)
+I (1378) oct_psram: DriveStrength: 0x00 (1/1)
+I (1382) MSPI Timing: Enter psram timing tuning
+I (1538) esp_psram: Found 16MB PSRAM device
+I (1539) esp_psram: Speed: 200MHz
+I (1539) oct_psram: psram CS IO is dedicated
+I (1540) cpu_start: Multicore app
+I (1855) esp_psram: SPI SRAM memory test OK
+I (1863) cpu_start: GPIO 59 and 58 are used as console UART I/O pins
+I (1864) cpu_start: Pro cpu start user code
+I (1864) cpu_start: cpu freq: 320000000 Hz
+I (1866) app_init: Application information:
+I (1870) app_init: Project name:     stc_s31_game
+I (1874) app_init: App version:      1
+I (1877) app_init: Compile time:     Nov 13 2026 17:14:07
+I (1883) app_init: ELF file SHA256:  1f9af716d...
+I (1887) app_init: ESP-IDF:          v6.1
+I (1891) efuse_init: Min chip rev:     v0.0
+I (1895) efuse_init: Max chip rev:     v0.99 
+I (1899) efuse_init: Chip rev:         v0.0
+I (1903) heap_init: Initializing. RAM available for dynamic allocation:
+I (1909) heap_init: At 2F041EF0 len 000390C0 (228 KiB): RAM
+I (1914) heap_init: At 2F07AFB0 len 000041C0 (16 KiB): RAM
+I (1920) heap_init: At 2E000024 len 00007FC4 (31 KiB): RTCRAM
+I (1925) esp_psram: Adding pool of 16384K of PSRAM memory to heap allocator
+I (1932) spi_flash: detected chip: generic
+I (1935) spi_flash: flash io: qio
+I (1939) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (1945) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (1951) oct_psram: psram CS IO is dedicated
+I (1956) coexist: coex firmware version: a830d28
+I (1960) coexist: coexist rom version cdcf52b
+I (1964) main_task: Started on CPU0
+I (1975) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+I (1975) main_task: Calling app_main()
+I (1988) LVGL: Starting LVGL task
+I (1988) ESP32-S31-Korvo-1: Initialize RGB panel
+I (1997) ESP32-S31-Korvo-1: Display initialized with resolution 800x480
+I (2017) gt1151: IC version: GT1158_000101(Patch)_0102(Mask)_00(SensorID)
+W (2018) ESP32-S31-Korvo-1: This board doesn't support to change brightness of LCD
+I (2082) stc_ui_port: 800x480 UI ready
+W (2083) i2s_common: the rx channel on I2S1 is switched from master to slave for full-duplex mode
+I (2106) ES8389: Work in Slave mode
+I (2110) ES8389: Set internal reference signal
+I (2111) I2S_IF: Paired data: 0x2f0626d0, current mode: playback, paired in_enable: 0, paired out_enable: 0
+I (2113) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: STEREO, slot_mask: 0x3
+I (2121) I2S_IF: STD: TX, sample_rate_hz: 16000, mclk_multiple: 256, clk_src: 16
+I (2146) Adev_Codec: Open codec device OK
+I (2147) stc_voice: local PCM voice ready (16 kHz stereo, cloud disabled)
+I (2752) stc_game_model: model_crc=6e1f6dec pack=232915 bytes seed=20261111 labels=OK input_dtype=3 input_exp=-7 input_shape=[1,160,160,3] output_dtype=1 output_exp=0 output_size=4
+I (2853) stc_game_model: SELFTEST index=0 card=A-03 expected=3 predicted=3 conf=0.999670 PASS
+I (2948) stc_game_model: SELFTEST index=1 card=A-03 expected=3 predicted=3 conf=0.999974 PASS
+I (3043) stc_game_model: SELFTEST index=2 card=A-03 expected=3 predicted=3 conf=0.999998 PASS
+I (3137) stc_game_model: SELFTEST index=3 card=A-03 expected=3 predicted=3 conf=0.999615 PASS
+I (3232) stc_game_model: SELFTEST index=4 card=A-03 expected=3 predicted=3 conf=0.999493 PASS
+I (3327) stc_game_model: SELFTEST index=5 card=A-03 expected=3 predicted=3 conf=0.812991 PASS
+I (3422) stc_game_model: SELFTEST index=6 card=A-03 expected=3 predicted=3 conf=0.999989 PASS
+I (3517) stc_game_model: SELFTEST index=7 card=A-03 expected=3 predicted=3 conf=0.998050 PASS
+I (3611) stc_game_model: SELFTEST index=8 card=A-03 expected=3 predicted=3 conf=0.999915 PASS
+I (3706) stc_game_model: SELFTEST index=9 card=B-05 expected=3 predicted=3 conf=0.999999 PASS
+I (3801) stc_game_model: SELFTEST index=10 card=B-14 expected=0 predicted=0 conf=0.999948 PASS
+I (3896) stc_game_model: SELFTEST index=11 card=B-14 expected=0 predicted=0 conf=0.999992 PASS
+I (3990) stc_game_model: SELFTEST index=12 card=B-14 expected=0 predicted=0 conf=0.816672 PASS
+I (4085) stc_game_model: SELFTEST index=13 card=B-14 expected=0 predicted=0 conf=0.880234 PASS
+I (4180) stc_game_model: SELFTEST index=14 card=B-14 expected=0 predicted=0 conf=0.995898 PASS
+I (4274) stc_game_model: SELFTEST index=15 card=B-14 expected=0 predicted=0 conf=0.995357 PASS
+I (4369) stc_game_model: SELFTEST index=16 card=B-14 expected=0 predicted=0 conf=0.999988 PASS
+I (4463) stc_game_model: SELFTEST index=17 card=B-14 expected=0 predicted=0 conf=0.999771 PASS
+I (4558) stc_game_model: SELFTEST index=18 card=B-14 expected=0 predicted=0 conf=0.998827 PASS
+I (4653) stc_game_model: SELFTEST index=19 card=B-14 expected=0 predicted=0 conf=0.999875 PASS
+I (4747) stc_game_model: SELFTEST index=20 card=B-19 expected=1 predicted=1 conf=0.997298 PASS
+I (4842) stc_game_model: SELFTEST index=21 card=B-19 expected=1 predicted=1 conf=0.999727 PASS
+I (4937) stc_game_model: SELFTEST index=22 card=B-19 expected=1 predicted=1 conf=0.993994 PASS
+I (5032) stc_game_model: SELFTEST index=23 card=B-19 expected=1 predicted=3 conf=0.910221 FAIL
+I (5127) stc_game_model: SELFTEST index=24 card=B-19 expected=1 predicted=1 conf=0.722150 PASS
+I (5221) stc_game_model: SELFTEST index=25 card=B-19 expected=1 predicted=1 conf=0.979194 PASS
+I (5316) stc_game_model: SELFTEST index=26 card=B-19 expected=1 predicted=1 conf=0.976211 PASS
+I (5411) stc_game_model: SELFTEST index=27 card=B-19 expected=1 predicted=1 conf=0.995333 PASS
+I (5506) stc_game_model: SELFTEST index=28 card=B-19 expected=1 predicted=1 conf=0.771245 PASS
+I (5600) stc_game_model: SELFTEST index=29 card=B-19 expected=1 predicted=1 conf=0.997587 PASS
+I (5695) stc_game_model: SELFTEST index=30 card=B-24 expected=2 predicted=2 conf=0.999534 PASS
+I (5790) stc_game_model: SELFTEST index=31 card=B-24 expected=2 predicted=2 conf=0.582708 PASS
+I (5884) stc_game_model: SELFTEST index=32 card=B-24 expected=2 predicted=2 conf=0.972095 PASS
+I (5979) stc_game_model: SELFTEST index=33 card=B-24 expected=2 predicted=2 conf=0.984591 PASS
+I (6073) stc_game_model: SELFTEST index=34 card=B-24 expected=2 predicted=2 conf=0.988775 PASS
+I (6168) stc_game_model: SELFTEST index=35 card=B-24 expected=2 predicted=2 conf=0.999949 PASS
+I (6263) stc_game_model: SELFTEST index=36 card=B-24 expected=2 predicted=2 conf=0.999721 PASS
+I (6358) stc_game_model: SELFTEST index=37 card=B-24 expected=2 predicted=2 conf=0.999503 PASS
+I (6452) stc_game_model: SELFTEST index=38 card=B-24 expected=2 predicted=2 conf=0.980723 PASS
+I (6547) stc_game_model: SELFTEST index=39 card=B-24 expected=2 predicted=2 conf=0.977569 PASS
+I (6548) stc_game_model: REPLAY_SELFTEST=FAIL correct=39 total=40
+I (6550) stc_game: MODEL_SELFTEST=FAIL correct=39 total=40
+W (6556) stc_game: MODEL_SELFTEST=FAIL correct=39 total=40 DEV_BYPASS=1 reason=STC_GAME_DEV_FLOW
+I (6564) stc_game: TOUCH_BIN_MODE=ON transport=local_ui hand=disabled
+I (6606) sc101iot: Detected Camera sensor PID=0xda4a
+I (7213) stc_camera: SC101IOT stream on, 640x480 UYVY
+I (7213) stc_game: LIVE_CAMERA=PREVIEW_READY 640x480_UYVY

@@ -661,6 +661,13 @@ std::unique_ptr<AudioStreamPacket> AudioService::PopWakeWordPacket() {
 void AudioService::EnableWakeWordDetection(bool enable) {
     ESP_LOGD(TAG, "%s wake word detection", enable ? "Enabling" : "Disabling");
     if (enable) {
+        if (!wake_word_allowed_.load()) {
+            if (audio_engine_initialized_) {
+                audio_engine_->EnableWakeWordDetection(false);
+            }
+            xEventGroupClearBits(event_group_, AS_EVENT_WAKE_WORD_RUNNING);
+            return;
+        }
         if (!InitializeAudioEngine()) {
             xEventGroupClearBits(event_group_, AS_EVENT_WAKE_WORD_RUNNING);
             return;
@@ -689,6 +696,16 @@ void AudioService::EnableWakeWordDetection(bool enable) {
             audio_engine_->EnableWakeWordDetection(false);
         }
         xEventGroupClearBits(event_group_, AS_EVENT_WAKE_WORD_RUNNING);
+    }
+}
+
+void AudioService::SetWakeWordAllowed(bool allowed) {
+    wake_word_allowed_.store(allowed);
+    if (audio_engine_) {
+        audio_engine_->SetWakeWordAllowed(allowed);
+    }
+    if (!allowed) {
+        EnableWakeWordDetection(false);
     }
 }
 
@@ -871,6 +888,7 @@ bool AudioService::InitializeAudioEngine() {
     if (audio_engine_initialized_) {
         return true;
     }
+    audio_engine_->SetWakeWordAllowed(wake_word_allowed_.load());
     if (!audio_engine_->Initialize(codec_, OPUS_FRAME_DURATION_MS, models_list_)) {
         ESP_LOGE(TAG, "Failed to initialize audio engine");
         return false;

@@ -10,6 +10,20 @@
 
 ### Added
 
+- Added a two-state outer application shell, `GAME` and `CHAT`. GAME owns the current touch game; CHAT pauses game ticks, has a 60-second timeout, and returns to the same game state. The current local voice backend reports `STC_ERR_UNSUPPORTED` for CHAT and the UI states this explicitly.
+- Added GAME/CHAT touch navigation: `分類圖鑑`, `問綠豆`, and the CHAT `返回遊戲` screen. Added `STC_UI_CHAT` as an appended UI state without renumbering existing values.
+- Added the local `STC_GAME_TOUCH_BIN=ON` game mode: continuous SC101IOT preview, four on-screen bin buttons, human DROP selection, hidden-answer learning feedback, and no ESP-NOW dependency. The selected category is still validated and scored only by the game controller.
+- Added RGB888→native RGB565 preview conversion and native UI coverage for the appended `BIN_CHOICE` state and `SELECT_BIN` action without renumbering existing UI contract values.
+- Added `STC_GAME_DEV_FLOW=ON` as an explicit stage-one development bypass and five-round autopilot: only this build accepts the current 39/40 model, logs `DEV_BYPASS=1`, shows `DEV 39/40`, waits for the S3 heartbeat, and advances scan/learning automatically. The default remains OFF with the strict 40/40 release gate.
+- Added dynamic S31 UI debug badges for replay, live camera, virtual hand and dev-flow states without changing the existing v2.1.0 state/action values.
+- Added an opt-in S31 SC101IOT camera probe (`STC_CAMERA_PROBE=ON`) that captures a 640×480 UYVY frame, converts it to the model's 160×160 RGB input, runs ESP-DL, and can dump the exact model input over UART.
+- Added the `STC_GAME_LIVE_CAMERA=ON` game path: five live camera frames are classified on S31 and aggregated by the existing controller while replay remains the default fallback.
+- Imported the `main@d4440b3` wordless-padded S31 artifact (`wordless_s31.espdl`, SHA-256 `233619c9...`, CRC `6e1f6dec`) and added its frozen replay smoke result. The S31 device is now 39/40, with the remaining `B-19_003` miss still blocking the 40/40 release gate.
+- ESP32-S31 standalone stage-one game firmware: Korvo-1 display/touch, local ES8389 PCM, embedded deterministic replay pack, real ESP-DL inference, game controller, and fixed `REPLAY · VIRTUAL HAND` labels.
+- ESP32-S3 `virtual_hand` firmware: channel-6 ESP-NOW discovery, 250 ms heartbeat, command ACK, virtual DROP pattern/delay, and USB serial overrides.
+- Shared hand protocol v2 and reliability layer: 16-byte CCITT-FALSE frames, 300 ms ACK timeout with two retries, DROP retries, deduplication, offline detection, full game-round correlation, and retry delivery when a DROP arrives before the game accepts it.
+- Deterministic replay tooling and tests: seed `20261111`, 40 embedded scenes, five rounds covering all four classes, five-frame aggregation, and build-time pack generation.
+- Stage-one controller, hand-link, replay-pack, and native UI tests for `SCAN_READY`, learning feedback, contrast, touch targets, glyphs, and overflow.
 - `docs/game-implementation-plan.md`：以 PR #61 的現況為基礎，列出遊戲核心缺口、UI／模型整合界線、分階段實作及上板驗收。
 - `docs/research/espnow-s31-feasibility.md`：依 ESP-IDF v6.1 官方文檔與 source 記錄 ESP-NOW 的 channel、callback、ACK、加密與供電限制。
 - `firmware/espnow_link_spike/`：ESP32-S31 與 ESP32-S3 的 ESP-NOW 傳輸實驗；重用 16-byte `stc_lidmsg`、固定信道、自動發現、心跳與 ACK，暫不驅動伺服機／TOF。
@@ -62,6 +76,10 @@
 
 ### Changed
 
+- Game contract is v1.3.0 and UI contract is v2.1.0; scoring and rounds remain owned only by `stc_game`, while UI callbacks emit bounded action intents.
+- Learning now shows scanned bin, actual bin, correct bin, outcome, round delta, total score, and one full-width next-round button; it advances only on user action.
+- ESP-NOW is the stage-one hand transport instead of USB CDC; both boards use channel 6 without encryption and discover peers automatically.
+- The S31 game partition is 12 MB so the ESP-DL model, replay pack, UI assets, and PCM clips leave build headroom on the 16 MB flash.
 - 混合資料集目錄命名為 `mixed-card-object`；歷史實拍及 probe 保留原路徑並標明用途。
 
 - 重寫專案入口與 agent 指引，更新 YOLO／ESP-DL 路線、整合現況及分類卡圖片連結。
@@ -73,4 +91,12 @@
 
 ### Fixed
 
+- Fixed `INVALID_TRANSITION` in the live touch game by allowing the actual phase path `CLASSIFYING -> BIN_CHOICE`, plus prompt-timeout, scan-retry, and abstain paths into learning/scan-ready. The native regression now exercises those direct transitions rather than taking a replay-only shortcut through `RESULT_OK`.
+- Fixed the live touch game's five-frame inference race: device scans measured 1,451-1,573 ms while the generic 1.5 s SCAN timeout could expire first and reject the result as a stale round. `STC_GAME_TOUCH_BIN` now uses a 5 s scan budget while the normal game contract remains unchanged.
+- Game startup, PROMPT/SCAN/WAIT_DROP timeout handling, the 180-second limit, duration, consecutive-correct streak, duplicate DROP, and stale round events.
+- ESP-NOW OPEN_ALL ACK and DROP now reach the controller with the originating monotonic round ID; `lid_open` changes only after a matching successful ACK.
+- S3 retries the same command without resetting a pending virtual DROP, and echoes the OPEN command's sequence on DROP.
+- S31 target build now generates the replay pack before embedding it, resolves the ESP-DL binary symbol correctly, and adapts the shared UI contract to the LVGL payload/action types.
+- Learning-page glyph coverage now includes the Cantonese timeout/correct/wrong wording, with all five round outcomes covered by the native interaction test.
+- S3 no longer reinstalls the USB Serial/JTAG driver when the configured console already owns it.
 - `AGENTS.md` 原本聲稱 `data/waste4_ei_train`、`data/waste4_ei_test`、`data/garbage265` 在 repo 內，實際上三者被 `.gitignore` 排除，clone 下來的人不會見到。

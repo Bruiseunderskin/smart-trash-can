@@ -16,6 +16,8 @@ extern "C" {
  * 輸出：RGB888，out_size × out_size，uint8 0–255，NHWC 佈局。 */
 stc_err_t stc_preprocess_uyvy_to_rgb(const uint8_t *uyvy, int width, int height,
                                      uint8_t *rgb_out, int out_size);
+stc_err_t stc_preprocess_rgb_to_rgb565(const uint8_t *rgb, int pixels,
+                                      uint16_t *rgb565_out);
 
 #ifdef __cplusplus
 }

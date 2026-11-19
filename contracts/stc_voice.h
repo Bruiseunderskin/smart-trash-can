@@ -39,6 +39,12 @@ stc_mode_t  stc_voice_get_mode(void);
 /* CHAT 模式：開始一次對話（等喚醒詞或直接進聆聽）。GAME 模式回 STC_ERR_NOT_READY。 */
 stc_err_t stc_voice_start_dialog(void);
 
+/* 停止目前 CHAT 對話，保留 CHAT 頁。非阻塞，實際清理在 Application task。 */
+void stc_voice_cancel_dialog(void);
+
+/* 中止目前回覆，待裝置回到 idle 後開始下一次對話。 */
+void stc_voice_restart_dialog(void);
+
 /* 文字 → 語音。後端支援時才可用（xiaozhi 文字注入未實作 → 回 STC_ERR_UNSUPPORTED）。 */
 stc_err_t stc_voice_speak_text(const char *text);
 

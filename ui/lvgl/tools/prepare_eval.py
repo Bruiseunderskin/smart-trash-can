@@ -29,7 +29,9 @@ with tempfile.TemporaryDirectory(prefix='.capture-',dir=RENDER) as temporary:
  result=run([exe,'--screenshots',temporary],env={**os.environ,'SDL_RENDER_DRIVER':'software'})
  if result.returncode:raise SystemExit(result.stdout+result.stderr)
  screenshots=list(Path(temporary).glob('*.bmp'))
- if len(screenshots)!=17:raise SystemExit(f'Expected 17 fresh captures, received {len(screenshots)}')
+ layout=json.loads((ROOT/'design/layout.json').read_text())
+ expected_frames=len(layout['screens'])+6+2
+ if len(screenshots)!=expected_frames:raise SystemExit(f'Expected {expected_frames} fresh captures, received {len(screenshots)}')
  for source in screenshots:shutil.copyfile(source,RENDER/source.name)
 result=run([sys.executable,UI/'tools/capture.py'])
 if result.returncode:raise SystemExit(result.stdout+result.stderr)

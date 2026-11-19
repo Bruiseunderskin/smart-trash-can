@@ -8,10 +8,11 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 ARDUINO = ('ESP32S3_Mic_Test', 'MG90_LidServo_ESP32S3', 'PCA9685_4Servo_Test')
-IDF = ('pca9685_servo_test', 'tflite_probe', 'ei_latency_probe', 'stc_node')
+IDF = ('pca9685_servo_test', 'tflite_probe', 'ei_latency_probe', 'stc_node',
+       'virtual_hand')
 BOARDS = ('smart-trash-can', 'esp32-s31-korvo-1')
 ESPNOW = ('espnow_s31', 'espnow_s3')
-S31 = ('s31_bringup', 'esp32-s31-korvo-1', 'espnow_s31')
+S31 = ('s31_bringup', 'esp32-s31-korvo-1', 'espnow_s31', 's31_game')
 
 
 def run(*args, cwd=ROOT):
@@ -31,6 +32,10 @@ def compile_project(project):
     if project == 's31_bringup':
         run('idf.py', '--preview', '-C', str(ROOT / 'firmware/esp32s31/bringup'),
             '-B', str(ROOT / 'build/idf/s31_bringup'), '-D', 'IDF_TARGET=esp32s31', 'build')
+        return
+    if project == 's31_game':
+        run('idf.py', '--preview', '-C', str(ROOT / 'firmware/esp32s31/game'),
+            '-B', str(ROOT / 'build/idf/s31_game'), '-D', 'IDF_TARGET=esp32s31', 'build')
         return
     if project in ESPNOW:
         if not shutil.which('idf.py'):
@@ -113,6 +118,10 @@ def checks(stage, base):
     if any(p.startswith('firmware/espnow_link_spike/') and not p.endswith('.md') for p in changed):
         compile_project('espnow_s31')
         compile_project('espnow_s3')
+    if any(p.startswith('firmware/esp32s31/game/') and not p.endswith('.md') for p in changed):
+        compile_project('s31_game')
+    if any(p.startswith('firmware/esp32s3/virtual_hand/') and not p.endswith('.md') for p in changed):
+        compile_project('virtual_hand')
     if any(p.startswith('firmware/xiaozhi-esp32/') and not p.endswith('.md') for p in changed):
         compile_project('esp32-s31-korvo-1')
 

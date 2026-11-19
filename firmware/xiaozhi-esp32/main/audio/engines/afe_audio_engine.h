@@ -29,6 +29,7 @@ public:
     void Feed(std::vector<int16_t>&& data) override;
 
     void EnableWakeWordDetection(bool enable) override;
+    void SetWakeWordAllowed(bool allowed) override;
     void EnableVoiceProcessing(bool enable) override;
     void EnableDeviceAec(bool enable) override;
 
@@ -74,6 +75,7 @@ private:
     std::atomic<bool> reset_pending_{false};
     // Deferred WakeNet/AEC toggles, applied by ProcessingTask (see ApplyAfeControls)
     std::atomic<bool> afe_control_dirty_{false};
+    std::atomic<bool> wake_word_allowed_{true};
     // Deferred output_buffer_ clear, performed by the output-producing task
     std::atomic<bool> output_reset_pending_{false};
     // Incremented whenever an active AFE session is invalidated. ProcessingTask

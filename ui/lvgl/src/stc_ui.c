@@ -1,4 +1,4 @@
-#include "stc_ui.h"
+#include "../include/stc_ui.h"
 #include "stc_layout.h"
 #include "stc_tokens.h"
 #include "src/misc/cache/instance/lv_image_cache.h"
@@ -22,14 +22,14 @@ struct stc_ui {
     bool reduced, acknowledged, pending_start;
     int previous_category;
 };
-static const char *state_names[] = {"idle","capturing","classifying","result_ok","result_retry","error","category_guide","learning","summary"};
+static const char *state_names[] = {"idle","capturing","classifying","result_ok","result_retry","error","category_guide","learning","summary","scan_ready","bin_choice","chat"};
 #define LABEL(id, text) text,
 static const char *categories[] = { STC_CATEGORY_LIST(LABEL) };
 #undef LABEL
 const char *stc_category_label(int id) { return id >= 0 && id < STC_CATEGORY_COUNT ? categories[id] : ""; }
-const char *stc_ui_state_name(stc_state_t s) { return s >= STC_IDLE && s <= STC_SUMMARY ? state_names[s] : "error"; }
+const char *stc_ui_state_name(stc_state_t s) { return s >= STC_IDLE && s <= STC_CHAT ? state_names[s] : "error"; }
 stc_state_t stc_ui_state_from_string(const char *s) {
-    for(unsigned i=0; s && i<9; i++) if(strcmp(s,state_names[i])==0) return (stc_state_t)i;
+    for(unsigned i=0; s && i<sizeof(state_names)/sizeof(state_names[0]); i++) if(strcmp(s,state_names[i])==0) return (stc_state_t)i;
     return STC_ERROR;
 }
 stc_state_t stc_ui_state(const stc_ui_t *ui) { return ui ? ui->state : STC_ERROR; }
@@ -58,6 +58,9 @@ static void action_event(lv_event_t *e) {
         else if(strcmp(name,"action/guide")==0)action=STC_ACTION_GUIDE;
         else if(strcmp(name,"action/finish")==0)action=STC_ACTION_FINISH;
         else if(strcmp(name,"action/ask")==0)action=STC_ACTION_ASK;
+        else if(strcmp(name,"action/scan")==0)action=STC_ACTION_SCAN;
+        else if(strcmp(name,"action/next")==0)action=STC_ACTION_NEXT;
+        else if(strncmp(name,"action/bin-",11)==0){category=name[11]-'0';if(category<0||category>=STC_CATEGORY_COUNT)return;action=STC_ACTION_SELECT_BIN;}
         else if(strncmp(name,"action/learn-",13)==0){category=name[13]-'0';action=STC_ACTION_LEARN;}
         else return;
         if(!ui->action)return;
@@ -68,8 +71,9 @@ static void action_event(lv_event_t *e) {
 }
 void stc_ui_set_action_callback(stc_ui_t *ui,stc_action_cb cb){if(ui)ui->action=cb;}
 void stc_ui_show_guide(stc_ui_t *ui){if(ui){stc_payload_t p={.state=STC_CATEGORY_GUIDE,.score=ui->score,.streak=ui->streak};stc_ui_apply(ui,&p);}}
-void stc_ui_show_learning(stc_ui_t *ui,int id){if(ui){stc_payload_t p={.state=STC_LEARNING,.category_id=id,.score=ui->score,.streak=ui->streak};stc_ui_apply(ui,&p);}}
+void stc_ui_show_learning(stc_ui_t *ui,int id){if(ui){stc_payload_t p={.state=STC_LEARNING,.category_id=id,.score=ui->score,.streak=ui->streak,.learning={.scanned_bin=id,.dropped_bin=-1,.correct_bin=id,.outcome=STC_ROUND_CORRECT,.round_delta=0}};stc_ui_apply(ui,&p);}}
 void stc_ui_show_summary(stc_ui_t *ui){if(ui){stc_payload_t p={.state=STC_SUMMARY,.score=ui->score,.streak=ui->streak};stc_ui_apply(ui,&p);}}
+void stc_ui_show_chat(stc_ui_t *ui){if(ui){stc_payload_t p={.state=STC_CHAT,.score=ui->score,.streak=ui->streak};stc_ui_apply(ui,&p);}}
 void stc_ui_retry(stc_ui_t *ui) {
     if(!ui || !ui->container || ui->state!=STC_ERROR || ui->acknowledged) return;
     ui->acknowledged=true;
@@ -155,10 +159,34 @@ static void render(stc_ui_t *ui,stc_state_t state) {
     }
     image_update(ui);animate(ui);
 }
+static void update_debug_badge(stc_ui_t *ui,uint8_t flags) {
+    lv_obj_t *badge=find(ui,"debug-badge");
+    if(!badge)return;
+    char text[96]="";
+    size_t used=0;
+    #define APPEND_BADGE(part) do { \
+        const char *next_=(part); \
+        if(used && used<sizeof(text))used+=(size_t)snprintf(text+used,sizeof(text)-used," | "); \
+        if(used<sizeof(text))used+=(size_t)snprintf(text+used,sizeof(text)-used,"%s",next_); \
+        if(used>=sizeof(text))used=sizeof(text)-1; \
+    } while(0)
+    if(flags&STC_DEBUG_DEV_FLOW)APPEND_BADGE("DEV 39/40");
+    if(flags&STC_DEBUG_MODEL_WARN)APPEND_BADGE("MODEL WARN");
+    if(flags&STC_DEBUG_REPLAY)APPEND_BADGE("REPLAY");
+    if(flags&STC_DEBUG_LIVE_CAMERA)APPEND_BADGE("LIVE CAMERA");
+    if(flags&STC_DEBUG_VIRTUAL_HAND)APPEND_BADGE("VIRTUAL HAND");
+    if(flags&STC_DEBUG_TOUCH_BINS)APPEND_BADGE("TOUCH BINS");
+    if(flags&STC_DEBUG_REAL_HAND)APPEND_BADGE("REAL HAND");
+    #undef APPEND_BADGE
+    lv_label_set_text(badge,text);
+}
 stc_ui_t *stc_ui_create(lv_obj_t *parent,stc_retry_cb retry,void *user) {
     if(!parent)return NULL;
     lv_obj_update_layout(parent);
-    if(lv_obj_get_content_width(parent)!=800 || lv_obj_get_content_height(parent)!=480)return NULL;
+    /* The embedding page owns the exact logical canvas. Its content box can
+     * differ when the host display applies its own border/padding defaults,
+     * so validate the object dimensions rather than the inherited content box. */
+    if(lv_obj_get_width(parent)!=800 || lv_obj_get_height(parent)!=480)return NULL;
     stc_ui_t *ui=lv_malloc_zeroed(sizeof(*ui));if(!ui)return NULL;
     ui->retry=retry;ui->user=user;ui->previous_category=-1;
     ui->container=lv_obj_create(parent);lv_obj_remove_style_all(ui->container);lv_obj_set_size(ui->container,800,480);
@@ -179,17 +207,20 @@ static bool valid_category(int id) {return id>=0 && id<STC_CATEGORY_COUNT;}
 static bool probability(float v) {return isfinite(v)&&v>=0.0f&&v<=1.0f;}
 static bool transition(stc_ui_t *ui,stc_state_t to) {
     if(to==STC_ERROR)return true;
-    if(ui->state==STC_ERROR)return ui->acknowledged&&to==STC_IDLE;
+    if(ui->state==STC_ERROR)return ui->acknowledged&&(to==STC_IDLE||to==STC_SCAN_READY);
     if(to==ui->state)return true;
     switch(ui->state){
-    case STC_IDLE:return to==STC_CAPTURING;
-    case STC_CAPTURING:return to==STC_CLASSIFYING;
-    case STC_CLASSIFYING:return to==STC_RESULT_OK||to==STC_RESULT_RETRY;
-    case STC_RESULT_OK:return to==STC_IDLE||to==STC_SUMMARY;
-    case STC_RESULT_RETRY:return to==STC_IDLE||to==STC_CAPTURING;
-    case STC_CATEGORY_GUIDE:return to==STC_IDLE||to==STC_LEARNING||to==STC_SUMMARY;
-    case STC_LEARNING:return to==STC_IDLE||to==STC_CAPTURING||to==STC_CATEGORY_GUIDE;
-    case STC_SUMMARY:return to==STC_IDLE||to==STC_CATEGORY_GUIDE;
+    case STC_IDLE:return to==STC_SCAN_READY||to==STC_CATEGORY_GUIDE||to==STC_CHAT;
+    case STC_SCAN_READY:return to==STC_IDLE||to==STC_CAPTURING||to==STC_LEARNING;
+    case STC_CAPTURING:return to==STC_CLASSIFYING||to==STC_SCAN_READY||to==STC_LEARNING;
+    case STC_CLASSIFYING:return to==STC_RESULT_OK||to==STC_RESULT_RETRY||to==STC_BIN_CHOICE||to==STC_LEARNING;
+    case STC_RESULT_OK:return to==STC_IDLE||to==STC_LEARNING||to==STC_BIN_CHOICE;
+    case STC_RESULT_RETRY:return to==STC_IDLE||to==STC_SCAN_READY||to==STC_CAPTURING;
+    case STC_CATEGORY_GUIDE:return to==STC_IDLE||to==STC_LEARNING||to==STC_SUMMARY||to==STC_CHAT;
+    case STC_LEARNING:return to==STC_IDLE||to==STC_SCAN_READY||to==STC_SUMMARY||to==STC_CATEGORY_GUIDE;
+    case STC_SUMMARY:return to==STC_IDLE||to==STC_SCAN_READY||to==STC_CATEGORY_GUIDE||to==STC_CHAT;
+    case STC_BIN_CHOICE:return to==STC_IDLE||to==STC_LEARNING;
+    case STC_CHAT:return to==STC_IDLE||to==STC_SCAN_READY||to==STC_SUMMARY||to==STC_CATEGORY_GUIDE;
     default:return false;
     }
 }
@@ -198,6 +229,8 @@ static void error(stc_ui_t *ui,const char *code) {
     const char *title="暫時未能辨識", *hint="請檢查裝置，再按重試";
     if(code && strcmp(code,"CAMERA_OFFLINE")==0){title="相機未就緒";hint="請檢查相機，再按重試";}
     else if(code && strcmp(code,"NETWORK_OFFLINE")==0){title="連線中斷";hint="請檢查網絡，再按重試";}
+    else if(code && (strcmp(code,"MODEL_LOAD")==0||strcmp(code,"MODEL_SELFTEST")==0)){title="模型自檢未通過";hint="請檢查模型，再按重試";}
+    else if(code && (strcmp(code,"ESPNOW_INIT")==0||strcmp(code,"HAND_OFFLINE")==0)){title="連線中斷";hint="請檢查網絡，再按重試";}
     lv_label_set_text(find(ui,"prompt"),title);lv_label_set_text(find(ui,"hint"),hint);
     char ascii[25];unsigned i=0;for(;code&&code[i]&&i<sizeof(ascii)-1;i++)ascii[i]=(code[i]>=32&&code[i]<=126)?code[i]:'?';ascii[i]=0;
     lv_label_set_text(find(ui,"error-code"),i?ascii:"UNKNOWN_ERROR");
@@ -209,15 +242,23 @@ static void count_text(lv_obj_t *obj,uint32_t value) {
 }
 bool stc_ui_apply(stc_ui_t *ui,const stc_payload_t *p) {
     if(!ui || !ui->container)return false;
-    if(!p || p->state<STC_IDLE || p->state>STC_SUMMARY){error(ui,"INVALID_STATE");return false;}
+    if(!p || p->state<STC_IDLE || p->state>STC_CHAT){error(ui,"INVALID_STATE");return false;}
     if(!transition(ui,p->state)){error(ui,"INVALID_TRANSITION");return false;}
     if(p->state==STC_RESULT_OK && (!valid_category(p->category_id)||!probability(p->confidence))){error(ui,"INVALID_RESULT");return false;}
     if(p->state==STC_RESULT_RETRY && (!valid_category(p->candidates[0].category_id)||!valid_category(p->candidates[1].category_id)||p->candidates[0].category_id==p->candidates[1].category_id||!probability(p->candidates[0].p)||!probability(p->candidates[1].p))){error(ui,"INVALID_CANDIDATES");return false;}
     if(p->state==STC_ERROR){error(ui,p->error_code);return true;}
-    if(p->state==STC_LEARNING && !valid_category(p->category_id)){error(ui,"INVALID_CATEGORY");return false;}
+    if(p->state==STC_LEARNING){
+        const bool has_answer=p->learning.scanned_bin>=0&&p->learning.scanned_bin<STC_CATEGORY_COUNT;
+        if(p->learning.outcome==STC_ROUND_NONE||p->learning.dropped_bin<-1||p->learning.dropped_bin>=STC_CATEGORY_COUNT)return false;
+        if((p->learning.outcome==STC_ROUND_CORRECT||p->learning.outcome==STC_ROUND_WRONG)&&(!has_answer||p->learning.correct_bin!=p->learning.scanned_bin)){error(ui,"INVALID_LEARNING");return false;}
+    }
     ui->score=p->score;ui->streak=p->streak;if(p->state!=ui->state)ui->pending_start=false;
     if(p->state!=ui->state)render(ui,p->state);
     if(p->state==STC_IDLE){ui->acknowledged=false;count_text(find(ui,"score"),p->score);}
+    if(p->state==STC_SCAN_READY){
+        char text[48];snprintf(text,sizeof(text),"第 %u / %u 回合",(unsigned)p->round,(unsigned)p->rounds_total);
+        lv_label_set_text(find(ui,"prompt"),text);count_text(find(ui,"score"),p->score);
+    }
     if(p->state==STC_CLASSIFYING){char previous[64];if(ui->previous_category<0)snprintf(previous,sizeof(previous),"上一輪：尚無結果");else snprintf(previous,sizeof(previous),"上一輪：%s",stc_category_label(ui->previous_category));lv_label_set_text(find(ui,"previous"),previous);}
     if(p->state==STC_RESULT_OK){
         lv_obj_t *cat=find(ui,"category");lv_label_set_text(cat,stc_category_label(p->category_id));lv_obj_set_style_text_color(cat,lv_color_hex(category_color(p->category_id)),0);
@@ -234,11 +275,45 @@ bool stc_ui_apply(stc_ui_t *ui,const stc_payload_t *p) {
     }
     if(p->state==STC_RESULT_RETRY){for(int i=0;i<2;i++){char parent[24],text[24],iconname[16];snprintf(parent,sizeof(parent),"candidate/%d",i);int id=p->candidates[i].category_id;lv_label_set_text(within(ui,parent,"category"),stc_category_label(id));snprintf(text,sizeof(text),"%.0f%%",(double)p->candidates[i].p*100);lv_label_set_text(within(ui,parent,"probability"),text);snprintf(iconname,sizeof(iconname),"cat/%d",i==0?0:3);lv_obj_t *icon=within(ui,parent,iconname);lv_image_set_src(icon,stc_icons[id][0]);lv_obj_set_style_image_recolor(icon,lv_color_hex(category_color(id)),0);}}
     if(p->state==STC_LEARNING){
-        lv_obj_t *cat=find(ui,"category");lv_label_set_text(cat,stc_category_label(p->category_id));lv_obj_set_style_text_color(cat,lv_color_hex(category_color(p->category_id)),0);
-        lv_obj_t *icon=find(ui,"cat/0");lv_image_set_src(icon,stc_icons[p->category_id][1]);lv_obj_set_style_image_recolor(icon,lv_color_hex(category_color(p->category_id)),0);
-        lv_label_set_text(find(ui,"tip"),stc_tips[p->category_id]);char text[96];snprintf(text,sizeof(text),"例子：%s",stc_examples[p->category_id]);lv_label_set_text(find(ui,"example"),text);
+        const char *title="未有答案";
+        if(p->learning.outcome==STC_ROUND_CORRECT)title="答對喇";
+        else if(p->learning.outcome==STC_ROUND_WRONG)title="答錯喇";
+        else if(p->learning.outcome==STC_ROUND_TIMEOUT)title="冇放入";
+        else if(p->learning.outcome==STC_ROUND_ABSTAIN)title="睇唔清";
+        else if(p->learning.outcome==STC_ROUND_NO_SCAN)title="未掃描";
+        lv_label_set_text(find(ui,"category"),title);
+        int color_id=p->learning.correct_bin;
+        if(color_id<0||color_id>=STC_CATEGORY_COUNT)color_id=p->category_id;
+        if(color_id>=0&&color_id<STC_CATEGORY_COUNT){
+            lv_obj_set_style_text_color(find(ui,"category"),lv_color_hex(category_color(color_id)),0);
+            lv_obj_t *icon=find(ui,"cat/0");lv_image_set_src(icon,stc_icons[color_id][1]);lv_obj_set_style_image_recolor(icon,lv_color_hex(category_color(color_id)),0);
+        }
+        char line[128];
+        snprintf(line,sizeof(line),"掃到：%s",p->learning.scanned_bin>=0&&p->learning.scanned_bin<STC_CATEGORY_COUNT?stc_category_label(p->learning.scanned_bin):"未能辨識");
+        lv_label_set_text(find(ui,"scanned"),line);
+        if(p->learning.dropped_bin>=0&&p->learning.dropped_bin<STC_CATEGORY_COUNT)snprintf(line,sizeof(line),"投入：%s桶",stc_category_label(p->learning.dropped_bin));
+        else if(p->learning.outcome==STC_ROUND_NO_SCAN)snprintf(line,sizeof(line),"投入：未開始回合");
+        else snprintf(line,sizeof(line),"投入：沒有投放");
+        lv_label_set_text(find(ui,"dropped"),line);
+        snprintf(line,sizeof(line),"正確：%s",p->learning.correct_bin>=0&&p->learning.correct_bin<STC_CATEGORY_COUNT?stc_category_label(p->learning.correct_bin):"未有答案");
+        lv_label_set_text(find(ui,"answer"),line);
+        snprintf(line,sizeof(line),"本回合 %+d · 累計 %lu",(int)p->learning.round_delta,(unsigned long)p->score);
+        lv_label_set_text(find(ui,"score"),line);
+        if(p->learning.correct_bin>=0&&p->learning.correct_bin<STC_CATEGORY_COUNT)lv_label_set_text(find(ui,"tip"),stc_tips[p->learning.correct_bin]);
+        else lv_label_set_text(find(ui,"tip"),"下次記得先掃描卡牌。");
     }
     if(p->state==STC_SUMMARY){count_text(find(ui,"score"),p->score);count_text(find(ui,"streak"),p->streak);}
+    if(p->state==STC_BIN_CHOICE&&(p->debug_flags&STC_DEBUG_REAL_HAND)){
+        for(int bin=0;bin<STC_CATEGORY_COUNT;bin++){
+            char name[20];snprintf(name,sizeof(name),"action/bin-%d",bin);
+            lv_obj_t *button=find(ui,name);
+            if(button)lv_obj_add_flag(button,LV_OBJ_FLAG_HIDDEN);
+        }
+        lv_label_set_text(find(ui,"status"),"等待投放");
+        lv_label_set_text(find(ui,"prompt"),"請將卡投入桶內");
+        lv_label_set_text(find(ui,"hint"),"系統會自動偵測投入嘅桶");
+    }
+    update_debug_badge(ui,p->debug_flags);
     return true;
 }
 static bool check_rendered_text(lv_obj_t *obj) {

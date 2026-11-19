@@ -1,6 +1,6 @@
 # 分類小隊 · ESP32-S31 4.3 吋 LVGL UI
 
-800×480 橫向、rotation 0、RGB565、LVGL 9.5。九種狀態、四類圖鑑、分類小百科、完成總分頁。
+800×480 橫向、rotation 0、RGB565、LVGL 9.5。十種狀態、回合掃描按鈕、每回合作答回饋、四類圖鑑與完成總分頁。
 
 [Figma 可編輯設計](https://www.figma.com/design/g5J7a5DhDuX1UYucR6jitn) · [需求 issue #3](https://github.com/Bruiseunderskin/smart-trash-can/issues/3)
 
@@ -20,6 +20,7 @@ SDL_RENDER_DRIVER=software ui/lvgl/preview/bin/main
 - `1`–`6`：原有待機、拍攝、辨識、結果、再試、錯誤。
 - `7`：先建立完成示範，再開四類圖鑑；點分類卡進入該類小百科。
 - `8`：完成示範後的可回收物小百科；`9`：完成／總分頁。
+- `0`：回合準備頁；按「掃描卡牌」進入回放掃描。
 - `M`：切換 reduced motion；`R`：錯誤人手重試。
 - 點「開始挑戰」會執行**示範流程**：拍攝 → 辨識 → 四類輪流結果。資料是固定 fixture，沒有實際相機、AI 或舵機操作。
 - 首頁只提供「開始挑戰」。點結果頁「完成」查看總分；只有完成頁的「繼續學分類」可進入圖鑑。
@@ -45,7 +46,7 @@ ui/lvgl/tools/.venv/bin/python tools/skills/lvgl-preview/scripts/evaluate_render
   --project-root "$PWD/ui/lvgl/preview" --manifest render/render-manifest.json
 ```
 
-`prepare_eval.py` 產生 fresh 原生測試、實際 glyph／文字邊界檢查、17 個 framebuffer 及 manifest。視覺檢視在截圖後獨立記錄於 `render/visual-review.json`，不能由截圖腳本自動填 PASS。已記錄的檢視只可重用完全相同的檔案或完整 RGBA 像素。Linux CI 明確使用 `--visual-review render/visual-review-linux.json`；已檢視的 Linux 基準圖保存在 `render/baselines/linux/`。它與 macOS 畫面的差異每個 RGB channel 最多為 1，屬色彩展開差異。兩個平台各自要求完整像素 hash 相同，不使用寬鬆差異門檻。
+`prepare_eval.py` 產生 fresh 原生測試、實際 glyph／文字邊界檢查、18 個 framebuffer 及 manifest。視覺檢視在截圖後獨立記錄於 `render/visual-review.json`，不能由截圖腳本自動填 PASS。已記錄的檢視只可重用完全相同的檔案或完整 RGBA 像素。Linux CI 明確使用 `--visual-review render/visual-review-linux.json`；已檢視的 Linux 基準圖保存在 `render/baselines/linux/`。它與 macOS 畫面的差異每個 RGB channel 最多為 1，屬色彩展開差異。兩個平台各自要求完整像素 hash 相同，不使用寬鬆差異門檻。
 
 結果為 `PASS`、`FAIL` 或 `INSUFFICIENT_EVIDENCE`。PASS 直接完成 native UI 評估；視窗可繼續顯示，不影響完成狀態。工具不會向舊紀錄中的 PID 發送終止訊號。build／runtime 失敗仍會還原備份。人手回饋屬可選的獨立記錄，不是交付閘門。
 
@@ -89,7 +90,7 @@ p.lid_open=false; /* true 只能來自真實蓋狀態 */
 stc_ui_apply(ui, &p);
 ```
 
-完成後學習轉移固定為 `result_ok → summary → category_guide → learning`；小百科的「下一回合」發出 `STC_ACTION_START`，控制程式接受後由 `learning → capturing` 開始新一輪。`idle` 不能直接進入圖鑑／小百科／完成頁。
+階段一遊戲轉移為 `idle → scan_ready → capturing → classifying → result_ok → learning → scan_ready/summary`。`learning` 顯示每回合的掃描類別、實際桶位、正確桶位、結果、加減分與累積分數，只保留全寬「下一回合」按鈕；`category_guide` 保留為延伸小百科。控制程式接受 `STC_ACTION_SCAN` 後才開始回放掃描，接受 `STC_ACTION_NEXT` 後才離開學習頁。
 
 `labels.h` 唯一定義類別順序：0 可回收物／1 廚餘／2 有害／3 其他。`result_retry` 需要兩個不同有效 ID 及各自有限的 0–1 機率。`learning` 需要有效 ID。
 
@@ -97,7 +98,8 @@ stc_ui_apply(ui, &p);
 
 - 所有 API 只能在 LVGL task 或同一把 `lvgl_port_lock` 下呼叫。
 - 操作 callback 只送意圖。控制程式確認後呼叫 `apply` 或 `show_guide`／`show_learning`／`show_summary`；`STC_ACTION_ASK` 交由外部問答介面處理，`STC_ACTION_START` 須經控制程式接受。UI 不樂觀切頁。
-- 控制程式在接收資料的邊界核對 `round_id`、目前工作及事件次序，丟棄舊推理結果後才套用。純 UI component 不解碼 SSE，也不提供工作排程器。尚未接上的 live backend 不在 native 驗證範圍。
+- 控制程式在接收資料的邊界核對 `round_id`、目前工作及事件次序，丟棄舊推理結果後才套用。純 UI component 不解碼 SSE，也不提供工作排程器。角標依 debug flags 顯示 `REPLAY`、`LIVE CAMERA`、`VIRTUAL HAND` 及 `DEV 39/40`；尚未接上的實機 backend 不在 native 驗證範圍。
+- `bin_choice` 保留即時相機預覽，提供四個 200×92 觸控桶按鈕；按鈕只送出 `SELECT_BIN + category_id` 意圖，由 controller 核對 `round_id` 和目前 phase 後才計分。
 - Start 在控制程式接受新狀態前去重。控制程式拒絕開始時應送出明確 error，不能靜默留在 idle。
 - 每次 error 清除重試確認。按重試只確認本次 error，callback 每次錯誤最多一次；控制程式確認裝置可用後才送 idle。無 callback 時只記錄確認，不自動恢復。
 - Callback 可同步 `apply` 或更新 images；在 callback 返回前不要 destroy UI。若採用 queue，複製 payload 及 error_code，不可保留 stack 字串。

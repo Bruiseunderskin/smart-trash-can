@@ -10,7 +10,7 @@ typedef struct {
     int asset;
 } stc_layout_node_t;
 typedef struct { const stc_layout_node_t *nodes; unsigned count; } stc_layout_t;
-extern const stc_layout_t stc_layouts[9];
+extern const stc_layout_t stc_layouts[12];
 extern const lv_image_dsc_t *stc_icons[4][2];
 extern const lv_image_dsc_t stc_camera_icon, stc_trophy_icon;
 extern const char *stc_tips[4], *stc_examples[4];

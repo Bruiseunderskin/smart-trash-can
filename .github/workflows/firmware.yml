@@ -72,7 +72,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: [s31_bringup, esp32-s31-korvo-1]
+        project: [s31_bringup, esp32-s31-korvo-1, s31_game]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Compile S31 with preview target support
@@ -88,7 +88,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: [espnow_s31, espnow_s3]
+        project: [espnow_s31, espnow_s3, virtual_hand]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Compile link spike

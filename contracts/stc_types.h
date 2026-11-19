@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-/* 桶位與類別索引共用同一順序（凍結） */
+/* 桶位 enum（凍結）；模型 index 由 stc_vision_map 映射，兩者不可混用。 */
 typedef enum {
     STC_BIN_RECYCLABLE = 0,
     STC_BIN_FOOD       = 1,
@@ -37,7 +37,7 @@ typedef struct {
     stc_bin_t    bin;        /* 預測類別 */
     uint8_t      class_idx;  /* 原始輸出索引 */
     float        conf;       /* 0..1 */
-    bool         abstain;    /* conf < threshold */
+    bool         abstain;    /* conf < threshold，或模型判定 unknown */
     uint32_t     t_ms;       /* 抓拍完成的相對時間 */
     stc_source_t src;        /* real / stub */
 } stc_label_t;
@@ -53,11 +53,14 @@ typedef enum {
     STC_EV_LABEL,        /* stc_label_t 就緒 */
     STC_EV_DROP,         /* stc_drop_t */
     STC_EV_INSERT_TIMEOUT,
-    STC_EV_MODE_CHANGED  /* stc_mode_t */
+    STC_EV_MODE_CHANGED, /* stc_mode_t */
+    STC_EV_SCAN_REQUEST, /* UI/PLAY requests one scan */
+    STC_EV_CONTINUE      /* leave learning and advance */
 } stc_ev_type_t;
 
 typedef struct {
     stc_ev_type_t type;
+    uint32_t round_id;    /* producer's round/scan generation */
     union {
         stc_label_t label;
         stc_drop_t  drop;
