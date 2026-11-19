@@ -10,6 +10,7 @@
 
 ### Fixed
 
+- `tools/render_card_matrix.py` 在 Kaggle 的 Pillow 上升 `ValueError: bad transparency mask`：`render_card_scenes.render()` 用卡片本身做 alpha mask 貼圖，只接受 RGBA 來源，而本工具傳入 RGB。改為以 RGBA 開啟，並在有 `cards-padded/` 透明 sprite 時優先使用。
 - `tools/check_docs.py` 對 `ui/lvgl_ui_project/` 報 28 個「missing README.md」，令 `main` 的 Documentation CI 一直紅。原因是 LVGL Pro Editor 會自動建立 `components/<widget>/`、`screens/`、`.lvgl-flow/`、`.vscode/` 等目錄，逐個要求 README 只是噪音。改為：hidden 目錄（`.vscode`、`.lvgl-flow`）一律不檢查；`ui/lvgl_ui_project/` 列為 tool-managed tree，文件責任在該目錄的 `README.md` 與 `AGENTS.md`。檢查結果由 **28 errors（exit 1）變成 0 errors（exit 0）**。
 - `ui/lvgl_ui_project/README.md` 原本是 LVGL Pro 的空白範本（寫「nothing in it yet」），與實際內容不符。改寫為真實專案指引：說明這是**最新一版設計、由 Figma 同步、UI 的 source of truth**，列出各子目錄誰維護、不要手改生成的 C、如何驗證。
 
