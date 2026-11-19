@@ -15,6 +15,11 @@
 
 ### Added
 
+- `tools/stc_confusion.py`：判決層工具（純 Python，無 numpy）——softmax、事後先驗校正（logit adjustment）、雙閘拒判（信心＋top-2 邊際）、混淆矩陣、每類 P/R/F1、ECE，附 CLI 與 JSON 輸出。
+- `tools/tests/test_stc_confusion.py`：18 個單元測試，覆蓋先驗校正方向、拒判邊界、ECE 與 CLI 端到端。
+- `tools/render_card_matrix.py`：S1 場景矩陣產生器（158 卡 × 6 條件），固定條件與 manifest，令失敗可歸因。
+- `docs/experiments/setb-confusion-plan.md`：Set B 誤判（廚餘／藥物／鏡片包裝→可回收）的診斷、S1 至 S5 參數與驗收線（issue #67）。
+
 - `.gitattributes`：標記 `firmware/xiaozhi-esp32/**` 為 `linguist-vendored`、`ui/lvgl/generated/**` 為 `linguist-generated`，二進位檔（PDF／zip／ONNX／espdl／字型）標 `binary`，行尾統一 LF。在此之前語言統計把 1,732 個上游檔案算成本專案程式碼。
 - `firmware/xiaozhi-esp32/VENDORED.md`：寫明該目錄是上游 Xiaozhi-ESP32 原樣拷入，附「不要當自家碼改」的四條硬規則與為何不用 submodule。
 - `docs/repo-map.md`：目錄職責表、五類檔案（原始碼／第三方／資料／生成物／交付物）的處理規則、大小門檻（>2 MB 先分類、>10 MB 不進 git）、永不提交清單，以及四項已知債務與其量測數字。
