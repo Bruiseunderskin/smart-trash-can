@@ -15,6 +15,9 @@
 
 ### Added
 
+- `tools/run_setb_matrix.py`：一鍵跑 issue #67 的 S1 至 S3（矩陣 → ONNX 推論 → `tau`／拒判掃描 → `summary.md`），含 PASS/FAIL 判斷；重依賴（numpy、onnxruntime）以函式內 import，保持可測。
+- `notebooks/kaggle-setb-matrix.ipynb` 與 `notebooks/README.md`：Kaggle（CPU、需開 Internet）跑同一條命令，只保留 CSV／JSON 輸出。
+
 - `tools/stc_confusion.py`：判決層工具（純 Python，無 numpy）——softmax、事後先驗校正（logit adjustment）、雙閘拒判（信心＋top-2 邊際）、混淆矩陣、每類 P/R/F1、ECE，附 CLI 與 JSON 輸出。
 - `tools/tests/test_stc_confusion.py`：18 個單元測試，覆蓋先驗校正方向、拒判邊界、ECE 與 CLI 端到端。
 - `tools/render_card_matrix.py`：S1 場景矩陣產生器（158 卡 × 6 條件），固定條件與 manifest，令失敗可歸因。
