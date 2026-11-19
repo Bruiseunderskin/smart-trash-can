@@ -40,6 +40,23 @@ python3 tools/render_card_matrix.py \
 
 輸出 `manifest.csv`（`card_id,class,condition,path,seed`），可逐格重建，不入 git。
 
+## 一鍵執行（S1 至 S3）
+
+`tools/run_setb_matrix.py` 把三段串起來：出矩陣（已有則重用）→ 兩個 ONNX 模型推論 → 掃 `tau` 與拒判門檻 → 寫 `summary.md`。
+
+```sh
+python3 tools/run_setb_matrix.py \
+  --cards models/wordless-padded/cards \
+  --cards-csv models/wordless-padded/cards.csv \
+  --backgrounds models/wordless-padded/real-photos \
+  --models models/wordless-padded/model-float32.onnx,models/wordless-padded/model-int8.onnx \
+  --work /tmp/setb --per-condition 20
+```
+
+Kaggle 版本見 [`notebooks/kaggle-setb-matrix.ipynb`](../../notebooks/kaggle-setb-matrix.ipynb)（CPU、開 Internet）。
+
+輸出：`summary.md`（掃描表 ＋ 每個模型最佳操作點與 PASS/FAIL）、`rows-<model>.csv`（逐張機率）、`sweep-<model>.json`（完整指標）。矩陣圖片留在 `--work`，不入 git。
+
 ## S2 量基線
 
 用 float32 與 `.espdl`（ESP-PPQ 圖模擬）各跑一次，輸出每列 `card_id,truth,food,hazardous,other,recyclable` 的 CSV，再交給判決層工具。
