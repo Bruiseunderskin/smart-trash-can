@@ -100,3 +100,40 @@ class SummaryTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PreprocessTests(unittest.TestCase):
+    def test_div255_is_plain_scaling_and_imagenet_shifts_it(self):
+        try:
+            import numpy  # noqa: F401
+        except ImportError:  # pragma: no cover - host without numpy
+            self.skipTest("numpy not installed")
+        import tempfile
+
+        from PIL import Image
+
+        with tempfile.TemporaryDirectory() as name:
+            path = Path(name) / "grey.png"
+            Image.new("RGB", (32, 32), (128, 128, 128)).save(path)
+            plain = runner.preprocess(path, 160)
+            self.assertEqual(plain.shape, (1, 3, 160, 160))
+            self.assertAlmostEqual(float(plain.mean()), 128 / 255, places=3)
+            shifted = runner.preprocess(path, 160, "imagenet")
+            # Per-channel ImageNet normalisation of a mid-grey pixel.
+            expected = [
+                (128 / 255 - mean) / std
+                for mean, std in ((0.485, 0.229), (0.456, 0.224), (0.406, 0.225))
+            ]
+            for channel, value in enumerate(expected):
+                self.assertAlmostEqual(float(shifted[0, channel].mean()), value, places=3)
+
+    def test_unknown_normalisation_is_rejected(self):
+        import tempfile
+
+        from PIL import Image
+
+        with tempfile.TemporaryDirectory() as name:
+            path = Path(name) / "grey.png"
+            Image.new("RGB", (8, 8), (10, 20, 30)).save(path)
+            with self.assertRaises(SystemExit):
+                runner.preprocess(path, 160, "bgr")

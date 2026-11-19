@@ -187,19 +187,36 @@ def load_manifest(manifest: Path) -> list[dict[str, str]]:
     return rows
 
 
-def preprocess(path: Path, size: int):
-    """RGB, resize to the model input, ImageNet normalise, CHW float32."""
+def preprocess(path: Path, size: int, normalise: str = "div255"):
+    """RGB, resize to the model input, scale to 0-1 (or ImageNet-normalise), CHW.
+
+    The exported ONNX graphs in `models/wordless-padded/` already contain the
+    resize/normalise steps, so the input tensor must be plain 0-1 RGB. Feeding
+    ImageNet-normalised values scored 0.625 where 0-1 scored 1.000 on the same
+    120 images, so `div255` is the default and `imagenet` exists only to
+    reproduce the mistake.
+    """
+    if normalise not in ("div255", "imagenet"):
+        raise SystemExit(f"unknown normalisation: {normalise}")
     import numpy as np  # local import: keeps this module importable without numpy
     from PIL import Image
 
     with Image.open(path) as image:
         frame = image.convert("RGB").resize((size, size), Image.Resampling.BILINEAR)
         array = np.asarray(frame, dtype=np.float32) / 255.0
-    array = (array - np.array(IMAGENET_MEAN, dtype=np.float32)) / np.array(IMAGENET_STD, dtype=np.float32)
+    if normalise == "imagenet":
+        array = (array - np.array(IMAGENET_MEAN, dtype=np.float32)) / np.array(IMAGENET_STD, dtype=np.float32)
     return np.transpose(array, (2, 0, 1))[None, ...]
 
 
-def infer(model: Path, manifest_rows: Sequence[dict[str, str]], matrix_root: Path, size: int, labels: Sequence[str]) -> list[list[float]]:
+def infer(
+    model: Path,
+    manifest_rows: Sequence[dict[str, str]],
+    matrix_root: Path,
+    size: int,
+    labels: Sequence[str],
+    normalise: str = "div255",
+) -> list[list[float]]:
     import onnxruntime as ort  # local import: only needed when models actually run
 
     session = ort.InferenceSession(str(model), providers=["CPUExecutionProvider"])
@@ -207,7 +224,7 @@ def infer(model: Path, manifest_rows: Sequence[dict[str, str]], matrix_root: Pat
     out: list[list[float]] = []
     total = len(manifest_rows)
     for index, row in enumerate(manifest_rows):
-        tensor = preprocess(matrix_root / row["path"], size)
+        tensor = preprocess(matrix_root / row["path"], size, normalise)
         logits = session.run(None, {name: tensor})[0][0]
         # Models export a softmax head; normalise defensively in case they do not.
         values = [float(v) for v in logits]
@@ -265,6 +282,12 @@ def main() -> int:
     parser.add_argument("--min-confs", default="0.45,0.55,0.65,0.75")
     parser.add_argument("--min-margins", default="0.05,0.15,0.25")
     parser.add_argument("--min-coverage", type=float, default=0.85)
+    parser.add_argument(
+        "--normalise",
+        default="div255",
+        choices=("div255", "imagenet"),
+        help="input scaling for the ONNX graph; the exports expect 0-1 (div255)",
+    )
     parser.add_argument("--force-render", action="store_true")
     parser.add_argument("--skip-infer", action="store_true", help="reuse rows-<model>.csv if present")
     args = parser.parse_args()
@@ -288,7 +311,7 @@ def main() -> int:
         if args.skip_infer and rows_path.exists():
             print(f"[infer] reusing {rows_path}")
         else:
-            probs = infer(model, manifest_rows, args.work / "matrix", args.size, labels)
+            probs = infer(model, manifest_rows, args.work / "matrix", args.size, labels, args.normalise)
             write_rows(rows_path, manifest_rows, labels, probs)
             print(f"[infer] wrote {rows_path}")
         reports = run_sweep(rows_path, taus, confs, margins)
