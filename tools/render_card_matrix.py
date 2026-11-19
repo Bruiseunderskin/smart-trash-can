@@ -124,6 +124,11 @@ def load_classes(cards_csv: Path) -> dict[str, str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cards", type=Path, required=True, help="directory of card PNGs")
+    parser.add_argument(
+        "--cards-padded",
+        type=Path,
+        help="optional padded sprites (transparent rounded corners); defaults to <cards>/../cards-padded when present",
+    )
     parser.add_argument("--cards-csv", type=Path, required=True, help="cards.csv with card_id,class,kind")
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--per-condition", type=int, default=20)
@@ -139,6 +144,9 @@ def main() -> int:
         raise SystemExit(f"unknown condition(s): {', '.join(unknown)}")
 
     classes = load_classes(args.cards_csv)
+    padded_dir = args.cards_padded or (args.cards.parent / "cards-padded")
+    if not padded_dir.is_dir():
+        padded_dir = None
     bg_paths = None
     if args.backgrounds:
         bg_paths = sorted(
@@ -159,8 +167,13 @@ def main() -> int:
             label = classes.get(card_id)
             if label is None:
                 continue
-            with Image.open(card_path) as opened:
-                card = opened.convert("RGB")
+            sprite_path = card_path
+            if padded_dir and (padded_dir / card_path.name).exists():
+                sprite_path = padded_dir / card_path.name
+            with Image.open(sprite_path) as opened:
+                # render_card_scenes pastes the card with itself as the alpha mask,
+                # which only works for RGBA sources.
+                card = opened.convert("RGBA")
 
             for index in range(args.per_condition):
                 seed = args.seed + index * 7919 + sum(ord(c) for c in card_id)
