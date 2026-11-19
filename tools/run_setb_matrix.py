@@ -162,6 +162,8 @@ def ensure_matrix(args: argparse.Namespace) -> Path:
         "--per-condition", str(args.per_condition),
         "--size", str(args.size),
     ]
+    if args.cards_padded:
+        command += ["--cards-padded", str(args.cards_padded)]
     if args.backgrounds:
         command += ["--backgrounds", str(args.backgrounds)]
     if args.conditions:
@@ -246,6 +248,11 @@ def run_sweep(rows_path: Path, taus: Sequence[float], confs: Sequence[float], ma
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cards", type=Path, default=Path("models/wordless-padded/cards"))
+    parser.add_argument(
+        "--cards-padded",
+        type=Path,
+        help="padded sprite directory; defaults to <cards>/../cards-padded when present",
+    )
     parser.add_argument("--cards-csv", type=Path, default=Path("models/wordless-padded/cards.csv"))
     parser.add_argument("--backgrounds", type=Path, default=Path("models/wordless-padded/real-photos"))
     parser.add_argument("--labels", type=Path, default=Path("models/wordless-padded/labels.txt"))

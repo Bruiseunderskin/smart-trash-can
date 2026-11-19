@@ -35,7 +35,7 @@ import csv
 import random
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageEnhance, ImageFilter
+from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter
 
 import render_card_scenes as base
 
@@ -49,26 +49,32 @@ def _radial(size: int) -> Image.Image:
 
 
 def add_glare(img: Image.Image, rng: random.Random) -> Image.Image:
-    """Screen one or two soft highlights, the way pearl paper catches a lamp."""
+    """Bright elliptical specular patches, the way a lamp or window lands on a card.
+
+    Same family as the training renderer (elliptical mask, gaussian falloff,
+    white composite) but pushed harder: alpha 150-220 against training's 70-150,
+    and up to two spots instead of one.
+    """
     width, height = img.size
     out = img
     for _ in range(rng.randint(1, 2)):
-        radius = rng.randint(max(8, width // 8), max(12, width // 3))
-        sprite = _radial(radius * 2)
-        mask = sprite.point(lambda v: int(v * 0.40))
-        highlight = Image.new("RGB", sprite.size, (255, 255, 255))
-        cx = rng.randint(0, max(0, width - sprite.width))
-        cy = rng.randint(0, max(0, height - sprite.height))
-        layer = Image.new("RGB", out.size, (0, 0, 0))
-        layer.paste(highlight, (cx, cy), mask)
-        out = ImageChops.add(out, layer)
+        mask = Image.new("L", (width, height), 0)
+        draw = ImageDraw.Draw(mask)
+        cx = rng.randint(-width // 4, width + width // 4)
+        cy = rng.randint(-height // 4, height + height // 4)
+        rx = rng.randint(width // 6, width // 2)
+        ry = rng.randint(height // 6, height // 2)
+        draw.ellipse([cx - rx, cy - ry, cx + rx, cy + ry], fill=rng.randint(150, 220))
+        mask = mask.filter(ImageFilter.GaussianBlur(width // 16))
+        out = Image.composite(Image.new("RGB", (width, height), (255, 255, 255)), out, mask)
     return out
 
 
 def low_light(img: Image.Image, rng: random.Random) -> Image.Image:
-    dark = ImageEnhance.Brightness(img).enhance(0.35)
+    """A dim room: training bottoms out at brightness 0.86, this goes to 0.55-0.65."""
+    dark = ImageEnhance.Brightness(img).enhance(rng.uniform(0.55, 0.65))
     noise = Image.effect_noise(dark.size, 8).convert("RGB")
-    return Image.blend(dark, noise, 0.10)
+    return Image.blend(dark, noise, 0.06)
 
 
 def far(img: Image.Image, rng: random.Random) -> Image.Image:
