@@ -530,19 +530,29 @@ static void result_screen(stc_ui_t *ui) {
     ui->confidence =
         label(ui->container, "", 32, 182, 736, 34, FONT_BODY, COLOR_FG,
               LV_TEXT_ALIGN_LEFT);
+    /* One horizontal strip, the four bins as segments, so a child reads the
+     * row as "which bin did the card go into" rather than four buttons. */
+    lv_obj_t *strip = box(ui->container, 32, 222, 736, 116, COLOR_SURFACE, 18,
+                          2, COLOR_LINE);
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
-        const int x = 33 + i * 194;
         const bool selected = i == category;
-        lv_obj_t *card =
-            box(ui->container, x, 222, 152, 118,
-                selected ? category_tints[i] : COLOR_SURFACE, 16,
-                selected ? 6 : 2, category_colors[i]);
-        image(card, category_images[i], 48, 4, 52, 52);
-        label(card, stc_category_label(i), 4, 58, 144, 32, FONT_BODY_BOLD,
-              COLOR_FG, LV_TEXT_ALIGN_CENTER);
+        const int sx = i * 184;
+        lv_obj_t *seg = box(strip, sx + 2, 2, 180, 112,
+                            selected ? category_tints[i] : COLOR_SURFACE, 14, 0,
+                            selected ? category_tints[i] : COLOR_SURFACE);
         if (selected) {
-            label(card, "AI 選", 98, 2, 48, 24, FONT_CAPTION,
-                  category_colors[i], LV_TEXT_ALIGN_CENTER);
+            box(seg, 20, 0, 140, 6, category_colors[i], LV_RADIUS_CIRCLE, 0,
+                category_colors[i]);
+        }
+        image(seg, category_images[i], 16, 26, 50, 50);
+        label(seg, stc_category_label(i), 74, 22, 104, 34, FONT_BODY_BOLD,
+              COLOR_FG, LV_TEXT_ALIGN_LEFT);
+        if (selected) {
+            label(seg, "AI 選", 74, 60, 104, 26, FONT_CAPTION, category_colors[i],
+                  LV_TEXT_ALIGN_LEFT);
+        } else if (i == 0) {
+            label(seg, "", 84, 60, 92, 26, FONT_CAPTION, COLOR_MUTED,
+                  LV_TEXT_ALIGN_LEFT);
         }
     }
 
