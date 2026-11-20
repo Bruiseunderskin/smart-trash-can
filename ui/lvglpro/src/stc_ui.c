@@ -49,7 +49,6 @@ struct stc_ui {
     lv_obj_t *header_status;
     lv_obj_t *score;
     lv_obj_t *streak;
-    lv_obj_t *confidence;
     lv_obj_t *candidate_icon[2];
     lv_obj_t *candidate_name[2];
     lv_obj_t *candidate_prob[2];
@@ -80,12 +79,15 @@ struct stc_ui {
     int learned_outcome;
     int learned_round_delta;
     stc_state_t state;
+    stc_chat_ui_t *ask;
+    stc_chat_payload_t ask_payload;
+    bool ask_valid;
 };
 
 static const char *state_names[] = {
     "idle", "capturing", "classifying", "result_ok", "result_retry",
     "error", "category_guide", "learning", "summary", "scan_ready",
-    "bin_choice",
+    "bin_choice", "ask",
 };
 
 static const uint32_t category_colors[STC_CATEGORY_COUNT] = {
@@ -99,6 +101,12 @@ static const uint32_t bin_border[STC_CATEGORY_COUNT] = {
 };
 static const uint32_t bin_fill[STC_CATEGORY_COUNT] = {
     0xEFEEEA, 0xE5EBDC, 0xF8EEE1, 0xF2EFE4,
+};
+
+/* The bin cards use the short words from Figma 110:848 / 124:214, not the
+ * longer category labels ("可回收", not "可回收物"). */
+static const char *const bin_names[STC_CATEGORY_COUNT] = {
+    "可回收", "廚餘", "有害", "其他",
 };
 
 static const lv_image_dsc_t *const category_images[STC_CATEGORY_COUNT] = {
@@ -381,7 +389,7 @@ static void home_screen(stc_ui_t *ui) {
           COLOR_FG, LV_TEXT_ALIGN_CENTER);
     label(ui->container, "3 分鐘 · 5 回合 · 認識四大類別", 32, 244, 620, 48,
           FONT_SUBTITLE, COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
-    image(ui->container, &stc_lp_img_mascot_idle, 664, 142, 72, 72);
+    image(ui->container, &stc_lp_img_mascot_idle, 664, 137, 72, 72);
     lv_obj_t *start =
         button(ui->container, "開始挑戰", 32, 368, 352, 88, true);
     bind_action(ui, start, STC_ACTION_START, -1, false);
@@ -511,7 +519,6 @@ static bool result_is_last_round(const stc_ui_t *ui) {
 static void result_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
-    progress_bar(ui);
     ui->auto_bar = NULL;
     ui->auto_done = false;
     const int category =
@@ -532,54 +539,50 @@ static void result_screen(stc_ui_t *ui) {
         label(ui->container, "正在開啟桶蓋", 32, 124, 736, 56, FONT_H1,
               COLOR_FG, LV_TEXT_ALIGN_LEFT);
     }
-    ui->confidence =
-        label(ui->container, "", 32, 182, 448, 34, FONT_BODY, COLOR_FG,
-              LV_TEXT_ALIGN_LEFT);
-    /* The four bins are tall frames lifted from Figma state/08a-08b:
-     * 166x248 at y=216, icon 88 px, label 52 px high at y=158. */
+    /* Four bins follow Figma state/08a-await_bin and state/08b-lid_closed:
+     * 166x248 at y=216, icon 88 px at (40,38), 40 px label 52 px high at
+     * y=158. 08a: white card, 2 px category border. 08b: tinted card, 3 px
+     * soft border; the selected bin takes an 8 px solid border and the other
+     * three labels drop to 60% opacity. No badge, no extra caption. */
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
         const int x = 32 + i * 190;
-        const bool selected = i == category;
+        const bool selected = !ui->lid_open && i == category;
+        const int border_width = ui->lid_open ? 2 : (selected ? 8 : 3);
+        const uint32_t border_color =
+            !ui->lid_open && !selected ? bin_border[i] : category_colors[i];
         lv_obj_t *bin = box(ui->container, x, 216, 166, 248,
-                            bin_fill[i], 18, selected ? 4 : 2, bin_border[i]);
+                            ui->lid_open ? COLOR_SURFACE : bin_fill[i], 18,
+                            border_width, border_color);
         image(bin, category_images[i], 40, 38, 88, 88);
-        label(bin, stc_category_label(i), 0, 158, 166, 52, FONT_BODY_BOLD,
-              COLOR_FG, LV_TEXT_ALIGN_CENTER);
-        if (selected) {
-            label(bin, "AI 選", 33, 6, 100, 26, FONT_CAPTION, bin_border[i],
-                  LV_TEXT_ALIGN_CENTER);
+        lv_obj_t *name =
+            label(bin, bin_names[i], 0, 158, 166, 52, FONT_H2,
+                  COLOR_FG, LV_TEXT_ALIGN_CENTER);
+        if (!ui->lid_open && !selected) {
+            lv_obj_set_style_text_opa(name, LV_OPA_60, 0);
         }
     }
 
     const bool last = result_is_last_round(ui);
-    if (!ui->lid_open) {
+
+    /* The bar above the bins is the only countdown cue: an empty track while
+     * the card is still on its way in, a shrinking fill once the lid closes.
+     * No caption text, and no next-round button: the round advances itself. */
     ui->auto_bar = lv_bar_create(ui->container);
     lv_obj_remove_style_all(ui->auto_bar);
-    lv_obj_set_pos(ui->auto_bar, 32, 210);
-    lv_obj_set_size(ui->auto_bar, 736, 4);
+    lv_obj_set_pos(ui->auto_bar, 32, 104);
+    lv_obj_set_size(ui->auto_bar, 736, 8);
     lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
     lv_bar_set_value(ui->auto_bar, 0, LV_ANIM_OFF);
     lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_LINE), 0);
     lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, 0);
-    lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_BRAND),
+    lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_ACCENT),
                               LV_PART_INDICATOR);
     lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, LV_PART_INDICATOR);
     lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE, 0);
     lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE,
                             LV_PART_INDICATOR);
-    } else {
-        ui->auto_bar = NULL;
-    }
 
-    /* No next-round button while the lid is opening or the card is being
-     * inserted: the round advances by itself once the card is in. */
-
-    if (ui->lid_open) {
-        label(ui->container, "投入卡牌後自動繼續", 494, 182, 274, 34,
-              FONT_BODY, COLOR_FG, LV_TEXT_ALIGN_RIGHT);
-    } else if (!last) {
-        label(ui->container, "3 秒後自動繼續", 494, 182, 274, 34,
-              FONT_BODY, COLOR_FG, LV_TEXT_ALIGN_RIGHT);
+    if (!ui->lid_open && !last) {
         ui->auto_left = AUTO_ADVANCE_TICKS;
         ui->auto_armed = true;
         lv_bar_set_value(ui->auto_bar, AUTO_ADVANCE_TICKS, LV_ANIM_OFF);
@@ -669,6 +672,29 @@ static void error_screen(stc_ui_t *ui, const char *code) {
     lv_obj_t *home =
         button(ui->container, "返回主頁", 416, 368, 352, 88, false);
     bind_action(ui, home, STC_ACTION_HOME, -1, false);
+}
+
+/* 綠豆. The chat module draws the whole 800x480 canvas, so it is hosted as a
+ * sibling of the game screens and recreated for every STC_ASK render. */
+static void ask_action(stc_chat_action_t action, void *user) {
+    stc_ui_t *ui = (stc_ui_t *)user;
+    if (ui == NULL || ui->action == NULL) {
+        return;
+    }
+    ui->action(action == STC_CHAT_ACTION_BACK ? STC_ACTION_HOME : STC_ACTION_ASK,
+               -1, ui->user);
+}
+
+static void ask_screen(stc_ui_t *ui) {
+    if (ui->ask == NULL) {
+        ui->ask = stc_chat_ui_create(ui->container, ask_action, ui);
+    }
+    if (ui->ask == NULL) {
+        error_screen(ui, "ASK_UI");
+        return;
+    }
+    const stc_chat_payload_t idle = {.state = STC_CHAT_READY};
+    (void)stc_chat_ui_apply(ui->ask, ui->ask_valid ? &ui->ask_payload : &idle);
 }
 
 
@@ -806,6 +832,10 @@ static void summary_screen(stc_ui_t *ui) {
 
 static void clear_screen(stc_ui_t *ui) {
     auto_disarm(ui);
+    if (ui->ask != NULL) {
+        stc_chat_ui_destroy(ui->ask);
+        ui->ask = NULL;
+    }
     if (ui->scan != NULL) {
         lv_anim_delete(ui->scan, scan_opacity);
     }
@@ -816,7 +846,6 @@ static void clear_screen(stc_ui_t *ui) {
     ui->header_status = NULL;
     ui->score = NULL;
     ui->streak = NULL;
-    ui->confidence = NULL;
     ui->candidate_icon[0] = NULL;
     ui->candidate_icon[1] = NULL;
     ui->candidate_name[0] = NULL;
@@ -846,6 +875,9 @@ static void render(stc_ui_t *ui, stc_state_t state, const char *error_code) {
             break;
         case STC_BIN_CHOICE:
             bin_choice_screen(ui);
+            break;
+        case STC_ASK:
+            ask_screen(ui);
             break;
         case STC_RESULT_RETRY:
             retry_screen(ui);
@@ -895,7 +927,10 @@ static bool transition(stc_ui_t *ui, stc_state_t next) {
     switch (ui->state) {
         case STC_IDLE:
             return next == STC_SCAN_READY || next == STC_CATEGORY_GUIDE ||
-                   next == STC_SUMMARY;
+                   next == STC_SUMMARY || next == STC_ASK;
+        case STC_ASK:
+            return next == STC_IDLE || next == STC_SCAN_READY ||
+                   next == STC_CAPTURING || next == STC_SUMMARY;
         case STC_SCAN_READY:
             return next == STC_CAPTURING || next == STC_LEARNING ||
                    next == STC_SUMMARY || next == STC_IDLE;
@@ -952,17 +987,6 @@ static void refresh_text(stc_ui_t *ui, const stc_payload_t *payload) {
                 lv_label_set_text(ui->candidate_prob[i], probability);
             }
         }
-    }
-    if (payload->state == STC_RESULT_OK && ui->confidence != NULL) {
-        char text[96];
-        if (valid_category(payload->category_id)) {
-            snprintf(text, sizeof(text), "AI 判斷：%s · 信心值 %.0f%%",
-                     stc_category_label(payload->category_id),
-                     (double)payload->confidence * 100.0);
-        } else {
-            snprintf(text, sizeof(text), "等待模型結果");
-        }
-        lv_label_set_text(ui->confidence, text);
     }
     if (payload->state == STC_SUMMARY) {
         set_score(ui->score, payload->score, FONT_NUM_SCORE, FONT_NUM_H2);
@@ -1077,6 +1101,27 @@ void stc_ui_show_summary(stc_ui_t *ui) {
     (void)stc_ui_apply(ui, &payload);
 }
 
+void stc_ui_show_ask(stc_ui_t *ui, const stc_chat_payload_t *payload) {
+    if (ui == NULL || payload == NULL || payload->state < STC_CHAT_READY ||
+        payload->state > STC_CHAT_COUNTDOWN) {
+        return;
+    }
+    ui->ask_payload = *payload;
+    ui->ask_valid = true;
+    if (ui->state == STC_ASK) {
+        render(ui, STC_ASK, NULL);
+        return;
+    }
+    stc_payload_t apply = {
+        .state = STC_ASK,
+        .score = ui->score_value,
+        .streak = ui->streak_value,
+        .round = ui->round,
+        .rounds_total = ui->rounds_total,
+    };
+    (void)stc_ui_apply(ui, &apply);
+}
+
 void stc_ui_retry(stc_ui_t *ui) {
     if (ui == NULL || ui->state != STC_ERROR || ui->acknowledged) {
         return;
@@ -1114,7 +1159,7 @@ bool stc_ui_apply(stc_ui_t *ui, const stc_payload_t *payload) {
     if (ui == NULL || ui->container == NULL || payload == NULL) {
         return false;
     }
-    if (payload->state < STC_IDLE || payload->state > STC_BIN_CHOICE) {
+    if (payload->state < STC_IDLE || payload->state > STC_ASK) {
         render(ui, STC_ERROR, "INVALID_STATE");
         ui->acknowledged = false;
         return false;

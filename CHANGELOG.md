@@ -10,8 +10,12 @@
 
 ### Added
 
-- `ui/lvglpro`：回合結果頁改為回合出口——底部 736×82 主動作（下一回合／最後一回合為「完成」）、3 秒自動繼續（100 ms tick 的收縮進度條）、蓋門未關時不計時。計時器由 `stc_ui_create()` 建立、`container_deleted` 釋放，全程不解構中的 timer。
-- 新增 `ui/lvglpro/src/stc_icon_food.c`：廚餘圖示（蘋果芯），ARGB8888 96×96，格式與 `stc_lvglpro_assets.c` 內既有分類圖示一致；`category_images[1]` 改指向它。
+- `ui/lvglpro`：回合結果頁改為回合出口——3 秒自動繼續（100 ms tick 的收縮進度條），蓋門未關時不計時。計時器由 `stc_ui_create()` 建立、`container_deleted` 釋放，全程不解構中的 timer。畫面冇主按鈕：回合自動前進。
+- `ui/lvglpro`：四桶卡片對回 Figma `state/08a-await_bin`（110:848）與 `state/08b-lid_closed`（124:214）：標籤 40 px、文案「可回收」、開蓋態白底 2 px 實色邊、閂蓋態未選 3 px soft＋文字 60%、選中 8 px 實色，並移除「AI 選」角標。
+- `ui/lvglpro`：刪除「AI 判斷：… · 信心值 …」一行，以及「3 秒後自動繼續」「投入卡牌後自動繼續」兩句；倒數只由頂部 8 px 綠色進度條表示。
+- 綠豆（問答）接上遊戲 UI：新增 `STC_ASK` 狀態與 `stc_ui_show_ask()`，把既有 `stc_chat_ui` 的七個畫面（ready／listening／thinking／answering／offline／asr_retry／countdown）掛入 `stc_ui`；首頁與總分頁的「問綠豆」終於有畫面。`ready` 畫面冇「開始講」：該步交由 xiaozhi 語音接手，只留「返回主頁」。刪除每頁的提示句（例如「直接講出你想問嘅環保問題。」）。
+- 首頁綠豆頭像上移 5 px，與標題字墨中心對齊（實測 177 → 172）。
+- 新增 `tools/lvglpro_preview/`：用釘死的 LVGL v9.5.0 在本機渲染 19 個畫面（12 遊戲 + 7 綠豆），可 `--compare` 對 baseline 做 2% 容差的像素比對；有差異時在 `build/png/` 留下放大四倍的 `diff_<state>.png` 熱圖。CI 加 `lvglpro-preview` job 重跑同一套。<!-- changelog-fixed -->
 - Added a two-state outer application shell, `GAME` and `CHAT`. GAME owns the current touch game; CHAT pauses game ticks, has a 60-second timeout, and returns to the same game state. The current local voice backend reports `STC_ERR_UNSUPPORTED` for CHAT and the UI states this explicitly.
 - Added GAME/CHAT touch navigation: `分類圖鑑`, `問綠豆`, and the CHAT `返回遊戲` screen. Added `STC_UI_CHAT` as an appended UI state without renumbering existing values.
 - Added the local `STC_GAME_TOUCH_BIN=ON` game mode: continuous SC101IOT preview, four on-screen bin buttons, human DROP selection, hidden-answer learning feedback, and no ESP-NOW dependency. The selected category is still validated and scored only by the game controller.
