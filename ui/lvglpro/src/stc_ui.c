@@ -520,27 +520,27 @@ static void result_screen(stc_ui_t *ui) {
         } else {
             snprintf(title, sizeof(title), "請投入正確垃圾桶");
         }
-        label(ui->container, title, 32, 126, 736, 60, FONT_H2, COLOR_FG,
+        label(ui->container, title, 32, 124, 736, 56, FONT_H2, COLOR_FG,
               LV_TEXT_ALIGN_LEFT);
     } else {
-        label(ui->container, "正在開啟桶蓋", 32, 126, 736, 60, FONT_H1,
+        label(ui->container, "正在開啟桶蓋", 32, 124, 736, 56, FONT_H1,
               COLOR_FG, LV_TEXT_ALIGN_LEFT);
     }
     ui->confidence =
-        label(ui->container, "", 32, 182, 736, 24, FONT_CAPTION, COLOR_MUTED,
+        label(ui->container, "", 32, 184, 736, 22, FONT_CAPTION, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
         const int x = 32 + i * 190;
         const bool selected = i == category;
         lv_obj_t *card =
-            box(ui->container, x, 198, 166, 148,
+            box(ui->container, x, 212, 166, 132,
                 selected ? category_tints[i] : COLOR_SURFACE, 16,
                 selected ? 6 : 2, category_colors[i]);
-        image(card, category_images[i], 51, 10, 64, 64);
-        label(card, stc_category_label(i), 8, 78, 150, 40, FONT_BODY_BOLD,
+        image(card, category_images[i], 55, 8, 56, 56);
+        label(card, stc_category_label(i), 8, 68, 150, 36, FONT_BODY_BOLD,
               COLOR_FG, LV_TEXT_ALIGN_CENTER);
         if (selected) {
-            label(card, "AI 判斷", 20, 116, 126, 24, FONT_CAPTION,
+            label(card, "AI 判斷", 20, 98, 126, 20, FONT_CAPTION,
                   category_colors[i], LV_TEXT_ALIGN_CENTER);
         }
     }
@@ -548,7 +548,7 @@ static void result_screen(stc_ui_t *ui) {
     const bool last = result_is_last_round(ui);
     ui->auto_bar = lv_bar_create(ui->container);
     lv_obj_remove_style_all(ui->auto_bar);
-    lv_obj_set_pos(ui->auto_bar, 32, 384);
+    lv_obj_set_pos(ui->auto_bar, 32, 382);
     lv_obj_set_size(ui->auto_bar, 736, 6);
     lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
     lv_bar_set_value(ui->auto_bar, 0, LV_ANIM_OFF);
@@ -562,14 +562,14 @@ static void result_screen(stc_ui_t *ui) {
                             LV_PART_INDICATOR);
 
     lv_obj_t *next = button(ui->container, last ? "完成 · 睇總分" : "下一回合",
-                            32, 396, 736, 78, true);
+                            32, 390, 736, 80, true);
     bind_action(ui, next, last ? STC_ACTION_FINISH : STC_ACTION_NEXT, -1, false);
 
     if (ui->lid_open) {
-        label(ui->container, "投入卡牌後自動繼續", 32, 352, 704, 26,
+        label(ui->container, "投入卡牌後自動繼續", 32, 356, 704, 22,
               FONT_CAPTION, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
     } else if (!last) {
-        label(ui->container, "3 秒後自動繼續", 32, 352, 704, 26,
+        label(ui->container, "3 秒後自動繼續", 32, 356, 704, 22,
               FONT_CAPTION, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
         ui->auto_left = AUTO_ADVANCE_TICKS;
         ui->auto_armed = true;
@@ -588,7 +588,7 @@ static void bin_choice_screen(stc_ui_t *ui) {
               32, 184, 736, 32, FONT_CAPTION, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     } else {
-        label(ui->container, "桶蓋已開啟 · 可投入卡牌或直接點選桶位",
+        label(ui->container, "桶蓋已開啟 · 可投入卡牌或直接點選桶",
               32, 184, 736, 32, FONT_CAPTION, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     }
@@ -630,10 +630,10 @@ static void error_screen(stc_ui_t *ui, const char *code) {
         hand ? (close ? "桶蓋未能關閉" : "桶蓋未能開啟")
              : (no_object ? "未偵測到物件"
                           : (camera ? "相機未就緒"
-                                    : (transition ? "畫面狀態不同步"
+                                    : (transition ? "畫面未能同步"
                                                   : "暫時未能辨識")));
     const char *hint =
-        hand ? "請確認 S3 手部電源及 ESP-NOW 連線，再按重試"
+        hand ? "請確認 S3 手部連線及 ESP-NOW，再按重試"
              : (no_object
                     ? "請將卡牌完整放入鏡頭框內，再按重試"
                     : (camera ? "請檢查相機排線，再按重試"
