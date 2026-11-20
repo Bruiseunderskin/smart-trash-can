@@ -25,6 +25,9 @@
 - 字型：新出 `stc_lp_font_tc_bold_112`（類別名），並以現有 UI 字串重生成 bold/medium 32 系列（222 字）。
 - 圖示：四類 glyph 改用 Figma SVG 重新 rasterise 的 96 px ARGB 資產（`stc_lp_img_cat_*_96`），結果頁 1:1 顯示，唔再係 48 px 放大兩倍的模糊邊。
 - 新增 `docs/agents/greenbean-system-prompt.md`：綠豆 system prompt，含注入防範與 8 個測試案例。
+- 綠豆接駁：`stc_game_controller` 新增可選 port `request_chat`，`STC_UI_ACTION_ASK` 會交去 xiaozhi 外殼（`stc_shell_ui_request_chat()` → `STC_SHELL_CHAT_STARTING`）；冇 chat 的 build 保持 NULL，行為不變。
+- 新增 `docs/agents/flash.md`：燒錄步驟與開機應見到的畫面。
+- 新增 `tools/lvglpro_preview/gen_category_icons.py`：由 Figma SVG 重生成 96 px 圖示（sharp-cli 6.1.0），支援 `--check`。
 - `ui/lvglpro`：重新生成 `stc_lp_font_tc_bold_32`（218 個字符，含「離」「×」），綠豆離線狀態可用 Figma 原文「暫時離線」。
 - 新增 `tools/lvglpro_preview/`：用釘死的 LVGL v9.5.0 在本機渲染 19 個畫面（12 遊戲 + 7 綠豆），可 `--compare` 對 baseline 做 2% 容差的像素比對；有差異時在 `build/png/` 留下放大四倍的 `diff_<state>.png` 熱圖。CI 加 `lvglpro-preview` job 重跑同一套。<!-- changelog-fixed -->
 - Added a two-state outer application shell, `GAME` and `CHAT`. GAME owns the current touch game; CHAT pauses game ticks, has a 60-second timeout, and returns to the same game state. The current local voice backend reports `STC_ERR_UNSUPPORTED` for CHAT and the UI states this explicitly.

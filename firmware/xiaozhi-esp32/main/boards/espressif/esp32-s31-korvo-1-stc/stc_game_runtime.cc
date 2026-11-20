@@ -69,6 +69,11 @@ bool PostGameEvent(const GameEvent &event) {
            xQueueSend(game_queue, &event, pdMS_TO_TICKS(20)) == pdTRUE;
 }
 
+void RequestChat(void *ctx) {
+    (void)ctx;
+    stc_shell_ui_request_chat();
+}
+
 void UiActionSink(stc_ui_action_t action, int32_t category_id, void *ctx) {
     (void)ctx;
     GameEvent event = {};
@@ -466,6 +471,7 @@ extern "C" stc_err_t stc_game_runtime_start(void) {
     ports.hand_close_all = HandClose;
     ports.voice_say = VoiceSay;
     ports.render = RenderGame;
+    ports.request_chat = RequestChat;
     stc_game_controller_init(&ports, nullptr);
     stc_game_controller_set_hand_online(false, NowMs());
 

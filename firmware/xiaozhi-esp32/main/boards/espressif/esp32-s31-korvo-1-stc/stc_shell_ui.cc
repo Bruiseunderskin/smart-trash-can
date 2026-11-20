@@ -485,6 +485,11 @@ void stc_shell_ui_show_guide(void) {
     }
 }
 
+void stc_shell_ui_request_chat(void) {
+    /* 問綠豆: leave the game page and let the shell start the voice session. */
+    RequestMode(STC_SHELL_CHAT_STARTING);
+}
+
 void stc_shell_ui_refresh_status(stc_shell_state_t state,
                                  DeviceState device_state,
                                  bool network_connected) {

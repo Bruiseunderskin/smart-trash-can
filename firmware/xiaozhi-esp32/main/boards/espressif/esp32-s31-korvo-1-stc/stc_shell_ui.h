@@ -20,6 +20,7 @@ void stc_shell_ui_set_game_action_callback(stc_ui_action_cb callback);
 void stc_shell_ui_set_camera_rgb160(const uint8_t* rgb, uint16_t width,
                                     uint16_t height);
 void stc_shell_ui_show_guide(void);
+void stc_shell_ui_request_chat(void);
 void stc_shell_ui_refresh_status(stc_shell_state_t state,
                                  DeviceState device_state,
                                  bool network_connected);
