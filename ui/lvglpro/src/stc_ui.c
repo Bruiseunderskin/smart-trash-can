@@ -536,7 +536,9 @@ static void result_screen(stc_ui_t *ui) {
         label(ui->container, title, 32, 124, 736, 56, FONT_H2, COLOR_FG,
               LV_TEXT_ALIGN_LEFT);
     } else {
-        label(ui->container, "正在開啟桶蓋", 32, 124, 736, 56, FONT_H1,
+        /* The lid is closed: the card is in and the bar is counting down to
+         * the next round, so the title states that instead of the lid. */
+        label(ui->container, "本回合完成", 32, 124, 736, 56, FONT_H1,
               COLOR_FG, LV_TEXT_ALIGN_LEFT);
     }
     /* Four bins follow Figma state/08a-await_bin and state/08b-lid_closed:

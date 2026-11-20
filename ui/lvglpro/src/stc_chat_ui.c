@@ -219,11 +219,13 @@ static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
     chat_image(ui->container, fallback->mascot, 664, 96, 88, 88);
 
     lv_obj_t *speech =
-        chat_box(ui->container, 24, 158, 632, 180, CHAT_SURFACE, 24, 0,
-                 CHAT_SURFACE);
+        chat_box(ui->container, 24, 158, 632, LV_SIZE_CONTENT, CHAT_SURFACE,
+                 24, 0, CHAT_SURFACE);
     lv_obj_set_flex_flow(speech, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_style_pad_all(speech, 14, 0);
     lv_obj_set_style_pad_row(speech, 6, 0);
+    /* Hug the text, but never grow past the room above the buttons. */
+    lv_obj_set_style_max_height(speech, 180, 0);
     lv_obj_add_flag(speech, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_scroll_dir(speech, LV_DIR_VER);
     lv_obj_set_scrollbar_mode(speech, LV_SCROLLBAR_MODE_AUTO);
