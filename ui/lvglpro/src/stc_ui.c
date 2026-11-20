@@ -22,6 +22,7 @@
 #define COLOR_LINE        0xE2D9C6
 
 #define FONT_CAPTION   (&stc_lp_font_tc_medium_26)
+#define FONT_HINT      (&stc_lp_font_tc_medium_32)
 #define FONT_BODY      (&stc_lp_font_tc_medium_32)
 #define FONT_BODY_BOLD (&stc_lp_font_tc_bold_32)
 #define FONT_SUBTITLE  (&stc_lp_font_tc_medium_40)
@@ -345,7 +346,14 @@ static void camera_update(stc_ui_t *ui) {
         return;
     }
     image(ui->camera, &stc_lp_img_camera, 176, 20, 48, 48);
-    label(ui->camera, "等待相機畫面", 24, 72, 352, 44, FONT_BODY,
+    /* The placeholder must not contradict the status line underneath it. */
+    const char *placeholder = "等待相機畫面";
+    if (ui->state == STC_CLASSIFYING) {
+        placeholder = "相機畫面";
+    } else if (ui->state == STC_CAPTURING) {
+        placeholder = "相機畫面";
+    }
+    label(ui->camera, placeholder, 24, 72, 352, 44, FONT_BODY,
           COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
 }
 
@@ -393,7 +401,7 @@ static void scan_ready_screen(stc_ui_t *ui) {
     image(card, &stc_lp_img_mic, 336, 28, 64, 64);
     label(card, "將垃圾放在鏡頭前", 32, 108, 672, 56, FONT_H1,
           COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
-    label(card, "準備好就按「開始掃描」", 32, 168, 672, 34, FONT_CAPTION,
+    label(card, "準備好就按「開始掃描」", 32, 164, 672, 40, FONT_HINT,
           0xD5E5DC, LV_TEXT_ALIGN_CENTER);
     lv_obj_t *scan =
         button(ui->container, "開始掃描", 32, 368, 736, 88, true);
@@ -527,20 +535,20 @@ static void result_screen(stc_ui_t *ui) {
               COLOR_FG, LV_TEXT_ALIGN_LEFT);
     }
     ui->confidence =
-        label(ui->container, "", 32, 184, 736, 22, FONT_CAPTION, COLOR_MUTED,
+        label(ui->container, "", 32, 182, 736, 34, FONT_BODY, COLOR_FG,
               LV_TEXT_ALIGN_LEFT);
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
-        const int x = 32 + i * 190;
+        const int x = 33 + i * 194;
         const bool selected = i == category;
         lv_obj_t *card =
-            box(ui->container, x, 212, 166, 132,
+            box(ui->container, x, 222, 152, 118,
                 selected ? category_tints[i] : COLOR_SURFACE, 16,
                 selected ? 6 : 2, category_colors[i]);
-        image(card, category_images[i], 55, 8, 56, 56);
-        label(card, stc_category_label(i), 8, 68, 150, 36, FONT_BODY_BOLD,
+        image(card, category_images[i], 48, 4, 52, 52);
+        label(card, stc_category_label(i), 4, 58, 144, 32, FONT_BODY_BOLD,
               COLOR_FG, LV_TEXT_ALIGN_CENTER);
         if (selected) {
-            label(card, "AI 判斷", 20, 98, 126, 20, FONT_CAPTION,
+            label(card, "AI 選", 98, 2, 48, 24, FONT_CAPTION,
                   category_colors[i], LV_TEXT_ALIGN_CENTER);
         }
     }
@@ -548,7 +556,7 @@ static void result_screen(stc_ui_t *ui) {
     const bool last = result_is_last_round(ui);
     ui->auto_bar = lv_bar_create(ui->container);
     lv_obj_remove_style_all(ui->auto_bar);
-    lv_obj_set_pos(ui->auto_bar, 32, 382);
+    lv_obj_set_pos(ui->auto_bar, 32, 384);
     lv_obj_set_size(ui->auto_bar, 736, 6);
     lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
     lv_bar_set_value(ui->auto_bar, 0, LV_ANIM_OFF);
@@ -562,15 +570,15 @@ static void result_screen(stc_ui_t *ui) {
                             LV_PART_INDICATOR);
 
     lv_obj_t *next = button(ui->container, last ? "完成 · 睇總分" : "下一回合",
-                            32, 390, 736, 80, true);
+                            32, 394, 736, 76, true);
     bind_action(ui, next, last ? STC_ACTION_FINISH : STC_ACTION_NEXT, -1, false);
 
     if (ui->lid_open) {
-        label(ui->container, "投入卡牌後自動繼續", 32, 356, 704, 22,
-              FONT_CAPTION, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
+        label(ui->container, "投入卡牌後自動繼續", 32, 346, 704, 32,
+              FONT_BODY, COLOR_FG, LV_TEXT_ALIGN_LEFT);
     } else if (!last) {
-        label(ui->container, "3 秒後自動繼續", 32, 356, 704, 22,
-              FONT_CAPTION, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
+        label(ui->container, "3 秒後自動繼續", 32, 346, 704, 32,
+              FONT_BODY, COLOR_FG, LV_TEXT_ALIGN_LEFT);
         ui->auto_left = AUTO_ADVANCE_TICKS;
         ui->auto_armed = true;
         lv_bar_set_value(ui->auto_bar, AUTO_ADVANCE_TICKS, LV_ANIM_OFF);
@@ -585,22 +593,22 @@ static void bin_choice_screen(stc_ui_t *ui) {
           COLOR_FG, LV_TEXT_ALIGN_LEFT);
     if ((ui->debug_flags & STC_UI_DEBUG_TOUCH_BINS) != 0) {
         label(ui->container, "S3 手部離線 · 請直接點選實際投放嘅桶",
-              32, 184, 736, 32, FONT_CAPTION, COLOR_MUTED,
+              32, 182, 736, 38, FONT_HINT, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     } else {
         label(ui->container, "桶蓋已開啟 · 可投入卡牌或直接點選桶",
-              32, 184, 736, 32, FONT_CAPTION, COLOR_MUTED,
+              32, 182, 736, 38, FONT_HINT, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     }
-    const int xs[STC_CATEGORY_COUNT] = {32, 222, 412, 602};
+    const int xs[STC_CATEGORY_COUNT] = {32, 226, 420, 614};
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
         lv_obj_t *card =
-            box(ui->container, xs[i], 216, 166, 248, COLOR_SURFACE, 16, 3,
+            box(ui->container, xs[i], 216, 151, 248, COLOR_SURFACE, 16, 3,
                 category_colors[i]);
         lv_obj_add_flag(card, LV_OBJ_FLAG_CLICKABLE);
-        lv_obj_t *icon = image(card, category_images[i], 39, 38, 88, 88);
+        lv_obj_t *icon = image(card, category_images[i], 35, 38, 80, 80);
         lv_obj_t *name =
-            label(card, stc_category_label(i), 0, 158, 166, 52,
+            label(card, stc_category_label(i), 0, 158, 151, 52,
                   FONT_BODY_BOLD, COLOR_FG, LV_TEXT_ALIGN_CENTER);
         lv_obj_add_flag(icon,
                         LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_EVENT_BUBBLE);
@@ -650,8 +658,9 @@ static void error_screen(stc_ui_t *ui, const char *code) {
     image(ui->container,
           no_object ? &stc_lp_img_no_object : &stc_lp_img_camera, 368, 248,
           56, 56);
-    if (code != NULL && code[0] != '\0') {
-        label(ui->container, code, 32, 316, 736, 24, FONT_CAPTION, COLOR_MUTED,
+    /* The code is a developer string: show it only when a debug flag is on. */
+    if ((ui->debug_flags != 0) && code != NULL && code[0] != '\0') {
+        label(ui->container, code, 32, 314, 736, 26, FONT_CAPTION, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     }
     lv_obj_t *retry = button(ui->container, "重試", 32, 368, 352, 88, true);
@@ -668,7 +677,7 @@ static void guide_card(stc_ui_t *ui, int category, int x, int y) {
     image(card, category_images[category], 16, 16, 56, 56);
     label(card, stc_category_label(category), 92, 10, 244, 40, FONT_BODY_BOLD,
           COLOR_FG, LV_TEXT_ALIGN_LEFT);
-    label(card, guide_tips[category], 92, 48, 244, 30, FONT_CAPTION,
+    label(card, guide_tips[category], 92, 46, 244, 34, FONT_HINT,
           COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
     bind_action(ui, card, STC_ACTION_LEARN, category, false);
 }
@@ -749,7 +758,7 @@ static void learning_screen(stc_ui_t *ui, int category) {
     } else {
         snprintf(result_line, sizeof(result_line), "本回合未能得出類別");
     }
-    label(info_card, result_line, 20, 8, 696, 38, FONT_CAPTION, COLOR_FG,
+    label(info_card, result_line, 20, 6, 696, 38, FONT_HINT, COLOR_FG,
           LV_TEXT_ALIGN_LEFT);
     char outcome_line[96];
     if (has_category) {
@@ -762,7 +771,7 @@ static void learning_screen(stc_ui_t *ui, int category) {
                  outcome_text(ui->learned_outcome),
                  ui->learned_round_delta);
     }
-    label(info_card, outcome_line, 20, 50, 696, 36, FONT_CAPTION,
+    label(info_card, outcome_line, 20, 50, 696, 36, FONT_HINT,
           COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
     label(ui->container,
           has_category ? learning_tips[category]
@@ -810,7 +819,7 @@ static void summary_screen(stc_ui_t *ui) {
     ui->streak =
         label(stats, "最高連續答對 ×0", 24, 92, 376, 44, FONT_BODY_BOLD,
               COLOR_FG, LV_TEXT_ALIGN_LEFT);
-    label(stats, "記住：先分類，再投放", 24, 164, 376, 36, FONT_CAPTION,
+    label(stats, "記住：先分類，再投放", 24, 160, 376, 40, FONT_HINT,
           COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
     lv_obj_t *again =
         button(ui->container, "再玩一次", 32, 368, 352, 88, true);
