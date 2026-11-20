@@ -379,7 +379,7 @@ static lv_obj_t *camera_card(stc_ui_t *ui, const char *title,
 static void home_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
-    label(ui->container, "一起做分類小達人", 32, 142, 736, 92, FONT_H1,
+    label(ui->container, "一起做分類小達人", 32, 142, 616, 92, FONT_H1,
           COLOR_FG, LV_TEXT_ALIGN_CENTER);
     label(ui->container, "3 分鐘 · 5 回合 · 認識四大類別", 32, 244, 620, 48,
           FONT_SUBTITLE, COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
@@ -589,21 +589,21 @@ static void bin_choice_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
     progress_bar(ui);
-    label(ui->container, "請選擇垃圾桶", 32, 124, 736, 72, FONT_H1,
+    label(ui->container, "請選擇垃圾桶", 32, 118, 736, 60, FONT_H1,
           COLOR_FG, LV_TEXT_ALIGN_LEFT);
     if ((ui->debug_flags & STC_UI_DEBUG_TOUCH_BINS) != 0) {
         label(ui->container, "S3 手部離線 · 請直接點選實際投放嘅桶",
-              32, 182, 736, 38, FONT_HINT, COLOR_MUTED,
+              32, 182, 736, 34, FONT_HINT, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     } else {
         label(ui->container, "桶蓋已開啟 · 可投入卡牌或直接點選桶",
-              32, 182, 736, 38, FONT_HINT, COLOR_MUTED,
+              32, 182, 736, 34, FONT_HINT, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     }
     const int xs[STC_CATEGORY_COUNT] = {32, 226, 420, 614};
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
         lv_obj_t *card =
-            box(ui->container, xs[i], 216, 151, 248, COLOR_SURFACE, 16, 3,
+            box(ui->container, xs[i], 224, 151, 240, COLOR_SURFACE, 16, 3,
                 category_colors[i]);
         lv_obj_add_flag(card, LV_OBJ_FLAG_CLICKABLE);
         lv_obj_t *icon = image(card, category_images[i], 35, 38, 80, 80);
@@ -677,7 +677,7 @@ static void guide_card(stc_ui_t *ui, int category, int x, int y) {
     image(card, category_images[category], 16, 16, 56, 56);
     label(card, stc_category_label(category), 92, 10, 244, 40, FONT_BODY_BOLD,
           COLOR_FG, LV_TEXT_ALIGN_LEFT);
-    label(card, guide_tips[category], 92, 46, 244, 34, FONT_HINT,
+    label(card, guide_tips[category], 92, 52, 244, 34, FONT_HINT,
           COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
     bind_action(ui, card, STC_ACTION_LEARN, category, false);
 }
@@ -733,7 +733,7 @@ static void learning_screen(stc_ui_t *ui, int category) {
           48, 132, 56, 56);
     label(ui->container,
           has_category ? stc_category_label(category) : "未能分類",
-          152, 128, 480, 64,
+          152, 128, 384, 64,
           FONT_H1, COLOR_FG, LV_TEXT_ALIGN_LEFT);
     label(ui->container, has_category ? "正確類別" : "本回合",
           560, 144, 208, 32, FONT_CAPTION,
@@ -814,7 +814,7 @@ static void summary_screen(stc_ui_t *ui) {
     } else {
         snprintf(round_text, sizeof(round_text), "完成 5 回合");
     }
-    label(stats, round_text, 24, 24, 376, 44, FONT_BODY_BOLD, COLOR_FG,
+    label(stats, round_text, 24, 24, 260, 44, FONT_BODY_BOLD, COLOR_FG,
           LV_TEXT_ALIGN_LEFT);
     ui->streak =
         label(stats, "最高連續答對 ×0", 24, 92, 376, 44, FONT_BODY_BOLD,
