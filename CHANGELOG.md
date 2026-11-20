@@ -30,6 +30,7 @@
 - 修正：`STC_ASK` 只可以由 `idle` 進入，令總分頁「問綠豆」實際無反應；現在 `result_ok`／`summary` 亦可入 `STC_ASK`。由 host 模擬（`tools/lvglpro_preview/sim.c`）發現。
 - 新增 `tools/lvglpro_preview/sim.c`：無硬件的行為模擬，驗證 3 秒自動掃描、結果頁自動前進、以及綠豆可由結果／總分頁進入；CI 會跑。
 - 新增 `docs/agents/flash.md`：燒錄步驟與開機應見到的畫面。
+- 新增 ESP-IDF 6.1 安裝／VS Code 切換與 esp-emu 模擬步驟（`docs/agents/flash.md` §5–6）；實測 S31 影像 boot 到 `app_main`，之後因模擬機板冇 GT1151 觸控而 abort。
 - 新增 `tools/lvglpro_preview/gen_category_icons.py`：由 Figma SVG 重生成 96 px 圖示（sharp-cli 6.1.0），支援 `--check`。
 - `ui/lvglpro`：重新生成 `stc_lp_font_tc_bold_32`（218 個字符，含「離」「×」），綠豆離線狀態可用 Figma 原文「暫時離線」。
 - 新增 `tools/lvglpro_preview/`：用釘死的 LVGL v9.5.0 在本機渲染 19 個畫面（12 遊戲 + 7 綠豆），可 `--compare` 對 baseline 做 2% 容差的像素比對；有差異時在 `build/png/` 留下放大四倍的 `diff_<state>.png` 熱圖。CI 加 `lvglpro-preview` job 重跑同一套。<!-- changelog-fixed -->

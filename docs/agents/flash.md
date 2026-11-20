@@ -36,3 +36,53 @@ idf.py build flash monitor
 | 字變豆腐格 | 字型子集缺字；重跑 `tools/lvglpro_preview/gen_category_icons.py` 以外，字型要用 lv_font_conv 重出（見 CHANGELOG 2026-11-21 條目） |
 | 問綠豆冇反應 | 確認 build 咗 xiaozhi 板 `esp32-s31-korvo-1-stc`；`stc_shell_ui_request_chat()` 只在此板存在 |
 | CI 紅 | `gh pr checks 74`，第二欄唔係 `pass` 即紅 |
+
+## 5. ESP-IDF 6.1 與 VS Code 版本切換
+
+`esp32s31` 仍是 preview target，只有 ESP-IDF 6.1 支援。本機安裝位置與設定如下（macOS Apple Silicon）：
+
+```sh
+git clone --depth 1 --branch v6.1 https://github.com/espressif/esp-idf.git \
+    ~/.espressif/v6.1/esp-idf
+cd ~/.espressif/v6.1/esp-idf
+env -u IDF_PYTHON_ENV_PATH -u IDF_PATH SSL_CERT_FILE=/etc/ssl/cert.pem ./install.sh esp32s31
+```
+
+建置時一定要 `--preview`，否則 `set-target` 會拒絕：
+
+```sh
+source ~/.espressif/v6.1/esp-idf/export.sh
+idf.py --preview set-target esp32s31
+idf.py --preview build
+```
+
+VS Code（ESP-IDF 擴充）在 `settings.json` 指定這三個鍵就會用 6.1：
+
+```json
+"idf.espIdfPath": "/Users/wed/.espressif/v6.1/esp-idf",
+"idf.toolsPath": "/Users/wed/.espressif",
+"idf.pythonInstallPath": "/Users/wed/.espressif/python_env/idf6.1_py3.14_env/bin/python3"
+```
+
+EIM 清單（`~/.espressif/idf-env.json`）要有一筆 `version: "6.1"`、`targets: ["esp32s31"]` 的紀錄，否則擴充的選擇器見不到它。
+切回 6.0：把上面三個鍵改回 `~/.espressif/v6.0.2/esp-idf` 與 `python_env/idf6.0_py3.14_env/bin/python3`。
+
+## 6. 在 esp-emu 模擬 S31（唔用板）
+
+[espressif/esp-emulator](https://github.com/espressif/esp-emulator) 支援 ESP32-S31，可以驗證 flash 影像真的跑得起。
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/espressif/esp-emulator/main/install.sh | sh
+cd firmware/esp32s31/game
+idf.py --preview build
+idf.py --preview merge-bin -o /tmp/s31_merged.bin
+esp-emu --chip esp32s31 --firmware /tmp/s31_merged.bin --psram-size 16M --timeout 60s
+```
+
+**2026-11-21 實測結果**（`s31_merged.bin` 8,209,328 bytes）：
+
+- ROM → second-stage bootloader → 16MB flash / 16MB PSRAM → `esp_psram: Found 16MB PSRAM device` → `main_task: Calling app_main()`：全部通過。
+- 之後停喺 `bsp_display_indev_touch_init` → `bsp_touch_new` → `abort()`，因為模擬機板上冇 GT1151 觸控（I2C 0x14），而 BSP 用 `ESP_ERROR_CHECK` 當觸控失敗係致命錯誤。
+- 即係：影像可以燒、bootloader 同 PSRAM 設定正確；要再往下跑，需要模擬一個 GT1151，或者令 BSP 在觸控缺席時降級。
+
+`--psram-size 32M` 會卡在 `MSPI Timing: Enter psram timing tuning`；16M 可以過。
