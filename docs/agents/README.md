@@ -6,6 +6,7 @@
 |---|---|---|
 | [commits.md](commits.md) | 準備 commit、寫 changelog、開 PR 之前 | 任何會 push 的 agent 或人 |
 | [skills.md](skills.md) | 開工前想知「用邊個 skill、邊份文件」 | 任何 agent |
+| [greenbean-system-prompt.md](greenbean-system-prompt.md) | 設定或審核綠豆的對話行為、測試 prompt injection | 接 xiaozhi／寫 prompt 的人 |
 
 ## 為什麼分開放
 

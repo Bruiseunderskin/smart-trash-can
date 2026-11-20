@@ -28,6 +28,8 @@
 #define FONT_SUBTITLE  (&stc_lp_font_tc_medium_40)
 #define FONT_H2        (&stc_lp_font_tc_bold_40)
 #define FONT_H1        (&stc_lp_font_tc_bold_56)
+#define FONT_CAT       (&stc_lp_font_tc_bold_112)
+extern const lv_font_t stc_lp_font_tc_bold_112;
 #define FONT_NUM_BODY  (&stc_lp_font_num_bold_32)
 #define FONT_NUM_H2    (&stc_lp_font_num_bold_40)
 #define FONT_NUM_SCORE (&stc_lp_font_num_bold_80)
@@ -95,14 +97,6 @@ static const uint32_t category_colors[STC_CATEGORY_COUNT] = {
     0x2455C0, 0x176640, 0x9E3F20, 0x4E5A62,
 };
 
-
-/* Bin frame palette sampled from Figma state/08b-lid_closed. */
-static const uint32_t bin_border[STC_CATEGORY_COUNT] = {
-    0x5B8DEF, 0x176640, 0xEF7A5C, 0x8E9AA3,
-};
-static const uint32_t bin_fill[STC_CATEGORY_COUNT] = {
-    0xEFEEEA, 0xE5EBDC, 0xF8EEE1, 0xF2EFE4,
-};
 
 /* The bin cards use the short words from Figma 110:848 / 124:214, not the
  * longer category labels ("可回收", not "可回收物"). */
@@ -214,7 +208,7 @@ static void topbar(stc_ui_t *ui) {
           LV_TEXT_ALIGN_LEFT);
     image(bar, &stc_lp_img_flame, 744, 20, 32, 32);
     ui->header_status =
-        label(bar, "", 424, 16, 312, 44, FONT_BODY_BOLD, COLOR_ON_BRAND,
+        label(bar, "", 424, 16, 216, 44, FONT_BODY_BOLD, COLOR_ON_BRAND,
               LV_TEXT_ALIGN_RIGHT);
 }
 
@@ -223,8 +217,7 @@ static void page_background(stc_ui_t *ui) {
     lv_obj_set_style_bg_opa(ui->container, LV_OPA_COVER, 0);
 }
 
-static void countdown_bar(stc_ui_t *ui, stc_action_t action, bool arm);
-
+static void countdown_bar(stc_ui_t *ui, stc_action_t action, bool arm, int y);
 static void action_event(lv_event_t *event) {
     ActionBinding *binding = lv_event_get_user_data(event);
     if (binding == NULL || binding->ui == NULL ||
@@ -270,7 +263,11 @@ static void set_header(stc_ui_t *ui) {
         return;
     }
     char text[64];
-    if (ui->state == STC_IDLE) {
+    if (ui->state == STC_RESULT_OK) {
+        /* Figma 5:81: the result topbar shows the streak, not the round. */
+        snprintf(text, sizeof(text), "連對 %lu 次",
+                 (unsigned long)ui->streak_value);
+    } else if (ui->state == STC_IDLE) {
         /* Figma state/idle (5:38): the bar says 準備好 before a round starts;
          * a score only exists after the first round. */
         snprintf(text, sizeof(text), "準備好");
@@ -391,17 +388,28 @@ static lv_obj_t *camera_card(stc_ui_t *ui, const char *title,
 static void home_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
-    label(ui->container, "一起做分類小達人", 32, 142, 616, 92, FONT_H1,
-          COLOR_FG, LV_TEXT_ALIGN_CENTER);
-    label(ui->container, "3 分鐘 · 5 回合 · 認識四大類別", 32, 244, 620, 48,
-          FONT_SUBTITLE, COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
-    image(ui->container, &stc_lp_img_mascot_idle, 664, 137, 72, 72);
+    /* Figma state/idle (5:36): title, camera placeholder card, score panel,
+     * one full-width start button. */
+    label(ui->container, "一起做分類小達人", 24, 96, 752, 80, FONT_H1,
+          COLOR_FG, LV_TEXT_ALIGN_LEFT);
+    label(ui->container, "放一件物件落台", 24, 184, 352, 48, FONT_BODY_BOLD,
+          COLOR_FG, LV_TEXT_ALIGN_LEFT);
+    box(ui->container, 24, 232, 320, 144, COLOR_BRAND, 16, 0, COLOR_BRAND);
+    image(ui->container, &stc_lp_img_camera, 160, 256, 48, 48);
+    label(ui->container, "等待相機畫面", 64, 320, 240, 45, FONT_BODY_BOLD,
+          COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
+    box(ui->container, 408, 232, 368, 144, COLOR_SURFACE, 16, 0,
+        COLOR_SURFACE);
+    box(ui->container, 408, 232, 368, 8, COLOR_ACCENT, 0, 0, COLOR_ACCENT);
+    label(ui->container, "目前分數", 432, 184, 320, 48, FONT_BODY_BOLD,
+          COLOR_FG, LV_TEXT_ALIGN_LEFT);
+    char score[16];
+    snprintf(score, sizeof(score), "%lu", (unsigned long)ui->score_value);
+    label(ui->container, score, 432, 240, 320, 96, FONT_NUM_SCORE, COLOR_FG,
+          LV_TEXT_ALIGN_LEFT);
     lv_obj_t *start =
-        button(ui->container, "開始挑戰", 32, 368, 352, 88, true);
+        button(ui->container, "開始挑戰", 24, 400, 752, 64, true);
     bind_action(ui, start, STC_ACTION_START, -1, false);
-    lv_obj_t *ask =
-        button(ui->container, "問綠豆", 416, 368, 352, 88, false);
-    bind_action(ui, ask, STC_ACTION_ASK, -1, false);
 }
 
 static void scan_ready_screen(stc_ui_t *ui) {
@@ -409,7 +417,7 @@ static void scan_ready_screen(stc_ui_t *ui) {
     topbar(ui);
     /* No 開始掃描 button: the round starts itself after three seconds, and the
      * bar is the only cue. One tap per session stays on the home screen. */
-    countdown_bar(ui, STC_ACTION_SCAN, true);
+    countdown_bar(ui, STC_ACTION_SCAN, true, 104);
     lv_obj_t *card =
         box(ui->container, 32, 116, 736, 220, COLOR_BRAND_LIGHT, 16, 0,
             COLOR_BRAND_LIGHT);
@@ -526,11 +534,11 @@ static bool result_is_last_round(const stc_ui_t *ui) {
 /* One green bar at the top doubles as the only countdown cue. `arm` starts the
  * countdown; without it the bar is an empty track (the card is still coming).
  * Every screen that uses it needs no button: the round moves on its own. */
-static void countdown_bar(stc_ui_t *ui, stc_action_t action, bool arm) {
+static void countdown_bar(stc_ui_t *ui, stc_action_t action, bool arm, int y) {
     ui->auto_action = action;
     ui->auto_bar = lv_bar_create(ui->container);
     lv_obj_remove_style_all(ui->auto_bar);
-    lv_obj_set_pos(ui->auto_bar, 32, 104);
+    lv_obj_set_pos(ui->auto_bar, 32, y);
     lv_obj_set_size(ui->auto_bar, 736, 8);
     lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
     lv_bar_set_value(ui->auto_bar, arm ? AUTO_ADVANCE_TICKS : 0, LV_ANIM_OFF);
@@ -552,56 +560,45 @@ static void countdown_bar(stc_ui_t *ui, stc_action_t action, bool arm) {
 static void result_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
-    ui->auto_bar = NULL;
-    ui->auto_done = false;
+    /* Figma state/result_ok (5:79): 112 px category name, object thumb, score
+     * with tip, wait pill, and a 完成 button living in the topbar. */
+    const bool last = result_is_last_round(ui);
+    countdown_bar(ui, STC_ACTION_NEXT, !ui->lid_open && !last, 72);
+
+    lv_obj_t *finish = button(ui->container, "完成", 648, 12, 128, 48, true);
+    bind_action(ui, finish, STC_ACTION_FINISH, -1, false);
+
     const int category =
         ui->category_value >= 0 && ui->category_value < STC_CATEGORY_COUNT
             ? ui->category_value
             : -1;
-    if (ui->lid_open) {
-        char title[96];
-        if (category >= 0) {
-            snprintf(title, sizeof(title), "請投入%s桶",
-                     stc_category_label(category));
-        } else {
-            snprintf(title, sizeof(title), "請投入正確垃圾桶");
-        }
-        label(ui->container, title, 32, 124, 736, 56, FONT_H2, COLOR_FG,
-              LV_TEXT_ALIGN_LEFT);
+    if (category >= 0) {
+        label(ui->container, stc_category_label(category), 24, 80, 512, 144,
+              FONT_CAT, category_colors[category], LV_TEXT_ALIGN_LEFT);
+        image(ui->container, category_images[category], 680, 104, 96, 96);
     } else {
-        /* The lid is closed: the card is in and the bar is counting down to
-         * the next round, so the title states that instead of the lid. */
-        label(ui->container, "本回合完成", 32, 124, 736, 56, FONT_H1,
+        label(ui->container, "未能分類", 24, 80, 512, 144, FONT_CAT,
               COLOR_FG, LV_TEXT_ALIGN_LEFT);
+        image(ui->container, &stc_lp_img_no_object, 680, 104, 96, 96);
     }
-    /* Four bins follow Figma state/08a-await_bin and state/08b-lid_closed:
-     * 166x248 at y=216, icon 88 px at (40,38), 40 px label 52 px high at
-     * y=158. 08a: white card, 2 px category border. 08b: tinted card, 3 px
-     * soft border; the selected bin takes an 8 px solid border and the other
-     * three labels drop to 60% opacity. No badge, no extra caption. */
-    for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
-        const int x = 32 + i * 190;
-        const bool selected = !ui->lid_open && i == category;
-        const int border_width = ui->lid_open ? 2 : (selected ? 8 : 3);
-        const uint32_t border_color =
-            !ui->lid_open && !selected ? bin_border[i] : category_colors[i];
-        lv_obj_t *bin = box(ui->container, x, 216, 166, 248,
-                            ui->lid_open ? COLOR_SURFACE : bin_fill[i], 18,
-                            border_width, border_color);
-        image(bin, category_images[i], 40, 38, 88, 88);
-        lv_obj_t *name =
-            label(bin, bin_names[i], 0, 158, 166, 52, FONT_H2,
-                  COLOR_FG, LV_TEXT_ALIGN_CENTER);
-        if (!ui->lid_open && !selected) {
-            lv_obj_set_style_text_opa(name, LV_OPA_60, 0);
-        }
+    box(ui->container, 552, 104, 112, 112, 0x183A2A, 16, 0, 0x183A2A);
+    image(ui->container, &stc_lp_img_camera, 584, 136, 48, 48);
+
+    label(ui->container, "目前分數", 24, 240, 232, 40, FONT_CAPTION, 0x1C7A4A,
+          LV_TEXT_ALIGN_LEFT);
+    char score[16];
+    snprintf(score, sizeof(score), "%lu", (unsigned long)ui->score_value);
+    label(ui->container, score, 24, 288, 232, 96, FONT_NUM_SCORE, COLOR_FG,
+          LV_TEXT_ALIGN_LEFT);
+    if (category >= 0) {
+        label(ui->container, learning_tips[category], 280, 288, 496, 96,
+              FONT_BODY_BOLD, COLOR_FG, LV_TEXT_ALIGN_LEFT);
     }
-
-    const bool last = result_is_last_round(ui);
-
-    /* The bar is the only countdown cue: empty while the card is still on its
-     * way in, shrinking once the lid closes. No caption, no button. */
-    countdown_bar(ui, STC_ACTION_NEXT, !ui->lid_open && !last);
+    box(ui->container, 24, 400, 752, 64, COLOR_SURFACE, 16, 0,
+        COLOR_SURFACE);
+    label(ui->container,
+          ui->lid_open ? "投入卡牌後自動繼續" : "等待開蓋，請勿推動桶蓋", 48,
+          412, 704, 40, FONT_BODY_BOLD, COLOR_FG, LV_TEXT_ALIGN_LEFT);
 }
 
 static void bin_choice_screen(stc_ui_t *ui) {

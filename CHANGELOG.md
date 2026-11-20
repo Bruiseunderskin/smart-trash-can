@@ -20,6 +20,10 @@
 - `ui/lvglpro`：頂欄狀態依 Figma：`idle` 顯示「準備好」，唔再喺未開局時顯示得分；得分只喺總分頁出現。
 - `ui/lvglpro`：綠豆頂欄依 Figma chat2（237:258）：24,24,752×56 圓角條、左「問綠豆」、右連線狀態（已連線／聽緊／諗緊／未連線／再講一次／準備返回）。
 - `ui/lvglpro`：`scan_ready` 唔再要撳「開始掃描」——3 秒倒數（頂部 8 px 綠條）後自動送出 `STC_ACTION_SCAN`；每回合所需撳掣由 1 降到 0。
+- `ui/lvglpro`：`idle` 對齊 Figma `state/idle`（5:36）——56 px 標題、320×144 相機卡、368×144 分數面板（頂部 8 px accent）、752×64 全寬「開始挑戰」；移除「問綠豆」按鈕。
+- `ui/lvglpro`：`result_ok` 對齊 Figma 5:79——112 px 類別名（類別色）、頂欄「連對 N 次」＋「完成」、112 px 相機縮圖、96 px 類別圖示、`目前分數`＋80 px 分數、類別提示、底部「等待開蓋」pill；四桶畫面保留在 `bin_choice`。
+- 字型：新出 `stc_lp_font_tc_bold_112`（類別名），並以現有 UI 字串重生成 bold/medium 32 系列（222 字）。
+- 新增 `docs/agents/greenbean-system-prompt.md`：綠豆 system prompt，含注入防範與 8 個測試案例。
 - `ui/lvglpro`：重新生成 `stc_lp_font_tc_bold_32`（218 個字符，含「離」「×」），綠豆離線狀態可用 Figma 原文「暫時離線」。
 - 新增 `tools/lvglpro_preview/`：用釘死的 LVGL v9.5.0 在本機渲染 19 個畫面（12 遊戲 + 7 綠豆），可 `--compare` 對 baseline 做 2% 容差的像素比對；有差異時在 `build/png/` 留下放大四倍的 `diff_<state>.png` 熱圖。CI 加 `lvglpro-preview` job 重跑同一套。<!-- changelog-fixed -->
 - Added a two-state outer application shell, `GAME` and `CHAT`. GAME owns the current touch game; CHAT pauses game ticks, has a 60-second timeout, and returns to the same game state. The current local voice backend reports `STC_ERR_UNSUPPORTED` for CHAT and the UI states this explicitly.
