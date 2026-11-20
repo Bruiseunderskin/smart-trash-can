@@ -198,21 +198,13 @@ static const char *choose(const char *value, const char *fallback) {
     return value != NULL && value[0] != '\0' ? value : fallback;
 }
 
+/* Figma chat2/01-07 put 已連線 in six frames and 暫時離線 in 05-offline.
+ * 離 has no glyph in the generated subset, so offline falls back to 未連線;
+ * see tools/lvglpro_preview/README.md. */
 static const char *chat_status(stc_chat_state_t state) {
     switch (state) {
-        case STC_CHAT_READY:
-        case STC_CHAT_ANSWERING:
-            return "已連線";
-        case STC_CHAT_LISTENING:
-            return "聽緊";
-        case STC_CHAT_THINKING:
-            return "諗緊";
         case STC_CHAT_OFFLINE:
             return "未連線";
-        case STC_CHAT_ASR_RETRY:
-            return "再講一次";
-        case STC_CHAT_COUNTDOWN:
-            return "準備返回";
         default:
             return "已連線";
     }
