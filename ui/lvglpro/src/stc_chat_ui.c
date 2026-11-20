@@ -206,13 +206,13 @@ static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
     lv_obj_set_style_bg_color(ui->container, lv_color_hex(CHAT_BG), 0);
     lv_obj_set_style_bg_opa(ui->container, LV_OPA_COVER, 0);
 
+    /* Same topbar as the game screens: full-bleed 800x72 bar, brand at
+     * x=24, flame at x=744. The chat must not look like another app. */
     lv_obj_t *bar =
-        chat_box(ui->container, 24, 24, 752, 56, CHAT_BRAND, 16, 0,
-                 CHAT_BRAND);
-    chat_label(bar, "分類小隊", 24, 0, 240, 56, FONT_BODY_BOLD,
+        chat_box(ui->container, 0, 0, 800, 72, CHAT_BRAND, 0, 0, CHAT_BRAND);
+    chat_label(bar, "分類小隊", 24, 16, 352, 44, FONT_BODY_BOLD,
                CHAT_ON_BRAND, LV_TEXT_ALIGN_LEFT);
-    chat_label(bar, "CHAT", 568, 0, 160, 56, FONT_BODY_BOLD, CHAT_ACCENT,
-               LV_TEXT_ALIGN_RIGHT);
+    chat_image(bar, &stc_lp_img_flame, 744, 20, 32, 32);
 
     chat_label(ui->container, choose(payload->heading, fallback->heading), 24,
                96, 620, 48, FONT_TITLE, CHAT_FG, LV_TEXT_ALIGN_LEFT);
