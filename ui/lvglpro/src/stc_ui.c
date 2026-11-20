@@ -70,6 +70,7 @@ struct stc_ui {
     lv_timer_t *auto_timer;
     lv_obj_t *auto_bar;
     uint8_t auto_left;
+    stc_action_t auto_action;
     bool auto_armed;
     bool auto_done;
     uint8_t debug_flags;
@@ -221,6 +222,8 @@ static void page_background(stc_ui_t *ui) {
     lv_obj_set_style_bg_color(ui->container, lv_color_hex(COLOR_BG), 0);
     lv_obj_set_style_bg_opa(ui->container, LV_OPA_COVER, 0);
 }
+
+static void countdown_bar(stc_ui_t *ui, stc_action_t action, bool arm);
 
 static void action_event(lv_event_t *event) {
     ActionBinding *binding = lv_event_get_user_data(event);
@@ -404,17 +407,17 @@ static void home_screen(stc_ui_t *ui) {
 static void scan_ready_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
+    /* No 開始掃描 button: the round starts itself after three seconds, and the
+     * bar is the only cue. One tap per session stays on the home screen. */
+    countdown_bar(ui, STC_ACTION_SCAN, true);
     lv_obj_t *card =
         box(ui->container, 32, 116, 736, 220, COLOR_BRAND_LIGHT, 16, 0,
             COLOR_BRAND_LIGHT);
     image(card, &stc_lp_img_mic, 336, 28, 64, 64);
     label(card, "將垃圾放在鏡頭前", 32, 100, 672, 64, FONT_H1,
           COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
-    label(card, "準備好就按「開始掃描」", 32, 172, 672, 40, FONT_HINT,
+    label(card, "3 秒後自動掃描", 32, 172, 672, 40, FONT_HINT,
           0xD5E5DC, LV_TEXT_ALIGN_CENTER);
-    lv_obj_t *scan =
-        button(ui->container, "開始掃描", 32, 368, 736, 88, true);
-    bind_action(ui, scan, STC_ACTION_SCAN, -1, false);
 }
 
 static void capturing_screen(stc_ui_t *ui, stc_state_t state) {
@@ -496,7 +499,8 @@ static void auto_tick(lv_timer_t *timer) {
     if (ui == NULL || !ui->auto_armed) {
         return;
     }
-    if (ui->state != STC_RESULT_OK || ui->auto_done) {
+    if ((ui->state != STC_RESULT_OK && ui->state != STC_SCAN_READY) ||
+        ui->auto_done) {
         auto_disarm(ui);
         return;
     }
@@ -510,13 +514,39 @@ static void auto_tick(lv_timer_t *timer) {
         ui->auto_done = true;
         auto_disarm(ui);
         if (ui->action != NULL) {
-            ui->action(STC_ACTION_NEXT, -1, ui->user);
+            ui->action(ui->auto_action, -1, ui->user);
         }
     }
 }
 
 static bool result_is_last_round(const stc_ui_t *ui) {
     return ui->rounds_total > 0 && ui->round >= ui->rounds_total;
+}
+
+/* One green bar at the top doubles as the only countdown cue. `arm` starts the
+ * countdown; without it the bar is an empty track (the card is still coming).
+ * Every screen that uses it needs no button: the round moves on its own. */
+static void countdown_bar(stc_ui_t *ui, stc_action_t action, bool arm) {
+    ui->auto_action = action;
+    ui->auto_bar = lv_bar_create(ui->container);
+    lv_obj_remove_style_all(ui->auto_bar);
+    lv_obj_set_pos(ui->auto_bar, 32, 104);
+    lv_obj_set_size(ui->auto_bar, 736, 8);
+    lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
+    lv_bar_set_value(ui->auto_bar, arm ? AUTO_ADVANCE_TICKS : 0, LV_ANIM_OFF);
+    lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_LINE), 0);
+    lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, 0);
+    lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_ACCENT),
+                              LV_PART_INDICATOR);
+    lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, LV_PART_INDICATOR);
+    lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE,
+                            LV_PART_INDICATOR);
+    if (arm) {
+        ui->auto_left = AUTO_ADVANCE_TICKS;
+        ui->auto_armed = true;
+        ui->auto_done = false;
+    }
 }
 
 static void result_screen(stc_ui_t *ui) {
@@ -569,29 +599,9 @@ static void result_screen(stc_ui_t *ui) {
 
     const bool last = result_is_last_round(ui);
 
-    /* The bar above the bins is the only countdown cue: an empty track while
-     * the card is still on its way in, a shrinking fill once the lid closes.
-     * No caption text, and no next-round button: the round advances itself. */
-    ui->auto_bar = lv_bar_create(ui->container);
-    lv_obj_remove_style_all(ui->auto_bar);
-    lv_obj_set_pos(ui->auto_bar, 32, 104);
-    lv_obj_set_size(ui->auto_bar, 736, 8);
-    lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
-    lv_bar_set_value(ui->auto_bar, 0, LV_ANIM_OFF);
-    lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_LINE), 0);
-    lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, 0);
-    lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_ACCENT),
-                              LV_PART_INDICATOR);
-    lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, LV_PART_INDICATOR);
-    lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE, 0);
-    lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE,
-                            LV_PART_INDICATOR);
-
-    if (!ui->lid_open && !last) {
-        ui->auto_left = AUTO_ADVANCE_TICKS;
-        ui->auto_armed = true;
-        lv_bar_set_value(ui->auto_bar, AUTO_ADVANCE_TICKS, LV_ANIM_OFF);
-    }
+    /* The bar is the only countdown cue: empty while the card is still on its
+     * way in, shrinking once the lid closes. No caption, no button. */
+    countdown_bar(ui, STC_ACTION_NEXT, !ui->lid_open && !last);
 }
 
 static void bin_choice_screen(stc_ui_t *ui) {
