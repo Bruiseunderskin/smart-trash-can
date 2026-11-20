@@ -104,11 +104,18 @@ static const char *const bin_names[STC_CATEGORY_COUNT] = {
     "可回收", "廚餘", "有害", "其他",
 };
 
+/* 96 px sources so the result page shows the glyph 1:1 instead of a blurry
+ * 2x upscale of the 48 px asset. Smaller slots downscale, which stays sharp. */
+extern const lv_image_dsc_t stc_lp_img_cat_0_96;
+extern const lv_image_dsc_t stc_lp_img_cat_1_96;
+extern const lv_image_dsc_t stc_lp_img_cat_2_96;
+extern const lv_image_dsc_t stc_lp_img_cat_3_96;
+
 static const lv_image_dsc_t *const category_images[STC_CATEGORY_COUNT] = {
-    &stc_lp_img_cat_0,
-    &stc_lp_img_cat_1,
-    &stc_lp_img_cat_2,
-    &stc_lp_img_cat_3,
+    &stc_lp_img_cat_0_96,
+    &stc_lp_img_cat_1_96,
+    &stc_lp_img_cat_2_96,
+    &stc_lp_img_cat_3_96,
 };
 
 
