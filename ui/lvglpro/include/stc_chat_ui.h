@@ -29,7 +29,6 @@ typedef struct {
     stc_chat_state_t state;
     const char *heading;
     const char *message;
-    const char *hint;
     const char *primary_label;
     const char *secondary_label;
 } stc_chat_payload_t;

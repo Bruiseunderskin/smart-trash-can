@@ -1,0 +1,34 @@
+name: ui/lvglpro preview
+on:
+  push:
+    paths: ['ui/lvglpro/**', 'tools/lvglpro_preview/**', '.github/workflows/lvglpro-preview.yml']
+  pull_request:
+    paths: ['ui/lvglpro/**', 'tools/lvglpro_preview/**', '.github/workflows/lvglpro-preview.yml']
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install Pillow
+        run: python -m pip install --quiet pillow
+      - name: Fetch the exact LVGL 9.5.0 source
+        run: |
+          git clone --depth 1 --branch v9.5.0 https://github.com/lvgl/lvgl.git "$RUNNER_TEMP/lvgl"
+          test "$(git -C "$RUNNER_TEMP/lvgl" rev-parse HEAD)" = 85aa60d18b3d5e5588d7b247abf90198f07c8a63
+      - name: Build the ui/lvglpro preview
+        run: LVGL_DIR="$RUNNER_TEMP/lvgl" tools/lvglpro_preview/build.sh
+      - name: Simulate the state machine
+        run: tools/lvglpro_preview/build/sim
+      - name: Render every screen and diff against the baselines
+        run: python tools/lvglpro_preview/render.py --compare tools/lvglpro_preview/baselines
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: lvglpro-preview-evidence
+          path: tools/lvglpro_preview/build/png/*.png

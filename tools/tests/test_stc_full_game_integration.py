@@ -98,7 +98,8 @@ class StcFullGameIntegrationTest(unittest.TestCase):
             encoding="utf-8"
         )
 
-        self.assertIn("chat_box(ui->container, 24, 158, 632, 180", chat_ui)
+        self.assertIn("chat_box(ui->container, 24, 158, 632, LV_SIZE_CONTENT", chat_ui)
+        self.assertIn("lv_obj_set_style_max_height(speech, 180, 0);", chat_ui)
         self.assertIn("LV_FLEX_FLOW_COLUMN", chat_ui)
         self.assertIn("560, LV_SIZE_CONTENT", chat_ui)
         self.assertIn("LV_OBJ_FLAG_SCROLLABLE", chat_ui)
@@ -127,7 +128,7 @@ class StcFullGameIntegrationTest(unittest.TestCase):
         voice = (BOARD / "stc_voice.cc").read_text(encoding="utf-8")
 
         self.assertEqual(chat_ui.count('"返回主頁"'), 7)
-        self.assertIn('"停止",\n        "返回主頁"', chat_ui)
+        self.assertIn('"講完",\n        "返回主頁"', chat_ui)
         self.assertIn("stc_voice_cancel_dialog();", shell)
         self.assertIn("stc_voice_restart_dialog();", shell)
         self.assertIn("ScheduleChatCancel();", voice)
@@ -198,13 +199,14 @@ class StcFullGameIntegrationTest(unittest.TestCase):
         chat_header = (
             ROOT / "ui/lvglpro/include/stc_chat_ui.h"
         ).read_text(encoding="utf-8")
-        charset = json.loads(
-            (
-                ROOT
-                / "firmware/xiaozhi-esp32/managed_components/"
-                "78__xiaozhi-fonts/charsets/common.json"
-            ).read_text(encoding="utf-8")
+        charset_path = (
+            ROOT
+            / "firmware/xiaozhi-esp32/managed_components/"
+            "78__xiaozhi-fonts/charsets/common.json"
         )
+        if not charset_path.exists():
+            self.skipTest("xiaozhi-fonts managed component is not vendored here")
+        charset = json.loads(charset_path.read_text(encoding="utf-8"))
         sample = "香港多雲天氣氣溫東北風濕度體感蠻舒服喔"
 
         self.assertIn("GetTextFont()", shell)

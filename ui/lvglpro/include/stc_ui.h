@@ -2,6 +2,7 @@
 #define STC_UI_H
 #include "lvgl.h"
 #include "labels.h"
+#include "stc_chat_ui.h"
 #include <stdbool.h>
 #include <stdint.h>
 #ifdef __cplusplus
@@ -10,7 +11,7 @@ extern "C" {
 /* LVGL 9.5; call every function on the LVGL task or under lvgl_port_lock(). */
 typedef enum { STC_IDLE, STC_CAPTURING, STC_CLASSIFYING, STC_RESULT_OK,
                STC_RESULT_RETRY, STC_ERROR, STC_CATEGORY_GUIDE, STC_LEARNING, STC_SUMMARY,
-               STC_SCAN_READY, STC_BIN_CHOICE } stc_state_t;
+               STC_SCAN_READY, STC_BIN_CHOICE, STC_ASK } stc_state_t;
 typedef struct { int category_id; float p; } stc_candidate_t;
 typedef struct {
     stc_state_t state;
@@ -54,6 +55,10 @@ void stc_ui_set_action_callback(stc_ui_t *ui, stc_action_cb callback);
 void stc_ui_show_guide(stc_ui_t *ui);
 void stc_ui_show_learning(stc_ui_t *ui, int category_id);
 void stc_ui_show_summary(stc_ui_t *ui);
+/* 綠豆 chat: the controller owns the conversation state. This call switches
+ * the UI to STC_ASK and renders one chat screen. Primary / back buttons emit
+ * STC_ACTION_ASK / STC_ACTION_HOME for the controller to act on. */
+void stc_ui_show_ask(stc_ui_t *ui, const stc_chat_payload_t *payload);
 typedef void (*stc_retry_cb)(void *user_data);
 /* Returns NULL for an incompatible parent size. UI owns its child container. */
 stc_ui_t *stc_ui_create(lv_obj_t *parent, stc_retry_cb retry, void *user_data);
