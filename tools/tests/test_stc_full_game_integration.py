@@ -198,13 +198,14 @@ class StcFullGameIntegrationTest(unittest.TestCase):
         chat_header = (
             ROOT / "ui/lvglpro/include/stc_chat_ui.h"
         ).read_text(encoding="utf-8")
-        charset = json.loads(
-            (
-                ROOT
-                / "firmware/xiaozhi-esp32/managed_components/"
-                "78__xiaozhi-fonts/charsets/common.json"
-            ).read_text(encoding="utf-8")
+        charset_path = (
+            ROOT
+            / "firmware/xiaozhi-esp32/managed_components/"
+            "78__xiaozhi-fonts/charsets/common.json"
         )
+        if not charset_path.exists():
+            self.skipTest("xiaozhi-fonts managed component is not vendored here")
+        charset = json.loads(charset_path.read_text(encoding="utf-8"))
         sample = "香港多雲天氣氣溫東北風濕度體感蠻舒服喔"
 
         self.assertIn("GetTextFont()", shell)
