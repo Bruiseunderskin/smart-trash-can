@@ -405,9 +405,9 @@ static void scan_ready_screen(stc_ui_t *ui) {
         box(ui->container, 32, 116, 736, 220, COLOR_BRAND_LIGHT, 16, 0,
             COLOR_BRAND_LIGHT);
     image(card, &stc_lp_img_mic, 336, 28, 64, 64);
-    label(card, "將垃圾放在鏡頭前", 32, 108, 672, 56, FONT_H1,
+    label(card, "將垃圾放在鏡頭前", 32, 100, 672, 64, FONT_H1,
           COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
-    label(card, "準備好就按「開始掃描」", 32, 164, 672, 40, FONT_HINT,
+    label(card, "準備好就按「開始掃描」", 32, 172, 672, 40, FONT_HINT,
           0xD5E5DC, LV_TEXT_ALIGN_CENTER);
     lv_obj_t *scan =
         button(ui->container, "開始掃描", 32, 368, 736, 88, true);
@@ -429,9 +429,9 @@ static void capturing_screen(stc_ui_t *ui, stc_state_t state) {
 static void retry_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
-    label(ui->container, "AI 都唔肯定", 32, 116, 736, 68, FONT_H1, COLOR_FG,
+    label(ui->container, "AI 都唔肯定", 32, 112, 736, 72, FONT_H1, COLOR_FG,
           LV_TEXT_ALIGN_LEFT);
-    label(ui->container, "請揀最接近嘅答案，或者重新掃描", 32, 186, 736, 32,
+    label(ui->container, "請揀最接近嘅答案，或者重新掃描", 32, 192, 736, 32,
           FONT_CAPTION, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
     for (int i = 0; i < 2; ++i) {
         const int x = i == 0 ? 32 : 408;
@@ -593,27 +593,27 @@ static void bin_choice_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
     progress_bar(ui);
-    label(ui->container, "請選擇垃圾桶", 32, 118, 736, 60, FONT_H1,
+    label(ui->container, "請選擇垃圾桶", 32, 112, 736, 72, FONT_H1,
           COLOR_FG, LV_TEXT_ALIGN_LEFT);
     if ((ui->debug_flags & STC_UI_DEBUG_TOUCH_BINS) != 0) {
         label(ui->container, "S3 手部離線 · 請直接點選實際投放嘅桶",
-              32, 182, 736, 34, FONT_HINT, COLOR_MUTED,
+              32, 192, 736, 34, FONT_HINT, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     } else {
         label(ui->container, "桶蓋已開啟 · 可投入卡牌或直接點選桶",
-              32, 182, 736, 34, FONT_HINT, COLOR_MUTED,
+              32, 192, 736, 34, FONT_HINT, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     }
     const int xs[STC_CATEGORY_COUNT] = {32, 226, 420, 614};
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
         lv_obj_t *card =
-            box(ui->container, xs[i], 224, 151, 240, COLOR_SURFACE, 16, 3,
+            box(ui->container, xs[i], 232, 151, 240, COLOR_SURFACE, 16, 3,
                 category_colors[i]);
         lv_obj_add_flag(card, LV_OBJ_FLAG_CLICKABLE);
         lv_obj_t *icon = image(card, category_images[i], 35, 38, 80, 80);
         lv_obj_t *name =
-            label(card, stc_category_label(i), 0, 158, 151, 52,
-                  FONT_BODY_BOLD, COLOR_FG, LV_TEXT_ALIGN_CENTER);
+            label(card, bin_names[i], 0, 158, 151, 52,
+                  FONT_H2, COLOR_FG, LV_TEXT_ALIGN_CENTER);
         lv_obj_add_flag(icon,
                         LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_EVENT_BUBBLE);
         lv_obj_add_flag(name,
@@ -736,7 +736,7 @@ static void learning_screen(stc_ui_t *ui, int category) {
           152, 128, 384, 64,
           FONT_H1, COLOR_FG, LV_TEXT_ALIGN_LEFT);
     label(ui->container, has_category ? "正確類別" : "本回合",
-          560, 144, 208, 32, FONT_CAPTION,
+          536, 148, 232, 32, FONT_CAPTION,
           has_category ? category_colors[category] : COLOR_MUTED,
           LV_TEXT_ALIGN_RIGHT);
     lv_obj_t *info_card =
