@@ -103,12 +103,6 @@ static const lv_image_dsc_t *const category_images[STC_CATEGORY_COUNT] = {
     &stc_lp_img_cat_3,
 };
 
-static const char *const guide_tips[STC_CATEGORY_COUNT] = {
-    "清洗後再壓扁",
-    "瀝乾水分後丟棄",
-    "單獨裝袋後丟棄",
-    "不屬於前三類",
-};
 
 static const char *const learning_tips[STC_CATEGORY_COUNT] = {
     "請先清空、清洗並壓扁，再放入回收桶。",
@@ -386,9 +380,9 @@ static void home_screen(stc_ui_t *ui) {
     lv_obj_t *start =
         button(ui->container, "開始挑戰", 32, 368, 352, 88, true);
     bind_action(ui, start, STC_ACTION_START, -1, false);
-    lv_obj_t *guide =
-        button(ui->container, "分類圖鑑", 416, 368, 352, 88, false);
-    bind_action(ui, guide, STC_ACTION_GUIDE, -1, false);
+    lv_obj_t *ask =
+        button(ui->container, "問綠豆", 416, 368, 352, 88, false);
+    bind_action(ui, ask, STC_ACTION_ASK, -1, false);
 }
 
 static void scan_ready_screen(stc_ui_t *ui) {
@@ -553,6 +547,7 @@ static void result_screen(stc_ui_t *ui) {
     }
 
     const bool last = result_is_last_round(ui);
+    if (!ui->lid_open) {
     ui->auto_bar = lv_bar_create(ui->container);
     lv_obj_remove_style_all(ui->auto_bar);
     lv_obj_set_pos(ui->auto_bar, 32, 384);
@@ -567,10 +562,12 @@ static void result_screen(stc_ui_t *ui) {
     lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE, 0);
     lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE,
                             LV_PART_INDICATOR);
+    } else {
+        ui->auto_bar = NULL;
+    }
 
-    lv_obj_t *next = button(ui->container, last ? "完成 · 睇總分" : "下一回合",
-                            32, 394, 736, 76, true);
-    bind_action(ui, next, last ? STC_ACTION_FINISH : STC_ACTION_NEXT, -1, false);
+    /* No next-round button while the lid is opening or the card is being
+     * inserted: the round advances by itself once the card is in. */
 
     if (ui->lid_open) {
         label(ui->container, "投入卡牌後自動繼續", 32, 346, 704, 32,
@@ -669,34 +666,7 @@ static void error_screen(stc_ui_t *ui, const char *code) {
     bind_action(ui, home, STC_ACTION_HOME, -1, false);
 }
 
-static void guide_card(stc_ui_t *ui, int category, int x, int y) {
-    lv_obj_t *card = box(ui->container, x, y, 356, 88,
-                         category_tints[category], 16, 3,
-                         category_colors[category]);
-    image(card, category_images[category], 16, 16, 56, 56);
-    label(card, stc_category_label(category), 92, 10, 244, 40, FONT_BODY_BOLD,
-          COLOR_FG, LV_TEXT_ALIGN_LEFT);
-    label(card, guide_tips[category], 92, 52, 244, 34, FONT_HINT,
-          COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
-    bind_action(ui, card, STC_ACTION_LEARN, category, false);
-}
 
-static void guide_screen(stc_ui_t *ui) {
-    page_background(ui);
-    topbar(ui);
-    label(ui->container, "分類圖鑑", 32, 112, 736, 48, FONT_H2, COLOR_FG,
-          LV_TEXT_ALIGN_LEFT);
-    guide_card(ui, 0, 32, 168);
-    guide_card(ui, 1, 412, 168);
-    guide_card(ui, 2, 32, 272);
-    guide_card(ui, 3, 412, 272);
-    lv_obj_t *ask =
-        button(ui->container, "問綠豆知多啲", 32, 368, 352, 88, true);
-    bind_action(ui, ask, STC_ACTION_ASK, -1, false);
-    lv_obj_t *home =
-        button(ui->container, "返回主頁", 416, 368, 352, 88, false);
-    bind_action(ui, home, STC_ACTION_HOME, -1, false);
-}
 
 static const char *outcome_text(int outcome) {
     switch (outcome) {
@@ -823,9 +793,9 @@ static void summary_screen(stc_ui_t *ui) {
     lv_obj_t *again =
         button(ui->container, "再玩一次", 32, 368, 352, 88, true);
     bind_action(ui, again, STC_ACTION_START, -1, false);
-    lv_obj_t *guide =
-        button(ui->container, "分類圖鑑", 416, 368, 352, 88, false);
-    bind_action(ui, guide, STC_ACTION_GUIDE, -1, false);
+    lv_obj_t *ask =
+        button(ui->container, "問綠豆", 416, 368, 352, 88, false);
+    bind_action(ui, ask, STC_ACTION_ASK, -1, false);
     image(ui->container, &stc_lp_img_mascot_happy, 664, 136, 72, 72);
 }
 
@@ -879,7 +849,8 @@ static void render(stc_ui_t *ui, stc_state_t state, const char *error_code) {
             error_screen(ui, error_code);
             break;
         case STC_CATEGORY_GUIDE:
-            guide_screen(ui);
+            /* The category guide page is gone; the ask flow replaces it. */
+            home_screen(ui);
             break;
         case STC_LEARNING:
             learning_screen(ui, ui->category_value);
