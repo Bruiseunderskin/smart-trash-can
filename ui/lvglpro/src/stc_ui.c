@@ -96,11 +96,9 @@ static const uint32_t category_tints[STC_CATEGORY_COUNT] = {
     0xE6E8EA, 0xE5EBDC, 0xF5E7D9, 0xEBE9DF,
 };
 
-extern const lv_image_dsc_t stc_icon_food; /* 廚餘, drawn to match the set */
-
 static const lv_image_dsc_t *const category_images[STC_CATEGORY_COUNT] = {
     &stc_lp_img_cat_0,
-    &stc_icon_food,
+    &stc_lp_img_cat_1,
     &stc_lp_img_cat_2,
     &stc_lp_img_cat_3,
 };
