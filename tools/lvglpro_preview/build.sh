@@ -49,4 +49,13 @@ ar rcs "$BUILD/liblvgl.a" "$BUILD/obj"/*.o
     "$ROOT/ui/lvglpro/generated/"*.c \
     "$BUILD/liblvgl.a" -lm
 
-echo "built $BUILD/preview"
+"$CC" -O1 -DLV_CONF_INCLUDE_SIMPLE -I"$HERE" -I"$LVGL_DIR" \
+    -I"$ROOT/ui/lvglpro/include" -I"$ROOT/ui/lvglpro/generated" \
+    -o "$BUILD/sim" \
+    "$HERE/sim.c" \
+    "$ROOT/ui/lvglpro/src/stc_ui.c" \
+    "$ROOT/ui/lvglpro/src/stc_chat_ui.c" \
+    "$ROOT/ui/lvglpro/generated/"*.c \
+    "$BUILD/liblvgl.a" -lm
+
+echo "built $BUILD/preview and $BUILD/sim"

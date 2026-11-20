@@ -27,6 +27,8 @@
 - 新增 `docs/agents/greenbean-system-prompt.md`：綠豆 system prompt，含注入防範與 8 個測試案例。
 - 綠豆接駁：`stc_game_controller` 新增可選 port `request_chat`，`STC_UI_ACTION_ASK` 會交去 xiaozhi 外殼（`stc_shell_ui_request_chat()` → `STC_SHELL_CHAT_STARTING`）；冇 chat 的 build 保持 NULL，行為不變。
 - 建置修正：`firmware/esp32s31/game` 加入 `stc_chat_ui.c`（先前只有 xiaozhi 板有，S31 game 連結失敗）；`ui/lvglpro` 預覽 CI 獨立成 `lvglpro-preview.yml`，唔再連帶觸發 `ui/lvgl` 的 native-render。
+- 修正：`STC_ASK` 只可以由 `idle` 進入，令總分頁「問綠豆」實際無反應；現在 `result_ok`／`summary` 亦可入 `STC_ASK`。由 host 模擬（`tools/lvglpro_preview/sim.c`）發現。
+- 新增 `tools/lvglpro_preview/sim.c`：無硬件的行為模擬，驗證 3 秒自動掃描、結果頁自動前進、以及綠豆可由結果／總分頁進入；CI 會跑。
 - 新增 `docs/agents/flash.md`：燒錄步驟與開機應見到的畫面。
 - 新增 `tools/lvglpro_preview/gen_category_icons.py`：由 Figma SVG 重生成 96 px 圖示（sharp-cli 6.1.0），支援 `--check`。
 - `ui/lvglpro`：重新生成 `stc_lp_font_tc_bold_32`（218 個字符，含「離」「×」），綠豆離線狀態可用 Figma 原文「暫時離線」。

@@ -964,7 +964,8 @@ static bool transition(stc_ui_t *ui, stc_state_t next) {
                    next == STC_IDLE;
         case STC_RESULT_OK:
             return next == STC_BIN_CHOICE || next == STC_LEARNING ||
-                   next == STC_SUMMARY || next == STC_IDLE;
+                   next == STC_SUMMARY || next == STC_IDLE ||
+                   next == STC_ASK;
         case STC_BIN_CHOICE:
             return next == STC_LEARNING || next == STC_SUMMARY ||
                    next == STC_IDLE;
@@ -980,7 +981,8 @@ static bool transition(stc_ui_t *ui, stc_state_t next) {
                    next == STC_CATEGORY_GUIDE || next == STC_IDLE;
         case STC_SUMMARY:
             return next == STC_SCAN_READY || next == STC_CAPTURING ||
-                   next == STC_CATEGORY_GUIDE || next == STC_IDLE;
+                   next == STC_CATEGORY_GUIDE || next == STC_IDLE ||
+                   next == STC_ASK;
         default:
             return false;
     }

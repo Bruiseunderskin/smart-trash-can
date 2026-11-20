@@ -23,6 +23,8 @@ jobs:
           test "$(git -C "$RUNNER_TEMP/lvgl" rev-parse HEAD)" = 85aa60d18b3d5e5588d7b247abf90198f07c8a63
       - name: Build the ui/lvglpro preview
         run: LVGL_DIR="$RUNNER_TEMP/lvgl" tools/lvglpro_preview/build.sh
+      - name: Simulate the state machine
+        run: tools/lvglpro_preview/build/sim
       - name: Render every screen and diff against the baselines
         run: python tools/lvglpro_preview/render.py --compare tools/lvglpro_preview/baselines
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
