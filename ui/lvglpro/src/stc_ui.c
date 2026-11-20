@@ -533,14 +533,14 @@ static void result_screen(stc_ui_t *ui) {
         const int x = 32 + i * 190;
         const bool selected = i == category;
         lv_obj_t *card =
-            box(ui->container, x, 210, 166, 160,
+            box(ui->container, x, 198, 166, 148,
                 selected ? category_tints[i] : COLOR_SURFACE, 16,
                 selected ? 6 : 2, category_colors[i]);
-        image(card, category_images[i], 47, 14, 72, 72);
-        label(card, stc_category_label(i), 8, 92, 150, 44, FONT_BODY_BOLD,
+        image(card, category_images[i], 51, 10, 64, 64);
+        label(card, stc_category_label(i), 8, 78, 150, 40, FONT_BODY_BOLD,
               COLOR_FG, LV_TEXT_ALIGN_CENTER);
         if (selected) {
-            label(card, "AI 判斷", 20, 132, 126, 24, FONT_CAPTION,
+            label(card, "AI 判斷", 20, 116, 126, 24, FONT_CAPTION,
                   category_colors[i], LV_TEXT_ALIGN_CENTER);
         }
     }
@@ -548,7 +548,7 @@ static void result_screen(stc_ui_t *ui) {
     const bool last = result_is_last_round(ui);
     ui->auto_bar = lv_bar_create(ui->container);
     lv_obj_remove_style_all(ui->auto_bar);
-    lv_obj_set_pos(ui->auto_bar, 32, 378);
+    lv_obj_set_pos(ui->auto_bar, 32, 384);
     lv_obj_set_size(ui->auto_bar, 736, 6);
     lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
     lv_bar_set_value(ui->auto_bar, 0, LV_ANIM_OFF);
@@ -562,14 +562,14 @@ static void result_screen(stc_ui_t *ui) {
                             LV_PART_INDICATOR);
 
     lv_obj_t *next = button(ui->container, last ? "完成 · 睇總分" : "下一回合",
-                            32, 390, 736, 82, true);
+                            32, 396, 736, 78, true);
     bind_action(ui, next, last ? STC_ACTION_FINISH : STC_ACTION_NEXT, -1, false);
 
     if (ui->lid_open) {
-        label(ui->container, "投入卡牌後自動繼續 · 亦可直接點按按鈕", 32, 340,
-              704, 28, FONT_CAPTION, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
+        label(ui->container, "投入卡牌後自動繼續", 32, 352, 704, 26,
+              FONT_CAPTION, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
     } else if (!last) {
-        label(ui->container, "3 秒後自動繼續 · 點按可即時前進", 32, 340, 704, 28,
+        label(ui->container, "3 秒後自動繼續", 32, 352, 704, 26,
               FONT_CAPTION, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
         ui->auto_left = AUTO_ADVANCE_TICKS;
         ui->auto_armed = true;
