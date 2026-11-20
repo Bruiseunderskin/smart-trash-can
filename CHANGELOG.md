@@ -17,7 +17,8 @@
 - 首頁綠豆頭像上移 5 px，與標題字墨中心對齊（實測 177 → 172）。
 - `ui/lvglpro`：`scan_ready`／`result_retry`／`bin_choice` 的標題與副標不再重疊；`learning` 的「正確類別」移入 32 px 邊距內；`bin_choice` 四桶文字統一為 40 px「可回收」。
 - `ui/lvglpro`：蓋已閂、倒數進行中的結果頁標題由「正在開啟桶蓋」改為「本回合完成」；綠豆對話氣泡改為貼住文字，最高 180 px。
-- `ui/lvglpro`：綠豆畫面改用與遊戲一致的頂欄（800×72 全寬、品牌 x=24、火焰 x=744），移除「CHAT」字樣。
+- `ui/lvglpro`：頂欄狀態依 Figma：`idle` 顯示「準備好」，唔再喺未開局時顯示得分；得分只喺總分頁出現。
+- `ui/lvglpro`：綠豆頂欄依 Figma chat2（237:258）：24,24,752×56 圓角條、左「問綠豆」、右連線狀態（已連線／聽緊／諗緊／未連線／再講一次／準備返回）。
 - 新增 `tools/lvglpro_preview/`：用釘死的 LVGL v9.5.0 在本機渲染 19 個畫面（12 遊戲 + 7 綠豆），可 `--compare` 對 baseline 做 2% 容差的像素比對；有差異時在 `build/png/` 留下放大四倍的 `diff_<state>.png` 熱圖。CI 加 `lvglpro-preview` job 重跑同一套。<!-- changelog-fixed -->
 - Added a two-state outer application shell, `GAME` and `CHAT`. GAME owns the current touch game; CHAT pauses game ticks, has a 60-second timeout, and returns to the same game state. The current local voice backend reports `STC_ERR_UNSUPPORTED` for CHAT and the UI states this explicitly.
 - Added GAME/CHAT touch navigation: `分類圖鑑`, `問綠豆`, and the CHAT `返回遊戲` screen. Added `STC_UI_CHAT` as an appended UI state without renumbering existing values.

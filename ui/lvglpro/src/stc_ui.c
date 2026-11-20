@@ -267,7 +267,11 @@ static void set_header(stc_ui_t *ui) {
         return;
     }
     char text[64];
-    if (ui->rounds_total > 0 && ui->state != STC_IDLE) {
+    if (ui->state == STC_IDLE) {
+        /* Figma state/idle (5:38): the bar says 準備好 before a round starts;
+         * a score only exists after the first round. */
+        snprintf(text, sizeof(text), "準備好");
+    } else if (ui->rounds_total > 0) {
         unsigned current = ui->round == 0 ? 1u : ui->round;
         if (current > ui->rounds_total) {
             current = ui->rounds_total;
@@ -275,8 +279,7 @@ static void set_header(stc_ui_t *ui) {
         snprintf(text, sizeof(text), "第 %u / %u 回合", current,
                  (unsigned)ui->rounds_total);
     } else {
-        snprintf(text, sizeof(text), "得分 %lu",
-                 (unsigned long)ui->score_value);
+        snprintf(text, sizeof(text), "準備好");
     }
     lv_label_set_text(ui->header_status, text);
 }

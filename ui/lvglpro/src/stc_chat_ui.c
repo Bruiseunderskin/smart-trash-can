@@ -198,6 +198,26 @@ static const char *choose(const char *value, const char *fallback) {
     return value != NULL && value[0] != '\0' ? value : fallback;
 }
 
+static const char *chat_status(stc_chat_state_t state) {
+    switch (state) {
+        case STC_CHAT_READY:
+        case STC_CHAT_ANSWERING:
+            return "已連線";
+        case STC_CHAT_LISTENING:
+            return "聽緊";
+        case STC_CHAT_THINKING:
+            return "諗緊";
+        case STC_CHAT_OFFLINE:
+            return "未連線";
+        case STC_CHAT_ASR_RETRY:
+            return "再講一次";
+        case STC_CHAT_COUNTDOWN:
+            return "準備返回";
+        default:
+            return "已連線";
+    }
+}
+
 static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
     const ChatDefaults *fallback = &defaults[payload->state];
     lv_obj_clean(ui->container);
@@ -206,13 +226,15 @@ static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
     lv_obj_set_style_bg_color(ui->container, lv_color_hex(CHAT_BG), 0);
     lv_obj_set_style_bg_opa(ui->container, LV_OPA_COVER, 0);
 
-    /* Same topbar as the game screens: full-bleed 800x72 bar, brand at
-     * x=24, flame at x=744. The chat must not look like another app. */
+    /* Figma chat2-xx: rounded 24,24,752x56 bar, "問綠豆" left, connection
+     * state right. This is not the game topbar, by design. */
     lv_obj_t *bar =
-        chat_box(ui->container, 0, 0, 800, 72, CHAT_BRAND, 0, 0, CHAT_BRAND);
-    chat_label(bar, "分類小隊", 24, 16, 352, 44, FONT_BODY_BOLD,
+        chat_box(ui->container, 24, 24, 752, 56, CHAT_BRAND, 16, 0,
+                 CHAT_BRAND);
+    chat_label(bar, "問綠豆", 24, 0, 240, 56, FONT_BODY_BOLD,
                CHAT_ON_BRAND, LV_TEXT_ALIGN_LEFT);
-    chat_image(bar, &stc_lp_img_flame, 744, 20, 32, 32);
+    chat_label(bar, chat_status(payload->state), 520, 0, 208, 56,
+               FONT_BODY_BOLD, CHAT_ACCENT, LV_TEXT_ALIGN_RIGHT);
 
     chat_label(ui->container, choose(payload->heading, fallback->heading), 24,
                96, 620, 48, FONT_TITLE, CHAT_FG, LV_TEXT_ALIGN_LEFT);
