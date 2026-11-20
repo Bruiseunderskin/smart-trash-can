@@ -199,13 +199,14 @@ static lv_obj_t *button(lv_obj_t *parent, const char *text, int x, int y,
 }
 
 static void topbar(stc_ui_t *ui) {
-    lv_obj_t *bar = box(ui->container, 32, 24, 736, 68, COLOR_BRAND, 16, 0,
+    /* Full-bleed bar, matching design/layout.json: 800x72 at 0,0. */
+    lv_obj_t *bar = box(ui->container, 0, 0, 800, 72, COLOR_BRAND, 0, 0,
                         COLOR_BRAND);
-    label(bar, "分類小隊", 24, 14, 220, 40, FONT_BODY_BOLD, COLOR_ON_BRAND,
+    label(bar, "分類小隊", 24, 16, 352, 44, FONT_BODY_BOLD, COLOR_ON_BRAND,
           LV_TEXT_ALIGN_LEFT);
-    image(bar, &stc_lp_img_flame, 680, 18, 32, 32);
+    image(bar, &stc_lp_img_flame, 744, 20, 32, 32);
     ui->header_status =
-        label(bar, "", 420, 14, 244, 40, FONT_BODY_BOLD, COLOR_ON_BRAND,
+        label(bar, "", 424, 16, 312, 44, FONT_BODY_BOLD, COLOR_ON_BRAND,
               LV_TEXT_ALIGN_RIGHT);
 }
 
