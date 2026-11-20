@@ -26,6 +26,7 @@
 - 圖示：四類 glyph 改用 Figma SVG 重新 rasterise 的 96 px ARGB 資產（`stc_lp_img_cat_*_96`），結果頁 1:1 顯示，唔再係 48 px 放大兩倍的模糊邊。
 - 新增 `docs/agents/greenbean-system-prompt.md`：綠豆 system prompt，含注入防範與 8 個測試案例。
 - 綠豆接駁：`stc_game_controller` 新增可選 port `request_chat`，`STC_UI_ACTION_ASK` 會交去 xiaozhi 外殼（`stc_shell_ui_request_chat()` → `STC_SHELL_CHAT_STARTING`）；冇 chat 的 build 保持 NULL，行為不變。
+- 建置修正：`firmware/esp32s31/game` 加入 `stc_chat_ui.c`（先前只有 xiaozhi 板有，S31 game 連結失敗）；`ui/lvglpro` 預覽 CI 獨立成 `lvglpro-preview.yml`，唔再連帶觸發 `ui/lvgl` 的 native-render。
 - 新增 `docs/agents/flash.md`：燒錄步驟與開機應見到的畫面。
 - 新增 `tools/lvglpro_preview/gen_category_icons.py`：由 Figma SVG 重生成 96 px 圖示（sharp-cli 6.1.0），支援 `--check`。
 - `ui/lvglpro`：重新生成 `stc_lp_font_tc_bold_32`（218 個字符，含「離」「×」），綠豆離線狀態可用 Figma 原文「暫時離線」。
