@@ -96,6 +96,14 @@ static const uint32_t category_tints[STC_CATEGORY_COUNT] = {
     0xE6E8EA, 0xE5EBDC, 0xF5E7D9, 0xEBE9DF,
 };
 
+/* Bin frame palette sampled from Figma state/08b-lid_closed. */
+static const uint32_t bin_border[STC_CATEGORY_COUNT] = {
+    0x5B8DEF, 0x176640, 0xEF7A5C, 0x8E9AA3,
+};
+static const uint32_t bin_fill[STC_CATEGORY_COUNT] = {
+    0xEFEEEA, 0xE5EBDC, 0xF8EEE1, 0xF2EFE4,
+};
+
 static const lv_image_dsc_t *const category_images[STC_CATEGORY_COUNT] = {
     &stc_lp_img_cat_0,
     &stc_lp_img_cat_1,
@@ -528,31 +536,21 @@ static void result_screen(stc_ui_t *ui) {
               COLOR_FG, LV_TEXT_ALIGN_LEFT);
     }
     ui->confidence =
-        label(ui->container, "", 32, 182, 736, 34, FONT_BODY, COLOR_FG,
+        label(ui->container, "", 32, 182, 448, 34, FONT_BODY, COLOR_FG,
               LV_TEXT_ALIGN_LEFT);
-    /* One horizontal strip, the four bins as segments, so a child reads the
-     * row as "which bin did the card go into" rather than four buttons. */
-    lv_obj_t *strip = box(ui->container, 32, 222, 736, 116, COLOR_SURFACE, 18,
-                          2, COLOR_LINE);
+    /* The four bins are tall frames lifted from Figma state/08a-08b:
+     * 166x248 at y=216, icon 88 px, label 52 px high at y=158. */
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
+        const int x = 32 + i * 190;
         const bool selected = i == category;
-        const int sx = i * 184;
-        lv_obj_t *seg = box(strip, sx + 2, 2, 180, 112,
-                            selected ? category_tints[i] : COLOR_SURFACE, 14, 0,
-                            selected ? category_tints[i] : COLOR_SURFACE);
+        lv_obj_t *bin = box(ui->container, x, 216, 166, 248,
+                            bin_fill[i], 18, selected ? 4 : 2, bin_border[i]);
+        image(bin, category_images[i], 40, 38, 88, 88);
+        label(bin, stc_category_label(i), 0, 158, 166, 52, FONT_BODY_BOLD,
+              COLOR_FG, LV_TEXT_ALIGN_CENTER);
         if (selected) {
-            box(seg, 20, 0, 140, 6, category_colors[i], LV_RADIUS_CIRCLE, 0,
-                category_colors[i]);
-        }
-        image(seg, category_images[i], 16, 26, 50, 50);
-        label(seg, stc_category_label(i), 74, 22, 104, 34, FONT_BODY_BOLD,
-              COLOR_FG, LV_TEXT_ALIGN_LEFT);
-        if (selected) {
-            label(seg, "AI 選", 74, 60, 104, 26, FONT_CAPTION, category_colors[i],
-                  LV_TEXT_ALIGN_LEFT);
-        } else if (i == 0) {
-            label(seg, "", 84, 60, 92, 26, FONT_CAPTION, COLOR_MUTED,
-                  LV_TEXT_ALIGN_LEFT);
+            label(bin, "AI 選", 33, 6, 100, 26, FONT_CAPTION, bin_border[i],
+                  LV_TEXT_ALIGN_CENTER);
         }
     }
 
@@ -560,8 +558,8 @@ static void result_screen(stc_ui_t *ui) {
     if (!ui->lid_open) {
     ui->auto_bar = lv_bar_create(ui->container);
     lv_obj_remove_style_all(ui->auto_bar);
-    lv_obj_set_pos(ui->auto_bar, 32, 384);
-    lv_obj_set_size(ui->auto_bar, 736, 6);
+    lv_obj_set_pos(ui->auto_bar, 32, 210);
+    lv_obj_set_size(ui->auto_bar, 736, 4);
     lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
     lv_bar_set_value(ui->auto_bar, 0, LV_ANIM_OFF);
     lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_LINE), 0);
@@ -580,11 +578,11 @@ static void result_screen(stc_ui_t *ui) {
      * inserted: the round advances by itself once the card is in. */
 
     if (ui->lid_open) {
-        label(ui->container, "投入卡牌後自動繼續", 32, 346, 704, 32,
-              FONT_BODY, COLOR_FG, LV_TEXT_ALIGN_LEFT);
+        label(ui->container, "投入卡牌後自動繼續", 494, 182, 274, 34,
+              FONT_BODY, COLOR_FG, LV_TEXT_ALIGN_RIGHT);
     } else if (!last) {
-        label(ui->container, "3 秒後自動繼續", 32, 346, 704, 32,
-              FONT_BODY, COLOR_FG, LV_TEXT_ALIGN_LEFT);
+        label(ui->container, "3 秒後自動繼續", 494, 182, 274, 34,
+              FONT_BODY, COLOR_FG, LV_TEXT_ALIGN_RIGHT);
         ui->auto_left = AUTO_ADVANCE_TICKS;
         ui->auto_armed = true;
         lv_bar_set_value(ui->auto_bar, AUTO_ADVANCE_TICKS, LV_ANIM_OFF);
