@@ -205,9 +205,9 @@ static void topbar(stc_ui_t *ui) {
                         COLOR_BRAND);
     label(bar, "分類小隊", 24, 0, 220, 68, FONT_BODY_BOLD, COLOR_ON_BRAND,
           LV_TEXT_ALIGN_LEFT);
-    image(bar, &stc_lp_img_flame, 656, 18, 32, 32);
+    image(bar, &stc_lp_img_flame, 680, 18, 32, 32);
     ui->header_status =
-        label(bar, "", 440, 0, 196, 68, FONT_BODY_BOLD, COLOR_ON_BRAND,
+        label(bar, "", 420, 0, 244, 68, FONT_BODY_BOLD, COLOR_ON_BRAND,
               LV_TEXT_ALIGN_RIGHT);
 }
 
@@ -345,7 +345,7 @@ static void camera_update(stc_ui_t *ui) {
         lv_obj_center(ui->camera_image);
         return;
     }
-    image(ui->camera, &stc_lp_img_camera, 176, 20, 48, 48);
+    image(ui->camera, &stc_lp_img_camera, 304, 20, 48, 48);
     /* The placeholder must not contradict the status line underneath it. */
     const char *placeholder = "等待相機畫面";
     if (ui->state == STC_CLASSIFYING) {
@@ -353,25 +353,25 @@ static void camera_update(stc_ui_t *ui) {
     } else if (ui->state == STC_CAPTURING) {
         placeholder = "相機畫面";
     }
-    label(ui->camera, placeholder, 24, 72, 352, 44, FONT_BODY,
+    label(ui->camera, placeholder, 32, 96, 592, 44, FONT_BODY,
           COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
 }
 
 static lv_obj_t *camera_card(stc_ui_t *ui, const char *title,
                              const char *subtitle) {
-    lv_obj_t *card = box(ui->container, 32, 116, 736, 220,
+    lv_obj_t *card = box(ui->container, 32, 116, 736, 240,
                          COLOR_BRAND_LIGHT, 16, 0, COLOR_BRAND_LIGHT);
-    ui->camera = box(card, 136, 18, 400, 132, COLOR_BRAND, 12, 3,
+    ui->camera = box(card, 40, 14, 656, 150, COLOR_BRAND, 12, 3,
                      COLOR_ON_BRAND);
     lv_obj_set_style_border_opa(ui->camera, 92, 0);
-    label(card, title, 24, 150, 688, 38, FONT_BODY_BOLD, COLOR_ON_BRAND,
+    label(card, title, 24, 174, 688, 38, FONT_BODY_BOLD, COLOR_ON_BRAND,
           LV_TEXT_ALIGN_CENTER);
-    label(card, subtitle, 24, 190, 688, 26, FONT_CAPTION, 0xD5E5DC,
+    label(card, subtitle, 24, 212, 688, 26, FONT_CAPTION, 0xD5E5DC,
           LV_TEXT_ALIGN_CENTER);
-    ui->scan = box(card, 652, 24, 56, 56, COLOR_ACCENT, LV_RADIUS_CIRCLE, 0,
+    ui->scan = box(card, 630, 18, 56, 56, COLOR_ACCENT, LV_RADIUS_CIRCLE, 0,
                    COLOR_ACCENT);
     lv_obj_set_style_bg_opa(ui->scan, 100, 0);
-    label(card, "AI", 652, 39, 56, 32, FONT_BODY_BOLD, COLOR_ON_ACCENT,
+    label(card, "AI", 630, 33, 56, 32, FONT_BODY_BOLD, COLOR_ON_ACCENT,
           LV_TEXT_ALIGN_CENTER);
     return card;
 }
