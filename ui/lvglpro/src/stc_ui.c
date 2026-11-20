@@ -92,9 +92,6 @@ static const uint32_t category_colors[STC_CATEGORY_COUNT] = {
     0x2455C0, 0x176640, 0x9E3F20, 0x4E5A62,
 };
 
-static const uint32_t category_tints[STC_CATEGORY_COUNT] = {
-    0xE6E8EA, 0xE5EBDC, 0xF5E7D9, 0xEBE9DF,
-};
 
 /* Bin frame palette sampled from Figma state/08b-lid_closed. */
 static const uint32_t bin_border[STC_CATEGORY_COUNT] = {
