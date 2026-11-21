@@ -94,6 +94,11 @@ esp-emu --chip esp32s31 --firmware /tmp/s31_merged.bin --psram-size 16M \
 - ROM → bootloader → 16MB flash／16MB PSRAM → `app_main`。
 - `gt1151: IC version: GT1151_…` → `Display initialized with resolution 800x480` → `stc_ui_port: 800x480 UI ready`，emulator 以 exit code 0 結束。
 - 下一個 blocker：`ES8389: Open fail` → BSP `assert(dev)` → reboot。ES8389 在 0x20；`--i2c-dev` 的 regfile（width 1 或 2、fill 0 或 0xFF）都試過，仍有 135 次讀／寫失敗，唔夠模擬佢嘅 open 序列。
-- 用一個**本機診斷版**（暫時跳過 speaker 初始化，不入 repo）再跑：`SELFTEST` 40 張卡在模擬的 S31 PIE 上跑完，`correct=39 total=40`（與實機已知 B-19 miss 一致）、`ESPNOW controller ready`、`VISION_TASK=READY`；`/dev/video2` 開不到（模擬冇相機）。即係模型推論同 ESP-NOW 初始化在 emu 都真的執行過。
+- 用一個**本機診斷版**（暫時跳過 speaker 初始化，不入 repo）再跑，emu 日誌顯示：
+  - `stc_game_model: SELFTEST ... card=B-19 expected=1 predicted=3 conf=0.785454 FAIL`，總計 `correct=39 total=40`；
+  - `stc_game: MODEL_SELFTEST=FAIL correct=39 total=40 MODEL_START_GATE=IGNORED`——**發佈閘門被忽略**，模型未過 40/40 都照行；
+  - `stc_camera: open /dev/video2 failed errno=2`、`LIVE_CAMERA=FAIL reason=START`（模擬冇相機）；
+  - `ESPNOW controller ready channel=6`、`VISION_TASK=READY`。
+- 即係：模型推論與 ESP-NOW 初始化在 emu 真的執行過，但模型閘門未生效、相機缺席、音訊未解。
 
 `--psram-size 32M` 會卡在 `MSPI Timing: Enter psram timing tuning`；16M 可過。
