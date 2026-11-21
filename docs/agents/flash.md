@@ -79,10 +79,20 @@ idf.py --preview merge-bin -o /tmp/s31_merged.bin
 esp-emu --chip esp32s31 --firmware /tmp/s31_merged.bin --psram-size 16M --timeout 60s
 ```
 
-**2026-11-21 實測結果**（`s31_merged.bin` 8,209,328 bytes）：
+### GT1151 觸控模擬（令佢過到觸控 init）
 
-- ROM → second-stage bootloader → 16MB flash / 16MB PSRAM → `esp_psram: Found 16MB PSRAM device` → `main_task: Calling app_main()`：全部通過。
-- 之後停喺 `bsp_display_indev_touch_init` → `bsp_touch_new` → `abort()`，因為模擬機板上冇 GT1151 觸控（I2C 0x14），而 BSP 用 `ESP_ERROR_CHECK` 當觸控失敗係致命錯誤。
-- 即係：影像可以燒、bootloader 同 PSRAM 設定正確；要再往下跑，需要模擬一個 GT1151，或者令 BSP 在觸控缺席時降級。
+BSP 要 GT1151（I2C 地址 0x14、16-bit register）讀到合法 product id 才繼續。用 emulator 的 regfile 模擬：
 
-`--psram-size 32M` 會卡在 `MSPI Timing: Enter psram timing tuning`；16M 可以過。
+```sh
+esp-emu --chip esp32s31 --firmware /tmp/s31_merged.bin --psram-size 16M \
+  --i2c-dev "1:0x14,width=2,fill=0,reg=0x8140=0x31,reg=0x8141=0x31,reg=0x8142=0x35,reg=0x8143=0x31,reg=0x814A=0x00" \
+  --exit-on "800x480 UI ready" --timeout 60s
+```
+
+**2026-11-21 實測**（`s31_merged.bin` 8,209,328 bytes）：
+
+- ROM → bootloader → 16MB flash／16MB PSRAM → `app_main`。
+- `gt1151: IC version: GT1151_…` → `Display initialized with resolution 800x480` → `stc_ui_port: 800x480 UI ready`，emulator 以 exit code 0 結束。
+- 下一個 blocker：`ES8389: Open fail` → BSP `assert(dev)` → reboot。ES8389 在 0x20，需要一個支援 read-modify-write 的 regfile；`--i2c-dev "1:0x20,width=2"` 只過到部分寫入。
+
+`--psram-size 32M` 會卡在 `MSPI Timing: Enter psram timing tuning`；16M 可過。
