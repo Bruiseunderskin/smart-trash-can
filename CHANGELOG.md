@@ -32,6 +32,7 @@
 - 新增 `docs/agents/flash.md`：燒錄步驟與開機應見到的畫面。
 - 新增 ESP-IDF 6.1 安裝／VS Code 切換與 esp-emu 模擬步驟（`docs/agents/flash.md` §5–6）；實測 S31 影像 boot 到 `app_main`，之後因模擬機板冇 GT1151 觸控而 abort。
 - esp-emu 加 GT1151 觸控 regfile 後，S31 影像可 boot 到 `stc_ui_port: 800x480 UI ready`（exit-on 命中，exit 0）；下一個 blocker 是 ES8389 codec 的 I2C open。
+- 診斷版（跳過 speaker，不入 repo）在 esp-emu 跑完模型自測：40 張卡 `correct=39`（B-19 已知 miss），ESP-NOW `controller ready`、`VISION_TASK=READY`；正式影像仍因 ES8389 codec 缺席而在音訊 init abort。
 - 新增 `tools/lvglpro_preview/gen_category_icons.py`：由 Figma SVG 重生成 96 px 圖示（sharp-cli 6.1.0），支援 `--check`。
 - `ui/lvglpro`：重新生成 `stc_lp_font_tc_bold_32`（218 個字符，含「離」「×」），綠豆離線狀態可用 Figma 原文「暫時離線」。
 - 新增 `tools/lvglpro_preview/`：用釘死的 LVGL v9.5.0 在本機渲染 19 個畫面（12 遊戲 + 7 綠豆），可 `--compare` 對 baseline 做 2% 容差的像素比對；有差異時在 `build/png/` 留下放大四倍的 `diff_<state>.png` 熱圖。CI 加 `lvglpro-preview` job 重跑同一套。<!-- changelog-fixed -->
