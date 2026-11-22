@@ -10,6 +10,32 @@
 
 ### Added
 
+- `ui/lvglpro`：回合結果頁改為回合出口——3 秒自動繼續（100 ms tick 的收縮進度條），蓋門未關時不計時。計時器由 `stc_ui_create()` 建立、`container_deleted` 釋放，全程不解構中的 timer。畫面冇主按鈕：回合自動前進。
+- `ui/lvglpro`：四桶卡片對回 Figma `state/08a-await_bin`（110:848）與 `state/08b-lid_closed`（124:214）：標籤 40 px、文案「可回收」、開蓋態白底 2 px 實色邊、閂蓋態未選 3 px soft＋文字 60%、選中 8 px 實色，並移除「AI 選」角標。
+- `ui/lvglpro`：刪除「AI 判斷：… · 信心值 …」一行，以及「3 秒後自動繼續」「投入卡牌後自動繼續」兩句；倒數只由頂部 8 px 綠色進度條表示。
+- 綠豆（問答）接上遊戲 UI：新增 `STC_ASK` 狀態與 `stc_ui_show_ask()`，把既有 `stc_chat_ui` 的七個畫面（ready／listening／thinking／answering／offline／asr_retry／countdown）掛入 `stc_ui`；首頁與總分頁的「問綠豆」終於有畫面。`ready` 畫面冇「開始講」：該步交由 xiaozhi 語音接手，只留「返回主頁」。刪除每頁的提示句（例如「直接講出你想問嘅環保問題。」）。
+- 首頁綠豆頭像上移 5 px，與標題字墨中心對齊（實測 177 → 172）。
+- `ui/lvglpro`：`scan_ready`／`result_retry`／`bin_choice` 的標題與副標不再重疊；`learning` 的「正確類別」移入 32 px 邊距內；`bin_choice` 四桶文字統一為 40 px「可回收」。
+- `ui/lvglpro`：蓋已閂、倒數進行中的結果頁標題由「正在開啟桶蓋」改為「本回合完成」；綠豆對話氣泡改為貼住文字，最高 180 px。
+- `ui/lvglpro`：頂欄狀態依 Figma：`idle` 顯示「準備好」，唔再喺未開局時顯示得分；得分只喺總分頁出現。
+- `ui/lvglpro`：綠豆頂欄依 Figma chat2（237:258）：24,24,752×56 圓角條、左「問綠豆」、右連線狀態（已連線／聽緊／諗緊／未連線／再講一次／準備返回）。
+- `ui/lvglpro`：`scan_ready` 唔再要撳「開始掃描」——3 秒倒數（頂部 8 px 綠條）後自動送出 `STC_ACTION_SCAN`；每回合所需撳掣由 1 降到 0。
+- `ui/lvglpro`：`idle` 對齊 Figma `state/idle`（5:36）——56 px 標題、320×144 相機卡、368×144 分數面板（頂部 8 px accent）、752×64 全寬「開始挑戰」；移除「問綠豆」按鈕。
+- `ui/lvglpro`：`result_ok` 對齊 Figma 5:79——112 px 類別名（類別色）、頂欄「連對 N 次」＋「完成」、112 px 相機縮圖、96 px 類別圖示、`目前分數`＋80 px 分數、類別提示、底部「等待開蓋」pill；四桶畫面保留在 `bin_choice`。
+- 字型：新出 `stc_lp_font_tc_bold_112`（類別名），並以現有 UI 字串重生成 bold/medium 32 系列（222 字）。
+- 圖示：四類 glyph 改用 Figma SVG 重新 rasterise 的 96 px ARGB 資產（`stc_lp_img_cat_*_96`），結果頁 1:1 顯示，唔再係 48 px 放大兩倍的模糊邊。
+- 新增 `docs/agents/greenbean-system-prompt.md`：綠豆 system prompt，含注入防範與 8 個測試案例。
+- 綠豆接駁：`stc_game_controller` 新增可選 port `request_chat`，`STC_UI_ACTION_ASK` 會交去 xiaozhi 外殼（`stc_shell_ui_request_chat()` → `STC_SHELL_CHAT_STARTING`）；冇 chat 的 build 保持 NULL，行為不變。
+- 建置修正：`firmware/esp32s31/game` 加入 `stc_chat_ui.c`（先前只有 xiaozhi 板有，S31 game 連結失敗）；`ui/lvglpro` 預覽 CI 獨立成 `lvglpro-preview.yml`，唔再連帶觸發 `ui/lvgl` 的 native-render。
+- 修正：`STC_ASK` 只可以由 `idle` 進入，令總分頁「問綠豆」實際無反應；現在 `result_ok`／`summary` 亦可入 `STC_ASK`。由 host 模擬（`tools/lvglpro_preview/sim.c`）發現。
+- 新增 `tools/lvglpro_preview/sim.c`：無硬件的行為模擬，驗證 3 秒自動掃描、結果頁自動前進、以及綠豆可由結果／總分頁進入；CI 會跑。
+- 新增 `docs/agents/flash.md`：燒錄步驟與開機應見到的畫面。
+- 新增 ESP-IDF 6.1 安裝／VS Code 切換與 esp-emu 模擬步驟（`docs/agents/flash.md` §5–6）；實測 S31 影像 boot 到 `app_main`，之後因模擬機板冇 GT1151 觸控而 abort。
+- esp-emu 加 GT1151 觸控 regfile 後，S31 影像可 boot 到 `stc_ui_port: 800x480 UI ready`（exit-on 命中，exit 0）；下一個 blocker 是 ES8389 codec 的 I2C open。
+- 診斷版（跳過 speaker，不入 repo）在 esp-emu 跑完模型自測：`correct=39 total=40`，B-19 一張 `expected=1 predicted=3`；`MODEL_SELFTEST=FAIL` 但 `MODEL_START_GATE=IGNORED`（閘門未生效）；`LIVE_CAMERA=FAIL`（模擬冇相機）、ESP-NOW `controller ready`；正式影像仍因 ES8389 缺席而在音訊 init abort。
+- 新增 `tools/lvglpro_preview/gen_category_icons.py`：由 Figma SVG 重生成 96 px 圖示（sharp-cli 6.1.0），支援 `--check`。
+- `ui/lvglpro`：重新生成 `stc_lp_font_tc_bold_32`（218 個字符，含「離」「×」），綠豆離線狀態可用 Figma 原文「暫時離線」。
+- 新增 `tools/lvglpro_preview/`：用釘死的 LVGL v9.5.0 在本機渲染 19 個畫面（12 遊戲 + 7 綠豆），可 `--compare` 對 baseline 做 2% 容差的像素比對；有差異時在 `build/png/` 留下放大四倍的 `diff_<state>.png` 熱圖。CI 加 `lvglpro-preview` job 重跑同一套。<!-- changelog-fixed -->
 - Added a two-state outer application shell, `GAME` and `CHAT`. GAME owns the current touch game; CHAT pauses game ticks, has a 60-second timeout, and returns to the same game state. The current local voice backend reports `STC_ERR_UNSUPPORTED` for CHAT and the UI states this explicitly.
 - Added GAME/CHAT touch navigation: `分類圖鑑`, `問綠豆`, and the CHAT `返回遊戲` screen. Added `STC_UI_CHAT` as an appended UI state without renumbering existing values.
 - Added the local `STC_GAME_TOUCH_BIN=ON` game mode: continuous SC101IOT preview, four on-screen bin buttons, human DROP selection, hidden-answer learning feedback, and no ESP-NOW dependency. The selected category is still validated and scored only by the game controller.

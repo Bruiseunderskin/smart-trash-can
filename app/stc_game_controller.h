@@ -28,6 +28,9 @@ typedef struct {
     stc_err_t (*voice_say)(stc_line_t line, void *ctx);
     void (*render)(const stc_snapshot_t *snapshot,
                    const stc_game_view_t *view, void *ctx);
+    /* Optional: hand the screen to the voice assistant (綠豆). NULL on builds
+     * without the chat shell; STC_UI_ACTION_ASK is then ignored. */
+    void (*request_chat)(void *ctx);
 } stc_game_controller_ports_t;
 
 void stc_game_controller_init(const stc_game_controller_ports_t *ports,

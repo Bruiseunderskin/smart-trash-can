@@ -130,7 +130,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=('pre-commit', 'pre-push', 'pre-pr', 'compile', 'install-hooks', 'pr'))
     parser.add_argument('--base', default='origin/main')
-    parser.add_argument('--project', choices=ARDUINO + IDF + BOARDS + ESPNOW + ('s31_bringup',))
+    parser.add_argument('--project', choices=ARDUINO + IDF + BOARDS + ESPNOW + S31)
     args, extra = parser.parse_known_args()
     if args.action != 'pr' and extra:
         parser.error('unrecognized arguments: ' + ' '.join(extra))

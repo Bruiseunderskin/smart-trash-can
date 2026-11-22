@@ -279,6 +279,14 @@ stc_err_t stc_game_controller_ui_action(stc_ui_action_t action,
         }
         break;
     }
+    case STC_UI_ACTION_ASK: {
+        /* Hand the screen to the voice assistant. Builds without a chat shell
+         * leave the port NULL and the tap does nothing. */
+        if (g_ports.request_chat) {
+            g_ports.request_chat(g_user);
+        }
+        break;
+    }
     case STC_UI_ACTION_NEXT: {
         if (before.phase != STC_PH_LEARNING) {
             break;

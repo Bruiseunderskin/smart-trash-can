@@ -38,33 +38,31 @@ struct stc_chat_ui {
 typedef struct {
     const char *heading;
     const char *message;
-    const char *hint;
     const char *primary;
     const char *secondary;
     const lv_image_dsc_t *mascot;
 } ChatDefaults;
 
 static const ChatDefaults defaults[] = {
+    /* READY has no primary action: 問綠豆 hands the turn to the xiaozhi
+     * voice app, so the only useful control is the way back. */
     [STC_CHAT_READY] = {
         "有咩想問？",
         "我可以同你傾吓垃圾分類。",
-        "直接講出你想問嘅環保問題。",
-        "開始講",
+        NULL,
         "返回主頁",
         &stc_lp_img_mascot_idle,
     },
     [STC_CHAT_LISTENING] = {
         "聽緊你講",
         "慢慢講，我聽緊。",
-        "講完一句就可以停。",
-        "停止",
+        "講完",
         "返回主頁",
         &stc_lp_img_mascot_listen,
     },
     [STC_CHAT_THINKING] = {
         "諗緊",
         "等我諗一諗。",
-        "我整理緊資料，稍等一陣。",
         "取消",
         "返回主頁",
         &stc_lp_img_mascot_idle,
@@ -72,7 +70,6 @@ static const ChatDefaults defaults[] = {
     [STC_CHAT_ANSWERING] = {
         "綠豆話",
         "答案會喺呢度顯示。",
-        "可以繼續問下一題。",
         "再問一題",
         "返回主頁",
         &stc_lp_img_mascot_talk,
@@ -80,7 +77,6 @@ static const ChatDefaults defaults[] = {
     [STC_CHAT_OFFLINE] = {
         "暫時未能連線",
         "請稍後再試。",
-        "網絡恢復後可以繼續。",
         "重試",
         "返回主頁",
         &stc_lp_img_mascot_sad,
@@ -88,7 +84,6 @@ static const ChatDefaults defaults[] = {
     [STC_CHAT_ASR_RETRY] = {
         "聽唔清楚",
         "唔緊要，請再講一次。",
-        "可以慢慢講。",
         "再講一次",
         "返回主頁",
         &stc_lp_img_mascot_puzzled,
@@ -96,7 +91,6 @@ static const ChatDefaults defaults[] = {
     [STC_CHAT_COUNTDOWN] = {
         "仲想問？",
         "想繼續可以直接講。",
-        "15 秒後返回主頁。",
         "繼續問",
         "返回主頁",
         &stc_lp_img_mascot_idle,
@@ -204,6 +198,16 @@ static const char *choose(const char *value, const char *fallback) {
     return value != NULL && value[0] != '\0' ? value : fallback;
 }
 
+/* Figma chat2/01-07 put 已連線 in six frames and 暫時離線 in 05-offline. */
+static const char *chat_status(stc_chat_state_t state) {
+    switch (state) {
+        case STC_CHAT_OFFLINE:
+            return "暫時離線";
+        default:
+            return "已連線";
+    }
+}
+
 static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
     const ChatDefaults *fallback = &defaults[payload->state];
     lv_obj_clean(ui->container);
@@ -212,24 +216,28 @@ static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
     lv_obj_set_style_bg_color(ui->container, lv_color_hex(CHAT_BG), 0);
     lv_obj_set_style_bg_opa(ui->container, LV_OPA_COVER, 0);
 
+    /* Figma chat2-xx: rounded 24,24,752x56 bar, "問綠豆" left, connection
+     * state right. This is not the game topbar, by design. */
     lv_obj_t *bar =
         chat_box(ui->container, 24, 24, 752, 56, CHAT_BRAND, 16, 0,
                  CHAT_BRAND);
-    chat_label(bar, "分類小隊", 24, 0, 240, 56, FONT_BODY_BOLD,
+    chat_label(bar, "問綠豆", 24, 0, 240, 56, FONT_BODY_BOLD,
                CHAT_ON_BRAND, LV_TEXT_ALIGN_LEFT);
-    chat_label(bar, "CHAT", 568, 0, 160, 56, FONT_BODY_BOLD, CHAT_ACCENT,
-               LV_TEXT_ALIGN_RIGHT);
+    chat_label(bar, chat_status(payload->state), 520, 0, 208, 56,
+               FONT_BODY_BOLD, CHAT_ACCENT, LV_TEXT_ALIGN_RIGHT);
 
     chat_label(ui->container, choose(payload->heading, fallback->heading), 24,
                96, 620, 48, FONT_TITLE, CHAT_FG, LV_TEXT_ALIGN_LEFT);
     chat_image(ui->container, fallback->mascot, 664, 96, 88, 88);
 
     lv_obj_t *speech =
-        chat_box(ui->container, 24, 158, 632, 180, CHAT_SURFACE, 24, 0,
-                 CHAT_SURFACE);
+        chat_box(ui->container, 24, 158, 632, LV_SIZE_CONTENT, CHAT_SURFACE,
+                 24, 0, CHAT_SURFACE);
     lv_obj_set_flex_flow(speech, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_style_pad_all(speech, 14, 0);
     lv_obj_set_style_pad_row(speech, 6, 0);
+    /* Hug the text, but never grow past the room above the buttons. */
+    lv_obj_set_style_max_height(speech, 180, 0);
     lv_obj_add_flag(speech, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_scroll_dir(speech, LV_DIR_VER);
     lv_obj_set_scrollbar_mode(speech, LV_SCROLLBAR_MODE_AUTO);
@@ -240,14 +248,19 @@ static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
                560, LV_SIZE_CONTENT,
                ui->message_font != NULL ? ui->message_font : FONT_CAPTION,
                CHAT_FG, LV_TEXT_ALIGN_LEFT);
-    chat_label(ui->container, choose(payload->hint, fallback->hint), 24, 342,
-               632, 24, FONT_CAPTION, CHAT_MUTED, LV_TEXT_ALIGN_LEFT);
 
     const char *primary =
         choose(payload->primary_label, fallback->primary);
     const char *secondary =
         choose(payload->secondary_label, fallback->secondary);
-    if (secondary != NULL) {
+    if (primary == NULL) {
+        /* No primary action: the controller hands the turn to voice. */
+        if (secondary != NULL) {
+            lv_obj_t *back =
+                chat_button(ui->container, secondary, 24, 368, 736, 88, false);
+            bind_chat_action(ui, back, STC_CHAT_ACTION_BACK);
+        }
+    } else if (secondary != NULL) {
         lv_obj_t *back =
             chat_button(ui->container, secondary, 24, 368, 352, 88, false);
         bind_chat_action(ui, back, STC_CHAT_ACTION_BACK);
