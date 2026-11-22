@@ -24,6 +24,7 @@ OUT = HERE / "build" / "png"
 # state -> milliseconds to advance before capturing (the countdown moves)
 STATES = [
     ("idle", 0),
+    ("intro", 0),
     ("scan_ready", 0),
     ("capturing", 0),
     ("classifying", 0),
@@ -42,6 +43,8 @@ STATES = [
     ("ask_offline", 0),
     ("ask_asr_retry", 0),
     ("ask_countdown", 0),
+    ("ask_no_answer", 0),
+    ("ask_goodbye", 0),
 ]
 
 W, H = 800, 480
@@ -59,9 +62,9 @@ def render(state: str, ticks: int) -> Image.Image:
     if "layout=FAIL" in proc.stdout:
         sys.exit(f"{state}: stc_ui_check_layout failed\n{proc.stdout}")
     data = raw.read_bytes()
-    if len(data) != W * H * 4:
-        sys.exit(f"{state}: expected {W * H * 4} bytes, got {len(data)}")
-    image = Image.frombytes("RGBA", (W, H), data, "raw", "BGRA").convert("RGB")
+    if len(data) != W * H * 2:
+        sys.exit(f"{state}: expected {W * H * 2} bytes, got {len(data)}")
+    image = Image.frombytes("RGB", (W, H), data, "raw", "BGR;16")
     image.save(OUT / f"{state}.png")
     raw.unlink()
     return image

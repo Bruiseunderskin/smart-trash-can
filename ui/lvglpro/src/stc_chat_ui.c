@@ -19,6 +19,9 @@
 #define FONT_BODY      (&stc_lp_font_tc_medium_32)
 #define FONT_BODY_BOLD (&stc_lp_font_tc_bold_32)
 #define FONT_TITLE     (&stc_lp_font_tc_bold_40)
+#define FONT_H1        (&stc_lp_font_tc_bold_56)
+#define OUTER          24
+#define CONTROL_H      64
 
 typedef struct {
     stc_chat_ui_t *ui;
@@ -56,44 +59,58 @@ static const ChatDefaults defaults[] = {
     [STC_CHAT_LISTENING] = {
         "聽緊你講",
         "慢慢講，我聽緊。",
-        "講完",
+        NULL,
         "返回主頁",
         &stc_lp_img_mascot_listen,
     },
     [STC_CHAT_THINKING] = {
         "諗緊",
         "等我諗一諗。",
-        "取消",
+        NULL,
         "返回主頁",
         &stc_lp_img_mascot_idle,
     },
     [STC_CHAT_ANSWERING] = {
         "綠豆話",
         "答案會喺呢度顯示。",
-        "再問一題",
+        NULL,
         "返回主頁",
         &stc_lp_img_mascot_talk,
     },
     [STC_CHAT_OFFLINE] = {
         "暫時未能連線",
         "請稍後再試。",
-        "重試",
+        NULL,
         "返回主頁",
         &stc_lp_img_mascot_sad,
     },
     [STC_CHAT_ASR_RETRY] = {
         "聽唔清楚",
         "唔緊要，請再講一次。",
-        "再講一次",
+        NULL,
         "返回主頁",
         &stc_lp_img_mascot_puzzled,
     },
     [STC_CHAT_COUNTDOWN] = {
         "仲想問？",
         "想繼續可以直接講。",
-        "繼續問",
+        NULL,
         "返回主頁",
         &stc_lp_img_mascot_idle,
+    },
+    [STC_CHAT_NO_ANSWER] = {
+        "答唔到",
+        "問其他問題。",
+        NULL,
+        "返回主頁",
+        &stc_lp_img_mascot_puzzled,
+    },
+    [STC_CHAT_GOODBYE] = {
+        "再傾",
+        "返回主頁再傾。",
+        NULL,
+        NULL,
+        &stc_lp_img_mascot_happy,
     },
 };
 
@@ -219,25 +236,25 @@ static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
     /* Figma chat2-xx: rounded 24,24,752x56 bar, "問綠豆" left, connection
      * state right. This is not the game topbar, by design. */
     lv_obj_t *bar =
-        chat_box(ui->container, 24, 24, 752, 56, CHAT_BRAND, 16, 0,
-                 CHAT_BRAND);
-    chat_label(bar, "問綠豆", 24, 0, 240, 56, FONT_BODY_BOLD,
+        chat_box(ui->container, 0, 0, 800, 72, CHAT_BRAND, 0, 0, CHAT_BRAND);
+    chat_label(bar, "分類小隊", 24, 16, 352, 44, FONT_BODY_BOLD,
                CHAT_ON_BRAND, LV_TEXT_ALIGN_LEFT);
-    chat_label(bar, chat_status(payload->state), 520, 0, 208, 56,
+    chat_label(bar, chat_status(payload->state), 424, 16, 216, 44,
                FONT_BODY_BOLD, CHAT_ACCENT, LV_TEXT_ALIGN_RIGHT);
+    chat_image(bar, &stc_lp_img_flame, 744, 20, 32, 32);
 
     chat_label(ui->container, choose(payload->heading, fallback->heading), 24,
-               96, 620, 48, FONT_TITLE, CHAT_FG, LV_TEXT_ALIGN_LEFT);
-    chat_image(ui->container, fallback->mascot, 664, 96, 88, 88);
+               104, 600, 72, FONT_H1, CHAT_FG, LV_TEXT_ALIGN_LEFT);
+    chat_image(ui->container, fallback->mascot, 664, 104, 88, 88);
 
     lv_obj_t *speech =
-        chat_box(ui->container, 24, 158, 632, LV_SIZE_CONTENT, CHAT_SURFACE,
-                 24, 0, CHAT_SURFACE);
+        chat_box(ui->container, 24, 190, 632, LV_SIZE_CONTENT, CHAT_SURFACE,
+                 16, 0, CHAT_SURFACE);
     lv_obj_set_flex_flow(speech, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_style_pad_all(speech, 14, 0);
+    lv_obj_set_style_pad_all(speech, 24, 0);
     lv_obj_set_style_pad_row(speech, 6, 0);
     /* Hug the text, but never grow past the room above the buttons. */
-    lv_obj_set_style_max_height(speech, 180, 0);
+    lv_obj_set_style_max_height(speech, 168, 0);
     lv_obj_add_flag(speech, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_scroll_dir(speech, LV_DIR_VER);
     lv_obj_set_scrollbar_mode(speech, LV_SCROLLBAR_MODE_AUTO);
@@ -257,19 +274,19 @@ static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
         /* No primary action: the controller hands the turn to voice. */
         if (secondary != NULL) {
             lv_obj_t *back =
-                chat_button(ui->container, secondary, 24, 368, 736, 88, false);
+                chat_button(ui->container, secondary, OUTER, 392, 752, CONTROL_H, false);
             bind_chat_action(ui, back, STC_CHAT_ACTION_BACK);
         }
     } else if (secondary != NULL) {
-        lv_obj_t *back =
-            chat_button(ui->container, secondary, 24, 368, 352, 88, false);
-        bind_chat_action(ui, back, STC_CHAT_ACTION_BACK);
         lv_obj_t *action =
-            chat_button(ui->container, primary, 408, 368, 352, 88, true);
+            chat_button(ui->container, primary, OUTER, 392, 364, CONTROL_H, true);
+        bind_chat_action(ui, action, STC_CHAT_ACTION_PRIMARY);
+        lv_obj_t *back =
+            chat_button(ui->container, secondary, 412, 392, 364, CONTROL_H, false);
         bind_chat_action(ui, action, STC_CHAT_ACTION_PRIMARY);
     } else {
         lv_obj_t *action =
-            chat_button(ui->container, primary, 24, 368, 736, 88, true);
+            chat_button(ui->container, primary, OUTER, 392, 752, CONTROL_H, true);
         bind_chat_action(ui, action, STC_CHAT_ACTION_PRIMARY);
     }
     lv_obj_update_layout(ui->container);
@@ -358,7 +375,7 @@ bool stc_chat_ui_apply(stc_chat_ui_t *ui,
                        const stc_chat_payload_t *payload) {
     if (ui == NULL || ui->container == NULL || payload == NULL ||
         payload->state < STC_CHAT_READY ||
-        payload->state > STC_CHAT_COUNTDOWN) {
+        payload->state > STC_CHAT_GOODBYE) {
         return false;
     }
     render(ui, payload);

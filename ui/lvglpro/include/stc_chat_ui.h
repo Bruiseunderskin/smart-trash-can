@@ -18,6 +18,8 @@ typedef enum {
     STC_CHAT_OFFLINE,
     STC_CHAT_ASR_RETRY,
     STC_CHAT_COUNTDOWN,
+    STC_CHAT_NO_ANSWER,
+    STC_CHAT_GOODBYE,
 } stc_chat_state_t;
 
 typedef enum {

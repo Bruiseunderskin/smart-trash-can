@@ -34,6 +34,21 @@ extern const lv_font_t stc_lp_font_tc_bold_112;
 #define FONT_NUM_H2    (&stc_lp_font_num_bold_40)
 #define FONT_NUM_SCORE (&stc_lp_font_num_bold_80)
 
+/* Figma space variables (design/tokens.json). */
+#define SP_XS 8
+#define SP_SM 16
+#define SP_MD 24
+#define SP_LG 40
+#define SP_XL 64
+#define OUTER SP_MD
+#define CARD_PAD SP_MD
+#define COMPACT_PAD SP_SM
+#define ICON_GAP SP_MD
+#define SECTION_GAP SP_SM
+#define TEXT_GAP SP_XS
+#define CONTROL_H SP_XL
+#define PAGE_W (800 - 2 * OUTER)
+
 #define MAX_ACTIONS 24
 
 typedef struct {
@@ -66,6 +81,7 @@ struct stc_ui {
     uint8_t round;
     uint8_t rounds_total;
     int category_value;
+    float confidence_value;
     bool lid_open;
     bool reduced;
     bool acknowledged;
@@ -85,12 +101,13 @@ struct stc_ui {
     stc_chat_ui_t *ask;
     stc_chat_payload_t ask_payload;
     bool ask_valid;
+    bool intro_seen;
 };
 
 static const char *state_names[] = {
     "idle", "capturing", "classifying", "result_ok", "result_retry",
     "error", "category_guide", "learning", "summary", "scan_ready",
-    "bin_choice", "ask",
+    "bin_choice", "ask", "intro",
 };
 
 static const uint32_t category_colors[STC_CATEGORY_COUNT] = {
@@ -102,6 +119,10 @@ static const uint32_t category_colors[STC_CATEGORY_COUNT] = {
  * longer category labels ("可回收", not "可回收物"). */
 static const char *const bin_names[STC_CATEGORY_COUNT] = {
     "可回收", "廚餘", "有害", "其他",
+};
+/* One-line examples so a child can tell the four bins apart. */
+static const char *const bin_examples[STC_CATEGORY_COUNT] = {
+    "膠樽", "剩飯", "電池", "紙巾",
 };
 
 /* 96 px sources so the result page shows the glyph 1:1 instead of a blurry
@@ -274,7 +295,7 @@ static void set_header(stc_ui_t *ui) {
         /* Figma 5:81: the result topbar shows the streak, not the round. */
         snprintf(text, sizeof(text), "連對 %lu 次",
                  (unsigned long)ui->streak_value);
-    } else if (ui->state == STC_IDLE) {
+    } else if (ui->state == STC_IDLE || ui->state == STC_INTRO) {
         /* Figma state/idle (5:38): the bar says 準備好 before a round starts;
          * a score only exists after the first round. */
         snprintf(text, sizeof(text), "準備好");
@@ -361,7 +382,7 @@ static void camera_update(stc_ui_t *ui) {
         lv_obj_center(ui->camera_image);
         return;
     }
-    image(ui->camera, &stc_lp_img_camera, 304, 20, 48, 48);
+    image(ui->camera, &stc_lp_img_camera, 336, 20, 48, 48);
     /* The placeholder must not contradict the status line underneath it. */
     const char *placeholder = "等待相機畫面";
     if (ui->state == STC_CLASSIFYING) {
@@ -375,48 +396,63 @@ static void camera_update(stc_ui_t *ui) {
 
 static lv_obj_t *camera_card(stc_ui_t *ui, const char *title,
                              const char *subtitle) {
-    lv_obj_t *card = box(ui->container, 32, 116, 736, 240,
+    lv_obj_t *card = box(ui->container, OUTER, 104, PAGE_W, 360,
                          COLOR_BRAND_LIGHT, 16, 0, COLOR_BRAND_LIGHT);
-    ui->camera = box(card, 40, 14, 656, 150, COLOR_BRAND, 12, 3,
-                     COLOR_ON_BRAND);
+    ui->camera = box(card, COMPACT_PAD, COMPACT_PAD, PAGE_W - 2 * COMPACT_PAD,
+                     244, COLOR_BRAND, 12, 3, COLOR_ON_BRAND);
     lv_obj_set_style_border_opa(ui->camera, 92, 0);
-    label(card, title, 24, 174, 688, 38, FONT_BODY_BOLD, COLOR_ON_BRAND,
+    label(card, title, 32, 270, 688, 44, FONT_H2, COLOR_ON_BRAND,
           LV_TEXT_ALIGN_CENTER);
-    label(card, subtitle, 24, 212, 688, 26, FONT_CAPTION, 0xD5E5DC,
+    label(card, subtitle, 32, 314, 688, 26, FONT_CAPTION, 0xD5E5DC,
           LV_TEXT_ALIGN_CENTER);
-    ui->scan = box(card, 630, 18, 56, 56, COLOR_ACCENT, LV_RADIUS_CIRCLE, 0,
-                   COLOR_ACCENT);
-    lv_obj_set_style_bg_opa(ui->scan, 100, 0);
-    label(card, "AI", 630, 33, 56, 32, FONT_BODY_BOLD, COLOR_ON_ACCENT,
-          LV_TEXT_ALIGN_CENTER);
+
     return card;
 }
 
 static void home_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
-    /* Figma state/idle (5:36): title, camera placeholder card, score panel,
-     * one full-width start button. */
-    label(ui->container, "一起做分類小達人", 24, 96, 752, 80, FONT_H1,
-          COLOR_FG, LV_TEXT_ALIGN_LEFT);
-    label(ui->container, "放一件物件落台", 24, 184, 352, 48, FONT_BODY_BOLD,
-          COLOR_FG, LV_TEXT_ALIGN_LEFT);
-    box(ui->container, 24, 232, 320, 144, COLOR_BRAND, 16, 0, COLOR_BRAND);
-    image(ui->container, &stc_lp_img_camera, 160, 256, 48, 48);
-    label(ui->container, "等待相機畫面", 64, 320, 240, 45, FONT_BODY_BOLD,
-          COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
-    box(ui->container, 408, 232, 368, 144, COLOR_SURFACE, 16, 0,
-        COLOR_SURFACE);
-    box(ui->container, 408, 232, 368, 8, COLOR_ACCENT, 0, 0, COLOR_ACCENT);
-    label(ui->container, "目前分數", 432, 184, 320, 48, FONT_BODY_BOLD,
-          COLOR_FG, LV_TEXT_ALIGN_LEFT);
-    char score[16];
-    snprintf(score, sizeof(score), "%lu", (unsigned long)ui->score_value);
-    label(ui->container, score, 432, 240, 320, 96, FONT_NUM_SCORE, COLOR_FG,
-          LV_TEXT_ALIGN_LEFT);
+    /* First page: title only, then 開始遊戲 / 問綠豆. */
+    label(ui->container, "一起做分類小達人", OUTER, 152, PAGE_W, 96, FONT_H1,
+          COLOR_FG, LV_TEXT_ALIGN_CENTER);
+    label(ui->container, "5 回合 · 認識垃圾分類", OUTER, 252, PAGE_W, 48,
+          FONT_SUBTITLE, COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
+    image(ui->container, &stc_lp_img_mascot_idle, 688, 128, 64, 64);
     lv_obj_t *start =
-        button(ui->container, "開始挑戰", 24, 400, 752, 64, true);
-    bind_action(ui, start, STC_ACTION_START, -1, false);
+        button(ui->container, "開始遊戲", OUTER, 392, 364, CONTROL_H, true);
+    bind_action(ui, start, ui->intro_seen ? STC_ACTION_SCAN : STC_ACTION_START,
+                -1, false);
+    lv_obj_t *ask =
+        button(ui->container, "問綠豆", 412, 392, 364, CONTROL_H, false);
+    bind_action(ui, ask, STC_ACTION_ASK, -1, false);
+}
+
+static void intro_screen(stc_ui_t *ui) {
+    page_background(ui);
+    topbar(ui);
+    /* Figma state/03-intro (110:780): three numbered steps, then start. */
+    static const char *const numbers[3] = {"1", "2", "3"};
+    static const char *const titles[3] = {
+        "放在鏡頭前", "投入垃圾桶", "等蓋關閉",
+    };
+    for (int i = 0; i < 3; ++i) {
+        const int card_w = 240;
+        const int x = OUTER + i * (card_w + SECTION_GAP);
+        box(ui->container, x, 144, card_w, 188, COLOR_SURFACE, 16, 0,
+            COLOR_SURFACE);
+        lv_obj_t *dot =
+            box(ui->container, x + 98, 172, 44, 44, COLOR_ACCENT,
+                LV_RADIUS_CIRCLE, 0, COLOR_ACCENT);
+        lv_obj_t *num =
+            label(ui->container, numbers[i], 0, 0, -1, -1, FONT_BODY_BOLD,
+                  COLOR_ON_ACCENT, LV_TEXT_ALIGN_CENTER);
+        lv_obj_align_to(num, dot, LV_ALIGN_CENTER, 0, 0);
+        label(ui->container, titles[i], x + TEXT_GAP, 248, card_w - 2 * TEXT_GAP,
+              56, FONT_H2, COLOR_FG, LV_TEXT_ALIGN_CENTER);
+    }
+    lv_obj_t *start =
+        button(ui->container, "開始掃描", OUTER, 392, PAGE_W, CONTROL_H, true);
+    bind_action(ui, start, STC_ACTION_SCAN, -1, false);
 }
 
 static void scan_ready_screen(stc_ui_t *ui) {
@@ -426,24 +462,28 @@ static void scan_ready_screen(stc_ui_t *ui) {
      * bar is the only cue. One tap per session stays on the home screen. */
     countdown_bar(ui, STC_ACTION_SCAN, true, 104);
     lv_obj_t *card =
-        box(ui->container, 32, 116, 736, 220, COLOR_BRAND_LIGHT, 16, 0,
+        box(ui->container, OUTER, 116, PAGE_W, 300, COLOR_BRAND_LIGHT, 16, 0,
             COLOR_BRAND_LIGHT);
-    image(card, &stc_lp_img_mic, 336, 28, 64, 64);
-    label(card, "將垃圾放在鏡頭前", 32, 100, 672, 64, FONT_H1,
-          COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
-    label(card, "3 秒後自動掃描", 32, 172, 672, 40, FONT_HINT,
-          0xD5E5DC, LV_TEXT_ALIGN_CENTER);
+    lv_obj_t *frame =
+        box(card, COMPACT_PAD, COMPACT_PAD, PAGE_W - 2 * COMPACT_PAD, 140,
+            COLOR_BRAND, 12, 3, COLOR_ON_BRAND);
+    lv_obj_set_style_border_opa(frame, 92, 0);
+    image(card, &stc_lp_img_camera,
+          COMPACT_PAD + (PAGE_W - 2 * COMPACT_PAD - 64) / 2, 54, 64, 64);
+    label(card, "將垃圾放在鏡頭前", COMPACT_PAD, 160, PAGE_W - 2 * COMPACT_PAD,
+          64, FONT_H1, COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
+    label(card, "3 秒後自動掃描", COMPACT_PAD, 246,
+          PAGE_W - 2 * COMPACT_PAD, 40, FONT_HINT, 0xD5E5DC,
+          LV_TEXT_ALIGN_CENTER);
 }
 
 static void capturing_screen(stc_ui_t *ui, stc_state_t state) {
     page_background(ui);
     topbar(ui);
+    /* Whole screen is the camera: no back button during capture. */
     camera_card(ui,
-                state == STC_CAPTURING ? "正在辨識卡牌" : "整理緊結果",
+                state == STC_CAPTURING ? "正在辨識" : "整理緊結果",
                 "保持卡牌完整喺鏡頭框內");
-    lv_obj_t *cancel =
-        button(ui->container, "返回主頁", 32, 368, 736, 88, false);
-    bind_action(ui, cancel, STC_ACTION_HOME, -1, false);
     animate_scan(ui);
 }
 
@@ -468,10 +508,10 @@ static void retry_screen(stc_ui_t *ui) {
                   LV_TEXT_ALIGN_RIGHT);
     }
     lv_obj_t *retry =
-        button(ui->container, "重新掃描", 32, 368, 352, 88, true);
+        button(ui->container, "重新掃描", OUTER, 392, 364, CONTROL_H, true);
     bind_action(ui, retry, STC_ACTION_START, -1, false);
     lv_obj_t *home =
-        button(ui->container, "返回主頁", 416, 368, 352, 88, false);
+        button(ui->container, "返回主頁", 412, 392, 364, CONTROL_H, false);
     bind_action(ui, home, STC_ACTION_HOME, -1, true);
 }
 
@@ -543,20 +583,24 @@ static bool result_is_last_round(const stc_ui_t *ui) {
  * Every screen that uses it needs no button: the round moves on its own. */
 static void countdown_bar(stc_ui_t *ui, stc_action_t action, bool arm, int y) {
     ui->auto_action = action;
-    ui->auto_bar = lv_bar_create(ui->container);
-    lv_obj_remove_style_all(ui->auto_bar);
-    lv_obj_set_pos(ui->auto_bar, 32, y);
-    lv_obj_set_size(ui->auto_bar, 736, 8);
-    lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
-    lv_bar_set_value(ui->auto_bar, arm ? AUTO_ADVANCE_TICKS : 0, LV_ANIM_OFF);
-    lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_LINE), 0);
-    lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, 0);
-    lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_ACCENT),
-                              LV_PART_INDICATOR);
-    lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, LV_PART_INDICATOR);
-    lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE, 0);
-    lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE,
-                            LV_PART_INDICATOR);
+    if (y >= 0) {
+        ui->auto_bar = lv_bar_create(ui->container);
+        lv_obj_remove_style_all(ui->auto_bar);
+        lv_obj_set_pos(ui->auto_bar, 32, y);
+        lv_obj_set_size(ui->auto_bar, 736, 8);
+        lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
+        lv_bar_set_value(ui->auto_bar, arm ? AUTO_ADVANCE_TICKS : 0,
+                         LV_ANIM_OFF);
+        lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_LINE), 0);
+        lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, 0);
+        lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_ACCENT),
+                                  LV_PART_INDICATOR);
+        lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER,
+                                LV_PART_INDICATOR);
+        lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE, 0);
+        lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE,
+                                LV_PART_INDICATOR);
+    }
     if (arm) {
         ui->auto_left = AUTO_ADVANCE_TICKS;
         ui->auto_armed = true;
@@ -564,80 +608,95 @@ static void countdown_bar(stc_ui_t *ui, stc_action_t action, bool arm, int y) {
     }
 }
 
+static void result_bin_card(stc_ui_t *ui, int index, bool selected) {
+    const int card_w = 166;
+    const int gap = (PAGE_W - STC_CATEGORY_COUNT * card_w) /
+                    (STC_CATEGORY_COUNT - 1);
+    const int x = OUTER + index * (card_w + gap);
+    const uint32_t accent = category_colors[index];
+    lv_obj_t *card = lv_obj_create(ui->container);
+    lv_obj_remove_style_all(card);
+    lv_obj_set_pos(card, x, 216);
+    lv_obj_set_size(card, card_w, 248);
+    lv_obj_remove_flag(card, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_style_radius(card, 16, 0);
+    lv_obj_set_style_bg_color(
+        card, lv_color_hex(selected ? accent : COLOR_SURFACE), 0);
+    lv_obj_set_style_bg_opa(card, selected ? 46 : LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(card, selected ? 4 : 2, 0);
+    lv_obj_set_style_border_color(card, lv_color_hex(accent), 0);
+    if (selected) {
+        /* The chosen bin glows; the rest fade back. */
+        lv_obj_set_style_shadow_width(card, 26, 0);
+        lv_obj_set_style_shadow_color(card, lv_color_hex(accent), 0);
+        lv_obj_set_style_shadow_opa(card, LV_OPA_60, 0);
+        lv_obj_set_style_shadow_spread(card, 2, 0);
+    } else {
+        lv_obj_set_style_opa(card, 110, 0);
+    }
+    image(card, category_images[index], (card_w - 88) / 2, 40, 88, 88);
+    label(card, bin_names[index], 0, 152, card_w, 52, FONT_H2, COLOR_FG,
+          LV_TEXT_ALIGN_CENTER);
+    label(card, bin_examples[index], 0, 202, card_w, 34, FONT_HINT,
+          COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
+}
+
 static void result_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
-    /* Figma state/result_ok (5:79): 112 px category name, object thumb, score
-     * with tip, wait pill, and a 完成 button living in the topbar. */
+    progress_bar(ui);
+    /* Figma 286:74: opening-lid title, AI verdict line, and four bins with the
+     * chosen one washed in its category colour plus an "AI 選" chip. */
     const bool last = result_is_last_round(ui);
-    countdown_bar(ui, STC_ACTION_NEXT, !ui->lid_open && !last, 72);
-
-    lv_obj_t *finish = button(ui->container, "完成", 648, 12, 128, 48, true);
-    bind_action(ui, finish, STC_ACTION_FINISH, -1, false);
-
+    const bool waiting = ui->lid_open;
+    countdown_bar(ui, STC_ACTION_NEXT, !waiting && !last, -1);
+    if (last) {
+        lv_obj_t *finish =
+            button(ui->container, "完成", 648, 12, 128, 48, true);
+        bind_action(ui, finish, STC_ACTION_FINISH, -1, false);
+    }
+    label(ui->container, "正在開啟桶蓋", 32, 128, 736, 64, FONT_H1,
+          COLOR_FG, LV_TEXT_ALIGN_LEFT);
+    image(ui->container, &stc_lp_img_mascot_happy, 704, 128, 64, 64);
     const int category =
         ui->category_value >= 0 && ui->category_value < STC_CATEGORY_COUNT
             ? ui->category_value
             : -1;
-    if (category >= 0) {
-        label(ui->container, stc_category_label(category), 24, 80, 512, 144,
-              FONT_CAT, category_colors[category], LV_TEXT_ALIGN_LEFT);
-        image(ui->container, category_images[category], 680, 104, 96, 96);
-    } else {
-        label(ui->container, "未能分類", 24, 80, 512, 144, FONT_CAT,
-              COLOR_FG, LV_TEXT_ALIGN_LEFT);
-        image(ui->container, &stc_lp_img_no_object, 680, 104, 96, 96);
+    (void)category;
+    for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
+        result_bin_card(ui, i, i == category);
     }
-    box(ui->container, 552, 104, 112, 112, 0x183A2A, 16, 0, 0x183A2A);
-    image(ui->container, &stc_lp_img_camera, 584, 136, 48, 48);
-
-    label(ui->container, "目前分數", 24, 240, 232, 40, FONT_CAPTION, 0x1C7A4A,
-          LV_TEXT_ALIGN_LEFT);
-    char score[16];
-    snprintf(score, sizeof(score), "%lu", (unsigned long)ui->score_value);
-    label(ui->container, score, 24, 288, 232, 96, FONT_NUM_SCORE, COLOR_FG,
-          LV_TEXT_ALIGN_LEFT);
-    if (category >= 0) {
-        label(ui->container, learning_tips[category], 280, 288, 496, 96,
-              FONT_BODY_BOLD, COLOR_FG, LV_TEXT_ALIGN_LEFT);
-    }
-    box(ui->container, 24, 400, 752, 64, COLOR_SURFACE, 16, 0,
-        COLOR_SURFACE);
-    label(ui->container,
-          ui->lid_open ? "投入卡牌後自動繼續" : "等待開蓋，請勿推動桶蓋", 48,
-          412, 704, 40, FONT_BODY_BOLD, COLOR_FG, LV_TEXT_ALIGN_LEFT);
 }
 
 static void bin_choice_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
     progress_bar(ui);
-    label(ui->container, "請選擇垃圾桶", 32, 112, 736, 72, FONT_H1,
+    label(ui->container, "請將卡牌放入垃圾桶", 24, 112, 620, 72, FONT_H1,
           COLOR_FG, LV_TEXT_ALIGN_LEFT);
-    if ((ui->debug_flags & STC_UI_DEBUG_TOUCH_BINS) != 0) {
-        label(ui->container, "S3 手部離線 · 請直接點選實際投放嘅桶",
-              32, 192, 736, 34, FONT_HINT, COLOR_MUTED,
-              LV_TEXT_ALIGN_LEFT);
-    } else {
-        label(ui->container, "桶蓋已開啟 · 可投入卡牌或直接點選桶",
-              32, 192, 736, 34, FONT_HINT, COLOR_MUTED,
-              LV_TEXT_ALIGN_LEFT);
-    }
-    const int xs[STC_CATEGORY_COUNT] = {32, 226, 420, 614};
+    const int card_w = 166;
+    const int gap = (PAGE_W - STC_CATEGORY_COUNT * card_w) /
+                    (STC_CATEGORY_COUNT - 1);
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
+        const int x = OUTER + i * (card_w + gap);
+        const bool open = ui->category_value == i;
         lv_obj_t *card =
-            box(ui->container, xs[i], 232, 151, 240, COLOR_SURFACE, 16, 3,
-                category_colors[i]);
-        lv_obj_add_flag(card, LV_OBJ_FLAG_CLICKABLE);
-        lv_obj_t *icon = image(card, category_images[i], 35, 38, 80, 80);
-        lv_obj_t *name =
-            label(card, bin_names[i], 0, 158, 151, 52,
-                  FONT_H2, COLOR_FG, LV_TEXT_ALIGN_CENTER);
-        lv_obj_add_flag(icon,
-                        LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_EVENT_BUBBLE);
-        lv_obj_add_flag(name,
-                        LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_EVENT_BUBBLE);
-        bind_action(ui, card, STC_ACTION_SELECT_BIN, i, false);
+            box(ui->container, x, 216, card_w, 248, COLOR_SURFACE, 16,
+                open ? 4 : 3, category_colors[i]);
+        if (open) {
+            lv_obj_set_style_shadow_width(card, 26, 0);
+            lv_obj_set_style_shadow_color(card, lv_color_hex(category_colors[i]),
+                                          0);
+            lv_obj_set_style_shadow_opa(card, LV_OPA_60, 0);
+            lv_obj_set_style_shadow_spread(card, 2, 0);
+        } else {
+            lv_obj_set_style_opa(card, 110, 0);
+        }
+        image(card, category_images[i], (card_w - 88) / 2, 40, 88, 88);
+        label(card, bin_names[i], 0, 152, card_w, 52,
+              FONT_H2, COLOR_FG, LV_TEXT_ALIGN_CENTER);
+        label(card, bin_examples[i], 0, 202, card_w, 34, FONT_HINT,
+              COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
     }
 }
 
@@ -686,11 +745,9 @@ static void error_screen(stc_ui_t *ui, const char *code) {
         label(ui->container, code, 32, 314, 736, 26, FONT_CAPTION, COLOR_MUTED,
               LV_TEXT_ALIGN_LEFT);
     }
-    lv_obj_t *retry = button(ui->container, "重試", 32, 368, 352, 88, true);
+    lv_obj_t *retry =
+        button(ui->container, "重試", OUTER, 392, PAGE_W, CONTROL_H, true);
     bind_action(ui, retry, STC_ACTION_HOME, -1, true);
-    lv_obj_t *home =
-        button(ui->container, "返回主頁", 416, 368, 352, 88, false);
-    bind_action(ui, home, STC_ACTION_HOME, -1, false);
 }
 
 /* 綠豆. The chat module draws the whole 800x480 canvas, so it is hosted as a
@@ -798,7 +855,7 @@ static void learning_screen(stc_ui_t *ui, int category) {
           32, 310, 736, 42,
           FONT_CAPTION, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
     lv_obj_t *next =
-        button(ui->container, "下一回合", 32, 368, 736, 88, true);
+        button(ui->container, "下一回合", OUTER, 392, PAGE_W, CONTROL_H, true);
     bind_action(ui, next, STC_ACTION_NEXT, -1, false);
 }
 
@@ -841,10 +898,10 @@ static void summary_screen(stc_ui_t *ui) {
     label(stats, "記住：先分類，再投放", 24, 160, 376, 40, FONT_HINT,
           COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
     lv_obj_t *again =
-        button(ui->container, "再玩一次", 32, 368, 352, 88, true);
+        button(ui->container, "再玩一次", OUTER, 392, 364, CONTROL_H, true);
     bind_action(ui, again, STC_ACTION_START, -1, false);
     lv_obj_t *ask =
-        button(ui->container, "問綠豆", 416, 368, 352, 88, false);
+        button(ui->container, "問綠豆", 412, 392, 364, CONTROL_H, false);
     bind_action(ui, ask, STC_ACTION_ASK, -1, false);
     image(ui->container, &stc_lp_img_mascot_happy, 664, 136, 72, 72);
 }
@@ -898,6 +955,10 @@ static void render(stc_ui_t *ui, stc_state_t state, const char *error_code) {
         case STC_ASK:
             ask_screen(ui);
             break;
+        case STC_INTRO:
+            ui->intro_seen = true;
+            intro_screen(ui);
+            break;
         case STC_RESULT_RETRY:
             retry_screen(ui);
             break;
@@ -945,8 +1006,12 @@ static bool transition(stc_ui_t *ui, stc_state_t next) {
     }
     switch (ui->state) {
         case STC_IDLE:
-            return next == STC_SCAN_READY || next == STC_CATEGORY_GUIDE ||
-                   next == STC_SUMMARY || next == STC_ASK;
+            return next == STC_INTRO || next == STC_SCAN_READY ||
+                   next == STC_CATEGORY_GUIDE || next == STC_SUMMARY ||
+                   next == STC_ASK;
+        case STC_INTRO:
+            return next == STC_SCAN_READY || next == STC_CAPTURING ||
+                   next == STC_IDLE || next == STC_ASK;
         case STC_ASK:
             return next == STC_IDLE || next == STC_SCAN_READY ||
                    next == STC_CAPTURING || next == STC_SUMMARY;
@@ -1124,7 +1189,7 @@ void stc_ui_show_summary(stc_ui_t *ui) {
 
 void stc_ui_show_ask(stc_ui_t *ui, const stc_chat_payload_t *payload) {
     if (ui == NULL || payload == NULL || payload->state < STC_CHAT_READY ||
-        payload->state > STC_CHAT_COUNTDOWN) {
+        payload->state > STC_CHAT_GOODBYE) {
         return;
     }
     ui->ask_payload = *payload;
@@ -1180,7 +1245,7 @@ bool stc_ui_apply(stc_ui_t *ui, const stc_payload_t *payload) {
     if (ui == NULL || ui->container == NULL || payload == NULL) {
         return false;
     }
-    if (payload->state < STC_IDLE || payload->state > STC_ASK) {
+    if (payload->state < STC_IDLE || payload->state > STC_INTRO) {
         render(ui, STC_ERROR, "INVALID_STATE");
         ui->acknowledged = false;
         return false;
@@ -1252,6 +1317,7 @@ bool stc_ui_apply(stc_ui_t *ui, const stc_payload_t *payload) {
     ui->round = payload->round;
     ui->rounds_total = payload->rounds_total;
     ui->category_value = payload->category_id;
+    ui->confidence_value = payload->confidence;
     ui->lid_open = payload->lid_open;
     ui->debug_flags = payload->debug_flags;
     ui->learned_scanned_bin = payload->learned_scanned_bin;
@@ -1279,7 +1345,7 @@ stc_state_t stc_ui_state_from_string(const char *state) {
 }
 
 const char *stc_ui_state_name(stc_state_t state) {
-    return state >= STC_IDLE && state <= STC_BIN_CHOICE
+    return state >= STC_IDLE && state <= STC_INTRO
                ? state_names[state]
                : "error";
 }

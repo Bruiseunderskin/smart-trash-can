@@ -17,15 +17,15 @@
 #define W 800
 #define H 480
 
-static uint32_t fb[W * H];
+static uint16_t fb[W * H];
 
 static void flush_cb(lv_display_t *d, const lv_area_t *area, uint8_t *px_map) {
     const int w = lv_area_get_width(area);
     const int h = lv_area_get_height(area);
-    const uint32_t *src = (const uint32_t *)px_map;
+    const uint16_t *src = (const uint16_t *)px_map;
     for (int y = 0; y < h; ++y) {
         memcpy(fb + (size_t)(area->y1 + y) * W + area->x1,
-               src + (size_t)y * w, (size_t)w * 4);
+               src + (size_t)y * w, (size_t)w * 2);
     }
     lv_display_flush_ready(d);
 }
@@ -43,7 +43,7 @@ static int dump(const char *path) {
         perror(path);
         return 0;
     }
-    fwrite(fb, 4, (size_t)W * H, f);
+    fwrite(fb, 2, (size_t)W * H, f);
     fclose(f);
     return 1;
 }
@@ -68,13 +68,13 @@ static stc_payload_t base_payload(stc_state_t st) {
 static void render_ask(stc_ui_t *ui, const char *state, int ticks,
                        const char *out) {
     static const char *const names[] = {
-        "ready",   "listening", "thinking", "answering",
-        "offline", "asr_retry", "countdown",
+        "ready",    "listening", "thinking", "answering",
+        "offline",  "asr_retry", "countdown", "no_answer", "goodbye",
     };
     stc_chat_payload_t cp;
     memset(&cp, 0, sizeof cp);
     cp.state = STC_CHAT_READY;
-    for (int i = 0; i < STC_CHAT_COUNTDOWN + 1; ++i) {
+    for (int i = 0; i < (int)(sizeof names / sizeof names[0]); ++i) {
         if (strcmp(state + 4, names[i]) == 0) {
             cp.state = (stc_chat_state_t)i;
         }
@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
 
     lv_init();
     lv_display_t *disp = lv_display_create(W, H);
-    static uint32_t drawbuf[W * H];
+    static uint16_t drawbuf[W * H];
     lv_display_set_buffers(disp, drawbuf, NULL, sizeof drawbuf,
                            LV_DISPLAY_RENDER_MODE_FULL);
     lv_display_set_flush_cb(disp, flush_cb);
@@ -147,6 +147,9 @@ int main(int argc, char **argv) {
     int n = 0;
     if (target == STC_ERROR) {
         path[n++] = STC_ERROR;
+    } else if (target == STC_INTRO) {
+        path[n++] = STC_IDLE;
+        path[n++] = STC_INTRO;
     } else {
         path[n++] = STC_IDLE;
         if (target != STC_IDLE) path[n++] = STC_SCAN_READY;

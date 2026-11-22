@@ -10,6 +10,13 @@
 
 ### Added
 
+- `docs/chat/luodou-system-prompt.md`：綠豆 system prompt v3（1,640 字），含指令層級、防泄漏、防操控、兒童安全與紅隊測試須知，供隊友直接貼入 xiaozhi 設定。
+- `tools/lvglpro_preview`：預覽由 32-bit XRGB8888 改為 RGB565，同 S31 framebuffer 一致；baselines 重新產生。
+- `ui/lvglpro`：第一頁改為標題＋「開始遊戲」／「問綠豆」；新增 `intro`（3 步）與 `confirm_quit`（返回主頁確認）；`scan_ready` 加觀景框；拍攝／辨識頁全屏相機、移除返回鍵與 AI 角標；錯誤頁只留「重試」。
+- `ui/lvglpro`：問綠豆 9 頁——新增 `ask_no_answer`（答唔到）與 `ask_goodbye`（再傾）；整套 chat 改用分類小隊 topbar、卡片 16 radius、outer 24、control height 64，primary 在左。
+- `ui/lvglpro`：結果／選桶頁四格對回 166×248、y=216、icon 88；選中桶發亮、其餘半透；選桶頁唔再可點，交 ToF／S3 ESP-NOW 回報。
+- `tools/lvglpro_preview`：baselines 更新為 23 個畫面；`intro`、`confirm_quit`、`ask_no_answer`、`ask_goodbye` 已入 render 清單。
+
 - `ui/lvglpro`：回合結果頁改為回合出口——3 秒自動繼續（100 ms tick 的收縮進度條），蓋門未關時不計時。計時器由 `stc_ui_create()` 建立、`container_deleted` 釋放，全程不解構中的 timer。畫面冇主按鈕：回合自動前進。
 - `ui/lvglpro`：四桶卡片對回 Figma `state/08a-await_bin`（110:848）與 `state/08b-lid_closed`（124:214）：標籤 40 px、文案「可回收」、開蓋態白底 2 px 實色邊、閂蓋態未選 3 px soft＋文字 60%、選中 8 px 實色，並移除「AI 選」角標。
 - `ui/lvglpro`：刪除「AI 判斷：… · 信心值 …」一行，以及「3 秒後自動繼續」「投入卡牌後自動繼續」兩句；倒數只由頂部 8 px 綠色進度條表示。

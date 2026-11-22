@@ -11,7 +11,7 @@ extern "C" {
 /* LVGL 9.5; call every function on the LVGL task or under lvgl_port_lock(). */
 typedef enum { STC_IDLE, STC_CAPTURING, STC_CLASSIFYING, STC_RESULT_OK,
                STC_RESULT_RETRY, STC_ERROR, STC_CATEGORY_GUIDE, STC_LEARNING, STC_SUMMARY,
-               STC_SCAN_READY, STC_BIN_CHOICE, STC_ASK } stc_state_t;
+               STC_SCAN_READY, STC_BIN_CHOICE, STC_ASK, STC_INTRO } stc_state_t;
 typedef struct { int category_id; float p; } stc_candidate_t;
 typedef struct {
     stc_state_t state;
