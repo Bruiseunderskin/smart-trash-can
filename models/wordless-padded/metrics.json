@@ -6,185 +6,174 @@
     "food",
     "hazardous",
     "other",
-    "recyclable"
+    "recyclable",
+    "unknown"
   ],
-  "epochs": 12,
+  "epochs": 10,
   "device": "cpu",
   "seeds": [
-    20261111
+    20261122
   ],
   "ensemble_size": 1,
-  "val_accuracy": 0.9996,
-  "val_macro_f1": 0.9995,
-  "val_top1": 0.9996,
+  "val_accuracy": 0.9616,
+  "val_macro_f1": 0.9695,
+  "val_top1": 0.9616,
   "confusion_matrix": [
     [
-      1082,
+      764,
       0,
-      1,
-      0
-    ],
-    [
-      1,
-      1161,
-      0,
+      5,
+      2,
       0
     ],
     [
       0,
+      824,
+      4,
       0,
-      1107,
       0
+    ],
+    [
+      4,
+      5,
+      943,
+      73,
+      0
+    ],
+    [
+      3,
+      6,
+      68,
+      1432,
+      4
     ],
     [
       0,
       0,
       0,
-      1346
+      0,
+      400
     ]
   ],
-  "temperature": 0.5,
-  "ece_raw": 0.0012,
-  "ece_calibrated": 0.0004,
+  "temperature": 1.45,
+  "ece_raw": 0.0173,
+  "ece_calibrated": 0.003,
   "history": [
     {
       "epoch": "1",
-      "time": "229.731",
-      "train/loss": "0.3908",
-      "metrics/accuracy_top1": "0.92486",
+      "time": "301.593",
+      "train/loss": "0.53093",
+      "metrics/accuracy_top1": "0.79744",
       "metrics/accuracy_top5": "1",
-      "val/loss": "0.2256",
-      "lr/pg0": "3.32555e-05",
-      "lr/pg1": "3.32555e-05",
-      "lr/pg2": "0.0667778"
+      "val/loss": "0.48831",
+      "lr/pg0": "3.3265e-05",
+      "lr/pg1": "3.3265e-05",
+      "lr/pg2": "0.0667682"
     },
     {
       "epoch": "2",
-      "time": "476.958",
-      "train/loss": "0.17403",
-      "metrics/accuracy_top1": "0.96871",
+      "time": "600.271",
+      "train/loss": "0.33081",
+      "metrics/accuracy_top1": "0.91448",
       "metrics/accuracy_top5": "1",
-      "val/loss": "0.08654",
-      "lr/pg0": "6.10952e-05",
-      "lr/pg1": "6.10952e-05",
-      "lr/pg2": "0.0334723"
+      "val/loss": "0.22029",
+      "lr/pg0": "6.00051e-05",
+      "lr/pg1": "6.00051e-05",
+      "lr/pg2": "0.0334616"
     },
     {
       "epoch": "3",
-      "time": "731.828",
-      "train/loss": "0.10072",
-      "metrics/accuracy_top1": "0.99447",
+      "time": "891.818",
+      "train/loss": "0.22741",
+      "metrics/accuracy_top1": "0.94269",
       "metrics/accuracy_top5": "1",
-      "val/loss": "0.0185",
-      "lr/pg0": "8.3435e-05",
-      "lr/pg1": "8.3435e-05",
-      "lr/pg2": "0.000161317"
+      "val/loss": "0.1489",
+      "lr/pg0": "8.01452e-05",
+      "lr/pg1": "8.01452e-05",
+      "lr/pg2": "0.000148451"
     },
     {
       "epoch": "4",
-      "time": "876.688",
-      "train/loss": "0.06968",
-      "metrics/accuracy_top1": "0.99787",
+      "time": "1182.99",
+      "train/loss": "0.16843",
+      "metrics/accuracy_top1": "0.94997",
       "metrics/accuracy_top5": "1",
-      "val/loss": "0.00982",
-      "lr/pg0": "7.525e-05",
-      "lr/pg1": "7.525e-05",
-      "lr/pg2": "7.525e-05"
+      "val/loss": "0.13389",
+      "lr/pg0": "7.03e-05",
+      "lr/pg1": "7.03e-05",
+      "lr/pg2": "7.03e-05"
     },
     {
       "epoch": "5",
-      "time": "1070.99",
-      "train/loss": "0.05799",
-      "metrics/accuracy_top1": "0.99787",
+      "time": "1474.32",
+      "train/loss": "0.1332",
+      "metrics/accuracy_top1": "0.95327",
       "metrics/accuracy_top5": "1",
-      "val/loss": "0.00817",
-      "lr/pg0": "6.7e-05",
-      "lr/pg1": "6.7e-05",
-      "lr/pg2": "6.7e-05"
+      "val/loss": "0.1353",
+      "lr/pg0": "6.04e-05",
+      "lr/pg1": "6.04e-05",
+      "lr/pg2": "6.04e-05"
     },
     {
       "epoch": "6",
-      "time": "1297.29",
-      "train/loss": "0.04785",
-      "metrics/accuracy_top1": "0.99851",
+      "time": "1765.95",
+      "train/loss": "0.11157",
+      "metrics/accuracy_top1": "0.95415",
       "metrics/accuracy_top5": "1",
-      "val/loss": "0.0048",
-      "lr/pg0": "5.875e-05",
-      "lr/pg1": "5.875e-05",
-      "lr/pg2": "5.875e-05"
-    },
-    {
-      "epoch": "7",
-      "time": "1509.98",
-      "train/loss": "0.04773",
-      "metrics/accuracy_top1": "0.9983",
-      "metrics/accuracy_top5": "1",
-      "val/loss": "0.00553",
+      "val/loss": "0.13254",
       "lr/pg0": "5.05e-05",
       "lr/pg1": "5.05e-05",
       "lr/pg2": "5.05e-05"
     },
     {
-      "epoch": "8",
-      "time": "1704.48",
-      "train/loss": "0.04124",
-      "metrics/accuracy_top1": "0.99894",
+      "epoch": "7",
+      "time": "2057.58",
+      "train/loss": "0.09631",
+      "metrics/accuracy_top1": "0.95812",
       "metrics/accuracy_top5": "1",
-      "val/loss": "0.00388",
-      "lr/pg0": "4.225e-05",
-      "lr/pg1": "4.225e-05",
-      "lr/pg2": "4.225e-05"
+      "val/loss": "0.13222",
+      "lr/pg0": "4.06e-05",
+      "lr/pg1": "4.06e-05",
+      "lr/pg2": "4.06e-05"
+    },
+    {
+      "epoch": "8",
+      "time": "2349.31",
+      "train/loss": "0.08529",
+      "metrics/accuracy_top1": "0.95878",
+      "metrics/accuracy_top5": "1",
+      "val/loss": "0.12563",
+      "lr/pg0": "3.07e-05",
+      "lr/pg1": "3.07e-05",
+      "lr/pg2": "3.07e-05"
     },
     {
       "epoch": "9",
-      "time": "1906.5",
-      "train/loss": "0.03836",
-      "metrics/accuracy_top1": "0.9983",
+      "time": "2640.89",
+      "train/loss": "0.0729",
+      "metrics/accuracy_top1": "0.96033",
       "metrics/accuracy_top5": "1",
-      "val/loss": "0.00392",
-      "lr/pg0": "3.4e-05",
-      "lr/pg1": "3.4e-05",
-      "lr/pg2": "3.4e-05"
+      "val/loss": "0.12897",
+      "lr/pg0": "2.08e-05",
+      "lr/pg1": "2.08e-05",
+      "lr/pg2": "2.08e-05"
     },
     {
       "epoch": "10",
-      "time": "2106.64",
-      "train/loss": "0.03457",
-      "metrics/accuracy_top1": "0.99957",
+      "time": "2933.1",
+      "train/loss": "0.06901",
+      "metrics/accuracy_top1": "0.96143",
       "metrics/accuracy_top5": "1",
-      "val/loss": "0.00293",
-      "lr/pg0": "2.575e-05",
-      "lr/pg1": "2.575e-05",
-      "lr/pg2": "2.575e-05"
-    },
-    {
-      "epoch": "11",
-      "time": "2291.49",
-      "train/loss": "0.0307",
-      "metrics/accuracy_top1": "0.99957",
-      "metrics/accuracy_top5": "1",
-      "val/loss": "0.00256",
-      "lr/pg0": "1.75e-05",
-      "lr/pg1": "1.75e-05",
-      "lr/pg2": "1.75e-05"
-    },
-    {
-      "epoch": "12",
-      "time": "2481.27",
-      "train/loss": "0.02962",
-      "metrics/accuracy_top1": "0.99936",
-      "metrics/accuracy_top5": "1",
-      "val/loss": "0.00233",
-      "lr/pg0": "9.25e-06",
-      "lr/pg1": "9.25e-06",
-      "lr/pg2": "9.25e-06"
+      "val/loss": "0.12468",
+      "lr/pg0": "1.09e-05",
+      "lr/pg1": "1.09e-05",
+      "lr/pg2": "1.09e-05"
     }
   ],
   "artifacts": {
     "best_pt": "model.pt",
     "onnx_float32": "model-float32.onnx",
-    "onnx_int8": "model-int8.onnx",
-    "labels": "labels.txt"
+    "onnx_int8": "model-int8.onnx"
   },
-  "caveat": "Images are rendered from the card artworks that ship with this model. Unless the dataset was split by card identity, validation scenes reuse training cards; either way this is not real-object, printed-card or field accuracy."
+  "caveat": "Validation is split by card identity; all classes come from the same 38 wordless artworks. This measures recognition of unseen cards from this set, not real-object or field accuracy."
 }

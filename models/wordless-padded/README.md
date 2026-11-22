@@ -1,5 +1,12 @@
 # wordless-padded：印刷卡分類模型與唯一資料集
 
+> **2026-11-22 重訓（5 類，含 unknown）**：新增真實物件相強化廚餘／有害。
+> 外部資料：RealWaste（CC-BY-4.0，food/vegetation/plastic 等）、viola77 recycling-dataset（Apache-2.0，batteries 等）、
+> Tunisian Medicine Boxes（MIT，藥盒）、csmet/xtc_pills（MIT，藥丸）。相片只在本機訓練使用，未入 git。
+> 產物：`wordless_s31.espdl` 1,797,936 bytes、SHA `5fb3ac6e…`、CRC `0x1c55ab7a`。
+> Float val 0.9616（macro-F1 0.9695）；int8 macro-F1 0.9540；17 張 field probe 16/17（舊版 12/17）；
+> medicine held-out int8 160/171（舊版 32/171）。未在 S31 實機跑。
+
 讀者：模型、韌體與卡片設計人員。何時讀：取用分類模型、重建訓練資料，或追查舊資料集問題前。
 
 呢個目錄同時係**模型產物**同**訓練資料唯一 source of truth**。舊路徑（`data/mixed-card-object/`、

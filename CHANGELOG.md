@@ -10,6 +10,7 @@
 
 ### Changed
 
+- `models/wordless-padded/`：重訓 5 類（含 unknown）模型，加入 RealWaste／viola77／medicine 真實相；`wordless_s31.espdl` 1,797,936 bytes（SHA `5fb3ac6e…`、CRC `0x1c55ab7a`），17 張 field probe 16/17（舊 12/17），medicine held-out int8 160/171（舊 32/171）。Firmware `MODEL` 改指 padded 並同步 SHA/CRC。
 - `models/wordless-padded/`：同步 `main@07e59daa`（PR #73）的模型產物——`wordless_s31.espdl` 1,792,992 bytes（w8a8、KL 校準 1,200 張、bias correction、equalization）、`model-int8.onnx`、`model-float32.onnx`、`wordless_s31.metrics.json`、`SHA256SUMS`、`cards.csv`、卡面與真實相片。已知卡未見場景 4,696/4,698（macro-F1 0.9977）；未見卡 fold 0 的 0.739 屬上一代，未在新分佈重跑。未在 S31 實機驗證。
 
 ### Added

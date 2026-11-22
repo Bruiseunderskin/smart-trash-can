@@ -2,7 +2,7 @@ set(STC_ROOT "${CMAKE_CURRENT_LIST_DIR}/../../../..")
 get_filename_component(STC_ROOT "${STC_ROOT}" ABSOLUTE)
 set(COMMON "${STC_ROOT}/firmware/common")
 set(STC_UI_ROOT "${STC_ROOT}/ui/lvglpro")
-set(MODEL "${STC_ROOT}/models/wordless-unknown/wordless_s31.espdl")
+set(MODEL "${STC_ROOT}/models/wordless-padded/wordless_s31.espdl")
 set(REPLAY_PACK "${CMAKE_CURRENT_BINARY_DIR}/game_replay_pack.bin")
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
@@ -21,7 +21,7 @@ endif()
 
 file(SHA256 "${MODEL}" MODEL_SHA)
 if(NOT MODEL_SHA STREQUAL
-   "cd8435624febc592a28053b20450a434b82a04c0642a70cb09c037e0b43910c3")
+   "5fb3ac6e7b1dcbe7d3ecb9e0db26f286bfebeeb4608fa40bdb8665165fdcbaf0")
     message(FATAL_ERROR "wordless_s31.espdl SHA256 mismatch: ${MODEL_SHA}")
 endif()
 file(SHA256 "${REPLAY_PACK}" REPLAY_SHA)
@@ -31,7 +31,7 @@ if(NOT REPLAY_SHA STREQUAL
 endif()
 # The SHA-256 gate above identifies the exact artifact. This CRC was computed
 # from that artifact and is also checked at runtime by replay_classifier.cpp.
-set(MODEL_CRC "0x401b7655")
+set(MODEL_CRC "0x1c55ab7a")
 
 file(GLOB STC_UI_SOURCES
      "${STC_UI_ROOT}/src/stc_ui.c"
