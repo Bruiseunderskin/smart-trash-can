@@ -54,6 +54,8 @@ static stc_payload_t base_payload(stc_state_t st) {
     p.state = st;
     p.round = 3;
     p.rounds_total = 5;
+    p.time_left_ms = 120000;
+    p.time_total_ms = 180000;
     p.category_id = 1;
     p.confidence = 0.93f;
     p.candidates[0].category_id = 1;

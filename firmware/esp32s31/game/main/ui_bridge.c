@@ -75,6 +75,8 @@ bool stc_ui_bridge_apply(void *ui, const stc_ui_bridge_payload_t *payload)
     out.error_code = payload->error_code;
     out.round = payload->round;
     out.rounds_total = payload->rounds_total;
+    out.time_left_ms = payload->time_left_ms;
+    out.time_total_ms = payload->time_total_ms;
     out.debug_flags = payload->debug_flags;
     out.learned_scanned_bin = payload->scanned_bin;
     out.learned_dropped_bin = payload->dropped_bin;

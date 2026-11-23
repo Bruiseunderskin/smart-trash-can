@@ -45,6 +45,18 @@ int main(void)
         fprintf(stderr, "round fields\n");
         return 1;
     }
+    const stc_game_config_t cfg = stc_game_get_config();
+    const uint32_t expected_left =
+        s.elapsed_ms >= cfg.total_time_ms
+            ? 0u
+            : cfg.total_time_ms - s.elapsed_ms;
+    if (p.time_total_ms != cfg.total_time_ms ||
+        p.time_left_ms != expected_left) {
+        fprintf(stderr, "time fields left=%lu total=%lu\n",
+                (unsigned long)p.time_left_ms,
+                (unsigned long)p.time_total_ms);
+        return 1;
+    }
     if (p.debug_flags !=
         (STC_UI_DEBUG_REPLAY | STC_UI_DEBUG_REAL_HAND |
          STC_UI_DEBUG_LIVE_CAMERA | STC_UI_DEBUG_DEV_FLOW)) {

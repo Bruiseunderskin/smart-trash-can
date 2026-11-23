@@ -1,8 +1,9 @@
-/* stc_ui.h — 畫面（contract v2.3.0）
+/* stc_ui.h — 畫面（contract v2.4.0）
  *
  * UI 只做兩件事：讀 payload、畫。不得改分數、不得切模式、不得觸發硬件。
  * v2.0.0：依 2026-11-08 決定 D1，對齊 ui/lvgl 的 create/apply/callback 模型。
  * v2.3.0：新增 REAL_HAND debug flag；真實手部模式隱藏觸控桶按鈕。
+ * v2.4.0：加入本局剩餘／總時間，供 S31 實時倒數條使用。
  * 本檔不依賴 LVGL；ui/lvgl 把 stc_ui_payload_t 映射到自己的 stc_payload_t。
  */
 #pragma once
@@ -72,6 +73,8 @@ typedef struct {
     const char         *error_code;   /* 同步複製；只顯示有限 ASCII */
     uint8_t             round;
     uint8_t             rounds_total;
+    uint32_t            time_left_ms;
+    uint32_t            time_total_ms;
     uint8_t             debug_flags;
     uint8_t             reserved;
     stc_ui_learning_t   learning;

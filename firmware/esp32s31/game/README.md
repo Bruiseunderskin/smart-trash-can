@@ -80,7 +80,7 @@ for the real S3 drop and stale touch-bin events are ignored.
 
 The game UI is wrapped by a two-state outer shell: `GAME` and `CHAT`. The home
 page offers `開始遊戲` and `問綠豆`; the first start shows the three-step intro,
-then the scan-ready page auto-starts after three seconds. `問綠豆` renders the
+then the scan-ready page auto-starts after five seconds. `問綠豆` renders the
 v3 chat screens. If the voice backend is unavailable, the chat page explicitly
 shows its offline state; `返回主頁` or the 60-second idle timeout returns to the
 game. CHAT pauses game ticks and rejects any in-round entry.

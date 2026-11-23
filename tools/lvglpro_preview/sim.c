@@ -1,6 +1,6 @@
 /* Behavioural simulation of the ui/lvglpro state machine, no hardware.
  *
- * Checks what rendering cannot: that the 3 s countdowns fire the right action
+ * Checks what rendering cannot: that the timed actions fire correctly
  * and that the 綠豆 chat state is reachable from the result and summary
  * screens. A failure here means a tap or a timer does nothing on device.
  *
@@ -40,12 +40,18 @@ static void pump(int ms) {
     }
 }
 
+static int time_bar_value(const stc_ui_t *ui) {
+    return stc_ui_time_bar_value(ui);
+}
+
 static stc_payload_t base(stc_state_t state) {
     stc_payload_t p;
     memset(&p, 0, sizeof p);
     p.state = state;
     p.round = 1;
     p.rounds_total = 5;
+    p.time_left_ms = 120000;
+    p.time_total_ms = 180000;
     p.category_id = 1;
     p.confidence = 0.9f;
     p.candidates[0].category_id = 1;
@@ -79,17 +85,25 @@ int main(void) {
     printf("idle: INTRO reachable\n");
     p.state = STC_SCAN_READY;
     assert(stc_ui_apply(ui, &p));
-    pump(3200);
+    const int scan_bar_start = time_bar_value(ui);
+    pump(1000);
+    assert(time_bar_value(ui) < scan_bar_start);
+    pump(3800);
+    assert(got_scan == 0);
+    pump(400);
     assert(got_scan == 1);
-    printf("scan_ready: SCAN after 3 s\n");
+    printf("scan_ready: time bar shrinks, SCAN after 5 s\n");
 
     p.state = STC_CAPTURING;
     assert(stc_ui_apply(ui, &p));
     p.state = STC_RESULT_OK;
     assert(stc_ui_apply(ui, &p));
+    const int result_bar_start = time_bar_value(ui);
+    pump(2000);
+    assert(time_bar_value(ui) < result_bar_start);
     pump(3200);
     assert(got_next == 1);
-    printf("result_ok: NEXT after 3 s\n");
+    printf("result_ok: time bar shrinks, NEXT after 3 s\n");
 
     stc_chat_payload_t chat;
     memset(&chat, 0, sizeof chat);

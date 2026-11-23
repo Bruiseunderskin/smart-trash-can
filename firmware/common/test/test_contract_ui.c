@@ -34,6 +34,10 @@ _Static_assert(sizeof(((stc_ui_payload_t *)0)->error_code) == sizeof(const char 
                "error_code is a borrowed pointer");
 _Static_assert(sizeof(((stc_ui_payload_t *)0)->debug_flags) == sizeof(uint8_t),
                "debug flags are one byte");
+_Static_assert(sizeof(((stc_ui_payload_t *)0)->time_left_ms) == sizeof(uint32_t),
+               "time left is 32-bit milliseconds");
+_Static_assert(sizeof(((stc_ui_payload_t *)0)->time_total_ms) == sizeof(uint32_t),
+               "time total is 32-bit milliseconds");
 
 int main(void)
 {

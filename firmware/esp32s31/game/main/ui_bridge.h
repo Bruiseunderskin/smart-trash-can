@@ -23,6 +23,8 @@ typedef struct {
     const char *error_code;
     uint8_t round;
     uint8_t rounds_total;
+    uint32_t time_left_ms;
+    uint32_t time_total_ms;
     uint8_t debug_flags;
     uint8_t reserved;
     int32_t scanned_bin;

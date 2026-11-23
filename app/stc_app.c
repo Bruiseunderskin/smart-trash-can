@@ -75,6 +75,11 @@ bool stc_app_payload_from_state(const stc_snapshot_t *snap,
     out->error_code = view->fault_code;
     out->round = (uint8_t)(snap->round + 1u);
     out->rounds_total = snap->rounds_total;
+    out->time_total_ms = stc_game_get_config().total_time_ms;
+    out->time_left_ms =
+        snap->elapsed_ms >= out->time_total_ms
+            ? 0u
+            : out->time_total_ms - snap->elapsed_ms;
     out->debug_flags = view->debug_flags;
     out->learning.scanned_bin =
         snap->truth == STC_BIN_COUNT ? -1 : (int32_t)snap->truth;

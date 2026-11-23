@@ -10,7 +10,8 @@
 
 ### Changed
 
-- `ui/lvglpro`：`scan_ready` 在 3 秒自動掃描前已顯示持續更新的相機預覽，並以大觀景框提示玩家確認卡牌完整入框；不再只在拍攝／辨識的數秒顯示相機。
+- `ui/lvglpro`：頂部 8 px 綠條改為真正按時間縮短的 3 分鐘倒數，不再用「第幾回合」決定長度；倒數在掃描、結果、選桶及學習頁持續顯示和更新。
+- `ui/lvglpro`：`scan_ready` 在 5 秒自動掃描前已顯示持續更新的相機預覽，並以大觀景框提示玩家確認卡牌完整入框；不再只在拍攝／辨識的數秒顯示相機。
 - `firmware/common/stc_game.c`：模型返回 `unknown`／低信心時，重新開始同一回合（保留回合編號，換發新的 `round_id` 拒絕舊的非同步結果），不計分、不增加已完成回合，亦不進入 Learning。
 - `ui/lvglpro`：允許 `CAPTURING → RESULT_OK`，對齊 S31 由相機辨識直接轉入結果頁的真實流程；修正已知類別掃描到結果時顯示 `INVALID_TRANSITION`。
 - S31 xiaozhi board：移除聊天 payload 已刪除的 `hint` 欄位，並把內嵌模型由舊 `wordless-unknown` 同步到 `wordless-padded`（SHA `5fb3ac6e…`、CRC `0x1c55ab7a`）。實板進入綠豆後成功連接 `api.tenclass.net` MQTT 並完成 ASR／LLM／TTS 對話。

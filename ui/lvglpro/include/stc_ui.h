@@ -22,6 +22,7 @@ typedef struct {
     bool lid_open;
     const char *error_code; /* copied synchronously; shown as bounded ASCII */
     uint8_t round, rounds_total;
+    uint32_t time_left_ms, time_total_ms;
     uint8_t debug_flags;
     int learned_scanned_bin;
     int learned_dropped_bin;
@@ -81,6 +82,7 @@ void stc_ui_set_images(stc_ui_t *ui, const lv_image_dsc_t *original,
 const char *stc_category_label(int id);
 /* Native acceptance diagnostics; no hardware calls. */
 bool stc_ui_check_layout(stc_ui_t *ui);
+int32_t stc_ui_time_bar_value(const stc_ui_t *ui);
 #ifdef __cplusplus
 }
 #endif

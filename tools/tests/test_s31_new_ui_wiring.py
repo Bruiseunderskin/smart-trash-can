@@ -67,6 +67,23 @@ class S31NewUiWiringTest(unittest.TestCase):
                       idle_preview)
         self.assertIn("stc_shell_ui_set_camera_rgb160", idle_preview)
 
+    def test_round_bar_is_time_based_and_scan_waits_five_seconds(self):
+        game_ui = (ROOT / "ui/lvglpro/src/stc_ui.c").read_text(
+            encoding="utf-8"
+        )
+        app = (ROOT / "app/stc_app.c").read_text(encoding="utf-8")
+
+        self.assertIn('"5 秒後自動掃描"', game_ui)
+        self.assertIn(
+            "auto_advance(ui, STC_ACTION_SCAN, true, 50);", game_ui
+        )
+        self.assertIn(
+            "ui->time_left_ms > 100 ? ui->time_left_ms - 100 : 0;",
+            game_ui,
+        )
+        self.assertIn("out->time_left_ms", app)
+        self.assertIn("out->time_total_ms", app)
+
 
 if __name__ == "__main__":
     unittest.main()

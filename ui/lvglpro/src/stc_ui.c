@@ -86,11 +86,13 @@ struct stc_ui {
     bool reduced;
     bool acknowledged;
     lv_timer_t *auto_timer;
-    lv_obj_t *auto_bar;
+    lv_obj_t *time_bar;
     uint8_t auto_left;
     stc_action_t auto_action;
     bool auto_armed;
     bool auto_done;
+    uint32_t time_left_ms;
+    uint32_t time_total_ms;
     uint8_t debug_flags;
     int learned_scanned_bin;
     int learned_dropped_bin;
@@ -245,7 +247,9 @@ static void page_background(stc_ui_t *ui) {
     lv_obj_set_style_bg_opa(ui->container, LV_OPA_COVER, 0);
 }
 
-static void countdown_bar(stc_ui_t *ui, stc_action_t action, bool arm, int y);
+static void round_time_bar(stc_ui_t *ui);
+static void auto_advance(stc_ui_t *ui, stc_action_t action, bool arm,
+                         uint8_t ticks);
 static void action_event(lv_event_t *event) {
     ActionBinding *binding = lv_event_get_user_data(event);
     if (binding == NULL || binding->ui == NULL ||
@@ -343,6 +347,7 @@ static void container_deleted(lv_event_t *event) {
     ui->camera = NULL;
     ui->camera_image = NULL;
     ui->scan = NULL;
+    ui->time_bar = NULL;
 }
 
 static void animate_scan(stc_ui_t *ui) {
@@ -457,9 +462,10 @@ static void intro_screen(stc_ui_t *ui) {
 static void scan_ready_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
-    /* No 開始掃描 button: the round starts itself after three seconds, and the
-     * bar is the only cue. One tap per session stays on the home screen. */
-    countdown_bar(ui, STC_ACTION_SCAN, true, 88);
+    /* Five seconds gives a child enough time to place the whole card in view.
+     * One tap per session stays on the home screen. */
+    round_time_bar(ui);
+    auto_advance(ui, STC_ACTION_SCAN, true, 50);
     lv_obj_t *card =
         box(ui->container, OUTER, 112, PAGE_W, 340, COLOR_BRAND_LIGHT, 16, 0,
             COLOR_BRAND_LIGHT);
@@ -469,7 +475,7 @@ static void scan_ready_screen(stc_ui_t *ui) {
     lv_obj_set_style_border_opa(ui->camera, 92, 0);
     label(card, "確認卡牌完整入框", 32, 270, 688, 44, FONT_H2,
           COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
-    label(card, "3 秒後自動掃描", 32, 314, 688, 26, FONT_CAPTION,
+    label(card, "5 秒後自動掃描", 32, 314, 688, 26, FONT_CAPTION,
           0xD5E5DC,
           LV_TEXT_ALIGN_CENTER);
 }
@@ -477,6 +483,7 @@ static void scan_ready_screen(stc_ui_t *ui) {
 static void capturing_screen(stc_ui_t *ui, stc_state_t state) {
     page_background(ui);
     topbar(ui);
+    round_time_bar(ui);
     /* Whole screen is the camera: no back button during capture. */
     camera_card(ui,
                 state == STC_CAPTURING ? "正在辨識" : "整理緊結果",
@@ -512,43 +519,80 @@ static void retry_screen(stc_ui_t *ui) {
     bind_action(ui, home, STC_ACTION_HOME, -1, true);
 }
 
-static void progress_bar(stc_ui_t *ui) {
-    box(ui->container, 32, 104, 736, 8, COLOR_LINE, LV_RADIUS_CIRCLE, 0,
-        COLOR_LINE);
-    unsigned total = ui->rounds_total > 0 ? ui->rounds_total : 5;
-    unsigned round = ui->round == 0 ? 1u : ui->round;
-    if (round > total) {
-        round = total;
+/* The thin line under the top bar is always remaining game time. It is not a
+ * round-position indicator; the exact "第 N / 5 回合" text stays in the top
+ * bar. Keep the bar at 1000 internal units so a 100 ms UI tick makes a visible
+ * decrement without depending on the controller rendering at frame rate. */
+#define TIME_BAR_RANGE 1000
+
+static bool round_is_live(stc_state_t state) {
+    return state == STC_SCAN_READY || state == STC_CAPTURING ||
+           state == STC_CLASSIFYING || state == STC_RESULT_OK ||
+           state == STC_BIN_CHOICE || state == STC_LEARNING;
+}
+
+static void update_time_bar(stc_ui_t *ui) {
+    if (ui == NULL || ui->time_bar == NULL || ui->time_total_ms == 0) {
+        return;
     }
-    int width = (int)(736u * round / total);
-    if (width < 24) {
-        width = 24;
+    uint32_t left = ui->time_left_ms;
+    if (left > ui->time_total_ms) {
+        left = ui->time_total_ms;
     }
-    box(ui->container, 32, 104, width, 8, COLOR_ACCENT, LV_RADIUS_CIRCLE, 0,
-        COLOR_ACCENT);
+    const int32_t value =
+        (int32_t)((uint64_t)TIME_BAR_RANGE * left / ui->time_total_ms);
+    lv_bar_set_value(ui->time_bar, value, LV_ANIM_OFF);
+}
+
+static void round_time_bar(stc_ui_t *ui) {
+    ui->time_bar = lv_bar_create(ui->container);
+    lv_obj_remove_style_all(ui->time_bar);
+    lv_obj_set_pos(ui->time_bar, 32, 88);
+    lv_obj_set_size(ui->time_bar, 736, 8);
+    lv_bar_set_range(ui->time_bar, 0, TIME_BAR_RANGE);
+    lv_obj_set_style_bg_color(ui->time_bar, lv_color_hex(COLOR_LINE), 0);
+    lv_obj_set_style_bg_opa(ui->time_bar, LV_OPA_COVER, 0);
+    lv_obj_set_style_bg_color(ui->time_bar, lv_color_hex(COLOR_ACCENT),
+                              LV_PART_INDICATOR);
+    lv_obj_set_style_bg_opa(ui->time_bar, LV_OPA_COVER,
+                            LV_PART_INDICATOR);
+    lv_obj_set_style_radius(ui->time_bar, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_radius(ui->time_bar, LV_RADIUS_CIRCLE,
+                            LV_PART_INDICATOR);
+    update_time_bar(ui);
 }
 
 /* Round exit -------------------------------------------------------------
  * The result screen is the round boundary: one 752x88 primary action, plus a
- * three-second auto-advance with a shrinking bar. The timer is cancelled from
- * clear_screen(), so every state change (including an error or a retry) kills
- * it; a lid that is open means the card is still on its way into the bin, so
- * the countdown does not start until the controller reports the lid closed.
+ * three-second auto-action. The visible top bar is the separate game clock and
+ * keeps shrinking through the round. The timer is cancelled from clear_screen(),
+ * so every state change (including an error or a retry) kills it; a lid that is
+ * open means the card is still on its way into the bin, so the auto-action does
+ * not start until the controller reports the lid closed.
  */
 #define AUTO_ADVANCE_TICKS 30 /* 30 x 100 ms */
 
 static void auto_disarm(stc_ui_t *ui) {
     ui->auto_armed = false;
     ui->auto_left = 0;
-    ui->auto_bar = NULL;
 }
 
-/* One persistent 100 ms timer, created with the UI and armed only on the
- * result screen. Nothing is deleted from inside the callback, so a state
- * change during a tick cannot free the timer that is running. */
+/* One persistent 100 ms timer. It advances the visible round clock on every
+ * live game screen and separately emits the scan/result auto actions. Nothing
+ * is deleted from inside the callback, so a state change during a tick cannot
+ * free the timer that is running. */
 static void auto_tick(lv_timer_t *timer) {
     stc_ui_t *ui = (stc_ui_t *)lv_timer_get_user_data(timer);
-    if (ui == NULL || !ui->auto_armed) {
+    if (ui == NULL) {
+        return;
+    }
+    if (round_is_live(ui->state) && ui->time_total_ms > 0 &&
+        ui->time_left_ms > 0) {
+        ui->time_left_ms =
+            ui->time_left_ms > 100 ? ui->time_left_ms - 100 : 0;
+        update_time_bar(ui);
+    }
+    if (!ui->auto_armed) {
         return;
     }
     if ((ui->state != STC_RESULT_OK && ui->state != STC_SCAN_READY) ||
@@ -558,9 +602,6 @@ static void auto_tick(lv_timer_t *timer) {
     }
     if (ui->auto_left > 0) {
         ui->auto_left--;
-    }
-    if (ui->auto_bar != NULL) {
-        lv_bar_set_value(ui->auto_bar, ui->auto_left, LV_ANIM_OFF);
     }
     if (ui->auto_left == 0) {
         ui->auto_done = true;
@@ -575,31 +616,13 @@ static bool result_is_last_round(const stc_ui_t *ui) {
     return ui->rounds_total > 0 && ui->round >= ui->rounds_total;
 }
 
-/* One green bar at the top doubles as the only countdown cue. `arm` starts the
- * countdown; without it the bar is an empty track (the card is still coming).
- * Every screen that uses it needs no button: the round moves on its own. */
-static void countdown_bar(stc_ui_t *ui, stc_action_t action, bool arm, int y) {
+/* Arm an automatic action without coupling it to the visible game clock.
+ * The result page may deliberately hold while the lid/card is still moving. */
+static void auto_advance(stc_ui_t *ui, stc_action_t action, bool arm,
+                         uint8_t ticks) {
     ui->auto_action = action;
-    if (y >= 0) {
-        ui->auto_bar = lv_bar_create(ui->container);
-        lv_obj_remove_style_all(ui->auto_bar);
-        lv_obj_set_pos(ui->auto_bar, 32, y);
-        lv_obj_set_size(ui->auto_bar, 736, 8);
-        lv_bar_set_range(ui->auto_bar, 0, AUTO_ADVANCE_TICKS);
-        lv_bar_set_value(ui->auto_bar, arm ? AUTO_ADVANCE_TICKS : 0,
-                         LV_ANIM_OFF);
-        lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_LINE), 0);
-        lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER, 0);
-        lv_obj_set_style_bg_color(ui->auto_bar, lv_color_hex(COLOR_ACCENT),
-                                  LV_PART_INDICATOR);
-        lv_obj_set_style_bg_opa(ui->auto_bar, LV_OPA_COVER,
-                                LV_PART_INDICATOR);
-        lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE, 0);
-        lv_obj_set_style_radius(ui->auto_bar, LV_RADIUS_CIRCLE,
-                                LV_PART_INDICATOR);
-    }
     if (arm) {
-        ui->auto_left = AUTO_ADVANCE_TICKS;
+        ui->auto_left = ticks;
         ui->auto_armed = true;
         ui->auto_done = false;
     }
@@ -641,12 +664,12 @@ static void result_bin_card(stc_ui_t *ui, int index, bool selected) {
 static void result_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
-    progress_bar(ui);
+    round_time_bar(ui);
     /* Figma 286:74: opening-lid title, AI verdict line, and four bins with the
      * chosen one washed in its category colour plus an "AI 選" chip. */
     const bool last = result_is_last_round(ui);
     const bool waiting = ui->lid_open;
-    countdown_bar(ui, STC_ACTION_NEXT, !waiting && !last, -1);
+    auto_advance(ui, STC_ACTION_NEXT, !waiting && !last, AUTO_ADVANCE_TICKS);
     if (last) {
         lv_obj_t *finish =
             button(ui->container, "完成", 648, 12, 128, 48, true);
@@ -668,7 +691,7 @@ static void result_screen(stc_ui_t *ui) {
 static void bin_choice_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
-    progress_bar(ui);
+    round_time_bar(ui);
     label(ui->container, "請將卡牌放入垃圾桶", 24, 112, 620, 72, FONT_H1,
           COLOR_FG, LV_TEXT_ALIGN_LEFT);
     const int card_w = 166;
@@ -792,6 +815,7 @@ static const char *outcome_text(int outcome) {
 static void learning_screen(stc_ui_t *ui, int category) {
     page_background(ui);
     topbar(ui);
+    round_time_bar(ui);
     if (ui->learned_correct_bin >= 0 &&
         ui->learned_correct_bin < STC_CATEGORY_COUNT) {
         category = ui->learned_correct_bin;
@@ -916,6 +940,7 @@ static void clear_screen(stc_ui_t *ui) {
     ui->camera = NULL;
     ui->camera_image = NULL;
     ui->scan = NULL;
+    ui->time_bar = NULL;
     ui->header_status = NULL;
     ui->score = NULL;
     ui->streak = NULL;
@@ -1149,6 +1174,8 @@ void stc_ui_show_guide(stc_ui_t *ui) {
         .streak = ui->streak_value,
         .round = ui->round,
         .rounds_total = ui->rounds_total,
+        .time_left_ms = ui->time_left_ms,
+        .time_total_ms = ui->time_total_ms,
     };
     (void)stc_ui_apply(ui, &payload);
 }
@@ -1167,6 +1194,8 @@ void stc_ui_show_learning(stc_ui_t *ui, int category) {
         .streak = ui->streak_value,
         .round = ui->round,
         .rounds_total = ui->rounds_total,
+        .time_left_ms = ui->time_left_ms,
+        .time_total_ms = ui->time_total_ms,
     };
     (void)stc_ui_apply(ui, &payload);
 }
@@ -1181,6 +1210,8 @@ void stc_ui_show_summary(stc_ui_t *ui) {
         .streak = ui->streak_value,
         .round = ui->round,
         .rounds_total = ui->rounds_total,
+        .time_left_ms = ui->time_left_ms,
+        .time_total_ms = ui->time_total_ms,
     };
     (void)stc_ui_apply(ui, &payload);
 }
@@ -1202,6 +1233,8 @@ void stc_ui_show_ask(stc_ui_t *ui, const stc_chat_payload_t *payload) {
         .streak = ui->streak_value,
         .round = ui->round,
         .rounds_total = ui->rounds_total,
+        .time_left_ms = ui->time_left_ms,
+        .time_total_ms = ui->time_total_ms,
     };
     (void)stc_ui_apply(ui, &apply);
 }
@@ -1309,11 +1342,16 @@ bool stc_ui_apply(stc_ui_t *ui, const stc_payload_t *payload) {
          ui->learned_correct_bin != payload->learned_correct_bin ||
          ui->learned_outcome != payload->learned_outcome ||
          ui->learned_round_delta != payload->learned_round_delta);
+    const bool time_changed =
+        ui->time_left_ms != payload->time_left_ms ||
+        ui->time_total_ms != payload->time_total_ms;
 
     ui->score_value = payload->score;
     ui->streak_value = payload->streak;
     ui->round = payload->round;
     ui->rounds_total = payload->rounds_total;
+    ui->time_left_ms = payload->time_left_ms;
+    ui->time_total_ms = payload->time_total_ms;
     ui->category_value = payload->category_id;
     ui->confidence_value = payload->confidence;
     ui->lid_open = payload->lid_open;
@@ -1326,6 +1364,8 @@ bool stc_ui_apply(stc_ui_t *ui, const stc_payload_t *payload) {
     ui->acknowledged = false;
     if (state_changed || result_changed || bin_changed || learning_changed) {
         render(ui, payload->state, payload->error_code);
+    } else if (time_changed) {
+        update_time_bar(ui);
     }
     refresh_text(ui, payload);
     return true;
@@ -1357,6 +1397,12 @@ const char *stc_category_label(int category) {
         "可回收物", "廚餘", "有害", "其他",
     };
     return valid_category(category) ? labels[category] : "";
+}
+
+int32_t stc_ui_time_bar_value(const stc_ui_t *ui) {
+    return ui != NULL && ui->time_bar != NULL
+               ? (int32_t)lv_bar_get_value(ui->time_bar)
+               : -1;
 }
 
 static bool check_text(lv_obj_t *obj) {

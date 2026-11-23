@@ -74,7 +74,7 @@
 ### 3.3 `STC_ROUND_READY`
 - TOPBAR 左「第 2 / 5 回合」，右「02:41」倒數（`stc_font_num_80`）。
 - 中央：虛線框 240×180（掃描位示意）＋ 32pt「請把卡放上掃描位」。
-- 若卡片偵測（未來）／3 秒無動作：自動進 `CAPTURING`；亦可以有「掃描」按鈕俾人手動觸發（示範時可控）。
+- 若卡片偵測（未來）／5 秒無動作：自動進 `CAPTURING`；亦可以有「掃描」按鈕俾人手動觸發（示範時可控）。
 - **注意**：現階段沒有卡片存在感測，預設 3 秒自動拍照，避免現場卡死。
 
 ### 3.4 `STC_CAPTURING`
@@ -130,7 +130,7 @@
 |---|---|---|
 | HOME→INTRO | `STC_ACTION_START` | — |
 | INTRO→ROUND_READY | `STC_ACTION_START` | — |
-| ROUND_READY→CAPTURING | 3 s 自動／手動 | — |
+| ROUND_READY→CAPTURING | 5 s 自動／手動 | — |
 | CAPTURING→CLASSIFYING | 倒數完 | 3 s |
 | CLASSIFYING→AWAIT_BIN | 有信心值 | 3 s 失敗→ERROR |
 | AWAIT_BIN→VERDICT | 任一邊緣 `開→關` | 10 s → 逾時判定 |
