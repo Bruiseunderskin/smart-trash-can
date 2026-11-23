@@ -14,6 +14,7 @@
 #include <string.h>
 
 static lv_display_t *disp;
+static uint32_t frame_buffer[800 * 480];
 static int got_scan, got_next;
 
 static void flush_cb(lv_display_t *d, const lv_area_t *a, uint8_t *p) {
@@ -40,6 +41,17 @@ static void pump(int ms) {
     }
 }
 
+static uint64_t frame_hash(void) {
+    lv_refr_now(disp);
+    const uint8_t *data = (const uint8_t *)frame_buffer;
+    uint64_t hash = 1469598103934665603ULL;
+    for (size_t i = 0; i < sizeof frame_buffer; ++i) {
+        hash ^= data[i];
+        hash *= 1099511628211ULL;
+    }
+    return hash;
+}
+
 static int time_bar_value(const stc_ui_t *ui) {
     return stc_ui_time_bar_value(ui);
 }
@@ -64,8 +76,7 @@ static stc_payload_t base(stc_state_t state) {
 int main(void) {
     lv_init();
     disp = lv_display_create(800, 480);
-    static uint32_t buf[800 * 480];
-    lv_display_set_buffers(disp, buf, NULL, sizeof buf,
+    lv_display_set_buffers(disp, frame_buffer, NULL, sizeof frame_buffer,
                            LV_DISPLAY_RENDER_MODE_FULL);
     lv_display_set_flush_cb(disp, flush_cb);
 
@@ -97,7 +108,13 @@ int main(void) {
     p.state = STC_CAPTURING;
     assert(stc_ui_apply(ui, &p));
     p.state = STC_RESULT_OK;
+    p.category_id = 0;
     assert(stc_ui_apply(ui, &p));
+    const uint64_t category0_frame = frame_hash();
+    p.category_id = 1;
+    assert(stc_ui_apply(ui, &p));
+    assert(frame_hash() == category0_frame);
+    printf("result_ok: AI category is not revealed before the drop\n");
     const int result_bar_start = time_bar_value(ui);
     pump(2000);
     assert(time_bar_value(ui) < result_bar_start);
@@ -105,15 +122,20 @@ int main(void) {
     assert(got_next == 1);
     printf("result_ok: time bar shrinks, NEXT after 3 s\n");
 
-    stc_chat_payload_t chat;
-    memset(&chat, 0, sizeof chat);
-    chat.state = STC_CHAT_READY;
-    stc_ui_show_ask(ui, &chat);
-    assert(stc_ui_state(ui) == STC_ASK);
-    printf("result_ok: 綠豆 reachable\n");
+    p.state = STC_BIN_CHOICE;
+    p.category_id = 0;
+    assert(stc_ui_apply(ui, &p));
+    const uint64_t bin0_frame = frame_hash();
+    p.category_id = 1;
+    assert(stc_ui_apply(ui, &p));
+    assert(frame_hash() == bin0_frame);
+    printf("bin_choice: AI category stays hidden while choosing\n");
 
     p.state = STC_SUMMARY;
     assert(stc_ui_apply(ui, &p));
+    stc_chat_payload_t chat;
+    memset(&chat, 0, sizeof chat);
+    chat.state = STC_CHAT_READY;
     stc_ui_show_ask(ui, &chat);
     assert(stc_ui_state(ui) == STC_ASK);
     printf("summary: 綠豆 reachable\n");

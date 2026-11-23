@@ -84,6 +84,26 @@ class S31NewUiWiringTest(unittest.TestCase):
         self.assertIn("out->time_left_ms", app)
         self.assertIn("out->time_total_ms", app)
 
+    def test_ai_answer_is_hidden_until_after_the_drop(self):
+        game_ui = (ROOT / "ui/lvglpro/src/stc_ui.c").read_text(
+            encoding="utf-8"
+        )
+        result_card = game_ui.split("static void result_bin_card", 1)[1].split(
+            "static void result_screen", 1
+        )[0]
+        result_screen = game_ui.split("static void result_screen", 1)[
+            1
+        ].split("static void bin_choice_screen", 1)[0]
+        bin_choice = game_ui.split("static void bin_choice_screen", 1)[
+            1
+        ].split("static void error_screen", 1)[0]
+
+        self.assertNotIn("bin_examples", result_card)
+        self.assertNotIn("selected", result_card)
+        self.assertNotIn("i == category", result_screen)
+        self.assertNotIn("open ? 4 : 3", bin_choice)
+        self.assertNotIn("shadow_width", bin_choice)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -628,7 +628,7 @@ static void auto_advance(stc_ui_t *ui, stc_action_t action, bool arm,
     }
 }
 
-static void result_bin_card(stc_ui_t *ui, int index, bool selected) {
+static void result_bin_card(stc_ui_t *ui, int index) {
     const int card_w = 166;
     const int gap = (PAGE_W - STC_CATEGORY_COUNT * card_w) /
                     (STC_CATEGORY_COUNT - 1);
@@ -640,33 +640,22 @@ static void result_bin_card(stc_ui_t *ui, int index, bool selected) {
     lv_obj_set_size(card, card_w, 248);
     lv_obj_remove_flag(card, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_style_radius(card, 16, 0);
-    lv_obj_set_style_bg_color(
-        card, lv_color_hex(selected ? accent : COLOR_SURFACE), 0);
-    lv_obj_set_style_bg_opa(card, selected ? 46 : LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(card, selected ? 4 : 2, 0);
+    lv_obj_set_style_bg_color(card, lv_color_hex(COLOR_SURFACE), 0);
+    lv_obj_set_style_bg_opa(card, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(card, 2, 0);
     lv_obj_set_style_border_color(card, lv_color_hex(accent), 0);
-    if (selected) {
-        /* The chosen bin glows; the rest fade back. */
-        lv_obj_set_style_shadow_width(card, 26, 0);
-        lv_obj_set_style_shadow_color(card, lv_color_hex(accent), 0);
-        lv_obj_set_style_shadow_opa(card, LV_OPA_60, 0);
-        lv_obj_set_style_shadow_spread(card, 2, 0);
-    } else {
-        lv_obj_set_style_opa(card, 110, 0);
-    }
     image(card, category_images[index], (card_w - 88) / 2, 40, 88, 88);
-    label(card, bin_names[index], 0, 152, card_w, 52, FONT_H2, COLOR_FG,
+    label(card, bin_names[index], 0, 172, card_w, 52, FONT_H2, COLOR_FG,
           LV_TEXT_ALIGN_CENTER);
-    label(card, bin_examples[index], 0, 202, card_w, 34, FONT_HINT,
-          COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
 }
 
 static void result_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
     round_time_bar(ui);
-    /* Figma 286:74: opening-lid title, AI verdict line, and four bins with the
-     * chosen one washed in its category colour plus an "AI 選" chip. */
+    /* Open all bins without revealing which one the classifier picked. The
+     * child must choose first; the learning page reveals the answer only after
+     * the S3 hand reports its drop. */
     const bool last = result_is_last_round(ui);
     const bool waiting = ui->lid_open;
     auto_advance(ui, STC_ACTION_NEXT, !waiting && !last, AUTO_ADVANCE_TICKS);
@@ -678,13 +667,8 @@ static void result_screen(stc_ui_t *ui) {
     label(ui->container, "正在開啟桶蓋", 32, 128, 736, 64, FONT_H1,
           COLOR_FG, LV_TEXT_ALIGN_LEFT);
     image(ui->container, &stc_lp_img_mascot_happy, 704, 128, 64, 64);
-    const int category =
-        ui->category_value >= 0 && ui->category_value < STC_CATEGORY_COUNT
-            ? ui->category_value
-            : -1;
-    (void)category;
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
-        result_bin_card(ui, i, i == category);
+        result_bin_card(ui, i);
     }
 }
 
@@ -699,19 +683,10 @@ static void bin_choice_screen(stc_ui_t *ui) {
                     (STC_CATEGORY_COUNT - 1);
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
         const int x = OUTER + i * (card_w + gap);
-        const bool open = ui->category_value == i;
+        /* Keep all four choices equally neutral until S3 reports the drop. */
         lv_obj_t *card =
             box(ui->container, x, 216, card_w, 248, COLOR_SURFACE, 16,
-                open ? 4 : 3, category_colors[i]);
-        if (open) {
-            lv_obj_set_style_shadow_width(card, 26, 0);
-            lv_obj_set_style_shadow_color(card, lv_color_hex(category_colors[i]),
-                                          0);
-            lv_obj_set_style_shadow_opa(card, LV_OPA_60, 0);
-            lv_obj_set_style_shadow_spread(card, 2, 0);
-        } else {
-            lv_obj_set_style_opa(card, 110, 0);
-        }
+                3, category_colors[i]);
         image(card, category_images[i], (card_w - 88) / 2, 40, 88, 88);
         label(card, bin_names[i], 0, 152, card_w, 52,
               FONT_H2, COLOR_FG, LV_TEXT_ALIGN_CENTER);
