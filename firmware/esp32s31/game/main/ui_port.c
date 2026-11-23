@@ -158,15 +158,28 @@ void stc_game_ui_set_camera_rgb160(const uint8_t *rgb, uint16_t width,
     }
 }
 
-void stc_game_ui_show_chat(void)
+void stc_game_ui_show_chat(bool voice_available)
 {
     if (!g_ui) {
         return;
     }
     if (bsp_display_lock(100)) {
-        stc_ui_bridge_show_chat(g_ui);
+        stc_ui_bridge_show_chat(g_ui, voice_available);
         bsp_display_unlock();
     }
+}
+
+bool stc_game_ui_show_intro(void)
+{
+    bool shown = false;
+    if (!g_ui) {
+        return false;
+    }
+    if (bsp_display_lock(100)) {
+        shown = stc_ui_bridge_show_intro(g_ui);
+        bsp_display_unlock();
+    }
+    return shown;
 }
 
 void stc_game_ui_show_guide(void)

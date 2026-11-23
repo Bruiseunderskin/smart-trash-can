@@ -16,7 +16,8 @@ void stc_game_ui_render(const stc_snapshot_t *snapshot,
                         const stc_game_view_t *view, void *ctx);
 void stc_game_ui_set_camera_rgb160(const uint8_t *rgb, uint16_t width,
                                    uint16_t height);
-void stc_game_ui_show_chat(void);
+void stc_game_ui_show_chat(bool voice_available);
+bool stc_game_ui_show_intro(void);
 void stc_game_ui_show_guide(void);
 void stc_game_ui_deinit(void);
 

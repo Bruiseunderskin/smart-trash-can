@@ -420,8 +420,7 @@ static void home_screen(stc_ui_t *ui) {
     image(ui->container, &stc_lp_img_mascot_idle, 688, 128, 64, 64);
     lv_obj_t *start =
         button(ui->container, "開始遊戲", OUTER, 392, 364, CONTROL_H, true);
-    bind_action(ui, start, ui->intro_seen ? STC_ACTION_SCAN : STC_ACTION_START,
-                -1, false);
+    bind_action(ui, start, STC_ACTION_START, -1, false);
     lv_obj_t *ask =
         button(ui->container, "問綠豆", 412, 392, 364, CONTROL_H, false);
     bind_action(ui, ask, STC_ACTION_ASK, -1, false);

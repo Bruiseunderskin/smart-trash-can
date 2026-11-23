@@ -16,7 +16,7 @@ static bool map_phase(stc_phase_t phase, stc_ui_state_t *out)
         return true;
     case STC_PH_RESULT:
     case STC_PH_OPEN:
-        *out = STC_UI_CLASSIFYING;
+        *out = STC_UI_RESULT_OK;
         return true;
     case STC_PH_WAIT_DROP:
         *out = STC_UI_BIN_CHOICE;

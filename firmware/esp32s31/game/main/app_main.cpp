@@ -60,6 +60,8 @@ static QueueHandle_t g_vision_queue;
 static stc_hand_transport_t g_transport;
 static bool g_model_ready;
 static uint8_t g_debug_flags;
+static bool g_intro_pending;
+static bool g_intro_seen;
 #if STC_GAME_DEV_FLOW
 static stc_game_dev_flow_t g_dev_flow;
 static bool g_dev_summary_logged;
@@ -316,7 +318,7 @@ static void shell_enter_chat(void)
                  "CHAT_BACKEND=UNAVAILABLE error=%d shell=chat game=paused",
                  (int)voice_mode);
     }
-    stc_game_ui_show_chat();
+    stc_game_ui_show_chat(voice_mode == STC_OK);
     ESP_LOGI(TAG, "SHELL_MODE=chat timeout_ms=%u",
              (unsigned)STC_SHELL_CHAT_TIMEOUT_MS);
 }
@@ -333,6 +335,32 @@ static void shell_enter_game(void)
     const stc_snapshot_t snap = stc_game_snapshot();
     const stc_game_view_t *view = stc_game_controller_view();
     stc_game_ui_render(&snap, view, NULL);
+}
+
+static void handle_game_action(stc_ui_action_t action)
+{
+    const stc_snapshot_t snap = stc_game_snapshot();
+    if (action == STC_UI_ACTION_START && snap.phase == STC_PH_IDLE &&
+        !g_intro_seen) {
+        if (stc_game_ui_show_intro()) {
+            g_intro_seen = true;
+            g_intro_pending = true;
+            return;
+        }
+    }
+    if (action == STC_UI_ACTION_SCAN && snap.phase == STC_PH_IDLE &&
+        g_intro_pending) {
+        g_intro_pending = false;
+        if (stc_game_controller_ui_action(STC_UI_ACTION_START, now_ms()) ==
+            STC_OK) {
+            (void)stc_game_controller_ui_action(STC_UI_ACTION_SCAN, now_ms());
+        }
+        return;
+    }
+    if (action == STC_UI_ACTION_HOME) {
+        g_intro_pending = false;
+    }
+    (void)stc_game_controller_ui_action(action, now_ms());
 }
 
 static void process_event(const game_event_t *event)
@@ -387,7 +415,7 @@ static void process_event(const game_event_t *event)
             ESP_LOGW(TAG, "TOUCH_BIN_IGNORED real_hand=enabled");
 #endif
         } else {
-            (void)stc_game_controller_ui_action(event->action, now_ms());
+            handle_game_action(event->action);
         }
         break;
     case GAME_EVENT_PLAY: {
@@ -403,7 +431,7 @@ static void process_event(const game_event_t *event)
             action = STC_UI_ACTION_NEXT;
             stc_voice_stop();
         }
-        (void)stc_game_controller_ui_action(action, now_ms());
+        handle_game_action(action);
         break;
     }
     case GAME_EVENT_VISION_RESULT:

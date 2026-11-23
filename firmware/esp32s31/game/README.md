@@ -78,13 +78,12 @@ disabled, so the player controls START, SCAN, bin selection and NEXT. The normal
 build keeps this option `OFF`; on-screen bin buttons are hidden while waiting
 for the real S3 drop and stale touch-bin events are ignored.
 
-The game UI is wrapped by a two-state outer shell: `GAME` and `CHAT`. The main
-page opens `分類圖鑑`, whose `問綠豆` button enters `CHAT`; `返回遊戲` and the
-60-second idle timeout exit back to the current game screen. CHAT pauses game
-ticks, rejects any in-round entry, and reports
-`CHAT_BACKEND=UNAVAILABLE` until the xiaozhi voice backend is connected. The
-screen explicitly says the backend is not connected rather than faking a chat
-response.
+The game UI is wrapped by a two-state outer shell: `GAME` and `CHAT`. The home
+page offers `開始遊戲` and `問綠豆`; the first start shows the three-step intro,
+then the scan-ready page auto-starts after three seconds. `問綠豆` renders the
+v3 chat screens. If the voice backend is unavailable, the chat page explicitly
+shows its offline state; `返回主頁` or the 60-second idle timeout returns to the
+game. CHAT pauses game ticks and rejects any in-round entry.
 
 The touch profile allows 5 seconds for the five-frame ESP-DL inference. The
 first hardware run measured 1,451-1,573 ms; keeping the generic 1.5-second
@@ -121,7 +120,7 @@ stored under `runs/camera-probe/2026-11-13/`.
 - Visual source: live camera frames in the normal hardware build.
 - Hand result: ESP-NOW real S3 with four servos and four VL6180X sensors.
 - Audio: six existing 16 kHz mono PCM clips, played locally.
-- Cloud/xiaozhi: not initialized. The outer CHAT state and placeholder UI are
-  implemented, but the voice backend is still unsupported.
+- Cloud/xiaozhi: not initialized. The v3 CHAT screens and offline state are
+  implemented, but the standalone voice backend is still unsupported.
 
 [Firmware index](../../README.md) · [Main component](main/README.md)

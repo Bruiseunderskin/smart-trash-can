@@ -283,7 +283,7 @@ static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
         bind_chat_action(ui, action, STC_CHAT_ACTION_PRIMARY);
         lv_obj_t *back =
             chat_button(ui->container, secondary, 412, 392, 364, CONTROL_H, false);
-        bind_chat_action(ui, action, STC_CHAT_ACTION_PRIMARY);
+        bind_chat_action(ui, back, STC_CHAT_ACTION_BACK);
     } else {
         lv_obj_t *action =
             chat_button(ui->container, primary, OUTER, 392, 752, CONTROL_H, true);

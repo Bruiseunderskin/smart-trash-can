@@ -58,12 +58,15 @@ int main(void)
 
     s.phase = STC_PH_RESULT;
     if (!stc_app_payload_from_state(&s, &view, &p)) return 1;
-    if (p.state != STC_UI_CLASSIFYING) { fprintf(stderr, "classifying state\n"); return 1; }
+    if (p.state != STC_UI_RESULT_OK) {
+        fprintf(stderr, "result state\n");
+        return 1;
+    }
 
     s.phase = STC_PH_OPEN;
     if (!stc_app_payload_from_state(&s, &view, &p)) return 1;
-    if (p.state != STC_UI_CLASSIFYING) {
-        fprintf(stderr, "open should remain busy\n");
+    if (p.state != STC_UI_RESULT_OK) {
+        fprintf(stderr, "open should show the result\n");
         return 1;
     }
 

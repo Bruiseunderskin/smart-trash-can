@@ -92,9 +92,21 @@ void stc_ui_bridge_set_images(void *ui, const void *original,
                       (const lv_image_dsc_t *)cutout);
 }
 
-void stc_ui_bridge_show_chat(void *ui)
+void stc_ui_bridge_show_chat(void *ui, bool voice_available)
 {
-    (void)ui;
+    const stc_chat_payload_t payload = {
+        .state = voice_available ? STC_CHAT_READY : STC_CHAT_OFFLINE,
+    };
+    stc_ui_show_ask((stc_ui_t *)ui, &payload);
+}
+
+bool stc_ui_bridge_show_intro(void *ui)
+{
+    const stc_payload_t payload = {
+        .state = STC_INTRO,
+        .rounds_total = 5,
+    };
+    return stc_ui_apply((stc_ui_t *)ui, &payload);
 }
 
 void stc_ui_bridge_show_guide(void *ui)

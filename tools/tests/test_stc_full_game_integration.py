@@ -98,8 +98,8 @@ class StcFullGameIntegrationTest(unittest.TestCase):
             encoding="utf-8"
         )
 
-        self.assertIn("chat_box(ui->container, 24, 158, 632, LV_SIZE_CONTENT", chat_ui)
-        self.assertIn("lv_obj_set_style_max_height(speech, 180, 0);", chat_ui)
+        self.assertIn("chat_box(ui->container, 24, 190, 632, LV_SIZE_CONTENT", chat_ui)
+        self.assertIn("lv_obj_set_style_max_height(speech, 168, 0);", chat_ui)
         self.assertIn("LV_FLEX_FLOW_COLUMN", chat_ui)
         self.assertIn("560, LV_SIZE_CONTENT", chat_ui)
         self.assertIn("LV_OBJ_FLAG_SCROLLABLE", chat_ui)
@@ -120,15 +120,21 @@ class StcFullGameIntegrationTest(unittest.TestCase):
         self.assertIn("text[0] == '%'", shell)
         self.assertIn("ui.chat_message[0] = '\\0';", shell)
 
-    def test_chat_always_exposes_home_and_stop_actions(self):
+    def test_chat_screens_always_expose_a_home_action(self):
         chat_ui = (ROOT / "ui/lvglpro/src/stc_chat_ui.c").read_text(
             encoding="utf-8"
         )
         shell = (BOARD / "stc_shell_ui.cc").read_text(encoding="utf-8")
         voice = (BOARD / "stc_voice.cc").read_text(encoding="utf-8")
 
-        self.assertEqual(chat_ui.count('"返回主頁"'), 7)
-        self.assertIn('"講完",\n        "返回主頁"', chat_ui)
+        self.assertEqual(chat_ui.count('"返回主頁"'), 8)
+        both_actions = chat_ui.split(
+            "} else if (secondary != NULL) {", 1
+        )[1].split("} else {", 1)[0]
+        self.assertIn(
+            "bind_chat_action(ui, back, STC_CHAT_ACTION_BACK);",
+            both_actions,
+        )
         self.assertIn("stc_voice_cancel_dialog();", shell)
         self.assertIn("stc_voice_restart_dialog();", shell)
         self.assertIn("ScheduleChatCancel();", voice)
@@ -143,22 +149,20 @@ class StcFullGameIntegrationTest(unittest.TestCase):
         self.assertIn("audio.ResetDecoder();", voice)
         self.assertIn("audio.EnableVoiceProcessing(false);", voice)
 
-    def test_touch_bin_selection_is_always_available(self):
+    def test_real_hand_bin_choice_has_no_tap_to_pick(self):
         game_ui = (ROOT / "ui/lvglpro/src/stc_ui.c").read_text(
             encoding="utf-8"
         )
-        runtime = (BOARD / "stc_game_runtime.cc").read_text(encoding="utf-8")
         board = (BOARD / "esp32_s31_korvo_1_stc.cc").read_text(
             encoding="utf-8"
         )
+        choice = game_ui.split(
+            "static void bin_choice_screen", 1
+        )[1].split("static void error_screen", 1)[0]
 
-        self.assertIn(
-            "bind_action(ui, card, STC_ACTION_SELECT_BIN, i, false);",
-            game_ui,
-        )
-        self.assertIn("LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_EVENT_BUBBLE",
-                      game_ui)
-        self.assertNotIn("TOUCH_BIN_IGNORED", runtime)
+        self.assertNotIn("bind_action", choice)
+        self.assertNotIn("STC_ACTION_SELECT_BIN", choice)
+        self.assertNotIn("LV_OBJ_FLAG_CLICKABLE", choice)
         self.assertIn('"stc bin "', board)
         self.assertIn('"stc mock "', board)
 

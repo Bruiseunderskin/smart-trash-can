@@ -73,6 +73,10 @@ int main(void) {
 
     stc_payload_t p = base(STC_IDLE);
     assert(stc_ui_apply(ui, &p));
+    p.state = STC_INTRO;
+    assert(stc_ui_apply(ui, &p));
+    assert(stc_ui_state(ui) == STC_INTRO);
+    printf("idle: INTRO reachable\n");
     p.state = STC_SCAN_READY;
     assert(stc_ui_apply(ui, &p));
     pump(3200);
