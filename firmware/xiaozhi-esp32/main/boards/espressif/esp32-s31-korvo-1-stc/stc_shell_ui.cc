@@ -476,6 +476,17 @@ void stc_shell_ui_set_camera_rgb160(const uint8_t* rgb, uint16_t width,
     preview_index = next;
 }
 
+int32_t stc_shell_ui_time_bar_value(void) {
+    if (!ui.display || !ui.game_ui) {
+        return -1;
+    }
+    DisplayLockGuard lock(ui.display);
+    if (!lock) {
+        return -1;
+    }
+    return stc_ui_bridge_time_bar_value(ui.game_ui);
+}
+
 void stc_shell_ui_show_guide(void) {
     if (!ui.display || !ui.game_ui) {
         return;

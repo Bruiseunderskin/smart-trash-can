@@ -58,6 +58,7 @@ typedef struct {
     uint8_t       streak;        /* consecutive correct rounds */
     stc_phase_t   phase;
     uint32_t      elapsed_ms;    /* 本局已用時間 */
+    uint32_t      phase_elapsed_ms; /* 目前階段已用時間 */
     stc_bin_t     truth;         /* 本回合模型判定類別 */
     stc_bin_t     dropped;       /* 玩家實際投放（無則 = STC_BIN_COUNT） */
     float         conf;          /* 聚合置信度 */

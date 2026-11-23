@@ -86,6 +86,11 @@ bool stc_ui_bridge_apply(void *ui, const stc_ui_bridge_payload_t *payload)
     return stc_ui_apply((stc_ui_t *)ui, &out);
 }
 
+int32_t stc_ui_bridge_time_bar_value(void *ui)
+{
+    return stc_ui_time_bar_value((const stc_ui_t *)ui);
+}
+
 void stc_ui_bridge_set_images(void *ui, const void *original,
                               const void *cutout)
 {

@@ -19,6 +19,7 @@ static bool g_started;
 static void enter_phase(stc_phase_t phase, uint32_t now)
 {
     g_snap.phase = phase;
+    g_snap.phase_elapsed_ms = 0;
     g_phase_at = now;
 }
 
@@ -27,6 +28,7 @@ static uint32_t phase_elapsed(uint32_t now) { return now - g_phase_at; }
 static void update_elapsed(uint32_t now)
 {
     g_snap.elapsed_ms = now - g_start_at;
+    g_snap.phase_elapsed_ms = now - g_phase_at;
     if (g_snap.elapsed_ms >= g_cfg.total_time_ms) {
         g_time_up = true;
     }

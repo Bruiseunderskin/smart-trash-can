@@ -3,7 +3,7 @@
  * UI 只做兩件事：讀 payload、畫。不得改分數、不得切模式、不得觸發硬件。
  * v2.0.0：依 2026-11-08 決定 D1，對齊 ui/lvgl 的 create/apply/callback 模型。
  * v2.3.0：新增 REAL_HAND debug flag；真實手部模式隱藏觸控桶按鈕。
- * v2.4.0：加入本局剩餘／總時間，供 S31 實時倒數條使用。
+ * v2.4.0：加入目前階段剩餘／總時間，供 S31 實時倒數條使用。
  * 本檔不依賴 LVGL；ui/lvgl 把 stc_ui_payload_t 映射到自己的 stc_payload_t。
  */
 #pragma once

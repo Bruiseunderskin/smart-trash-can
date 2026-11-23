@@ -25,6 +25,7 @@ static stc_snapshot_t base(void)
 
 int main(void)
 {
+    if (stc_game_init() != STC_OK) return 1;
     stc_ui_payload_t p;
     stc_game_view_t view;
     memset(&view, 0, sizeof view);
@@ -45,14 +46,22 @@ int main(void)
         fprintf(stderr, "round fields\n");
         return 1;
     }
-    const stc_game_config_t cfg = stc_game_get_config();
-    const uint32_t expected_left =
-        s.elapsed_ms >= cfg.total_time_ms
-            ? 0u
-            : cfg.total_time_ms - s.elapsed_ms;
-    if (p.time_total_ms != cfg.total_time_ms ||
-        p.time_left_ms != expected_left) {
+    if (p.time_total_ms != 5000 || p.time_left_ms != 5000) {
         fprintf(stderr, "time fields left=%lu total=%lu\n",
+                (unsigned long)p.time_left_ms,
+                (unsigned long)p.time_total_ms);
+        return 1;
+    }
+
+    s.phase = STC_PH_RESULT;
+    s.phase_elapsed_ms = 1000;
+    const stc_game_config_t cfg = stc_game_get_config();
+    const uint32_t result_window =
+        (uint32_t)cfg.result_ms + cfg.open_timeout_ms;
+    if (!stc_app_payload_from_state(&s, &view, &p) ||
+        p.time_total_ms != result_window ||
+        p.time_left_ms != result_window - 1000u) {
+        fprintf(stderr, "result time fields left=%lu total=%lu\n",
                 (unsigned long)p.time_left_ms,
                 (unsigned long)p.time_total_ms);
         return 1;

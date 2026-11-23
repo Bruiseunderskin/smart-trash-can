@@ -519,10 +519,10 @@ static void retry_screen(stc_ui_t *ui) {
     bind_action(ui, home, STC_ACTION_HOME, -1, true);
 }
 
-/* The thin line under the top bar is always remaining game time. It is not a
- * round-position indicator; the exact "第 N / 5 回合" text stays in the top
- * bar. Keep the bar at 1000 internal units so a 100 ms UI tick makes a visible
- * decrement without depending on the controller rendering at frame rate. */
+/* The thin line under the top bar is the active round step's time window. It
+ * is not a round-position indicator; the exact "第 N / 5 回合" text stays in
+ * the top bar. Keep the bar at 1000 internal units so a 100 ms UI tick makes a
+ * clearly visible decrement without controller rendering at frame rate. */
 #define TIME_BAR_RANGE 1000
 
 static bool round_is_live(stc_state_t state) {

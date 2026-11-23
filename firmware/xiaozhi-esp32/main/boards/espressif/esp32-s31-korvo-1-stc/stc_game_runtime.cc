@@ -601,12 +601,15 @@ extern "C" void stc_game_runtime_log_status(const char *source) {
     const stc_snapshot_t snapshot = stc_game_snapshot();
     ESP_LOGI(TAG,
              "GAME_STATUS source=%s phase=%d round=%u round_id=%lu "
-             "score=%d model=%d camera=%d espnow=%d hand_online=%d",
+             "score=%d time_bar=%ld model=%d camera=%d espnow=%d "
+             "hand_online=%d",
              source != nullptr ? source : "unknown",
              static_cast<int>(snapshot.phase),
              static_cast<unsigned>(snapshot.round),
              static_cast<unsigned long>(snapshot.round_id),
-             static_cast<int>(snapshot.score), model_ready.load() ? 1 : 0,
+             static_cast<int>(snapshot.score),
+             static_cast<long>(stc_shell_ui_time_bar_value()),
+             model_ready.load() ? 1 : 0,
              camera_ready.load() ? 1 : 0, espnow_ready.load() ? 1 : 0,
              stc_game_runtime_hand_online() ? 1 : 0);
 }

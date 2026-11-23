@@ -44,6 +44,7 @@ void stc_ui_bridge_destroy(void *ui);
 void stc_ui_bridge_set_action_callback(void *ui,
                                        stc_ui_bridge_action_cb callback);
 bool stc_ui_bridge_apply(void *ui, const stc_ui_bridge_payload_t *payload);
+int32_t stc_ui_bridge_time_bar_value(void *ui);
 void stc_ui_bridge_set_images(void *ui, const void *original,
                               const void *cutout);
 void stc_ui_bridge_show_chat(void *ui, bool voice_available);

@@ -160,7 +160,7 @@
 | `score` | `uint16_t` | 累計分 |
 | `streak` | `uint8_t` | 連對 |
 | `round` / `rounds_total` | `uint8_t` | 回合 |
-| `time_left_ms` | `uint32_t` | 總倒數 |
+| `time_left_ms` / `time_total_ms` | `uint32_t` | 目前畫面階段倒數／該階段總時長 |
 | `high_score` | `uint16_t` | 本機最高分（NVS） |
 
 ---

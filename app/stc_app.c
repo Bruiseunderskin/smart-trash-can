@@ -48,6 +48,50 @@ static stc_ui_round_outcome_t map_outcome(stc_round_outcome_t outcome)
     }
 }
 
+static bool phase_time_window(stc_phase_t phase,
+                              const stc_game_config_t *cfg,
+                              uint32_t *before_ms,
+                              uint32_t *total_ms)
+{
+    *before_ms = 0;
+    *total_ms = 0;
+    switch (phase) {
+    case STC_PH_PROMPT:
+        /* S31 shows this phase for the five-second auto-scan wait. */
+        *total_ms = 5000u;
+        return true;
+    case STC_PH_SCAN:
+        *total_ms = cfg->scan_timeout_ms;
+        return true;
+    case STC_PH_RESULT:
+        *total_ms = (uint32_t)cfg->result_ms + cfg->open_timeout_ms;
+        return true;
+    case STC_PH_OPEN:
+        *before_ms = cfg->result_ms;
+        *total_ms = (uint32_t)cfg->result_ms + cfg->open_timeout_ms;
+        return true;
+    case STC_PH_WAIT_DROP:
+        *total_ms = cfg->wait_drop_ms;
+        return true;
+    case STC_PH_SETTLE:
+        *total_ms = (uint32_t)cfg->settle_ms + cfg->close_timeout_ms +
+                    cfg->learning_ms;
+        return true;
+    case STC_PH_CLOSE:
+        *before_ms = cfg->settle_ms;
+        *total_ms = (uint32_t)cfg->settle_ms + cfg->close_timeout_ms +
+                    cfg->learning_ms;
+        return true;
+    case STC_PH_LEARNING:
+        *before_ms = (uint32_t)cfg->settle_ms + cfg->close_timeout_ms;
+        *total_ms = (uint32_t)cfg->settle_ms + cfg->close_timeout_ms +
+                    cfg->learning_ms;
+        return true;
+    default:
+        return false;
+    }
+}
+
 bool stc_app_payload_from_state(const stc_snapshot_t *snap,
                                 const stc_game_view_t *view,
                                 stc_ui_payload_t *out)
@@ -75,11 +119,15 @@ bool stc_app_payload_from_state(const stc_snapshot_t *snap,
     out->error_code = view->fault_code;
     out->round = (uint8_t)(snap->round + 1u);
     out->rounds_total = snap->rounds_total;
-    out->time_total_ms = stc_game_get_config().total_time_ms;
-    out->time_left_ms =
-        snap->elapsed_ms >= out->time_total_ms
-            ? 0u
-            : out->time_total_ms - snap->elapsed_ms;
+    const stc_game_config_t cfg = stc_game_get_config();
+    uint32_t time_before = 0;
+    if (phase_time_window(snap->phase, &cfg, &time_before,
+                          &out->time_total_ms)) {
+        const uint32_t elapsed = time_before + snap->phase_elapsed_ms;
+        out->time_left_ms =
+            elapsed >= out->time_total_ms ? 0u
+                                          : out->time_total_ms - elapsed;
+    }
     out->debug_flags = view->debug_flags;
     out->learning.scanned_bin =
         snap->truth == STC_BIN_COUNT ? -1 : (int32_t)snap->truth;
