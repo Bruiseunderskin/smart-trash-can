@@ -1168,7 +1168,7 @@ if(CONFIG_BOARD_TYPE_ESP32_S31_KORVO_1_STC)
         esp_timer
     )
     set(STC_MODEL_FILE
-        "${CMAKE_CURRENT_LIST_DIR}/../../../models/wordless-unknown/wordless_s31.espdl")
+        "${CMAKE_CURRENT_LIST_DIR}/../../../models/wordless-padded/wordless_s31.espdl")
     set(STC_REPLAY_PACK
         "${CMAKE_CURRENT_BINARY_DIR}/game_replay_pack.bin")
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
@@ -1188,7 +1188,7 @@ if(CONFIG_BOARD_TYPE_ESP32_S31_KORVO_1_STC)
     endif()
     file(SHA256 "${STC_MODEL_FILE}" STC_MODEL_SHA)
     if(NOT STC_MODEL_SHA STREQUAL
-       "cd8435624febc592a28053b20450a434b82a04c0642a70cb09c037e0b43910c3")
+       "5fb3ac6e7b1dcbe7d3ecb9e0db26f286bfebeeb4608fa40bdb8665165fdcbaf0")
         message(FATAL_ERROR
             "wordless_s31.espdl SHA256 mismatch: ${STC_MODEL_SHA}")
     endif()
@@ -1239,7 +1239,7 @@ if(CONFIG_BOARD_TYPE_ESP32_S31_KORVO_1_STC)
     target_add_aligned_binary_data(
         ${COMPONENT_LIB} "${STC_REPLAY_PACK}" BINARY)
     target_compile_definitions(${COMPONENT_LIB} PRIVATE
-        STC_GAME_MODEL_CRC=0x401b7655
+        STC_GAME_MODEL_CRC=0x1c55ab7a
         STC_GAME_LIVE_CAMERA=1
         STC_GAME_IGNORE_MODEL_SELFTEST=1)
 endif()

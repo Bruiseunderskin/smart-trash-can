@@ -45,7 +45,9 @@ class StcFullGameIntegrationTest(unittest.TestCase):
             "stc_ui.c",
         ):
             self.assertIn(source, cmake)
-        self.assertIn("wordless_s31.espdl", cmake)
+        self.assertIn("models/wordless-padded/wordless_s31.espdl", cmake)
+        self.assertIn("5fb3ac6e7b1dcbe7d3ecb9e0db26f286bfebeeb4608fa40bdb8665165fdcbaf0", cmake)
+        self.assertIn("STC_GAME_MODEL_CRC=0x1c55ab7a", cmake)
         self.assertIn("game_replay_pack.bin", cmake)
 
     def test_cloud_gate_keeps_espnow_radio_alive(self):

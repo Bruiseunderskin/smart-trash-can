@@ -145,7 +145,6 @@ void RefreshChatLocked() {
         .state = ui.chat_state,
         .heading = nullptr,
         .message = ui.chat_message[0] != '\0' ? ui.chat_message : nullptr,
-        .hint = nullptr,
         .primary_label = nullptr,
         .secondary_label = nullptr,
     };
