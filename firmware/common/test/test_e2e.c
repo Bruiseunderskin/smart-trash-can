@@ -1,4 +1,4 @@
-/* test_e2e.c — ten one-round cases: eight normal and two abstains. */
+/* test_e2e.c — ten one-round cases: eight normal and two abstain restarts. */
 #include <stdio.h>
 #include <string.h>
 
@@ -44,8 +44,11 @@ static int run_case(stc_bin_t truth, bool correct, bool abstain, int expect_scor
         if (stc_game_snapshot().phase != STC_PH_PROMPT) return 1;
         if (scan_request(t)) return 1;
         if (label_event(STC_BIN_COUNT, true, t)) return 1;
-        if (stc_game_snapshot().phase != STC_PH_LEARNING) return 1;
-        return stc_game_result().score == expect_score ? 0 : 1;
+        if (stc_game_snapshot().phase != STC_PH_PROMPT) return 1;
+        const stc_result_t result = stc_game_result();
+        return result.score == expect_score && result.rounds_played == 0
+                   ? 0
+                   : 1;
     }
 
     t += 1500;
@@ -95,6 +98,6 @@ int main(void)
             return 1;
         }
     }
-    printf("test_e2e: 10/10 cases (8 normal, 2 abstain)\n");
+    printf("test_e2e: 10/10 cases (8 normal, 2 abstain restarts)\n");
     return 0;
 }

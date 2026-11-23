@@ -1,4 +1,4 @@
-/* test_game.c — 5 rounds, scoring, floor, learning, and abstain retry. */
+/* test_game.c — 5 rounds, scoring, floor, learning, and unknown restarts. */
 #include <stdio.h>
 #include <string.h>
 
@@ -123,34 +123,43 @@ int main(void)
         return 1;
     }
 
-    /* Abstain: first low-confidence result requests one retry, second scores 0. */
+    /* Unknown restarts the same logical round and invalidates stale results. */
     if (stc_game_start(0) != STC_OK) return 1;
     t = 0;
+    const uint32_t first_round_id = stc_game_snapshot().round_id;
     if (begin_scan(t)) return 1;
     stc_event_t a1 = label_ev(STC_BIN_OTHER, 0.3f, true, t);
     if (stc_game_input(&a1) != STC_OK) return 1;
-    if (stc_game_snapshot().phase != STC_PH_PROMPT) {
+    const stc_snapshot_t first_restart = stc_game_snapshot();
+    if (first_restart.phase != STC_PH_PROMPT ||
+        first_restart.round != 0 ||
+        first_restart.round_id == first_round_id) {
         fprintf(stderr, "no retry prompt\n");
         return 1;
     }
     if (begin_scan(100)) return 1;
-    stc_event_t a2 = label_ev(STC_BIN_OTHER, 0.3f, true, 100);
-    if (stc_game_input(&a2) != STC_OK) return 1;
-    if (stc_game_snapshot().phase != STC_PH_LEARNING) {
-        fprintf(stderr, "abstain phase\n");
+    stc_event_t stale = a1;
+    stale.u.label.abstain = false;
+    stale.u.label.bin = STC_BIN_RECYCLABLE;
+    if (stc_game_input(&stale) != STC_ERR_NOT_READY) {
+        fprintf(stderr, "stale unknown-round result was accepted\n");
         return 1;
     }
-    if (stc_game_snapshot().truth != STC_BIN_COUNT) {
-        fprintf(stderr, "abstain leaked top-1 bin=%d\n",
-                (int)stc_game_snapshot().truth);
+    stc_event_t a2 = label_ev(STC_BIN_OTHER, 0.3f, true, 100);
+    if (stc_game_input(&a2) != STC_OK) return 1;
+    const stc_snapshot_t restarted = stc_game_snapshot();
+    if (restarted.phase != STC_PH_PROMPT || restarted.round != 0 ||
+        restarted.truth != STC_BIN_COUNT ||
+        restarted.round_id == first_restart.round_id) {
+        fprintf(stderr, "abstain did not restart the same round\n");
         return 1;
     }
     stc_result_t res3 = stc_game_result();
-    if (res3.abstained != 1 || res3.score != 0) {
+    if (res3.rounds_played != 0 || res3.abstained != 0 || res3.score != 0) {
         fprintf(stderr, "abstain counting\n");
         return 1;
     }
 
-    printf("test_game: 5 rounds, score 20, floor 0, abstain retry\n");
+    printf("test_game: 5 rounds, score 20, floor 0, abstain restarts round\n");
     return 0;
 }

@@ -32,10 +32,8 @@ static void update_elapsed(uint32_t now)
     }
 }
 
-static void start_round(uint32_t now)
+static void prepare_round(uint32_t now)
 {
-    g_round_id = g_next_round_id++;
-    g_snap.round_id = g_round_id;
     g_snap.truth = STC_BIN_COUNT;
     g_snap.dropped = STC_BIN_COUNT;
     g_snap.conf = 0.0f;
@@ -48,6 +46,20 @@ static void start_round(uint32_t now)
     g_snap.last_outcome = STC_ROUND_NONE;
     g_retry = 0;
     enter_phase(STC_PH_PROMPT, now);
+}
+
+static void start_round(uint32_t now)
+{
+    g_round_id = g_next_round_id++;
+    g_snap.round_id = g_round_id;
+    prepare_round(now);
+}
+
+static void restart_round(uint32_t now)
+{
+    g_round_id = g_next_round_id++;
+    g_snap.round_id = g_round_id;
+    prepare_round(now);
 }
 
 stc_err_t stc_game_init(void)
@@ -262,14 +274,8 @@ static stc_err_t accept_label(const stc_event_t *ev)
     g_snap.src = ev->u.label.src;
     g_snap.abstained = ev->u.label.abstain;
 
-    if (ev->u.label.abstain && g_retry < g_cfg.max_retry) {
-        g_retry++;
-        enter_phase(STC_PH_PROMPT, ev->t_ms);
-        return STC_OK;
-    }
     if (ev->u.label.abstain) {
-        finish_round(STC_ROUND_ABSTAIN, ev->t_ms);
-        enter_phase(STC_PH_LEARNING, ev->t_ms);
+        restart_round(ev->t_ms);
         return STC_OK;
     }
 

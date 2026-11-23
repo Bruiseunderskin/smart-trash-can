@@ -36,7 +36,7 @@ IDLE ─PLAY─▶ PROMPT ──card ready──▶ SCAN ──label──▶ RE
 | 階段 | 上限 | 超時／失敗行為 |
 |---|---:|---|
 | PROMPT | 20 s | 該回合 0 分、記 `timed_out`，直接下一回合 |
-| SCAN | 1.5 s | 掃描失敗 → `abstained`，重掃一次；再失敗 → 0 分、進 LEARNING |
+| SCAN | 3 s | 相機／模型掃描超時 → 重掃一次；再超時 → 0 分、進 LEARNING |
 | RESULT | 1.5 s | 自動進 OPEN |
 | OPEN | 1.5 s | 開蓋失敗 → 記 fault，仍進 WAIT_DROP（玩家可以手動放） |
 | WAIT_DROP | 15 s | 冇投放 → 0 分、進 CLOSE |
@@ -45,6 +45,10 @@ IDLE ─PLAY─▶ PROMPT ──card ready──▶ SCAN ──label──▶ RE
 | LEARNING | 6 s | 可按 PLAY 提前跳過 |
 
 **3 分鐘硬上限**：`elapsed_ms > total_time_ms` 時，**做完本回合**（不中途切斷）才進 `SUMMARY`，`ended_by_time = true`。
+
+模型回報 `unknown` 或低信心時，立即重開**同一回合**：回合編號不變、
+不計分、不增加已完成回合，亦不進 LEARNING。重開時會換發新的 `round_id`，
+令較慢抵達的舊掃描結果自動失效。相機／模型超時仍依上表先重掃一次。
 
 ---
 
@@ -55,7 +59,8 @@ IDLE ─PLAY─▶ PROMPT ──card ready──▶ SCAN ──label──▶ RE
 | 投放桶 = 模型判定類別 | `score_correct`（+10） | `STC_LINE_CORRECT` |
 | 投放桶 ≠ 模型判定類別 | `score_wrong`（−5） | `STC_LINE_WRONG` |
 | 冇投放（15 s 超時） | 0 | `STC_LINE_TIMEOUT` |
-| abstain（兩次掃描都低於閾值） | 0 | `STC_LINE_RETRY` |
+| 模型 unknown／低信心 | 不計分 | `STC_LINE_RETRY`，重開同一回合 |
+| 兩次掃描都超時 | 0 | `STC_LINE_RETRY` |
 
 - 顯示分數有 floor 0；`stc_result_t.score_raw` 保留真實加總，供報告使用
 - **遊戲分數 ≠ 模型準確率**，報告必須分開講
@@ -77,7 +82,7 @@ IDLE ─PLAY─▶ PROMPT ──card ready──▶ SCAN ──label──▶ RE
 
 - 小知識每個類別一段固定文案（4 段），由 `stc_ui_learning()->tip` 傳入
 - **不顯示具體物品名**（模型只出類別，寫物品名會係假精確）
-- abstain 時改為：「睇唔清，下次試下擺正啲」，不計分
+- 兩次掃描都超時時改為：「睇唔清，下次試下擺正啲」，不計分
 
 ---
 
@@ -105,7 +110,7 @@ IDLE ─PLAY─▶ PROMPT ──card ready──▶ SCAN ──label──▶ RE
 2. 5 回合全錯 → 顯示 0（floor）、`score_raw=-25`、`wrong=5`
 3. 每回合 WAIT_DROP 超時 → `timed_out=5`
 4. PROMPT 超時 → 該回合 0 分並跳過
-5. abstain 兩次 → 0 分、`abstained=1`
+5. unknown／低信心 → 同一回合重開、`round_id` 更新、分數及 `rounds_played` 不變
 6. 同回合連投兩次 → 只計第一次
 7. 回合中按 PLAY（非 LEARNING）→ 無效
 8. LEARNING 中按 PLAY → 提前進下一回合

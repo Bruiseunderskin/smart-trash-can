@@ -459,20 +459,18 @@ static void scan_ready_screen(stc_ui_t *ui) {
     topbar(ui);
     /* No 開始掃描 button: the round starts itself after three seconds, and the
      * bar is the only cue. One tap per session stays on the home screen. */
-    countdown_bar(ui, STC_ACTION_SCAN, true, 104);
+    countdown_bar(ui, STC_ACTION_SCAN, true, 88);
     lv_obj_t *card =
-        box(ui->container, OUTER, 116, PAGE_W, 300, COLOR_BRAND_LIGHT, 16, 0,
+        box(ui->container, OUTER, 112, PAGE_W, 340, COLOR_BRAND_LIGHT, 16, 0,
             COLOR_BRAND_LIGHT);
-    lv_obj_t *frame =
-        box(card, COMPACT_PAD, COMPACT_PAD, PAGE_W - 2 * COMPACT_PAD, 140,
+    ui->camera =
+        box(card, COMPACT_PAD, COMPACT_PAD, PAGE_W - 2 * COMPACT_PAD, 244,
             COLOR_BRAND, 12, 3, COLOR_ON_BRAND);
-    lv_obj_set_style_border_opa(frame, 92, 0);
-    image(card, &stc_lp_img_camera,
-          COMPACT_PAD + (PAGE_W - 2 * COMPACT_PAD - 64) / 2, 54, 64, 64);
-    label(card, "將垃圾放在鏡頭前", COMPACT_PAD, 160, PAGE_W - 2 * COMPACT_PAD,
-          64, FONT_H1, COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
-    label(card, "3 秒後自動掃描", COMPACT_PAD, 246,
-          PAGE_W - 2 * COMPACT_PAD, 40, FONT_HINT, 0xD5E5DC,
+    lv_obj_set_style_border_opa(ui->camera, 92, 0);
+    label(card, "確認卡牌完整入框", 32, 270, 688, 44, FONT_H2,
+          COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
+    label(card, "3 秒後自動掃描", 32, 314, 688, 26, FONT_CAPTION,
+          0xD5E5DC,
           LV_TEXT_ALIGN_CENTER);
 }
 

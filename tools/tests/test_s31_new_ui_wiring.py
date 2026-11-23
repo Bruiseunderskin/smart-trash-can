@@ -45,6 +45,28 @@ class S31NewUiWiringTest(unittest.TestCase):
             app,
         )
 
+    def test_scan_ready_hosts_the_live_camera_preview(self):
+        game_ui = (ROOT / "ui/lvglpro/src/stc_ui.c").read_text(
+            encoding="utf-8"
+        )
+        runtime = (
+            ROOT
+            / "firmware/xiaozhi-esp32/main/boards/espressif/"
+            "esp32-s31-korvo-1-stc/stc_game_runtime.cc"
+        ).read_text(encoding="utf-8")
+        scan_ready = game_ui.split(
+            "static void scan_ready_screen", 1
+        )[1].split("static void capturing_screen", 1)[0]
+        idle_preview = runtime.split("if (!has_request)", 1)[1].split(
+            "continue;", 1
+        )[0]
+
+        self.assertIn("ui->camera =", scan_ready)
+        self.assertIn("PAGE_W - 2 * COMPACT_PAD, 244", scan_ready)
+        self.assertIn("stc_camera_capture_frame(rgb, 1000) == STC_OK",
+                      idle_preview)
+        self.assertIn("stc_shell_ui_set_camera_rgb160", idle_preview)
+
 
 if __name__ == "__main__":
     unittest.main()
