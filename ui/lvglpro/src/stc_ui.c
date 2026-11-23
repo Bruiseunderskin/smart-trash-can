@@ -1019,8 +1019,9 @@ static bool transition(stc_ui_t *ui, stc_state_t next) {
                    next == STC_SUMMARY || next == STC_IDLE;
         case STC_CAPTURING:
             return next == STC_SCAN_READY || next == STC_CLASSIFYING ||
-                   next == STC_RESULT_RETRY || next == STC_LEARNING ||
-                   next == STC_SUMMARY || next == STC_IDLE;
+                   next == STC_RESULT_OK || next == STC_RESULT_RETRY ||
+                   next == STC_LEARNING || next == STC_SUMMARY ||
+                   next == STC_IDLE;
         case STC_CLASSIFYING:
             return next == STC_SCAN_READY || next == STC_RESULT_OK ||
                    next == STC_RESULT_RETRY || next == STC_BIN_CHOICE ||

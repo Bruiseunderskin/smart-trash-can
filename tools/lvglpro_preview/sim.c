@@ -85,8 +85,6 @@ int main(void) {
 
     p.state = STC_CAPTURING;
     assert(stc_ui_apply(ui, &p));
-    p.state = STC_CLASSIFYING;
-    assert(stc_ui_apply(ui, &p));
     p.state = STC_RESULT_OK;
     assert(stc_ui_apply(ui, &p));
     pump(3200);

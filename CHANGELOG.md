@@ -10,6 +10,7 @@
 
 ### Changed
 
+- `ui/lvglpro`：允許 `CAPTURING → RESULT_OK`，對齊 S31 由相機辨識直接轉入結果頁的真實流程；修正已知類別掃描到結果時顯示 `INVALID_TRANSITION`。
 - S31 xiaozhi board：移除聊天 payload 已刪除的 `hint` 欄位，並把內嵌模型由舊 `wordless-unknown` 同步到 `wordless-padded`（SHA `5fb3ac6e…`、CRC `0x1c55ab7a`）。實板進入綠豆後成功連接 `api.tenclass.net` MQTT 並完成 ASR／LLM／TTS 對話。
 - S31 standalone game：新模型與 v3 UI 已完成接駁；首次開始顯示三步 Intro，result/open 階段顯示新結果頁，`問綠豆` 進入 9 頁聊天或離線頁，修正聊天次按鈕誤綁 primary action。S3 `DROP bin` 仍是實際投放與計分輸入，ESP-NOW 協議不變。
 - `models/wordless-padded/`：重訓 5 類（含 unknown）模型，加入 RealWaste／viola77／medicine 真實相；`wordless_s31.espdl` 1,797,936 bytes（SHA `5fb3ac6e…`、CRC `0x1c55ab7a`），17 張 field probe 16/17（舊 12/17），medicine held-out int8 160/171（舊 32/171）。Firmware `MODEL` 改指 padded 並同步 SHA/CRC。
