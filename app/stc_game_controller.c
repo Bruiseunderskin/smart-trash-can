@@ -8,6 +8,7 @@ static stc_game_controller_ports_t g_ports;
 static void *g_user;
 static stc_game_view_t g_view;
 static uint32_t g_open_sent_for;
+static uint32_t g_drop_prompt_for;
 static uint32_t g_close_sent_for;
 static uint32_t g_feedback_for;
 static uint32_t g_summary_hold_for;
@@ -109,14 +110,16 @@ static void act_on_phase(void)
                            STC_OK) {
                 set_fault("HAND_OPEN_FAILED");
             }
-            if (g_ports.voice_say) {
-                (void)g_ports.voice_say(STC_LINE_OPEN, g_user);
-            }
         }
         break;
     case STC_PH_WAIT_DROP:
         if (!touch_bin_mode() && !g_view.lid_open) {
             set_fault("HAND_NOT_OPENED");
+        } else if (g_drop_prompt_for != snap.round_id) {
+            g_drop_prompt_for = snap.round_id;
+            if (g_ports.voice_say) {
+                (void)g_ports.voice_say(STC_LINE_OPEN, g_user);
+            }
         }
         break;
     case STC_PH_CLOSE:
@@ -177,6 +180,7 @@ void stc_game_controller_init(const stc_game_controller_ports_t *ports,
     g_user = user_ctx;
     g_view.hand_online = true;
     g_open_sent_for = 0;
+    g_drop_prompt_for = 0;
     g_close_sent_for = 0;
     g_feedback_for = 0;
     g_summary_hold_for = 0;
@@ -262,6 +266,7 @@ stc_err_t stc_game_controller_ui_action(stc_ui_action_t action,
                     g_start_close_round_id = after.round_id;
                 }
                 g_open_sent_for = 0;
+                g_drop_prompt_for = 0;
                 g_close_sent_for = 0;
                 g_feedback_for = 0;
                 g_summary_hold_for = 0;

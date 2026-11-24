@@ -1,3 +1,4 @@
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -12,6 +13,18 @@ SCRIPT = ROOT / "tools/generate_stc_voice_assets.py"
 
 
 class VoiceAssetGenerationTests(unittest.TestCase):
+    def test_retry_asset_is_the_approved_raw_pcm(self):
+        retry = (
+            ROOT / "firmware/assets/voice/stc_retry.pcm"
+        ).read_bytes()
+
+        self.assertEqual(len(retry), 91392)
+        self.assertEqual(
+            hashlib.sha256(retry).hexdigest(),
+            "0dc356f27ac9d0302cf871804c2e1bc0"
+            "443605decaf38befe6fe8f0048bbabd6",
+        )
+
     def test_converts_validated_mono_wav_to_raw_pcm(self):
         with tempfile.TemporaryDirectory() as temp_name:
             temp = Path(temp_name)

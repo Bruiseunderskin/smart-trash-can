@@ -19,12 +19,14 @@
 
 素材自 PR #41 分支（`codex/issue25-voice-chat`，commit `02d7f81`）抽出，原位置在該分支的 S31 板目錄 `assets/`。抽取決定見 [docs/issue25](../../../docs/issue25/README.md)：只保留語音素材與產生工具，該分支的狀態機與自製畫面不採用。
 
-音色與錄音來源未在該分支記錄；重新產生時要自己指定 voice（見下）。以下 hash 供辨識是否被改過：
+原分支未記錄音色；現已確認六句使用 Edge TTS
+`zh-HK-HiuMaanNeural`。2026-11-24 用 edge-tts 7.3.1 重新合成
+`retry`，再以 ffmpeg 轉成 S31 使用嘅 raw PCM。以下 hash 供辨識是否被改過：
 
 ```
 1e87f23d…  stc_correct.pcm
 83d41d2b…  stc_open.pcm
-f0303f83…  stc_retry.pcm
+0dc356f2…  stc_retry.pcm
 b064b39e…  stc_summary.pcm
 da68dabe…  stc_timeout.pcm
 202f776a…  stc_wrong.pcm
@@ -44,10 +46,19 @@ python3 tools/generate_stc_voice_assets.py \
 python3 tools/generate_stc_voice_assets.py \
   --phrases firmware/assets/voice/phrases.json \
   --output-dir firmware/assets/voice \
-  --tts-voice zh-HK-HiuMaanNeural
+  --tts-voice zh-HK-HiuMaanNeural \
+  --keys retry
+
+# 已有 MP3 時，直接轉成 S31 的 raw PCM
+ffmpeg -i retry.mp3 \
+  -ac 1 -ar 16000 -sample_fmt s16 -f s16le \
+  firmware/assets/voice/stc_retry.pcm
 ```
 
-工具會驗證取樣率／聲道／位元寬，不符即報錯，不會靜靜產生錯格式的檔案。測試見 `tools/tests/test_stc_voice_assets.py`。
+Edge TTS 需要 7.3.1 或以上，舊版可能因 `Sec-MS-GEC` token
+版本過期而收到 HTTP 403。工具會驗證取樣率／聲道／位元寬，不符即報錯，
+不會靜靜產生錯格式的檔案。測試見
+`tools/tests/test_stc_voice_assets.py`。
 
 ## 限制
 

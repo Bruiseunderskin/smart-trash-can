@@ -15,6 +15,14 @@ protected:
     virtual std::string GetBoardJson() override;
 
     /**
+     * Product-level provisioning UX. The upstream defaults preserve Xiaozhi
+     * behaviour; STC overrides these for a short, visible offline transition.
+     */
+    virtual int GetWifiConnectTimeoutSeconds() const { return 60; }
+    virtual int GetWifiConfigModeDelayMs() const { return 1500; }
+    virtual bool ShouldReconnectAfterConfigModeExit() const { return true; }
+
+    /**
      * Handle network event (called from WiFi manager callbacks)
      * @param event The network event type
      * @param data Additional data (e.g., SSID for Connecting/Connected events)

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Camera confirmation with 綠豆 logout</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#202823}
+body{display:grid;place-items:center;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif}
+.app{position:relative;width:800px;height:480px;overflow:hidden;background:#FBF7EC;color:#14342B}
+.top{height:72px;background:#14342B;color:#FBF7EC;display:flex;align-items:center;padding:0 28px;font-size:30px;font-weight:800}
+.top strong{margin-left:auto}
+.progress{position:absolute;left:32px;right:32px;top:92px;height:8px;border-radius:8px;background:#E2D9C6;overflow:hidden}
+.progress i{display:block;height:100%;width:82%;background:#7FD8B0}
+.camera{position:absolute;left:24px;top:112px;width:320px;height:320px;border:8px solid #7FD8B0;border-radius:20px;background:#14342B;color:#FBF7EC;display:grid;place-items:center}
+.empty{display:flex;flex-direction:column;align-items:center;gap:14px;font-size:30px}
+.camera svg{width:50px;height:50px}
+.copy{position:absolute;left:376px;top:112px;width:400px;height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.titleRow{display:flex;align-items:center;justify-content:center;gap:16px}
+.bean{position:relative;width:64px;height:64px;border:0;background:transparent;padding:2px;border-radius:50%;touch-action:none;cursor:pointer}
+.bean svg{width:60px;height:60px;display:block}
+.bean:after{content:"";position:absolute;inset:-3px;border-radius:50%;border:4px solid transparent}
+.bean.holding:after{animation:hold 1.2s linear forwards}
+@keyframes hold{from{clip-path:inset(0 100% 0 0);border-color:#176640}to{clip-path:inset(0 0 0 0);border-color:#176640}}
+h1{margin:0;font-size:52px;line-height:1.06;font-weight:800;white-space:normal}
+.detail{margin-top:40px;font-size:28px;line-height:1.45;color:#5A6B62}
+.confirm{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#00180f99}
+.confirm.open{display:flex}
+.sheet{width:620px;border-radius:24px;background:#FFFDF7;padding:32px;box-shadow:0 24px 80px #0008}
+.sheetTitle{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.sheetTitle .bean{width:56px;height:56px;padding:0;cursor:default}
+.sheetTitle .bean svg{width:52px;height:52px}
+.sheet h2{margin:0;font-size:40px}
+.sheet p{margin:0 0 28px;font-size:28px;line-height:1.45;color:#5A6B62}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+button.action{height:64px;border-radius:16px;font:800 32px/1 "Noto Sans TC","Microsoft JhengHei",sans-serif;cursor:pointer}
+.continue{border:2px solid #B8B2A5;background:#fff;color:#14342B}
+.leave{border:0;background:#7FD8B0;color:#14342B}
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="top"><span>分類小隊</span><strong>第 3 / 5 回合</strong></header>
+  <div class="progress"><i></i></div>
+  <section class="camera">
+    <div class="empty">
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true"><rect x="8" y="18" width="48" height="34" rx="7"/><circle cx="32" cy="35" r="9"/><path d="M21 18l4-7h14l4 7"/></svg>
+      <span>等待相機畫面</span>
+    </div>
+  </section>
+  <section class="copy">
+    <div class="titleRow">
+      <button class="bean" id="bean" aria-label="長按綠豆登出">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M31 17c-13 0-18 10-18 19 0 10 8 16 18 16s18-7 18-17c0-10-6-18-18-18Z" fill="#fff"/>
+          <path d="M31 17c-13 0-18 10-18 19 0 10 8 16 18 16s18-7 18-17c0-10-6-18-18-18Z" fill="none" stroke="#176640" stroke-width="5"/>
+          <path d="M30 17c-1-7 4-11 11-11-1 8-5 11-11 11Z" fill="#7FD8B0" stroke="#14342B" stroke-width="3"/>
+          <circle cx="24" cy="35" r="2.7" fill="#14342B"/><circle cx="39" cy="35" r="2.7" fill="#14342B"/>
+          <path d="M25 43c4 3 9 3 13 0" fill="none" stroke="#14342B" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <h1>確認卡片<br>完整入框</h1>
+    </div>
+    <div class="detail">5 秒後自動掃描</div>
+  </section>
+
+  <div class="confirm" id="confirm">
+    <div class="sheet">
+      <div class="sheetTitle">
+        <div class="bean">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M31 17c-13 0-18 10-18 19 0 10 8 16 18 16s18-7 18-17c0-10-6-18-18-18Z" fill="#fff"/>
+            <path d="M31 17c-13 0-18 10-18 19 0 10 8 16 18 16s18-7 18-17c0-10-6-18-18-18Z" fill="none" stroke="#176640" stroke-width="5"/>
+            <path d="M30 17c-1-7 4-11 11-11-1 8-5 11-11 11Z" fill="#7FD8B0" stroke="#14342B" stroke-width="3"/>
+            <circle cx="24" cy="35" r="2.7" fill="#14342B"/><circle cx="39" cy="35" r="2.7" fill="#14342B"/>
+            <path d="M25 43c4 3 9 3 13 0" fill="none" stroke="#14342B" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2>返回主頁？</h2>
+      </div>
+      <p>返回主頁會取消掃描，分數不動。桶蓋開，返回前會先關閉。</p>
+      <div class="actions">
+        <button class="action continue" id="stay">繼續遊戲</button>
+        <button class="action leave" id="leave">返回主頁</button>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+const q=new URLSearchParams(location.search);
+const bean=document.getElementById('bean');
+const confirm=document.getElementById('confirm');
+let timer=null;
+function down(){bean.classList.add('holding');clearTimeout(timer);timer=setTimeout(()=>{bean.classList.remove('holding');confirm.classList.add('open')},1200)}
+function up(){clearTimeout(timer);bean.classList.remove('holding')}
+bean.addEventListener('pointerdown',down);bean.addEventListener('pointerup',up);
+bean.addEventListener('pointercancel',up);bean.addEventListener('pointerleave',up);
+document.getElementById('stay').onclick=()=>confirm.classList.remove('open');
+document.getElementById('leave').onclick=()=>{confirm.classList.remove('open');document.querySelector('.copy').innerHTML='<h1 style="font-size:44px">已返回主頁</h1>';};
+if(q.get('modal')==='1')confirm.classList.add('open');
+</script>
+</body>
+</html>

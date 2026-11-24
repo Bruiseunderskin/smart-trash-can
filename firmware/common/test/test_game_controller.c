@@ -11,6 +11,7 @@ static int g_close_requests;
 static int g_close_not_ready;
 static uint32_t g_close_round_id;
 static int g_voice_lines;
+static int g_open_voice_lines;
 static int g_retry_voice_lines;
 static int g_sfx_events;
 static int g_retry_sfx_events;
@@ -72,6 +73,7 @@ static stc_err_t fake_voice(stc_line_t line, void *ctx)
 {
     (void)ctx;
     g_voice_lines++;
+    if (line == STC_LINE_OPEN) g_open_voice_lines++;
     if (line == STC_LINE_RETRY) g_retry_voice_lines++;
     return STC_OK;
 }
@@ -171,6 +173,7 @@ static int test_touch_bin_mode(void)
 static int test_unknown_plays_retry_guide(void)
 {
     g_voice_lines = 0;
+    g_open_voice_lines = 0;
     g_retry_voice_lines = 0;
     g_sfx_events = 0;
     g_retry_sfx_events = 0;
@@ -309,6 +312,7 @@ int main(void)
     g_hold_requests = 0;
     g_close_requests = 0;
     g_voice_lines = 0;
+    g_open_voice_lines = 0;
     g_retry_voice_lines = 0;
     g_sfx_events = 0;
     g_retry_sfx_events = 0;
@@ -360,6 +364,11 @@ int main(void)
             fprintf(stderr, "open request round %d\n", round);
             return 1;
         }
+        if (g_open_voice_lines != round) {
+            fprintf(stderr, "drop prompt played during opening round %d\n",
+                    round);
+            return 1;
+        }
         if (stc_game_controller_view()->lid_open) {
             fprintf(stderr, "lid shown open before ACK\n");
             return 1;
@@ -376,6 +385,11 @@ int main(void)
 
         now += 1500;
         stc_game_controller_tick(now);
+        if (g_open_voice_lines != round + 1) {
+            fprintf(stderr, "drop prompt missing after lids opened round %d\n",
+                    round);
+            return 1;
+        }
         stc_drop_t drop = {.bin = dropped[round], .dist_mm = 40};
         if (stc_game_controller_on_drop(&drop, g_scan_round_id + 0x100u,
                                         now) != STC_ERR_NOT_READY) {

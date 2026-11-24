@@ -10,6 +10,7 @@
 
 #include "camera_capture_config.h"
 #include "esp_log.h"
+#include "esp_timer.h"
 #include "esp_video_device.h"
 #include "esp_video_init.h"
 #include "freertos/FreeRTOS.h"
@@ -122,6 +123,19 @@ extern "C" stc_err_t stc_camera_capture_begin(void)
         close_stream();
         return STC_ERR_IO;
     }
+    struct v4l2_streamparm parm = {};
+    parm.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+    if (ioctl(s_fd, VIDIOC_G_PARM, &parm) == 0 &&
+        parm.parm.capture.timeperframe.numerator != 0) {
+        ESP_LOGI(TAG, "SC101IOT frame interval=%u/%u fps=%lu",
+                 static_cast<unsigned>(
+                     parm.parm.capture.timeperframe.numerator),
+                 static_cast<unsigned>(
+                     parm.parm.capture.timeperframe.denominator),
+                 static_cast<unsigned long>(
+                     parm.parm.capture.timeperframe.denominator /
+                     parm.parm.capture.timeperframe.numerator));
+    }
 
     struct v4l2_requestbuffers req = {};
     req.count = kMaxBuffers;
@@ -166,15 +180,23 @@ extern "C" stc_err_t stc_camera_capture_begin(void)
         return STC_ERR_IO;
     }
     s_streaming = true;
-    ESP_LOGI(TAG, "SC101IOT stream on, 640x480 UYVY");
+    ESP_LOGI(TAG, "SC101IOT stream on, %ldx%ld UYVY",
+             static_cast<long>(fmt.fmt.pix.width),
+             static_cast<long>(fmt.fmt.pix.height));
     return STC_OK;
 }
 
-extern "C" stc_err_t stc_camera_capture_frame(uint8_t *rgb, uint32_t timeout_ms)
+static stc_err_t capture_converted(uint8_t *rgb, int out_size,
+                                   uint32_t timeout_ms, bool preview,
+                                   stc_camera_timing_t *timing)
 {
-    if (!rgb || s_fd < 0 || !s_streaming) {
+    if (timing != nullptr) {
+        *timing = {};
+    }
+    if (!rgb || out_size <= 0 || s_fd < 0 || !s_streaming) {
         return STC_ERR_NOT_READY;
     }
+    const int64_t started_us = esp_timer_get_time();
     const uint32_t step_ms = 20;
     uint32_t waited = 0;
     while (waited <= timeout_ms) {
@@ -190,13 +212,30 @@ extern "C" stc_err_t stc_camera_capture_frame(uint8_t *rgb, uint32_t timeout_ms)
             waited += step_ms;
             continue;
         }
+        if (timing != nullptr) {
+            timing->wait_us = static_cast<uint32_t>(
+                esp_timer_get_time() - started_us);
+        }
 
         const bool valid = buf.bytesused >= kFrameBytes &&
                            buf.index < s_buffer_count && s_buffers[buf.index];
-        if (valid &&
-            stc_preprocess_uyvy_to_rgb(
-                static_cast<const uint8_t *>(s_buffers[buf.index]),
-                STC_FRAME_W, STC_FRAME_H, rgb, STC_INPUT_SIZE) == STC_OK) {
+        const int64_t conversion_started_us = esp_timer_get_time();
+        const stc_err_t conversion =
+            valid ? (preview
+                         ? stc_preprocess_uyvy_to_rgb_preview(
+                               static_cast<const uint8_t *>(
+                                   s_buffers[buf.index]),
+                               STC_FRAME_W, STC_FRAME_H, rgb, out_size)
+                         : stc_preprocess_uyvy_to_rgb(
+                               static_cast<const uint8_t *>(
+                                   s_buffers[buf.index]),
+                               STC_FRAME_W, STC_FRAME_H, rgb, out_size))
+                  : STC_ERR_IO;
+        if (timing != nullptr) {
+            timing->convert_us = static_cast<uint32_t>(
+                esp_timer_get_time() - conversion_started_us);
+        }
+        if (conversion == STC_OK) {
             (void)ioctl(s_fd, VIDIOC_QBUF, &buf);
             return STC_OK;
         }
@@ -204,6 +243,20 @@ extern "C" stc_err_t stc_camera_capture_frame(uint8_t *rgb, uint32_t timeout_ms)
         waited += step_ms;
     }
     return STC_ERR_IO;
+}
+
+extern "C" stc_err_t stc_camera_capture_frame(uint8_t *rgb,
+                                               uint32_t timeout_ms)
+{
+    return capture_converted(rgb, STC_INPUT_SIZE, timeout_ms, false,
+                             nullptr);
+}
+
+extern "C" stc_err_t stc_camera_capture_preview(uint8_t *rgb, int out_size,
+                                                 uint32_t timeout_ms,
+                                                 stc_camera_timing_t *timing)
+{
+    return capture_converted(rgb, out_size, timeout_ms, true, timing);
 }
 
 extern "C" void stc_camera_capture_end(void)

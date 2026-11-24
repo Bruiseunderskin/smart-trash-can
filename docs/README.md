@@ -24,6 +24,7 @@
 - [model-comparison.md](model-comparison.md)
 - [pr10-review-status.md](pr10-review-status.md)
 - [s31-bringup-path.md](s31-bringup-path.md)
+- [S31 UI、離線配網與相機預覽調校](stc-ui-pipeline-camera-tuning-2026-11-24.md)
 - [system-architecture-decision.md](system-architecture-decision.md)
 - [v2-voice-screen.md](v2-voice-screen.md)
 - [yolo-espdl-dedup.json](yolo-espdl-dedup.json)

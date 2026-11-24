@@ -9,7 +9,7 @@
 #include "stc_ui.h"
 
 _Static_assert(STC_UI_STATE_COUNT == 12, "twelve UI states");
-_Static_assert(STC_UI_ACTION_COUNT == 9, "nine UI actions");
+_Static_assert(STC_UI_ACTION_COUNT == 10, "ten UI actions");
 
 _Static_assert(STC_UI_IDLE == 0, "idle is zero");
 _Static_assert(STC_UI_CAPTURING == 1, "capturing follows idle");

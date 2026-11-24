@@ -1,0 +1,584 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4037b922
+SPIWP:0xee
+Octal Flash Mode Enabled
+For OPI Flash, Use Default Flash Boot Mode
+mode:SLOW_RD, clock div:1
+load:0x3fce2820,len:0x1520
+load:0x403c8700,len:0xea4
+load:0x403cb700,len:0x2fec
+entry 0x403c8928
+I (32) boot: ESP-IDF v6.0.2 2nd stage bootloader
+I (33) boot: compile time Nov 24 2026 20:52:14
+I (33) boot: Multicore bootloader
+I (33) boot: chip revision: v0.2
+I (36) boot: efuse block revision: v1.3
+I (39) boot.esp32s3: Boot SPI Speed : 80MHz
+I (43) boot.esp32s3: SPI Mode       : SLOW READ
+I (47) boot.esp32s3: SPI Flash Size : 32MB
+I (51) boot: Enabling RNG early entropy source...
+I (56) boot: Partition Table:
+I (58) boot: ## Label            Usage          Type ST Offset   Length
+I (65) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (71) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (78) boot:  2 factory          factory app      00 00 00010000 00100000
+I (84) boot: End of partition table
+I (88) esp_image: segment 0: paddr=00010020 vaddr=3c0a0020 size=1df0ch (122636) map
+I (125) esp_image: segment 1: paddr=0002df34 vaddr=3fc99300 size=020e4h (  8420) load
+I (128) esp_image: segment 2: paddr=00030020 vaddr=42000020 size=931f4h (602612) map
+I (278) esp_image: segment 3: paddr=000c321c vaddr=3fc9b3e4 size=03160h ( 12640) load
+I (282) esp_image: segment 4: paddr=000c6384 vaddr=40374000 size=1524ch ( 86604) load
+I (308) esp_image: segment 5: paddr=000db5d8 vaddr=50000000 size=00024h (    36) load
+I (317) boot: Loaded app from partition at offset 0x10000
+I (317) boot: Disabling RNG early entropy source...
+I (327) MSPI Timing: Enter flash timing tuning
+I (328) cpu_start: Multicore app
+I (337) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (337) cpu_start: Pro cpu start user code
+I (337) cpu_start: cpu freq: 160000000 Hz
+I (339) app_init: Application information:
+I (343) app_init: Project name:     stc_game_hand
+I (347) app_init: App version:      fdaf58c-dirty
+I (352) app_init: Compile time:     Nov 24 2026 20:51:57
+I (357) app_init: ELF file SHA256:  7d5de6f4f...
+I (361) app_init: ESP-IDF:          v6.0.2
+I (365) efuse_init: Min chip rev:     v0.0
+I (369) efuse_init: Max chip rev:     v0.99
+I (373) efuse_init: Chip rev:         v0.2
+I (377) heap_init: Initializing. RAM available for dynamic allocation:
+I (383) heap_init: At 3FCA25A0 len 00047170 (284 KiB): RAM
+I (388) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (393) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (398) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+I (404) spi_flash: detected chip: mxic (opi)
+I (408) spi_flash: flash io: opi_dtr
+I (411) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (417) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (424) main_task: Started on CPU0
+I (427) main_task: Calling app_main()
+I (470) TOF4: READY sensor=0 gpio=4 addr=0x30
+I (470) TOF4: ASSIGN_OK sensor=0 address=0x30 attempt=1
+I (492) TOF4: READY sensor=1 gpio=5 addr=0x31
+I (492) TOF4: ASSIGN_OK sensor=1 address=0x31 attempt=1
+I (514) TOF4: READY sensor=2 gpio=6 addr=0x32
+I (514) TOF4: ASSIGN_OK sensor=2 address=0x32 attempt=1
+I (536) TOF4: READY sensor=3 gpio=7 addr=0x33
+I (536) TOF4: ASSIGN_OK sensor=3 address=0x33 attempt=1
+I (536) TOF4: INIT ready=4/4
+I (537) pp: pp rom version: e7ae62f
+I (540) net80211: net80211 rom version: e7ae62f
+I (545) wifi:wifi driver task: 3fced474, prio:23, stack:6656, core=0
+I (553) wifi:wifi firmware version: 00ad238
+I (554) wifi:wifi certification version: v7.0
+I (558) wifi:config NVS flash: enabled
+I (561) wifi:config nano formatting: disabled
+I (566) wifi:Init data frame dynamic rx buffer num: 32
+I (570) wifi:Init static rx mgmt buffer num: 5
+I (574) wifi:Init management short buffer num: 32
+I (579) wifi:Init dynamic tx buffer num: 32
+I (583) wifi:Init static tx FG buffer num: 2
+I (587) wifi:Init static rx buffer size: 1600
+I (591) wifi:Init static rx buffer num: 10
+I (595) wifi:Init dynamic rx buffer num: 32
+I (599) wifi_init: rx ba win: 6
+I (601) wifi_init: accept mbox: 6
+I (605) wifi_init: tcpip mbox: 32
+I (608) wifi_init: udp mbox: 6
+I (610) wifi_init: tcp mbox: 6
+I (613) wifi_init: tcp tx win: 5760
+I (616) wifi_init: tcp rx win: 5760
+I (620) wifi_init: tcp mss: 1440
+I (622) wifi_init: WiFi IRAM OP enabled
+I (626) wifi_init: WiFi RX IRAM OP enabled
+I (630) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (686) wifi:mode : sta (90:e5:b1:d5:fd:88)
+I (687) wifi:enable tsf
+I (688) wifi:Set ps type: 0, coexist: 0
+
+I (689) ESPNOW: espnow [version: 2.0] init
+
+Type 'help' to get the list of commands.
+Use UP/DOWN arrows to navigate through command history.
+Press TAB when typing command name to auto-complete.
+
+Your terminal application does not support escape sequences.
+
+Line editing and history features are disabled.
+
+On Windows, try using Windows Terminal or Putty instead.
+hand> I (1254) GAME_HAND: GAME_HAND=READY; type start to begin one round
+I (3803) GAME_HAND: CONTROLLER_FOUND mac=1c:29:04:d0:58:a0
+I (3804) GAME_HAND: TX_ACK round=0 seq=64 action=2 result=ESP_OK
+I (3805) SERVO_LIDS: ready gpio=12,13,14,15 close_us=1450 open_us=1575
+I (3818) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (3939) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (4059) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (4179) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (4179) GAME_HAND: RX_CLOSE round=0 seq=64
+I (6590) GAME_HAND: ROUND_START round=121 timeout_ms=15000 close_delay_ms=3000
+I (6591) GAME_HAND: TX_ACK round=121 seq=65 action=1 result=ESP_OK
+I (6593) GAME_HAND: RX_OPEN round=121 seq=65
+I (6605) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (6725) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (6845) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (6965) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (6965) GAME_HAND: ALL_LIDS_OPEN round=121 settle_ms=800
+I (7767) GAME_HAND: BASELINE_START round=121
+I (8150) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=8851
+I (8151) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3064
+I (8152) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4399
+I (8164) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=7331
+I (8166) GAME_HAND: DETECTING round=121 armed_at_ms=7762 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+I (9180) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=13991 outcome=0 bin=255
+I (10188) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=12983 outcome=0 bin=255
+I (11189) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=11982 outcome=0 bin=255
+I (12195) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=10976 outcome=0 bin=255
+I (13205) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=9967 outcome=0 bin=255
+I (14212) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=8960 outcome=0 bin=255
+I (15220) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=7951 outcome=0 bin=255
+I (16229) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=6943 outcome=0 bin=255
+I (17238) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=5933 outcome=0 bin=255
+I (18247) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=4924 outcome=0 bin=255
+I (19255) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=3916 outcome=0 bin=255
+I (20263) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=2908 outcome=0 bin=255
+I (21267) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=1904 outcome=0 bin=255
+I (22270) GAME_HAND: ROUND_TIMER round=121 phase=detecting remaining_ms=901 outcome=0 bin=255
+I (23100) GAME_HAND: TX_ACK round=121 seq=66 action=2 result=ESP_OK
+W (23101) GAME_HAND: MANUAL_CLOSE
+I (23102) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (23234) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (23354) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (23474) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (23474) GAME_HAND: RX_CLOSE round=121 seq=66
+I (604920) GAME_HAND: ROUND_START round=1 timeout_ms=15000 close_delay_ms=3000
+I (604921) GAME_HAND: TX_ACK round=1 seq=67 action=1 result=ESP_OK
+I (604923) GAME_HAND: RX_OPEN round=1 seq=67
+I (604934) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (605055) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (605175) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (605295) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (605295) GAME_HAND: ALL_LIDS_OPEN round=1 settle_ms=800
+I (606097) GAME_HAND: BASELINE_START round=1
+I (606472) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=8865
+I (606473) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3160
+I (606474) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4534
+I (606486) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=7191
+I (606488) GAME_HAND: DETECTING round=1 armed_at_ms=606084 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+I (607497) GAME_HAND: ROUND_TIMER round=1 phase=detecting remaining_ms=13996 outcome=0 bin=255
+W (607986) GAME_HAND: TOF_CANDIDATE round=1 sensor=1 gpio=5 range_mm=19 baseline_mm=19 return_rate=6938 baseline_return=3160
+I (608008) GAME_HAND: TX_DROP round=1 seq=67 bin=1 dist_mm=19 attempt=1/3 result=ESP_OK
+I (608009) GAME_HAND: ANSWER_DETECTED round=1 bin=1 sensor=1 gpio=5 range_mm=19 baseline_mm=19 return_rate=20074 baseline_return=3160 close_delay_ms=3000
+I (608058) GAME_HAND: DROP_ACK round=1 seq=67
+I (608328) GAME_HAND: TX_ACK round=1 seq=68 action=2 result=ESP_OK
+I (608329) GAME_HAND: RX_CLOSE_DEFERRED round=1 remaining_ms=2679
+I (608330) GAME_HAND: RX_CLOSE round=1 seq=68
+I (608492) GAME_HAND: ROUND_TIMER round=1 phase=wait_close remaining_ms=2516 outcome=1 bin=1
+I (609493) GAME_HAND: ROUND_TIMER round=1 phase=wait_close remaining_ms=1515 outcome=1 bin=1
+I (610494) GAME_HAND: ROUND_TIMER round=1 phase=wait_close remaining_ms=514 outcome=1 bin=1
+I (611010) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (611131) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (611251) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (611371) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (611371) GAME_HAND: ALL_LIDS_CLOSE round=1 reason=DROP_WINDOW_ELAPSED
+I (611498) GAME_HAND: ROUND_TIMER round=1 phase=wait_close remaining_ms=-490 outcome=1 bin=1
+GAME_HAND phase=result round=1 outcome=1 bin=1 remaining_ms=0
+I (612075) GAME_HAND: ROUND_RESULT round=1 outcome=ANSWER bin=1
+I (615271) GAME_HAND: TX_ACK round=1 seq=69 action=3 result=ESP_OK
+I (615272) GAME_HAND: RX_HOLD_OPEN round=1 seq=69
+I (615273) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (615405) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (615525) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (615645) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (615645) GAME_HAND: ALL_LIDS_OPEN round=1 settle_ms=800
+I (620382) GAME_HAND: TX_ACK round=1 seq=70 action=2 result=ESP_OK
+W (620383) GAME_HAND: MANUAL_CLOSE
+I (620384) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (620516) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (620636) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (620756) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (620756) GAME_HAND: RX_CLOSE round=1 seq=70
+I (630388) GAME_HAND: ROUND_START round=3 timeout_ms=15000 close_delay_ms=3000
+I (630389) GAME_HAND: TX_ACK round=3 seq=71 action=1 result=ESP_OK
+I (630391) GAME_HAND: RX_OPEN round=3 seq=71
+I (630402) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (630523) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (630643) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (630763) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (630763) GAME_HAND: ALL_LIDS_OPEN round=3 settle_ms=800
+I (631565) GAME_HAND: BASELINE_START round=3
+I (631930) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=8849
+I (631931) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3160
+I (631932) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4529
+I (631944) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=7166
+I (631946) GAME_HAND: DETECTING round=3 armed_at_ms=631542 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+I (632955) GAME_HAND: ROUND_TIMER round=3 phase=detecting remaining_ms=13996 outcome=0 bin=255
+I (633964) GAME_HAND: ROUND_TIMER round=3 phase=detecting remaining_ms=12987 outcome=0 bin=255
+I (634967) GAME_HAND: ROUND_TIMER round=3 phase=detecting remaining_ms=11984 outcome=0 bin=255
+I (635973) GAME_HAND: ROUND_TIMER round=3 phase=detecting remaining_ms=10978 outcome=0 bin=255
+I (636982) GAME_HAND: ROUND_TIMER round=3 phase=detecting remaining_ms=9969 outcome=0 bin=255
+I (637992) GAME_HAND: ROUND_TIMER round=3 phase=detecting remaining_ms=8959 outcome=0 bin=255
+I (639001) GAME_HAND: ROUND_TIMER round=3 phase=detecting remaining_ms=7950 outcome=0 bin=255
+I (640003) GAME_HAND: ROUND_TIMER round=3 phase=detecting remaining_ms=6948 outcome=0 bin=255
+I (641010) GAME_HAND: ROUND_TIMER round=3 phase=detecting remaining_ms=5942 outcome=0 bin=255
+W (641979) GAME_HAND: TOF_CANDIDATE round=3 sensor=2 gpio=6 range_mm=18 baseline_mm=18 return_rate=12939 baseline_return=4529
+I (642001) GAME_HAND: TX_DROP round=3 seq=71 bin=2 dist_mm=18 attempt=1/3 result=ESP_OK
+I (642003) GAME_HAND: ANSWER_DETECTED round=3 bin=2 sensor=2 gpio=6 range_mm=18 baseline_mm=18 return_rate=22239 baseline_return=4529 close_delay_ms=3000
+I (642021) GAME_HAND: ROUND_TIMER round=3 phase=wait_close remaining_ms=2980 outcome=1 bin=2
+I (642047) GAME_HAND: DROP_ACK round=3 seq=71
+I (642322) GAME_HAND: TX_ACK round=3 seq=72 action=2 result=ESP_OK
+I (642323) GAME_HAND: RX_CLOSE_DEFERRED round=3 remaining_ms=2678
+I (642324) GAME_HAND: RX_CLOSE round=3 seq=72
+I (643021) GAME_HAND: ROUND_TIMER round=3 phase=wait_close remaining_ms=1980 outcome=1 bin=2
+I (644022) GAME_HAND: ROUND_TIMER round=3 phase=wait_close remaining_ms=979 outcome=1 bin=2
+I (645003) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (645124) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (645244) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (645364) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (645364) GAME_HAND: ALL_LIDS_CLOSE round=3 reason=DROP_WINDOW_ELAPSED
+I (645371) GAME_HAND: ROUND_TIMER round=3 phase=wait_close remaining_ms=-370 outcome=1 bin=2
+GAME_HAND phase=result round=3 outcome=1 bin=2 remaining_ms=0
+I (646069) GAME_HAND: ROUND_RESULT round=3 outcome=ANSWER bin=2
+I (674280) GAME_HAND: ROUND_START round=9 timeout_ms=15000 close_delay_ms=3000
+I (674281) GAME_HAND: TX_ACK round=9 seq=73 action=1 result=ESP_OK
+I (674282) GAME_HAND: RX_OPEN round=9 seq=73
+I (674294) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (674415) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (674535) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (674655) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (674655) GAME_HAND: ALL_LIDS_OPEN round=9 settle_ms=800
+I (675457) GAME_HAND: BASELINE_START round=9
+I (675821) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=8937
+I (675822) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3160
+I (675823) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4544
+I (675836) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=7576
+I (675837) GAME_HAND: DETECTING round=9 armed_at_ms=675433 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+I (676847) GAME_HAND: ROUND_TIMER round=9 phase=detecting remaining_ms=13995 outcome=0 bin=255
+I (677847) GAME_HAND: ROUND_TIMER round=9 phase=detecting remaining_ms=12995 outcome=0 bin=255
+I (678856) GAME_HAND: ROUND_TIMER round=9 phase=detecting remaining_ms=11986 outcome=0 bin=255
+I (679865) GAME_HAND: ROUND_TIMER round=9 phase=detecting remaining_ms=10977 outcome=0 bin=255
+I (680866) GAME_HAND: ROUND_TIMER round=9 phase=detecting remaining_ms=9976 outcome=0 bin=255
+I (681875) GAME_HAND: ROUND_TIMER round=9 phase=detecting remaining_ms=8967 outcome=0 bin=255
+I (682884) GAME_HAND: ROUND_TIMER round=9 phase=detecting remaining_ms=7959 outcome=0 bin=255
+I (683888) GAME_HAND: ROUND_TIMER round=9 phase=detecting remaining_ms=6954 outcome=0 bin=255
+W (684811) GAME_HAND: TOF_CANDIDATE round=9 sensor=2 gpio=6 range_mm=18 baseline_mm=18 return_rate=30401 baseline_return=4544
+I (684833) GAME_HAND: TX_DROP round=9 seq=73 bin=2 dist_mm=18 attempt=1/3 result=ESP_OK
+I (684834) GAME_HAND: ANSWER_DETECTED round=9 bin=2 sensor=2 gpio=6 range_mm=18 baseline_mm=18 return_rate=30727 baseline_return=4544 close_delay_ms=3000
+I (684868) GAME_HAND: DROP_ACK round=9 seq=73
+I (684883) GAME_HAND: ROUND_TIMER round=9 phase=wait_close remaining_ms=2950 outcome=1 bin=2
+I (685149) GAME_HAND: TX_ACK round=9 seq=74 action=2 result=ESP_OK
+I (685150) GAME_HAND: RX_CLOSE_DEFERRED round=9 remaining_ms=2683
+I (685151) GAME_HAND: RX_CLOSE round=9 seq=74
+I (685883) GAME_HAND: ROUND_TIMER round=9 phase=wait_close remaining_ms=1950 outcome=1 bin=2
+I (686884) GAME_HAND: ROUND_TIMER round=9 phase=wait_close remaining_ms=949 outcome=1 bin=2
+I (687835) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (687956) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (688076) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (688196) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (688196) GAME_HAND: ALL_LIDS_CLOSE round=9 reason=DROP_WINDOW_ELAPSED
+I (688203) GAME_HAND: ROUND_TIMER round=9 phase=wait_close remaining_ms=-370 outcome=1 bin=2
+GAME_HAND phase=result round=9 outcome=1 bin=2 remaining_ms=0
+I (688901) GAME_HAND: ROUND_RESULT round=9 outcome=ANSWER bin=2
+I (702292) GAME_HAND: ROUND_START round=11 timeout_ms=15000 close_delay_ms=3000
+I (702293) GAME_HAND: TX_ACK round=11 seq=75 action=1 result=ESP_OK
+I (702294) GAME_HAND: RX_OPEN round=11 seq=75
+I (702306) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (702427) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (702547) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (702667) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (702667) GAME_HAND: ALL_LIDS_OPEN round=11 settle_ms=800
+I (703469) GAME_HAND: BASELINE_START round=11
+I (703834) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=9334
+I (703835) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3151
+I (703836) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4380
+I (703848) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=7687
+I (703850) GAME_HAND: DETECTING round=11 armed_at_ms=703446 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+I (704859) GAME_HAND: ROUND_TIMER round=11 phase=detecting remaining_ms=13996 outcome=0 bin=255
+I (705869) GAME_HAND: ROUND_TIMER round=11 phase=detecting remaining_ms=12987 outcome=0 bin=255
+I (706868) GAME_HAND: ROUND_TIMER round=11 phase=detecting remaining_ms=11987 outcome=0 bin=255
+W (707092) GAME_HAND: TOF_CANDIDATE round=11 sensor=1 gpio=5 range_mm=19 baseline_mm=19 return_rate=4878 baseline_return=3151
+I (707114) GAME_HAND: TX_DROP round=11 seq=75 bin=1 dist_mm=19 attempt=1/3 result=ESP_OK
+I (707115) GAME_HAND: ANSWER_DETECTED round=11 bin=1 sensor=1 gpio=5 range_mm=19 baseline_mm=19 return_rate=5948 baseline_return=3151 close_delay_ms=3000
+I (707149) GAME_HAND: DROP_ACK round=11 seq=75
+I (707419) GAME_HAND: TX_ACK round=11 seq=76 action=2 result=ESP_OK
+I (707420) GAME_HAND: RX_CLOSE_DEFERRED round=11 remaining_ms=2694
+I (707421) GAME_HAND: RX_CLOSE round=11 seq=76
+I (707863) GAME_HAND: ROUND_TIMER round=11 phase=wait_close remaining_ms=2251 outcome=1 bin=1
+I (708864) GAME_HAND: ROUND_TIMER round=11 phase=wait_close remaining_ms=1250 outcome=1 bin=1
+I (709865) GAME_HAND: ROUND_TIMER round=11 phase=wait_close remaining_ms=249 outcome=1 bin=1
+I (710116) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (710237) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (710357) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (710477) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (710477) GAME_HAND: ALL_LIDS_CLOSE round=11 reason=DROP_WINDOW_ELAPSED
+I (710869) GAME_HAND: ROUND_TIMER round=11 phase=wait_close remaining_ms=-755 outcome=1 bin=1
+GAME_HAND phase=result round=11 outcome=1 bin=1 remaining_ms=0
+I (711181) GAME_HAND: ROUND_RESULT round=11 outcome=ANSWER bin=1
+I (721997) GAME_HAND: ROUND_START round=13 timeout_ms=15000 close_delay_ms=3000
+I (721998) GAME_HAND: TX_ACK round=13 seq=77 action=1 result=ESP_OK
+I (721999) GAME_HAND: RX_OPEN round=13 seq=77
+I (722011) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (722132) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (722252) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (722372) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (722372) GAME_HAND: ALL_LIDS_OPEN round=13 settle_ms=800
+I (723174) GAME_HAND: BASELINE_START round=13
+I (723539) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=9188
+I (723540) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3143
+I (723541) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4396
+I (723554) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=7647
+I (723555) GAME_HAND: DETECTING round=13 armed_at_ms=723151 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+I (724566) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=13994 outcome=0 bin=255
+I (725573) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=12987 outcome=0 bin=255
+I (726573) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=11987 outcome=0 bin=255
+I (727582) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=10978 outcome=0 bin=255
+I (728591) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=9969 outcome=0 bin=255
+I (729601) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=8959 outcome=0 bin=255
+W (729808) GAME_HAND: TOF_MISS round=13 gpio_mask=0x08 last=0x00
+I (730754) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=7901 outcome=0 bin=255
+I (731805) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=6850 outcome=0 bin=255
+I (732856) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=5799 outcome=0 bin=255
+I (733907) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=4748 outcome=0 bin=255
+I (734958) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=3697 outcome=0 bin=255
+I (736009) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=2646 outcome=0 bin=255
+I (737060) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=1595 outcome=0 bin=255
+I (738111) GAME_HAND: ROUND_TIMER round=13 phase=detecting remaining_ms=544 outcome=0 bin=255
+I (738537) GAME_HAND: TX_ACK round=13 seq=78 action=2 result=ESP_OK
+W (738538) GAME_HAND: MANUAL_CLOSE
+I (738539) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (738671) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (738791) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (738911) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (738911) GAME_HAND: RX_CLOSE round=13 seq=78
+I (772838) GAME_HAND: ROUND_START round=19 timeout_ms=15000 close_delay_ms=3000
+I (772839) GAME_HAND: TX_ACK round=19 seq=79 action=1 result=ESP_OK
+I (772840) GAME_HAND: RX_OPEN round=19 seq=79
+I (772852) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (772973) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (773093) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (773213) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (773213) GAME_HAND: ALL_LIDS_OPEN round=19 settle_ms=800
+I (774015) GAME_HAND: BASELINE_START round=19
+I (774379) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=10393
+I (774380) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3157
+I (774381) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4415
+I (774393) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=8369
+I (774395) GAME_HAND: DETECTING round=19 armed_at_ms=773991 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+I (775407) GAME_HAND: ROUND_TIMER round=19 phase=detecting remaining_ms=13993 outcome=0 bin=255
+I (776414) GAME_HAND: ROUND_TIMER round=19 phase=detecting remaining_ms=12986 outcome=0 bin=255
+I (777414) GAME_HAND: ROUND_TIMER round=19 phase=detecting remaining_ms=11986 outcome=0 bin=255
+I (778423) GAME_HAND: ROUND_TIMER round=19 phase=detecting remaining_ms=10977 outcome=0 bin=255
+I (779424) GAME_HAND: ROUND_TIMER round=19 phase=detecting remaining_ms=9976 outcome=0 bin=255
+W (779637) GAME_HAND: TOF_CANDIDATE round=19 sensor=0 gpio=4 range_mm=14 baseline_mm=14 return_rate=16000 baseline_return=10393
+I (779659) GAME_HAND: TX_DROP round=19 seq=79 bin=0 dist_mm=14 attempt=1/3 result=ESP_OK
+I (779661) GAME_HAND: ANSWER_DETECTED round=19 bin=0 sensor=0 gpio=4 range_mm=14 baseline_mm=14 return_rate=25328 baseline_return=10393 close_delay_ms=3000
+I (779699) GAME_HAND: DROP_ACK round=19 seq=79
+I (779969) GAME_HAND: TX_ACK round=19 seq=80 action=2 result=ESP_OK
+I (779970) GAME_HAND: RX_CLOSE_DEFERRED round=19 remaining_ms=2689
+I (779971) GAME_HAND: RX_CLOSE round=19 seq=80
+I (780423) GAME_HAND: ROUND_TIMER round=19 phase=wait_close remaining_ms=2236 outcome=1 bin=0
+I (781424) GAME_HAND: ROUND_TIMER round=19 phase=wait_close remaining_ms=1235 outcome=1 bin=0
+I (782425) GAME_HAND: ROUND_TIMER round=19 phase=wait_close remaining_ms=234 outcome=1 bin=0
+I (782661) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (782782) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (782902) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (783022) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (783022) GAME_HAND: ALL_LIDS_CLOSE round=19 reason=DROP_WINDOW_ELAPSED
+I (783429) GAME_HAND: ROUND_TIMER round=19 phase=wait_close remaining_ms=-770 outcome=1 bin=0
+GAME_HAND phase=result round=19 outcome=1 bin=0 remaining_ms=0
+I (783726) GAME_HAND: ROUND_RESULT round=19 outcome=ANSWER bin=0
+I (787472) GAME_HAND: TX_ACK round=19 seq=81 action=3 result=ESP_OK
+I (787473) GAME_HAND: RX_HOLD_OPEN round=19 seq=81
+I (787474) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (787606) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (787726) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (787847) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (787847) GAME_HAND: ALL_LIDS_OPEN round=19 settle_ms=800
+I (813354) GAME_HAND: TX_ACK round=19 seq=82 action=2 result=ESP_OK
+W (813355) GAME_HAND: MANUAL_CLOSE
+I (813356) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (813488) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (813608) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (813728) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (813728) GAME_HAND: RX_CLOSE round=19 seq=82
+I (822855) GAME_HAND: ROUND_START round=21 timeout_ms=15000 close_delay_ms=3000
+I (822856) GAME_HAND: TX_ACK round=21 seq=83 action=1 result=ESP_OK
+I (822857) GAME_HAND: RX_OPEN round=21 seq=83
+I (822869) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (822990) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (823110) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (823230) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (823230) GAME_HAND: ALL_LIDS_OPEN round=21 settle_ms=800
+I (824032) GAME_HAND: BASELINE_START round=21
+I (824397) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=5707
+I (824398) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3130
+I (824399) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4396
+I (824411) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=1939
+I (824413) GAME_HAND: DETECTING round=21 armed_at_ms=824009 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+I (825422) GAME_HAND: ROUND_TIMER round=21 phase=detecting remaining_ms=13996 outcome=0 bin=255
+W (826412) GAME_HAND: TOF_CANDIDATE round=21 sensor=3 gpio=7 range_mm=11 baseline_mm=11 return_rate=3897 baseline_return=1939
+I (826424) GAME_HAND: ROUND_TIMER round=21 phase=detecting remaining_ms=12994 outcome=0 bin=255
+I (826435) GAME_HAND: TX_DROP round=21 seq=83 bin=3 dist_mm=11 attempt=1/3 result=ESP_OK
+I (826437) GAME_HAND: ANSWER_DETECTED round=21 bin=3 sensor=3 gpio=7 range_mm=11 baseline_mm=11 return_rate=12054 baseline_return=1939 close_delay_ms=3000
+I (826480) GAME_HAND: DROP_ACK round=21 seq=83
+I (826750) GAME_HAND: TX_ACK round=21 seq=84 action=2 result=ESP_OK
+I (826751) GAME_HAND: RX_CLOSE_DEFERRED round=21 remaining_ms=2684
+I (826752) GAME_HAND: RX_CLOSE round=21 seq=84
+I (827419) GAME_HAND: ROUND_TIMER round=21 phase=wait_close remaining_ms=2016 outcome=1 bin=3
+I (828420) GAME_HAND: ROUND_TIMER round=21 phase=wait_close remaining_ms=1015 outcome=1 bin=3
+I (829421) GAME_HAND: ROUND_TIMER round=21 phase=wait_close remaining_ms=14 outcome=1 bin=3
+I (829437) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (829557) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (829677) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (829797) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (829797) GAME_HAND: ALL_LIDS_CLOSE round=21 reason=DROP_WINDOW_ELAPSED
+I (830424) GAME_HAND: ROUND_TIMER round=21 phase=wait_close remaining_ms=-989 outcome=1 bin=3
+GAME_HAND phase=result round=21 outcome=1 bin=3 remaining_ms=0
+I (830501) GAME_HAND: ROUND_RESULT round=21 outcome=ANSWER bin=3
+I (860342) GAME_HAND: ROUND_START round=27 timeout_ms=15000 close_delay_ms=3000
+I (860343) GAME_HAND: TX_ACK round=27 seq=85 action=1 result=ESP_OK
+I (860345) GAME_HAND: RX_OPEN round=27 seq=85
+I (860356) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (860477) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (860597) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (860717) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (860717) GAME_HAND: ALL_LIDS_OPEN round=27 settle_ms=800
+I (861519) GAME_HAND: BASELINE_START round=27
+I (861884) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=5700
+I (861885) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3139
+I (861886) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4416
+I (861899) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=7071
+I (861900) GAME_HAND: DETECTING round=27 armed_at_ms=861496 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+I (862911) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=13994 outcome=0 bin=255
+I (863919) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=12986 outcome=0 bin=255
+I (864928) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=11977 outcome=0 bin=255
+I (865938) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=10967 outcome=0 bin=255
+I (866947) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=9958 outcome=0 bin=255
+I (867948) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=8958 outcome=0 bin=255
+I (868947) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=7958 outcome=0 bin=255
+I (869955) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=6950 outcome=0 bin=255
+I (870965) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=5941 outcome=0 bin=255
+I (871964) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=4941 outcome=0 bin=255
+I (872973) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=3932 outcome=0 bin=255
+I (873974) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=2932 outcome=0 bin=255
+I (874982) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=1923 outcome=0 bin=255
+I (875992) GAME_HAND: ROUND_TIMER round=27 phase=detecting remaining_ms=914 outcome=0 bin=255
+I (876853) GAME_HAND: TX_ACK round=27 seq=86 action=2 result=ESP_OK
+W (876854) GAME_HAND: MANUAL_CLOSE
+I (876855) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (876987) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (877107) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (877227) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (877227) GAME_HAND: RX_CLOSE round=27 seq=86
+I (893909) GAME_HAND: ROUND_START round=29 timeout_ms=15000 close_delay_ms=3000
+I (893910) GAME_HAND: TX_ACK round=29 seq=87 action=1 result=ESP_OK
+I (893912) GAME_HAND: RX_OPEN round=29 seq=87
+I (893923) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (894044) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (894164) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (894284) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (894284) GAME_HAND: ALL_LIDS_OPEN round=29 settle_ms=800
+I (895086) GAME_HAND: BASELINE_START round=29
+I (895451) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=5702
+I (895452) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3155
+I (895453) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4391
+I (895465) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=4223
+I (895467) GAME_HAND: DETECTING round=29 armed_at_ms=895063 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+I (896479) GAME_HAND: ROUND_TIMER round=29 phase=detecting remaining_ms=13994 outcome=0 bin=255
+W (896661) GAME_HAND: TOF_CANDIDATE round=29 sensor=3 gpio=7 range_mm=11 baseline_mm=11 return_rate=6849 baseline_return=4223
+I (896683) GAME_HAND: TX_DROP round=29 seq=87 bin=3 dist_mm=11 attempt=1/3 result=ESP_OK
+I (896684) GAME_HAND: ANSWER_DETECTED round=29 bin=3 sensor=3 gpio=7 range_mm=11 baseline_mm=11 return_rate=7833 baseline_return=4223 close_delay_ms=3000
+I (896718) GAME_HAND: DROP_ACK round=29 seq=87
+I (896993) GAME_HAND: TX_ACK round=29 seq=88 action=2 result=ESP_OK
+I (896994) GAME_HAND: RX_CLOSE_DEFERRED round=29 remaining_ms=2689
+I (896995) GAME_HAND: RX_CLOSE round=29 seq=88
+I (897477) GAME_HAND: ROUND_TIMER round=29 phase=wait_close remaining_ms=2206 outcome=1 bin=3
+I (898478) GAME_HAND: ROUND_TIMER round=29 phase=wait_close remaining_ms=1205 outcome=1 bin=3
+I (899479) GAME_HAND: ROUND_TIMER round=29 phase=wait_close remaining_ms=204 outcome=1 bin=3
+I (899685) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (899806) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (899926) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (900046) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (900046) GAME_HAND: ALL_LIDS_CLOSE round=29 reason=DROP_WINDOW_ELAPSED
+I (900483) GAME_HAND: ROUND_TIMER round=29 phase=wait_close remaining_ms=-800 outcome=1 bin=3
+GAME_HAND phase=result round=29 outcome=1 bin=3 remaining_ms=0
+I (900750) GAME_HAND: ROUND_RESULT round=29 outcome=ANSWER bin=3
+I (922201) GAME_HAND: ROUND_START round=33 timeout_ms=15000 close_delay_ms=3000
+I (922202) GAME_HAND: TX_ACK round=33 seq=89 action=1 result=ESP_OK
+I (922203) GAME_HAND: RX_OPEN round=33 seq=89
+I (922215) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (922336) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (922456) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (922576) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (922576) GAME_HAND: ALL_LIDS_OPEN round=33 settle_ms=800
+I (923378) GAME_HAND: BASELINE_START round=33
+I (923744) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=5714
+I (923745) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3155
+I (923746) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4428
+I (923758) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=2042
+I (923760) GAME_HAND: DETECTING round=33 armed_at_ms=923356 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+I (924771) GAME_HAND: ROUND_TIMER round=33 phase=detecting remaining_ms=13994 outcome=0 bin=255
+I (925778) GAME_HAND: ROUND_TIMER round=33 phase=detecting remaining_ms=12987 outcome=0 bin=255
+I (926778) GAME_HAND: ROUND_TIMER round=33 phase=detecting remaining_ms=11987 outcome=0 bin=255
+I (927787) GAME_HAND: ROUND_TIMER round=33 phase=detecting remaining_ms=10978 outcome=0 bin=255
+I (928787) GAME_HAND: ROUND_TIMER round=33 phase=detecting remaining_ms=9978 outcome=0 bin=255
+I (929796) GAME_HAND: ROUND_TIMER round=33 phase=detecting remaining_ms=8969 outcome=0 bin=255
+I (930805) GAME_HAND: ROUND_TIMER round=33 phase=detecting remaining_ms=7960 outcome=0 bin=255
+W (931254) GAME_HAND: TOF_CANDIDATE round=33 sensor=0 gpio=4 range_mm=14 baseline_mm=14 return_rate=10816 baseline_return=5714
+I (931276) GAME_HAND: TX_DROP round=33 seq=89 bin=0 dist_mm=14 attempt=1/3 result=ESP_OK
+I (931278) GAME_HAND: ANSWER_DETECTED round=33 bin=0 sensor=0 gpio=4 range_mm=14 baseline_mm=14 return_rate=30241 baseline_return=5714 close_delay_ms=3000
+I (931326) GAME_HAND: DROP_ACK round=33 seq=89
+I (931601) GAME_HAND: TX_ACK round=33 seq=90 action=2 result=ESP_OK
+I (931602) GAME_HAND: RX_CLOSE_DEFERRED round=33 remaining_ms=2674
+I (931603) GAME_HAND: RX_CLOSE round=33 seq=90
+I (931800) GAME_HAND: ROUND_TIMER round=33 phase=wait_close remaining_ms=2476 outcome=1 bin=0
+I (932801) GAME_HAND: ROUND_TIMER round=33 phase=wait_close remaining_ms=1475 outcome=1 bin=0
+I (933802) GAME_HAND: ROUND_TIMER round=33 phase=wait_close remaining_ms=474 outcome=1 bin=0
+I (934278) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (934399) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (934519) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (934639) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (934639) GAME_HAND: ALL_LIDS_CLOSE round=33 reason=DROP_WINDOW_ELAPSED
+I (934806) GAME_HAND: ROUND_TIMER round=33 phase=wait_close remaining_ms=-530 outcome=1 bin=0
+GAME_HAND phase=result round=33 outcome=1 bin=0 remaining_ms=0
+I (935343) GAME_HAND: ROUND_RESULT round=33 outcome=ANSWER bin=0
+I (962939) GAME_HAND: ROUND_START round=39 timeout_ms=15000 close_delay_ms=3000
+I (962940) GAME_HAND: TX_ACK round=39 seq=91 action=1 result=ESP_OK
+I (962941) GAME_HAND: RX_OPEN round=39 seq=91
+I (962953) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (963074) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (963194) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (963314) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (963314) GAME_HAND: ALL_LIDS_OPEN round=39 settle_ms=800
+I (964116) GAME_HAND: BASELINE_START round=39
+I (964482) TOF4: BASELINE sensor=0 gpio=4 range_mm=14 return_rate=5714
+I (964483) TOF4: BASELINE sensor=1 gpio=5 range_mm=19 return_rate=3141
+I (964484) TOF4: BASELINE sensor=2 gpio=6 range_mm=18 return_rate=4410
+I (964497) TOF4: BASELINE sensor=3 gpio=7 range_mm=11 return_rate=2108
+I (964498) GAME_HAND: DETECTING round=39 armed_at_ms=964094 timeout_ms=15000 sample_period_ms=10 confirm_samples=3
+W (965465) GAME_HAND: TOF_CANDIDATE round=39 sensor=0 gpio=4 range_mm=14 baseline_mm=14 return_rate=29271 baseline_return=5714
+I (965487) GAME_HAND: TX_DROP round=39 seq=91 bin=0 dist_mm=14 attempt=1/3 result=ESP_OK
+I (965488) GAME_HAND: ANSWER_DETECTED round=39 bin=0 sensor=0 gpio=4 range_mm=14 baseline_mm=14 return_rate=29877 baseline_return=5714 close_delay_ms=3000
+I (965507) GAME_HAND: ROUND_TIMER round=39 phase=wait_close remaining_ms=2980 outcome=1 bin=0
+I (965538) GAME_HAND: DROP_ACK round=39 seq=91
+I (965809) GAME_HAND: TX_ACK round=39 seq=92 action=2 result=ESP_OK
+I (965810) GAME_HAND: RX_CLOSE_DEFERRED round=39 remaining_ms=2677
+I (965812) GAME_HAND: RX_CLOSE round=39 seq=92
+I (966509) GAME_HAND: ROUND_TIMER round=39 phase=wait_close remaining_ms=1978 outcome=1 bin=0
+I (967510) GAME_HAND: ROUND_TIMER round=39 phase=wait_close remaining_ms=977 outcome=1 bin=0
+I (968491) SERVO_LIDS: CLOSE bin=0 gpio=12 pulse_us=1450
+I (968612) SERVO_LIDS: CLOSE bin=1 gpio=13 pulse_us=1450
+I (968732) SERVO_LIDS: CLOSE bin=2 gpio=14 pulse_us=1450
+I (968852) SERVO_LIDS: CLOSE bin=3 gpio=15 pulse_us=1450
+I (968852) GAME_HAND: ALL_LIDS_CLOSE round=39 reason=DROP_WINDOW_ELAPSED
+I (968859) GAME_HAND: ROUND_TIMER round=39 phase=wait_close remaining_ms=-372 outcome=1 bin=0
+GAME_HAND phase=result round=39 outcome=1 bin=0 remaining_ms=0
+I (969557) GAME_HAND: ROUND_RESULT round=39 outcome=ANSWER bin=0
+I (973318) GAME_HAND: TX_ACK round=39 seq=93 action=3 result=ESP_OK
+I (973319) GAME_HAND: RX_HOLD_OPEN round=39 seq=93
+I (973320) SERVO_LIDS: OPEN bin=0 gpio=12 pulse_us=1575
+I (973452) SERVO_LIDS: OPEN bin=1 gpio=13 pulse_us=1575
+I (973572) SERVO_LIDS: OPEN bin=2 gpio=14 pulse_us=1575
+I (973692) SERVO_LIDS: OPEN bin=3 gpio=15 pulse_us=1575
+I (973692) GAME_HAND: ALL_LIDS_OPEN round=39 settle_ms=800

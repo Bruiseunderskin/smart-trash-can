@@ -101,7 +101,9 @@ stc_err_t stc_hand_link_command(stc_hand_action_t action, uint32_t round_id,
     if (!g_tx.send ||
         (action != STC_HAND_ACTION_OPEN_ALL &&
          action != STC_HAND_ACTION_CLOSE_ALL &&
-         action != STC_HAND_ACTION_OPEN_ALL_HOLD)) {
+         action != STC_HAND_ACTION_OPEN_ALL_HOLD &&
+         action != STC_HAND_ACTION_PAUSE &&
+         action != STC_HAND_ACTION_RESUME)) {
         return STC_ERR_UNSUPPORTED;
     }
     if (g_cmd_state == STC_HAND_CMD_WAITING) {

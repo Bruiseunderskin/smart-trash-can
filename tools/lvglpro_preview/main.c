@@ -5,7 +5,7 @@
  * States: idle, scan_ready, capturing, classifying, result_ok, result_ok_2s,
  * result_ok_lid, result_retry, bin_choice, error, learning, summary, ask_ready,
  * ask_listening, ask_thinking, ask_answering, ask_offline, ask_asr_retry,
- * ask_countdown.
+ * ask_countdown, ask_answering_long, ask_connecting, ask_provisioning.
  */
 #include "lvgl.h"
 #include "stc_ui.h"
@@ -72,6 +72,7 @@ static void render_ask(stc_ui_t *ui, const char *state, int ticks,
     static const char *const names[] = {
         "ready",    "listening", "thinking", "answering",
         "offline",  "asr_retry", "countdown", "no_answer", "goodbye",
+        "connecting", "provisioning",
     };
     stc_chat_payload_t cp;
     memset(&cp, 0, sizeof cp);
@@ -80,6 +81,15 @@ static void render_ask(stc_ui_t *ui, const char *state, int ticks,
         if (strcmp(state + 4, names[i]) == 0) {
             cp.state = (stc_chat_state_t)i;
         }
+    }
+    static const char kLongAnswer[] =
+        "答案會喺呢度顯示。我可以同你傾吓垃圾分類。"
+        "答案會喺呢度顯示。我可以同你傾吓垃圾分類。"
+        "答案會喺呢度顯示。我可以同你傾吓垃圾分類。"
+        "答案會喺呢度顯示。我可以同你傾吓垃圾分類。";
+    if (strcmp(state, "ask_answering_long") == 0) {
+        cp.state = STC_CHAT_ANSWERING;
+        cp.message = kLongAnswer;
     }
     stc_ui_show_ask(ui, &cp);
     pump(60 + ticks);
@@ -122,8 +132,10 @@ int main(int argc, char **argv) {
     }
 
     const char *lookup = state;
-    if (strcmp(state, "result_ok_lid") == 0 ||
-        strcmp(state, "result_ok_2s") == 0) {
+    if (strcmp(state, "scan_logout_confirm") == 0) {
+        lookup = "scan_ready";
+    } else if (strcmp(state, "result_ok_lid") == 0 ||
+               strcmp(state, "result_ok_2s") == 0) {
         lookup = "result_ok";
     }
     const stc_state_t target = stc_ui_state_from_string(lookup);
@@ -180,6 +192,10 @@ int main(int argc, char **argv) {
         }
     }
     pump(60 + ticks);
+    if (strcmp(state, "scan_logout_confirm") == 0) {
+        stc_ui_preview_open_logout(ui);
+        pump(60);
+    }
 
     printf("%s -> %s (layout=%s)\n", state, out,
            stc_ui_check_layout(ui) ? "PASS" : "FAIL");

@@ -100,13 +100,26 @@ class StcFullGameIntegrationTest(unittest.TestCase):
             encoding="utf-8"
         )
 
-        self.assertIn("chat_box(ui->container, 24, 190, 632, LV_SIZE_CONTENT", chat_ui)
-        self.assertIn("lv_obj_set_style_max_height(speech, 168, 0);", chat_ui)
-        self.assertIn("LV_FLEX_FLOW_COLUMN", chat_ui)
-        self.assertIn("560, LV_SIZE_CONTENT", chat_ui)
-        self.assertIn("LV_OBJ_FLAG_SCROLLABLE", chat_ui)
+        self.assertIn("chat_box(ui->container, 24, SPEECH_Y, 632, SPEECH_H",
+                      chat_ui)
+        self.assertIn("#define SPEECH_Y       190", chat_ui)
+        self.assertIn("#define SPEECH_H       206", chat_ui)
+        self.assertNotIn("#define SPEECH_ROLE_Y", chat_ui)
+        self.assertIn("#define SPEECH_TEXT_Y  38", chat_ui)
+        self.assertIn("#define ACTION_Y       408", chat_ui)
+        self.assertIn("lv_font_get_line_height(font) + 4", chat_ui)
+        self.assertIn("update_message_viewport(ui);", chat_ui)
+        self.assertNotIn('chat_label(speech, "綠豆"', chat_ui)
+        self.assertIn("ui->message_view = lv_obj_create(speech);", chat_ui)
         self.assertIn(
-            "lv_obj_scroll_to_view(role_label, LV_ANIM_OFF);",
+            "lv_obj_set_pos(ui->message_view, 24, SPEECH_TEXT_Y);",
+            chat_ui,
+        )
+        self.assertIn("LV_DIR_VER", chat_ui)
+        self.assertIn("LV_OBJ_FLAG_SCROLLABLE", chat_ui)
+        self.assertNotIn("lv_obj_scroll_to_view(role_label", chat_ui)
+        self.assertIn(
+            "lv_obj_scroll_to_y(ui->message_view, 0, LV_ANIM_OFF);",
             chat_ui,
         )
 
@@ -118,9 +131,39 @@ class StcFullGameIntegrationTest(unittest.TestCase):
             "ui.chat_state == STC_CHAT_ANSWERING && text[0]",
             shell,
         )
-        self.assertIn('"\\n%s", text', shell)
+        self.assertIn('"%s", text', shell)
         self.assertIn("text[0] == '%'", shell)
         self.assertIn("ui.chat_message[0] = '\\0';", shell)
+
+    def test_wifi_transition_is_visible_and_short(self):
+        wifi = (
+            ROOT / "firmware/xiaozhi-esp32/main/boards/common/wifi_board.cc"
+        ).read_text(encoding="utf-8")
+        header = (
+            ROOT / "firmware/xiaozhi-esp32/main/boards/common/wifi_board.h"
+        ).read_text(encoding="utf-8")
+        board = (BOARD / "esp32_s31_korvo_1_stc.cc").read_text(
+            encoding="utf-8"
+        )
+        shell = (BOARD / "stc_shell_ui.cc").read_text(encoding="utf-8")
+        chat = (ROOT / "ui/lvglpro/src/stc_chat_ui.c").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("GetWifiConnectTimeoutSeconds()", header)
+        self.assertIn("GetWifiConfigModeDelayMs()", header)
+        self.assertIn("GetWifiConnectTimeoutSeconds() * 1000000ULL", wifi)
+        self.assertIn("GetWifiConfigModeDelayMs()", wifi)
+        self.assertIn("ShouldReconnectAfterConfigModeExit()", wifi)
+        self.assertIn("int GetWifiConnectTimeoutSeconds() const override { return 8; }", board)
+        self.assertIn("int GetWifiConfigModeDelayMs() const override { return 0; }", board)
+        self.assertIn("ShouldReconnectAfterConfigModeExit()", board)
+        self.assertIn("STC_CHAT_CONNECTING", shell)
+        self.assertIn("STC_CHAT_PROVISIONING", shell)
+        self.assertIn("WifiManager::GetInstance().IsConfigMode()", shell)
+        self.assertIn("連接 Wi-Fi: %s", shell)
+        self.assertIn("return \"連線\";", chat)
+        self.assertIn("return \"要連線\";", chat)
 
     def test_chat_screens_always_expose_a_home_action(self):
         chat_ui = (ROOT / "ui/lvglpro/src/stc_chat_ui.c").read_text(
@@ -129,7 +172,7 @@ class StcFullGameIntegrationTest(unittest.TestCase):
         shell = (BOARD / "stc_shell_ui.cc").read_text(encoding="utf-8")
         voice = (BOARD / "stc_voice.cc").read_text(encoding="utf-8")
 
-        self.assertEqual(chat_ui.count('"返回主頁"'), 8)
+        self.assertEqual(chat_ui.count('"返回主頁"'), 10)
         both_actions = chat_ui.split(
             "} else if (secondary != NULL) {", 1
         )[1].split("} else {", 1)[0]
@@ -181,6 +224,21 @@ class StcFullGameIntegrationTest(unittest.TestCase):
             game_ui,
         )
 
+    def test_summary_offers_play_again_and_home(self):
+        game_ui = (ROOT / "ui/lvglpro/src/stc_ui.c").read_text(
+            encoding="utf-8"
+        )
+        summary = game_ui.split("static void summary_screen", 1)[1].split(
+            "static void ask_action", 1
+        )[0]
+
+        self.assertIn('button(ui->container, "再玩一次"', summary)
+        self.assertIn("bind_action(ui, again, STC_ACTION_START, -1, false);",
+                      summary)
+        self.assertIn('button(ui->container, "返回主頁"', summary)
+        self.assertIn("bind_action(ui, home, STC_ACTION_HOME, -1, false);",
+                      summary)
+
     def test_button_labels_are_vertically_centered(self):
         game_ui = (ROOT / "ui/lvglpro/src/stc_ui.c").read_text(
             encoding="utf-8"
@@ -221,6 +279,26 @@ class StcFullGameIntegrationTest(unittest.TestCase):
         available = set(charset["codepoints"])
         missing = [ch for ch in sample if ord(ch) not in available]
         self.assertEqual(missing, [])
+
+    def test_chat_bean_long_press_and_spoken_goodbye_return_home(self):
+        chat_ui = (ROOT / "ui/lvglpro/src/stc_chat_ui.c").read_text(
+            encoding="utf-8"
+        )
+        shell = (BOARD / "stc_shell_ui.cc").read_text(encoding="utf-8")
+        shell_mode = (ROOT / "app/stc_shell_mode.c").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("#define MASCOT_X       688", chat_ui)
+        self.assertIn("chat_back_long_press", chat_ui)
+        self.assertIn("ui->callback(STC_CHAT_ACTION_BACK, ui->user);",
+                      chat_ui)
+        self.assertIn("stc_shell_text_is_goodbye(text)", shell)
+        self.assertIn("ui.chat_state = STC_CHAT_GOODBYE;", shell)
+        self.assertIn("ui.request_mode(STC_SHELL_GAME);", shell)
+        self.assertIn('strstr(text, "拜拜")', shell_mode)
+        self.assertIn('contains_ascii_case_insensitive(text, "bye")',
+                      shell_mode)
 
 
 if __name__ == "__main__":

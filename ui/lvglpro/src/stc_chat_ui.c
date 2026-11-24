@@ -22,6 +22,13 @@
 #define FONT_H1        (&stc_lp_font_tc_bold_56)
 #define OUTER          24
 #define CONTROL_H      64
+#define SPEECH_Y       190
+#define SPEECH_H       206
+#define SPEECH_TEXT_Y  38
+#define ACTION_Y       408
+#define MASCOT_X       688
+#define MASCOT_Y       112
+#define MASCOT_SIZE    64
 
 typedef struct {
     stc_chat_ui_t *ui;
@@ -36,6 +43,8 @@ struct stc_chat_ui {
     unsigned action_count;
     stc_chat_state_t state;
     const lv_font_t *message_font;
+    lv_obj_t *message_view;
+    lv_obj_t *message_label;
 };
 
 typedef struct {
@@ -112,6 +121,20 @@ static const ChatDefaults defaults[] = {
         NULL,
         &stc_lp_img_mascot_happy,
     },
+    [STC_CHAT_CONNECTING] = {
+        "正在連線",
+        "正在連線，請稍等。",
+        NULL,
+        "返回主頁",
+        &stc_lp_img_mascot_idle,
+    },
+    [STC_CHAT_PROVISIONING] = {
+        "要連線",
+        "請用手機連 Wi-Fi。",
+        NULL,
+        "返回主頁",
+        &stc_lp_img_mascot_puzzled,
+    },
 };
 
 static lv_obj_t *chat_box(lv_obj_t *parent, int x, int y, int w, int h,
@@ -147,7 +170,7 @@ static lv_obj_t *chat_label(lv_obj_t *parent, const char *text, int x, int y,
     lv_obj_set_style_text_font(obj, font, 0);
     lv_obj_set_style_text_color(obj, lv_color_hex(color), 0);
     lv_obj_set_style_text_align(obj, align, 0);
-    lv_obj_set_style_text_line_space(obj, 2, 0);
+    lv_obj_set_style_text_line_space(obj, 4, 0);
     return obj;
 }
 
@@ -200,6 +223,14 @@ static void chat_action_event(lv_event_t *event) {
     binding->ui->callback(binding->action, binding->ui->user);
 }
 
+static void chat_back_long_press(lv_event_t *event) {
+    stc_chat_ui_t *ui = lv_event_get_user_data(event);
+    if (ui != NULL && ui->callback != NULL &&
+        lv_event_get_code(event) == LV_EVENT_LONG_PRESSED) {
+        ui->callback(STC_CHAT_ACTION_BACK, ui->user);
+    }
+}
+
 static void bind_chat_action(stc_chat_ui_t *ui, lv_obj_t *obj,
                              stc_chat_action_t action) {
     if (obj == NULL || ui->action_count >= 2) {
@@ -220,9 +251,26 @@ static const char *chat_status(stc_chat_state_t state) {
     switch (state) {
         case STC_CHAT_OFFLINE:
             return "暫時離線";
+        case STC_CHAT_CONNECTING:
+            return "連線";
+        case STC_CHAT_PROVISIONING:
+            return "要連線";
         default:
             return "已連線";
     }
+}
+
+static void update_message_viewport(stc_chat_ui_t *ui) {
+    if (ui == NULL || ui->message_view == NULL) {
+        return;
+    }
+    const lv_font_t *font =
+        ui->message_font != NULL ? ui->message_font : FONT_CAPTION;
+    const int line_height = lv_font_get_line_height(font) + 4;
+    const int available = SPEECH_H - SPEECH_TEXT_Y - 14;
+    const int lines = line_height > 0 ? available / line_height : 1;
+    lv_obj_set_height(ui->message_view,
+                      (lines > 0 ? lines : 1) * line_height);
 }
 
 static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
@@ -245,26 +293,30 @@ static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
 
     chat_label(ui->container, choose(payload->heading, fallback->heading), 24,
                104, 600, 72, FONT_H1, CHAT_FG, LV_TEXT_ALIGN_LEFT);
-    chat_image(ui->container, fallback->mascot, 664, 104, 88, 88);
+    lv_obj_t *mascot =
+        chat_image(ui->container, fallback->mascot, MASCOT_X, MASCOT_Y,
+                   MASCOT_SIZE, MASCOT_SIZE);
+    lv_obj_add_flag(mascot, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_event_cb(mascot, chat_back_long_press, LV_EVENT_LONG_PRESSED,
+                        ui);
 
     lv_obj_t *speech =
-        chat_box(ui->container, 24, 190, 632, LV_SIZE_CONTENT, CHAT_SURFACE,
+        chat_box(ui->container, 24, SPEECH_Y, 632, SPEECH_H, CHAT_SURFACE,
                  16, 0, CHAT_SURFACE);
-    lv_obj_set_flex_flow(speech, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_style_pad_all(speech, 24, 0);
-    lv_obj_set_style_pad_row(speech, 6, 0);
-    /* Hug the text, but never grow past the room above the buttons. */
-    lv_obj_set_style_max_height(speech, 168, 0);
-    lv_obj_add_flag(speech, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_scroll_dir(speech, LV_DIR_VER);
-    lv_obj_set_scrollbar_mode(speech, LV_SCROLLBAR_MODE_AUTO);
-    lv_obj_t *role_label =
-        chat_label(speech, "綠豆", 0, 0, 560, 32, FONT_BODY_BOLD,
-                   CHAT_MUTED, LV_TEXT_ALIGN_LEFT);
-    chat_label(speech, choose(payload->message, fallback->message), 0, 0,
-               560, LV_SIZE_CONTENT,
-               ui->message_font != NULL ? ui->message_font : FONT_CAPTION,
-               CHAT_FG, LV_TEXT_ALIGN_LEFT);
+    ui->message_view = lv_obj_create(speech);
+    lv_obj_remove_style_all(ui->message_view);
+    lv_obj_set_pos(ui->message_view, 24, SPEECH_TEXT_Y);
+    lv_obj_set_width(ui->message_view, 584);
+    update_message_viewport(ui);
+    lv_obj_add_flag(ui->message_view, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_scroll_dir(ui->message_view, LV_DIR_VER);
+    lv_obj_set_scrollbar_mode(ui->message_view, LV_SCROLLBAR_MODE_AUTO);
+    ui->message_label =
+        chat_label(ui->message_view,
+                   choose(payload->message, fallback->message), 0, 0, 584,
+                   LV_SIZE_CONTENT,
+                   ui->message_font != NULL ? ui->message_font : FONT_CAPTION,
+                   CHAT_FG, LV_TEXT_ALIGN_LEFT);
 
     const char *primary =
         choose(payload->primary_label, fallback->primary);
@@ -274,23 +326,27 @@ static void render(stc_chat_ui_t *ui, const stc_chat_payload_t *payload) {
         /* No primary action: the controller hands the turn to voice. */
         if (secondary != NULL) {
             lv_obj_t *back =
-                chat_button(ui->container, secondary, OUTER, 392, 752, CONTROL_H, false);
+                chat_button(ui->container, secondary, OUTER, ACTION_Y, 752,
+                            CONTROL_H, false);
             bind_chat_action(ui, back, STC_CHAT_ACTION_BACK);
         }
     } else if (secondary != NULL) {
         lv_obj_t *action =
-            chat_button(ui->container, primary, OUTER, 392, 364, CONTROL_H, true);
+            chat_button(ui->container, primary, OUTER, ACTION_Y, 364,
+                        CONTROL_H, true);
         bind_chat_action(ui, action, STC_CHAT_ACTION_PRIMARY);
         lv_obj_t *back =
-            chat_button(ui->container, secondary, 412, 392, 364, CONTROL_H, false);
+            chat_button(ui->container, secondary, 412, ACTION_Y, 364,
+                        CONTROL_H, false);
         bind_chat_action(ui, back, STC_CHAT_ACTION_BACK);
     } else {
         lv_obj_t *action =
-            chat_button(ui->container, primary, OUTER, 392, 752, CONTROL_H, true);
+            chat_button(ui->container, primary, OUTER, ACTION_Y, 752,
+                        CONTROL_H, true);
         bind_chat_action(ui, action, STC_CHAT_ACTION_PRIMARY);
     }
     lv_obj_update_layout(ui->container);
-    lv_obj_scroll_to_view(role_label, LV_ANIM_OFF);
+    lv_obj_scroll_to_y(ui->message_view, 0, LV_ANIM_OFF);
     ui->state = payload->state;
 }
 
@@ -375,8 +431,23 @@ bool stc_chat_ui_apply(stc_chat_ui_t *ui,
                        const stc_chat_payload_t *payload) {
     if (ui == NULL || ui->container == NULL || payload == NULL ||
         payload->state < STC_CHAT_READY ||
-        payload->state > STC_CHAT_GOODBYE) {
+        payload->state > STC_CHAT_PROVISIONING) {
         return false;
+    }
+    if (ui->state == payload->state && ui->message_label != NULL &&
+        payload->heading == NULL && payload->primary_label == NULL &&
+        payload->secondary_label == NULL) {
+        const ChatDefaults *fallback = &defaults[payload->state];
+        lv_label_set_text(
+            ui->message_label,
+            choose(payload->message, fallback->message));
+        lv_obj_set_style_text_font(
+            ui->message_label,
+            ui->message_font != NULL ? ui->message_font : FONT_CAPTION, 0);
+        update_message_viewport(ui);
+        lv_obj_update_layout(ui->message_view);
+        lv_obj_scroll_to_y(ui->message_view, LV_COORD_MAX, LV_ANIM_OFF);
+        return true;
     }
     render(ui, payload);
     return true;

@@ -36,9 +36,16 @@ class ContractUiTest(unittest.TestCase):
         self.assertEqual([name.removeprefix("STC_UI_ACTION_") for name in contract],
                          [name.removeprefix("STC_ACTION_") for name in impl])
 
-    def test_bin_action_is_appended_without_renumbering(self):
+    def test_cancel_action_is_appended_without_renumbering(self):
         actions = enum_names(CONTRACT.read_text(), "stc_ui_action_t")
-        self.assertEqual(actions[-2:], ["STC_UI_ACTION_NEXT", "STC_UI_ACTION_SELECT_BIN"])
+        self.assertEqual(
+            actions[-3:],
+            [
+                "STC_UI_ACTION_NEXT",
+                "STC_UI_ACTION_SELECT_BIN",
+                "STC_UI_ACTION_CANCEL_ROUND",
+            ],
+        )
 
     def test_contract_declares_the_create_apply_api(self):
         text = CONTRACT.read_text()

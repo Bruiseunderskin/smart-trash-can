@@ -26,6 +26,7 @@ STATES = [
     ("idle", 0),
     ("intro", 0),
     ("scan_ready", 0),
+    ("scan_logout_confirm", 1300),
     ("capturing", 0),
     ("classifying", 0),
     ("result_ok", 0),
@@ -40,11 +41,14 @@ STATES = [
     ("ask_listening", 0),
     ("ask_thinking", 0),
     ("ask_answering", 0),
+    ("ask_answering_long", 0),
     ("ask_offline", 0),
     ("ask_asr_retry", 0),
     ("ask_countdown", 0),
     ("ask_no_answer", 0),
     ("ask_goodbye", 0),
+    ("ask_connecting", 0),
+    ("ask_provisioning", 0),
 ]
 
 W, H = 800, 480

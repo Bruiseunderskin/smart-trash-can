@@ -15,6 +15,8 @@ static const char *TAG = "TOF4";
 #define NODE_SDA GPIO_NUM_8
 #define NODE_SCL GPIO_NUM_9
 #define TOF_DEFAULT_ADDR 0x29
+#define TOF_XSHUT_SETTLE_MS 10
+#define TOF_ASSIGN_ATTEMPTS 5
 
 #define REG_MODEL_ID 0x000
 #define REG_INTERRUPT_CONFIG 0x014
@@ -244,6 +246,33 @@ static esp_err_t assign_sensor_address(tof_sensor_t *sensor)
     return ESP_OK;
 }
 
+static esp_err_t assign_sensor_with_retry(int index)
+{
+    tof_sensor_t *sensor = &s_sensors[index];
+    esp_err_t err = ESP_FAIL;
+    for (int attempt = 1; attempt <= TOF_ASSIGN_ATTEMPTS; ++attempt) {
+        gpio_set_level(sensor->xshut, 0);
+        vTaskDelay(pdMS_TO_TICKS(TOF_XSHUT_SETTLE_MS));
+        gpio_set_level(sensor->xshut, 1);
+        vTaskDelay(pdMS_TO_TICKS(TOF_XSHUT_SETTLE_MS));
+
+        err = assign_sensor_address(sensor);
+        if (err == ESP_OK) {
+            ESP_LOGI(TAG, "ASSIGN_OK sensor=%d address=0x%02x attempt=%d",
+                     index, sensor->address, attempt);
+            return ESP_OK;
+        }
+
+        ESP_LOGW(TAG,
+                 "ASSIGN_RETRY sensor=%d gpio=%d attempt=%d/%d err=%s",
+                 index, (int)sensor->xshut, attempt, TOF_ASSIGN_ATTEMPTS,
+                 esp_err_to_name(err));
+        gpio_set_level(sensor->xshut, 0);
+        vTaskDelay(pdMS_TO_TICKS(TOF_XSHUT_SETTLE_MS));
+    }
+    return err;
+}
+
 esp_err_t stc_tof4_init(void)
 {
     const gpio_config_t xshut_cfg = {
@@ -269,9 +298,7 @@ esp_err_t stc_tof4_init(void)
                         "i2c init failed");
 
     for (int i = 0; i < STC_TOF4_SENSOR_COUNT; ++i) {
-        gpio_set_level(s_sensors[i].xshut, 1);
-        vTaskDelay(pdMS_TO_TICKS(5));
-        const esp_err_t err = assign_sensor_address(&s_sensors[i]);
+        const esp_err_t err = assign_sensor_with_retry(i);
         if (err != ESP_OK) {
             ESP_LOGE(TAG, "assign sensor=%d gpio=%d failed: %s",
                      i, (int)s_sensors[i].xshut, esp_err_to_name(err));
@@ -305,6 +332,23 @@ esp_err_t stc_tof4_start_continuous(void)
             TAG, "continuous sensor %d failed", i);
     }
     return ESP_OK;
+}
+
+esp_err_t stc_tof4_stop_continuous(void)
+{
+    esp_err_t result = ESP_OK;
+    for (int i = 0; i < STC_TOF4_SENSOR_COUNT; ++i) {
+        if (!s_sensors[i].ready) {
+            continue;
+        }
+        const esp_err_t err =
+            write_reg(s_sensors[i].dev, REG_RANGE_START, 0x01);
+        if (err != ESP_OK && result == ESP_OK) {
+            result = err;
+        }
+        (void)write_reg(s_sensors[i].dev, REG_INTERRUPT_CLEAR, 0x01);
+    }
+    return result;
 }
 
 esp_err_t stc_tof4_read_round(

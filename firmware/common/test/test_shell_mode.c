@@ -24,6 +24,18 @@ int main(void)
     stc_shell_init();
     stc_shell_set_hooks(&hooks);
     if (stc_shell_get() != STC_SHELL_GAME) return 1;
+    if (!stc_shell_text_is_goodbye("好喇，拜拜")) {
+        fprintf(stderr, "Cantonese goodbye not detected\n");
+        return 1;
+    }
+    if (!stc_shell_text_is_goodbye("ByE bYe")) {
+        fprintf(stderr, "ASCII goodbye not case-insensitive\n");
+        return 1;
+    }
+    if (stc_shell_text_is_goodbye("今日天氣好好")) {
+        fprintf(stderr, "phrases without bye must not trigger\n");
+        return 1;
+    }
 
     if (stc_shell_enter_chat(1000) != STC_OK) return 1;
     if (stc_shell_get() != STC_SHELL_CHAT_STARTING) return 1;

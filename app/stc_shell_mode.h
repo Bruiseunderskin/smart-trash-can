@@ -32,6 +32,7 @@ stc_err_t stc_shell_mark_chat_ready(void);
 stc_err_t stc_shell_notify_activity(uint32_t now_ms);
 stc_err_t stc_shell_exit_chat(void);
 void stc_shell_tick(uint32_t now_ms);
+bool stc_shell_text_is_goodbye(const char *text);
 
 #ifdef __cplusplus
 }

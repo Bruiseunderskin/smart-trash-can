@@ -28,6 +28,9 @@ namespace {
 
 constexpr const char *TAG = "StcGameRuntime";
 constexpr uint8_t kEspNowChannel = 6;
+constexpr int kCameraPreviewSize = 240;
+constexpr uint32_t kCameraPreviewTimeoutMs = 120;
+constexpr int64_t kCameraStatsIntervalUs = 5 * 1000 * 1000;
 
 enum GameEventType {
     kGameEventUiAction = 0,
@@ -59,9 +62,26 @@ std::atomic<bool> runtime_started{false};
 std::atomic<bool> model_ready{false};
 std::atomic<bool> espnow_ready{false};
 std::atomic<bool> camera_ready{false};
+uint8_t hand_control_seq;
 
 uint32_t NowMs() {
     return static_cast<uint32_t>(esp_timer_get_time() / 1000);
+}
+
+stc_err_t SendHandControl(stc_hand_action_t action) {
+    if (!espnow_ready.load()) {
+        return STC_ERR_NOT_READY;
+    }
+    stc_hand_msg_t msg = {};
+    msg.sof = STC_HAND_MSG_SOF;
+    msg.ver = STC_HAND_MSG_VERSION;
+    msg.type = STC_HAND_MSG_CMD;
+    msg.seq = hand_control_seq++;
+    msg.bin = 0xFF;
+    msg.action = static_cast<uint8_t>(action);
+    msg.flags = STC_HAND_FLAG_READY;
+    stc_hand_msg_seal(&msg);
+    return stc_game_espnow_send(&msg, nullptr) == 0 ? STC_OK : STC_ERR_IO;
 }
 
 bool PostGameEvent(const GameEvent &event) {
@@ -97,10 +117,15 @@ stc_err_t RequestScan(uint8_t round, uint32_t round_id, void *ctx) {
 stc_err_t HandOpen(uint8_t round, uint32_t round_id, void *ctx) {
     (void)round;
     (void)ctx;
-    return espnow_ready.load()
-               ? stc_hand_link_command(STC_HAND_ACTION_OPEN_ALL, round_id,
-                                       NowMs())
-               : STC_ERR_NOT_READY;
+    const stc_err_t result =
+        espnow_ready.load()
+            ? stc_hand_link_command(STC_HAND_ACTION_OPEN_ALL, round_id,
+                                    NowMs())
+            : STC_ERR_NOT_READY;
+    ESP_LOGI(TAG, "HAND_OPEN_SEND round_id=%lu result=%d",
+             static_cast<unsigned long>(round_id),
+             static_cast<int>(result));
+    return result;
 }
 
 stc_err_t HandHoldOpen(uint8_t round, uint32_t round_id, void *ctx) {
@@ -140,6 +165,9 @@ void RenderGame(const stc_snapshot_t *snapshot, const stc_game_view_t *view,
 void OnHandAck(stc_hand_action_t action, bool success, uint32_t round_id,
                void *ctx) {
     (void)ctx;
+    ESP_LOGI(TAG, "HAND_ACK action=%d success=%d round_id=%lu",
+             static_cast<int>(action), success ? 1 : 0,
+             static_cast<unsigned long>(round_id));
     stc_game_controller_on_hand_ack(round_id, action, success, NowMs());
 }
 
@@ -166,6 +194,15 @@ void VisionTask(void *) {
     uint8_t *rgb = static_cast<uint8_t *>(
         heap_caps_malloc(STC_INPUT_SIZE * STC_INPUT_SIZE * 3,
                          MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+    uint8_t *preview_rgb = static_cast<uint8_t *>(
+        heap_caps_malloc(kCameraPreviewSize * kCameraPreviewSize * 3,
+                         MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+    int preview_size = kCameraPreviewSize;
+    if (preview_rgb == nullptr) {
+        preview_rgb = rgb;
+        preview_size = STC_INPUT_SIZE;
+        ESP_LOGW(TAG, "LIVE_CAMERA preview fallback=160x160");
+    }
     if (rgb == nullptr) {
         ESP_LOGE(TAG, "LIVE_CAMERA=FAIL reason=RGB_ALLOC");
         stc_game_controller_set_fault("CAMERA_MEMORY", NowMs());
@@ -175,23 +212,99 @@ void VisionTask(void *) {
         rgb != nullptr && stc_camera_capture_begin() == STC_OK;
     camera_ready.store(streaming);
     if (streaming) {
-        ESP_LOGI(TAG, "LIVE_CAMERA=PREVIEW_READY 640x480_UYVY");
+        ESP_LOGI(TAG,
+                 "LIVE_CAMERA=PREVIEW_READY source=640x480_UYVY "
+                 "preview=%dx%d",
+                 preview_size, preview_size);
     } else {
         ESP_LOGE(TAG, "LIVE_CAMERA=FAIL reason=START");
         stc_game_controller_set_fault("CAMERA_OFFLINE", NowMs());
     }
 
+    uint32_t preview_frames = 0;
+    uint32_t preview_failures = 0;
+    uint64_t preview_wait_us = 0;
+    uint64_t preview_convert_us = 0;
+    uint64_t preview_work_us = 0;
+    uint64_t preview_max_us = 0;
+    int64_t preview_stats_start = esp_timer_get_time();
+
     for (;;) {
         VisionRequest request = {};
-        const bool has_request =
-            vision_queue != nullptr &&
-            xQueueReceive(vision_queue, &request, pdMS_TO_TICKS(80)) == pdTRUE;
+        const bool has_request = vision_queue != nullptr &&
+                                 xQueueReceive(vision_queue, &request, 0) ==
+                                     pdTRUE;
 
         if (!has_request) {
-            if (streaming && stc_shell_get() == STC_SHELL_GAME &&
-                stc_camera_capture_frame(rgb, 1000) == STC_OK) {
-                stc_shell_ui_set_camera_rgb160(rgb, STC_INPUT_SIZE,
-                                               STC_INPUT_SIZE);
+            if (!streaming) {
+                vTaskDelay(pdMS_TO_TICKS(20));
+                continue;
+            }
+            if (stc_shell_get() == STC_SHELL_GAME) {
+                stc_camera_timing_t timing = {};
+                const int64_t preview_started = esp_timer_get_time();
+                if (stc_camera_capture_preview(
+                        preview_rgb, preview_size,
+                        kCameraPreviewTimeoutMs, &timing) == STC_OK) {
+                    stc_shell_ui_set_camera_rgb(
+                        preview_rgb, preview_size, preview_size);
+                    ++preview_frames;
+                } else {
+                    ++preview_failures;
+                }
+                const uint64_t preview_us = static_cast<uint64_t>(
+                    esp_timer_get_time() - preview_started);
+                preview_wait_us += timing.wait_us;
+                preview_convert_us += timing.convert_us;
+                preview_work_us += preview_us;
+                if (preview_us > preview_max_us) {
+                    preview_max_us = preview_us;
+                }
+            } else {
+                vTaskDelay(pdMS_TO_TICKS(20));
+            }
+
+            const int64_t now_us = esp_timer_get_time();
+            const int64_t stats_elapsed_us =
+                now_us - preview_stats_start;
+            if (stats_elapsed_us >= kCameraStatsIntervalUs) {
+                const uint32_t attempts =
+                    preview_frames + preview_failures;
+                const uint32_t fps_x100 =
+                    stats_elapsed_us > 0
+                        ? static_cast<uint32_t>(
+                              static_cast<uint64_t>(preview_frames) *
+                              100u * 1000u * 1000u /
+                              static_cast<uint64_t>(stats_elapsed_us))
+                        : 0;
+                ESP_LOGI(TAG,
+                         "LIVE_CAMERA_STATS preview=%dx%d fps_x100=%u "
+                         "frames=%u failures=%u avg_work_ms=%u "
+                         "avg_wait_ms=%u avg_convert_ms=%u "
+                         "max_work_ms=%u",
+                         preview_size, preview_size, fps_x100,
+                         static_cast<unsigned>(preview_frames),
+                         static_cast<unsigned>(preview_failures),
+                         static_cast<unsigned>(
+                             attempts > 0
+                                 ? preview_work_us / attempts / 1000u
+                                 : 0u),
+                         static_cast<unsigned>(
+                             attempts > 0
+                                 ? preview_wait_us / attempts / 1000u
+                                 : 0u),
+                         static_cast<unsigned>(
+                             attempts > 0
+                                 ? preview_convert_us / attempts / 1000u
+                                 : 0u),
+                         static_cast<unsigned>(preview_max_us / 1000u));
+                preview_frames = 0;
+                preview_failures = 0;
+                preview_wait_us = 0;
+                preview_convert_us = 0;
+                preview_work_us = 0;
+                preview_max_us = 0;
+                preview_stats_start = now_us;
             }
             continue;
         }
@@ -206,6 +319,7 @@ void VisionTask(void *) {
         const int64_t started = esp_timer_get_time();
         stc_vision_frame_t frames[STC_VISION_BURST_FRAMES] = {};
         stc_err_t error = streaming ? STC_OK : STC_ERR_IO;
+        bool still_shown = false;
         ESP_LOGI(TAG, "LIVE_SCAN_START round_id=%lu",
                  static_cast<unsigned long>(request.round_id));
         if (streaming) {
@@ -233,8 +347,15 @@ void VisionTask(void *) {
                         static_cast<double>(frames[frame].probs[2]),
                         static_cast<double>(frames[frame].probs[3]),
                         static_cast<double>(frames[frame].probs[4]));
-                    stc_shell_ui_set_camera_rgb160(
-                        rgb, STC_INPUT_SIZE, STC_INPUT_SIZE);
+                    if (!still_shown) {
+                        /* Freeze the first frame that actually took part in
+                         * inference. The remaining burst frames only refine
+                         * the result; the classifying screen must not flicker
+                         * through five different live images. */
+                        stc_shell_ui_set_camera_rgb(
+                            rgb, STC_INPUT_SIZE, STC_INPUT_SIZE);
+                        still_shown = true;
+                    }
                 } else {
                     ESP_LOGW(TAG, "live camera frame=%u failed",
                              static_cast<unsigned>(frame));
@@ -309,6 +430,41 @@ void HandlePlayEvent() {
              static_cast<int>(result));
 }
 
+void CancelActiveRound(const char *source) {
+    const stc_snapshot_t snapshot = stc_game_snapshot();
+    const stc_game_view_t *view = stc_game_controller_view();
+
+    stc_voice_stop();
+    VisionRequest stale = {};
+    while (vision_queue != nullptr &&
+           xQueueReceive(vision_queue, &stale, 0) == pdTRUE) {
+    }
+
+    const bool lid_may_be_open =
+        view != nullptr &&
+        (view->lid_open || view->awaiting_open_ack ||
+         snapshot.phase == STC_PH_OPEN ||
+         snapshot.phase == STC_PH_WAIT_DROP ||
+         snapshot.phase == STC_PH_SETTLE ||
+         snapshot.phase == STC_PH_CLOSE);
+    stc_err_t close_result = STC_ERR_NOT_READY;
+    if (lid_may_be_open && espnow_ready.load()) {
+        close_result = stc_hand_link_command(
+            STC_HAND_ACTION_CLOSE_ALL, snapshot.round_id, NowMs());
+    }
+
+    const stc_err_t reset_result =
+        stc_game_controller_ui_action(STC_UI_ACTION_HOME, NowMs());
+    stc_game_runtime_render();
+    ESP_LOGW(TAG,
+             "ROUND_CANCEL source=%s phase=%d round_id=%lu "
+             "close_result=%d reset_result=%d",
+             source != nullptr ? source : "unknown",
+             static_cast<int>(snapshot.phase),
+             static_cast<unsigned long>(snapshot.round_id),
+             static_cast<int>(close_result), static_cast<int>(reset_result));
+}
+
 void ProcessEvent(const GameEvent &event) {
     if (stc_shell_get() != STC_SHELL_GAME) {
         return;
@@ -325,6 +481,10 @@ void ProcessEvent(const GameEvent &event) {
                      static_cast<unsigned>(before.round),
                      static_cast<unsigned long>(before.round_id),
                      static_cast<long>(event.category_id));
+            if (event.action == STC_UI_ACTION_CANCEL_ROUND) {
+                CancelActiveRound("ui_logout");
+                break;
+            }
             if (event.action == STC_UI_ACTION_ASK) {
                 const stc_snapshot_t snapshot = stc_game_snapshot();
                 if (snapshot.phase == STC_PH_IDLE ||
@@ -585,6 +745,13 @@ extern "C" void stc_game_runtime_render(void) {
 }
 
 extern "C" stc_err_t stc_game_runtime_suspend_hand(void) {
+    const stc_err_t pause = SendHandControl(STC_HAND_ACTION_PAUSE);
+    if (pause == STC_OK) {
+        vTaskDelay(pdMS_TO_TICKS(40));
+    } else {
+        ESP_LOGW(TAG, "HAND_PAUSE send failed=%d",
+                 static_cast<int>(pause));
+    }
     const stc_err_t result = stc_game_espnow_suspend();
     stc_game_controller_set_hand_online(false, NowMs());
     return result;
@@ -596,7 +763,16 @@ extern "C" stc_err_t stc_game_runtime_resume_hand(void) {
         espnow_ready.store(error == STC_OK);
         return error;
     }
-    return stc_game_espnow_resume(kEspNowChannel);
+    const stc_err_t result = stc_game_espnow_resume(kEspNowChannel);
+    if (result == STC_OK) {
+        vTaskDelay(pdMS_TO_TICKS(20));
+        const stc_err_t resume = SendHandControl(STC_HAND_ACTION_RESUME);
+        if (resume != STC_OK) {
+            ESP_LOGW(TAG, "HAND_RESUME send failed=%d",
+                     static_cast<int>(resume));
+        }
+    }
+    return result;
 }
 
 extern "C" bool stc_game_runtime_hand_online(void) {
@@ -605,10 +781,11 @@ extern "C" bool stc_game_runtime_hand_online(void) {
 
 extern "C" void stc_game_runtime_log_status(const char *source) {
     const stc_snapshot_t snapshot = stc_game_snapshot();
+    const stc_game_view_t *view = stc_game_controller_view();
     ESP_LOGI(TAG,
              "GAME_STATUS source=%s phase=%d round=%u round_id=%lu "
              "score=%d time_bar=%ld model=%d camera=%d espnow=%d "
-             "hand_online=%d",
+             "hand_online=%d lid_open=%d awaiting_open_ack=%d fault=%s",
              source != nullptr ? source : "unknown",
              static_cast<int>(snapshot.phase),
              static_cast<unsigned>(snapshot.round),
@@ -617,5 +794,10 @@ extern "C" void stc_game_runtime_log_status(const char *source) {
              static_cast<long>(stc_shell_ui_time_bar_value()),
              model_ready.load() ? 1 : 0,
              camera_ready.load() ? 1 : 0, espnow_ready.load() ? 1 : 0,
-             stc_game_runtime_hand_online() ? 1 : 0);
+             stc_game_runtime_hand_online() ? 1 : 0,
+             view != nullptr && view->lid_open ? 1 : 0,
+             view != nullptr && view->awaiting_open_ack ? 1 : 0,
+             view != nullptr && view->fault_code != nullptr
+                 ? view->fault_code
+                 : "-");
 }

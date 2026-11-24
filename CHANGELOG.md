@@ -10,6 +10,9 @@
 
 ### Changed
 
+- S31 掃描頁把 320×320 正方形預覽放在主版面，直接顯示 640×480 畫面中央 480×480 裁切後縮成的 160×160 模型輸入；預覽內縮後保留清楚可見的綠色外框，「確認入框」與「正在辨識」共用同一個位置、尺寸和邊框，兩組說明文字在右側水平置中。
+- S31 進入「正在辨識」後只顯示第一張成功參與推論的 still frame，後續四幀只更新判斷結果，不再令畫面閃過多張 live 影像。
+- S31 的「睇唔清，再試一次」已用原 `zh-HK-HiuMaanNeural` 女聲重新合成，並按既有 pipeline 轉成 16 kHz 單聲道無檔頭 raw PCM；播放鏈與其他台詞一致。
 - S31 本地語音維持 mono 播放，只由 `Es8389AudioCodec::Write()` 按輸出設定複製左右聲道；移除上層重複 mono→stereo 轉換，修正所有預錄台詞被二次轉換後的速度、音高及聲道失真。
 - S31 遊戲音效接駁：掃描、辨識完成、答對、答錯、拒判重試及五回合結算分別播放對應短音效；六個 Ogg/Opus 檔已打包入 assets 分區。
 - 模型拒判會先播柔和 retry 音效，再播本地粵語「睇唔清，再試一次」，然後重開同一回合。
@@ -143,6 +146,8 @@
 
 ### Fixed
 
+- S3 real hand: lazy PWM initialisation now starts from the stopped state, so the first CLOSE/OPEN after boot really configures LEDC instead of emitting `LEDC is not initialized`; servo OPEN/CLOSE calls are staggered by 120 ms to reduce four-servo inrush current.
+- S3 real hand: TOF address assignment retries after XSHUT resets, continuous TOF mode can be stopped for CHAT, and the USB Serial/JTAG secondary console is enabled for diagnostics.
 - Fixed `INVALID_TRANSITION` in the live touch game by allowing the actual phase path `CLASSIFYING -> BIN_CHOICE`, plus prompt-timeout, scan-retry, and abstain paths into learning/scan-ready. The native regression now exercises those direct transitions rather than taking a replay-only shortcut through `RESULT_OK`.
 - Fixed the live touch game's five-frame inference race: device scans measured 1,451-1,573 ms while the generic 1.5 s SCAN timeout could expire first and reject the result as a stale round. `STC_GAME_TOUCH_BIN` now uses a 5 s scan budget while the normal game contract remains unchanged.
 - Game startup, PROMPT/SCAN/WAIT_DROP timeout handling, the 180-second limit, duration, consecutive-correct streak, duplicate DROP, and stale round events.

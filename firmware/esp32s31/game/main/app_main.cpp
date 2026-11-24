@@ -167,6 +167,7 @@ static void vision_task(void *arg)
 #if STC_GAME_LIVE_CAMERA
         memset(frames, 0, sizeof(frames));
         stc_err_t err = camera_ready ? STC_OK : STC_ERR_IO;
+        bool still_shown = false;
         if (camera_ready) {
             for (uint8_t i = 0; i < STC_VISION_BURST_FRAMES; ++i) {
                 vTaskDelay(pdMS_TO_TICKS(50));
@@ -189,8 +190,11 @@ static void vision_task(void *arg)
                              (double)frames[i].probs[2],
                              (double)frames[i].probs[3],
                              (double)frames[i].probs[4]);
-                    stc_game_ui_set_camera_rgb160(rgb, STC_INPUT_SIZE,
-                                                  STC_INPUT_SIZE);
+                    if (!still_shown) {
+                        stc_game_ui_set_camera_rgb160(rgb, STC_INPUT_SIZE,
+                                                      STC_INPUT_SIZE);
+                        still_shown = true;
+                    }
                 } else {
                     ESP_LOGW(TAG, "live camera frame=%u failed", (unsigned)i);
                 }
@@ -337,6 +341,43 @@ static void shell_enter_game(void)
     stc_game_ui_render(&snap, view, NULL);
 }
 
+static void cancel_active_round(const char *source)
+{
+    const stc_snapshot_t snap = stc_game_snapshot();
+    const stc_game_view_t *view = stc_game_controller_view();
+    stc_voice_stop();
+
+    vision_request_t stale = {};
+    while (g_vision_queue &&
+           xQueueReceive(g_vision_queue, &stale, 0) == pdTRUE) {
+    }
+
+    const bool lid_may_be_open =
+        view &&
+        (view->lid_open || view->awaiting_open_ack ||
+         snap.phase == STC_PH_OPEN ||
+         snap.phase == STC_PH_WAIT_DROP ||
+         snap.phase == STC_PH_SETTLE ||
+         snap.phase == STC_PH_CLOSE);
+    stc_err_t close_result = STC_ERR_NOT_READY;
+    if (lid_may_be_open) {
+        close_result = hand_close(snap.round, snap.round_id, NULL);
+    }
+
+    g_intro_pending = false;
+    const stc_err_t reset_result =
+        stc_game_controller_ui_action(STC_UI_ACTION_HOME, now_ms());
+    const stc_snapshot_t after = stc_game_snapshot();
+    const stc_game_view_t *after_view = stc_game_controller_view();
+    stc_game_ui_render(&after, after_view, NULL);
+    ESP_LOGW(TAG,
+             "ROUND_CANCEL source=%s phase=%d round_id=%lu close_result=%d "
+             "reset_result=%d phase_after=%d",
+             source ? source : "unknown", (int)snap.phase,
+             (unsigned long)snap.round_id, (int)close_result,
+             (int)reset_result, (int)after.phase);
+}
+
 static void handle_game_action(stc_ui_action_t action)
 {
     const stc_snapshot_t snap = stc_game_snapshot();
@@ -374,6 +415,10 @@ static void process_event(const game_event_t *event)
     }
     switch (event->type) {
     case GAME_EVENT_UI_ACTION:
+        if (event->action == STC_UI_ACTION_CANCEL_ROUND) {
+            cancel_active_round("ui_logout");
+            break;
+        }
         if (event->action == STC_UI_ACTION_ASK) {
             const stc_snapshot_t snap = stc_game_snapshot();
             if (snap.phase == STC_PH_IDLE || snap.phase == STC_PH_SUMMARY) {

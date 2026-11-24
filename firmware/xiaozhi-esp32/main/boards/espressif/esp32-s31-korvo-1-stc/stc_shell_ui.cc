@@ -8,9 +8,11 @@
 #include "stc_voice.h"
 #include "ui_bridge.h"
 #include "lvgl_font.h"
+#include "wifi_manager.h"
 
 #include <esp_log.h>
 #include <esp_heap_caps.h>
+#include <esp_timer.h>
 #include <lvgl.h>
 
 #include <cstdio>
@@ -40,9 +42,15 @@ struct ShellUi {
     stc_chat_state_t applied_chat_state = STC_CHAT_READY;
     bool chat_applied = false;
     bool network_connected = false;
+    bool goodbye_pending = false;
+    bool goodbye_reply_seen = false;
+    bool goodbye_exit_requested = false;
+    int64_t goodbye_started_us = 0;
+    int64_t goodbye_display_due_us = 0;
 };
 
 ShellUi ui;
+constexpr uint16_t kCameraPreviewSize = 240;
 uint16_t* preview_pixels[2] = {};
 int preview_index = -1;
 lv_image_dsc_t preview_desc[2] = {
@@ -50,22 +58,24 @@ lv_image_dsc_t preview_desc[2] = {
         .header = {
             .magic = LV_IMAGE_HEADER_MAGIC,
             .cf = LV_COLOR_FORMAT_RGB565,
-            .w = 160,
-            .h = 160,
-            .stride = 160 * 2,
+            .w = kCameraPreviewSize,
+            .h = kCameraPreviewSize,
+            .stride = kCameraPreviewSize * 2,
         },
-        .data_size = 160 * 160 * sizeof(uint16_t),
+        .data_size = kCameraPreviewSize * kCameraPreviewSize *
+                     sizeof(uint16_t),
         .data = nullptr,
     },
     {
         .header = {
             .magic = LV_IMAGE_HEADER_MAGIC,
             .cf = LV_COLOR_FORMAT_RGB565,
-            .w = 160,
-            .h = 160,
-            .stride = 160 * 2,
+            .w = kCameraPreviewSize,
+            .h = kCameraPreviewSize,
+            .stride = kCameraPreviewSize * 2,
         },
-        .data_size = 160 * 160 * sizeof(uint16_t),
+        .data_size = kCameraPreviewSize * kCameraPreviewSize *
+                     sizeof(uint16_t),
         .data = nullptr,
     },
 };
@@ -75,7 +85,7 @@ bool EnsurePreviewBuffers() {
         return true;
     }
     constexpr size_t kBufferBytes =
-        160u * 160u * sizeof(uint16_t);
+        kCameraPreviewSize * kCameraPreviewSize * sizeof(uint16_t);
     auto* pixels = static_cast<uint16_t*>(heap_caps_calloc(
         2, kBufferBytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
     if (pixels == nullptr) {
@@ -84,7 +94,8 @@ bool EnsurePreviewBuffers() {
         return false;
     }
     preview_pixels[0] = pixels;
-    preview_pixels[1] = pixels + 160u * 160u;
+    preview_pixels[1] =
+        pixels + kCameraPreviewSize * kCameraPreviewSize;
     preview_desc[0].data =
         reinterpret_cast<const uint8_t*>(preview_pixels[0]);
     preview_desc[1].data =
@@ -136,22 +147,36 @@ void RefreshChatLocked() {
     if (ui.chat_ui == nullptr) {
         return;
     }
+    char runtime_message[256] = {};
+    const char* message =
+        ui.chat_message[0] != '\0' ? ui.chat_message : nullptr;
+    if (ui.chat_state == STC_CHAT_PROVISIONING) {
+        auto& wifi = WifiManager::GetInstance();
+        if (wifi.IsConfigMode()) {
+            snprintf(runtime_message, sizeof(runtime_message),
+                     "連接 Wi-Fi: %s\n再開啟 %s",
+                     wifi.GetApSsid().c_str(),
+                     wifi.GetApWebUrl().c_str());
+            message = runtime_message;
+        }
+    }
+    const char* compare_message = message != nullptr ? message : "";
     if (ui.chat_applied &&
         ui.applied_chat_state == ui.chat_state &&
-        strcmp(ui.applied_chat_message, ui.chat_message) == 0) {
+        strcmp(ui.applied_chat_message, compare_message) == 0) {
         return;
     }
     stc_chat_payload_t payload = {
         .state = ui.chat_state,
         .heading = nullptr,
-        .message = ui.chat_message[0] != '\0' ? ui.chat_message : nullptr,
+        .message = message,
         .primary_label = nullptr,
         .secondary_label = nullptr,
     };
     if (stc_chat_ui_apply(ui.chat_ui, &payload)) {
         ui.applied_chat_state = ui.chat_state;
         snprintf(ui.applied_chat_message,
-                 sizeof(ui.applied_chat_message), "%s", ui.chat_message);
+                 sizeof(ui.applied_chat_message), "%s", compare_message);
         ui.chat_applied = true;
         ESP_LOGI(TAG, "STC_CHAT_UI_RENDER state=%d message_bytes=%u",
                  static_cast<int>(ui.chat_state),
@@ -263,10 +288,44 @@ void ApplyRuntimeStatusLocked(stc_shell_state_t state, DeviceState device_state,
     if (state_changed) {
         ApplyVisualStateLocked();
     }
+    if (state == STC_SHELL_GAME) {
+        ui.goodbye_pending = false;
+        ui.goodbye_reply_seen = false;
+        ui.goodbye_exit_requested = false;
+        ui.goodbye_started_us = 0;
+        ui.goodbye_display_due_us = 0;
+    }
     if (state != STC_SHELL_GAME) {
-        if (!network_connected &&
-            state == STC_SHELL_CHAT_STARTING) {
-            ui.chat_state = STC_CHAT_READY;
+        const int64_t now_us = esp_timer_get_time();
+        if (ui.goodbye_pending) {
+            if (device_state == kDeviceStateSpeaking) {
+                ui.goodbye_reply_seen = true;
+            }
+            if (ui.goodbye_display_due_us == 0 &&
+                ((ui.goodbye_reply_seen && device_state == kDeviceStateIdle) ||
+                 (!ui.goodbye_reply_seen &&
+                  now_us - ui.goodbye_started_us >= 6 * 1000 * 1000))) {
+                ui.goodbye_display_due_us = now_us + 1500 * 1000;
+            }
+            if (ui.goodbye_display_due_us != 0) {
+                ui.chat_state = STC_CHAT_GOODBYE;
+                RefreshChatLocked();
+                if (now_us >= ui.goodbye_display_due_us &&
+                    !ui.goodbye_exit_requested) {
+                    ui.goodbye_exit_requested = true;
+                    ESP_LOGI(TAG, "STC_CHAT_GOODBYE auto_home");
+                    if (ui.request_mode) {
+                        ui.request_mode(STC_SHELL_GAME);
+                    }
+                }
+                return;
+            }
+        }
+        if (WifiManager::GetInstance().IsConfigMode()) {
+            ui.chat_state = STC_CHAT_PROVISIONING;
+        } else if (!network_connected &&
+                   state == STC_SHELL_CHAT_STARTING) {
+            ui.chat_state = STC_CHAT_CONNECTING;
         } else if (!network_connected) {
             ui.chat_state = STC_CHAT_OFFLINE;
         } else if (device_state == kDeviceStateListening) {
@@ -302,12 +361,21 @@ void SetSubtitleLocked(const char* role, const char* content) {
         const size_t used = strlen(ui.chat_message);
         if (used + 1 < sizeof(ui.chat_message)) {
             snprintf(ui.chat_message + used,
-                     sizeof(ui.chat_message) - used, "\n%s", text);
+                     sizeof(ui.chat_message) - used, "%s", text);
         }
     } else {
         snprintf(ui.chat_message, sizeof(ui.chat_message), "%s", text);
     }
     snprintf(ui.chat_role, sizeof(ui.chat_role), "%s", normalized_role);
+    if (strcmp(normalized_role, "user") == 0 &&
+        stc_shell_text_is_goodbye(text) && !ui.goodbye_pending) {
+        ui.goodbye_pending = true;
+        ui.goodbye_reply_seen = false;
+        ui.goodbye_exit_requested = false;
+        ui.goodbye_started_us = esp_timer_get_time();
+        ui.goodbye_display_due_us = 0;
+        ESP_LOGI(TAG, "STC_CHAT_GOODBYE detected");
+    }
     if (ui.chat_ui == nullptr) {
         return;
     }
@@ -455,16 +523,17 @@ void stc_shell_ui_set_game_action_callback(stc_ui_action_cb callback) {
     }
 }
 
-void stc_shell_ui_set_camera_rgb160(const uint8_t* rgb, uint16_t width,
-                                    uint16_t height) {
-    if (!ui.display || !ui.game_ui || !rgb || width != 160 || height != 160) {
+void stc_shell_ui_set_camera_rgb(const uint8_t* rgb, uint16_t width,
+                                 uint16_t height) {
+    if (!ui.display || !ui.game_ui || !rgb || width != height ||
+        (width != 160 && width != kCameraPreviewSize)) {
         return;
     }
     if (!EnsurePreviewBuffers()) {
         return;
     }
     const int next = preview_index < 0 ? 0 : 1 - preview_index;
-    if (stc_preprocess_rgb_to_rgb565(rgb, 160 * 160,
+    if (stc_preprocess_rgb_to_rgb565(rgb, width * height,
                                      preview_pixels[next]) != STC_OK) {
         return;
     }
@@ -472,8 +541,18 @@ void stc_shell_ui_set_camera_rgb160(const uint8_t* rgb, uint16_t width,
     if (!lock) {
         return;
     }
+    preview_desc[next].header.w = width;
+    preview_desc[next].header.h = height;
+    preview_desc[next].header.stride = width * sizeof(uint16_t);
+    preview_desc[next].data_size =
+        width * height * sizeof(uint16_t);
     stc_ui_bridge_set_images(ui.game_ui, &preview_desc[next], nullptr);
     preview_index = next;
+}
+
+void stc_shell_ui_set_camera_rgb160(const uint8_t* rgb, uint16_t width,
+                                    uint16_t height) {
+    stc_shell_ui_set_camera_rgb(rgb, width, height);
 }
 
 int32_t stc_shell_ui_time_bar_value(void) {

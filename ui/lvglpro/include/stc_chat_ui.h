@@ -20,6 +20,8 @@ typedef enum {
     STC_CHAT_COUNTDOWN,
     STC_CHAT_NO_ANSWER,
     STC_CHAT_GOODBYE,
+    STC_CHAT_CONNECTING,
+    STC_CHAT_PROVISIONING,
 } stc_chat_state_t;
 
 typedef enum {

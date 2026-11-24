@@ -1,5 +1,7 @@
 #include "stc_shell_mode.h"
 
+#include <stdbool.h>
+#include <ctype.h>
 #include <string.h>
 
 static stc_shell_state_t g_state;
@@ -11,6 +13,35 @@ static void call(void (*hook)(void))
     if (hook) {
         hook();
     }
+}
+
+static bool contains_ascii_case_insensitive(const char *text,
+                                            const char *needle)
+{
+    if (!text || !needle || needle[0] == '\0') {
+        return false;
+    }
+    const size_t needle_len = strlen(needle);
+    for (const char *start = text; *start != '\0'; ++start) {
+        size_t matched = 0;
+        while (matched < needle_len && start[matched] != '\0' &&
+               tolower((unsigned char)start[matched]) ==
+                   tolower((unsigned char)needle[matched])) {
+            ++matched;
+        }
+        if (matched == needle_len) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool stc_shell_text_is_goodbye(const char *text)
+{
+    return text != NULL &&
+           (strstr(text, "拜拜") != NULL || strstr(text, "再見") != NULL ||
+            contains_ascii_case_insensitive(text, "bye") ||
+            contains_ascii_case_insensitive(text, "goodbye"));
 }
 
 void stc_shell_init(void)

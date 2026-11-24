@@ -456,7 +456,12 @@ static void ShellExitGame() { stc_voice_stop(); }
 static void ShellEnterChat() {
     stc_voice_stop();
     (void)stc_voice_set_mode(STC_MODE_CHAT);
+    stc_shell_ui_clear_chat_message();
     stc_shell_ui_set_state(STC_SHELL_CHAT_STARTING);
+    stc_shell_ui_refresh_status(
+        STC_SHELL_CHAT_STARTING,
+        Application::GetInstance().GetDeviceState(),
+        WifiManager::GetInstance().IsConnected());
     ESP_LOGI(TAG, "APP_STATE GAME -> CHAT_STARTING");
 }
 
@@ -505,6 +510,8 @@ static void GameTask(void*) {
     DeviceState last_device_state = kDeviceStateUnknown;
     bool last_voice_detected = false;
     bool dialog_requested = false;
+    bool game_exit_pending = false;
+    uint32_t game_exit_requested_at = 0;
 
     for (;;) {
         stc_voice_poll();
@@ -517,14 +524,34 @@ static void GameTask(void*) {
             dialog_requested = false;
         } else if (has_request && target == STC_MODE_GAME &&
                    stc_shell_get() != STC_SHELL_GAME) {
-            (void)stc_shell_exit_chat();
-            dialog_requested = false;
+            const DeviceState request_state =
+                Application::GetInstance().GetDeviceState();
+            if (request_state == kDeviceStateActivating ||
+                request_state == kDeviceStateConnecting) {
+                game_exit_pending = true;
+                game_exit_requested_at = NowMs();
+                ESP_LOGI(TAG,
+                         "APP_STATE CHAT -> GAME deferred state=%d",
+                         static_cast<int>(request_state));
+            } else {
+                (void)stc_shell_exit_chat();
+                dialog_requested = false;
+            }
         }
 
         auto& app = Application::GetInstance();
         const DeviceState device_state = app.GetDeviceState();
         const bool network_connected =
             WifiManager::GetInstance().IsConnected();
+
+        if (game_exit_pending &&
+            (device_state == kDeviceStateIdle ||
+             static_cast<uint32_t>(NowMs() - game_exit_requested_at) >=
+                 10000u)) {
+            game_exit_pending = false;
+            (void)stc_shell_exit_chat();
+            dialog_requested = false;
+        }
 
         if (stc_shell_get() == STC_SHELL_CHAT_STARTING &&
             !dialog_requested && device_state == kDeviceStateIdle &&
@@ -589,6 +616,12 @@ private:
     Button boot_button_;
     Button* adc_button_[BSP_ADC_BUTTON_NUM] = {};
     LcdDisplay* display_ = nullptr;
+
+    int GetWifiConnectTimeoutSeconds() const override { return 8; }
+    int GetWifiConfigModeDelayMs() const override { return 0; }
+    bool ShouldReconnectAfterConfigModeExit() const override {
+        return stc_network_gate_is_enabled();
+    }
 
     void InitializeCodecI2c() {
         i2c_master_bus_config_t i2c_bus_config = {

@@ -15,6 +15,7 @@ extern "C" {
 
 esp_err_t stc_tof4_init(void);
 esp_err_t stc_tof4_start_continuous(void);
+esp_err_t stc_tof4_stop_continuous(void);
 esp_err_t stc_tof4_capture_baseline(
     stc_tof_baseline_t baseline[STC_TOF4_SENSOR_COUNT],
     uint32_t sample_timeout_ms);

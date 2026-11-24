@@ -45,6 +45,7 @@ typedef enum {
     STC_ACTION_SCAN = 6,
     STC_ACTION_NEXT = 7,
     STC_ACTION_SELECT_BIN = 8,
+    STC_ACTION_CANCEL_ROUND = 9,
 } stc_action_t;
 typedef void (*stc_action_cb)(stc_action_t action, int category_id, void *user_data);
 /* Actions are intents only: the controller validates round_id, discards stale work,
@@ -83,6 +84,9 @@ const char *stc_category_label(int id);
 /* Native acceptance diagnostics; no hardware calls. */
 bool stc_ui_check_layout(stc_ui_t *ui);
 int32_t stc_ui_time_bar_value(const stc_ui_t *ui);
+#ifdef STC_UI_PREVIEW
+void stc_ui_preview_open_logout(stc_ui_t *ui);
+#endif
 #ifdef __cplusplus
 }
 #endif

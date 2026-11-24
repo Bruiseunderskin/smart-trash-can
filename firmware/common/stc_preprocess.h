@@ -16,6 +16,12 @@ extern "C" {
  * 輸出：RGB888，out_size × out_size，uint8 0–255，NHWC 佈局。 */
 stc_err_t stc_preprocess_uyvy_to_rgb(const uint8_t *uyvy, int width, int height,
                                      uint8_t *rgb_out, int out_size);
+/* Preview-only variant. It samples the centre crop directly instead of
+ * allocating a full 640x480 RGB888 staging image for every frame. The model
+ * path above remains the single source of truth for classifier pixels. */
+stc_err_t stc_preprocess_uyvy_to_rgb_preview(const uint8_t *uyvy, int width,
+                                             int height, uint8_t *rgb_out,
+                                             int out_size);
 stc_err_t stc_preprocess_rgb_to_rgb565(const uint8_t *rgb, int pixels,
                                       uint16_t *rgb565_out);
 

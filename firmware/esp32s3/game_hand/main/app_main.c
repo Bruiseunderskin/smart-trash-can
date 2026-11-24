@@ -78,6 +78,7 @@ static uint16_t s_drop_dist_mm;
 static bool s_drop_pending;
 static stc_hand_msg_t s_drop_msg;
 static uint8_t s_command_bin;
+static bool s_paused;
 
 static uint32_t now_ms(void)
 {
@@ -258,6 +259,9 @@ static void print_status(void)
     printf("GAME_HAND phase=%s round=%u outcome=%d bin=%d remaining_ms=%ld\n",
            phase_name(phase), s_active_round, (int)s_round.outcome,
            s_round.selected_bin, (long)remaining_ms);
+    if (s_paused) {
+        printf("GAME_HAND paused=1 heartbeat=off tof=stopped servo_pwm=off\n");
+    }
 }
 
 static void fail_round(const char *reason)
@@ -377,7 +381,9 @@ static void process_hand_frame(const rx_item_t *item)
     if (msg->type != STC_HAND_MSG_CMD ||
         (msg->action != STC_HAND_ACTION_OPEN_ALL &&
          msg->action != STC_HAND_ACTION_CLOSE_ALL &&
-         msg->action != STC_HAND_ACTION_OPEN_ALL_HOLD)) {
+         msg->action != STC_HAND_ACTION_OPEN_ALL_HOLD &&
+         msg->action != STC_HAND_ACTION_PAUSE &&
+         msg->action != STC_HAND_ACTION_RESUME)) {
         return;
     }
 
@@ -392,7 +398,23 @@ static void process_hand_frame(const rx_item_t *item)
         return;
     }
 
-    if (msg->action == STC_HAND_ACTION_OPEN_ALL_HOLD) {
+    if (msg->action == STC_HAND_ACTION_PAUSE) {
+        send_ack(msg);
+        (void)manual_close();
+        vTaskDelay(pdMS_TO_TICKS(CLOSE_SETTLE_MS));
+        (void)stc_tof4_stop_continuous();
+        (void)stc_servo_lids_stop_all();
+        s_paused = true;
+        ESP_LOGI(TAG,
+                 "RX_PAUSE round=%u seq=%u heartbeat=off tof=stopped",
+                 msg->round, msg->seq);
+    } else if (msg->action == STC_HAND_ACTION_RESUME) {
+        s_paused = false;
+        send_ack(msg);
+        send_heartbeat();
+        ESP_LOGI(TAG, "RX_RESUME round=%u seq=%u heartbeat=on",
+                 msg->round, msg->seq);
+    } else if (msg->action == STC_HAND_ACTION_OPEN_ALL_HOLD) {
         s_active_round = msg->round;
         s_command_seq = msg->seq;
         s_transport_round = true;
@@ -444,6 +466,7 @@ static void handle_command(command_type_t command)
 {
     switch (command) {
     case COMMAND_START:
+        s_paused = false;
         start_local_round();
         break;
     case COMMAND_CLOSE:
@@ -731,10 +754,10 @@ void app_main(void)
     }
     ESP_ERROR_CHECK(nvs);
 
-    ESP_ERROR_CHECK(stc_servo_lids_init());
     ESP_ERROR_CHECK(stc_tof4_init());
     stc_hand_round_init(&s_round);
     reset_round_runtime();
+    s_paused = false;
     s_controller_known = false;
     s_heartbeat_seq = 0;
     s_have_last_command = false;
@@ -769,6 +792,11 @@ void app_main(void)
         rx_item_t item;
         while (xQueueReceive(s_rx_queue, &item, 0) == pdTRUE) {
             process_hand_frame(&item);
+        }
+
+        if (s_paused) {
+            vTaskDelay(pdMS_TO_TICKS(20));
+            continue;
         }
 
         apply_round_actions();

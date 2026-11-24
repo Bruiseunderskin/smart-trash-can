@@ -30,7 +30,8 @@ i=0
 while IFS= read -r src; do
     name=$(printf '%s' "$src" | sed 's|/|_|g; s|\.c$||')
     "$CC" -O1 -c "$src" -o "$BUILD/obj/$name.o" \
-        -I"$LVGL_DIR" -I"$HERE" -DLV_CONF_INCLUDE_SIMPLE &
+        -I"$LVGL_DIR" -I"$HERE" -DLV_CONF_INCLUDE_SIMPLE \
+        -DSTC_UI_PREVIEW=1 &
     i=$((i + 1))
     if [ $((i % JOBS)) -eq 0 ]; then
         wait
@@ -40,7 +41,7 @@ wait
 rm -f "$BUILD/liblvgl.a"
 ar rcs "$BUILD/liblvgl.a" "$BUILD/obj"/*.o
 
-"$CC" -O1 -DLV_CONF_INCLUDE_SIMPLE -I"$HERE" -I"$LVGL_DIR" \
+"$CC" -O1 -DLV_CONF_INCLUDE_SIMPLE -DSTC_UI_PREVIEW=1 -I"$HERE" -I"$LVGL_DIR" \
     -I"$ROOT/ui/lvglpro/include" -I"$ROOT/ui/lvglpro/generated" \
     -o "$BUILD/preview" \
     "$HERE/main.c" \
@@ -49,7 +50,7 @@ ar rcs "$BUILD/liblvgl.a" "$BUILD/obj"/*.o
     "$ROOT/ui/lvglpro/generated/"*.c \
     "$BUILD/liblvgl.a" -lm
 
-"$CC" -O1 -DLV_CONF_INCLUDE_SIMPLE -I"$HERE" -I"$LVGL_DIR" \
+"$CC" -O1 -DLV_CONF_INCLUDE_SIMPLE -DSTC_UI_PREVIEW=1 -I"$HERE" -I"$LVGL_DIR" \
     -I"$ROOT/ui/lvglpro/include" -I"$ROOT/ui/lvglpro/generated" \
     -o "$BUILD/sim" \
     "$HERE/sim.c" \

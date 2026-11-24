@@ -38,7 +38,7 @@ typedef struct stc_ui stc_ui_t;
 typedef enum { STC_ACTION_START, STC_ACTION_HOME, STC_ACTION_GUIDE,
                STC_ACTION_LEARN, STC_ACTION_FINISH,
                STC_ACTION_ASK, STC_ACTION_SCAN, STC_ACTION_NEXT,
-               STC_ACTION_SELECT_BIN } stc_action_t;
+               STC_ACTION_SELECT_BIN, STC_ACTION_CANCEL_ROUND } stc_action_t;
 typedef void (*stc_action_cb)(stc_action_t action, int category_id, void *user_data);
 /* Actions are intents only: the controller validates round_id, discards stale work,
  * then applies the accepted state. A callback may synchronously apply/update images.

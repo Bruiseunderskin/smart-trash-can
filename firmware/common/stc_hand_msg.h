@@ -1,4 +1,4 @@
-/* stc_hand_msg.h — S31/S3 ESP-NOW hand protocol v2. */
+/* stc_hand_msg.h — S31/S3 ESP-NOW hand protocol v4. */
 #pragma once
 
 #include <stdbool.h>
@@ -9,7 +9,7 @@ extern "C" {
 #endif
 
 #define STC_HAND_MSG_SOF 0xA5u
-#define STC_HAND_MSG_VERSION 3u
+#define STC_HAND_MSG_VERSION 4u
 #define STC_HAND_MSG_SIZE 16u
 
 typedef enum {
@@ -26,6 +26,8 @@ typedef enum {
     STC_HAND_ACTION_OPEN_ALL,
     STC_HAND_ACTION_CLOSE_ALL,
     STC_HAND_ACTION_OPEN_ALL_HOLD,
+    STC_HAND_ACTION_PAUSE,
+    STC_HAND_ACTION_RESUME,
 } stc_hand_action_t;
 
 enum {

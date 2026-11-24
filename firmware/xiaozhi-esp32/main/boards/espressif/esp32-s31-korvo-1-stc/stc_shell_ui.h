@@ -19,6 +19,8 @@ void stc_shell_ui_render_game(const stc_snapshot_t* snapshot,
 void stc_shell_ui_set_game_action_callback(stc_ui_action_cb callback);
 void stc_shell_ui_set_camera_rgb160(const uint8_t* rgb, uint16_t width,
                                     uint16_t height);
+void stc_shell_ui_set_camera_rgb(const uint8_t* rgb, uint16_t width,
+                                 uint16_t height);
 int32_t stc_shell_ui_time_bar_value(void);
 void stc_shell_ui_show_guide(void);
 void stc_shell_ui_request_chat(void);

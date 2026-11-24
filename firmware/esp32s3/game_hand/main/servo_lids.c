@@ -1,12 +1,15 @@
 #include "servo_lids.h"
 
 #include <inttypes.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "driver/gpio.h"
 #include "driver/ledc.h"
 #include "esp_check.h"
 #include "esp_log.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 #define SERVO_FREQ_HZ 50
 #define SERVO_PERIOD_US 20000
@@ -16,6 +19,7 @@
 #define SERVO_DUTY_MAX ((1u << SERVO_DUTY_BITS) - 1u)
 #define SERVO_MODE LEDC_LOW_SPEED_MODE
 #define SERVO_TIMER LEDC_TIMER_0
+#define SERVO_STAGGER_MS 120u
 
 static const char *TAG = "SERVO_LIDS";
 
@@ -41,11 +45,17 @@ static const uint32_t s_open_us[STC_LID_COUNT] = {
     1575, 1575, 1575, 1575,
 };
 
+static bool s_channels_stopped = true;  /* app_main defers init until first move */
+
 static esp_err_t set_pulse_us(int bin, uint32_t pulse_us)
 {
     if (bin < 0 || bin >= STC_LID_COUNT ||
         pulse_us < SERVO_MIN_US || pulse_us > SERVO_MAX_US) {
         return ESP_ERR_INVALID_ARG;
+    }
+    if (s_channels_stopped) {
+        ESP_RETURN_ON_ERROR(stc_servo_lids_init(), TAG,
+                            "restart after stop failed");
     }
     const uint32_t duty =
         (pulse_us * SERVO_DUTY_MAX + SERVO_PERIOD_US / 2u) / SERVO_PERIOD_US;
@@ -81,6 +91,7 @@ esp_err_t stc_servo_lids_init(void)
             ledc_channel_config(&channel_config), TAG,
             "channel config failed");
     }
+    s_channels_stopped = false;
     ESP_LOGI(TAG, "ready gpio=12,13,14,15 close_us=1450 open_us=1575");
     return ESP_OK;
 }
@@ -92,6 +103,9 @@ esp_err_t stc_servo_lids_open_all(void)
             set_pulse_us(bin, s_open_us[bin]), TAG, "open bin %d failed", bin);
         ESP_LOGI(TAG, "OPEN bin=%d gpio=%d pulse_us=%" PRIu32,
                  bin, (int)s_gpio[bin], s_open_us[bin]);
+        if (bin + 1 < STC_LID_COUNT) {
+            vTaskDelay(pdMS_TO_TICKS(SERVO_STAGGER_MS));
+        }
     }
     return ESP_OK;
 }
@@ -103,6 +117,9 @@ esp_err_t stc_servo_lids_close_all(void)
             set_pulse_us(bin, s_close_us[bin]), TAG, "close bin %d failed", bin);
         ESP_LOGI(TAG, "CLOSE bin=%d gpio=%d pulse_us=%" PRIu32,
                  bin, (int)s_gpio[bin], s_close_us[bin]);
+        if (bin + 1 < STC_LID_COUNT) {
+            vTaskDelay(pdMS_TO_TICKS(SERVO_STAGGER_MS));
+        }
     }
     return ESP_OK;
 }
@@ -114,6 +131,7 @@ esp_err_t stc_servo_lids_stop_all(void)
             ledc_stop(SERVO_MODE, s_channel[bin], 0),
             TAG, "stop bin %d failed", bin);
     }
+    s_channels_stopped = true;
     ESP_LOGW(TAG, "OUTPUTS_STOPPED");
     return ESP_OK;
 }

@@ -48,6 +48,17 @@ extern const lv_font_t stc_lp_font_tc_bold_112;
 #define TEXT_GAP SP_XS
 #define CONTROL_H SP_XL
 #define PAGE_W (800 - 2 * OUTER)
+#define CAMERA_FRAME_SIZE 320
+#define CAMERA_IMAGE_INSET 12
+#define CAMERA_COPY_X 352
+#define CAMERA_COPY_W 424
+#define CAMERA_COPY_TITLE_Y 128
+#define CAMERA_COPY_TITLE_H 96
+#define CAMERA_COPY_SUB_Y 240
+#define CAMERA_COPY_SUB_H 80
+#define BEAN_X 688
+#define BEAN_Y 112
+#define BEAN_SIZE 64
 
 #define MAX_ACTIONS 24
 
@@ -94,6 +105,10 @@ struct stc_ui {
     bool auto_done;
     uint32_t time_left_ms;
     uint32_t time_total_ms;
+    lv_timer_t *logout_timer;
+    lv_obj_t *logout_overlay;
+    lv_obj_t *logout_progress;
+    uint8_t logout_ticks;
     uint8_t debug_flags;
     int learned_scanned_bin;
     int learned_dropped_bin;
@@ -287,6 +302,147 @@ static void bind_action(stc_ui_t *ui, lv_obj_t *obj, stc_action_t action,
     lv_obj_add_event_cb(obj, action_event, LV_EVENT_CLICKED, binding);
 }
 
+static void logout_timer_stop(stc_ui_t *ui) {
+    if (ui->logout_timer != NULL) {
+        lv_timer_del(ui->logout_timer);
+        ui->logout_timer = NULL;
+    }
+    ui->logout_ticks = 0;
+    if (ui->logout_progress != NULL) {
+        lv_obj_add_flag(ui->logout_progress, LV_OBJ_FLAG_HIDDEN);
+    }
+}
+
+static void logout_dialog_close(stc_ui_t *ui) {
+    if (ui->logout_overlay != NULL) {
+        lv_obj_add_flag(ui->logout_overlay, LV_OBJ_FLAG_HIDDEN);
+    }
+}
+
+static void logout_continue_cb(lv_event_t *event) {
+    stc_ui_t *ui = lv_event_get_user_data(event);
+    if (ui != NULL) {
+        logout_dialog_close(ui);
+    }
+}
+
+static void logout_confirm_cb(lv_event_t *event) {
+    stc_ui_t *ui = lv_event_get_user_data(event);
+    if (ui == NULL) {
+        return;
+    }
+    if (ui->action != NULL) {
+        ui->action(STC_ACTION_CANCEL_ROUND, -1, ui->user);
+    } else {
+        logout_dialog_close(ui);
+    }
+}
+
+static void logout_dialog_open(stc_ui_t *ui) {
+    if (ui->logout_overlay != NULL) {
+        lv_obj_clear_flag(ui->logout_overlay, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_move_foreground(ui->logout_overlay);
+        return;
+    }
+
+    ui->logout_overlay = box(ui->container, 0, 0, 800, 480, 0x00180F,
+                             0, 0, 0x00180F);
+    lv_obj_set_style_bg_opa(ui->logout_overlay, 150, 0);
+    lv_obj_add_flag(ui->logout_overlay, LV_OBJ_FLAG_CLICKABLE);
+
+    lv_obj_t *sheet =
+        box(ui->logout_overlay, 90, 92, 620, 296, COLOR_SURFACE, 24, 0,
+            COLOR_SURFACE);
+    image(sheet, &stc_lp_img_mascot_idle, 24, 22, 56, 56);
+    label(sheet, "返回主頁？", 96, 24, 480, 56, FONT_H2, COLOR_FG,
+          LV_TEXT_ALIGN_LEFT);
+    label(sheet,
+          "返回主頁會取消掃描，分數不動。\n"
+          "桶蓋開，返回前會先關閉。",
+          24, 96, 572, 82, FONT_HINT, COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
+
+    lv_obj_t *stay =
+        button(sheet, "繼續遊戲", 24, 208, 280, CONTROL_H, false);
+    lv_obj_add_event_cb(stay, logout_continue_cb, LV_EVENT_CLICKED, ui);
+
+    lv_obj_t *leave =
+        button(sheet, "返回主頁", 316, 208, 280, CONTROL_H, true);
+    lv_obj_add_event_cb(leave, logout_confirm_cb, LV_EVENT_CLICKED, ui);
+}
+
+static void logout_timer_cb(lv_timer_t *timer) {
+    stc_ui_t *ui = lv_timer_get_user_data(timer);
+    if (ui == NULL) {
+        return;
+    }
+    if (ui->logout_ticks > 0) {
+        --ui->logout_ticks;
+    }
+    if (ui->logout_progress != NULL) {
+        lv_arc_set_value(ui->logout_progress, 12 - ui->logout_ticks);
+    }
+    if (ui->logout_ticks == 0) {
+        logout_timer_stop(ui);
+        logout_dialog_open(ui);
+    }
+}
+
+static void logout_pressed(lv_event_t *event) {
+    stc_ui_t *ui = lv_event_get_user_data(event);
+    if (ui == NULL ||
+        (ui->logout_overlay != NULL &&
+         !lv_obj_has_flag(ui->logout_overlay, LV_OBJ_FLAG_HIDDEN))) {
+        return;
+    }
+    logout_timer_stop(ui);
+    ui->logout_ticks = 12;
+    if (ui->logout_progress != NULL) {
+        lv_arc_set_value(ui->logout_progress, 0);
+        lv_obj_clear_flag(ui->logout_progress, LV_OBJ_FLAG_HIDDEN);
+    }
+    ui->logout_timer = lv_timer_create(logout_timer_cb, 100, ui);
+}
+
+static void logout_released(lv_event_t *event) {
+    stc_ui_t *ui = lv_event_get_user_data(event);
+    if (ui != NULL) {
+        logout_timer_stop(ui);
+    }
+}
+
+static lv_obj_t *bean_control(stc_ui_t *ui, int x, int y, int size) {
+    lv_obj_t *bean = lv_button_create(ui->container);
+    lv_obj_remove_style_all(bean);
+    lv_obj_set_pos(bean, x, y);
+    lv_obj_set_size(bean, size, size);
+    lv_obj_set_style_bg_opa(bean, LV_OPA_TRANSP, 0);
+    image(bean, &stc_lp_img_mascot_idle, 0, 0, size, size);
+    lv_obj_add_event_cb(bean, logout_pressed, LV_EVENT_PRESSED, ui);
+    lv_obj_add_event_cb(bean, logout_released, LV_EVENT_RELEASED, ui);
+    lv_obj_add_event_cb(bean, logout_released, LV_EVENT_PRESS_LOST, ui);
+
+    ui->logout_progress = lv_arc_create(ui->container);
+    lv_obj_remove_flag(ui->logout_progress, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_set_pos(ui->logout_progress, x, y);
+    lv_obj_set_size(ui->logout_progress, size, size);
+    lv_arc_set_bg_angles(ui->logout_progress, 0, 360);
+    lv_arc_set_range(ui->logout_progress, 0, 12);
+    lv_arc_set_value(ui->logout_progress, 0);
+    lv_obj_set_style_bg_opa(ui->logout_progress, LV_OPA_TRANSP,
+                            LV_PART_MAIN);
+    lv_obj_set_style_arc_opa(ui->logout_progress, LV_OPA_TRANSP,
+                             LV_PART_MAIN);
+    lv_obj_set_style_arc_color(ui->logout_progress,
+                               lv_color_hex(COLOR_BRAND_LIGHT),
+                               LV_PART_INDICATOR);
+    lv_obj_set_style_arc_width(ui->logout_progress, 4,
+                               LV_PART_INDICATOR);
+    lv_obj_set_style_bg_opa(ui->logout_progress, LV_OPA_TRANSP,
+                            LV_PART_KNOB);
+    lv_obj_add_flag(ui->logout_progress, LV_OBJ_FLAG_HIDDEN);
+    return bean;
+}
+
 static void set_header(stc_ui_t *ui) {
     if (ui->streak_flame != NULL) {
         if (ui->streak_value > 0) {
@@ -343,9 +499,15 @@ static void container_deleted(lv_event_t *event) {
         lv_timer_del(ui->auto_timer);
         ui->auto_timer = NULL;
     }
+    if (ui->logout_timer != NULL) {
+        lv_timer_del(ui->logout_timer);
+        ui->logout_timer = NULL;
+    }
     ui->container = NULL;
     ui->camera = NULL;
     ui->camera_image = NULL;
+    ui->logout_overlay = NULL;
+    ui->logout_progress = NULL;
     ui->scan = NULL;
     ui->time_bar = NULL;
 }
@@ -378,16 +540,30 @@ static void camera_update(stc_ui_t *ui) {
     const lv_image_dsc_t *source =
         (ui->state == STC_RESULT_OK && ui->cutout != NULL) ? ui->cutout
                                                           : ui->original;
-    lv_obj_clean(ui->camera);
-    ui->camera_image = NULL;
     if (source != NULL && source->header.w > 0 && source->header.h > 0) {
-        const int w = lv_obj_get_width(ui->camera);
-        const int h = lv_obj_get_height(ui->camera);
-        ui->camera_image = image(ui->camera, source, 0, 0, w, h);
-        lv_obj_center(ui->camera_image);
+        const int w =
+            lv_obj_get_width(ui->camera) - 2 * CAMERA_IMAGE_INSET;
+        const int h =
+            lv_obj_get_height(ui->camera) - 2 * CAMERA_IMAGE_INSET;
+        if (ui->camera_image == NULL) {
+            ui->camera_image = image(ui->camera, source, 0, 0, w, h);
+            lv_obj_center(ui->camera_image);
+        } else {
+            lv_image_set_src(ui->camera_image, source);
+            lv_obj_set_size(ui->camera_image, w, h);
+            const uint32_t scale_x =
+                (uint32_t)w * 256u / source->header.w;
+            const uint32_t scale_y =
+                (uint32_t)h * 256u / source->header.h;
+            lv_image_set_scale(ui->camera_image,
+                               scale_x < scale_y ? scale_x : scale_y);
+        }
         return;
     }
-    image(ui->camera, &stc_lp_img_camera, 336, 20, 48, 48);
+    lv_obj_clean(ui->camera);
+    ui->camera_image = NULL;
+    lv_obj_t *icon = image(ui->camera, &stc_lp_img_camera, 0, 0, 48, 48);
+    lv_obj_align(icon, LV_ALIGN_CENTER, 0, -36);
     /* The placeholder must not contradict the status line underneath it. */
     const char *placeholder = "等待相機畫面";
     if (ui->state == STC_CLASSIFYING) {
@@ -395,23 +571,33 @@ static void camera_update(stc_ui_t *ui) {
     } else if (ui->state == STC_CAPTURING) {
         placeholder = "相機畫面";
     }
-    label(ui->camera, placeholder, 32, 96, 592, 44, FONT_BODY,
-          COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
+    lv_obj_t *text =
+        label(ui->camera, placeholder, 0, 0, CAMERA_FRAME_SIZE - 2 * SP_SM,
+              44, FONT_BODY, COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
+    lv_obj_align(text, LV_ALIGN_CENTER, 0, 36);
 }
 
-static lv_obj_t *camera_card(stc_ui_t *ui, const char *title,
-                             const char *subtitle) {
-    lv_obj_t *card = box(ui->container, OUTER, 104, PAGE_W, 360,
-                         COLOR_BRAND_LIGHT, 16, 0, COLOR_BRAND_LIGHT);
-    ui->camera = box(card, COMPACT_PAD, COMPACT_PAD, PAGE_W - 2 * COMPACT_PAD,
-                     244, COLOR_BRAND, 12, 3, COLOR_ON_BRAND);
-    lv_obj_set_style_border_opa(ui->camera, 92, 0);
-    label(card, title, 32, 270, 688, 44, FONT_H2, COLOR_ON_BRAND,
-          LV_TEXT_ALIGN_CENTER);
-    label(card, subtitle, 32, 314, 688, 26, FONT_CAPTION, 0xD5E5DC,
-          LV_TEXT_ALIGN_CENTER);
+/* The camera source is already the exact square RGB tensor used by the
+ * classifier. Keep it square so its visible border and the recognition crop
+ * describe the same region; stretching it would make the guide misleading. */
+static lv_obj_t *camera_frame(stc_ui_t *ui, lv_obj_t *parent) {
+    ui->camera = box(parent, OUTER, 112, CAMERA_FRAME_SIZE,
+                     CAMERA_FRAME_SIZE, COLOR_BRAND, 12, 3,
+                     COLOR_ACCENT);
+    lv_obj_set_style_border_width(ui->camera, 8, 0);
+    return ui->camera;
+}
 
-    return card;
+static void camera_card(stc_ui_t *ui, const char *title,
+                        const char *subtitle) {
+    camera_frame(ui, ui->container);
+    label(ui->container, title, CAMERA_COPY_X, CAMERA_COPY_TITLE_Y,
+          CAMERA_COPY_W, CAMERA_COPY_TITLE_H, FONT_H2, COLOR_FG,
+          LV_TEXT_ALIGN_CENTER);
+    label(ui->container, subtitle, CAMERA_COPY_X, CAMERA_COPY_SUB_Y,
+          CAMERA_COPY_W, CAMERA_COPY_SUB_H, FONT_CAPTION, COLOR_MUTED,
+          LV_TEXT_ALIGN_CENTER);
+    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE);
 }
 
 static void home_screen(stc_ui_t *ui) {
@@ -422,7 +608,7 @@ static void home_screen(stc_ui_t *ui) {
           COLOR_FG, LV_TEXT_ALIGN_CENTER);
     label(ui->container, "5 回合 · 認識垃圾分類", OUTER, 252, PAGE_W, 48,
           FONT_SUBTITLE, COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
-    image(ui->container, &stc_lp_img_mascot_idle, 688, 128, 64, 64);
+    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE);
     lv_obj_t *start =
         button(ui->container, "開始遊戲", OUTER, 392, 364, CONTROL_H, true);
     bind_action(ui, start, STC_ACTION_START, -1, false);
@@ -462,22 +648,17 @@ static void intro_screen(stc_ui_t *ui) {
 static void scan_ready_screen(stc_ui_t *ui) {
     page_background(ui);
     topbar(ui);
-    /* Five seconds gives a child enough time to place the whole card in view.
-     * One tap per session stays on the home screen. */
     round_time_bar(ui);
     auto_advance(ui, STC_ACTION_SCAN, true, 50);
-    lv_obj_t *card =
-        box(ui->container, OUTER, 112, PAGE_W, 340, COLOR_BRAND_LIGHT, 16, 0,
-            COLOR_BRAND_LIGHT);
-    ui->camera =
-        box(card, COMPACT_PAD, COMPACT_PAD, PAGE_W - 2 * COMPACT_PAD, 244,
-            COLOR_BRAND, 12, 3, COLOR_ON_BRAND);
-    lv_obj_set_style_border_opa(ui->camera, 92, 0);
-    label(card, "確認卡牌完整入框", 32, 270, 688, 44, FONT_H2,
-          COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
-    label(card, "5 秒後自動掃描", 32, 314, 688, 26, FONT_CAPTION,
-          0xD5E5DC,
-          LV_TEXT_ALIGN_CENTER);
+    camera_frame(ui, ui->container);
+
+    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE);
+    label(ui->container, "確認卡片\n完整入框", CAMERA_COPY_X,
+          CAMERA_COPY_TITLE_Y, CAMERA_COPY_W, CAMERA_COPY_TITLE_H, FONT_H2,
+          COLOR_FG, LV_TEXT_ALIGN_CENTER);
+    label(ui->container, "5 秒後自動掃描", CAMERA_COPY_X,
+          CAMERA_COPY_SUB_Y, CAMERA_COPY_W, CAMERA_COPY_SUB_H, FONT_HINT,
+          COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
 }
 
 static void capturing_screen(stc_ui_t *ui, stc_state_t state) {
@@ -657,7 +838,7 @@ static void open_bins_screen(stc_ui_t *ui, const char *title) {
      * the AI category stays hidden until the S3 hand reports the drop. */
     label(ui->container, title, 32, 128, 640, 64, FONT_H1, COLOR_FG,
           LV_TEXT_ALIGN_LEFT);
-    image(ui->container, &stc_lp_img_mascot_happy, 704, 128, 64, 64);
+    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE);
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
         bin_card(ui, i);
     }
@@ -875,14 +1056,15 @@ static void summary_screen(stc_ui_t *ui) {
     lv_obj_t *again =
         button(ui->container, "再玩一次", OUTER, 392, 364, CONTROL_H, true);
     bind_action(ui, again, STC_ACTION_START, -1, false);
-    lv_obj_t *ask =
-        button(ui->container, "問綠豆", 412, 392, 364, CONTROL_H, false);
-    bind_action(ui, ask, STC_ACTION_ASK, -1, false);
-    image(ui->container, &stc_lp_img_mascot_happy, 664, 136, 72, 72);
+    lv_obj_t *home =
+        button(ui->container, "返回主頁", 412, 392, 364, CONTROL_H, false);
+    bind_action(ui, home, STC_ACTION_HOME, -1, false);
+    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE);
 }
 
 static void clear_screen(stc_ui_t *ui) {
     auto_disarm(ui);
+    logout_timer_stop(ui);
     if (ui->ask != NULL) {
         stc_chat_ui_destroy(ui->ask);
         ui->ask = NULL;
@@ -897,6 +1079,8 @@ static void clear_screen(stc_ui_t *ui) {
     ui->time_bar = NULL;
     ui->header_status = NULL;
     ui->streak_flame = NULL;
+    ui->logout_overlay = NULL;
+    ui->logout_progress = NULL;
     ui->score = NULL;
     ui->streak = NULL;
     ui->candidate_icon[0] = NULL;
@@ -1173,7 +1357,7 @@ void stc_ui_show_summary(stc_ui_t *ui) {
 
 void stc_ui_show_ask(stc_ui_t *ui, const stc_chat_payload_t *payload) {
     if (ui == NULL || payload == NULL || payload->state < STC_CHAT_READY ||
-        payload->state > STC_CHAT_GOODBYE) {
+        payload->state > STC_CHAT_PROVISIONING) {
         return;
     }
     ui->ask_payload = *payload;
@@ -1359,6 +1543,14 @@ int32_t stc_ui_time_bar_value(const stc_ui_t *ui) {
                ? (int32_t)lv_bar_get_value(ui->time_bar)
                : -1;
 }
+
+#ifdef STC_UI_PREVIEW
+void stc_ui_preview_open_logout(stc_ui_t *ui) {
+    if (ui != NULL && ui->state == STC_SCAN_READY) {
+        logout_dialog_open(ui);
+    }
+}
+#endif
 
 static bool check_text(lv_obj_t *obj) {
     if (!lv_obj_check_type(obj, &lv_label_class)) {

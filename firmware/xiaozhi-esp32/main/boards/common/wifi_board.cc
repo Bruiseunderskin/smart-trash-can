@@ -23,9 +23,6 @@
 
 static const char *TAG = "WifiBoard";
 
-// Connection timeout in seconds
-static constexpr int CONNECT_TIMEOUT_SEC = 60;
-
 WifiBoard::WifiBoard() {
     // Create connection timeout timer
     esp_timer_create_args_t timer_args = {
@@ -104,12 +101,15 @@ void WifiBoard::TryWifiConnect() {
     if (have_ssid) {
         // Start connection attempt with timeout
         ESP_LOGI(TAG, "Starting WiFi connection attempt");
-        esp_timer_start_once(connect_timer_, CONNECT_TIMEOUT_SEC * 1000000ULL);
+        esp_timer_start_once(connect_timer_,
+                             GetWifiConnectTimeoutSeconds() * 1000000ULL);
         WifiManager::GetInstance().StartStation();
     } else {
         // No SSID configured, enter config mode
-        // Wait for the board version to be shown
-        vTaskDelay(pdMS_TO_TICKS(1500));
+        const int delay_ms = GetWifiConfigModeDelayMs();
+        if (delay_ms > 0) {
+            vTaskDelay(pdMS_TO_TICKS(delay_ms));
+        }
         StartWifiConfigMode();
     }
 }
@@ -143,7 +143,9 @@ void WifiBoard::OnNetworkEvent(NetworkEvent event, const std::string& data) {
             ESP_LOGI(TAG, "WiFi config mode exited");
             in_config_mode_ = false;
             // Try to connect with the new credentials
-            TryWifiConnect();
+            if (ShouldReconnectAfterConfigModeExit()) {
+                TryWifiConnect();
+            }
             break;
         default:
             break;

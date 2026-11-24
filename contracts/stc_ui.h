@@ -1,9 +1,10 @@
-/* stc_ui.h — 畫面（contract v2.4.0）
+/* stc_ui.h — 畫面（contract v2.5.0）
  *
  * UI 只做兩件事：讀 payload、畫。不得改分數、不得切模式、不得觸發硬件。
  * v2.0.0：依 2026-11-08 決定 D1，對齊 ui/lvgl 的 create/apply/callback 模型。
  * v2.3.0：新增 REAL_HAND debug flag；真實手部模式隱藏觸控桶按鈕。
  * v2.4.0：加入目前階段剩餘／總時間，供 S31 實時倒數條使用。
+ * v2.5.0：加入 CANCEL_ROUND，供相機頁綠豆長按靜默退出使用。
  * 本檔不依賴 LVGL；ui/lvgl 把 stc_ui_payload_t 映射到自己的 stc_payload_t。
  */
 #pragma once
@@ -90,6 +91,7 @@ typedef enum {
     STC_UI_ACTION_SCAN,
     STC_UI_ACTION_NEXT,
     STC_UI_ACTION_SELECT_BIN,
+    STC_UI_ACTION_CANCEL_ROUND,
     STC_UI_ACTION_COUNT
 } stc_ui_action_t;
 
