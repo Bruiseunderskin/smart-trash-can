@@ -293,6 +293,21 @@ static void RunVoiceSelfTest() {
     ESP_LOGI(TAG, "VOICE_SELFTEST sequential=6 result=complete");
 }
 
+static void RunSfxSelfTest() {
+    stc_voice_stop();
+    for (int sfx = 0; sfx < STC_SFX_COUNT; ++sfx) {
+        const stc_err_t result =
+            stc_voice_play_sfx((stc_sfx_t)sfx);
+        ESP_LOGI(TAG, "SFX_SELFTEST enqueue=%d result=%d", sfx,
+                 static_cast<int>(result));
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
+    while (stc_voice_is_busy()) {
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+    ESP_LOGI(TAG, "SFX_SELFTEST sequential=6 result=complete");
+}
+
 static void LogScreenPixelStatistics() {
     if (stc_panel_handle == nullptr) {
         ESP_LOGE(TAG, "STC_SCREEN unavailable panel=null");
@@ -356,6 +371,8 @@ static void HandleUartCommand(char* command) {
         LogScreenPixelStatistics();
     } else if (strcmp(command, "stc voice") == 0) {
         RunVoiceSelfTest();
+    } else if (strcmp(command, "stc sfx") == 0) {
+        RunSfxSelfTest();
     } else if (strcmp(command, "stc chat") == 0) {
         RequestMode(STC_SHELL_CHAT_STARTING, "uart");
     } else if (strcmp(command, "stc game") == 0) {
@@ -405,6 +422,7 @@ static void StcCommandTask(void*) {
     }
     ESP_LOGI(TAG,
              "STC_CMD ready: 'stc status', 'stc screen', 'stc voice', "
+             "'stc sfx', "
              "'stc chat', 'stc game', 'stc play', 'stc scan', 'stc next', "
              "'stc home'");
     char line[128] = {};

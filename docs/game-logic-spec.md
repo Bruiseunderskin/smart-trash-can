@@ -42,7 +42,7 @@ IDLE ─PLAY─▶ PROMPT ──card ready──▶ SCAN ──label──▶ RE
 | SCAN | 3 s | 相機／模型掃描超時 → 重掃一次；再超時 → 0 分、進 LEARNING |
 | RESULT | 1.5 s | 自動進 OPEN |
 | OPEN | 1.5 s | 開蓋失敗 → 記 fault，仍進 WAIT_DROP（玩家可以手動放） |
-| WAIT_DROP | 15 s | 冇投放 → 0 分、進 CLOSE |
+| WAIT_DROP | 15 s | 冇投放 → 當答錯、`score_wrong`、記 `timed_out`，進 CLOSE |
 | SETTLE | 300 ms | 同一桶 300 ms 內多次 DROP 只算一次 |
 | CLOSE | 1.5 s | 關蓋失敗 → 記 fault，仍進 LEARNING |
 | LEARNING | 6 s | 可按 PLAY 提前跳過 |
@@ -51,7 +51,8 @@ IDLE ─PLAY─▶ PROMPT ──card ready──▶ SCAN ──label──▶ RE
 
 模型回報 `unknown` 或低信心時，立即重開**同一回合**：回合編號不變、
 不計分、不增加已完成回合，亦不進 LEARNING。重開時會換發新的 `round_id`，
-令較慢抵達的舊掃描結果自動失效。相機／模型超時仍依上表先重掃一次。
+令較慢抵達的舊掃描結果自動失效。S31 會先播 retry 音效及本地粵語
+「睇唔清，再試一次」，再返回掃描準備頁。相機／模型超時仍依上表先重掃一次。
 
 ---
 
@@ -61,7 +62,7 @@ IDLE ─PLAY─▶ PROMPT ──card ready──▶ SCAN ──label──▶ RE
 |---|---:|---|
 | 投放桶 = 模型判定類別 | `score_correct`（+10） | `STC_LINE_CORRECT` |
 | 投放桶 ≠ 模型判定類別 | `score_wrong`（−5） | `STC_LINE_WRONG` |
-| 冇投放（15 s 超時） | 0 | `STC_LINE_TIMEOUT` |
+| 冇投放（15 s 超時） | `score_wrong`（−5） | `STC_LINE_WRONG`，另記 `timed_out` |
 | 模型 unknown／低信心 | 不計分 | `STC_LINE_RETRY`，重開同一回合 |
 | 兩次掃描都超時 | 0 | `STC_LINE_RETRY` |
 

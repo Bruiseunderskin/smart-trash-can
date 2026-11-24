@@ -23,6 +23,13 @@ static bool touch_bin_mode(void)
            (!g_ports.hand_open_all && !g_ports.hand_close_all);
 }
 
+static void play_sfx(stc_sfx_t sfx)
+{
+    if (g_ports.voice_sfx) {
+        (void)g_ports.voice_sfx(sfx, g_user);
+    }
+}
+
 static void sync_debug_mode(void)
 {
     g_view.debug_flags =
@@ -60,9 +67,11 @@ static void say_result(void)
     const stc_snapshot_t snap = stc_game_snapshot();
     switch (snap.last_outcome) {
     case STC_ROUND_CORRECT:
+        play_sfx(STC_SFX_CORRECT);
         (void)g_ports.voice_say(STC_LINE_CORRECT, g_user);
         break;
     case STC_ROUND_WRONG:
+        play_sfx(STC_SFX_WRONG);
         (void)g_ports.voice_say(STC_LINE_WRONG, g_user);
         break;
     case STC_ROUND_TIMEOUT:
@@ -70,6 +79,7 @@ static void say_result(void)
         break;
     case STC_ROUND_ABSTAIN:
     case STC_ROUND_NO_SCAN:
+        play_sfx(STC_SFX_RETRY);
         (void)g_ports.voice_say(STC_LINE_RETRY, g_user);
         break;
     default:
@@ -131,6 +141,7 @@ static void act_on_phase(void)
     case STC_PH_SUMMARY:
         if (!g_summary_announced) {
             g_summary_announced = true;
+            play_sfx(STC_SFX_ROUND);
             if (g_ports.voice_say) {
                 (void)g_ports.voice_say(STC_LINE_SUMMARY, g_user);
             }
@@ -271,6 +282,7 @@ stc_err_t stc_game_controller_ui_action(stc_ui_action_t action,
         ev.t_ms = now_ms;
         err = stc_game_input(&ev);
         if (err == STC_OK) {
+            play_sfx(STC_SFX_SCAN);
             const stc_snapshot_t after = stc_game_snapshot();
             if (!g_ports.request_scan ||
                 g_ports.request_scan(after.round, after.round_id, g_user) != STC_OK) {
@@ -336,6 +348,14 @@ stc_err_t stc_game_controller_on_label(const stc_event_t *event,
     }
     const stc_err_t err = stc_game_input(event);
     if (err == STC_OK) {
+        if (event->u.label.abstain) {
+            play_sfx(STC_SFX_RETRY);
+            if (g_ports.voice_say) {
+                (void)g_ports.voice_say(STC_LINE_RETRY, g_user);
+            }
+        } else {
+            play_sfx(STC_SFX_DECIDE);
+        }
         g_view.fault_code = NULL;
         act_on_phase();
     }

@@ -11,6 +11,14 @@ static int g_close_requests;
 static int g_close_not_ready;
 static uint32_t g_close_round_id;
 static int g_voice_lines;
+static int g_retry_voice_lines;
+static int g_sfx_events;
+static int g_retry_sfx_events;
+static int g_correct_sfx_events;
+static int g_wrong_sfx_events;
+static int g_round_sfx_events;
+static int g_scan_sfx_events;
+static int g_decide_sfx_events;
 static int g_renders;
 static uint32_t g_scan_round_id;
 static uint32_t g_hold_round_id;
@@ -62,9 +70,22 @@ static stc_err_t fake_hold(uint8_t round, uint32_t round_id, void *ctx)
 
 static stc_err_t fake_voice(stc_line_t line, void *ctx)
 {
-    (void)line;
     (void)ctx;
     g_voice_lines++;
+    if (line == STC_LINE_RETRY) g_retry_voice_lines++;
+    return STC_OK;
+}
+
+static stc_err_t fake_sfx(stc_sfx_t sfx, void *ctx)
+{
+    (void)ctx;
+    g_sfx_events++;
+    if (sfx == STC_SFX_SCAN) g_scan_sfx_events++;
+    if (sfx == STC_SFX_DECIDE) g_decide_sfx_events++;
+    if (sfx == STC_SFX_CORRECT) g_correct_sfx_events++;
+    if (sfx == STC_SFX_WRONG) g_wrong_sfx_events++;
+    if (sfx == STC_SFX_RETRY) g_retry_sfx_events++;
+    if (sfx == STC_SFX_ROUND) g_round_sfx_events++;
     return STC_OK;
 }
 
@@ -142,6 +163,46 @@ static int test_touch_bin_mode(void)
     if (stc_game_snapshot().dropped != STC_BIN_FOOD ||
         stc_game_snapshot().last_outcome != STC_ROUND_CORRECT) {
         fprintf(stderr, "touch bin did not score\n");
+        return 1;
+    }
+    return 0;
+}
+
+static int test_unknown_plays_retry_guide(void)
+{
+    g_voice_lines = 0;
+    g_retry_voice_lines = 0;
+    g_sfx_events = 0;
+    g_retry_sfx_events = 0;
+    stc_game_init();
+    const stc_game_controller_ports_t ports = {
+        .request_scan = fake_scan,
+        .voice_say = fake_voice,
+        .voice_sfx = fake_sfx,
+        .render = fake_render,
+    };
+    stc_game_controller_init(&ports, NULL);
+    stc_game_controller_set_hand_online(false, 10);
+    if (stc_game_controller_ui_action(STC_UI_ACTION_START, 10) != STC_OK) {
+        return 1;
+    }
+    if (stc_game_controller_ui_action(STC_UI_ACTION_SCAN, 11) != STC_OK) {
+        return 1;
+    }
+    const uint32_t round_id = stc_game_snapshot().round_id;
+    stc_event_t unknown = label_event(STC_BIN_COUNT,
+                                      round_id, 12);
+    unknown.u.label.conf = 0.2f;
+    unknown.u.label.abstain = true;
+    if (stc_game_controller_on_label(&unknown, NULL, 12) != STC_OK) {
+        return 1;
+    }
+    if (stc_game_snapshot().phase != STC_PH_PROMPT ||
+        g_retry_voice_lines != 1 || g_retry_sfx_events != 1) {
+        fprintf(stderr,
+                "unknown guide phase=%d voice=%d sfx=%d\n",
+                (int)stc_game_snapshot().phase,
+                g_retry_voice_lines, g_retry_sfx_events);
         return 1;
     }
     return 0;
@@ -240,6 +301,7 @@ static int test_offline_hand_uses_touch_bins(void)
 int main(void)
 {
     if (test_touch_bin_mode() != 0) return 1;
+    if (test_unknown_plays_retry_guide() != 0) return 1;
     if (test_start_waits_for_busy_hand() != 0) return 1;
     if (test_offline_hand_uses_touch_bins() != 0) return 1;
     g_scan_requests = 0;
@@ -247,6 +309,14 @@ int main(void)
     g_hold_requests = 0;
     g_close_requests = 0;
     g_voice_lines = 0;
+    g_retry_voice_lines = 0;
+    g_sfx_events = 0;
+    g_retry_sfx_events = 0;
+    g_correct_sfx_events = 0;
+    g_wrong_sfx_events = 0;
+    g_round_sfx_events = 0;
+    g_scan_sfx_events = 0;
+    g_decide_sfx_events = 0;
     g_renders = 0;
     stc_game_init();
     stc_game_controller_ports_t ports = {
@@ -255,6 +325,7 @@ int main(void)
         .hand_hold_all = fake_hold,
         .hand_close_all = fake_close,
         .voice_say = fake_voice,
+        .voice_sfx = fake_sfx,
         .render = fake_render,
     };
     stc_game_controller_init(&ports, NULL);
@@ -341,6 +412,17 @@ int main(void)
         return 1;
     }
     if (g_last_action != STC_HAND_ACTION_OPEN_ALL_HOLD) return 1;
+    if (g_scan_sfx_events != 5 || g_decide_sfx_events != 5 ||
+        g_correct_sfx_events != 3 || g_wrong_sfx_events != 2 ||
+        g_round_sfx_events != 1) {
+        fprintf(stderr,
+                "sfx sequence scan=%d decide=%d correct=%d wrong=%d "
+                "round=%d\n",
+                g_scan_sfx_events, g_decide_sfx_events,
+                g_correct_sfx_events, g_wrong_sfx_events,
+                g_round_sfx_events);
+        return 1;
+    }
     stc_game_controller_on_hand_ack(g_hold_round_id,
                                     STC_HAND_ACTION_OPEN_ALL_HOLD, true,
                                     now);

@@ -64,6 +64,7 @@ struct stc_ui {
     lv_obj_t *camera_image;
     lv_obj_t *scan;
     lv_obj_t *header_status;
+    lv_obj_t *streak_flame;
     lv_obj_t *score;
     lv_obj_t *streak;
     lv_obj_t *candidate_icon[2];
@@ -232,7 +233,7 @@ static void topbar(stc_ui_t *ui) {
                         COLOR_BRAND);
     label(bar, "分類小隊", 24, 16, 352, 44, FONT_BODY_BOLD, COLOR_ON_BRAND,
           LV_TEXT_ALIGN_LEFT);
-    image(bar, &stc_lp_img_flame, 744, 20, 32, 32);
+    ui->streak_flame = image(bar, &stc_lp_img_flame, 744, 20, 32, 32);
     ui->header_status =
         label(bar, "", 424, 16, 216, 44, FONT_BODY_BOLD, COLOR_ON_BRAND,
               LV_TEXT_ALIGN_RIGHT);
@@ -287,6 +288,13 @@ static void bind_action(stc_ui_t *ui, lv_obj_t *obj, stc_action_t action,
 }
 
 static void set_header(stc_ui_t *ui) {
+    if (ui->streak_flame != NULL) {
+        if (ui->streak_value > 0) {
+            lv_obj_remove_flag(ui->streak_flame, LV_OBJ_FLAG_HIDDEN);
+        } else {
+            lv_obj_add_flag(ui->streak_flame, LV_OBJ_FLAG_HIDDEN);
+        }
+    }
     if (ui->header_status == NULL) {
         return;
     }
@@ -888,6 +896,7 @@ static void clear_screen(stc_ui_t *ui) {
     ui->scan = NULL;
     ui->time_bar = NULL;
     ui->header_status = NULL;
+    ui->streak_flame = NULL;
     ui->score = NULL;
     ui->streak = NULL;
     ui->candidate_icon[0] = NULL;

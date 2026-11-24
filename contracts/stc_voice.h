@@ -26,11 +26,24 @@ typedef enum {
     STC_LINE_COUNT
 } stc_line_t;
 
+typedef enum {
+    STC_SFX_SCAN = 0,
+    STC_SFX_DECIDE,
+    STC_SFX_CORRECT,
+    STC_SFX_WRONG,
+    STC_SFX_RETRY,
+    STC_SFX_ROUND,
+    STC_SFX_COUNT
+} stc_sfx_t;
+
 /* 初始化：載入台詞表、初始化 codec、準備兩個後端（不建立任何連線） */
 stc_err_t stc_voice_init(void);
 
 /* 播預錄台詞（本地，非阻塞，入佇列）。任何模式都可用。 */
 stc_err_t stc_voice_say(stc_line_t line);
+
+/* 播 Ogg/Opus 短音效（本地，非阻塞，入同一個播放佇列）。 */
+stc_err_t stc_voice_play_sfx(stc_sfx_t sfx);
 
 /* GAME/CHAT 閘。GAME：關喚醒、關通道；CHAT：開喚醒／或按鍵說話。 */
 stc_err_t   stc_voice_set_mode(stc_mode_t mode);

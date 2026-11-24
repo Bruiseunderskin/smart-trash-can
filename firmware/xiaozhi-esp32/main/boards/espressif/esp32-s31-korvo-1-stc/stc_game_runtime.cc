@@ -126,6 +126,11 @@ stc_err_t VoiceSay(stc_line_t line, void *ctx) {
     return stc_voice_say(line);
 }
 
+stc_err_t VoiceSfx(stc_sfx_t sfx, void *ctx) {
+    (void)ctx;
+    return stc_voice_play_sfx(sfx);
+}
+
 void RenderGame(const stc_snapshot_t *snapshot, const stc_game_view_t *view,
                 void *ctx) {
     (void)ctx;
@@ -470,6 +475,7 @@ extern "C" stc_err_t stc_game_runtime_start(void) {
     ports.hand_hold_all = HandHoldOpen;
     ports.hand_close_all = HandClose;
     ports.voice_say = VoiceSay;
+    ports.voice_sfx = VoiceSfx;
     ports.render = RenderGame;
     ports.request_chat = RequestChat;
     stc_game_controller_init(&ports, nullptr);

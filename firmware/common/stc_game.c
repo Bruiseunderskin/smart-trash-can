@@ -176,6 +176,17 @@ static void finish_game(uint32_t now)
     enter_phase(STC_PH_SUMMARY, now);
 }
 
+static void advance_after_learning(uint32_t now)
+{
+    if (g_time_up ||
+        (uint8_t)(g_snap.round + 1) >= g_cfg.rounds_total) {
+        finish_game(now);
+    } else {
+        g_snap.round++;
+        start_round(now);
+    }
+}
+
 void stc_game_tick(uint32_t now_ms)
 {
     if (!g_started) {
@@ -216,7 +227,8 @@ void stc_game_tick(uint32_t now_ms)
         break;
     case STC_PH_WAIT_DROP:
         if (elapsed >= g_cfg.wait_drop_ms) {
-            finish_round(STC_ROUND_TIMEOUT, now_ms);
+            g_result.timed_out++;
+            finish_round(STC_ROUND_WRONG, now_ms);
             enter_phase(STC_PH_CLOSE, now_ms);
         }
         break;
@@ -230,6 +242,11 @@ void stc_game_tick(uint32_t now_ms)
             enter_phase(STC_PH_LEARNING, now_ms);
         }
         break;
+    case STC_PH_LEARNING:
+        if (elapsed >= g_cfg.learning_ms) {
+            advance_after_learning(now_ms);
+        }
+        break;
     default:
         break;
     }
@@ -240,13 +257,7 @@ static stc_err_t continue_round(const stc_event_t *ev)
     if (g_snap.phase != STC_PH_LEARNING || ev->round_id != g_round_id) {
         return STC_ERR_NOT_READY;
     }
-    if (g_time_up ||
-        (uint8_t)(g_snap.round + 1) >= g_cfg.rounds_total) {
-        finish_game(ev->t_ms);
-    } else {
-        g_snap.round++;
-        start_round(ev->t_ms);
-    }
+    advance_after_learning(ev->t_ms);
     return STC_OK;
 }
 
@@ -309,7 +320,8 @@ static stc_err_t accept_insert_timeout(const stc_event_t *ev)
     if (g_snap.phase != STC_PH_WAIT_DROP || ev->round_id != g_round_id) {
         return STC_ERR_NOT_READY;
     }
-    finish_round(STC_ROUND_TIMEOUT, ev->t_ms);
+    g_result.timed_out++;
+    finish_round(STC_ROUND_WRONG, ev->t_ms);
     enter_phase(STC_PH_CLOSE, ev->t_ms);
     return STC_OK;
 }

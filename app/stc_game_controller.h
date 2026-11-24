@@ -26,6 +26,7 @@ typedef struct {
     stc_err_t (*hand_hold_all)(uint8_t round, uint32_t round_id, void *ctx);
     stc_err_t (*hand_close_all)(uint8_t round, uint32_t round_id, void *ctx);
     stc_err_t (*voice_say)(stc_line_t line, void *ctx);
+    stc_err_t (*voice_sfx)(stc_sfx_t sfx, void *ctx);
     void (*render)(const stc_snapshot_t *snapshot,
                    const stc_game_view_t *view, void *ctx);
     /* Optional: hand the screen to the voice assistant (綠豆). NULL on builds

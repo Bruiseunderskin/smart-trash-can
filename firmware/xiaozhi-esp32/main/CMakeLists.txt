@@ -589,7 +589,8 @@ elseif(CONFIG_BOARD_TYPE_ESP32_S31_KORVO_1_STC)
     set(BUILTIN_ICON_FONT font_material_symbols_30_4)
     set(DEFAULT_EMOJI_COLLECTION noto-color-emoji_64)
     set(DEFAULT_ASSETS_EXTRA_FILES
-        "${CMAKE_CURRENT_LIST_DIR}/../../assets/voice")
+        "${CMAKE_CURRENT_LIST_DIR}/../../assets/voice"
+        "${CMAKE_CURRENT_LIST_DIR}/../../assets/sfx")
     list(APPEND INCLUDE_DIRS
         "${CMAKE_CURRENT_LIST_DIR}/../../../contracts"
         "${CMAKE_CURRENT_LIST_DIR}/../../../app"
@@ -1441,7 +1442,9 @@ function(build_default_assets_bin)
 
     # Add default assets extra files if defined
     if(DEFAULT_ASSETS_EXTRA_FILES)
-        list(APPEND BUILD_ARGS "--extra_files" "${DEFAULT_ASSETS_EXTRA_FILES}")
+        foreach(extra_files_dir IN LISTS DEFAULT_ASSETS_EXTRA_FILES)
+            list(APPEND BUILD_ARGS "--extra_files" "${extra_files_dir}")
+        endforeach()
     endif()
 
     list(APPEND BUILD_ARGS "--esp_sr_model_path" "${ESP_SR_MODEL_PATH}")

@@ -21,6 +21,7 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace {
@@ -33,6 +34,11 @@ constexpr std::array<const char*, STC_LINE_COUNT> kKeys = {
     "open", "correct", "wrong", "timeout", "retry", "summary",
 };
 
+constexpr std::array<const char*, STC_SFX_COUNT> kSfxAssets = {
+    "sfx-scan.ogg",  "sfx-decide.ogg", "sfx-correct.ogg",
+    "sfx-wrong.ogg", "sfx-retry.ogg",  "sfx-round.ogg",
+};
+
 std::array<std::string, STC_LINE_COUNT> assets = {
     "stc_open.pcm",    "stc_correct.pcm", "stc_wrong.pcm",
     "stc_timeout.pcm", "stc_retry.pcm",   "stc_summary.pcm",
@@ -41,8 +47,15 @@ std::array<std::string, STC_LINE_COUNT> assets = {
 std::once_flag phrase_once;
 std::mutex queue_mutex;
 
+enum class VoiceItemKind {
+    kLine,
+    kSfx,
+};
+
 struct VoiceItem {
+    VoiceItemKind kind;
     stc_line_t line;
+    stc_sfx_t sfx;
     int64_t enqueued_us;
 };
 
@@ -100,6 +113,21 @@ bool GetPcm(stc_line_t line, const uint8_t** data, size_t* size) {
     return true;
 }
 
+bool GetSfx(stc_sfx_t sfx, const uint8_t** data, size_t* size) {
+    if (sfx < 0 || sfx >= STC_SFX_COUNT) {
+        return false;
+    }
+    void* asset_data = nullptr;
+    if (!Assets::GetInstance().GetAssetData(kSfxAssets[sfx], asset_data,
+                                            *size) ||
+        asset_data == nullptr || *size < 4 ||
+        std::memcmp(asset_data, "OggS", 4) != 0) {
+        return false;
+    }
+    *data = static_cast<const uint8_t*>(asset_data);
+    return true;
+}
+
 void PlayLocal(const VoiceItem& item) {
     const stc_line_t line = item.line;
     const uint8_t* data = nullptr;
@@ -138,6 +166,9 @@ void PlayLocal(const VoiceItem& item) {
     for (size_t offset = 0; offset < total_samples && !stop_requested.load();
          offset += kChunkSamples) {
         const size_t count = std::min(kChunkSamples, total_samples - offset);
+        /* Keep this path mono. Es8389AudioCodec::Write() owns the conversion
+         * to the configured output channel count; duplicating here would make
+         * it convert the samples twice and distort every local phrase. */
         output.assign(pcm + offset, pcm + offset + count);
         codec->OutputData(output);
         vTaskDelay(pdMS_TO_TICKS(20));
@@ -152,9 +183,41 @@ void PlayLocal(const VoiceItem& item) {
     stop_requested.store(false);
 }
 
+void PlaySfx(const VoiceItem& item) {
+    const uint8_t* data = nullptr;
+    size_t size = 0;
+    if (!GetSfx(item.sfx, &data, &size)) {
+        ESP_LOGE(TAG, "STC_SFX result=missing asset=%s",
+                 kSfxAssets[item.sfx]);
+        return;
+    }
+
+    auto& app = Application::GetInstance();
+    auto& audio = app.GetAudioService();
+    stop_requested.store(false);
+    playing.store(true);
+    audio.ResetDecoder();
+    const int64_t started_us = esp_timer_get_time();
+    ESP_LOGI(TAG, "STC_SFX_START sfx=%d bytes=%u",
+             static_cast<int>(item.sfx), static_cast<unsigned>(size));
+    audio.PlaySound(std::string_view(
+        reinterpret_cast<const char*>(data), size));
+    while (!audio.IsPlaybackIdle() && !stop_requested.load()) {
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
+    playing.store(false);
+    ESP_LOGI(TAG, "STC_SFX_DONE sfx=%d duration_ms=%lld interrupted=%d",
+             static_cast<int>(item.sfx),
+             static_cast<long long>((esp_timer_get_time() - started_us) /
+                                    1000),
+             stop_requested.load() ? 1 : 0);
+    stop_requested.store(false);
+}
+
 void VoiceTask(void*) {
     for (;;) {
-        VoiceItem item = {STC_LINE_COUNT, 0};
+        VoiceItem item = {VoiceItemKind::kLine, STC_LINE_COUNT,
+                          STC_SFX_COUNT, 0};
         {
             std::lock_guard<std::mutex> lock(queue_mutex);
             if (!queue.empty()) {
@@ -162,11 +225,16 @@ void VoiceTask(void*) {
                 queue.pop_front();
             }
         }
-        if (item.line == STC_LINE_COUNT) {
+        if (item.kind == VoiceItemKind::kLine &&
+            item.line == STC_LINE_COUNT) {
             ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(100));
             continue;
         }
-        PlayLocal(item);
+        if (item.kind == VoiceItemKind::kSfx) {
+            PlaySfx(item);
+        } else {
+            PlayLocal(item);
+        }
     }
 }
 
@@ -232,7 +300,37 @@ extern "C" stc_err_t stc_voice_say(stc_line_t line) {
                      static_cast<int>(line));
             return STC_ERR_NOT_READY;
         }
-        queue.push_back({line, enqueued_us});
+        queue.push_back({VoiceItemKind::kLine, line, STC_SFX_COUNT,
+                         enqueued_us});
+    }
+    xTaskNotifyGive(voice_task_handle);
+    return STC_OK;
+}
+
+extern "C" stc_err_t stc_voice_play_sfx(stc_sfx_t sfx) {
+    const int64_t enqueued_us = esp_timer_get_time();
+    if (sfx < 0 || sfx >= STC_SFX_COUNT) {
+        return STC_ERR_CONTRACT;
+    }
+    if (stc_voice_init() != STC_OK) {
+        return STC_ERR_IO;
+    }
+    const uint8_t* data = nullptr;
+    size_t size = 0;
+    if (!GetSfx(sfx, &data, &size)) {
+        ESP_LOGW(TAG, "sfx rejected: missing asset %s",
+                 kSfxAssets[sfx]);
+        return STC_ERR_IO;
+    }
+    {
+        std::lock_guard<std::mutex> lock(queue_mutex);
+        if (queue.size() >= kQueueCapacity) {
+            ESP_LOGW(TAG, "sfx rejected: queue_full sfx=%d",
+                     static_cast<int>(sfx));
+            return STC_ERR_NOT_READY;
+        }
+        queue.push_back({VoiceItemKind::kSfx, STC_LINE_COUNT, sfx,
+                         enqueued_us});
     }
     xTaskNotifyGive(voice_task_handle);
     return STC_OK;

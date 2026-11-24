@@ -300,33 +300,33 @@ def process_emoji_collection(emoji_collection_dir, assets_dir):
     return emoji_list
 
 
-def process_extra_files(extra_files_dir, assets_dir):
+def process_extra_files(extra_files_dirs, assets_dir):
     """Process default_assets_extra_files parameter"""
-    if not extra_files_dir:
+    if not extra_files_dirs:
         return []
-    
-    if not os.path.exists(extra_files_dir):
-        print(f"Warning: Extra files directory not found: {extra_files_dir}")
-        return []
-    
+
     extra_files_list = []
-    
+
     # Copy each file from input directory to build/assets directory
-    for root, dirs, files in os.walk(extra_files_dir):
-        for file in files:
-            # Skip hidden files and directories
-            if file.startswith('.'):
-                continue
-                
-            # Copy file
-            src_file = os.path.join(root, file)
-            dst_file = os.path.join(assets_dir, file)
-            if copy_file(src_file, dst_file):
-                extra_files_list.append(file)
-    
+    for extra_files_dir in extra_files_dirs:
+        if not os.path.exists(extra_files_dir):
+            print(f"Warning: Extra files directory not found: {extra_files_dir}")
+            continue
+        for root, dirs, files in os.walk(extra_files_dir):
+            for file in files:
+                # Skip hidden files and directories
+                if file.startswith('.'):
+                    continue
+
+                # Copy file
+                src_file = os.path.join(root, file)
+                dst_file = os.path.join(assets_dir, file)
+                if copy_file(src_file, dst_file):
+                    extra_files_list.append(file)
+
     if extra_files_list:
-        print(f"Processed {len(extra_files_list)} extra files from: {extra_files_dir}")
-    
+        print(f"Processed {len(extra_files_list)} extra files")
+
     return extra_files_list
 
 
@@ -808,7 +808,7 @@ def get_emoji_collection_path(default_emoji_collection, noto_fonts_path, project
 
 
 def build_assets_integrated(wakenet_model_paths, multinet_model_paths, text_font_path,
-                            emoji_collection_path, extra_files_path, output_path,
+                            emoji_collection_path, extra_files_paths, output_path,
                             multinet_model_info=None, font_bundle_id=None, max_size=None,
                             idf_target=None):
     """
@@ -834,7 +834,9 @@ def build_assets_integrated(wakenet_model_paths, multinet_model_paths, text_font
         ) if (wakenet_model_paths or multinet_model_paths) else None
         text_font = process_text_font(text_font_path, assets_dir) if text_font_path else None
         emoji_collection = process_emoji_collection(emoji_collection_path, assets_dir) if emoji_collection_path else None
-        extra_files = process_extra_files(extra_files_path, assets_dir) if extra_files_path else None
+        extra_files = (
+            process_extra_files(extra_files_paths, assets_dir)
+            if extra_files_paths else None)
         
         # Generate index.json
         generate_index_json(assets_dir, srmodels, text_font, emoji_collection, extra_files,
@@ -890,7 +892,9 @@ def main():
     parser.add_argument('--output', required=True, help='Output path for assets.bin')
     parser.add_argument('--esp_sr_model_path', help='Path to ESP-SR model directory')
     parser.add_argument('--noto_fonts_path', help='Path to noto-fonts component directory')
-    parser.add_argument('--extra_files', help='Path to extra files directory to be included in assets')
+    parser.add_argument(
+        '--extra_files', action='append', default=[],
+        help='Path to an extra files directory; may be repeated')
     parser.add_argument('--max_size', type=lambda v: int(v, 0), default=None,
                         help='Fail if assets.bin exceeds this many bytes (decimal or 0x hex)')
     
@@ -969,8 +973,8 @@ def main():
     project_root = os.path.dirname(script_dir)
     emoji_collection_path = get_emoji_collection_path(args.emoji_collection, args.noto_fonts_path, project_root)
     
-    # Get extra files path if provided
-    extra_files_path = args.extra_files
+    # Get extra files paths if provided
+    extra_files_paths = args.extra_files
     
     # Read custom wake word configuration
     custom_wake_word_config = read_custom_wake_word_from_sdkconfig(args.sdkconfig)
@@ -998,7 +1002,7 @@ def main():
         print(f"  wake word threshold: {custom_wake_word_config['threshold']}")
     
     # Check if we have anything to build
-    if not wakenet_model_paths and not multinet_model_paths and not text_font_path and not emoji_collection_path and not extra_files_path and not multinet_model_info:
+    if not wakenet_model_paths and not multinet_model_paths and not text_font_path and not emoji_collection_path and not extra_files_paths and not multinet_model_info:
         print("Warning: No assets to build (no SR models, text font, emoji collection, extra files, or custom wake word)")
         # Create an empty assets.bin file
         os.makedirs(os.path.dirname(args.output), exist_ok=True)
@@ -1010,7 +1014,7 @@ def main():
     # Build the assets
     success = build_assets_integrated(
         wakenet_model_paths, multinet_model_paths, text_font_path, emoji_collection_path,
-        extra_files_path, args.output, multinet_model_info, font_bundle_id, args.max_size,
+        extra_files_paths, args.output, multinet_model_info, font_bundle_id, args.max_size,
         idf_target=idf_target)
     
     if not success:

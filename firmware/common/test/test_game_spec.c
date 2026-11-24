@@ -148,7 +148,7 @@ static int test_scan_timeout_retries_then_abstains(void)
     return 0;
 }
 
-static int test_wait_drop_timeout_scores_zero(void)
+static int test_wait_drop_timeout_scores_wrong(void)
 {
     const uint32_t start = 800000u;
     if (stc_game_init() != STC_OK || stc_game_start(start) != STC_OK) return 1;
@@ -166,12 +166,44 @@ static int test_wait_drop_timeout_scores_zero(void)
     stc_game_tick(now);
     const stc_snapshot_t snap = stc_game_snapshot();
     if (snap.phase != STC_PH_CLOSE ||
-        snap.last_outcome != STC_ROUND_TIMEOUT ||
-        snap.round_delta != 0 ||
+        snap.last_outcome != STC_ROUND_WRONG ||
+        snap.round_delta != stc_game_get_config().score_wrong ||
         stc_game_result().timed_out != 1 ||
-        stc_game_result().score_raw != 0) {
+        stc_game_result().wrong != 1 ||
+        stc_game_result().score_raw != stc_game_get_config().score_wrong) {
         fprintf(stderr, "WAIT_DROP timeout mismatch phase=%d outcome=%d\n",
                 (int)snap.phase, (int)snap.last_outcome);
+        return 1;
+    }
+    return 0;
+}
+
+static int test_learning_timeout_advances_round(void)
+{
+    const uint32_t start = 900000u;
+    if (stc_game_init() != STC_OK || stc_game_start(start) != STC_OK) return 1;
+    const stc_game_config_t cfg = stc_game_get_config();
+    uint32_t now = start + 10;
+    if (begin_scan(now)) return 1;
+    if (submit_label(STC_BIN_FOOD, 0.9f, false, now)) return 1;
+    now += cfg.result_ms;
+    stc_game_tick(now);
+    now += cfg.open_timeout_ms;
+    stc_game_tick(now);
+    stc_event_t drop = event(STC_EV_DROP, stc_game_snapshot().round_id, now);
+    drop.u.drop.bin = STC_BIN_FOOD;
+    drop.u.drop.dist_mm = 40;
+    if (stc_game_input(&drop) != STC_OK) return 1;
+    now += cfg.settle_ms;
+    stc_game_tick(now);
+    now += cfg.close_timeout_ms;
+    stc_game_tick(now);
+    if (stc_game_snapshot().phase != STC_PH_LEARNING) return 1;
+
+    stc_game_tick(now + cfg.learning_ms);
+    if (stc_game_snapshot().phase != STC_PH_PROMPT ||
+        stc_game_snapshot().round != 1) {
+        fprintf(stderr, "learning timeout did not advance round\n");
         return 1;
     }
     return 0;
@@ -365,7 +397,8 @@ int main(void)
     if (test_nonzero_start_and_continue()) return 1;
     if (test_prompt_timeout_advances_to_learning()) return 1;
     if (test_scan_timeout_retries_then_abstains()) return 1;
-    if (test_wait_drop_timeout_scores_zero()) return 1;
+    if (test_wait_drop_timeout_scores_wrong()) return 1;
+    if (test_learning_timeout_advances_round()) return 1;
     if (test_total_time_ends_after_current_round()) return 1;
     if (test_stale_round_and_duplicate_drop()) return 1;
     if (test_thousand_games_invariants()) return 1;

@@ -82,12 +82,19 @@ def main() -> int:
                         help="Edge TTS voice, e.g. zh-HK-HiuMaanNeural")
     parser.add_argument("--edge-tts",
                         help="Edge TTS executable; defaults to PATH")
+    parser.add_argument("--keys", nargs="+",
+                        help="only regenerate these phrase keys")
     parser.add_argument("--ffmpeg",
                         type=Path,
                         help="ffmpeg executable; defaults to PATH/imageio")
     args = parser.parse_args()
 
     phrases = json.loads(args.phrases.read_text(encoding="utf-8"))
+    if args.keys:
+        unknown = sorted(set(args.keys) - set(phrases))
+        if unknown:
+            raise ValueError("unknown phrase keys: " + ", ".join(unknown))
+        phrases = {key: phrases[key] for key in args.keys}
     args.output_dir.mkdir(parents=True, exist_ok=True)
     edge_tts = None
     ffmpeg = None

@@ -140,6 +140,12 @@ stc_err_t stc_voice_say(stc_line_t line)
                : STC_ERR_IO;
 }
 
+stc_err_t stc_voice_play_sfx(stc_sfx_t sfx)
+{
+    (void)sfx;
+    return STC_ERR_UNSUPPORTED;
+}
+
 stc_err_t stc_voice_set_mode(stc_mode_t mode)
 {
     if (mode != STC_MODE_GAME) {

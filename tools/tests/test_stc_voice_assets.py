@@ -89,6 +89,52 @@ class VoiceAssetGenerationTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("expected mono / 16000 Hz / 16-bit PCM", result.stderr)
 
+    def test_keys_regenerates_only_selected_phrase(self):
+        with tempfile.TemporaryDirectory() as temp_name:
+            temp = Path(temp_name)
+            source_dir = temp / "source"
+            output_dir = temp / "output"
+            source_dir.mkdir()
+            phrases = temp / "phrases.json"
+            phrases.write_text(
+                json.dumps(
+                    {
+                        "open": {"text": "open", "pcm": "stc_open.pcm"},
+                        "retry": {"text": "retry", "pcm": "stc_retry.pcm"},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with wave.open(str(source_dir / "retry.wav"), "wb") as wav:
+                wav.setnchannels(1)
+                wav.setsampwidth(2)
+                wav.setframerate(16000)
+                wav.writeframes(b"\x03\x00\x04\x00")
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--phrases",
+                    str(phrases),
+                    "--source-dir",
+                    str(source_dir),
+                    "--output-dir",
+                    str(output_dir),
+                    "--keys",
+                    "retry",
+                ],
+                capture_output=True,
+                text=True,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertFalse((output_dir / "stc_open.pcm").exists())
+            self.assertEqual(
+                (output_dir / "stc_retry.pcm").read_bytes(),
+                b"\x03\x00\x04\x00",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
