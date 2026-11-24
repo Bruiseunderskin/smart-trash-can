@@ -3,6 +3,8 @@
 import unittest
 from pathlib import Path
 
+from PIL import Image
+
 
 ROOT = Path(__file__).resolve().parents[2]
 GAME = ROOT / "firmware/esp32s31/game"
@@ -88,8 +90,8 @@ class S31NewUiWiringTest(unittest.TestCase):
         game_ui = (ROOT / "ui/lvglpro/src/stc_ui.c").read_text(
             encoding="utf-8"
         )
-        result_card = game_ui.split("static void result_bin_card", 1)[1].split(
-            "static void result_screen", 1
+        bin_card = game_ui.split("static void bin_card", 1)[1].split(
+            "static void open_bins_screen", 1
         )[0]
         result_screen = game_ui.split("static void result_screen", 1)[
             1
@@ -98,11 +100,35 @@ class S31NewUiWiringTest(unittest.TestCase):
             1
         ].split("static void error_screen", 1)[0]
 
-        self.assertNotIn("bin_examples", result_card)
-        self.assertNotIn("selected", result_card)
+        self.assertNotIn("bin_examples", bin_card)
+        self.assertNotIn("bin_examples", bin_choice)
+        self.assertNotIn("selected", bin_card)
         self.assertNotIn("i == category", result_screen)
         self.assertNotIn("open ? 4 : 3", bin_choice)
         self.assertNotIn("shadow_width", bin_choice)
+
+    def test_open_lid_and_choose_bin_share_the_same_layout(self):
+        game_ui = (ROOT / "ui/lvglpro/src/stc_ui.c").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(
+            'open_bins_screen(ui, "正在開啟桶蓋");', game_ui
+        )
+        self.assertIn(
+            'open_bins_screen(ui, "請將卡牌放入垃圾桶");', game_ui
+        )
+
+        baseline = ROOT / "tools/lvglpro_preview/baselines"
+        with Image.open(baseline / "result_ok.png") as result:
+            with Image.open(baseline / "bin_choice.png") as choice:
+                self.assertEqual(
+                    result.crop((0, 0, 800, 112)).tobytes(),
+                    choice.crop((0, 0, 800, 112)).tobytes(),
+                )
+                self.assertEqual(
+                    result.crop((0, 216, 800, 480)).tobytes(),
+                    choice.crop((0, 216, 800, 480)).tobytes(),
+                )
 
 
 if __name__ == "__main__":

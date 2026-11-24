@@ -122,10 +122,6 @@ static const uint32_t category_colors[STC_CATEGORY_COUNT] = {
 static const char *const bin_names[STC_CATEGORY_COUNT] = {
     "可回收", "廚餘", "有害", "其他",
 };
-/* One-line examples so a child can tell the four bins apart. */
-static const char *const bin_examples[STC_CATEGORY_COUNT] = {
-    "膠樽", "剩飯", "電池", "紙巾",
-};
 
 /* 96 px sources so the result page shows the glyph 1:1 instead of a blurry
  * 2x upscale of the 48 px asset. Smaller slots downscale, which stays sharp. */
@@ -295,11 +291,7 @@ static void set_header(stc_ui_t *ui) {
         return;
     }
     char text[64];
-    if (ui->state == STC_RESULT_OK) {
-        /* Figma 5:81: the result topbar shows the streak, not the round. */
-        snprintf(text, sizeof(text), "連對 %lu 次",
-                 (unsigned long)ui->streak_value);
-    } else if (ui->state == STC_IDLE || ui->state == STC_INTRO) {
+    if (ui->state == STC_IDLE || ui->state == STC_INTRO) {
         /* Figma state/idle (5:38): the bar says 準備好 before a round starts;
          * a score only exists after the first round. */
         snprintf(text, sizeof(text), "準備好");
@@ -628,7 +620,7 @@ static void auto_advance(stc_ui_t *ui, stc_action_t action, bool arm,
     }
 }
 
-static void result_bin_card(stc_ui_t *ui, int index) {
+static void bin_card(stc_ui_t *ui, int index) {
     const int card_w = 166;
     const int gap = (PAGE_W - STC_CATEGORY_COUNT * card_w) /
                     (STC_CATEGORY_COUNT - 1);
@@ -649,50 +641,29 @@ static void result_bin_card(stc_ui_t *ui, int index) {
           LV_TEXT_ALIGN_CENTER);
 }
 
-static void result_screen(stc_ui_t *ui) {
+static void open_bins_screen(stc_ui_t *ui, const char *title) {
     page_background(ui);
     topbar(ui);
     round_time_bar(ui);
-    /* Open all bins without revealing which one the classifier picked. The
-     * child must choose first; the learning page reveals the answer only after
-     * the S3 hand reports its drop. */
-    const bool last = result_is_last_round(ui);
-    const bool waiting = ui->lid_open;
-    auto_advance(ui, STC_ACTION_NEXT, !waiting && !last, AUTO_ADVANCE_TICKS);
-    if (last) {
-        lv_obj_t *finish =
-            button(ui->container, "完成", 648, 12, 128, 48, true);
-        bind_action(ui, finish, STC_ACTION_FINISH, -1, false);
-    }
-    label(ui->container, "正在開啟桶蓋", 32, 128, 736, 64, FONT_H1,
-          COLOR_FG, LV_TEXT_ALIGN_LEFT);
+    /* Both pre-drop pages share this exact layout. Only the headline changes;
+     * the AI category stays hidden until the S3 hand reports the drop. */
+    label(ui->container, title, 32, 128, 640, 64, FONT_H1, COLOR_FG,
+          LV_TEXT_ALIGN_LEFT);
     image(ui->container, &stc_lp_img_mascot_happy, 704, 128, 64, 64);
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
-        result_bin_card(ui, i);
+        bin_card(ui, i);
     }
 }
 
+static void result_screen(stc_ui_t *ui) {
+    const bool last = result_is_last_round(ui);
+    const bool waiting = ui->lid_open;
+    auto_advance(ui, STC_ACTION_NEXT, !waiting && !last, AUTO_ADVANCE_TICKS);
+    open_bins_screen(ui, "正在開啟桶蓋");
+}
+
 static void bin_choice_screen(stc_ui_t *ui) {
-    page_background(ui);
-    topbar(ui);
-    round_time_bar(ui);
-    label(ui->container, "請將卡牌放入垃圾桶", 24, 112, 620, 72, FONT_H1,
-          COLOR_FG, LV_TEXT_ALIGN_LEFT);
-    const int card_w = 166;
-    const int gap = (PAGE_W - STC_CATEGORY_COUNT * card_w) /
-                    (STC_CATEGORY_COUNT - 1);
-    for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
-        const int x = OUTER + i * (card_w + gap);
-        /* Keep all four choices equally neutral until S3 reports the drop. */
-        lv_obj_t *card =
-            box(ui->container, x, 216, card_w, 248, COLOR_SURFACE, 16,
-                3, category_colors[i]);
-        image(card, category_images[i], (card_w - 88) / 2, 40, 88, 88);
-        label(card, bin_names[i], 0, 152, card_w, 52,
-              FONT_H2, COLOR_FG, LV_TEXT_ALIGN_CENTER);
-        label(card, bin_examples[i], 0, 202, card_w, 34, FONT_HINT,
-              COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
-    }
+    open_bins_screen(ui, "請將卡牌放入垃圾桶");
 }
 
 static void error_screen(stc_ui_t *ui, const char *code) {
