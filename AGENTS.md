@@ -90,7 +90,8 @@
 | Commit 格式、changelog 寫法 | `docs/agents/commits.md` |
 | 準備開 PR、避免改錯對象或數字不一致 | `docs/agents/workflow.md` |
 | 資料從哪來、可否混用 | `data/README.md` |
-| 整機整合、契約衝突、驗收 | `docs/issue53/README.md` |
+| 第一次接觸 repo、交畀 GPT 做 mapping／找擁有權 | `docs/agent-repo-map.md` |
+| 整機整合、契約衝突、驗收 | docs/issue53/README.md |
 | 文件全貌 | `docs/README.md` |
 
 **漸進式披露的做法**：AGENTS.md 只寫「事實＋硬規則＋去哪裡找」，細節一律放 `docs/agents/` 或其他專門文件。新規則到來時，先問「這條是否每次都要知？」是就寫這裡，不是就寫 `docs/agents/` 並在此加一行指路。

@@ -15,6 +15,7 @@
 
 ### Added
 
+- `docs/agent-repo-map.md` 及 `docs/diagrams/bin-runtime-map.svg`：給 GPT／Codex 的 repo ownership、S31→S3 bin flow、hardware map、已知 ACK／virtual-hand 診斷 gap 與 2026-11-24 驗證邊界。`AGENTS.md` 與 `docs/README.md` 已加入入口。`runs/real-hand/2026-11-24/` 保存 S31→real hand 的 raw log 與 owner confirmation。
 - `docs/chat/luodou-system-prompt.md`：綠豆 system prompt v3（1,640 字），含指令層級、防泄漏、防操控、兒童安全與紅隊測試須知，供隊友直接貼入 xiaozhi 設定。
 - `tools/lvglpro_preview`：預覽由 32-bit XRGB8888 改為 RGB565，同 S31 framebuffer 一致；baselines 重新產生。
 - `ui/lvglpro`：第一頁改為標題＋「開始遊戲」／「問綠豆」；新增 `intro`（3 步）；`scan_ready` 加觀景框；拍攝／辨識頁全屏相機、移除返回鍵與 AI 角標；錯誤頁只留「重試」。

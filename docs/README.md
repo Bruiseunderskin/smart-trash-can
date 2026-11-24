@@ -4,6 +4,7 @@
 
 ## 閱讀路徑
 
+- [Agent repo map：S31／S3 bin flow](agent-repo-map.md)
 - [Issue 53 整機整合規劃](issue53/README.md)
 - [遊戲部分實作計劃](game-implementation-plan.md)
 - [ESP-NOW S31 ↔ S3 官方來源查證](research/espnow-s31-feasibility.md)
@@ -36,6 +37,7 @@
 
 - [agents](agents/README.md)
 - [chat](chat/README.md)
+- [diagrams](diagrams/README.md)
 - [ei-baseline](ei-baseline/README.md)
 - [images](images/README.md)
 - [issue12](issue12/README.md)
