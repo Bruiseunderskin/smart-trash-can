@@ -2,35 +2,54 @@
 
 讀者：語音／韌體整合人員。何時讀：要播台詞、改句子或重新錄音時。
 
-六句台詞，全部 **16 kHz、單聲道、16-bit signed little-endian、無檔頭 raw PCM**，直接餵 I²S。
+所有台詞均為 **16 kHz、單聲道、16-bit signed little-endian、無檔頭 raw PCM**，直接餵 16 kHz codec。GAME 模式不連雲端；CHAT 模式才使用 xiaozhi 的對話通道。
 
-| key | 台詞 | 檔案 | 位元組 |
+## 台詞表
+
+| key | 台詞 | 檔案 | 長度 |
 | --- | --- | --- | ---: |
-| `open` | 請將卡片放入任何一個桶 | `stc_open.pcm` | 105216 |
-| `correct` | 答對喇 | `stc_correct.pcm` | 59904 |
-| `wrong` | 答錯喇 | `stc_wrong.pcm` | 59904 |
-| `timeout` | 冇放入，下一回合 | `stc_timeout.pcm` | 85248 |
-| `retry` | 睇唔清，再試一次 | `stc_retry.pcm` | 91392 |
-| `summary` | 呢局完結 | `stc_summary.pcm` | 59904 |
+| `open` | 請將卡片放入任何一個桶 | `stc_open.pcm` | 3.288 s |
+| `correct` | 答對喇 | `stc_correct.pcm` | 1.872 s |
+| `wrong` | 答錯喇 | `stc_wrong.pcm` | 1.872 s |
+| `timeout` | 冇放入，下一回合 | `stc_timeout.pcm` | 2.664 s |
+| `retry` | 睇唔清，再試一次 | `stc_retry.pcm` | 2.856 s |
+| `summary` | 呢局完結 | `stc_summary.pcm` | 1.872 s |
+| `cheer_correct_a` | 哇，你好叻啊！再接再厲！ | `stc_cheer_correct_a.pcm` | 4.320 s |
+| `cheer_correct_b` | 繼續加油！ | `stc_cheer_correct_b.pcm` | 1.992 s |
+| `encourage_wrong_a` | 唔緊要，再試一次！ | `stc_encourage_wrong_a.pcm` | 2.760 s |
+| `encourage_wrong_b` | 加油，下一題再嚟！ | `stc_encourage_wrong_b.pcm` | 2.784 s |
+| `summary_tip` | 記住先分類再投放。 | `stc_summary_tip.pcm` | 2.952 s |
 
 `phrases.json` 是這張表的機器可讀版本（key → text + pcm 檔名），產生工具讀它。
 
-## 來源
+## 播放規則
 
-素材自 PR #41 分支（`codex/issue25-voice-chat`，commit `02d7f81`）抽出，原位置在該分支的 S31 板目錄 `assets/`。抽取決定見 [docs/issue25](../../../docs/issue25/README.md)：只保留語音素材與產生工具，該分支的狀態機與自製畫面不採用。
+- `correct`／`wrong`：第一次或未形成連續時使用基本句。
+- 連續答對 `streak >= 2`：由 `cheer_correct_a/b` 輪替播放。
+- 連續答錯第 2 次起：由 `encourage_wrong_a/b` 輪替播放。
+- 輪替以 `round_id` 決定，避免每次都重複同一句，亦令 host tests 可重現。
+- 結算先播 `summary`，再排隊播 `summary_tip`。
+- 診斷命令 `stc cheer` 會順序播五句新語音，用嚟上板試音。
+- 音效由 Ogg/Opus 路徑播放；台詞只可由 raw PCM 路徑播放，不可把 Ogg 當 PCM。
 
-原分支未記錄音色；現已確認六句使用 Edge TTS
-`zh-HK-HiuMaanNeural`。2026-11-24 用 edge-tts 7.3.1 重新合成
-`retry`，再以 ffmpeg 轉成 S31 使用嘅 raw PCM。以下 hash 供辨識是否被改過：
+## 來源與格式
 
-```
-1e87f23d…  stc_correct.pcm
-83d41d2b…  stc_open.pcm
-0dc356f2…  stc_retry.pcm
-b064b39e…  stc_summary.pcm
-da68dabe…  stc_timeout.pcm
-202f776a…  stc_wrong.pcm
-15d8106f…  phrases.json
+台詞使用 Edge TTS `zh-HK-HiuMaanNeural` 合成，再轉為 16 kHz mono raw PCM。新增嘅鼓勵句於 2026-11-24 用 edge-tts 7.3.1 生成；7.2.x 會遇到微軟 `Sec-MS-GEC` 403。
+
+目前 hash（頭 8 位；完整值可用 `sha256sum` 重算）：
+
+```text
+e2d092ae  stc_cheer_correct_a.pcm
+ab17296c  stc_cheer_correct_b.pcm
+1e87f23d  stc_correct.pcm
+7226816c  stc_encourage_wrong_a.pcm
+1b916b29  stc_encourage_wrong_b.pcm
+83d41d2b  stc_open.pcm
+0dc356f2  stc_retry.pcm
+b064b39e  stc_summary.pcm
+54b5f705  stc_summary_tip.pcm
+da68dabe  stc_timeout.pcm
+202f776a  stc_wrong.pcm
 ```
 
 ## 重新產生
@@ -42,25 +61,16 @@ python3 tools/generate_stc_voice_assets.py \
   --output-dir firmware/assets/voice \
   --source-dir path/to/wav
 
-# 或由 Edge TTS 合成（需 edge-tts 與 ffmpeg）
+# 或由 Edge TTS 合成（需 edge-tts 7.3.1+ 與 ffmpeg）
 python3 tools/generate_stc_voice_assets.py \
   --phrases firmware/assets/voice/phrases.json \
   --output-dir firmware/assets/voice \
   --tts-voice zh-HK-HiuMaanNeural \
-  --keys retry
-
-# 已有 MP3 時，直接轉成 S31 的 raw PCM
-ffmpeg -i retry.mp3 \
-  -ac 1 -ar 16000 -sample_fmt s16 -f s16le \
-  firmware/assets/voice/stc_retry.pcm
+  --keys cheer_correct_a cheer_correct_b encourage_wrong_a encourage_wrong_b summary_tip
 ```
-
-Edge TTS 需要 7.3.1 或以上，舊版可能因 `Sec-MS-GEC` token
-版本過期而收到 HTTP 403。工具會驗證取樣率／聲道／位元寬，不符即報錯，
-不會靜靜產生錯格式的檔案。測試見
-`tools/tests/test_stc_voice_assets.py`。
 
 ## 限制
 
-- 這六句是「整句預錄」，不是任意組合。`contracts/stc_voice.h` 的 `stc_voice_say()` 按 `stc_line_t` 取值；要做句子拼接（14 段組合）屬 issue #25 的 M3，尚未實作。
-- 未在 S31 實機驗證過播放（素材來自分支建置，見 [docs/issue25](../../../docs/issue25/README.md)）。
+- 這些是整句預錄，不是任意文字 TTS。句子拼接仍不屬 GAME 模式。
+- 本地播放為 16 kHz mono；`Es8389AudioCodec::Write()` 只做一次 mono→stereo 複製。
+- 播放 pacing 用 40 ms PCM chunk，減少 20 ms 邊界造成嘅 scheduling jitter。

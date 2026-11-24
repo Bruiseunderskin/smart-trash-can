@@ -1,4 +1,4 @@
-/* stc_voice.h — 語音：本地台詞 ＋ CHAT 模式對話（contract v1.1.0）
+/* stc_voice.h — 語音：本地台詞 ＋ CHAT 模式對話（contract v1.2.0）
  *
  * 後端有兩種，由 stc_voice_set_mode() 決定：
  *   GAME 模式 → 本地預錄 PCM（無網、必然可用）
@@ -23,6 +23,11 @@ typedef enum {
     STC_LINE_TIMEOUT,       /* 冇投入 */
     STC_LINE_RETRY,         /* 睇唔清，再試 */
     STC_LINE_SUMMARY,       /* 結算 */
+    STC_LINE_CHEER_CORRECT_A,   /* 連續答對鼓勵 A */
+    STC_LINE_CHEER_CORRECT_B,   /* 連續答對鼓勵 B */
+    STC_LINE_ENCOURAGE_WRONG_A, /* 連續答錯鼓勵 A */
+    STC_LINE_ENCOURAGE_WRONG_B, /* 連續答錯鼓勵 B */
+    STC_LINE_SUMMARY_TIP,       /* 結算後提示 */
     STC_LINE_COUNT
 } stc_line_t;
 

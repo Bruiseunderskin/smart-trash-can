@@ -48,14 +48,14 @@ extern const lv_font_t stc_lp_font_tc_bold_112;
 #define TEXT_GAP SP_XS
 #define CONTROL_H SP_XL
 #define PAGE_W (800 - 2 * OUTER)
-#define CAMERA_FRAME_SIZE 320
+#define CAMERA_FRAME_SIZE 360
 #define CAMERA_IMAGE_INSET 12
-#define CAMERA_COPY_X 352
-#define CAMERA_COPY_W 424
-#define CAMERA_COPY_TITLE_Y 128
-#define CAMERA_COPY_TITLE_H 96
-#define CAMERA_COPY_SUB_Y 240
-#define CAMERA_COPY_SUB_H 80
+#define CAMERA_COPY_X 408
+#define CAMERA_COPY_W 368
+#define CAMERA_COPY_TITLE_Y 144
+#define CAMERA_COPY_TITLE_H 144
+#define CAMERA_COPY_SUB_Y 320
+#define CAMERA_COPY_SUB_H 64
 #define BEAN_X 688
 #define BEAN_Y 112
 #define BEAN_SIZE 64
@@ -563,7 +563,7 @@ static void camera_update(stc_ui_t *ui) {
     lv_obj_clean(ui->camera);
     ui->camera_image = NULL;
     lv_obj_t *icon = image(ui->camera, &stc_lp_img_camera, 0, 0, 48, 48);
-    lv_obj_align(icon, LV_ALIGN_CENTER, 0, -36);
+    lv_obj_align(icon, LV_ALIGN_CENTER, 0, 4);
     /* The placeholder must not contradict the status line underneath it. */
     const char *placeholder = "等待相機畫面";
     if (ui->state == STC_CLASSIFYING) {
@@ -574,7 +574,7 @@ static void camera_update(stc_ui_t *ui) {
     lv_obj_t *text =
         label(ui->camera, placeholder, 0, 0, CAMERA_FRAME_SIZE - 2 * SP_SM,
               44, FONT_BODY, COLOR_ON_BRAND, LV_TEXT_ALIGN_CENTER);
-    lv_obj_align(text, LV_ALIGN_CENTER, 0, 36);
+    lv_obj_align(text, LV_ALIGN_CENTER, 0, 76);
 }
 
 /* The camera source is already the exact square RGB tensor used by the
@@ -585,6 +585,13 @@ static lv_obj_t *camera_frame(stc_ui_t *ui, lv_obj_t *parent) {
                      CAMERA_FRAME_SIZE, COLOR_BRAND, 12, 3,
                      COLOR_ACCENT);
     lv_obj_set_style_border_width(ui->camera, 8, 0);
+    ui->scan = box(parent, OUTER + CAMERA_IMAGE_INSET,
+                   112 + CAMERA_IMAGE_INSET,
+                   CAMERA_FRAME_SIZE - 2 * CAMERA_IMAGE_INSET,
+                   CAMERA_FRAME_SIZE - 2 * CAMERA_IMAGE_INSET,
+                   COLOR_ACCENT, 8, 0, COLOR_ACCENT);
+    lv_obj_set_style_bg_opa(ui->scan, 0, 0);
+    lv_obj_remove_flag(ui->scan, LV_OBJ_FLAG_CLICKABLE);
     return ui->camera;
 }
 
@@ -592,12 +599,12 @@ static void camera_card(stc_ui_t *ui, const char *title,
                         const char *subtitle) {
     camera_frame(ui, ui->container);
     label(ui->container, title, CAMERA_COPY_X, CAMERA_COPY_TITLE_Y,
-          CAMERA_COPY_W, CAMERA_COPY_TITLE_H, FONT_H2, COLOR_FG,
+          CAMERA_COPY_W, CAMERA_COPY_TITLE_H, FONT_H1, COLOR_FG,
           LV_TEXT_ALIGN_CENTER);
     label(ui->container, subtitle, CAMERA_COPY_X, CAMERA_COPY_SUB_Y,
-          CAMERA_COPY_W, CAMERA_COPY_SUB_H, FONT_CAPTION, COLOR_MUTED,
+          CAMERA_COPY_W, CAMERA_COPY_SUB_H, FONT_BODY, COLOR_MUTED,
           LV_TEXT_ALIGN_CENTER);
-    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE);
+    bean_control(ui, BEAN_X, 392, BEAN_SIZE);
 }
 
 static void home_screen(stc_ui_t *ui) {
@@ -652,12 +659,12 @@ static void scan_ready_screen(stc_ui_t *ui) {
     auto_advance(ui, STC_ACTION_SCAN, true, 50);
     camera_frame(ui, ui->container);
 
-    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE);
+    bean_control(ui, BEAN_X, 392, BEAN_SIZE);
     label(ui->container, "確認卡片\n完整入框", CAMERA_COPY_X,
-          CAMERA_COPY_TITLE_Y, CAMERA_COPY_W, CAMERA_COPY_TITLE_H, FONT_H2,
+          CAMERA_COPY_TITLE_Y, CAMERA_COPY_W, CAMERA_COPY_TITLE_H, FONT_H1,
           COLOR_FG, LV_TEXT_ALIGN_CENTER);
     label(ui->container, "5 秒後自動掃描", CAMERA_COPY_X,
-          CAMERA_COPY_SUB_Y, CAMERA_COPY_W, CAMERA_COPY_SUB_H, FONT_HINT,
+          CAMERA_COPY_SUB_Y, CAMERA_COPY_W, CAMERA_COPY_SUB_H, FONT_BODY,
           COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
 }
 
@@ -668,7 +675,7 @@ static void capturing_screen(stc_ui_t *ui, stc_state_t state) {
     /* Whole screen is the camera: no back button during capture. */
     camera_card(ui,
                 state == STC_CAPTURING ? "正在辨識" : "整理緊結果",
-                "保持卡牌完整喺鏡頭框內");
+                "卡牌放喺鏡頭框內");
     animate_scan(ui);
 }
 
@@ -825,7 +832,7 @@ static void bin_card(stc_ui_t *ui, int index) {
     lv_obj_set_style_bg_opa(card, LV_OPA_COVER, 0);
     lv_obj_set_style_border_width(card, 2, 0);
     lv_obj_set_style_border_color(card, lv_color_hex(accent), 0);
-    image(card, category_images[index], (card_w - 88) / 2, 40, 88, 88);
+    image(card, category_images[index], (card_w - 96) / 2, 36, 96, 96);
     label(card, bin_names[index], 0, 172, card_w, 52, FONT_H2, COLOR_FG,
           LV_TEXT_ALIGN_CENTER);
 }

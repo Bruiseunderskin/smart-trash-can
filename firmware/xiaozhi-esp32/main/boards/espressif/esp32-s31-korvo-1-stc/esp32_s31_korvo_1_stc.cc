@@ -293,6 +293,34 @@ static void RunVoiceSelfTest() {
     ESP_LOGI(TAG, "VOICE_SELFTEST sequential=6 result=complete");
 }
 
+static void RunEngagementVoiceSelfTest() {
+    static const stc_line_t lines[] = {
+        STC_LINE_CHEER_CORRECT_A, STC_LINE_CHEER_CORRECT_B,
+        STC_LINE_ENCOURAGE_WRONG_A, STC_LINE_ENCOURAGE_WRONG_B,
+        STC_LINE_SUMMARY_TIP,
+    };
+    stc_voice_stop();
+    vTaskDelay(pdMS_TO_TICKS(100));
+    for (size_t index = 0; index < sizeof(lines) / sizeof(lines[0]);
+         ++index) {
+        stc_err_t result;
+        do {
+            result = stc_voice_say(lines[index]);
+            if (result == STC_ERR_NOT_READY) {
+                vTaskDelay(pdMS_TO_TICKS(20));
+            }
+        } while (result == STC_ERR_NOT_READY);
+        ESP_LOGI(TAG, "ENGAGEMENT_VOICE enqueue=%u line=%d result=%d",
+                 static_cast<unsigned>(index + 1),
+                 static_cast<int>(lines[index]),
+                 static_cast<int>(result));
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
+    while (stc_voice_is_busy()) {
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+    ESP_LOGI(TAG, "ENGAGEMENT_VOICE sequential=5 result=complete");
+}
 static void RunSfxSelfTest() {
     stc_voice_stop();
     for (int sfx = 0; sfx < STC_SFX_COUNT; ++sfx) {
@@ -369,6 +397,8 @@ static void HandleUartCommand(char* command) {
         LogStatus("uart");
     } else if (strcmp(command, "stc screen") == 0) {
         LogScreenPixelStatistics();
+    } else if (strcmp(command, "stc cheer") == 0) {
+        RunEngagementVoiceSelfTest();
     } else if (strcmp(command, "stc voice") == 0) {
         RunVoiceSelfTest();
     } else if (strcmp(command, "stc sfx") == 0) {
@@ -421,7 +451,7 @@ static void StcCommandTask(void*) {
         vTaskDelete(nullptr);
     }
     ESP_LOGI(TAG,
-             "STC_CMD ready: 'stc status', 'stc screen', 'stc voice', "
+             "STC_CMD ready: 'stc status', 'stc screen', 'stc voice', 'stc cheer', "
              "'stc sfx', "
              "'stc chat', 'stc game', 'stc play', 'stc scan', 'stc next', "
              "'stc home'");

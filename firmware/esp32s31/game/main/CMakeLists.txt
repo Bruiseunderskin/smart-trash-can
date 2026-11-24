@@ -90,7 +90,7 @@ include("${espdl_dir}/fbs_loader/cmake/utilities.cmake")
 target_add_aligned_binary_data(
     ${COMPONENT_LIB} "${MODEL}" BINARY RENAME_TO wordless_s31_espdl)
 target_add_aligned_binary_data(${COMPONENT_LIB} "${REPLAY_PACK}" BINARY)
-foreach(clip open correct wrong timeout retry summary)
+foreach(clip open correct wrong timeout retry summary cheer_correct_a cheer_correct_b encourage_wrong_a encourage_wrong_b summary_tip)
     target_add_aligned_binary_data(
         ${COMPONENT_LIB}
         "${STC_ROOT}/firmware/assets/voice/stc_${clip}.pcm"

@@ -13,6 +13,9 @@ static uint32_t g_close_round_id;
 static int g_voice_lines;
 static int g_open_voice_lines;
 static int g_retry_voice_lines;
+static int g_cheer_correct_lines;
+static int g_encourage_wrong_lines;
+static int g_summary_tip_lines;
 static int g_sfx_events;
 static int g_retry_sfx_events;
 static int g_correct_sfx_events;
@@ -75,6 +78,15 @@ static stc_err_t fake_voice(stc_line_t line, void *ctx)
     g_voice_lines++;
     if (line == STC_LINE_OPEN) g_open_voice_lines++;
     if (line == STC_LINE_RETRY) g_retry_voice_lines++;
+    if (line == STC_LINE_CHEER_CORRECT_A ||
+        line == STC_LINE_CHEER_CORRECT_B) {
+        g_cheer_correct_lines++;
+    }
+    if (line == STC_LINE_ENCOURAGE_WRONG_A ||
+        line == STC_LINE_ENCOURAGE_WRONG_B) {
+        g_encourage_wrong_lines++;
+    }
+    if (line == STC_LINE_SUMMARY_TIP) g_summary_tip_lines++;
     return STC_OK;
 }
 
@@ -175,6 +187,9 @@ static int test_unknown_plays_retry_guide(void)
     g_voice_lines = 0;
     g_open_voice_lines = 0;
     g_retry_voice_lines = 0;
+    g_cheer_correct_lines = 0;
+    g_encourage_wrong_lines = 0;
+    g_summary_tip_lines = 0;
     g_sfx_events = 0;
     g_retry_sfx_events = 0;
     stc_game_init();
@@ -314,6 +329,9 @@ int main(void)
     g_voice_lines = 0;
     g_open_voice_lines = 0;
     g_retry_voice_lines = 0;
+    g_cheer_correct_lines = 0;
+    g_encourage_wrong_lines = 0;
+    g_summary_tip_lines = 0;
     g_sfx_events = 0;
     g_retry_sfx_events = 0;
     g_correct_sfx_events = 0;
@@ -348,8 +366,8 @@ int main(void)
         STC_BIN_RECYCLABLE, STC_BIN_FOOD,
     };
     const stc_bin_t dropped[5] = {
-        STC_BIN_FOOD, STC_BIN_OTHER, STC_BIN_OTHER,
-        STC_BIN_RECYCLABLE, STC_BIN_OTHER,
+        STC_BIN_OTHER, STC_BIN_OTHER, STC_BIN_OTHER,
+        STC_BIN_RECYCLABLE, STC_BIN_FOOD,
     };
 
     for (int round = 0; round < 5; ++round) {
@@ -460,6 +478,13 @@ int main(void)
                                     now + 2);
     if (stc_game_controller_view()->lid_open) {
         fprintf(stderr, "restart close ACK left lids open\n");
+        return 1;
+    }
+    if (g_cheer_correct_lines != 2 || g_encourage_wrong_lines != 1 ||
+        g_summary_tip_lines != 1) {
+        fprintf(stderr, "streak voice cheer=%d encourage=%d tip=%d\n",
+                g_cheer_correct_lines, g_encourage_wrong_lines,
+                g_summary_tip_lines);
         return 1;
     }
     if (g_voice_lines < 11) {

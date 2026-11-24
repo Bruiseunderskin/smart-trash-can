@@ -10,7 +10,10 @@
 
 ### Changed
 
-- S31 掃描頁把 320×320 正方形預覽放在主版面，直接顯示 640×480 畫面中央 480×480 裁切後縮成的 160×160 模型輸入；預覽內縮後保留清楚可見的綠色外框，「確認入框」與「正在辨識」共用同一個位置、尺寸和邊框，兩組說明文字在右側水平置中。
+- S31 scan／classify 兩頁統一為 H1 56 px 標題、32 px 指示文字；相機框由 320 放大至 360 px，相機 placeholder icon＋文字整體下移 40 px，綠豆移到右下避免遮字，選桶圖示由 88 放大至 96 px。
+- S31 本地語音 playback 由 20 ms chunk 改為 40 ms chunk，降低 RTOS scheduling jitter；保持 codec 單次 mono→stereo 轉換。
+- 連續答對 streak ≥ 2 會輪替播放 `cheer_correct_a/b`；連續答錯第 2 次起輪替播放 `encourage_wrong_a/b`；結算後追加「記住先分類再投放」。
+- S31 掃描頁把 360×360 正方形預覽放在主版面，直接顯示 640×480 畫面中央 480×480 裁切後縮成的 160×160 模型輸入；預覽內縮後保留清楚可見的綠色外框，「確認入框」與「正在辨識」共用同一個位置、尺寸和邊框，兩組說明文字在右側水平置中。
 - S31 進入「正在辨識」後只顯示第一張成功參與推論的 still frame，後續四幀只更新判斷結果，不再令畫面閃過多張 live 影像。
 - S31 的「睇唔清，再試一次」已用原 `zh-HK-HiuMaanNeural` 女聲重新合成，並按既有 pipeline 轉成 16 kHz 單聲道無檔頭 raw PCM；播放鏈與其他台詞一致。
 - S31 本地語音維持 mono 播放，只由 `Es8389AudioCodec::Write()` 按輸出設定複製左右聲道；移除上層重複 mono→stereo 轉換，修正所有預錄台詞被二次轉換後的速度、音高及聲道失真。
@@ -31,6 +34,7 @@
 
 ### Added
 
+- `firmware/assets/voice/`：新增五條 `zh-HK-HiuMaanNeural` 16 kHz mono raw PCM 鼓勵台詞，並加入 `stc cheer` 上板試音命令。
 - `firmware/assets/sfx/`：加入六個原創短音效（scan／decide／correct／wrong／retry／round）、重新生成腳本及限制說明。
 - `docs/chat/luodou-system-prompt.md`：綠豆 system prompt v3（1,640 字），含指令層級、防泄漏、防操控、兒童安全與紅隊測試須知，供隊友直接貼入 xiaozhi 設定。
 - `tools/lvglpro_preview`：預覽由 32-bit XRGB8888 改為 RGB565，同 S31 framebuffer 一致；baselines 重新產生。
@@ -131,6 +135,9 @@
 
 ### Changed
 
+- S31 scan／classify 兩頁統一為 H1 56 px 標題、32 px 指示文字；相機框由 320 放大至 360 px，相機 placeholder icon＋文字整體下移 40 px，綠豆移到右下避免遮字，選桶圖示由 88 放大至 96 px。
+- S31 本地語音 playback 由 20 ms chunk 改為 40 ms chunk，降低 RTOS scheduling jitter；保持 codec 單次 mono→stereo 轉換。
+- 連續答對 streak ≥ 2 會輪替播放 `cheer_correct_a/b`；連續答錯第 2 次起輪替播放 `encourage_wrong_a/b`；結算後追加「記住先分類再投放」。
 - Game contract is v1.3.0 and UI contract is v2.1.0; scoring and rounds remain owned only by `stc_game`, while UI callbacks emit bounded action intents.
 - Learning now shows scanned bin, actual bin, correct bin, outcome, round delta, total score, and one full-width next-round button; it advances only on user action.
 - ESP-NOW is the stage-one hand transport instead of USB CDC; both boards use channel 6 without encryption and discover peers automatically.

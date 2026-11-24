@@ -12,6 +12,7 @@ static uint32_t g_drop_prompt_for;
 static uint32_t g_close_sent_for;
 static uint32_t g_feedback_for;
 static uint32_t g_summary_hold_for;
+static uint8_t g_wrong_streak;
 static uint32_t g_start_close_round_id;
 static bool g_start_close_pending;
 static bool g_start_close_sent;
@@ -60,6 +61,11 @@ static void sync_view(void)
     g_view.started = snap.phase != STC_PH_IDLE;
 }
 
+static stc_line_t choose_feedback(stc_line_t a, stc_line_t b,
+                                   uint32_t round_id) {
+    return ((round_id >> 1) & 1u) != 0 ? b : a;
+}
+
 static void say_result(void)
 {
     if (!g_ports.voice_say) {
@@ -67,19 +73,37 @@ static void say_result(void)
     }
     const stc_snapshot_t snap = stc_game_snapshot();
     switch (snap.last_outcome) {
-    case STC_ROUND_CORRECT:
+    case STC_ROUND_CORRECT: {
+        g_wrong_streak = 0;
         play_sfx(STC_SFX_CORRECT);
-        (void)g_ports.voice_say(STC_LINE_CORRECT, g_user);
+        const stc_line_t line =
+            snap.streak >= 2
+                ? choose_feedback(STC_LINE_CHEER_CORRECT_A,
+                                  STC_LINE_CHEER_CORRECT_B, snap.round_id)
+                : STC_LINE_CORRECT;
+        (void)g_ports.voice_say(line, g_user);
         break;
-    case STC_ROUND_WRONG:
+    }
+    case STC_ROUND_WRONG: {
+        if (g_wrong_streak < UINT8_MAX) {
+            g_wrong_streak++;
+        }
         play_sfx(STC_SFX_WRONG);
-        (void)g_ports.voice_say(STC_LINE_WRONG, g_user);
+        const stc_line_t line =
+            g_wrong_streak >= 2
+                ? choose_feedback(STC_LINE_ENCOURAGE_WRONG_A,
+                                  STC_LINE_ENCOURAGE_WRONG_B, snap.round_id)
+                : STC_LINE_WRONG;
+        (void)g_ports.voice_say(line, g_user);
         break;
+    }
     case STC_ROUND_TIMEOUT:
+        g_wrong_streak = 0;
         (void)g_ports.voice_say(STC_LINE_TIMEOUT, g_user);
         break;
     case STC_ROUND_ABSTAIN:
     case STC_ROUND_NO_SCAN:
+        g_wrong_streak = 0;
         play_sfx(STC_SFX_RETRY);
         (void)g_ports.voice_say(STC_LINE_RETRY, g_user);
         break;
@@ -147,6 +171,7 @@ static void act_on_phase(void)
             play_sfx(STC_SFX_ROUND);
             if (g_ports.voice_say) {
                 (void)g_ports.voice_say(STC_LINE_SUMMARY, g_user);
+                (void)g_ports.voice_say(STC_LINE_SUMMARY_TIP, g_user);
             }
             g_view.started = true;
         }
@@ -188,6 +213,7 @@ void stc_game_controller_init(const stc_game_controller_ports_t *ports,
     g_start_close_pending = false;
     g_start_close_sent = false;
     g_summary_announced = false;
+    g_wrong_streak = 0;
     g_debug_base_flags = 0;
     sync_debug_mode();
 }
@@ -271,6 +297,7 @@ stc_err_t stc_game_controller_ui_action(stc_ui_action_t action,
                 g_feedback_for = 0;
                 g_summary_hold_for = 0;
                 g_summary_announced = false;
+                g_wrong_streak = 0;
                 g_view.started = true;
                 g_view.fault_code = NULL;
                 g_view.awaiting_open_ack = false;
@@ -331,6 +358,7 @@ stc_err_t stc_game_controller_ui_action(stc_ui_action_t action,
             g_start_close_pending = false;
             g_start_close_sent = false;
             g_summary_announced = false;
+            g_wrong_streak = 0;
         }
         break;
     }

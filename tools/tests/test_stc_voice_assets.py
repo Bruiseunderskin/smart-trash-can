@@ -25,6 +25,42 @@ class VoiceAssetGenerationTests(unittest.TestCase):
             "443605decaf38befe6fe8f0048bbabd6",
         )
 
+    def test_all_engagement_phrases_are_present_as_raw_pcm(self):
+        phrases = json.loads(
+            (ROOT / "firmware/assets/voice/phrases.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        expected = {
+            "open",
+            "correct",
+            "wrong",
+            "timeout",
+            "retry",
+            "summary",
+            "cheer_correct_a",
+            "cheer_correct_b",
+            "encourage_wrong_a",
+            "encourage_wrong_b",
+            "summary_tip",
+        }
+        self.assertEqual(set(phrases), expected)
+        for key, spec in phrases.items():
+            data = (ROOT / "firmware/assets/voice" / spec["pcm"]).read_bytes()
+            self.assertGreater(len(data), 16000, key)
+            self.assertEqual(len(data) % 2, 0, key)
+
+    def test_voice_playback_uses_40ms_chunks(self):
+        voice = (
+            ROOT
+            / "firmware/xiaozhi-esp32/main/boards/espressif/"
+            "esp32-s31-korvo-1-stc/stc_voice.cc"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            "constexpr size_t kChunkSamples = 640;  // 40 ms at 16 kHz.",
+            voice,
+        )
+        self.assertIn("vTaskDelay(pdMS_TO_TICKS(40));", voice)
     def test_converts_validated_mono_wav_to_raw_pcm(self):
         with tempfile.TemporaryDirectory() as temp_name:
             temp = Path(temp_name)

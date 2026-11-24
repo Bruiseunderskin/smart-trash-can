@@ -28,10 +28,12 @@ namespace {
 
 constexpr const char* TAG = "StcVoice";
 constexpr size_t kQueueCapacity = 8;
-constexpr size_t kChunkSamples = 320;  // 20 ms at 16 kHz.
+constexpr size_t kChunkSamples = 640;  // 40 ms at 16 kHz.
 
 constexpr std::array<const char*, STC_LINE_COUNT> kKeys = {
     "open", "correct", "wrong", "timeout", "retry", "summary",
+    "cheer_correct_a", "cheer_correct_b", "encourage_wrong_a",
+    "encourage_wrong_b", "summary_tip",
 };
 
 constexpr std::array<const char*, STC_SFX_COUNT> kSfxAssets = {
@@ -42,6 +44,9 @@ constexpr std::array<const char*, STC_SFX_COUNT> kSfxAssets = {
 std::array<std::string, STC_LINE_COUNT> assets = {
     "stc_open.pcm",    "stc_correct.pcm", "stc_wrong.pcm",
     "stc_timeout.pcm", "stc_retry.pcm",   "stc_summary.pcm",
+    "stc_cheer_correct_a.pcm", "stc_cheer_correct_b.pcm",
+    "stc_encourage_wrong_a.pcm", "stc_encourage_wrong_b.pcm",
+    "stc_summary_tip.pcm",
 };
 
 std::once_flag phrase_once;
@@ -171,7 +176,7 @@ void PlayLocal(const VoiceItem& item) {
          * it convert the samples twice and distort every local phrase. */
         output.assign(pcm + offset, pcm + offset + count);
         codec->OutputData(output);
-        vTaskDelay(pdMS_TO_TICKS(20));
+        vTaskDelay(pdMS_TO_TICKS(40));
     }
     playing.store(false);
     ESP_LOGI(TAG,

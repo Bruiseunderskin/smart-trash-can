@@ -4,5 +4,10 @@
   "wrong": {"text": "答錯喇", "pcm": "stc_wrong.pcm"},
   "timeout": {"text": "冇放入，下一回合", "pcm": "stc_timeout.pcm"},
   "retry": {"text": "睇唔清，再試一次", "pcm": "stc_retry.pcm"},
-  "summary": {"text": "呢局完結", "pcm": "stc_summary.pcm"}
+  "summary": {"text": "呢局完結", "pcm": "stc_summary.pcm"},
+  "cheer_correct_a": {"text": "哇，你好叻啊！再接再厲！", "pcm": "stc_cheer_correct_a.pcm"},
+  "cheer_correct_b": {"text": "繼續加油！", "pcm": "stc_cheer_correct_b.pcm"},
+  "encourage_wrong_a": {"text": "唔緊要，再試一次！", "pcm": "stc_encourage_wrong_a.pcm"},
+  "encourage_wrong_b": {"text": "加油，下一題再嚟！", "pcm": "stc_encourage_wrong_b.pcm"},
+  "summary_tip": {"text": "記住先分類再投放。", "pcm": "stc_summary_tip.pcm"}
 }

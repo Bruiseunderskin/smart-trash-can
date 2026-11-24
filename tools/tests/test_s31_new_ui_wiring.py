@@ -167,7 +167,7 @@ class S31NewUiWiringTest(unittest.TestCase):
         self.assertIn("camera_frame(ui, ui->container);", camera_card)
         self.assertIn("camera_frame(ui, ui->container);", scan_ready)
         self.assertIn('"確認卡片\\n完整入框"', scan_ready)
-        self.assertIn("#define CAMERA_FRAME_SIZE 320", game_ui)
+        self.assertIn("#define CAMERA_FRAME_SIZE 360", game_ui)
         self.assertIn(
             "ui->camera = box(parent, OUTER, 112, CAMERA_FRAME_SIZE,\n"
             "                     CAMERA_FRAME_SIZE, COLOR_BRAND, 12, 3,",
@@ -186,7 +186,12 @@ class S31NewUiWiringTest(unittest.TestCase):
             "          CAMERA_COPY_W, CAMERA_COPY_TITLE_H",
             camera_card,
         )
+        self.assertIn("CAMERA_COPY_W, CAMERA_COPY_TITLE_H, FONT_H1", camera_card)
+        self.assertIn("CAMERA_COPY_W, CAMERA_COPY_SUB_H, FONT_BODY", camera_card)
         self.assertIn("LV_TEXT_ALIGN_CENTER);", camera_card)
+        self.assertIn("CAMERA_COPY_W, CAMERA_COPY_TITLE_H, FONT_H1", scan_ready)
+        self.assertIn("CAMERA_COPY_W, CAMERA_COPY_SUB_H, FONT_BODY", scan_ready)
+        self.assertIn("ui->scan = box(parent", game_ui)
         self.assertIn("const int side = (width < height) ? width : height;",
                       preprocess)
         self.assertIn("const int ox = (width - side) / 2;", preprocess)
@@ -236,12 +241,12 @@ class S31NewUiWiringTest(unittest.TestCase):
         )[1].split("static void capturing_screen", 1)[0]
 
         for define in (
-            "#define CAMERA_COPY_X 352",
-            "#define CAMERA_COPY_W 424",
-            "#define CAMERA_COPY_TITLE_Y 128",
-            "#define CAMERA_COPY_TITLE_H 96",
-            "#define CAMERA_COPY_SUB_Y 240",
-            "#define CAMERA_COPY_SUB_H 80",
+            "#define CAMERA_COPY_X 408",
+            "#define CAMERA_COPY_W 368",
+            "#define CAMERA_COPY_TITLE_Y 144",
+            "#define CAMERA_COPY_TITLE_H 144",
+            "#define CAMERA_COPY_SUB_Y 320",
+            "#define CAMERA_COPY_SUB_H 64",
         ):
             self.assertIn(define, game_ui)
         self.assertIn("CAMERA_COPY_X, CAMERA_COPY_TITLE_Y", camera_card)
@@ -309,7 +314,7 @@ class S31NewUiWiringTest(unittest.TestCase):
         scan_ready = ui.split(
             "static void scan_ready_screen", 1
         )[1].split("static void capturing_screen", 1)[0]
-        self.assertIn("bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE);",
+        self.assertIn("bean_control(ui, BEAN_X, 392, BEAN_SIZE);",
                       scan_ready)
         self.assertIn("static lv_obj_t *bean_control", ui)
         self.assertIn("lv_timer_create(logout_timer_cb, 100, ui)", ui)
@@ -324,5 +329,15 @@ class S31NewUiWiringTest(unittest.TestCase):
             self.assertIn("STC_HAND_ACTION_CLOSE_ALL", source)
 
 
+    def test_engagement_voice_selftest_command_is_available(self):
+        board = (
+            ROOT
+            / "firmware/xiaozhi-esp32/main/boards/espressif/"
+            "esp32-s31-korvo-1-stc/esp32_s31_korvo_1_stc.cc"
+        ).read_text(encoding="utf-8")
+        self.assertIn("RunEngagementVoiceSelfTest", board)
+        self.assertIn('strcmp(command, "stc cheer")', board)
+        self.assertIn("STC_LINE_CHEER_CORRECT_A", board)
+        self.assertIn("STC_LINE_SUMMARY_TIP", board)
 if __name__ == "__main__":
     unittest.main()
