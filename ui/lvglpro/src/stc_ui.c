@@ -50,8 +50,8 @@ extern const lv_font_t stc_lp_font_tc_bold_112;
 #define PAGE_W (800 - 2 * OUTER)
 #define CAMERA_FRAME_SIZE 360
 #define CAMERA_IMAGE_INSET 12
-#define CAMERA_COPY_X 408
-#define CAMERA_COPY_W 368
+#define CAMERA_COPY_X 400
+#define CAMERA_COPY_W 280
 #define CAMERA_COPY_TITLE_Y 144
 #define CAMERA_COPY_TITLE_H 144
 #define CAMERA_COPY_SUB_Y 320
@@ -410,13 +410,19 @@ static void logout_released(lv_event_t *event) {
     }
 }
 
-static lv_obj_t *bean_control(stc_ui_t *ui, int x, int y, int size) {
+static lv_obj_t *bean_control(stc_ui_t *ui, int x, int y, int size,
+                                   bool allow_logout) {
     lv_obj_t *bean = lv_button_create(ui->container);
     lv_obj_remove_style_all(bean);
     lv_obj_set_pos(bean, x, y);
     lv_obj_set_size(bean, size, size);
     lv_obj_set_style_bg_opa(bean, LV_OPA_TRANSP, 0);
     image(bean, &stc_lp_img_mascot_idle, 0, 0, size, size);
+    if (!allow_logout) {
+        lv_obj_remove_flag(bean, LV_OBJ_FLAG_CLICKABLE);
+        ui->logout_progress = NULL;
+        return bean;
+    }
     lv_obj_add_event_cb(bean, logout_pressed, LV_EVENT_PRESSED, ui);
     lv_obj_add_event_cb(bean, logout_released, LV_EVENT_RELEASED, ui);
     lv_obj_add_event_cb(bean, logout_released, LV_EVENT_PRESS_LOST, ui);
@@ -604,7 +610,7 @@ static void camera_card(stc_ui_t *ui, const char *title,
     label(ui->container, subtitle, CAMERA_COPY_X, CAMERA_COPY_SUB_Y,
           CAMERA_COPY_W, CAMERA_COPY_SUB_H, FONT_BODY, COLOR_MUTED,
           LV_TEXT_ALIGN_CENTER);
-    bean_control(ui, BEAN_X, 392, BEAN_SIZE);
+    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE, false);
 }
 
 static void home_screen(stc_ui_t *ui) {
@@ -615,7 +621,7 @@ static void home_screen(stc_ui_t *ui) {
           COLOR_FG, LV_TEXT_ALIGN_CENTER);
     label(ui->container, "5 回合 · 認識垃圾分類", OUTER, 252, PAGE_W, 48,
           FONT_SUBTITLE, COLOR_MUTED, LV_TEXT_ALIGN_CENTER);
-    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE);
+    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE, false);
     lv_obj_t *start =
         button(ui->container, "開始遊戲", OUTER, 392, 364, CONTROL_H, true);
     bind_action(ui, start, STC_ACTION_START, -1, false);
@@ -659,7 +665,7 @@ static void scan_ready_screen(stc_ui_t *ui) {
     auto_advance(ui, STC_ACTION_SCAN, true, 50);
     camera_frame(ui, ui->container);
 
-    bean_control(ui, BEAN_X, 392, BEAN_SIZE);
+    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE, true);
     label(ui->container, "確認卡片\n完整入框", CAMERA_COPY_X,
           CAMERA_COPY_TITLE_Y, CAMERA_COPY_W, CAMERA_COPY_TITLE_H, FONT_H1,
           COLOR_FG, LV_TEXT_ALIGN_CENTER);
@@ -845,7 +851,7 @@ static void open_bins_screen(stc_ui_t *ui, const char *title) {
      * the AI category stays hidden until the S3 hand reports the drop. */
     label(ui->container, title, 32, 128, 640, 64, FONT_H1, COLOR_FG,
           LV_TEXT_ALIGN_LEFT);
-    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE);
+    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE, false);
     for (int i = 0; i < STC_CATEGORY_COUNT; ++i) {
         bin_card(ui, i);
     }
@@ -1038,7 +1044,7 @@ static void summary_screen(stc_ui_t *ui) {
     label(score_card, "分類小達人", 36, 180, 196, 40, FONT_BODY_BOLD,
           0x2455C0, LV_TEXT_ALIGN_CENTER);
     lv_obj_t *stats =
-        box(ui->container, 344, 124, 424, 236, COLOR_SURFACE, 16, 0,
+        box(ui->container, 344, 124, 320, 236, COLOR_SURFACE, 16, 0,
             COLOR_SURFACE);
     char round_text[48];
     if (ui->rounds_total > 0) {
@@ -1053,12 +1059,12 @@ static void summary_screen(stc_ui_t *ui) {
     } else {
         snprintf(round_text, sizeof(round_text), "完成 5 回合");
     }
-    label(stats, round_text, 24, 24, 260, 44, FONT_BODY_BOLD, COLOR_FG,
+    label(stats, round_text, 24, 24, 272, 44, FONT_BODY_BOLD, COLOR_FG,
           LV_TEXT_ALIGN_LEFT);
     ui->streak =
-        label(stats, "最高連續答對 ×0", 24, 92, 376, 44, FONT_BODY_BOLD,
+        label(stats, "最高連對 ×0", 24, 92, 272, 44, FONT_BODY_BOLD,
               COLOR_FG, LV_TEXT_ALIGN_LEFT);
-    label(stats, "記住：先分類，再投放", 24, 160, 376, 40, FONT_HINT,
+    label(stats, "先分類，再投放", 24, 160, 272, 40, FONT_HINT,
           COLOR_MUTED, LV_TEXT_ALIGN_LEFT);
     lv_obj_t *again =
         button(ui->container, "再玩一次", OUTER, 392, 364, CONTROL_H, true);
@@ -1066,7 +1072,7 @@ static void summary_screen(stc_ui_t *ui) {
     lv_obj_t *home =
         button(ui->container, "返回主頁", 412, 392, 364, CONTROL_H, false);
     bind_action(ui, home, STC_ACTION_HOME, -1, false);
-    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE);
+    bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE, false);
 }
 
 static void clear_screen(stc_ui_t *ui) {

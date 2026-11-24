@@ -27,10 +27,17 @@ class S31SfxAssetsTest(unittest.TestCase):
             self.assertEqual(data[head + 9], 1, path.name)  # mono
             self.assertEqual(
                 struct.unpack_from("<I", data, head + 12)[0],
-                48000,
+                16000,
                 path.name,
             )
 
+    def test_sfx_generator_matches_the_16khz_codec_and_voice_headroom(self):
+        script = (
+            ROOT / "firmware/assets/sfx/make_sfx.py"
+        ).read_text(encoding="utf-8")
+        self.assertIn("SR = 16000", script)
+        self.assertIn("* 0.22", script)
+        self.assertIn('"-ar", "16000"', script)
     def test_s31_assets_build_includes_voice_and_sfx(self):
         cmake = (
             ROOT / "firmware/xiaozhi-esp32/main/CMakeLists.txt"

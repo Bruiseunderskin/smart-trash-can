@@ -3,7 +3,7 @@
 import math, wave, pathlib, subprocess
 import numpy as np
 
-SR = 48000
+SR = 16000
 OUT = pathlib.Path(__file__).resolve().parent
 OUT.mkdir(parents=True, exist_ok=True)
 
@@ -46,7 +46,7 @@ def place(buf, sig, at):
     return buf
 
 def write(name, sig):
-    sig = np.clip(sig / max(1e-9, np.abs(sig).max()) * 0.85, -1, 1)
+    sig = np.clip(sig / max(1e-9, np.abs(sig).max()) * 0.22, -1, 1)
     data = (sig * 32767).astype(np.int16)
     wav = OUT / f"{name}.wav"
     with wave.open(str(wav), "wb") as f:
@@ -54,8 +54,8 @@ def write(name, sig):
         f.writeframes(data.tobytes())
     ogg = OUT / f"{name}.ogg"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav),
-                    "-ac", "1", "-ar", "48000", "-c:a", "libopus",
-                    "-b:a", "48k", "-application", "audio", str(ogg)], check=True)
+                    "-ac", "1", "-ar", "16000", "-c:a", "libopus",
+                    "-b:a", "32k", "-application", "audio", str(ogg)], check=True)
     wav.unlink()
     print(f"{name}: {len(sig)/SR:.2f}s  {ogg.stat().st_size/1024:.1f} KB")
 

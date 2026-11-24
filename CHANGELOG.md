@@ -10,7 +10,9 @@
 
 ### Changed
 
-- S31 scan／classify 兩頁統一為 H1 56 px 標題、32 px 指示文字；相機框由 320 放大至 360 px，相機 placeholder icon＋文字整體下移 40 px，綠豆移到右下避免遮字，選桶圖示由 88 放大至 96 px。
+- 綠豆在所有遊戲頁固定在 `(688,112)`，與 chat 頁一致；只有 `scan_ready` 啟用長按取消回合，主頁、capturing、bin choice、summary 均停用長按。
+- SFX 由 48 kHz Ogg Opus 改為 16 kHz mono Ogg Opus，避免 S31 的 48k→16k speed-mode resampler；峰值降至約 0.21–0.24，RMS 對齊計劃中的語音 −12 dB headroom。
+- S31 scan／classify 兩頁統一為 H1 56 px 標題、32 px 指示文字；相機框由 320 放大至 360 px，相機 placeholder icon＋文字整體下移 40 px，綠豆固定在右上並保留安全間距，選桶圖示由 88 放大至 96 px。
 - S31 本地語音 playback 由 20 ms chunk 改為 40 ms chunk，降低 RTOS scheduling jitter；保持 codec 單次 mono→stereo 轉換。
 - 連續答對 streak ≥ 2 會輪替播放 `cheer_correct_a/b`；連續答錯第 2 次起輪替播放 `encourage_wrong_a/b`；結算後追加「記住先分類再投放」。
 - S31 掃描頁把 360×360 正方形預覽放在主版面，直接顯示 640×480 畫面中央 480×480 裁切後縮成的 160×160 模型輸入；預覽內縮後保留清楚可見的綠色外框，「確認入框」與「正在辨識」共用同一個位置、尺寸和邊框，兩組說明文字在右側水平置中。
@@ -135,7 +137,9 @@
 
 ### Changed
 
-- S31 scan／classify 兩頁統一為 H1 56 px 標題、32 px 指示文字；相機框由 320 放大至 360 px，相機 placeholder icon＋文字整體下移 40 px，綠豆移到右下避免遮字，選桶圖示由 88 放大至 96 px。
+- 綠豆在所有遊戲頁固定在 `(688,112)`，與 chat 頁一致；只有 `scan_ready` 啟用長按取消回合，主頁、capturing、bin choice、summary 均停用長按。
+- SFX 由 48 kHz Ogg Opus 改為 16 kHz mono Ogg Opus，避免 S31 的 48k→16k speed-mode resampler；峰值降至約 0.21–0.24，RMS 對齊計劃中的語音 −12 dB headroom。
+- S31 scan／classify 兩頁統一為 H1 56 px 標題、32 px 指示文字；相機框由 320 放大至 360 px，相機 placeholder icon＋文字整體下移 40 px，綠豆固定在右上並保留安全間距，選桶圖示由 88 放大至 96 px。
 - S31 本地語音 playback 由 20 ms chunk 改為 40 ms chunk，降低 RTOS scheduling jitter；保持 codec 單次 mono→stereo 轉換。
 - 連續答對 streak ≥ 2 會輪替播放 `cheer_correct_a/b`；連續答錯第 2 次起輪替播放 `encourage_wrong_a/b`；結算後追加「記住先分類再投放」。
 - Game contract is v1.3.0 and UI contract is v2.1.0; scoring and rounds remain owned only by `stc_game`, while UI callbacks emit bounded action intents.

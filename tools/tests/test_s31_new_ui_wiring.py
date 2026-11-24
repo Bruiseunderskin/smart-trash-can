@@ -241,8 +241,8 @@ class S31NewUiWiringTest(unittest.TestCase):
         )[1].split("static void capturing_screen", 1)[0]
 
         for define in (
-            "#define CAMERA_COPY_X 408",
-            "#define CAMERA_COPY_W 368",
+            "#define CAMERA_COPY_X 400",
+            "#define CAMERA_COPY_W 280",
             "#define CAMERA_COPY_TITLE_Y 144",
             "#define CAMERA_COPY_TITLE_H 144",
             "#define CAMERA_COPY_SUB_Y 320",
@@ -314,9 +314,10 @@ class S31NewUiWiringTest(unittest.TestCase):
         scan_ready = ui.split(
             "static void scan_ready_screen", 1
         )[1].split("static void capturing_screen", 1)[0]
-        self.assertIn("bean_control(ui, BEAN_X, 392, BEAN_SIZE);",
+        self.assertIn("bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE, true);",
                       scan_ready)
-        self.assertIn("static lv_obj_t *bean_control", ui)
+        self.assertIn("static lv_obj_t *bean_control(stc_ui_t *ui, int x, int y, int size,", ui)
+        self.assertIn("bool allow_logout)", ui)
         self.assertIn("lv_timer_create(logout_timer_cb, 100, ui)", ui)
         self.assertIn("ui->logout_ticks = 12;", ui)
         self.assertIn("STC_ACTION_CANCEL_ROUND", ui)
@@ -329,6 +330,15 @@ class S31NewUiWiringTest(unittest.TestCase):
             self.assertIn("STC_HAND_ACTION_CLOSE_ALL", source)
 
 
+    def test_home_bean_has_no_logout_long_press_and_all_pages_share_anchor(self):
+        ui = (ROOT / "ui/lvglpro/src/stc_ui.c").read_text(encoding="utf-8")
+        home = ui.split("static void home_screen", 1)[1].split(
+            "static void intro_screen", 1
+        )[0]
+        self.assertIn("bean_control(ui, BEAN_X, BEAN_Y, BEAN_SIZE, false);",
+                      home)
+        self.assertIn("lv_obj_remove_flag(bean, LV_OBJ_FLAG_CLICKABLE);", ui)
+        self.assertNotIn(", 392, BEAN_SIZE", ui)
     def test_engagement_voice_selftest_command_is_available(self):
         board = (
             ROOT
