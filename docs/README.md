@@ -11,6 +11,7 @@
 
 - [實物與模擬卡片混合模型實驗](experiments/mixed-card-object/README.md)
 - [無額外文字卡面的模型比較與混淆矩陣](experiments/mixed-card-object/wordless-v1/README.md)
+- [Set B 誤判的根因：擷取包絡](experiments/setb-capture-envelope.md)
 
 - [目前架構、程式入口與整合邊界](architecture.md)
 - [系統目標及驗收](system-architecture-decision.md)

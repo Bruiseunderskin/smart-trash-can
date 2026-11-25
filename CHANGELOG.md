@@ -159,6 +159,8 @@
 
 ### Fixed
 
+- Documentation CI：還原漏帶的 Set B 擷取包絡報告，為 `models/wordless-padded/cards/`、`real-photos/` 及其 `other/`、`recyclable/` 子目錄補上導覽 README，修復 `check_docs.py` 的 6 個錯誤。
+
 - S3 real hand: lazy PWM initialisation now starts from the stopped state, so the first CLOSE/OPEN after boot really configures LEDC instead of emitting `LEDC is not initialized`; servo OPEN/CLOSE calls are staggered by 120 ms to reduce four-servo inrush current.
 - S3 real hand: TOF address assignment retries after XSHUT resets, continuous TOF mode can be stopped for CHAT, and the USB Serial/JTAG secondary console is enabled for diagnostics.
 - Fixed `INVALID_TRANSITION` in the live touch game by allowing the actual phase path `CLASSIFYING -> BIN_CHOICE`, plus prompt-timeout, scan-retry, and abstain paths into learning/scan-ready. The native regression now exercises those direct transitions rather than taking a replay-only shortcut through `RESULT_OK`.
