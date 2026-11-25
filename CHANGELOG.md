@@ -36,6 +36,7 @@
 
 ### Added
 
+- `runs/current-firmware-2026-11-25.md`：記錄當前 S31／S3 的 source commit、IDF、flash port 及 binary SHA-256，兩塊板 source 對應 HEAD `7dbedaa`。
 - `tools/lvglpro_preview/prototype_render/` 及 `prototype_render_simple/`：保留 scan-ready 三個版面方向及 hidden logout confirmation 的設計對照圖與 README。
 - `firmware/assets/voice/`：新增五條 `zh-HK-HiuMaanNeural` 16 kHz mono raw PCM 鼓勵台詞，並加入 `stc cheer` 上板試音命令。
 - `firmware/assets/sfx/`：加入六個原創短音效（scan／decide／correct／wrong／retry／round）、重新生成腳本及限制說明。
