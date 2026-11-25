@@ -36,6 +36,7 @@
 
 ### Added
 
+- `tools/lvglpro_preview/prototype_render/` 及 `prototype_render_simple/`：保留 scan-ready 三個版面方向及 hidden logout confirmation 的設計對照圖與 README。
 - `firmware/assets/voice/`：新增五條 `zh-HK-HiuMaanNeural` 16 kHz mono raw PCM 鼓勵台詞，並加入 `stc cheer` 上板試音命令。
 - `firmware/assets/sfx/`：加入六個原創短音效（scan／decide／correct／wrong／retry／round）、重新生成腳本及限制說明。
 - `docs/chat/luodou-system-prompt.md`：綠豆 system prompt v3（1,640 字），含指令層級、防泄漏、防操控、兒童安全與紅隊測試須知，供隊友直接貼入 xiaozhi 設定。

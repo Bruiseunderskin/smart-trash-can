@@ -32,3 +32,8 @@ desktop.ini
 # Python bytecode
 __pycache__/
 *.pyc
+
+# ---- Local scratch / generated evidence ----
+/tmp/
+**/monitor-*.log
+firmware/esp32s3/virtual_hand/.vscode/
