@@ -1,0 +1,27 @@
+state,group,title,phase,png,layout,svg,description
+idle,game,主頁,idle,screens/idle.png,layouts/idle.json,figma-import/idle.svg,開始遊戲或進入綠豆對話；主頁沒有長按操作。
+intro,game,玩法說明,onboarding,screens/intro.png,layouts/intro.json,figma-import/intro.svg,三步玩法：放在鏡頭前、投入垃圾桶、等蓋關閉。
+scan_ready,game,確認卡片完整入框,prompt,screens/scan_ready.png,layouts/scan_ready.json,figma-import/scan_ready.svg,顯示相機預覽；5 秒倒數後自動掃描。綠豆長按可退出回合。
+scan_logout_confirm,game,退出回合確認,prompt_overlay,screens/scan_logout_confirm.png,layouts/scan_logout_confirm.json,figma-import/scan_logout_confirm.svg,scan_ready 長按綠豆後顯示的確認覆蓋層。
+capturing,game,正在辨識,scan,screens/capturing.png,layouts/capturing.json,figma-import/capturing.svg,相機畫面與掃描動畫；玩家在此階段不需要操作。
+classifying,game,整理緊結果,scan_settle,screens/classifying.png,layouts/classifying.json,figma-import/classifying.svg,影像已取得，等待模型整理結果。
+result_ok,game,正在開啟桶蓋,result_open,screens/result_ok.png,layouts/result_ok.json,figma-import/result_ok.svg,S3 開啟四個桶蓋；模型類別保持隱藏，避免在投放前洩露答案。
+result_ok_2s,game,開啟桶蓋（2 秒）,result_open,screens/result_ok_2s.png,layouts/result_ok_2s.json,figma-import/result_ok_2s.svg,result_ok 的 2 秒時間點，用於示範頂部時間條收縮。
+result_ok_lid,game,桶蓋已開啟,open_ack,screens/result_ok_lid.png,layouts/result_ok_lid.json,figma-import/result_ok_lid.svg,result_ok 的 lid_open 變體；實際硬件回報蓋已開啟。
+result_retry,game,AI 都唔肯定,retry,screens/result_retry.png,layouts/result_retry.json,figma-import/result_retry.svg,顯示兩個候選類別，讓玩家重新掃描或返回主頁。
+bin_choice,game,請將卡牌放入垃圾桶,wait_drop,screens/bin_choice.png,layouts/bin_choice.json,figma-import/bin_choice.svg,四個桶已開啟，等待 S3 TOF 回報實際投放。
+error,game,系統提示,error,screens/error.png,layouts/error.json,figma-import/error.svg,錯誤代碼對應的玩家文案與重試操作。
+learning,game,回合學習,learning,screens/learning.png,layouts/learning.json,figma-import/learning.svg,顯示掃描類別、實際投放、正確類別、得分與分類提示。
+summary,game,本局總結,summary,screens/summary.png,layouts/summary.json,figma-import/summary.svg,總分、完成回合、最高連對，以及再玩一次／返回主頁。
+ask_ready,chat,問綠豆：準備,chat_ready,screens/ask_ready.png,layouts/ask_ready.json,figma-import/ask_ready.svg,綠豆對話待命畫面。
+ask_listening,chat,問綠豆：聆聽中,chat_listening,screens/ask_listening.png,layouts/ask_listening.json,figma-import/ask_listening.svg,咪高峰正在接收玩家語音。
+ask_thinking,chat,問綠豆：思考中,chat_thinking,screens/ask_thinking.png,layouts/ask_thinking.json,figma-import/ask_thinking.svg,已收到問題，等待回覆。
+ask_answering,chat,問綠豆：回答,chat_answering,screens/ask_answering.png,layouts/ask_answering.json,figma-import/ask_answering.svg,顯示綠豆的短回答。
+ask_answering_long,chat,問綠豆：長回答,chat_answering,screens/ask_answering_long.png,layouts/ask_answering_long.json,figma-import/ask_answering_long.svg,長回答的換行與滾動區域變體。
+ask_offline,chat,問綠豆：暫時離線,chat_offline,screens/ask_offline.png,layouts/ask_offline.json,figma-import/ask_offline.svg,語音服務不可用時的離線提示。
+ask_asr_retry,chat,問綠豆：再講一次,chat_asr_retry,screens/ask_asr_retry.png,layouts/ask_asr_retry.json,figma-import/ask_asr_retry.svg,語音辨識失敗後的重試提示。
+ask_countdown,chat,問綠豆：返回倒數,chat_countdown,screens/ask_countdown.png,layouts/ask_countdown.json,figma-import/ask_countdown.svg,對話完成後返回遊戲的倒數狀態。
+ask_no_answer,chat,問綠豆：未有回應,chat_no_answer,screens/ask_no_answer.png,layouts/ask_no_answer.json,figma-import/ask_no_answer.svg,沒有收到回答時的提示。
+ask_goodbye,chat,問綠豆：再見,chat_goodbye,screens/ask_goodbye.png,layouts/ask_goodbye.json,figma-import/ask_goodbye.svg,結束對話並返回遊戲。
+ask_connecting,chat,問綠豆：連線中,chat_connecting,screens/ask_connecting.png,layouts/ask_connecting.json,figma-import/ask_connecting.svg,正在連接語音服務。
+ask_provisioning,chat,問綠豆：設定網絡,chat_provisioning,screens/ask_provisioning.png,layouts/ask_provisioning.json,figma-import/ask_provisioning.svg,裝置需要完成 Wi-Fi 或語音服務設定。

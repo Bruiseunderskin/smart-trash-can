@@ -1,0 +1,14 @@
+flowchart LR
+  idle[主頁] --> scan_ready[確認卡片入框]
+  scan_ready -->|5 秒自動| capturing[正在辨識]
+  capturing --> classifying[整理緊結果]
+  classifying --> result_ok[正在開啟桶蓋]
+  result_ok --> bin_choice[請將卡牌放入垃圾桶]
+  bin_choice -->|TOF DROP| learning[回合學習]
+  learning -->|下一回合| scan_ready
+  learning -->|第 5 回合| summary[本局總結]
+  idle --> ask_ready[問綠豆]
+  ask_ready --> ask_listening --> ask_thinking --> ask_answering --> ask_goodbye
+  ask_goodbye --> idle
+  scan_ready -->|長按綠豆| scan_logout_confirm[退出確認]
+  scan_logout_confirm --> idle

@@ -1,0 +1,214 @@
+{
+  "assets": {
+    "figmaSvgs": "figma-import/{state}.svg",
+    "layouts": "layouts/{state}.json",
+    "motion": "motion/{state}_{tickMs}ms.png",
+    "screens": "screens/{state}.png"
+  },
+  "composition": {
+    "durationInFrames": 1800,
+    "fps": 60,
+    "height": 480,
+    "id": "SmartTrashCanUI",
+    "width": 800
+  },
+  "flows": [
+    {
+      "id": "live_round_happy_path",
+      "steps": [
+        {
+          "event": "tap_start",
+          "holdMs": 1800,
+          "state": "idle"
+        },
+        {
+          "event": "auto_scan",
+          "holdMs": 5000,
+          "state": "scan_ready"
+        },
+        {
+          "event": "auto",
+          "holdMs": 1200,
+          "state": "capturing"
+        },
+        {
+          "event": "auto",
+          "holdMs": 300,
+          "state": "classifying"
+        },
+        {
+          "event": "auto",
+          "holdMs": 1500,
+          "state": "result_ok"
+        },
+        {
+          "event": "lid_open",
+          "holdMs": 1500,
+          "state": "result_ok_2s"
+        },
+        {
+          "event": "tof_drop",
+          "holdMs": 2500,
+          "state": "bin_choice"
+        },
+        {
+          "event": "auto",
+          "holdMs": 6000,
+          "state": "learning"
+        },
+        {
+          "event": "end",
+          "holdMs": 4000,
+          "state": "summary"
+        }
+      ],
+      "title": "實機一回合：掃描、開蓋、投放、學習",
+      "transitionMode": "cut"
+    },
+    {
+      "afterEachRound": "scan_ready except after round 5 -> summary",
+      "id": "five_round_loop",
+      "roundSequence": [
+        "scan_ready",
+        "capturing",
+        "classifying",
+        "result_ok",
+        "bin_choice",
+        "learning"
+      ],
+      "rounds": 5,
+      "title": "五回合主循環",
+      "transitionMode": "cut"
+    },
+    {
+      "id": "scan_retry",
+      "steps": [
+        {
+          "holdMs": 5000,
+          "state": "scan_ready"
+        },
+        {
+          "holdMs": 1200,
+          "state": "capturing"
+        },
+        {
+          "holdMs": 300,
+          "state": "classifying"
+        },
+        {
+          "holdMs": 2500,
+          "state": "result_retry"
+        },
+        {
+          "holdMs": 5000,
+          "state": "scan_ready"
+        }
+      ],
+      "title": "不確定／重新掃描",
+      "transitionMode": "cut"
+    },
+    {
+      "id": "greenbean_chat",
+      "steps": [
+        {
+          "event": "tap_ask_greenbean",
+          "holdMs": 1200,
+          "state": "idle"
+        },
+        {
+          "holdMs": 1200,
+          "state": "ask_ready"
+        },
+        {
+          "holdMs": 2400,
+          "state": "ask_listening"
+        },
+        {
+          "holdMs": 1200,
+          "state": "ask_thinking"
+        },
+        {
+          "holdMs": 3200,
+          "state": "ask_answering"
+        },
+        {
+          "holdMs": 1600,
+          "state": "ask_goodbye"
+        },
+        {
+          "holdMs": 1200,
+          "state": "idle"
+        }
+      ],
+      "title": "綠豆對話",
+      "transitionMode": "cut"
+    },
+    {
+      "id": "round_logout",
+      "steps": [
+        {
+          "event": "long_press_greenbean",
+          "holdMs": 1500,
+          "state": "scan_ready"
+        },
+        {
+          "holdMs": 1300,
+          "state": "scan_logout_confirm"
+        },
+        {
+          "holdMs": 1200,
+          "state": "idle"
+        }
+      ],
+      "title": "長按綠豆退出回合",
+      "transitionMode": "cut"
+    },
+    {
+      "id": "onboarding",
+      "optional": true,
+      "steps": [
+        {
+          "event": "tap_start",
+          "holdMs": 1400,
+          "state": "idle"
+        },
+        {
+          "holdMs": 2400,
+          "state": "intro"
+        },
+        {
+          "holdMs": 5000,
+          "state": "scan_ready"
+        }
+      ],
+      "title": "首次玩法說明",
+      "transitionMode": "cut"
+    }
+  ],
+  "renderGuidance": {
+    "background": "#FBF7EC",
+    "fit": "contain",
+    "greenbeanAnchorPx": {
+      "h": 64,
+      "w": 64,
+      "x": 688,
+      "y": 112
+    },
+    "pointer": "simulate touch only; hardware input is not a mouse cursor",
+    "screenTransition": "cut"
+  },
+  "schemaVersion": "1.0",
+  "timingsMs": {
+    "closeTimeoutMs": 1500,
+    "gameTotalMs": 180000,
+    "learningMs": 6000,
+    "openTimeoutMs": 1500,
+    "promptTimeoutMs": 20000,
+    "resultMs": 1500,
+    "rounds": 5,
+    "scanReadyAutoMs": 5000,
+    "scanTimeoutMs": 1500,
+    "settleMs": 300,
+    "waitDropMs": 15000
+  }
+}

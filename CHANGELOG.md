@@ -36,6 +36,8 @@
 
 ### Added
 
+- `ui/handoff/`：新增 800×480 UI handoff，內含 26 張 LVGL framebuffer PNG、26 份 live LVGL object-tree layout JSON、13 個正常動畫時間點、Figma-import SVG、screen atlas、Remotion manifest 及 Mermaid 流程圖；所有畫面直接由 `ui/lvglpro` source 匯出，不作手工重畫。
+- `tools/lvglpro_preview/export_handoff.py`：由執行中的 LVGL object tree 匯出 absolute-pixel 座標、文字、字級、顏色、按鈕範圍及 layout hash，並驗證每張畫面與 baseline 差異在容差內。
 - `runs/current-firmware-2026-11-25.md`：記錄當前 S31／S3 的 source commit、IDF、flash port 及 binary SHA-256，兩塊板 source 對應 HEAD `7dbedaa`。
 - `tools/lvglpro_preview/prototype_render/` 及 `prototype_render_simple/`：保留 scan-ready 三個版面方向及 hidden logout confirmation 的設計對照圖與 README。
 - `firmware/assets/voice/`：新增五條 `zh-HK-HiuMaanNeural` 16 kHz mono raw PCM 鼓勵台詞，並加入 `stc cheer` 上板試音命令。
@@ -159,6 +161,7 @@
 
 ### Fixed
 
+- `tools/lvglpro_preview`：Windows 本機預覽會優先執行 `preview.exe`，避免誤用 Linux ELF binary；renderer 的 baseline 比較改用 raw RGB bytes，移除 Pillow deprecated API 警告。
 - Documentation CI：還原漏帶的 Set B 擷取包絡報告，為 `models/wordless-padded/cards/`、`real-photos/` 及其 `other/`、`recyclable/` 子目錄補上導覽 README，修復 `check_docs.py` 的 6 個錯誤。
 
 - S3 real hand: lazy PWM initialisation now starts from the stopped state, so the first CLOSE/OPEN after boot really configures LEDC instead of emitting `LEDC is not initialized`; servo OPEN/CLOSE calls are staggered by 120 ms to reduce four-servo inrush current.

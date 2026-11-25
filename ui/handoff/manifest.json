@@ -1,0 +1,836 @@
+{
+  "canvas": {
+    "colorDepth": 16,
+    "height": 480,
+    "pixelFormat": "RGB565",
+    "rotation": 0,
+    "width": 800
+  },
+  "flows": [
+    {
+      "id": "live_round_happy_path",
+      "steps": [
+        {
+          "event": "tap_start",
+          "holdMs": 1800,
+          "state": "idle"
+        },
+        {
+          "event": "auto_scan",
+          "holdMs": 5000,
+          "state": "scan_ready"
+        },
+        {
+          "event": "auto",
+          "holdMs": 1200,
+          "state": "capturing"
+        },
+        {
+          "event": "auto",
+          "holdMs": 300,
+          "state": "classifying"
+        },
+        {
+          "event": "auto",
+          "holdMs": 1500,
+          "state": "result_ok"
+        },
+        {
+          "event": "lid_open",
+          "holdMs": 1500,
+          "state": "result_ok_2s"
+        },
+        {
+          "event": "tof_drop",
+          "holdMs": 2500,
+          "state": "bin_choice"
+        },
+        {
+          "event": "auto",
+          "holdMs": 6000,
+          "state": "learning"
+        },
+        {
+          "event": "end",
+          "holdMs": 4000,
+          "state": "summary"
+        }
+      ],
+      "title": "實機一回合：掃描、開蓋、投放、學習",
+      "transitionMode": "cut"
+    },
+    {
+      "afterEachRound": "scan_ready except after round 5 -> summary",
+      "id": "five_round_loop",
+      "roundSequence": [
+        "scan_ready",
+        "capturing",
+        "classifying",
+        "result_ok",
+        "bin_choice",
+        "learning"
+      ],
+      "rounds": 5,
+      "title": "五回合主循環",
+      "transitionMode": "cut"
+    },
+    {
+      "id": "scan_retry",
+      "steps": [
+        {
+          "holdMs": 5000,
+          "state": "scan_ready"
+        },
+        {
+          "holdMs": 1200,
+          "state": "capturing"
+        },
+        {
+          "holdMs": 300,
+          "state": "classifying"
+        },
+        {
+          "holdMs": 2500,
+          "state": "result_retry"
+        },
+        {
+          "holdMs": 5000,
+          "state": "scan_ready"
+        }
+      ],
+      "title": "不確定／重新掃描",
+      "transitionMode": "cut"
+    },
+    {
+      "id": "greenbean_chat",
+      "steps": [
+        {
+          "event": "tap_ask_greenbean",
+          "holdMs": 1200,
+          "state": "idle"
+        },
+        {
+          "holdMs": 1200,
+          "state": "ask_ready"
+        },
+        {
+          "holdMs": 2400,
+          "state": "ask_listening"
+        },
+        {
+          "holdMs": 1200,
+          "state": "ask_thinking"
+        },
+        {
+          "holdMs": 3200,
+          "state": "ask_answering"
+        },
+        {
+          "holdMs": 1600,
+          "state": "ask_goodbye"
+        },
+        {
+          "holdMs": 1200,
+          "state": "idle"
+        }
+      ],
+      "title": "綠豆對話",
+      "transitionMode": "cut"
+    },
+    {
+      "id": "round_logout",
+      "steps": [
+        {
+          "event": "long_press_greenbean",
+          "holdMs": 1500,
+          "state": "scan_ready"
+        },
+        {
+          "holdMs": 1300,
+          "state": "scan_logout_confirm"
+        },
+        {
+          "holdMs": 1200,
+          "state": "idle"
+        }
+      ],
+      "title": "長按綠豆退出回合",
+      "transitionMode": "cut"
+    },
+    {
+      "id": "onboarding",
+      "optional": true,
+      "steps": [
+        {
+          "event": "tap_start",
+          "holdMs": 1400,
+          "state": "idle"
+        },
+        {
+          "holdMs": 2400,
+          "state": "intro"
+        },
+        {
+          "holdMs": 5000,
+          "state": "scan_ready"
+        }
+      ],
+      "title": "首次玩法說明",
+      "transitionMode": "cut"
+    }
+  ],
+  "kind": "lvgl-pixel-and-object-tree-handoff",
+  "motionFrames": [
+    {
+      "file": "motion/scan_ready_2500ms.png",
+      "pngSha256": "8536c008b5bd613a0519f46499732ba665f30be39a48b3c864030a23f2001afb",
+      "previewReducedMotion": false,
+      "state": "scan_ready",
+      "tMs": 2500
+    },
+    {
+      "file": "motion/scan_ready_5000ms.png",
+      "pngSha256": "b524d7ee7ffde6f0e4232226eb292715cbd861afba6e33baa5158cace55c143b",
+      "previewReducedMotion": false,
+      "state": "scan_ready",
+      "tMs": 5000
+    },
+    {
+      "file": "motion/capturing_250ms.png",
+      "pngSha256": "3d3d56721a8b7c831fafd4d225cddf658f8c65b04e1ea19393a70f0f6d717b82",
+      "previewReducedMotion": false,
+      "state": "capturing",
+      "tMs": 250
+    },
+    {
+      "file": "motion/capturing_500ms.png",
+      "pngSha256": "6bb2d67337f783a0a4c80e360b5e3b46de9b3248b6add474dbdb67b6b943c648",
+      "previewReducedMotion": false,
+      "state": "capturing",
+      "tMs": 500
+    },
+    {
+      "file": "motion/capturing_750ms.png",
+      "pngSha256": "b002907f3754637aeaa972e97fee084b5379db13974f2ed49c93d90cc696c369",
+      "previewReducedMotion": false,
+      "state": "capturing",
+      "tMs": 750
+    },
+    {
+      "file": "motion/capturing_1000ms.png",
+      "pngSha256": "f969914691c8a75a67ab9fc97020d4747f9d4fc3464fdc4205ef6295d7a97901",
+      "previewReducedMotion": false,
+      "state": "capturing",
+      "tMs": 1000
+    },
+    {
+      "file": "motion/classifying_250ms.png",
+      "pngSha256": "9e3159383fb48fc81bfebf250a2b3d9aafa7a0abe1dcfdfd126c917a675c010d",
+      "previewReducedMotion": false,
+      "state": "classifying",
+      "tMs": 250
+    },
+    {
+      "file": "motion/classifying_500ms.png",
+      "pngSha256": "79bd9a70dea69559283826117b9e2cddee0b9efda030fc306e08d337b87a71f6",
+      "previewReducedMotion": false,
+      "state": "classifying",
+      "tMs": 500
+    },
+    {
+      "file": "motion/result_ok_1000ms.png",
+      "pngSha256": "19d187931cd0511aefb77e914d265f87aaa89e53c89819bc79e63c31108d306f",
+      "previewReducedMotion": false,
+      "state": "result_ok",
+      "tMs": 1000
+    },
+    {
+      "file": "motion/result_ok_2000ms.png",
+      "pngSha256": "bd6bef11b48107ff0305a3e9e5b9db305104090f3be826b597fe37f9600afd6b",
+      "previewReducedMotion": false,
+      "state": "result_ok",
+      "tMs": 2000
+    },
+    {
+      "file": "motion/result_ok_3000ms.png",
+      "pngSha256": "c68d3a6156468d8c346fcb6ab4452374e45add12798dd796e05d481e933d29b2",
+      "previewReducedMotion": false,
+      "state": "result_ok",
+      "tMs": 3000
+    },
+    {
+      "file": "motion/learning_3000ms.png",
+      "pngSha256": "171e107b87bfa36db442d2c79c7ae9487c6d2af8b06dfdac508ca7fb0c6a8136",
+      "previewReducedMotion": false,
+      "state": "learning",
+      "tMs": 3000
+    },
+    {
+      "file": "motion/learning_6000ms.png",
+      "pngSha256": "a6c994eb6c428c68d9375fa97064fcc7b84940a97509664e560d6f965b64182a",
+      "previewReducedMotion": false,
+      "state": "learning",
+      "tMs": 6000
+    }
+  ],
+  "notes": [
+    "PNG files are exact 800x480 LVGL framebuffer renders expanded from RGB565.",
+    "Layout JSON coordinates are absolute pixels captured from the running LVGL object tree.",
+    "Baseline screenshots use reduced motion. Extra frames under motion/ use normal motion at the stated tick.",
+    "LVGL has no page slide/fade transition; preserve the real cut between screens.",
+    "A physical LCD can still differ in panel colour, gamma and viewing angle; this package matches the LVGL framebuffer."
+  ],
+  "schemaVersion": "1.0",
+  "screenCount": 26,
+  "screens": [
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "開始遊戲或進入綠豆對話；主頁沒有長按操作。",
+      "file": "screens/idle.png",
+      "group": "game",
+      "layout": "layouts/idle.json",
+      "layoutSha256": "794f7fb1072df0b3ad5575ba22bb454c2e097deb205e15ec822fa8496c3e6802",
+      "phase": "idle",
+      "pngSha256": "07235889dbbe5459b4c04c48a3235e97739d80f50831b43c3db4ba50ef1a6c0e",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "idle",
+      "svg": "figma-import/idle.svg",
+      "title": "主頁"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "三步玩法：放在鏡頭前、投入垃圾桶、等蓋關閉。",
+      "file": "screens/intro.png",
+      "group": "game",
+      "layout": "layouts/intro.json",
+      "layoutSha256": "00af2e970eaf74d5ad011dcaff7ac8f1cb4051986fbd0ac3b88b7f58e440bfea",
+      "optional": true,
+      "phase": "onboarding",
+      "pngSha256": "f78831a6271477d9a6a1f3f11e7cb612bb41b04b12eb0c714a5c142d9db4247f",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "intro",
+      "svg": "figma-import/intro.svg",
+      "title": "玩法說明"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "顯示相機預覽；5 秒倒數後自動掃描。綠豆長按可退出回合。",
+      "file": "screens/scan_ready.png",
+      "gestures": [
+        {
+          "action": "cancel_round",
+          "rect": {
+            "h": 64,
+            "w": 64,
+            "x": 688,
+            "y": 112
+          },
+          "type": "long_press"
+        }
+      ],
+      "group": "game",
+      "layout": "layouts/scan_ready.json",
+      "layoutSha256": "9b1d566eb124bc940bddc03d3e3608e85b4a06de1cf3df891d4bce8e0078886e",
+      "phase": "prompt",
+      "pngSha256": "2b88f837dc63c4691d19ef6804f77e4721c900c2120eeee7c3d265dc70f97fe4",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "scan_ready",
+      "svg": "figma-import/scan_ready.svg",
+      "title": "確認卡片完整入框"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "scan_ready 長按綠豆後顯示的確認覆蓋層。",
+      "file": "screens/scan_logout_confirm.png",
+      "group": "game",
+      "layout": "layouts/scan_logout_confirm.json",
+      "layoutSha256": "67581bebcae245607bf401a1113c2de376b3feabee7506ed59120cacfde66e53",
+      "phase": "prompt_overlay",
+      "pngSha256": "e42a4dbd18babb3a2677962493a8f2d02d101ccc764e4fc9a2b3637c62d25c21",
+      "previewReducedMotion": true,
+      "previewTicksMs": 1300,
+      "state": "scan_logout_confirm",
+      "svg": "figma-import/scan_logout_confirm.svg",
+      "title": "退出回合確認",
+      "variantOf": "scan_ready"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "相機畫面與掃描動畫；玩家在此階段不需要操作。",
+      "file": "screens/capturing.png",
+      "group": "game",
+      "layout": "layouts/capturing.json",
+      "layoutSha256": "50493abfa322184ab8ef126b032d70c01e0e01429d64beb02545aa0018361568",
+      "phase": "scan",
+      "pngSha256": "6e027c903a64a70bf6dafaa7c31a49d4dae920b5f5eb15bf8b14127784baad6a",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "capturing",
+      "svg": "figma-import/capturing.svg",
+      "title": "正在辨識"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "影像已取得，等待模型整理結果。",
+      "file": "screens/classifying.png",
+      "group": "game",
+      "layout": "layouts/classifying.json",
+      "layoutSha256": "25f07edfe51b5dcdaf06077b7c26a215a9eb36e9127b215227f6416b0e0ecb68",
+      "phase": "scan_settle",
+      "pngSha256": "f53f6bede46572a84f5c5cbef9bc5c65a03ae7548d535dbb28b9305ad5d66d97",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "classifying",
+      "svg": "figma-import/classifying.svg",
+      "title": "整理緊結果"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "S3 開啟四個桶蓋；模型類別保持隱藏，避免在投放前洩露答案。",
+      "file": "screens/result_ok.png",
+      "group": "game",
+      "layout": "layouts/result_ok.json",
+      "layoutSha256": "3176ebea6b681932f725d5cf7a2170be2fefd074bc835ce76ea544217da7a8c1",
+      "phase": "result_open",
+      "pngSha256": "fefd15b139cd973a0e530a8286bf148315c5f61cde67d2e23ba7f426f46af055",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "result_ok",
+      "svg": "figma-import/result_ok.svg",
+      "title": "正在開啟桶蓋"
+    },
+    {
+      "baselineDiffRatio": 0.018088541666666666,
+      "description": "result_ok 的 2 秒時間點，用於示範頂部時間條收縮。",
+      "file": "screens/result_ok_2s.png",
+      "group": "game",
+      "layout": "layouts/result_ok_2s.json",
+      "layoutSha256": "9a0d921e73d307a5f89835979e47f267e2836b27f79f73c6b11ccdd6e3fefcc0",
+      "phase": "result_open",
+      "pngSha256": "bd6bef11b48107ff0305a3e9e5b9db305104090f3be826b597fe37f9600afd6b",
+      "previewReducedMotion": true,
+      "previewTicksMs": 2000,
+      "state": "result_ok_2s",
+      "svg": "figma-import/result_ok_2s.svg",
+      "title": "開啟桶蓋（2 秒）",
+      "variantOf": "result_ok"
+    },
+    {
+      "baselineDiffRatio": 0.018088541666666666,
+      "description": "result_ok 的 lid_open 變體；實際硬件回報蓋已開啟。",
+      "file": "screens/result_ok_lid.png",
+      "group": "game",
+      "layout": "layouts/result_ok_lid.json",
+      "layoutSha256": "696325287178ba91e20a216c4b2c3fbfb0c55983a86ef12f6c1d716b72d2990b",
+      "phase": "open_ack",
+      "pngSha256": "fefd15b139cd973a0e530a8286bf148315c5f61cde67d2e23ba7f426f46af055",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "result_ok_lid",
+      "svg": "figma-import/result_ok_lid.svg",
+      "title": "桶蓋已開啟",
+      "variantOf": "result_ok"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "顯示兩個候選類別，讓玩家重新掃描或返回主頁。",
+      "file": "screens/result_retry.png",
+      "group": "game",
+      "layout": "layouts/result_retry.json",
+      "layoutSha256": "5bc197d13bddc8d1bd55308ddaf72470f869115ab790067d5d26b80aeb6661e1",
+      "phase": "retry",
+      "pngSha256": "dbc076def284c37c64318be81ac0f40d5345b7621c8b7763b61fa84de41c6202",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "result_retry",
+      "svg": "figma-import/result_retry.svg",
+      "title": "AI 都唔肯定"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "四個桶已開啟，等待 S3 TOF 回報實際投放。",
+      "file": "screens/bin_choice.png",
+      "group": "game",
+      "layout": "layouts/bin_choice.json",
+      "layoutSha256": "1e0789914754483dc997a6535e8e3437d502f9a26839de006b9ad71354aaf94c",
+      "phase": "wait_drop",
+      "pngSha256": "50f4840335b43850d41f8c558d0fb4b5434eb5440743bfc1e545aa592935ec8a",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "bin_choice",
+      "svg": "figma-import/bin_choice.svg",
+      "title": "請將卡牌放入垃圾桶"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "錯誤代碼對應的玩家文案與重試操作。",
+      "file": "screens/error.png",
+      "group": "game",
+      "layout": "layouts/error.json",
+      "layoutSha256": "7d873bea5e1b5182af46655788dd6700196be57e01ab5a9f9828a73e973e1cf3",
+      "phase": "error",
+      "pngSha256": "a47f210dc6ed68cd134de29e6fe35db74ed3e7d3ec82b67865e5e0bc124027c1",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "error",
+      "svg": "figma-import/error.svg",
+      "title": "系統提示"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "顯示掃描類別、實際投放、正確類別、得分與分類提示。",
+      "file": "screens/learning.png",
+      "group": "game",
+      "layout": "layouts/learning.json",
+      "layoutSha256": "2e8344258d3012c0467fb312d07e7fa7dcc92e75323c16ac5a2e3d47a9633313",
+      "phase": "learning",
+      "pngSha256": "674573357efa1ad1f3231d543c9565e662ee53f03efa3fb7383fa86270ea9165",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "learning",
+      "svg": "figma-import/learning.svg",
+      "title": "回合學習"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "總分、完成回合、最高連對，以及再玩一次／返回主頁。",
+      "file": "screens/summary.png",
+      "group": "game",
+      "layout": "layouts/summary.json",
+      "layoutSha256": "12f42236f4f81ce90839750a882e78021099b71d37e7ae0f69a6fb3c5c14526a",
+      "phase": "summary",
+      "pngSha256": "e1617791b5254b81abb739076e7b234a178ee5e0908c6f66e6465d11018dc440",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "summary",
+      "svg": "figma-import/summary.svg",
+      "title": "本局總結"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "綠豆對話待命畫面。",
+      "file": "screens/ask_ready.png",
+      "group": "chat",
+      "layout": "layouts/ask_ready.json",
+      "layoutSha256": "f6115bc417acb62451b2c2f8b2218c95452b830cad57c6e0b7911630f163b540",
+      "phase": "chat_ready",
+      "pngSha256": "20aefb3758a77c5d603f839b38aea05aaa4966ae5a2ffb75ac6ad4e4ac3735ed",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_ready",
+      "svg": "figma-import/ask_ready.svg",
+      "title": "問綠豆：準備"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "咪高峰正在接收玩家語音。",
+      "file": "screens/ask_listening.png",
+      "group": "chat",
+      "layout": "layouts/ask_listening.json",
+      "layoutSha256": "35186dbfd4b54dc30149556afc5307e5889b9ca3f3ddcb396bd2daa64c302786",
+      "phase": "chat_listening",
+      "pngSha256": "f6371abdfc7a7399eb16e5ab010065e7ea753528fae5d97ac82569c0ea21bb0d",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_listening",
+      "svg": "figma-import/ask_listening.svg",
+      "title": "問綠豆：聆聽中"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "已收到問題，等待回覆。",
+      "file": "screens/ask_thinking.png",
+      "group": "chat",
+      "layout": "layouts/ask_thinking.json",
+      "layoutSha256": "a6da3f75d97b42c797f3f89812168aec47db08b537d2d6eb049d671e2546b5d1",
+      "phase": "chat_thinking",
+      "pngSha256": "6e8653f1556279e4d099338c77f91a5843c7ba19ebd390d3511f89e7cf2cd4c7",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_thinking",
+      "svg": "figma-import/ask_thinking.svg",
+      "title": "問綠豆：思考中"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "顯示綠豆的短回答。",
+      "file": "screens/ask_answering.png",
+      "group": "chat",
+      "layout": "layouts/ask_answering.json",
+      "layoutSha256": "4b2ee72eaa3b012ed4c4c2eb3a439f573a785cf473d09f490e33ccd5958a9ffa",
+      "phase": "chat_answering",
+      "pngSha256": "daf12544dc2baedef198e85eda4f778fcbdc722fa16a6910c9ec51b24c28a685",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_answering",
+      "svg": "figma-import/ask_answering.svg",
+      "title": "問綠豆：回答"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "長回答的換行與滾動區域變體。",
+      "file": "screens/ask_answering_long.png",
+      "group": "chat",
+      "layout": "layouts/ask_answering_long.json",
+      "layoutSha256": "6b0926db2ac5c98753dd13260a3d9d2168acd3381c80fe4541815061b19e8ec4",
+      "phase": "chat_answering",
+      "pngSha256": "44ecdb3569c874ece4d4bdba8015399443ee04931dcf602b6ccc14cc57687c6c",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_answering_long",
+      "svg": "figma-import/ask_answering_long.svg",
+      "title": "問綠豆：長回答",
+      "variantOf": "ask_answering"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "語音服務不可用時的離線提示。",
+      "file": "screens/ask_offline.png",
+      "group": "chat",
+      "layout": "layouts/ask_offline.json",
+      "layoutSha256": "c41426d650053bfca37552747eb32441eb6a75e0e507a8e225b8ccc216cc950c",
+      "phase": "chat_offline",
+      "pngSha256": "3269192083c964be791c64b437d27026d8729755a0264953df691960877ac847",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_offline",
+      "svg": "figma-import/ask_offline.svg",
+      "title": "問綠豆：暫時離線"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "語音辨識失敗後的重試提示。",
+      "file": "screens/ask_asr_retry.png",
+      "group": "chat",
+      "layout": "layouts/ask_asr_retry.json",
+      "layoutSha256": "31c3092188561cc41f24143eb964f8cc247f4a937a227c44603407d89d5e2903",
+      "phase": "chat_asr_retry",
+      "pngSha256": "fc2f9b0d82dce2d8963a98299a3284317837975ac24a10400fc3f3d2a85fdfb4",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_asr_retry",
+      "svg": "figma-import/ask_asr_retry.svg",
+      "title": "問綠豆：再講一次"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "對話完成後返回遊戲的倒數狀態。",
+      "file": "screens/ask_countdown.png",
+      "group": "chat",
+      "layout": "layouts/ask_countdown.json",
+      "layoutSha256": "cdc14c93eb96bc9d1d6e043150df8e95af3cfbefcd258b01e35c85299f8b64d4",
+      "phase": "chat_countdown",
+      "pngSha256": "ed8d47b52113b6126cc16cfe18b90927ca12c7bee2bf6c3ad8eb872b993b0f6e",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_countdown",
+      "svg": "figma-import/ask_countdown.svg",
+      "title": "問綠豆：返回倒數"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "沒有收到回答時的提示。",
+      "file": "screens/ask_no_answer.png",
+      "group": "chat",
+      "layout": "layouts/ask_no_answer.json",
+      "layoutSha256": "475ffcac0a0dd6023ea6cb7ad9732016edd504be00d7a6be8fa25cfdd2f5ce3a",
+      "phase": "chat_no_answer",
+      "pngSha256": "9cd497c244acefd6cdf07aefa0e02f9afdb62516a3ec11422bbee791fd07b832",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_no_answer",
+      "svg": "figma-import/ask_no_answer.svg",
+      "title": "問綠豆：未有回應"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "結束對話並返回遊戲。",
+      "file": "screens/ask_goodbye.png",
+      "group": "chat",
+      "layout": "layouts/ask_goodbye.json",
+      "layoutSha256": "9995ffbaa33f8410cdf0063a414f8481ad87c35a50b4d8186797d0b510ea410f",
+      "phase": "chat_goodbye",
+      "pngSha256": "a1047ec756236a3ee827f5d480c933416b0b8211edaf79e8b3df2138a57f46f8",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_goodbye",
+      "svg": "figma-import/ask_goodbye.svg",
+      "title": "問綠豆：再見"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "正在連接語音服務。",
+      "file": "screens/ask_connecting.png",
+      "group": "chat",
+      "layout": "layouts/ask_connecting.json",
+      "layoutSha256": "06d34ada7f9d2e8749470fa41fc243410266235ad2d653c571302997eb506bdb",
+      "phase": "chat_connecting",
+      "pngSha256": "cbad48ed3dc1671bfc7fe8a2a34493b4229aeb61d5783c87a9077be5dd99afae",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_connecting",
+      "svg": "figma-import/ask_connecting.svg",
+      "title": "問綠豆：連線中"
+    },
+    {
+      "baselineDiffRatio": 0.0,
+      "description": "裝置需要完成 Wi-Fi 或語音服務設定。",
+      "file": "screens/ask_provisioning.png",
+      "group": "chat",
+      "layout": "layouts/ask_provisioning.json",
+      "layoutSha256": "b5de9181dea85db131327abf18c29213ca677912f61e461cb448fb31a98ff532",
+      "phase": "chat_provisioning",
+      "pngSha256": "a9e7f188b09ebbf60d0b3a0137a73186fb2214d147a7032a807945d8767f7573",
+      "previewReducedMotion": true,
+      "previewTicksMs": 0,
+      "state": "ask_provisioning",
+      "svg": "figma-import/ask_provisioning.svg",
+      "title": "問綠豆：設定網絡"
+    }
+  ],
+  "timingsMs": {
+    "closeTimeoutMs": 1500,
+    "gameTotalMs": 180000,
+    "learningMs": 6000,
+    "openTimeoutMs": 1500,
+    "promptTimeoutMs": 20000,
+    "resultMs": 1500,
+    "rounds": 5,
+    "scanReadyAutoMs": 5000,
+    "scanTimeoutMs": 1500,
+    "settleMs": 300,
+    "waitDropMs": 15000
+  },
+  "tokens": {
+    "anchors": {
+      "cameraFrame": {
+        "h": 360,
+        "w": 360,
+        "x": 24,
+        "y": 112
+      },
+      "greenBean": {
+        "h": 64,
+        "w": 64,
+        "x": 688,
+        "y": 112
+      },
+      "topBar": {
+        "h": 72,
+        "w": 800,
+        "x": 0,
+        "y": 0
+      }
+    },
+    "canvas": {
+      "colorDepth": 16,
+      "height": 480,
+      "pixelFormat": "RGB565",
+      "rotation": 0,
+      "width": 800
+    },
+    "color": {
+      "accent": "#7FD8B0",
+      "background": "#FBF7EC",
+      "brand": "#14342B",
+      "brandLight": "#2C6B4F",
+      "category": [
+        "#2455C0",
+        "#176640",
+        "#9E3F20",
+        "#4E5A62"
+      ],
+      "celebrate": "#DCE45A",
+      "error": "#C2532F",
+      "foreground": "#14342B",
+      "line": "#E2D9C6",
+      "muted": "#5A6B62",
+      "onAccent": "#14342B",
+      "onBrand": "#FBF7EC",
+      "surface": "#FFFFFF"
+    },
+    "motion": {
+      "pageTransition": "cut",
+      "resultAutoMs": 3000,
+      "scanOpacityAnimation": true,
+      "scanReadyAutoMs": 5000,
+      "touchPressedOpacity": 210
+    },
+    "space": {
+      "cardPadding": 24,
+      "compactPadding": 16,
+      "controlHeight": 64,
+      "iconGap": 24,
+      "outer": 24,
+      "sectionGap": 16,
+      "textGap": 8
+    },
+    "type": {
+      "body": {
+        "family": "TC medium",
+        "px": 32
+      },
+      "bodyBold": {
+        "family": "TC bold",
+        "px": 32
+      },
+      "caption": {
+        "family": "TC medium",
+        "lineHeightSample": 38,
+        "px": 26
+      },
+      "category": {
+        "family": "TC bold",
+        "px": 112
+      },
+      "h1": {
+        "family": "TC bold",
+        "px": 56
+      },
+      "h2": {
+        "family": "TC bold",
+        "px": 40
+      },
+      "numberBody": {
+        "family": "numeric bold",
+        "px": 32
+      },
+      "numberH2": {
+        "family": "numeric bold",
+        "px": 40
+      },
+      "numberScore": {
+        "family": "numeric bold",
+        "px": 80
+      },
+      "subtitle": {
+        "family": "TC medium",
+        "px": 40
+      }
+    }
+  },
+  "visualSource": {
+    "chatSource": "ui/lvglpro/src/stc_chat_ui.c",
+    "lvglCommit": "85aa60d18b3d5e5588d7b247abf90198f07c8a63",
+    "preview": "tools/lvglpro_preview/build/preview",
+    "renderer": "LVGL v9.5.0",
+    "sourceFiles": [
+      {
+        "path": "ui\\lvglpro\\src\\stc_ui.c",
+        "sha256": "09389aa988501110aeca41df16f9f7c5535fbec701d95b8b43050e0c5c96c6c1"
+      },
+      {
+        "path": "ui\\lvglpro\\src\\stc_chat_ui.c",
+        "sha256": "196fa7bbe34e4f5a5ae672b0afed01a68d68a55efd3dcfb98bd26c6fb90d6fbc"
+      },
+      {
+        "path": "ui\\lvglpro\\include\\stc_ui.h",
+        "sha256": "ea851ca338a73784f97edc9d4419fbf2cd0c8b2b63fd30c4b2780c5449405d67"
+      }
+    ],
+    "uiSource": "ui/lvglpro/src/stc_ui.c"
+  }
+}

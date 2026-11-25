@@ -47,6 +47,116 @@ static int dump(const char *path) {
     fclose(f);
     return 1;
 }
+static void json_string(FILE *f, const char *s) {
+    fputc('"', f);
+    if (s != NULL) {
+        for (const unsigned char *p = (const unsigned char *)s; *p; ++p) {
+            switch (*p) {
+                case '"': fputs("\\\"", f); break;
+                case '\\': fputs("\\\\", f); break;
+                case '\n': fputs("\\n", f); break;
+                case '\r': fputs("\\r", f); break;
+                case '\t': fputs("\\t", f); break;
+                default:
+                    if (*p < 0x20) {
+                        fprintf(f, "\\u%04x", *p);
+                    } else {
+                        fputc(*p, f);
+                    }
+                    break;
+            }
+        }
+    }
+    fputc('"', f);
+}
+
+static const char *widget_type(const lv_obj_t *obj) {
+    if (lv_obj_check_type(obj, &lv_label_class)) return "label";
+    if (lv_obj_check_type(obj, &lv_button_class)) return "button";
+    if (lv_obj_check_type(obj, &lv_image_class)) return "image";
+    return "object";
+}
+
+static const char *text_align_name(lv_text_align_t align) {
+    switch (align) {
+        case LV_TEXT_ALIGN_CENTER: return "center";
+        case LV_TEXT_ALIGN_RIGHT: return "right";
+        case LV_TEXT_ALIGN_AUTO: return "auto";
+        case LV_TEXT_ALIGN_LEFT:
+        default: return "left";
+    }
+}
+
+static void dump_obj(FILE *f, lv_obj_t *obj, int *next_id) {
+    const int id = (*next_id)++;
+    lv_area_t area;
+    lv_obj_get_coords(obj, &area);
+    const lv_color_t bg = lv_obj_get_style_bg_color(obj, LV_PART_MAIN);
+    const lv_color_t border = lv_obj_get_style_border_color(obj, LV_PART_MAIN);
+    const lv_font_t *font = lv_obj_get_style_text_font(obj, LV_PART_MAIN);
+    const lv_color_t text_color =
+        lv_obj_get_style_text_color(obj, LV_PART_MAIN);
+    const uint32_t child_count = lv_obj_get_child_count(obj);
+
+    fprintf(f,
+            "{\"id\":\"o%d\",\"widget\":\"%s\",\"x\":%ld,\"y\":%ld,"
+            "\"w\":%ld,\"h\":%ld,\"hidden\":%s,"
+            "\"bg\":\"#%06lX\",\"bgOpacity\":%u,"
+            "\"border\":\"#%06lX\",\"borderWidth\":%ld,"
+            "\"radius\":%ld,\"opacity\":%u,"
+            "\"textColor\":\"#%06lX\",\"fontLineHeight\":%ld,"
+            "\"textAlign\":\"%s\"",
+            id, widget_type(obj), (long)area.x1, (long)area.y1,
+            (long)lv_area_get_width(&area), (long)lv_area_get_height(&area),
+            lv_obj_has_flag(obj, LV_OBJ_FLAG_HIDDEN) ? "true" : "false",
+            (unsigned long)(lv_color_to_u32(bg) & 0xFFFFFFu),
+            (unsigned)lv_obj_get_style_bg_opa(obj, LV_PART_MAIN),
+            (unsigned long)(lv_color_to_u32(border) & 0xFFFFFFu),
+            (long)lv_obj_get_style_border_width(obj, LV_PART_MAIN),
+            (long)lv_obj_get_style_radius(obj, LV_PART_MAIN),
+            (unsigned)lv_obj_get_style_opa(obj, LV_PART_MAIN),
+            (unsigned long)(lv_color_to_u32(text_color) & 0xFFFFFFu),
+            font != NULL ? (long)font->line_height : 0L,
+            text_align_name(lv_obj_get_style_text_align(obj, LV_PART_MAIN)));
+
+    if (lv_obj_check_type(obj, &lv_label_class)) {
+        fputs(",\"text\":", f);
+        json_string(f, lv_label_get_text(obj));
+    }
+    if (lv_obj_check_type(obj, &lv_image_class)) {
+        fputs(",\"image\":true", f);
+    }
+
+    fputs(",\"children\":[", f);
+    for (uint32_t i = 0; i < child_count; ++i) {
+        if (i != 0) fputc(',', f);
+        dump_obj(f, lv_obj_get_child(obj, i), next_id);
+    }
+    fputs("]}", f);
+}
+
+static void maybe_dump_layout(const char *state, int ticks, lv_obj_t *root) {
+    const char *path = getenv("STC_PREVIEW_LAYOUT_PATH");
+    if (path == NULL || path[0] == '\0') {
+        return;
+    }
+    FILE *f = fopen(path, "wb");
+    if (f == NULL) {
+        perror(path);
+        return;
+    }
+    int next_id = 0;
+    fputs("{\"schemaVersion\":\"1.0\",\"state\":", f);
+    json_string(f, state);
+    fprintf(f,
+            ",\"canvas\":{\"width\":%d,\"height\":%d,\"rotation\":0,"
+            "\"colorDepth\":16,\"pixelFormat\":\"RGB565\"},"
+            "\"previewTicksMs\":%d,\"root\":",
+            W, H, ticks);
+    dump_obj(f, root, &next_id);
+    fputs("}\n", f);
+    fclose(f);
+}
 
 static stc_payload_t base_payload(stc_state_t st) {
     stc_payload_t p;
@@ -95,6 +205,7 @@ static void render_ask(stc_ui_t *ui, const char *state, int ticks,
     pump(60 + ticks);
     printf("%s -> %s (layout=%s)\n", state, out,
            stc_ui_check_layout(ui) ? "PASS" : "FAIL");
+    maybe_dump_layout(state, ticks, lv_screen_active());
     (void)dump(out);
 }
 
@@ -124,7 +235,9 @@ int main(int argc, char **argv) {
         fprintf(stderr, "stc_ui_create failed\n");
         return 3;
     }
-    stc_ui_set_reduced_motion(ui, true);
+    const char *reduced_motion = getenv("STC_PREVIEW_REDUCED_MOTION");
+    stc_ui_set_reduced_motion(
+        ui, !(reduced_motion != NULL && strcmp(reduced_motion, "0") == 0));
 
     if (strncmp(state, "ask_", 4) == 0) {
         render_ask(ui, state, ticks, out);
@@ -199,5 +312,6 @@ int main(int argc, char **argv) {
 
     printf("%s -> %s (layout=%s)\n", state, out,
            stc_ui_check_layout(ui) ? "PASS" : "FAIL");
+    maybe_dump_layout(state, ticks, lv_screen_active());
     return dump(out) ? 0 : 5;
 }

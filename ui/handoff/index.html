@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-Hant">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>分類小隊 UI handoff</title>
+<style>
+:root { color-scheme: light; --ink:#14342B; --line:#D8D2C4; --paper:#FBF7EC; --card:#fff; }
+body { margin:0; padding:32px; font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif; background:var(--paper); color:var(--ink); }
+header { max-width:1280px; margin:0 auto 28px; }
+h1 { font-size:42px; margin:0 0 12px; }
+p { line-height:1.55; }
+.grid { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:20px; }
+article { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:16px; box-shadow:0 8px 24px #14342b12; }
+img { display:block; width:100%; height:auto; border-radius:10px; background:#eee; }
+h2 { font-size:24px; margin:14px 0 4px; }
+code { background:#E9F4EE; padding:4px 8px; border-radius:6px; }
+a { color:#145C3E; }
+</style>
+<header>
+<h1>分類小隊 · 800×480 UI handoff</h1>
+<p>所有圖片直接由 LVGL 9.5 RGB565 framebuffer 匯出。layout JSON 由同一個 LVGL object tree 讀取。此頁只作預覽；Remotion 請讀 <code>remotion-manifest.json</code>。</p>
+</header>
+<main class="grid"><article>
+  <a href="screens/idle.png"><img src="screens/idle.png" alt="主頁"></a>
+  <h2>主頁</h2>
+  <code>idle</code>
+  <p>開始遊戲或進入綠豆對話；主頁沒有長按操作。</p>
+  <p><a href="layouts/idle.json">layout JSON</a> · <a href="figma-import/idle.svg">SVG</a></p>
+</article><article>
+  <a href="screens/intro.png"><img src="screens/intro.png" alt="玩法說明"></a>
+  <h2>玩法說明</h2>
+  <code>intro</code>
+  <p>三步玩法：放在鏡頭前、投入垃圾桶、等蓋關閉。</p>
+  <p><a href="layouts/intro.json">layout JSON</a> · <a href="figma-import/intro.svg">SVG</a></p>
+</article><article>
+  <a href="screens/scan_ready.png"><img src="screens/scan_ready.png" alt="確認卡片完整入框"></a>
+  <h2>確認卡片完整入框</h2>
+  <code>scan_ready</code>
+  <p>顯示相機預覽；5 秒倒數後自動掃描。綠豆長按可退出回合。</p>
+  <p><a href="layouts/scan_ready.json">layout JSON</a> · <a href="figma-import/scan_ready.svg">SVG</a></p>
+</article><article>
+  <a href="screens/scan_logout_confirm.png"><img src="screens/scan_logout_confirm.png" alt="退出回合確認"></a>
+  <h2>退出回合確認</h2>
+  <code>scan_logout_confirm</code>
+  <p>scan_ready 長按綠豆後顯示的確認覆蓋層。</p>
+  <p><a href="layouts/scan_logout_confirm.json">layout JSON</a> · <a href="figma-import/scan_logout_confirm.svg">SVG</a></p>
+</article><article>
+  <a href="screens/capturing.png"><img src="screens/capturing.png" alt="正在辨識"></a>
+  <h2>正在辨識</h2>
+  <code>capturing</code>
+  <p>相機畫面與掃描動畫；玩家在此階段不需要操作。</p>
+  <p><a href="layouts/capturing.json">layout JSON</a> · <a href="figma-import/capturing.svg">SVG</a></p>
+</article><article>
+  <a href="screens/classifying.png"><img src="screens/classifying.png" alt="整理緊結果"></a>
+  <h2>整理緊結果</h2>
+  <code>classifying</code>
+  <p>影像已取得，等待模型整理結果。</p>
+  <p><a href="layouts/classifying.json">layout JSON</a> · <a href="figma-import/classifying.svg">SVG</a></p>
+</article><article>
+  <a href="screens/result_ok.png"><img src="screens/result_ok.png" alt="正在開啟桶蓋"></a>
+  <h2>正在開啟桶蓋</h2>
+  <code>result_ok</code>
+  <p>S3 開啟四個桶蓋；模型類別保持隱藏，避免在投放前洩露答案。</p>
+  <p><a href="layouts/result_ok.json">layout JSON</a> · <a href="figma-import/result_ok.svg">SVG</a></p>
+</article><article>
+  <a href="screens/result_ok_2s.png"><img src="screens/result_ok_2s.png" alt="開啟桶蓋（2 秒）"></a>
+  <h2>開啟桶蓋（2 秒）</h2>
+  <code>result_ok_2s</code>
+  <p>result_ok 的 2 秒時間點，用於示範頂部時間條收縮。</p>
+  <p><a href="layouts/result_ok_2s.json">layout JSON</a> · <a href="figma-import/result_ok_2s.svg">SVG</a></p>
+</article><article>
+  <a href="screens/result_ok_lid.png"><img src="screens/result_ok_lid.png" alt="桶蓋已開啟"></a>
+  <h2>桶蓋已開啟</h2>
+  <code>result_ok_lid</code>
+  <p>result_ok 的 lid_open 變體；實際硬件回報蓋已開啟。</p>
+  <p><a href="layouts/result_ok_lid.json">layout JSON</a> · <a href="figma-import/result_ok_lid.svg">SVG</a></p>
+</article><article>
+  <a href="screens/result_retry.png"><img src="screens/result_retry.png" alt="AI 都唔肯定"></a>
+  <h2>AI 都唔肯定</h2>
+  <code>result_retry</code>
+  <p>顯示兩個候選類別，讓玩家重新掃描或返回主頁。</p>
+  <p><a href="layouts/result_retry.json">layout JSON</a> · <a href="figma-import/result_retry.svg">SVG</a></p>
+</article><article>
+  <a href="screens/bin_choice.png"><img src="screens/bin_choice.png" alt="請將卡牌放入垃圾桶"></a>
+  <h2>請將卡牌放入垃圾桶</h2>
+  <code>bin_choice</code>
+  <p>四個桶已開啟，等待 S3 TOF 回報實際投放。</p>
+  <p><a href="layouts/bin_choice.json">layout JSON</a> · <a href="figma-import/bin_choice.svg">SVG</a></p>
+</article><article>
+  <a href="screens/error.png"><img src="screens/error.png" alt="系統提示"></a>
+  <h2>系統提示</h2>
+  <code>error</code>
+  <p>錯誤代碼對應的玩家文案與重試操作。</p>
+  <p><a href="layouts/error.json">layout JSON</a> · <a href="figma-import/error.svg">SVG</a></p>
+</article><article>
+  <a href="screens/learning.png"><img src="screens/learning.png" alt="回合學習"></a>
+  <h2>回合學習</h2>
+  <code>learning</code>
+  <p>顯示掃描類別、實際投放、正確類別、得分與分類提示。</p>
+  <p><a href="layouts/learning.json">layout JSON</a> · <a href="figma-import/learning.svg">SVG</a></p>
+</article><article>
+  <a href="screens/summary.png"><img src="screens/summary.png" alt="本局總結"></a>
+  <h2>本局總結</h2>
+  <code>summary</code>
+  <p>總分、完成回合、最高連對，以及再玩一次／返回主頁。</p>
+  <p><a href="layouts/summary.json">layout JSON</a> · <a href="figma-import/summary.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_ready.png"><img src="screens/ask_ready.png" alt="問綠豆：準備"></a>
+  <h2>問綠豆：準備</h2>
+  <code>ask_ready</code>
+  <p>綠豆對話待命畫面。</p>
+  <p><a href="layouts/ask_ready.json">layout JSON</a> · <a href="figma-import/ask_ready.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_listening.png"><img src="screens/ask_listening.png" alt="問綠豆：聆聽中"></a>
+  <h2>問綠豆：聆聽中</h2>
+  <code>ask_listening</code>
+  <p>咪高峰正在接收玩家語音。</p>
+  <p><a href="layouts/ask_listening.json">layout JSON</a> · <a href="figma-import/ask_listening.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_thinking.png"><img src="screens/ask_thinking.png" alt="問綠豆：思考中"></a>
+  <h2>問綠豆：思考中</h2>
+  <code>ask_thinking</code>
+  <p>已收到問題，等待回覆。</p>
+  <p><a href="layouts/ask_thinking.json">layout JSON</a> · <a href="figma-import/ask_thinking.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_answering.png"><img src="screens/ask_answering.png" alt="問綠豆：回答"></a>
+  <h2>問綠豆：回答</h2>
+  <code>ask_answering</code>
+  <p>顯示綠豆的短回答。</p>
+  <p><a href="layouts/ask_answering.json">layout JSON</a> · <a href="figma-import/ask_answering.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_answering_long.png"><img src="screens/ask_answering_long.png" alt="問綠豆：長回答"></a>
+  <h2>問綠豆：長回答</h2>
+  <code>ask_answering_long</code>
+  <p>長回答的換行與滾動區域變體。</p>
+  <p><a href="layouts/ask_answering_long.json">layout JSON</a> · <a href="figma-import/ask_answering_long.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_offline.png"><img src="screens/ask_offline.png" alt="問綠豆：暫時離線"></a>
+  <h2>問綠豆：暫時離線</h2>
+  <code>ask_offline</code>
+  <p>語音服務不可用時的離線提示。</p>
+  <p><a href="layouts/ask_offline.json">layout JSON</a> · <a href="figma-import/ask_offline.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_asr_retry.png"><img src="screens/ask_asr_retry.png" alt="問綠豆：再講一次"></a>
+  <h2>問綠豆：再講一次</h2>
+  <code>ask_asr_retry</code>
+  <p>語音辨識失敗後的重試提示。</p>
+  <p><a href="layouts/ask_asr_retry.json">layout JSON</a> · <a href="figma-import/ask_asr_retry.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_countdown.png"><img src="screens/ask_countdown.png" alt="問綠豆：返回倒數"></a>
+  <h2>問綠豆：返回倒數</h2>
+  <code>ask_countdown</code>
+  <p>對話完成後返回遊戲的倒數狀態。</p>
+  <p><a href="layouts/ask_countdown.json">layout JSON</a> · <a href="figma-import/ask_countdown.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_no_answer.png"><img src="screens/ask_no_answer.png" alt="問綠豆：未有回應"></a>
+  <h2>問綠豆：未有回應</h2>
+  <code>ask_no_answer</code>
+  <p>沒有收到回答時的提示。</p>
+  <p><a href="layouts/ask_no_answer.json">layout JSON</a> · <a href="figma-import/ask_no_answer.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_goodbye.png"><img src="screens/ask_goodbye.png" alt="問綠豆：再見"></a>
+  <h2>問綠豆：再見</h2>
+  <code>ask_goodbye</code>
+  <p>結束對話並返回遊戲。</p>
+  <p><a href="layouts/ask_goodbye.json">layout JSON</a> · <a href="figma-import/ask_goodbye.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_connecting.png"><img src="screens/ask_connecting.png" alt="問綠豆：連線中"></a>
+  <h2>問綠豆：連線中</h2>
+  <code>ask_connecting</code>
+  <p>正在連接語音服務。</p>
+  <p><a href="layouts/ask_connecting.json">layout JSON</a> · <a href="figma-import/ask_connecting.svg">SVG</a></p>
+</article><article>
+  <a href="screens/ask_provisioning.png"><img src="screens/ask_provisioning.png" alt="問綠豆：設定網絡"></a>
+  <h2>問綠豆：設定網絡</h2>
+  <code>ask_provisioning</code>
+  <p>裝置需要完成 Wi-Fi 或語音服務設定。</p>
+  <p><a href="layouts/ask_provisioning.json">layout JSON</a> · <a href="figma-import/ask_provisioning.svg">SVG</a></p>
+</article></main>
+</html>

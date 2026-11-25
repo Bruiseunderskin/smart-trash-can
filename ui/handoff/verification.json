@@ -1,0 +1,140 @@
+{
+  "canvas": {
+    "height": 480,
+    "width": 800
+  },
+  "motionFrameCount": 13,
+  "screenCount": 26,
+  "screens": {
+    "ask_answering": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "4b2ee72eaa3b012ed4c4c2eb3a439f573a785cf473d09f490e33ccd5958a9ffa",
+      "pngSha256": "daf12544dc2baedef198e85eda4f778fcbdc722fa16a6910c9ec51b24c28a685"
+    },
+    "ask_answering_long": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "6b0926db2ac5c98753dd13260a3d9d2168acd3381c80fe4541815061b19e8ec4",
+      "pngSha256": "44ecdb3569c874ece4d4bdba8015399443ee04931dcf602b6ccc14cc57687c6c"
+    },
+    "ask_asr_retry": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "31c3092188561cc41f24143eb964f8cc247f4a937a227c44603407d89d5e2903",
+      "pngSha256": "fc2f9b0d82dce2d8963a98299a3284317837975ac24a10400fc3f3d2a85fdfb4"
+    },
+    "ask_connecting": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "06d34ada7f9d2e8749470fa41fc243410266235ad2d653c571302997eb506bdb",
+      "pngSha256": "cbad48ed3dc1671bfc7fe8a2a34493b4229aeb61d5783c87a9077be5dd99afae"
+    },
+    "ask_countdown": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "cdc14c93eb96bc9d1d6e043150df8e95af3cfbefcd258b01e35c85299f8b64d4",
+      "pngSha256": "ed8d47b52113b6126cc16cfe18b90927ca12c7bee2bf6c3ad8eb872b993b0f6e"
+    },
+    "ask_goodbye": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "9995ffbaa33f8410cdf0063a414f8481ad87c35a50b4d8186797d0b510ea410f",
+      "pngSha256": "a1047ec756236a3ee827f5d480c933416b0b8211edaf79e8b3df2138a57f46f8"
+    },
+    "ask_listening": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "35186dbfd4b54dc30149556afc5307e5889b9ca3f3ddcb396bd2daa64c302786",
+      "pngSha256": "f6371abdfc7a7399eb16e5ab010065e7ea753528fae5d97ac82569c0ea21bb0d"
+    },
+    "ask_no_answer": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "475ffcac0a0dd6023ea6cb7ad9732016edd504be00d7a6be8fa25cfdd2f5ce3a",
+      "pngSha256": "9cd497c244acefd6cdf07aefa0e02f9afdb62516a3ec11422bbee791fd07b832"
+    },
+    "ask_offline": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "c41426d650053bfca37552747eb32441eb6a75e0e507a8e225b8ccc216cc950c",
+      "pngSha256": "3269192083c964be791c64b437d27026d8729755a0264953df691960877ac847"
+    },
+    "ask_provisioning": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "b5de9181dea85db131327abf18c29213ca677912f61e461cb448fb31a98ff532",
+      "pngSha256": "a9e7f188b09ebbf60d0b3a0137a73186fb2214d147a7032a807945d8767f7573"
+    },
+    "ask_ready": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "f6115bc417acb62451b2c2f8b2218c95452b830cad57c6e0b7911630f163b540",
+      "pngSha256": "20aefb3758a77c5d603f839b38aea05aaa4966ae5a2ffb75ac6ad4e4ac3735ed"
+    },
+    "ask_thinking": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "a6da3f75d97b42c797f3f89812168aec47db08b537d2d6eb049d671e2546b5d1",
+      "pngSha256": "6e8653f1556279e4d099338c77f91a5843c7ba19ebd390d3511f89e7cf2cd4c7"
+    },
+    "bin_choice": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "1e0789914754483dc997a6535e8e3437d502f9a26839de006b9ad71354aaf94c",
+      "pngSha256": "50f4840335b43850d41f8c558d0fb4b5434eb5440743bfc1e545aa592935ec8a"
+    },
+    "capturing": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "50493abfa322184ab8ef126b032d70c01e0e01429d64beb02545aa0018361568",
+      "pngSha256": "6e027c903a64a70bf6dafaa7c31a49d4dae920b5f5eb15bf8b14127784baad6a"
+    },
+    "classifying": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "25f07edfe51b5dcdaf06077b7c26a215a9eb36e9127b215227f6416b0e0ecb68",
+      "pngSha256": "f53f6bede46572a84f5c5cbef9bc5c65a03ae7548d535dbb28b9305ad5d66d97"
+    },
+    "error": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "7d873bea5e1b5182af46655788dd6700196be57e01ab5a9f9828a73e973e1cf3",
+      "pngSha256": "a47f210dc6ed68cd134de29e6fe35db74ed3e7d3ec82b67865e5e0bc124027c1"
+    },
+    "idle": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "794f7fb1072df0b3ad5575ba22bb454c2e097deb205e15ec822fa8496c3e6802",
+      "pngSha256": "07235889dbbe5459b4c04c48a3235e97739d80f50831b43c3db4ba50ef1a6c0e"
+    },
+    "intro": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "00af2e970eaf74d5ad011dcaff7ac8f1cb4051986fbd0ac3b88b7f58e440bfea",
+      "pngSha256": "f78831a6271477d9a6a1f3f11e7cb612bb41b04b12eb0c714a5c142d9db4247f"
+    },
+    "learning": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "2e8344258d3012c0467fb312d07e7fa7dcc92e75323c16ac5a2e3d47a9633313",
+      "pngSha256": "674573357efa1ad1f3231d543c9565e662ee53f03efa3fb7383fa86270ea9165"
+    },
+    "result_ok": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "3176ebea6b681932f725d5cf7a2170be2fefd074bc835ce76ea544217da7a8c1",
+      "pngSha256": "fefd15b139cd973a0e530a8286bf148315c5f61cde67d2e23ba7f426f46af055"
+    },
+    "result_ok_2s": {
+      "baselineDiffRatio": 0.018088541666666666,
+      "layoutSha256": "9a0d921e73d307a5f89835979e47f267e2836b27f79f73c6b11ccdd6e3fefcc0",
+      "pngSha256": "bd6bef11b48107ff0305a3e9e5b9db305104090f3be826b597fe37f9600afd6b"
+    },
+    "result_ok_lid": {
+      "baselineDiffRatio": 0.018088541666666666,
+      "layoutSha256": "696325287178ba91e20a216c4b2c3fbfb0c55983a86ef12f6c1d716b72d2990b",
+      "pngSha256": "fefd15b139cd973a0e530a8286bf148315c5f61cde67d2e23ba7f426f46af055"
+    },
+    "result_retry": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "5bc197d13bddc8d1bd55308ddaf72470f869115ab790067d5d26b80aeb6661e1",
+      "pngSha256": "dbc076def284c37c64318be81ac0f40d5345b7621c8b7763b61fa84de41c6202"
+    },
+    "scan_logout_confirm": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "67581bebcae245607bf401a1113c2de376b3feabee7506ed59120cacfde66e53",
+      "pngSha256": "e42a4dbd18babb3a2677962493a8f2d02d101ccc764e4fc9a2b3637c62d25c21"
+    },
+    "scan_ready": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "9b1d566eb124bc940bddc03d3e3608e85b4a06de1cf3df891d4bce8e0078886e",
+      "pngSha256": "2b88f837dc63c4691d19ef6804f77e4721c900c2120eeee7c3d265dc70f97fe4"
+    },
+    "summary": {
+      "baselineDiffRatio": 0.0,
+      "layoutSha256": "12f42236f4f81ce90839750a882e78021099b71d37e7ae0f69a6fb3c5c14526a",
+      "pngSha256": "e1617791b5254b81abb739076e7b234a178ee5e0908c6f66e6465d11018dc440"
+    }
+  }
+}

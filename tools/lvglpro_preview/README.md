@@ -28,8 +28,15 @@ tools/lvglpro_preview/render.py --update tools/lvglpro_preview/baselines
 `result_ok_2s` 會在渲染前推進 2000 ms，所以它同時驗證 100 ms tick 的倒數條。
 每個畫面都會跑 `stc_ui_check_layout()`；回報 `layout=FAIL` 即失敗。
 
-## 限制
+## UI handoff 匯出
 
+```sh
+python tools/lvglpro_preview/export_handoff.py
+```
+
+輸出到 `ui/handoff/`：26 張 800×480 PNG、26 份由 live LVGL object tree 讀取的 layout JSON、正常動畫時間點、Figma-import SVG 及 Remotion manifest。baseline 使用 reduced motion；`motion/` frame 關閉 reduced motion。`STC_PREVIEW_LAYOUT_PATH` 可令 preview 額外輸出目前畫面的 object tree。
+
+## 限制
 - 以 RGB565（16-bit）渲染，framebuffer 格式同裝置一致；PNG 只係把 RGB565 展開成 8-bit 顯示。
 - 不模擬觸控、相機、舵機或模型；只證明畫面。
 - 相機區在沒有影像時顯示 placeholder，屬預期。

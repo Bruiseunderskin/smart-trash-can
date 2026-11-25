@@ -8,6 +8,7 @@
 - [遊戲部分實作計劃](game-implementation-plan.md)
 - [ESP-NOW S31 ↔ S3 官方來源查證](research/espnow-s31-feasibility.md)
 - [綠豆 system prompt](chat/luodou-system-prompt.md)
+- [800×480 UI handoff（LVGL object tree＋Remotion manifest）](../ui/handoff/README.md)
 
 - [實物與模擬卡片混合模型實驗](experiments/mixed-card-object/README.md)
 - [無額外文字卡面的模型比較與混淆矩陣](experiments/mixed-card-object/wordless-v1/README.md)

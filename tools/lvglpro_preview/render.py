@@ -18,7 +18,7 @@ from pathlib import Path
 from PIL import Image, ImageChops
 
 HERE = Path(__file__).resolve().parent
-PREVIEW = HERE / "build" / "preview"
+PREVIEW = HERE / "build" / ("preview.exe" if sys.platform == "win32" else "preview")
 OUT = HERE / "build" / "png"
 
 # state -> milliseconds to advance before capturing (the countdown moves)
@@ -80,7 +80,12 @@ def compare(state: str, image: Image.Image, baseline_dir: Path) -> float:
         sys.exit(f"{state}: baseline {ref_path} is missing (run --update)")
     ref = Image.open(ref_path).convert("RGB")
     diff = ImageChops.difference(image, ref)
-    changed = sum(1 for p in diff.getdata() if p != (0, 0, 0))
+    raw_diff = diff.tobytes()
+    changed = sum(
+        1
+        for offset in range(0, len(raw_diff), 3)
+        if raw_diff[offset] or raw_diff[offset + 1] or raw_diff[offset + 2]
+    )
     ratio = changed / (W * H)
     if changed:
         diff.point(lambda v: min(255, v * 4)).save(OUT / f"diff_{state}.png")
